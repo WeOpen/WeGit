@@ -1,0 +1,128 @@
+import SwiftUI
+import WeGitCore
+
+struct HistoryTableView: View {
+    @Bindable var app: AppState
+    let session: RepositorySession
+    @Bindable var history: HistoryState
+
+    private var selection: Binding<String?> {
+        Binding(
+            get: { app.workspace.selectedCommit?.id },
+            set: { id in
+                app.workspace.selectedCommit = history.commits.first { $0.id == id }
+            })
+    }
+
+    var body: some View {
+        GeometryReader { geometry in
+            let referencesVisible = geometry.size.width >= 560
+            let authorVisible = geometry.size.width >= 460
+            let dateVisible = geometry.size.width >= 700
+            Table(history.tableRows, selection: selection) {
+                if history.anchor?.query.isEmpty == true {
+                    TableColumn("图") { row in
+                        HistoryGraphCell(
+                            row: row.graph, head: history.anchor?.head == row.id,
+                            shallow: row.commit.shallowBoundary
+                        )
+                        .frame(minHeight: app.preferences.density == "compact" ? 28 : 42)
+                        .padding(.vertical, -4)
+                    }.width(min: 36, ideal: max(48, min(CGFloat(history.graphWidth) * 12, 160)), max: 800)
+                }
+                TableColumn("提交") { row in
+                    messageCell(
+                        row.commit, referencesVisible: referencesVisible, authorVisible: authorVisible,
+                        dateVisible: dateVisible)
+                }.width(min: 160, ideal: 300, max: 1200)
+                if referencesVisible {
+                    TableColumn("引用") { row in
+                        Text(history.references[row.id]?.map(\.name).joined(separator: " · ") ?? "")
+                            .font(.caption).foregroundStyle(AppColors.secondaryText).lineLimit(2)
+                    }.width(min: 75, ideal: 120, max: 400)
+                }
+                if authorVisible {
+                    TableColumn("作者") { row in
+                        Text(row.commit.author).font(.caption).lineLimit(1).help(row.commit.authorEmail)
+                    }
+                    .width(min: 70, ideal: 100, max: 300)
+                }
+                if dateVisible {
+                    TableColumn("日期") { row in
+                        Text(row.commit.date, format: .dateTime.year().month().day()).font(.caption)
+                            .help(row.commit.date.formatted(date: .complete, time: .complete))
+                    }.width(min: 85, ideal: 110, max: 180)
+                }
+            }.accessibilityIdentifier("history-list").accessibilityLabel("提交历史列表")
+                .help("拖动列边界调整宽度；窄窗口会把引用、作者与日期并入提交列")
+        }
+        .background(
+            ViewPerformanceProbe(spans: [ViewPerformanceSpan(name: "history", id: history.firstRenderID)]))
+    }
+
+    private func messageCell(
+        _ commit: GitCommit, referencesVisible: Bool, authorVisible: Bool, dateVisible: Bool
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(commit.subject).font(.system(size: 12, weight: .medium)).lineLimit(1).help(commit.subject)
+            if !referencesVisible, let refs = history.references[commit.id], !refs.isEmpty {
+                Text(refs.map(\.name).joined(separator: " · ")).font(.caption2)
+                    .foregroundStyle(
+                        app.workspace.selectedCommit?.id == commit.id ? Color.primary : AppColors.link
+                    )
+                    .lineLimit(1)
+            }
+            HStack(spacing: 7) {
+                if !authorVisible { Text(commit.author).lineLimit(1) }
+                Text(commit.id.prefix(7)).monospaced()
+                if !dateVisible { Text(commit.date, style: .relative).lineLimit(1) }
+            }.font(.caption2)
+                .foregroundStyle(
+                    app.workspace.selectedCommit?.id == commit.id ? Color.primary : AppColors.secondaryText)
+            if commit.shallowBoundary {
+                Text("浅克隆边界").font(.caption2).foregroundStyle(AppColors.secondaryText)
+            }
+        }.padding(.vertical, app.preferences.density == "compact" ? 1 : 4)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(commit.subject)
+            .accessibilityValue("提交 \(commit.id.prefix(12))，作者 \(commit.author)，\(commit.parents.count) 个父提交")
+    }
+}
+
+private struct HistoryGraphCell: View {
+    let row: GraphRow
+    let head: Bool
+    let shallow: Bool
+    var body: some View {
+        Canvas { context, size in
+            let colors: [Color] = [
+                AppColors.link, AppColors.keyword, AppColors.positive, AppColors.modified, AppColors.negative,
+            ]
+            for column in row.incomingColumns {
+                var path = Path()
+                path.move(to: CGPoint(x: CGFloat(column) * 12 + 6, y: 0))
+                path.addLine(to: CGPoint(x: CGFloat(column) * 12 + 6, y: size.height / 2))
+                context.stroke(path, with: .color(colors[column % colors.count]), lineWidth: 1.5)
+            }
+            for (from, to) in row.connections {
+                var path = Path()
+                path.move(to: CGPoint(x: CGFloat(from) * 12 + 6, y: size.height / 2))
+                path.addLine(to: CGPoint(x: CGFloat(to) * 12 + 6, y: size.height))
+                context.stroke(path, with: .color(colors[from % colors.count]), lineWidth: 1.5)
+            }
+            context.fill(
+                Path(
+                    ellipseIn: CGRect(
+                        x: CGFloat(row.column) * 12 + 2, y: size.height / 2 - 4, width: 8, height: 8)),
+                with: .color(colors[row.column % colors.count]))
+            if head || shallow {
+                context.stroke(
+                    Path(
+                        ellipseIn: CGRect(
+                            x: CGFloat(row.column) * 12, y: size.height / 2 - 6, width: 12, height: 12)),
+                    with: .color(.primary), style: StrokeStyle(lineWidth: 1, dash: shallow ? [2, 2] : []))
+            }
+        }.accessibilityAddTraits(.isImage).accessibilityLabel(
+            shallow ? "浅克隆边界" : head ? "HEAD，分支列 \(row.column + 1)" : "提交图，分支列 \(row.column + 1)")
+    }
+}

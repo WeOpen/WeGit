@@ -1,0 +1,1235 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		027D8DB609EA5D75075A7E9C /* DiffContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068BBD4E6413E716B2FFF7FB /* DiffContentView.swift */; };
+		03322BAE7ED0FC6D96845DF7 /* WeGitCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB01D429917B5A2D4C811F77 /* WeGitCore */; };
+		06514071541003C7462D2826 /* RepositorySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EA8B0AC419E9437CB3682 /* RepositorySearchView.swift */; };
+		07D05BC2FD3B320730C59B5D /* HistoryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FC5FD06684428CC7A3D1B0 /* HistoryState.swift */; };
+		0F21B245FF0D90CD93E50123 /* DiffSelectableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5879B4111C8EBEFD88E3998D /* DiffSelectableText.swift */; };
+		10993AA44DE4E740B18B752F /* LayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35ED6F3020AE96FCB957830 /* LayoutTests.swift */; };
+		13E276DCB1333E635B092E4B /* Sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73B06EA47A30EF556BB101 /* Sheets.swift */; };
+		1AE406C2F035ED897B998FD5 /* SettingsLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB041EA4D090DC5B4972BD5 /* SettingsLifecycleTests.swift */; };
+		1CE26F1775F2B3C254783A89 /* WorkspaceActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DC2838B27F440F9A2D2CB6 /* WorkspaceActions.swift */; };
+		284E95746BEE7431EE17E8A8 /* BranchSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ADEB8CDD4AF507D2E9489 /* BranchSwitcherView.swift */; };
+		2ACD82F9B02CCECABEB73492 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE707A5CE21DB67044026ECF /* AppColors.swift */; };
+		3266592D34D8C239041C1889 /* DiffDisplayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F4A74A44FD79FF73E2093D /* DiffDisplayState.swift */; };
+		3C1F88DB3DCA9041C08F459E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465095E3E7AE6B70D37D9F9 /* AppState.swift */; };
+		3DACABF897D18942ED59656C /* HistoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2C912DA4AA66B4AA2C948F /* HistoryTableView.swift */; };
+		400928107C5A76F517449935 /* WeGitAskPass in Resources */ = {isa = PBXBuildFile; fileRef = 12DBE880AE0FD5BC94A762A3 /* WeGitAskPass */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4351FAB1F2126A7161D87F41 /* RepositoryContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */; };
+		4C4E2302E50E982C6B5B1561 /* CloneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B068FD8FA547E5DD7CBDAB2 /* CloneViewModel.swift */; };
+		51B975F3C5D23EE535A8D3BE /* WeGitCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7E5CFAACC66D846193E607FD /* WeGitCore */; };
+		561BE4CF3B8506D6719D18B7 /* CloneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25E0849046CCD6295265331 /* CloneView.swift */; };
+		577747D93F0E9951897812D4 /* DiffNavigationControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2293E6A131AB3FB5C2EFBF /* DiffNavigationControls.swift */; };
+		59BA978DE57C8F3CEE5D477B /* ExternalOpenActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85049F04E9FE6EFB0D3628 /* ExternalOpenActions.swift */; };
+		5A0CDDE27F12F0E73E871C22 /* SyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582C57A6667F20E26505DBE9 /* SyncState.swift */; };
+		5CCAC371702FDC55B13D14F9 /* WeGitAskPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5BA94DCEE3ED51F613BB31 /* WeGitAskPass.swift */; };
+		5D93C609116608C0234463F2 /* DiffReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD62AD5BEEA0F025C5A11B /* DiffReaderTests.swift */; };
+		63DE29A998D120E3A5D72BAA /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */; };
+		6A0A6FB9AB7EF0C07E239541 /* ReadingMatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FE942EF50EBED9D782A7FE /* ReadingMatrixTests.swift */; };
+		6E1130C864F8CE0AAA4A35C9 /* ViewPerformanceJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7406090F3F3D453C8C2A796 /* ViewPerformanceJournal.swift */; };
+		709A8103FC06B8BE84E83C04 /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7D913455ACBB969181615B /* AuthenticationController.swift */; };
+		7255F461F562A83B14327E42 /* WindowLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C5E9CA800E3E0AE246165 /* WindowLifecycleTests.swift */; };
+		7A327A04C67F48D529BDA721 /* DiskDiffDisplayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5B9523CA4BAF7A324606E1 /* DiskDiffDisplayState.swift */; };
+		7BD47404293C50BEB76235E6 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B0929CA00E606A4B1CA7BF5 /* main.c */; };
+		7C8420CFC07D2AA7976B5F3A /* CommitDetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB7DCA8173B212F363D34B9 /* CommitDetailState.swift */; };
+		7C85E2C6C14C6987AC8AF184 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */; };
+		886DC350ED84C7F0C7EB533F /* CommandPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C08C85BA8E89B65DAB0E3C /* CommandPalette.swift */; };
+		8939BDCE63DB2BF25F75F186 /* WorkflowRecoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */; };
+		8F4F1D37B4D173A30AB15BED /* ManualAccessibilitySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */; };
+		9017CDA22623788871707B7E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20398CEF1936E2C0FB64C613 /* HistoryView.swift */; };
+		959FD19237483478F5FC8310 /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EB883F4D016DC370F2DBC8 /* LaunchPerformanceTests.swift */; };
+		997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A8CC78668A40CFC111A86F /* SettingsView.swift */; };
+		A2B254D2EC7B9CABFE5E7D19 /* GitConfigurationInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9E903CDDF3740DD68FD87C /* GitConfigurationInterfaceTests.swift */; };
+		A55B7241A3EDBD2EB3AEEEA0 /* DiffContextControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1148752A1A69F851DE39E729 /* DiffContextControls.swift */; };
+		A7C329BCA84B9137E936FEB6 /* GitSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1202E2B641C73BAB9FF1CF7 /* GitSettingsView.swift */; };
+		A9168015B95F2AFB24DFB6DB /* WindowStateBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294B154B492B77C3F4D7B39 /* WindowStateBridge.swift */; };
+		AF7AF4952BB47022C8F704DD /* UITestGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124F18C7E3AEADB6E5E789F /* UITestGit.swift */; };
+		B473F54890DFA2DCFB038F84 /* ChangesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029D5F7DBFB1C4F806AEBD78 /* ChangesView.swift */; };
+		C4D041197B01466496C8BAE2 /* WeGitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE224312D030E65115351A57 /* WeGitUITests.swift */; };
+		C57B239F0DC7AEF20E5E74BA /* CommitFilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE6C5522DB85CB59E6C5C6C /* CommitFilesView.swift */; };
+		CFFAE1DB6F5D266C35021FDF /* SyncSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B64C6AE5A196C899E210E3 /* SyncSheet.swift */; };
+		D943793F42D7C463F8D8545E /* BranchSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7183C67E493C4FB81DECA942 /* BranchSheets.swift */; };
+		DC779347D3B4F2F8D942CAFD /* WorkbenchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206ECB71C21A37777A7A6C2B /* WorkbenchPerformanceTests.swift */; };
+		DF5F748199E35EAD4B76A6A3 /* RepositoryPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE95A5E39419B153C6284C5F /* RepositoryPickerTests.swift */; };
+		DFB86BD71085978D3CCB335F /* WorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2AD0382813F7677E12A4B /* WorkspaceView.swift */; };
+		DFD9A3F3665FAE8BC3924984 /* WeGitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBBEC752F134B78D33F291 /* WeGitApp.swift */; };
+		E052F4D3E6F119600D2D541C /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA57D9AB3E86BE4A2FB5E6C /* AppPreferences.swift */; };
+		E526685588F82245FEC09F05 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = AA65280343026C6B41C79970 /* LICENSE */; };
+		EBABAC95D00321F1DED09DF9 /* DiffTextSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8973FD129834FD70547A32 /* DiffTextSelection.swift */; };
+		F4F75F67027B96DFF5A17D8A /* DiskDiffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878555F78A010CB4C9FB754 /* DiskDiffView.swift */; };
+		F92B258CAE4444F3CDA9A5ED /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE785C1633B52AB944B1A7B /* Components.swift */; };
+		F93DA2D0FD44D14C20CF8CE6 /* FileContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FB96334024A02ED9F6ABE4 /* FileContextMenu.swift */; };
+		FF1EE79A96620F5C67EE4393 /* DiffCodeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF09152392658C1A0497D7A /* DiffCodeRow.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		16E7FB10990F47352CB1312A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5782557ED84E3ECDC5685464 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BEB2AFC9334298BDE705B78;
+			remoteInfo = WeGitTestGit;
+		};
+		22649254632B1613EE8E1113 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5782557ED84E3ECDC5685464 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 22DB15EF8D230F29B1F334DB;
+			remoteInfo = WeGit;
+		};
+		5F478140A8011B1A064558E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5782557ED84E3ECDC5685464 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 22DB15EF8D230F29B1F334DB;
+			remoteInfo = WeGit;
+		};
+		C73E32D946F1DA795B25AFF1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5782557ED84E3ECDC5685464 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5672E00EC09F177F577DB7AF;
+			remoteInfo = WeGitAskPass;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		029D5F7DBFB1C4F806AEBD78 /* ChangesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesView.swift; sourceTree = "<group>"; };
+		0465095E3E7AE6B70D37D9F9 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		068BBD4E6413E716B2FFF7FB /* DiffContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffContentView.swift; sourceTree = "<group>"; };
+		0D1C5E9CA800E3E0AE246165 /* WindowLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowLifecycleTests.swift; sourceTree = "<group>"; };
+		0FF09152392658C1A0497D7A /* DiffCodeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffCodeRow.swift; sourceTree = "<group>"; };
+		1148752A1A69F851DE39E729 /* DiffContextControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffContextControls.swift; sourceTree = "<group>"; };
+		12DBE880AE0FD5BC94A762A3 /* WeGitAskPass */ = {isa = PBXFileReference; includeInIndex = 0; path = WeGitAskPass; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B068FD8FA547E5DD7CBDAB2 /* CloneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloneViewModel.swift; sourceTree = "<group>"; };
+		1D73B06EA47A30EF556BB101 /* Sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheets.swift; sourceTree = "<group>"; };
+		1F85049F04E9FE6EFB0D3628 /* ExternalOpenActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalOpenActions.swift; sourceTree = "<group>"; };
+		20398CEF1936E2C0FB64C613 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		206ECB71C21A37777A7A6C2B /* WorkbenchPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkbenchPerformanceTests.swift; sourceTree = "<group>"; };
+		3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryContextMenu.swift; sourceTree = "<group>"; };
+		3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
+		3C5B9523CA4BAF7A324606E1 /* DiskDiffDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDiffDisplayState.swift; sourceTree = "<group>"; };
+		3C5BA94DCEE3ED51F613BB31 /* WeGitAskPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitAskPass.swift; sourceTree = "<group>"; };
+		427BBA1EC78DD6B32995F4E3 /* WeGitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeGitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48B64C6AE5A196C899E210E3 /* SyncSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSheet.swift; sourceTree = "<group>"; };
+		49DC2838B27F440F9A2D2CB6 /* WorkspaceActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceActions.swift; sourceTree = "<group>"; };
+		4A7D913455ACBB969181615B /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
+		506EA8B0AC419E9437CB3682 /* RepositorySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositorySearchView.swift; sourceTree = "<group>"; };
+		5294B154B492B77C3F4D7B39 /* WindowStateBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowStateBridge.swift; sourceTree = "<group>"; };
+		582C57A6667F20E26505DBE9 /* SyncState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncState.swift; sourceTree = "<group>"; };
+		5878555F78A010CB4C9FB754 /* DiskDiffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDiffView.swift; sourceTree = "<group>"; };
+		5879B4111C8EBEFD88E3998D /* DiffSelectableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffSelectableText.swift; sourceTree = "<group>"; };
+		5C9E903CDDF3740DD68FD87C /* GitConfigurationInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitConfigurationInterfaceTests.swift; sourceTree = "<group>"; };
+		69851F96AE048E02B867508A /* WeGit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeGit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AB7DCA8173B212F363D34B9 /* CommitDetailState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitDetailState.swift; sourceTree = "<group>"; };
+		6EE6C5522DB85CB59E6C5C6C /* CommitFilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitFilesView.swift; sourceTree = "<group>"; };
+		711B64B734DBFFE85D5ADBF7 /* WeGitPerformanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeGitPerformanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7183C67E493C4FB81DECA942 /* BranchSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchSheets.swift; sourceTree = "<group>"; };
+		79EB883F4D016DC370F2DBC8 /* LaunchPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPerformanceTests.swift; sourceTree = "<group>"; };
+		7B0929CA00E606A4B1CA7BF5 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		7DE785C1633B52AB944B1A7B /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		9CA57D9AB3E86BE4A2FB5E6C /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
+		A8FE942EF50EBED9D782A7FE /* ReadingMatrixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingMatrixTests.swift; sourceTree = "<group>"; };
+		AA65280343026C6B41C79970 /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		AA6A770388CDDBA53E1C2AC5 /* WeGit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = WeGit; path = .; sourceTree = SOURCE_ROOT; };
+		ABBD62AD5BEEA0F025C5A11B /* DiffReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffReaderTests.swift; sourceTree = "<group>"; };
+		B7406090F3F3D453C8C2A796 /* ViewPerformanceJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPerformanceJournal.swift; sourceTree = "<group>"; };
+		BDC147DBB2A084BF6E1530AD /* WeGitTestGit */ = {isa = PBXFileReference; includeInIndex = 0; path = WeGitTestGit; sourceTree = BUILT_PRODUCTS_DIR; };
+		C124F18C7E3AEADB6E5E789F /* UITestGit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestGit.swift; sourceTree = "<group>"; };
+		C2FB96334024A02ED9F6ABE4 /* FileContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileContextMenu.swift; sourceTree = "<group>"; };
+		C89ADEB8CDD4AF507D2E9489 /* BranchSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchSwitcherView.swift; sourceTree = "<group>"; };
+		CD2C912DA4AA66B4AA2C948F /* HistoryTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableView.swift; sourceTree = "<group>"; };
+		CDB2AD0382813F7677E12A4B /* WorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceView.swift; sourceTree = "<group>"; };
+		CE224312D030E65115351A57 /* WeGitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitUITests.swift; sourceTree = "<group>"; };
+		CE707A5CE21DB67044026ECF /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkflowRecoveryTests.swift; sourceTree = "<group>"; };
+		D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualAccessibilitySession.swift; sourceTree = "<group>"; };
+		D35ED6F3020AE96FCB957830 /* LayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTests.swift; sourceTree = "<group>"; };
+		D4C08C85BA8E89B65DAB0E3C /* CommandPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPalette.swift; sourceTree = "<group>"; };
+		DE95A5E39419B153C6284C5F /* RepositoryPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryPickerTests.swift; sourceTree = "<group>"; };
+		DF2293E6A131AB3FB5C2EFBF /* DiffNavigationControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffNavigationControls.swift; sourceTree = "<group>"; };
+		DF8973FD129834FD70547A32 /* DiffTextSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTextSelection.swift; sourceTree = "<group>"; };
+		EEEBBEC752F134B78D33F291 /* WeGitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitApp.swift; sourceTree = "<group>"; };
+		F1202E2B641C73BAB9FF1CF7 /* GitSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSettingsView.swift; sourceTree = "<group>"; };
+		F25E0849046CCD6295265331 /* CloneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloneView.swift; sourceTree = "<group>"; };
+		F3A8CC78668A40CFC111A86F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F8FC5FD06684428CC7A3D1B0 /* HistoryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryState.swift; sourceTree = "<group>"; };
+		F9F4A74A44FD79FF73E2093D /* DiffDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffDisplayState.swift; sourceTree = "<group>"; };
+		F9F64345E79615629C49614A /* WeGitUITests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeGitUITests.entitlements; sourceTree = "<group>"; };
+		FCB041EA4D090DC5B4972BD5 /* SettingsLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLifecycleTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		509EF0D41959FB56E2FE5B6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03322BAE7ED0FC6D96845DF7 /* WeGitCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75CA3E8F575351B80693DF26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51B975F3C5D23EE535A8D3BE /* WeGitCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		06E648D23BD1E67CD1A74F88 /* WeGitPerformanceTests */ = {
+			isa = PBXGroup;
+			children = (
+				79EB883F4D016DC370F2DBC8 /* LaunchPerformanceTests.swift */,
+				206ECB71C21A37777A7A6C2B /* WorkbenchPerformanceTests.swift */,
+			);
+			path = WeGitPerformanceTests;
+			sourceTree = "<group>";
+		};
+		07BE59A938A1D6A3F01C1D9F /* WeGitUITests */ = {
+			isa = PBXGroup;
+			children = (
+				ABBD62AD5BEEA0F025C5A11B /* DiffReaderTests.swift */,
+				5C9E903CDDF3740DD68FD87C /* GitConfigurationInterfaceTests.swift */,
+				D35ED6F3020AE96FCB957830 /* LayoutTests.swift */,
+				D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */,
+				A8FE942EF50EBED9D782A7FE /* ReadingMatrixTests.swift */,
+				DE95A5E39419B153C6284C5F /* RepositoryPickerTests.swift */,
+				FCB041EA4D090DC5B4972BD5 /* SettingsLifecycleTests.swift */,
+				C124F18C7E3AEADB6E5E789F /* UITestGit.swift */,
+				F9F64345E79615629C49614A /* WeGitUITests.entitlements */,
+				CE224312D030E65115351A57 /* WeGitUITests.swift */,
+				0D1C5E9CA800E3E0AE246165 /* WindowLifecycleTests.swift */,
+				D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */,
+			);
+			path = WeGitUITests;
+			sourceTree = "<group>";
+		};
+		42CB53DBC0ADB913EDD268B9 = {
+			isa = PBXGroup;
+			children = (
+				AA65280343026C6B41C79970 /* LICENSE */,
+				555F2DCE2E88E2F29EED2011 /* Packages */,
+				D10A7E9E371CA0131A8D7656 /* TestGit */,
+				7C1D6957A82D911230C7C90C /* WeGit */,
+				4B7E9F07162E880EC1F53790 /* WeGitAskPass */,
+				06E648D23BD1E67CD1A74F88 /* WeGitPerformanceTests */,
+				07BE59A938A1D6A3F01C1D9F /* WeGitUITests */,
+				9D513A640248D818AA7E62BB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4B7E9F07162E880EC1F53790 /* WeGitAskPass */ = {
+			isa = PBXGroup;
+			children = (
+				3C5BA94DCEE3ED51F613BB31 /* WeGitAskPass.swift */,
+			);
+			path = WeGitAskPass;
+			sourceTree = "<group>";
+		};
+		555F2DCE2E88E2F29EED2011 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				AA6A770388CDDBA53E1C2AC5 /* WeGit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		7C1D6957A82D911230C7C90C /* WeGit */ = {
+			isa = PBXGroup;
+			children = (
+				7FFE329DCC676BF4D477504B /* App */,
+				EC3CAB6B78B0E8CD8873D3A5 /* DesignSystem */,
+				C58450F0AD5998BC97172A23 /* Features */,
+			);
+			path = WeGit;
+			sourceTree = "<group>";
+		};
+		7FFE329DCC676BF4D477504B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */,
+				9CA57D9AB3E86BE4A2FB5E6C /* AppPreferences.swift */,
+				0465095E3E7AE6B70D37D9F9 /* AppState.swift */,
+				4A7D913455ACBB969181615B /* AuthenticationController.swift */,
+				6AB7DCA8173B212F363D34B9 /* CommitDetailState.swift */,
+				F9F4A74A44FD79FF73E2093D /* DiffDisplayState.swift */,
+				DF8973FD129834FD70547A32 /* DiffTextSelection.swift */,
+				3C5B9523CA4BAF7A324606E1 /* DiskDiffDisplayState.swift */,
+				1F85049F04E9FE6EFB0D3628 /* ExternalOpenActions.swift */,
+				F8FC5FD06684428CC7A3D1B0 /* HistoryState.swift */,
+				582C57A6667F20E26505DBE9 /* SyncState.swift */,
+				B7406090F3F3D453C8C2A796 /* ViewPerformanceJournal.swift */,
+				EEEBBEC752F134B78D33F291 /* WeGitApp.swift */,
+				5294B154B492B77C3F4D7B39 /* WindowStateBridge.swift */,
+				49DC2838B27F440F9A2D2CB6 /* WorkspaceActions.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9D513A640248D818AA7E62BB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				69851F96AE048E02B867508A /* WeGit.app */,
+				12DBE880AE0FD5BC94A762A3 /* WeGitAskPass */,
+				711B64B734DBFFE85D5ADBF7 /* WeGitPerformanceTests.xctest */,
+				BDC147DBB2A084BF6E1530AD /* WeGitTestGit */,
+				427BBA1EC78DD6B32995F4E3 /* WeGitUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C58450F0AD5998BC97172A23 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */,
+				7183C67E493C4FB81DECA942 /* BranchSheets.swift */,
+				C89ADEB8CDD4AF507D2E9489 /* BranchSwitcherView.swift */,
+				029D5F7DBFB1C4F806AEBD78 /* ChangesView.swift */,
+				F25E0849046CCD6295265331 /* CloneView.swift */,
+				1B068FD8FA547E5DD7CBDAB2 /* CloneViewModel.swift */,
+				D4C08C85BA8E89B65DAB0E3C /* CommandPalette.swift */,
+				6EE6C5522DB85CB59E6C5C6C /* CommitFilesView.swift */,
+				0FF09152392658C1A0497D7A /* DiffCodeRow.swift */,
+				068BBD4E6413E716B2FFF7FB /* DiffContentView.swift */,
+				1148752A1A69F851DE39E729 /* DiffContextControls.swift */,
+				DF2293E6A131AB3FB5C2EFBF /* DiffNavigationControls.swift */,
+				5879B4111C8EBEFD88E3998D /* DiffSelectableText.swift */,
+				5878555F78A010CB4C9FB754 /* DiskDiffView.swift */,
+				C2FB96334024A02ED9F6ABE4 /* FileContextMenu.swift */,
+				F1202E2B641C73BAB9FF1CF7 /* GitSettingsView.swift */,
+				CD2C912DA4AA66B4AA2C948F /* HistoryTableView.swift */,
+				20398CEF1936E2C0FB64C613 /* HistoryView.swift */,
+				3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */,
+				506EA8B0AC419E9437CB3682 /* RepositorySearchView.swift */,
+				F3A8CC78668A40CFC111A86F /* SettingsView.swift */,
+				1D73B06EA47A30EF556BB101 /* Sheets.swift */,
+				48B64C6AE5A196C899E210E3 /* SyncSheet.swift */,
+				CDB2AD0382813F7677E12A4B /* WorkspaceView.swift */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		D10A7E9E371CA0131A8D7656 /* TestGit */ = {
+			isa = PBXGroup;
+			children = (
+				7B0929CA00E606A4B1CA7BF5 /* main.c */,
+			);
+			name = TestGit;
+			path = WeGitUITests/Support/TestGit;
+			sourceTree = "<group>";
+		};
+		EC3CAB6B78B0E8CD8873D3A5 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				CE707A5CE21DB67044026ECF /* AppColors.swift */,
+				7DE785C1633B52AB944B1A7B /* Components.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0CE4C7B6BE1DA90BBD5466CB /* WeGitPerformanceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8FEF66133808A57AB678A33 /* Build configuration list for PBXNativeTarget "WeGitPerformanceTests" */;
+			buildPhases = (
+				012FBADCF8EF4FA757E47997 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DE300C84501B7CB055851517 /* PBXTargetDependency */,
+			);
+			name = WeGitPerformanceTests;
+			packageProductDependencies = (
+			);
+			productName = WeGitPerformanceTests;
+			productReference = 711B64B734DBFFE85D5ADBF7 /* WeGitPerformanceTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		22DB15EF8D230F29B1F334DB /* WeGit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C20E10C70182655F9BD8771 /* Build configuration list for PBXNativeTarget "WeGit" */;
+			buildPhases = (
+				F9428A0156F666078852C9FC /* Sources */,
+				35765D5933DBA391414393AA /* Embed AskPass helper */,
+				AA7C82378352C78DDE6AB1EB /* Record application source provenance */,
+				D7C76CD407BD889E188FF8F2 /* Resources */,
+				509EF0D41959FB56E2FE5B6A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3EED146632856FC2D7C94B56 /* PBXTargetDependency */,
+			);
+			name = WeGit;
+			packageProductDependencies = (
+				FB01D429917B5A2D4C811F77 /* WeGitCore */,
+			);
+			productName = WeGit;
+			productReference = 69851F96AE048E02B867508A /* WeGit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5672E00EC09F177F577DB7AF /* WeGitAskPass */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7D17EB001EDBAE7D742859E /* Build configuration list for PBXNativeTarget "WeGitAskPass" */;
+			buildPhases = (
+				525C6AF5AB938FB1FDE04D2F /* Sources */,
+				75CA3E8F575351B80693DF26 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeGitAskPass;
+			packageProductDependencies = (
+				7E5CFAACC66D846193E607FD /* WeGitCore */,
+			);
+			productName = WeGitAskPass;
+			productReference = 12DBE880AE0FD5BC94A762A3 /* WeGitAskPass */;
+			productType = "com.apple.product-type.tool";
+		};
+		7BEB2AFC9334298BDE705B78 /* WeGitTestGit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4D904330B4D95A7AA5A977A2 /* Build configuration list for PBXNativeTarget "WeGitTestGit" */;
+			buildPhases = (
+				414B6AAC47FC39BDCD030CFF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeGitTestGit;
+			packageProductDependencies = (
+			);
+			productName = WeGitTestGit;
+			productReference = BDC147DBB2A084BF6E1530AD /* WeGitTestGit */;
+			productType = "com.apple.product-type.tool";
+		};
+		FD40BF55B473EB89DF29B221 /* WeGitUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A53E44DD52D96F80C375E8A3 /* Build configuration list for PBXNativeTarget "WeGitUITests" */;
+			buildPhases = (
+				C2A22E227BF4EE0A027B7EEC /* Sources */,
+				BAA0B799C9694A1B89DA24E9 /* Embed test Git wrapper */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				261ADC57DB0B2D13D6B08602 /* PBXTargetDependency */,
+				70C04AC450870EF82A08AEA8 /* PBXTargetDependency */,
+			);
+			name = WeGitUITests;
+			packageProductDependencies = (
+			);
+			productName = WeGitUITests;
+			productReference = 427BBA1EC78DD6B32995F4E3 /* WeGitUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5782557ED84E3ECDC5685464 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					0CE4C7B6BE1DA90BBD5466CB = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 22DB15EF8D230F29B1F334DB;
+					};
+					22DB15EF8D230F29B1F334DB = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					5672E00EC09F177F577DB7AF = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					7BEB2AFC9334298BDE705B78 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					FD40BF55B473EB89DF29B221 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 22DB15EF8D230F29B1F334DB;
+					};
+				};
+			};
+			buildConfigurationList = B2B57207986B97E9EB0474C6 /* Build configuration list for PBXProject "WeGit" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 42CB53DBC0ADB913EDD268B9;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				26AE27C5FE9FC38874140682 /* XCLocalSwiftPackageReference "." */,
+			);
+			preferredProjectObjectVersion = 54;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				22DB15EF8D230F29B1F334DB /* WeGit */,
+				5672E00EC09F177F577DB7AF /* WeGitAskPass */,
+				0CE4C7B6BE1DA90BBD5466CB /* WeGitPerformanceTests */,
+				7BEB2AFC9334298BDE705B78 /* WeGitTestGit */,
+				FD40BF55B473EB89DF29B221 /* WeGitUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D7C76CD407BD889E188FF8F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E526685588F82245FEC09F05 /* LICENSE in Resources */,
+				400928107C5A76F517449935 /* WeGitAskPass in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		35765D5933DBA391414393AA /* Embed AskPass helper */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/WeGitAskPass",
+			);
+			name = "Embed AskPass helper";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitAskPass",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitAskPass\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass\"\n";
+		};
+		AA7C82378352C78DDE6AB1EB /* Record application source provenance */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Record application source provenance";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/build-source.json",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/python3 \"${SRCROOT}/scripts/build_provenance.py\" --source-root \"${SRCROOT}\" --output \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/build-source.json\"\n";
+		};
+		BAA0B799C9694A1B89DA24E9 /* Embed test Git wrapper */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/WeGitTestGit",
+			);
+			name = "Embed test Git wrapper";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/WeGitTestGit",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitTestGit\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitTestGit\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		012FBADCF8EF4FA757E47997 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				959FD19237483478F5FC8310 /* LaunchPerformanceTests.swift in Sources */,
+				DC779347D3B4F2F8D942CAFD /* WorkbenchPerformanceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		414B6AAC47FC39BDCD030CFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BD47404293C50BEB76235E6 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		525C6AF5AB938FB1FDE04D2F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CCAC371702FDC55B13D14F9 /* WeGitAskPass.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2A22E227BF4EE0A027B7EEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D93C609116608C0234463F2 /* DiffReaderTests.swift in Sources */,
+				A2B254D2EC7B9CABFE5E7D19 /* GitConfigurationInterfaceTests.swift in Sources */,
+				10993AA44DE4E740B18B752F /* LayoutTests.swift in Sources */,
+				8F4F1D37B4D173A30AB15BED /* ManualAccessibilitySession.swift in Sources */,
+				6A0A6FB9AB7EF0C07E239541 /* ReadingMatrixTests.swift in Sources */,
+				DF5F748199E35EAD4B76A6A3 /* RepositoryPickerTests.swift in Sources */,
+				1AE406C2F035ED897B998FD5 /* SettingsLifecycleTests.swift in Sources */,
+				AF7AF4952BB47022C8F704DD /* UITestGit.swift in Sources */,
+				C4D041197B01466496C8BAE2 /* WeGitUITests.swift in Sources */,
+				7255F461F562A83B14327E42 /* WindowLifecycleTests.swift in Sources */,
+				8939BDCE63DB2BF25F75F186 /* WorkflowRecoveryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9428A0156F666078852C9FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2ACD82F9B02CCECABEB73492 /* AppColors.swift in Sources */,
+				E052F4D3E6F119600D2D541C /* AppPreferences.swift in Sources */,
+				3C1F88DB3DCA9041C08F459E /* AppState.swift in Sources */,
+				7C85E2C6C14C6987AC8AF184 /* ApplicationDelegate.swift in Sources */,
+				709A8103FC06B8BE84E83C04 /* AuthenticationController.swift in Sources */,
+				63DE29A998D120E3A5D72BAA /* AuthenticationView.swift in Sources */,
+				D943793F42D7C463F8D8545E /* BranchSheets.swift in Sources */,
+				284E95746BEE7431EE17E8A8 /* BranchSwitcherView.swift in Sources */,
+				B473F54890DFA2DCFB038F84 /* ChangesView.swift in Sources */,
+				561BE4CF3B8506D6719D18B7 /* CloneView.swift in Sources */,
+				4C4E2302E50E982C6B5B1561 /* CloneViewModel.swift in Sources */,
+				886DC350ED84C7F0C7EB533F /* CommandPalette.swift in Sources */,
+				7C8420CFC07D2AA7976B5F3A /* CommitDetailState.swift in Sources */,
+				C57B239F0DC7AEF20E5E74BA /* CommitFilesView.swift in Sources */,
+				F92B258CAE4444F3CDA9A5ED /* Components.swift in Sources */,
+				FF1EE79A96620F5C67EE4393 /* DiffCodeRow.swift in Sources */,
+				027D8DB609EA5D75075A7E9C /* DiffContentView.swift in Sources */,
+				A55B7241A3EDBD2EB3AEEEA0 /* DiffContextControls.swift in Sources */,
+				3266592D34D8C239041C1889 /* DiffDisplayState.swift in Sources */,
+				577747D93F0E9951897812D4 /* DiffNavigationControls.swift in Sources */,
+				0F21B245FF0D90CD93E50123 /* DiffSelectableText.swift in Sources */,
+				EBABAC95D00321F1DED09DF9 /* DiffTextSelection.swift in Sources */,
+				7A327A04C67F48D529BDA721 /* DiskDiffDisplayState.swift in Sources */,
+				F4F75F67027B96DFF5A17D8A /* DiskDiffView.swift in Sources */,
+				59BA978DE57C8F3CEE5D477B /* ExternalOpenActions.swift in Sources */,
+				F93DA2D0FD44D14C20CF8CE6 /* FileContextMenu.swift in Sources */,
+				A7C329BCA84B9137E936FEB6 /* GitSettingsView.swift in Sources */,
+				07D05BC2FD3B320730C59B5D /* HistoryState.swift in Sources */,
+				3DACABF897D18942ED59656C /* HistoryTableView.swift in Sources */,
+				9017CDA22623788871707B7E /* HistoryView.swift in Sources */,
+				4351FAB1F2126A7161D87F41 /* RepositoryContextMenu.swift in Sources */,
+				06514071541003C7462D2826 /* RepositorySearchView.swift in Sources */,
+				997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */,
+				13E276DCB1333E635B092E4B /* Sheets.swift in Sources */,
+				CFFAE1DB6F5D266C35021FDF /* SyncSheet.swift in Sources */,
+				5A0CDDE27F12F0E73E871C22 /* SyncState.swift in Sources */,
+				6E1130C864F8CE0AAA4A35C9 /* ViewPerformanceJournal.swift in Sources */,
+				DFD9A3F3665FAE8BC3924984 /* WeGitApp.swift in Sources */,
+				A9168015B95F2AFB24DFB6DB /* WindowStateBridge.swift in Sources */,
+				1CE26F1775F2B3C254783A89 /* WorkspaceActions.swift in Sources */,
+				DFB86BD71085978D3CCB335F /* WorkspaceView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		261ADC57DB0B2D13D6B08602 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 22DB15EF8D230F29B1F334DB /* WeGit */;
+			targetProxy = 5F478140A8011B1A064558E7 /* PBXContainerItemProxy */;
+		};
+		3EED146632856FC2D7C94B56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5672E00EC09F177F577DB7AF /* WeGitAskPass */;
+			targetProxy = C73E32D946F1DA795B25AFF1 /* PBXContainerItemProxy */;
+		};
+		70C04AC450870EF82A08AEA8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BEB2AFC9334298BDE705B78 /* WeGitTestGit */;
+			targetProxy = 16E7FB10990F47352CB1312A /* PBXContainerItemProxy */;
+		};
+		DE300C84501B7CB055851517 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 22DB15EF8D230F29B1F334DB /* WeGit */;
+			targetProxy = 22649254632B1613EE8E1113 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		053D5C13E3DF804EF50FDB38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = WeGitUITests/WeGitUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.PerformanceTests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = WeGit;
+			};
+			name = Debug;
+		};
+		16B5A62FDF79B5515AFD8B5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		29EA1E18B6FB98EC06E6FD27 /* ReleasePerformance */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = WeGitUITests/WeGitUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.UITests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = WeGit;
+			};
+			name = ReleasePerformance;
+		};
+		2F523A0565FC8E2DBD607EAE /* ReleasePerformance */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = ReleasePerformance;
+		};
+		32B65250722EDEF2FE3B6A57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = WeGitUITests/WeGitUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.UITests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = WeGit;
+			};
+			name = Release;
+		};
+		43BD5DEE294E0397D1135904 /* ReleasePerformance */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.TestGit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = ReleasePerformance;
+		};
+		48B82DE93CBC2CDDD2D64FC8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.TestGit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		566274FFD75308B68A78E7CD /* ReleasePerformance */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = WeOpen;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.performanceHarness;
+				PRODUCT_NAME = WeGit;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = WEGIT_PERFORMANCE;
+			};
+			name = ReleasePerformance;
+		};
+		74AD8B145E7D235C98B79D1F /* ReleasePerformance */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = WeGitUITests/WeGitUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.PerformanceTests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = WeGit;
+			};
+			name = ReleasePerformance;
+		};
+		7DD20F7CA3B655FD9D92C4E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		8B1B7A0C412F23AB3DA8A130 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.AskPass;
+				PRODUCT_NAME = WeGitAskPass;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		8F7A1C426E65BE999ECFC8D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = WeOpen;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.development;
+				PRODUCT_NAME = WeGit;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		9171C76468A36BDD21B14A82 /* ReleasePerformance */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.AskPass;
+				PRODUCT_NAME = WeGitAskPass;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = ReleasePerformance;
+		};
+		9E254B1FB39A357ED1370951 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = WeOpen;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.development;
+				PRODUCT_NAME = WeGit;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AD430F198C4946FAA1271D3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = WeGitUITests/WeGitUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.PerformanceTests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = WeGit;
+			};
+			name = Release;
+		};
+		CDC99866E1E33F6F53848487 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.TestGit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D23AECC2B448509EABB0FB1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.AskPass;
+				PRODUCT_NAME = WeGitAskPass;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F1F734636FE73E42BDE72274 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = WeGitUITests/WeGitUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.weopen.WeGit.UITests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = WeGit;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1C20E10C70182655F9BD8771 /* Build configuration list for PBXNativeTarget "WeGit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F7A1C426E65BE999ECFC8D8 /* Debug */,
+				9E254B1FB39A357ED1370951 /* Release */,
+				566274FFD75308B68A78E7CD /* ReleasePerformance */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4D904330B4D95A7AA5A977A2 /* Build configuration list for PBXNativeTarget "WeGitTestGit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDC99866E1E33F6F53848487 /* Debug */,
+				48B82DE93CBC2CDDD2D64FC8 /* Release */,
+				43BD5DEE294E0397D1135904 /* ReleasePerformance */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A53E44DD52D96F80C375E8A3 /* Build configuration list for PBXNativeTarget "WeGitUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1F734636FE73E42BDE72274 /* Debug */,
+				32B65250722EDEF2FE3B6A57 /* Release */,
+				29EA1E18B6FB98EC06E6FD27 /* ReleasePerformance */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B2B57207986B97E9EB0474C6 /* Build configuration list for PBXProject "WeGit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16B5A62FDF79B5515AFD8B5E /* Debug */,
+				7DD20F7CA3B655FD9D92C4E0 /* Release */,
+				2F523A0565FC8E2DBD607EAE /* ReleasePerformance */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B7D17EB001EDBAE7D742859E /* Build configuration list for PBXNativeTarget "WeGitAskPass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D23AECC2B448509EABB0FB1C /* Debug */,
+				8B1B7A0C412F23AB3DA8A130 /* Release */,
+				9171C76468A36BDD21B14A82 /* ReleasePerformance */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F8FEF66133808A57AB678A33 /* Build configuration list for PBXNativeTarget "WeGitPerformanceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				053D5C13E3DF804EF50FDB38 /* Debug */,
+				AD430F198C4946FAA1271D3D /* Release */,
+				74AD8B145E7D235C98B79D1F /* ReleasePerformance */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		26AE27C5FE9FC38874140682 /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = .;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7E5CFAACC66D846193E607FD /* WeGitCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeGitCore;
+		};
+		FB01D429917B5A2D4C811F77 /* WeGitCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeGitCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 5782557ED84E3ECDC5685464 /* Project object */;
+}

@@ -1,0 +1,744 @@
+{
+  "format": 1,
+  "measuredAt": "2026-10-11",
+  "configuration": "ReleasePerformance",
+  "bundleIdentifier": "org.weopen.WeGit.performanceHarness",
+  "sourceHash": "5a5a7914a6c729891e146d3ef6206ebdbfbc75f8e9b248af487d7fc699680d75",
+  "sourceFiles": {
+    "LICENSE": "6da031e4d5bb7e45d085ce419dc63111dff2c019ba10508275deb9446e246784",
+    "Package.swift": "9f5b6d07996b8e29e8149a9c8a33cd10a4a7d6e01c24fcf8b1411627bc6d3fdf",
+    "WeGit/App/AppPreferences.swift": "a36258cae1c235dccfad0d3208464baa0621eab4d0b84e84054356fc48eba51e",
+    "WeGit/App/AppState.swift": "fabbf65f17ad5efd8d3c664ca2bc472c5d6cf539359634eb054b143bcda3997d",
+    "WeGit/App/ApplicationDelegate.swift": "04264263e2ffd20e702d4f3f612419025de0c921fa955c10876ffaa58bb75bb8",
+    "WeGit/App/AuthenticationController.swift": "9428d946b718c1fccce3b943a3af2c7008dccf81167083c758a27e9721a25b3d",
+    "WeGit/App/CommitDetailState.swift": "16c5beaea3d0fee61ce77a1fea92b234849fe94d9afd93a75b69fd9597377cef",
+    "WeGit/App/DiffDisplayState.swift": "aecee5328a1dfb9ea21310a1bdf30f3923d495b1e0e15e723880ecb1bcaa20da",
+    "WeGit/App/DiffTextSelection.swift": "3779e5f19e54e76ea4c716cf7246bb8fabc5af1510a738f7bbcc83277a506983",
+    "WeGit/App/DiskDiffDisplayState.swift": "b239eaad3ad51d684eb213684871287895a31b3ddc17f6a66323bfc1597b0ddd",
+    "WeGit/App/ExternalOpenActions.swift": "3c2687ceca6108a4573d8373ab47347340127a04ea25f095c74568140909da9d",
+    "WeGit/App/HistoryState.swift": "225f4d2d1b8275fd8989753f39f08a6cd8c951742b1c2482634cdb9de02d3085",
+    "WeGit/App/SyncState.swift": "dd76d5469d46c20b34dea1488351cbf423fae8be8507e818a8512331f90a018a",
+    "WeGit/App/ViewPerformanceJournal.swift": "3b1765a6b39a191b80e540d634cd8c461e68b6d9ffa2802517de6e177ab20ed6",
+    "WeGit/App/WeGitApp.swift": "52c8ac9fa7b5bd0ed1ae961e95d39572a93fd56e2a559e731ef6850e3155cbaf",
+    "WeGit/App/WindowStateBridge.swift": "b4c0526a960c5982e9e4ac18d415ef385b6adf57d0e8fba29df35db1c8174a71",
+    "WeGit/App/WorkspaceActions.swift": "081767d8d85b7779fb5edb10092cf9d89e8438a1ac5abb038a9c5e6bf429880e",
+    "WeGit/DesignSystem/AppColors.swift": "9b6fca4a32190f35bd0c53eac9256ab772b807b5954b9380b8e5f694fc5ddc97",
+    "WeGit/DesignSystem/Components.swift": "a1eb095e5a1e67c2afb31d810c60baa3dcac1d48f59d0d61077ba658e88c2a0b",
+    "WeGit/Features/AuthenticationView.swift": "03126212a654c94402e033e6db3104d37ee4981afa235d7e3a0c24fbe2e38cac",
+    "WeGit/Features/BranchSheets.swift": "edff87288124a9b3db2d582c05bdce7355546e73112b831437ccbb8db0e0e419",
+    "WeGit/Features/BranchSwitcherView.swift": "b809092d4e1123a49a9622018df145131dd88c5a177658f10df980528c17f080",
+    "WeGit/Features/ChangesView.swift": "bce484afe06290ac0d1b0c5ec62bf0662069a63dbdb8c036d31d193500fd261d",
+    "WeGit/Features/CloneView.swift": "b4177c62bc9e997991a127e4eac05a3eec9ca1a9a35c13cbc0857bb40483f27f",
+    "WeGit/Features/CloneViewModel.swift": "588c551ff3fd0a5a34b69a238d1b7cfa4f2fb96970a20eaad5a5c26bfbf95fa6",
+    "WeGit/Features/CommandPalette.swift": "a8b9147a5be281e811c3f5ada24ca96b03887c72984c80a54fd2b09657f8b3c2",
+    "WeGit/Features/CommitFilesView.swift": "6652a721280c0e453c90571d363632cebcfa979d8f602c999cd01bc550dc294d",
+    "WeGit/Features/DiffCodeRow.swift": "feb58f0ce30258c52d3b03373b8a0a32cca0008488d48779b50adb54c84db528",
+    "WeGit/Features/DiffContentView.swift": "8832962c4108c85accecb300daa9b555763818ae48c66f4f4c54eac5522654ec",
+    "WeGit/Features/DiffContextControls.swift": "7dabd950da002289da424220a1d37f994056b4a6e07e200dd90cbc7d8e5660c0",
+    "WeGit/Features/DiffNavigationControls.swift": "b206502dc4d5a337c4b56aeb95bd478569e4db9060947cbed33e249f9efe3001",
+    "WeGit/Features/DiffSelectableText.swift": "a4534b517e64d56c14086d086b14c784bd91aad5ab792c5a748ba189ffbe1d43",
+    "WeGit/Features/DiskDiffView.swift": "123d4e8b9f7db0e4cfd8e1510a66d1166f0430549795e5b43f5d654e3f6d75f5",
+    "WeGit/Features/FileContextMenu.swift": "438a72e73aef18ab56e150c294a541d2b8a362b21828629f0ee6458230393a3e",
+    "WeGit/Features/GitSettingsView.swift": "598367182311a02833d35f055bdb6bc3bda6c9e47ef2290e8891481e93773bd7",
+    "WeGit/Features/HistoryTableView.swift": "f8fcbfd1c9f976729e8f97b4ebca81c66de181d3c08a9b95fad5527f9956aec7",
+    "WeGit/Features/HistoryView.swift": "d34d233e39def180bb87418f8050d37721c9bbc3baacf9fed3d3e07862f980bc",
+    "WeGit/Features/RepositoryContextMenu.swift": "a00239dd3ff5b7bcbaed5795098bed24ee2a57f727d921a6a9faea8adf129f54",
+    "WeGit/Features/RepositorySearchView.swift": "400fa7a4955593222e9a12abb7720b7797800003d329831b0519e557e062ffd5",
+    "WeGit/Features/SettingsView.swift": "7d7d5bbbeda5457d6583a5e1a0dc80d5bf26f82534c6e38ffe7fb17c541c1bbc",
+    "WeGit/Features/Sheets.swift": "439f2f4f9cfafafe5973d786734fc8d5e2a9630d7ae9e08ccf8d734eaeccf714",
+    "WeGit/Features/SyncSheet.swift": "bdc1ed01d7e1336d2bc93b3181c43a78e2545e59427744f9212a9c191737d4fc",
+    "WeGit/Features/WorkspaceView.swift": "6a8716e045d0d111b4b675814336068e76df6ffde1974f38138fb49719525ffa",
+    "WeGit.xcodeproj/project.pbxproj": "07b9b99f02b919c9436ce90efabe52adde56d6099ff0cb841d8afda6d164110d",
+    "WeGitAskPass/WeGitAskPass.swift": "5a0d494943327817eeadc3ba905188949d7956ba995af904002df8dfe4d08375",
+    "WeGitCore/Domain/Authentication.swift": "75ec61ffe7f869c7d41c1ec7072d9d9541758f018a0ab942b7536a1c1da8464c",
+    "WeGitCore/Domain/BranchParser.swift": "f9feced77080f690fafa0c5d690d9f5e7a11e789a6929743331ee05ed69a69c2",
+    "WeGitCore/Domain/ChangeFilter.swift": "697e2efe422a90190cb88a8a24bedb049483381fb3da3b60d30bc5cfa11f65f5",
+    "WeGitCore/Domain/CodeSelection.swift": "c65f8ab63187bbbc48394ec2efa29f55052415c951c08934887555c85f168d5c",
+    "WeGitCore/Domain/CodeTextPresentation.swift": "bda9b4b7b2a23bed13eec07a34a8b38337b1c4681d37d41c4c5b8b9a7f405fab",
+    "WeGitCore/Domain/CommitComparison.swift": "8b000e0eece1f4d3a1b3f02fa778fa04ff296592408c5df44c97c65588aed801",
+    "WeGitCore/Domain/CommitParser.swift": "8dd50e088860c1f985a041895a021e518b5174ca65d36a761649d8a6d9495b97",
+    "WeGitCore/Domain/DiffContext.swift": "aa99b61508eb5b56143a9eb2ae7924863413bcb2a0ebbb47560177f57d57abbb",
+    "WeGitCore/Domain/DiffDisplayDocument.swift": "94b5d6fafbaa15d275dd975cbc9886ca6d4b5c1c09a1361f240cb5e45316f09c",
+    "WeGitCore/Domain/DiffLoading.swift": "5d45252a1b639f26e822aa7045afeb0dfb00c85283f9afdd93a3dab4e20682c4",
+    "WeGitCore/Domain/DiffParser.swift": "e065eef820b466acb9dcf022fb6e2fa7fa9937bc77f8c4af81061c59c0cbbc8b",
+    "WeGitCore/Domain/DiffPresentation.swift": "6cbdd348dcff0adb851eab93be58150cb90260b20682ba421299772f0625ed48",
+    "WeGitCore/Domain/DiskContextSource.swift": "10fdcafb77bb18a35ce20c58c10ae8bec1bf184328f06d006b329fa08db12b84",
+    "WeGitCore/Domain/DiskDiffPage.swift": "9fc2e2f4f3ef2cce5fa7b3e0b89f5b3248627747d9fad468219179f995cb3f83",
+    "WeGitCore/Domain/DiskDiffSnapshot.swift": "94933e1761d454b8ba28618410d0dd003c02499c6609e574850234b579020062",
+    "WeGitCore/Domain/HistoryModels.swift": "8e64846049577b984ce37813aa8b70ff7146acda5690ef16a3128417492acbbb",
+    "WeGitCore/Domain/Models.swift": "b8e3d91f818ebe830b04a213c5b21bdc661ebbdd1fb7a4bbf67e39a5e4744deb",
+    "WeGitCore/Domain/RemoteModels.swift": "14c766cdb5fc5261c4776bb09d620d7450c5becc15cbec26758b9ffe419c39f2",
+    "WeGitCore/Domain/RepositoryRefresh.swift": "b31aad4bafa97e12934b64db494a48e3a6d18c8de98adb70a4ec4c6ae05a6bb6",
+    "WeGitCore/Domain/UTF8DisplayPrefix.swift": "043b3c23e1ad267de1921affb7256bfea773f53d426fc1ea76558c3214fba488",
+    "WeGitCore/Domain/WordDiff.swift": "07f2377c419abf7593e5af8a51114ab6e33c005818930cef3bcb2839f314cd8c",
+    "WeGitCore/GitCore/BranchManagementService.swift": "c2b3f3487fb972b97659c8a17dc82a271c82dfcfae9e6906e017e398f6257a58",
+    "WeGitCore/GitCore/CommitComparisonService.swift": "26738ddb4905390dc6867148e3084b89ca2bb23eaa19ec9e6b155ed6772989c6",
+    "WeGitCore/GitCore/DiskDiffService.swift": "10e2316761f1f4fce2c96ef0ecb8f8b535fb332419ed77e184e784f26025d8e9",
+    "WeGitCore/GitCore/GitBranchService.swift": "51f508a19f93a389983371b52141e0887ebadd1ab727adb82977ebc4a69d4bdd",
+    "WeGitCore/GitCore/GitConfigurationService.swift": "8b51c8d808a7bd7b632bc1e3da9c0fe8224bd41ad4b3ca429fd59d7724fba66e",
+    "WeGitCore/GitCore/GitEngine.swift": "2d5c4e47354a0de50db8981eb83de3b2232b132157306b8947cac08fde229107",
+    "WeGitCore/GitCore/GitHistoryService.swift": "145cc6afbc3ada5dbca92b720ba44afc79b80a40a61161e24b8c3722c031a0ff",
+    "WeGitCore/GitCore/GitInstallation.swift": "bb4cc25f2f171c47f74dc271fdc26f47b6f2ef15b832d12b980386d2f2608767",
+    "WeGitCore/GitCore/GitRemoteService.swift": "a6ee3ec717f9f64c158cdf8ab28d0fb227444f8796c94d953ac29aa0b1289932",
+    "WeGitCore/GitCore/HistoryPager.swift": "9c4cee343852e331fdc381f8baed5f64c0ce86d0e40f081fc6bbdb19160c2362",
+    "WeGitCore/GitCore/PlannedRemoteService.swift": "3e58acedca9da9655f23461cd2d4123b5fcf0a5df8ad15ec0f61be6f3d560eb6",
+    "WeGitCore/GitCore/RemoteConfiguration.swift": "457f4eaeb59776dcc2825e9081d7ab8b09ffa331a3d442a3707379fffc6b3cbc",
+    "WeGitCore/GitCore/RepositoryService.swift": "086b49ffa8c1f4ff7b156f2cd1fb98e40172f93ab7f4b65aa117b210d46ce0ca",
+    "WeGitCore/GitCore/RepositorySnapshotService.swift": "cf0fe93230ed4ea0c3adc781f491a5b21aaf5f3bd36fea7a0e2839cb7d82f8f8",
+    "WeGitCore/GitCore/UntrackedTrashService.swift": "51e1aa1934044e82b19fc946eee4c8bf767d415737ad66a7337c31235690971f",
+    "WeGitCore/Infrastructure/AskPassBridge.swift": "cd15a83b0123e9e1c3f8a3df65d2f24b0fcd814ec8036746234d8f560516f97c",
+    "WeGitCore/Infrastructure/AskPassTransport.swift": "64d7f5cdbd26c2821186b332a6b624cf0e6f608ff413f9b8287c0debb188803c",
+    "WeGitCore/Infrastructure/ProcessRunner.swift": "778f922ce5ab39687bf41b8c87951f92003694fc959d54e7057f141abff8fb37",
+    "WeGitCore/Infrastructure/RepositoryFileReader.swift": "a5e6d474216c87d2818dde62e2355a3bf1de6f5d3bbcf06a6a7567edc5782d43",
+    "WeGitCore/Infrastructure/RepositoryIdentity.swift": "f7a9b489b9fabeb7a7eeedad397da0e0e1b9f9dc775adf169b521aa33b77381b",
+    "WeGitCore/Infrastructure/SnapshotCopy.swift": "6439c030dbcc728f746b941bd2a358734b29631fbdcd1337ce2d0734c8b8dfa3",
+    "WeGitCore/Infrastructure/SnapshotFile.swift": "c5fe91f27850c90ebabc91eae1723b54076acf118a4fcbb22a525e86591846d7",
+    "WeGitCore/Repository/CloneCoordinator.swift": "e8cdbe4f89a2deb240154fc0a991e9ecaa8608d179c55777f8cc9bd8259e20bc",
+    "WeGitCore/Repository/OperationQueue.swift": "3df56b5317458007ca6d8f62719cc6b9170c61345bc36c1854b0f64c3d4fe5ef",
+    "WeGitCore/Repository/RepositoryWatcher.swift": "0d47f0a296f386059c9d6fbe50bd03c63d61f44a44e8de22bd35ac752d0ec439",
+    "project.yml": "1874e27cde86051d33cd424c339acf66e4f0bec29d97bdac9cdee0cb1beb810e",
+    "scripts/build_provenance.py": "b8fb6437a079082939819b3589b1682d83ec060d5a2d2c1cdb6b31a851cf4575"
+  },
+  "conditions": "30 serial fresh app processes; Release optimization; isolated preferences and in-memory database; warm filesystem cache; normal retained fixture with 1000 files and 1000 commits; measurements end after native paint; manual window reopening may be required by XCTest and is outside repository-shell timing",
+  "peakRSSBytes": 208977920,
+  "summary": [
+    {
+      "name": "shell",
+      "samples": 30,
+      "medianMs": 301.4877705,
+      "p95Ms": 313.522833,
+      "maxMs": 320.352708,
+      "budgetMs": 500,
+      "passed": true
+    },
+    {
+      "name": "status",
+      "samples": 30,
+      "medianMs": 160.8289795,
+      "p95Ms": 277.868459,
+      "maxMs": 281.213417,
+      "budgetMs": 300,
+      "passed": true
+    },
+    {
+      "name": "diff",
+      "samples": 30,
+      "medianMs": 135.367188,
+      "p95Ms": 140.389667,
+      "maxMs": 140.619375,
+      "budgetMs": 150,
+      "passed": true
+    },
+    {
+      "name": "history",
+      "samples": 30,
+      "medianMs": 228.0418335,
+      "p95Ms": 234.64125,
+      "maxMs": 235.548291,
+      "budgetMs": 300,
+      "passed": true
+    }
+  ],
+  "samples": [
+    {
+      "name": "shell",
+      "milliseconds": 302.092292,
+      "peakRSSBytes": 167804928
+    },
+    {
+      "name": "status",
+      "milliseconds": 273.269459,
+      "peakRSSBytes": 176914432
+    },
+    {
+      "name": "diff",
+      "milliseconds": 136.1505,
+      "peakRSSBytes": 194674688
+    },
+    {
+      "name": "history",
+      "milliseconds": 222.301292,
+      "peakRSSBytes": 208502784
+    },
+    {
+      "name": "shell",
+      "milliseconds": 298.743209,
+      "peakRSSBytes": 167034880
+    },
+    {
+      "name": "status",
+      "milliseconds": 161.736708,
+      "peakRSSBytes": 176357376
+    },
+    {
+      "name": "diff",
+      "milliseconds": 138.088625,
+      "peakRSSBytes": 194215936
+    },
+    {
+      "name": "history",
+      "milliseconds": 212.759958,
+      "peakRSSBytes": 208060416
+    },
+    {
+      "name": "shell",
+      "milliseconds": 301.5785,
+      "peakRSSBytes": 167821312
+    },
+    {
+      "name": "status",
+      "milliseconds": 161.271292,
+      "peakRSSBytes": 176930816
+    },
+    {
+      "name": "diff",
+      "milliseconds": 132.382583,
+      "peakRSSBytes": 194789376
+    },
+    {
+      "name": "history",
+      "milliseconds": 224.760666,
+      "peakRSSBytes": 208470016
+    },
+    {
+      "name": "shell",
+      "milliseconds": 300.208791,
+      "peakRSSBytes": 167624704
+    },
+    {
+      "name": "status",
+      "milliseconds": 157.462166,
+      "peakRSSBytes": 176553984
+    },
+    {
+      "name": "diff",
+      "milliseconds": 140.619375,
+      "peakRSSBytes": 194412544
+    },
+    {
+      "name": "history",
+      "milliseconds": 229.32775,
+      "peakRSSBytes": 208977920
+    },
+    {
+      "name": "shell",
+      "milliseconds": 298.658875,
+      "peakRSSBytes": 167280640
+    },
+    {
+      "name": "status",
+      "milliseconds": 164.058209,
+      "peakRSSBytes": 176832512
+    },
+    {
+      "name": "diff",
+      "milliseconds": 129.29875,
+      "peakRSSBytes": 195084288
+    },
+    {
+      "name": "history",
+      "milliseconds": 232.533541,
+      "peakRSSBytes": 208109568
+    },
+    {
+      "name": "shell",
+      "milliseconds": 310.869208,
+      "peakRSSBytes": 167018496
+    },
+    {
+      "name": "status",
+      "milliseconds": 160.80025,
+      "peakRSSBytes": 176340992
+    },
+    {
+      "name": "diff",
+      "milliseconds": 137.650917,
+      "peakRSSBytes": 194068480
+    },
+    {
+      "name": "history",
+      "milliseconds": 233.562167,
+      "peakRSSBytes": 208240640
+    },
+    {
+      "name": "shell",
+      "milliseconds": 294.796792,
+      "peakRSSBytes": 167673856
+    },
+    {
+      "name": "status",
+      "milliseconds": 167.334417,
+      "peakRSSBytes": 176799744
+    },
+    {
+      "name": "diff",
+      "milliseconds": 134.835958,
+      "peakRSSBytes": 194707456
+    },
+    {
+      "name": "history",
+      "milliseconds": 224.959,
+      "peakRSSBytes": 208502784
+    },
+    {
+      "name": "shell",
+      "milliseconds": 301.397041,
+      "peakRSSBytes": 167542784
+    },
+    {
+      "name": "status",
+      "milliseconds": 163.334333,
+      "peakRSSBytes": 176832512
+    },
+    {
+      "name": "diff",
+      "milliseconds": 134.197041,
+      "peakRSSBytes": 194494464
+    },
+    {
+      "name": "history",
+      "milliseconds": 230.320667,
+      "peakRSSBytes": 208240640
+    },
+    {
+      "name": "shell",
+      "milliseconds": 299.917791,
+      "peakRSSBytes": 167706624
+    },
+    {
+      "name": "status",
+      "milliseconds": 155.566459,
+      "peakRSSBytes": 177078272
+    },
+    {
+      "name": "diff",
+      "milliseconds": 135.531292,
+      "peakRSSBytes": 194805760
+    },
+    {
+      "name": "history",
+      "milliseconds": 232.033625,
+      "peakRSSBytes": 208650240
+    },
+    {
+      "name": "shell",
+      "milliseconds": 307.332083,
+      "peakRSSBytes": 167346176
+    },
+    {
+      "name": "status",
+      "milliseconds": 152.186291,
+      "peakRSSBytes": 176619520
+    },
+    {
+      "name": "diff",
+      "milliseconds": 130.678541,
+      "peakRSSBytes": 194527232
+    },
+    {
+      "name": "history",
+      "milliseconds": 232.03225,
+      "peakRSSBytes": 208273408
+    },
+    {
+      "name": "shell",
+      "milliseconds": 301.806584,
+      "peakRSSBytes": 167165952
+    },
+    {
+      "name": "status",
+      "milliseconds": 150.261666,
+      "peakRSSBytes": 176635904
+    },
+    {
+      "name": "diff",
+      "milliseconds": 140.389667,
+      "peakRSSBytes": 194314240
+    },
+    {
+      "name": "history",
+      "milliseconds": 224.95075,
+      "peakRSSBytes": 208158720
+    },
+    {
+      "name": "shell",
+      "milliseconds": 312.916417,
+      "peakRSSBytes": 167657472
+    },
+    {
+      "name": "status",
+      "milliseconds": 281.213417,
+      "peakRSSBytes": 176799744
+    },
+    {
+      "name": "diff",
+      "milliseconds": 139.114167,
+      "peakRSSBytes": 194494464
+    },
+    {
+      "name": "history",
+      "milliseconds": 229.57975,
+      "peakRSSBytes": 208584704
+    },
+    {
+      "name": "shell",
+      "milliseconds": 313.522833,
+      "peakRSSBytes": 167116800
+    },
+    {
+      "name": "status",
+      "milliseconds": 157.850584,
+      "peakRSSBytes": 176226304
+    },
+    {
+      "name": "diff",
+      "milliseconds": 140.320958,
+      "peakRSSBytes": 194068480
+    },
+    {
+      "name": "history",
+      "milliseconds": 232.918125,
+      "peakRSSBytes": 208322560
+    },
+    {
+      "name": "shell",
+      "milliseconds": 297.868292,
+      "peakRSSBytes": 167542784
+    },
+    {
+      "name": "status",
+      "milliseconds": 159.058542,
+      "peakRSSBytes": 176865280
+    },
+    {
+      "name": "diff",
+      "milliseconds": 128.923167,
+      "peakRSSBytes": 194805760
+    },
+    {
+      "name": "history",
+      "milliseconds": 227.040916,
+      "peakRSSBytes": 208617472
+    },
+    {
+      "name": "shell",
+      "milliseconds": 296.905917,
+      "peakRSSBytes": 167346176
+    },
+    {
+      "name": "status",
+      "milliseconds": 157.071875,
+      "peakRSSBytes": 176979968
+    },
+    {
+      "name": "diff",
+      "milliseconds": 135.890084,
+      "peakRSSBytes": 194428928
+    },
+    {
+      "name": "history",
+      "milliseconds": 215.79325,
+      "peakRSSBytes": 208420864
+    },
+    {
+      "name": "shell",
+      "milliseconds": 299.988209,
+      "peakRSSBytes": 167378944
+    },
+    {
+      "name": "status",
+      "milliseconds": 157.379792,
+      "peakRSSBytes": 176717824
+    },
+    {
+      "name": "diff",
+      "milliseconds": 134.525166,
+      "peakRSSBytes": 194363392
+    },
+    {
+      "name": "history",
+      "milliseconds": 228.087292,
+      "peakRSSBytes": 208044032
+    },
+    {
+      "name": "shell",
+      "milliseconds": 304.244375,
+      "peakRSSBytes": 167329792
+    },
+    {
+      "name": "status",
+      "milliseconds": 160.857709,
+      "peakRSSBytes": 176553984
+    },
+    {
+      "name": "diff",
+      "milliseconds": 137.656083,
+      "peakRSSBytes": 194428928
+    },
+    {
+      "name": "history",
+      "milliseconds": 223.443,
+      "peakRSSBytes": 208715776
+    },
+    {
+      "name": "shell",
+      "milliseconds": 290.408792,
+      "peakRSSBytes": 167395328
+    },
+    {
+      "name": "status",
+      "milliseconds": 159.987417,
+      "peakRSSBytes": 176832512
+    },
+    {
+      "name": "diff",
+      "milliseconds": 135.203084,
+      "peakRSSBytes": 194691072
+    },
+    {
+      "name": "history",
+      "milliseconds": 228.578,
+      "peakRSSBytes": 208322560
+    },
+    {
+      "name": "shell",
+      "milliseconds": 305.62,
+      "peakRSSBytes": 167739392
+    },
+    {
+      "name": "status",
+      "milliseconds": 277.868459,
+      "peakRSSBytes": 176914432
+    },
+    {
+      "name": "diff",
+      "milliseconds": 138.727792,
+      "peakRSSBytes": 194347008
+    },
+    {
+      "name": "history",
+      "milliseconds": 231.643958,
+      "peakRSSBytes": 208437248
+    },
+    {
+      "name": "shell",
+      "milliseconds": 320.352708,
+      "peakRSSBytes": 167559168
+    },
+    {
+      "name": "status",
+      "milliseconds": 171.580834,
+      "peakRSSBytes": 176963584
+    },
+    {
+      "name": "diff",
+      "milliseconds": 129.798417,
+      "peakRSSBytes": 194805760
+    },
+    {
+      "name": "history",
+      "milliseconds": 227.996375,
+      "peakRSSBytes": 208240640
+    },
+    {
+      "name": "shell",
+      "milliseconds": 303.223041,
+      "peakRSSBytes": 167182336
+    },
+    {
+      "name": "status",
+      "milliseconds": 155.217792,
+      "peakRSSBytes": 176521216
+    },
+    {
+      "name": "diff",
+      "milliseconds": 136.824875,
+      "peakRSSBytes": 194412544
+    },
+    {
+      "name": "history",
+      "milliseconds": 216.760916,
+      "peakRSSBytes": 208388096
+    },
+    {
+      "name": "shell",
+      "milliseconds": 288.9365,
+      "peakRSSBytes": 167854080
+    },
+    {
+      "name": "status",
+      "milliseconds": 150.3945,
+      "peakRSSBytes": 176930816
+    },
+    {
+      "name": "diff",
+      "milliseconds": 134.02525,
+      "peakRSSBytes": 194592768
+    },
+    {
+      "name": "history",
+      "milliseconds": 230.409042,
+      "peakRSSBytes": 208912384
+    },
+    {
+      "name": "shell",
+      "milliseconds": 301.266416,
+      "peakRSSBytes": 167591936
+    },
+    {
+      "name": "status",
+      "milliseconds": 154.525083,
+      "peakRSSBytes": 176652288
+    },
+    {
+      "name": "diff",
+      "milliseconds": 130.424959,
+      "peakRSSBytes": 194461696
+    },
+    {
+      "name": "history",
+      "milliseconds": 225.813916,
+      "peakRSSBytes": 208388096
+    },
+    {
+      "name": "shell",
+      "milliseconds": 306.410792,
+      "peakRSSBytes": 167378944
+    },
+    {
+      "name": "status",
+      "milliseconds": 265.517125,
+      "peakRSSBytes": 176914432
+    },
+    {
+      "name": "diff",
+      "milliseconds": 129.815584,
+      "peakRSSBytes": 194887680
+    },
+    {
+      "name": "history",
+      "milliseconds": 216.9225,
+      "peakRSSBytes": 208044032
+    },
+    {
+      "name": "shell",
+      "milliseconds": 293.741208,
+      "peakRSSBytes": 167264256
+    },
+    {
+      "name": "status",
+      "milliseconds": 163.041042,
+      "peakRSSBytes": 176406528
+    },
+    {
+      "name": "diff",
+      "milliseconds": 129.615125,
+      "peakRSSBytes": 194723840
+    },
+    {
+      "name": "history",
+      "milliseconds": 215.385,
+      "peakRSSBytes": 208158720
+    },
+    {
+      "name": "shell",
+      "milliseconds": 301.06125,
+      "peakRSSBytes": 167362560
+    },
+    {
+      "name": "status",
+      "milliseconds": 151.94025,
+      "peakRSSBytes": 176619520
+    },
+    {
+      "name": "diff",
+      "milliseconds": 136.739625,
+      "peakRSSBytes": 194723840
+    },
+    {
+      "name": "history",
+      "milliseconds": 216.906917,
+      "peakRSSBytes": 208732160
+    },
+    {
+      "name": "shell",
+      "milliseconds": 306.998708,
+      "peakRSSBytes": 167657472
+    },
+    {
+      "name": "status",
+      "milliseconds": 269.724625,
+      "peakRSSBytes": 176848896
+    },
+    {
+      "name": "diff",
+      "milliseconds": 135.704041,
+      "peakRSSBytes": 194183168
+    },
+    {
+      "name": "history",
+      "milliseconds": 235.548291,
+      "peakRSSBytes": 207945728
+    },
+    {
+      "name": "shell",
+      "milliseconds": 303.569875,
+      "peakRSSBytes": 167182336
+    },
+    {
+      "name": "status",
+      "milliseconds": 183.767292,
+      "peakRSSBytes": 176291840
+    },
+    {
+      "name": "diff",
+      "milliseconds": 136.387958,
+      "peakRSSBytes": 194150400
+    },
+    {
+      "name": "history",
+      "milliseconds": 234.64125,
+      "peakRSSBytes": 207978496
+    },
+    {
+      "name": "shell",
+      "milliseconds": 300.973167,
+      "peakRSSBytes": 167591936
+    },
+    {
+      "name": "status",
+      "milliseconds": 149.980166,
+      "peakRSSBytes": 176996352
+    },
+    {
+      "name": "diff",
+      "milliseconds": 132.700333,
+      "peakRSSBytes": 195182592
+    },
+    {
+      "name": "history",
+      "milliseconds": 215.540667,
+      "peakRSSBytes": 208551936
+    },
+    {
+      "name": "shell",
+      "milliseconds": 306.729417,
+      "peakRSSBytes": 167247872
+    },
+    {
+      "name": "status",
+      "milliseconds": 161.048875,
+      "peakRSSBytes": 176488448
+    },
+    {
+      "name": "diff",
+      "milliseconds": 127.952458,
+      "peakRSSBytes": 194707456
+    },
+    {
+      "name": "history",
+      "milliseconds": 231.610209,
+      "peakRSSBytes": 208437248
+    }
+  ]
+}

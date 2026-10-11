@@ -1,0 +1,76 @@
+import SwiftUI
+import WeGitCore
+
+struct AuthenticationView: View {
+    @Bindable var controller: AuthenticationController
+    var body: some View {
+        if let request = controller.request {
+            AuthenticationPromptView(request: request, answer: controller.answer).id(request.id)
+        }
+    }
+}
+
+private struct AuthenticationPromptView: View {
+    let request: AuthenticationRequest
+    let answer: (String?) -> Void
+    @State private var value = ""
+    @State private var verifiedHost = false
+    @FocusState private var inputFocused: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Label(
+                request.kind == .hostConfirmation ? "核对 SSH 主机身份" : "Git 需要认证",
+                systemImage: "lock.shield"
+            ).font(.title2.weight(.semibold))
+            Text("操作：Git \(request.command)").font(.callout)
+            if let repository = request.repository {
+                Text(repository.path).font(.caption).foregroundStyle(AppColors.secondaryText).lineLimit(2)
+                    .textSelection(.enabled)
+            }
+            ScrollView {
+                Text(request.prompt).font(.callout.monospaced()).textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }.frame(maxHeight: .infinity)
+            if request.kind == .hostConfirmation {
+                Text("请通过可信渠道核对上面的主机名和指纹。确认后，SSH 会按现有配置记录主机密钥。")
+                    .font(.callout)
+                Toggle("我已核对主机指纹", isOn: $verifiedHost).toggleStyle(.checkbox)
+                    .accessibilityIdentifier("auth-verify-host")
+            } else {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(request.kind == .username ? "用户名" : "密码、Token 或密钥口令").font(.callout)
+                    if request.kind == .username {
+                        TextField("用户名", text: $value).textFieldStyle(.roundedBorder)
+                            .focused($inputFocused).accessibilityIdentifier("auth-username")
+                    } else {
+                        SecureField("密码、Token 或密钥口令", text: $value).textFieldStyle(.roundedBorder)
+                            .focused($inputFocused).accessibilityIdentifier("auth-secret")
+                    }
+                }
+                Text("WeGit 只为本次操作传递输入。Git 凭证辅助程序仍按你的现有配置处理保存。")
+                    .font(.caption).foregroundStyle(AppColors.secondaryText)
+            }
+            HStack {
+                Text("等待超过 2 分钟会自动取消").font(.caption).foregroundStyle(AppColors.secondaryText)
+                Spacer()
+                Button("取消认证") {
+                    value = ""
+                    answer(nil)
+                }.keyboardShortcut(.cancelAction).accessibilityIdentifier("auth-cancel")
+                if request.kind == .hostConfirmation {
+                    Button("信任这个主机") { answer("yes") }.disabled(!verifiedHost)
+                        .accessibilityIdentifier("auth-trust-host")
+                } else {
+                    Button("继续") {
+                        let response = value
+                        value = ""
+                        answer(response)
+                    }.buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
+                        .disabled(value.isEmpty || value.contains("\n") || value.contains("\r"))
+                        .accessibilityIdentifier("auth-submit")
+                }
+            }
+        }.padding(24).frame(width: 520, height: 400).task { inputFocused = true }
+    }
+}

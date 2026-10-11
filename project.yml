@@ -1,0 +1,130 @@
+name: WeGit
+configs:
+  Debug: debug
+  Release: release
+  ReleasePerformance: release
+options:
+  minimumXcodeGenVersion: 2.43.0
+  deploymentTarget:
+    macOS: "27.0"
+packages:
+  WeGitCore:
+    path: .
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MACOSX_DEPLOYMENT_TARGET: "27.0"
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    ENABLE_APP_SANDBOX: NO
+    ENABLE_HARDENED_RUNTIME: YES
+    DEVELOPMENT_TEAM: ""
+targets:
+  WeGit:
+    type: application
+    platform: macOS
+    sources:
+      - path: WeGit
+      - path: LICENSE
+        buildPhase: resources
+    dependencies:
+      - package: WeGitCore
+      - target: WeGitAskPass
+        link: false
+    postCompileScripts:
+      - name: Embed AskPass helper
+        script: |
+          mkdir -p "${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers"
+          ditto "${BUILT_PRODUCTS_DIR}/WeGitAskPass" "${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass"
+        inputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitAskPass"]
+        outputFiles: ["$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitAskPass"]
+      - name: Record application source provenance
+        basedOnDependencyAnalysis: false
+        script: |
+          /usr/bin/python3 "${SRCROOT}/scripts/build_provenance.py" --source-root "${SRCROOT}" --output "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/build-source.json"
+        outputFiles: ["$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/build-source.json"]
+    settings:
+      configs:
+        ReleasePerformance:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: WEGIT_PERFORMANCE
+          PRODUCT_BUNDLE_IDENTIFIER: org.weopen.WeGit.performanceHarness
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.weopen.WeGit.development
+        PRODUCT_NAME: WeGit
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: WeGit
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+        INFOPLIST_KEY_NSHumanReadableCopyright: WeOpen
+        MARKETING_VERSION: 0.1.0
+        CURRENT_PROJECT_VERSION: 1
+  WeGitAskPass:
+    type: tool
+    platform: macOS
+    sources: [WeGitAskPass]
+    dependencies:
+      - package: WeGitCore
+    settings:
+      base:
+        PRODUCT_NAME: WeGitAskPass
+        PRODUCT_BUNDLE_IDENTIFIER: org.weopen.WeGit.AskPass
+        SKIP_INSTALL: YES
+  WeGitUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - path: WeGitUITests
+        excludes: [Support]
+    dependencies:
+      - target: WeGit
+      - target: WeGitTestGit
+        link: false
+    postCompileScripts:
+      - name: Embed test Git wrapper
+        script: |
+          mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+          ditto "${BUILT_PRODUCTS_DIR}/WeGitTestGit" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitTestGit"
+        inputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitTestGit"]
+        outputFiles: ["$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/WeGitTestGit"]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.weopen.WeGit.UITests
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: WeGitUITests/WeGitUITests.entitlements
+        GENERATE_INFOPLIST_FILE: YES
+  WeGitTestGit:
+    type: tool
+    platform: macOS
+    sources: [WeGitUITests/Support/TestGit]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.weopen.WeGit.TestGit
+        SKIP_INSTALL: YES
+  WeGitPerformanceTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [WeGitPerformanceTests]
+    dependencies:
+      - target: WeGit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.weopen.WeGit.PerformanceTests
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: WeGitUITests/WeGitUITests.entitlements
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  WeGit:
+    build:
+      targets:
+        WeGit: all
+        WeGitUITests: [test]
+    test:
+      targets: [WeGitUITests]
+  WeGitPerformance:
+    build:
+      targets:
+        WeGit: all
+        WeGitPerformanceTests: [test]
+    test:
+      config: ReleasePerformance
+      targets: [WeGitPerformanceTests]

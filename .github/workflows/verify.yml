@@ -1,0 +1,26 @@
+name: Verify macOS app
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    # Provision this label on a macOS 27 / Xcode 27 runner before enabling remote CI.
+    # No pull_request trigger: untrusted fork code must not run on a personal self-hosted machine.
+    runs-on: [self-hosted, macOS, ARM64, wegit-macos27]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1; runner >= 2.327.1
+        with:
+          persist-credentials: false
+      - name: Verify toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+          test "$(sw_vers -productVersion | cut -d. -f1)" -ge 27
+      - name: Core tests and application build
+        run: scripts/verify.sh
+      - name: Ordinary Release build
+        run: scripts/build.sh Release
