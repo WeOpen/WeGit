@@ -1,6 +1,6 @@
 # 🧭 GitHub 开发、需求与 CI/CD 方案
 
-更新：2026-10-16。适用仓库：[WeOpen/WeGit](https://github.com/WeOpen/WeGit)。仓库已获用户授权设为 public；项目网站未上线。本方案不需要 Apple Developer Program 账号，不上架商店、不用 TestFlight。
+更新：2026-10-16。适用仓库：[WeOpen/WeGit](https://github.com/WeOpen/WeGit)。仓库已获用户授权设为 public；项目网站采用 [GitHub Pages](https://weopen.github.io/WeGit/)。本方案不需要 Apple Developer Program 账号，不上架商店、不用 TestFlight。
 
 ## 1. 需求的唯一入口：Issues
 
@@ -105,7 +105,7 @@ WEGIT_SKIP_PROJECT_GENERATION=1 scripts/package-release.sh --adhoc
 6. 草稿包含 ZIP、便于本地校验的 SHA-256、manifest、release.json 及按 PR 标签生成的变更说明。制品里如实标注“ad-hoc／未公证”。
 7. 维护者完成干净机器实际下载、安装提示、Beta、里程碑阻塞与说明核对后，人工发布草稿；网站只链接该版本的同一份资产，不重新构建同版本文件。
 
-没有网站代码/域名/部署平台，因此本次不创建猜测性的站点部署 workflow，也不申请网站密钥；该依赖单独用 Issue 管理。
+网站已采用本仓库静态代码和 GitHub Pages 默认地址，无自定义域名、第三方密钥或独立应用制品。`Project website` 对 PR 只构建，main/手动及 Release 事件更新站点；Release 事件显式解析 main 的提交再签出。仅部署 job 具有 Pages/OIDC 写权限，环境限定 main 与 v* 标签。浏览器只读同源的公开版本快照，版本/资产行为和部署约束有回归。操作见 [网站说明](../site/README.md)；Issue #8 仍等待真实发布文件下载验收。
 
 ## 6. 启用与维护
 
@@ -121,3 +121,7 @@ WEGIT_SKIP_PROJECT_GENERATION=1 scripts/package-release.sh --adhoc
 ## 7. 本轮落地结果（2026-10-16）
 
 [PR #10](https://github.com/WeOpen/WeGit/pull/10) 与 [PR #14](https://github.com/WeOpen/WeGit/pull/14) 均已按分支保护合并，[main 托管 CI](https://github.com/WeOpen/WeGit/actions/runs/38881671955) 通过，19 项工具行为与两套 Git 各 175 项基线通过；元数据 workflow 实际通过且重复计划为 0。当前未提交应用改动由 [#12](https://github.com/WeOpen/WeGit/issues/12) 管理；完整交互验收、干净安装、Beta、真实 tag/Release 和网站仍未完成。详见 [验收记录](acceptance/2026-10-16/github-workflow/README.md)。
+
+## 8. 最新应用与网站接入（2026-10-16）
+
+PR #15 已合并 main `9889517`，应用 CI 为 183 项/32 套件 × 两套 Git，另有 34/18/27 原生主题/图标/菜单专项、UI 编译与 Debug/Release 构建；来源摘要仍为 `6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda`。网站新增独立构建/部署与 11 项版本资产行为测试。完整 UI、辅助访问、最终性能及安装/Beta 仍开放。

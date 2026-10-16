@@ -1,0 +1,70 @@
+name: Project website
+on:
+  pull_request:
+    paths: ['site/**', 'scripts/build_website.py', '.github/workflows/pages.yml']
+  push:
+    branches: [main]
+    paths: ['site/**', 'scripts/build_website.py', '.github/workflows/pages.yml']
+  release:
+    types: [published, edited, deleted, unpublished]
+  workflow_dispatch:
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: pages-${{ github.event.pull_request.number || 'production' }}
+  cancel-in-progress: false
+jobs:
+  build:
+    name: Website build
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.event_name == 'release'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Resolve immutable source
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          source_sha="$GITHUB_SHA"
+          if [[ "$GITHUB_EVENT_NAME" == release ]]; then
+            source_sha="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)"
+          fi
+          [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]]
+          echo "sha=$source_sha" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          persist-credentials: false
+      - name: Validate release links and build both languages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .build
+          gh api "repos/$GITHUB_REPOSITORY/releases?per_page=30" > .build/public-releases.json
+          node site/release.test.mjs
+          python3 scripts/build_website.py --base-path "/${GITHUB_REPOSITORY#*/}" --releases-json .build/public-releases.json
+          git diff --exit-code
+      - name: Upload static website
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: .build/website
+  deploy:
+    name: Deploy website
+    needs: build
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'release')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy static content
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

@@ -1,6 +1,6 @@
 # Git 兼容性与测试隔离
 
-> 验证日期：2026-10-11。运行环境：macOS 27.0.1（26A434）、Xcode 27、Swift 6.4、Apple Silicon Mac16,8。
+> 总览更新：2026-10-16；历史验证记录保留原日期。运行环境：macOS 27.0.1（26A434）、Xcode 27、Swift 6.4、Apple Silicon Mac16,8。
 
 ## 1. 最低能力要求
 
@@ -17,13 +17,13 @@ WeGit 要求 **Git 2.46 或更新版本**。启动时除版本号外，还实际
 
 | 可执行文件来源 | 版本 | 范围与结果 |
 | --- | --- | --- |
-| 系统 `/usr/bin/git` | Apple Git 2.54.0 | 176 项核心测试、31 个套件全部通过，包含新增推送未知结果与恢复 |
-| Git 官方源码，项目目录内独立编译 | 2.46.0 | 同一套 176 项核心测试、31 个套件全部通过 |
+| 系统 `/usr/bin/git` | Apple Git 2.54.0 | 183 项核心测试、32 个套件全部通过；最新应用已在 PR #15 远端验证 |
+| Git 官方源码，项目目录内独立编译 | 2.46.0 | 同一套 183 项核心测试、32 个套件全部通过 |
 | Git 官方源码，项目目录内独立编译 | 2.31.8 | 不受支持；隔离修复后在任何仓库命令前拒绝，配置文件校验值保持一致 |
 | Xcode 内 Git | 与当前 Xcode 配套 | 用于原生 UI 夹具，独立执行配置隔离探针；UI 结果见开发记录 |
 | Homebrew Git / GPG | 当前未找到 | 尚未验证，不能用其他来源的结果代替 |
 
-核心矩阵覆盖真实临时仓库、SSH 临时密钥签名、Hooks、配置编辑、差异写入、历史与分支、多个本地 Bare Remote、Lease、Pull/Rebase 冲突与取消。GitHub HTTPS/SSH 的真实写入已通过，见第 6 节；GitLab、交互认证完整矩阵、GPG、干净机器与正式公证包仍需补齐。
+核心矩阵覆盖真实临时仓库、SSH 临时密钥签名、Hooks、配置编辑、差异写入、历史与分支、多个本地 Bare Remote、Lease、Pull/Rebase 冲突与取消。GitHub HTTPS/SSH 的真实写入已通过，见第 6 节；GitLab、交互认证完整矩阵、GPG、干净机器与当前无账号正式安装验收仍需补齐。
 
 最新系统 Git 日志：`/tmp/wegit-v1-status-core-system-final.log`；2.46 日志：`/tmp/wegit-v1-status-core-git246-final.log`。此前 156 项的地址固定回归记录分别为 `/tmp/wegit-system-git-pinning-full.log`、`/tmp/wegit-git246-full.log`；不受支持版本的拒绝记录为 `/tmp/wegit-git231-isolation-rejection.log`。日志路径为本机验证产物，并非随仓库分发的测试数据。
 
@@ -155,3 +155,5 @@ macOS 27.0.1 / Xcode 27.0（27A266a）arm64 下验证内置 Light/Dark 与独立
 ## Dock 静态 ICNS 画布（2026-10-16）
 
 macOS 27.0.1 / Xcode 27.0 arm64 下对比本机 Finder/Notes/Terminal 的静态图标底板 206/256；修正后运行图标 824/1024、原生编译图标 206/256。18 项图标生命周期/尺寸检查和构建通过；系统 Dock UI 访问超时，未扩展其他系统或动态反光效果通过结论，见 [Dock 比例与材质修正](acceptance/2026-10-16/dock-scale-material/README.md)。
+
+最新应用的两套 Git 和原生专项/构建证据见 [PR #15 接入记录](acceptance/2026-10-16/application-integration/README.md)。没有新增 Homebrew/GPG/GitLab 或其他系统的通过结论。

@@ -26,7 +26,7 @@ WeGit is a SwiftUI Git client built around the work you do every day: inspect a 
 
 It uses your existing Git installation, configuration, credential helpers, and SSH agent. Native windows, keyboard shortcuts, a menu bar panel, and light, dark, and custom themes keep the experience at home on macOS. The Git core has no third-party runtime dependencies.
 
-> 🚧 **Development preview:** the current version is **0.1.0**. V1.0 acceptance is still in progress. There is no published GitHub Release yet; the project website is not live.
+> 🚧 **Development preview:** the current version is **0.1.0**. V1.0 acceptance is still in progress. There is no published GitHub Release yet; the [project website](https://weopen.github.io/WeGit/) provides the current source and release information.
 
 ## ✨ Features
 
@@ -55,7 +55,7 @@ See the [product specification](docs/WeGit_PRD.md), [interface notes](docs/INTER
 
 WeGit will be distributed through **GitHub Releases and the project website**. It is not planned for the Mac App Store or TestFlight.
 
-**No GitHub release is available yet.** Build from source using the steps below. When releases are published, their notes will include requirements, known limitations, signing status, and SHA-256 checksums. The future website will link to the same versioned GitHub release assets.
+**No GitHub release is available yet.** Build from source using the steps below. When releases are published, their notes will include requirements, known limitations, signing status, and SHA-256 checksums. The website links to the same versioned GitHub release assets, checksums and source manifests.
 
 There is currently no Apple Developer Program account for this project. Existing preview packages use **ad-hoc signing** and are **not notarized by Apple**. Ad-hoc signing does not provide a verified developer identity, and macOS may block a downloaded build. For an app you have chosen to trust, consult [Apple’s guidance on opening apps safely](https://support.apple.com/102445). Downloaded-package installation on a clean Mac is still pending validation.
 
@@ -111,7 +111,7 @@ scripts/verify.sh --ui
 
 The latest core verification passed **183 tests in 32 suites** with both **Apple Git 2.54.0** and an isolated **Git 2.46.0** build. Recent targeted checks cover **34 theme behaviors**, **18 appearance/icon behaviors**, **27 native menu behaviors**, and **6 restored-startup combinations**. These are scoped results, not a V1.0 release sign-off.
 
-⚠️ Full native UI execution is currently blocked by the recorded XCTest initialization issue. An earlier full run finished 36/37 functional tests, with a long Clone-path input failure; its 144 reading combinations passed on that earlier source. The final UI suite, accessibility review, and final-source Release performance measurements remain open. Hosted macOS CI now passes for the committed main baseline. The current application work is submitted in [PR #15](https://github.com/WeOpen/WeGit/pull/15) for [Issue #12](https://github.com/WeOpen/WeGit/issues/12), with its own CI evidence; the dedicated full-acceptance runner remains unconfigured. See the [current V1.0 checklist](docs/V1_RELEASE_CHECKLIST.md) for the remaining work.
+⚠️ Full native UI execution is currently blocked by the recorded XCTest initialization issue. An earlier full run finished 36/37 functional tests, with a long Clone-path input failure; its 144 reading combinations passed on that earlier source. The final UI suite, accessibility review, and final-source Release performance measurements remain open. The current application was merged through [PR #15](https://github.com/WeOpen/WeGit/pull/15), closing Issue #12; [its hosted CI](https://github.com/WeOpen/WeGit/actions/runs/38924928448) passed both 183-test core runs and native feature/build checks; the dedicated full-acceptance runner remains unconfigured. See the [current V1.0 checklist](docs/V1_RELEASE_CHECKLIST.md) for the remaining work.
 
 Tests use isolated configuration files, temporary repositories, and separate preferences. Never run write tests against a repository you cannot afford to change.
 
