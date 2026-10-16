@@ -1,0 +1,17 @@
+Window: "fixture", App: WeGit.
+0 Edit, Secondary Actions: Cancel, Pick
+	1 menu Secondary Actions: Cancel
+		2 (disabled) Undo, ID: undo:
+		3 (disabled) Redo, ID: redo:
+		4 (disabled) Cut, ID: cut:
+		5 (disabled) Copy, ID: copy:
+		6 (disabled) Paste, ID: paste:
+		7 (disabled) Delete, ID: delete:
+		8 (disabled) Select All, ID: selectAll:
+		9 AutoFill
+			10 menu Secondary Actions: Cancel
+				11 (disabled) Contact…
+				12 (disabled) Passwords…
+				13 (disabled) Credit Card…
+		14 (disabled) Start Dictation, ID: startDictation:
+		15 Emoji & Symbols, ID: orderFrontCharacterPalette:

@@ -1,0 +1,15 @@
+{
+  "org.weopen.WeGit.development": {
+    "equal": false,
+    "changedKeys": [
+      "workspace:73c31af006731973d3ff46ddcec777a66c66636e99cb410163764895e55b9734"
+    ],
+    "semanticEqual": true,
+    "nonLayoutChanges": [],
+    "note": "The existing normal workspace JSON differs only in serialization order; its decoded state is equal."
+  },
+  "org.weopen.WeGit.UITests": {
+    "equal": true,
+    "changedKeys": []
+  }
+}

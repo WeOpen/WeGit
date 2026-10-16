@@ -13,7 +13,7 @@ public enum DiffParser {
                 options: options, path: path, layer: layer, raw: raw, header: "", hunks: [],
                 binary: true, preview: nil, head: head, indexTree: indexTree)
         }
-        guard raw.isEmpty || raw.last == 10 else { throw ModelFailure.invalidOutput("差异输出被截断") }
+        guard raw.isEmpty || raw.last == 10 else { throw ModelFailure.invalidOutput(L10n.text("差异输出被截断")) }
         let pieces = (text as NSString).components(separatedBy: "\n")
         // Type changes can produce separate deletion/addition patches for one selected path.
         // Combined merge patches use a different grammar. Show both faithfully, without block mutation.
@@ -38,7 +38,7 @@ public enum DiffParser {
         var binary = false
         func validateCounts() throws {
             guard remainingOld == 0, remainingNew == 0 else {
-                throw ModelFailure.invalidOutput("差异块行数与头信息不一致")
+                throw ModelFailure.invalidOutput(L10n.text("差异块行数与头信息不一致"))
             }
         }
         for (offset, line) in pieces.enumerated() {
@@ -56,7 +56,7 @@ public enum DiffParser {
                     guard range.location != NSNotFound,
                         let number = Int((line as NSString).substring(with: range)), number >= 0
                     else {
-                        throw ModelFailure.invalidOutput("差异块行号超出范围")
+                        throw ModelFailure.invalidOutput(L10n.text("差异块行号超出范围"))
                     }
                     return number
                 }
@@ -67,7 +67,7 @@ public enum DiffParser {
                 guard old <= Int.max - remainingOld, new <= Int.max - remainingNew,
                     remainingOld == 0 || old > 0, remainingNew == 0 || new > 0
                 else {
-                    throw ModelFailure.invalidOutput("差异块行号超出范围")
+                    throw ModelFailure.invalidOutput(L10n.text("差异块行号超出范围"))
                 }
                 title = line
                 hunkRaw = original
@@ -75,18 +75,18 @@ public enum DiffParser {
                 continue
             }
             guard title != nil else {
-                if line.hasPrefix("@@") { throw ModelFailure.invalidOutput("无法识别差异块头信息") }
+                if line.hasPrefix("@@") { throw ModelFailure.invalidOutput(L10n.text("无法识别差异块头信息")) }
                 binary = binary || line.hasPrefix("Binary files ") || line == "GIT binary patch"
                 header += original
                 continue
             }
             guard let kind = line.first, [" ", "+", "-", "\\"].contains(kind) else {
-                throw ModelFailure.invalidOutput("无法识别差异行")
+                throw ModelFailure.invalidOutput(L10n.text("无法识别差异行"))
             }
             if kind == "\\" {
                 guard line == "\\ No newline at end of file", let previous = lines.last, previous.kind != "\\"
                 else {
-                    throw ModelFailure.invalidOutput("非法行尾标记")
+                    throw ModelFailure.invalidOutput(L10n.text("非法行尾标记"))
                 }
                 lines[lines.count - 1] = DiffLine(
                     id: previous.id, kind: previous.kind, content: previous.content,
@@ -96,7 +96,7 @@ public enum DiffParser {
             let usesOld = kind == " " || kind == "-"
             let usesNew = kind == " " || kind == "+"
             guard !usesOld || remainingOld > 0, !usesNew || remainingNew > 0 else {
-                throw ModelFailure.invalidOutput("差异块包含多余行")
+                throw ModelFailure.invalidOutput(L10n.text("差异块包含多余行"))
             }
             lines.append(
                 DiffLine(

@@ -47,6 +47,11 @@ def verify_bundle(root: Path, bundle: Path) -> None:
     report = json.loads(receipt.read_text())
     if report.get("format") != 1 or report.get("configuration") != "Release":
         raise SystemExit("Only a Release build with a supported source receipt may be packaged.")
+    localized = bundle / "Contents/Resources/WeGit_WeGitCore.bundle"
+    for language in ("en", "zh-Hans"):
+        for name in ("Localizable.strings", "Localizable.stringsdict", "MenuTitles.strings"):
+            if not list(localized.rglob(language + ".lproj/" + name)):
+                raise SystemExit("Release is missing localization resources: " + language + "/" + name)
     conditions = set(report.get("swiftConditions", "").split())
     if conditions.intersection({"DEBUG", "WEGIT_PERFORMANCE"}):
         raise SystemExit("Refusing to package a build with debug or performance test entry points.")
@@ -56,6 +61,11 @@ def verify_bundle(root: Path, bundle: Path) -> None:
     if changed:
         raise SystemExit("Release build does not match current application sources: "
                          + ", ".join(changed[:8]) + ". Rebuild with scripts/build.sh Release.")
+    for name in ("WeGitLight.icns", "WeGitDark.icns"):
+        bundled = bundle / "Contents/Resources" / name
+        source = root / "WeGit/Resources/AppearanceIcons" / name
+        if not bundled.is_file() or bundled.read_bytes() != source.read_bytes():
+            raise SystemExit("Release is missing the matching theme icon: " + name)
     info = plistlib.loads((bundle / "Contents/Info.plist").read_bytes())
     for key, field in (("CFBundleIdentifier", "bundleIdentifier"),
                        ("CFBundleShortVersionString", "version"), ("CFBundleVersion", "buildVersion")):

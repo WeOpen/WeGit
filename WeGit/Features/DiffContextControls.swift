@@ -21,6 +21,7 @@ struct DiffScrollGeometry: Equatable {
 }
 
 struct DiffContextControls: View {
+    @Environment(\.themeColors) private var colors
     let gap: DiffContextGap
     let expansion: DiffContextExpansion
     let expandingGap: Int?
@@ -32,30 +33,33 @@ struct DiffContextControls: View {
             HStack(spacing: 12) {
                 if expandingGap == gap.id {
                     ProgressView().controlSize(.small)
-                    Text("读取上下文…")
-                    Button("取消展开") { onCancel() }
+                    Text(L10n.text("读取上下文…"))
+                    Button(L10n.text("取消展开")) { onCancel() }
                 } else if expansion.hasMore {
                     let remaining = gap.count.map { $0 - expansion.consumed }
                     Button(
                         gap.expandsUpward
-                            ? "向上展开 \(min(20, remaining ?? 20)) 行" : "展开 \(min(20, remaining ?? 20)) 行"
+                            ? L10n.count("向上展开 %lld 行", min(20, remaining ?? 20))
+                            : L10n.count("展开 %lld 行", min(20, remaining ?? 20))
                     ) {
                         onExpand()
                     }.accessibilityIdentifier("diff-context-expand-\(gap.id)")
                         .disabled(expandingGap != nil)
-                    Text(remaining.map { "\($0) 行未显示" } ?? "后续上下文").foregroundStyle(AppColors.secondaryText)
+                    Text(remaining.map { L10n.count("%lld 行未显示", $0) } ?? L10n.text("后续上下文")).foregroundStyle(
+                        colors.secondaryText)
                 } else {
-                    Text(gap.count == nil ? "已到文件结尾" : "此范围已完整展开").foregroundStyle(AppColors.secondaryText)
+                    Text(gap.count == nil ? L10n.text("已到文件结尾") : L10n.text("此范围已完整展开")).foregroundStyle(
+                        colors.secondaryText)
                 }
                 Spacer()
                 if !expansion.lines.isEmpty {
-                    Button("折叠上下文") { onCollapse() }
+                    Button(L10n.text("折叠上下文")) { onCollapse() }
                         .accessibilityIdentifier("diff-context-collapse-\(gap.id)")
                 }
             }
-            if let error = expansion.error { Text(error).foregroundStyle(AppColors.secondaryText) }
+            if let error = expansion.error { Text(error).foregroundStyle(colors.secondaryText) }
         }.font(.caption).padding(.horizontal, 12).padding(.vertical, 8)
-            .background(.quaternary.opacity(0.2))
-            .accessibilityElement(children: .contain).accessibilityLabel("上下文展开控制")
+            .background(colors.chrome)
+            .accessibilityElement(children: .contain).accessibilityLabel(L10n.text("上下文展开控制"))
     }
 }

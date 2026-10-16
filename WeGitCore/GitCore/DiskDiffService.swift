@@ -4,10 +4,10 @@ extension RepositoryService {
     public func diskDiff(path: String, layer: DiffLayer, options: DiffReadOptions = DiffReadOptions())
         async throws -> DiskDiffSnapshot
     {
-        guard layer != .commit else { throw ModelFailure.unsupported("提交差异需要明确的比较对象。") }
+        guard layer != .commit else { throw ModelFailure.unsupported(L10n.text("提交差异需要明确的比较对象。")) }
         try validate(path)
         guard (0...200).contains(options.contextLines) else {
-            throw ModelFailure.unsupported("上下文行数须在 0～200 之间。")
+            throw ModelFailure.unsupported(L10n.text("上下文行数须在 0～200 之间。"))
         }
         let directory = try await SnapshotIO.run { _ in try SnapshotDirectory() }
         let current = try await head()
@@ -36,7 +36,7 @@ extension RepositoryService {
             guard snapshot.canApplyHunk, snapshot.hunks.contains(hunk),
                 !discard || snapshot.layer == .unstaged
             else {
-                throw ModelFailure.unsupported("此差异不支持当前差异块操作。")
+                throw ModelFailure.unsupported(L10n.text("此差异不支持当前差异块操作。"))
             }
             let fresh = try await diskDiff(
                 path: snapshot.path, layer: snapshot.layer, options: snapshot.options)
@@ -63,7 +63,7 @@ extension RepositoryService {
         try await queue.perform {
             try await verifyHead(snapshot.head)
             guard snapshot.layer == .unstaged, !snapshot.options.ignoreWhitespace else {
-                throw ModelFailure.unsupported("此入口只丢弃未暂存的已跟踪文件改动。")
+                throw ModelFailure.unsupported(L10n.text("此入口只丢弃未暂存的已跟踪文件改动。"))
             }
             let fresh = try await diskDiff(
                 path: snapshot.path, layer: snapshot.layer, options: snapshot.options)

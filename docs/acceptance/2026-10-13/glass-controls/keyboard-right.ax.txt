@@ -1,0 +1,64 @@
+The following is a diff from the previous accessibility tree for Window: "WeGit Studio" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 46-104
+~							21 menu button More, ID: ellipsis
+~							39 menu button More, Help: 差异文件操作, ID: ellipsis
++							135 scroll area Description: 文本差异, ID: diff-content
++								136 container 文本差异内容
++									137 unknown Description: 原始内容，修改后, ID: diff-column-headers
++									138 container 上下文展开控制
++										139 button Description: 向上展开 2 行, ID: diff-context-expand-0
++										140 text 2 行未显示
++									141 container 差异块：@@ -3,9 +3,9 @@ import Foundation
++										142 text @@ -3,9 +3,9 @@ import Foundation
++										143 button Description: 复制此块补丁, ID: diff-hunk-copy:0
++										144 button 暂存此块
++										145 button 丢弃此块…
++									146 container Description: 原始与修改后的代码行, ID: split-diff-row
++										147 text 3
++										148 text entry area Description: 原始代码，第 3 行, Value: struct Repository {, ID: diff-code:0
++										149 text 3
++										150 text entry area Description: 修改后的代码，第 3 行, Value: struct Repository {, ID: diff-code:0
++									151 container Description: 原始与修改后的代码行, ID: split-diff-row
++										152 text 4
++										153 text entry area Description: 原始代码，第 4 行, Value:     let name: String, ID: diff-code:1
++										154 text 4
++										155 text entry area Description: 修改后的代码，第 4 行, Value:     let name: String, ID: diff-code:1
++									156 container Description: 原始与修改后的代码行, ID: split-diff-row
++										157 text 5
++										158 text entry area Description: 原始代码，第 5 行, Value:     var branch = "main", ID: diff-code:2
++										159 text 5
++										160 text entry area Description: 修改后的代码，第 5 行, Value:     var branch = "main", ID: diff-code:2
++									161 container Description: 原始与修改后的代码行, ID: split-diff-row
++										162 text 6
++										163 text entry area Description: 原始代码，第 6 行, Value:     var stagedFiles = 0, ID: diff-code:3
++										164 text 6
++										165 text entry area Description: 修改后的代码，第 6 行, Value:     var stagedFiles = 1, ID: diff-code:4
++									166 container Description: 原始与修改后的代码行, ID: split-diff-row
++										167 text 7
++										168 text entry area Description: 原始代码，第 7 行, Value:  , ID: diff-code:5
++										169 text 7
++										170 text entry area Description: 修改后的代码，第 7 行, Value:  , ID: diff-code:5
++									171 container Description: 原始与修改后的代码行, ID: split-diff-row
++										172 text 8
++										173 text entry area Description: 原始代码，第 8 行, Value:     func refresh() {, ID: diff-code:6
++										174 text 8
++										175 text entry area Description: 修改后的代码，第 8 行, Value:     func refresh() {, ID: diff-code:6
++									176 container Description: 原始与修改后的代码行, ID: split-diff-row
++										177 text 9
++										178 text entry area Description: 原始代码，第 9 行, Value:         print("Ready for your next commit"), ID: diff-code:7
++										179 text 9
++										180 text entry area Description: 修改后的代码，第 9 行, Value:         print("A clear review before every commit"), ID: diff-code:8
++									181 container Description: 原始与修改后的代码行, ID: split-diff-row
++										182 text 10
++										183 text entry area Description: 原始代码，第 10 行, Value:     }, ID: diff-code:9
++										184 text 10
++										185 text entry area Description: 修改后的代码，第 10 行, Value:     }, ID: diff-code:9
++									186 container Description: 原始与修改后的代码行, ID: split-diff-row
++										187 text 11
++										188 text entry area Description: 原始代码，第 11 行, Value: }, ID: diff-code:10
++										189 text 11
++										190 text entry area Description: 修改后的代码，第 11 行, Value: }, ID: diff-code:10
++									191 container 上下文展开控制
++										192 button Description: 展开 20 行, ID: diff-context-expand-1
++										193 text 后续上下文
+The focused UI element is 38 radio button Description: 分栏, Value: 1

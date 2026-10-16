@@ -88,7 +88,7 @@ extension DiskDiffSnapshot {
     public func hunkPatch(_ hunk: DiskDiffHunk, limit: Int = DiffReadBudget.patchBytes) async throws -> Data {
         guard hunks.contains(hunk), limit >= 0, headerEnd <= limit,
             hunk.byteRange.count <= limit - headerEnd
-        else { throw ModelFailure.unsupported("此差异块超过复制上限，请导出完整补丁。") }
+        else { throw ModelFailure.unsupported(L10n.text("此差异块超过复制上限，请导出完整补丁。")) }
         return try await SnapshotIO.run { cancellation in
             let descriptor = try file.open()
             defer { Darwin.close(descriptor) }

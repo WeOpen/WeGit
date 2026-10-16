@@ -4,3 +4,4 @@
 /scripts/build.sh @xuewill
 /scripts/package-release.sh @xuewill
 /scripts/build_provenance.py @xuewill
+/.gitleaks.toml @xuewill

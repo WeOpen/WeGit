@@ -1,0 +1,18 @@
+{
+  "A": {
+    "head": "5ce95133e2fbce91f4f9a02064c3baa3d4212207",
+    "trackedFiles": [
+      "A.swift"
+    ],
+    "committedAndWorkingTreeExpected": true,
+    "status": " M A.swift\n"
+  },
+  "B": {
+    "head": "f62b9252b50fdcf58a4389afb8a66503c981eb38",
+    "trackedFiles": [
+      "B.swift"
+    ],
+    "committedAndWorkingTreeExpected": true,
+    "status": " M B.swift\n"
+  }
+}

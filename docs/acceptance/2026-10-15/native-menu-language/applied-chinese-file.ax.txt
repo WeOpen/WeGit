@@ -1,0 +1,8 @@
+Window: "fixture", App: WeGit.
+0 文件, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 打开仓库…, ID: menuAction:
+		3 克隆仓库…, ID: menuAction:
+		4 切换仓库…, ID: menuAction:
+		5 关闭, ID: performClose:
+		6 全部关闭, ID: closeAll:

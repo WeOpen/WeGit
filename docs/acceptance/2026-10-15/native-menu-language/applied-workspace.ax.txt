@@ -1,0 +1,67 @@
+Window: "fixture", App: WeGit.
+0 standard window fixture – main, ID: main, Secondary Actions: Raise
+	1 container WeGit workspace
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) Workspace
+						7 row (selected) Changes
+1
+						8 row (selectable) History
+						9 row (selectable) Branches
+						10 row (selectable) Repository
+						11 row (selectable) fixture, main
+				12 text Value: WeGit, ID: sidebar-brand
+				13 button Description: Open repository, Help: Open repository ⌘O, ID: sidebar-add-repository
+			14 splitter (disabled, settable, float) 209.5
+			15 split group
+				16 container
+					17 split group
+						18 container
+							19 text Changes 1
+							20 menu button More
+							21 text field (settable) Description: Filter file paths, ID: changes-filter
+							22 pop up button Description: Change status, Value: All statuses, ID: changes-state-filter
+							23 scroll area
+								24 list changes-list
+									25 row (selectable) Unstaged (1)
+									26 row (selectable) Description: Stage 原始🙂.swift, Value: 原始🙂.swift
+Status: Modified
+						27 splitter (disabled, settable, float) 589.5
+						28 container
+							29 text Select a file Review working tree and index changes, and prepare your next commit.
+					30 unknown Description: 0 staged files, ID: commit-staged-count
+					31 text field (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Value: Restart draft 中文🙂 %1$@, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message
+					32 button (disabled) Description: Commit (0 files), Help: Select and stage the changes to commit, ID: commit-button
+					33 button (disabled) Description: Commit and Push…, Help: Select and stage the changes to commit, ID: commit-push-button
+					34 checkbox Description: Amend last commit, Value: 0
+					35 text Value: Select and stage the changes to commit, ID: operation-feedback
+	36 toolbar
+		37 container Hide Sidebar
+			38 button Description: Sidebar, Help: Hide sidebar, Value: Open, ID: toolbar-sidebar
+		39 button Description: fixture, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/native-menu-439fff68/fixture
+Switch repository ⌘K
+		40 menu button main · No upstream, Description: Triangle-headed arrow branching into two paths, Value: Sync status: No upstream, ID: current-branch
+		41 menu button (disabled) Fetch, Help: No remote configured, ID: toolbar-fetch
+		42 button (disabled) Description: Pull, Help: No remote configured. Add a remote in Git first, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		43 button (disabled) Description: Push, Help: No remote configured. Add a remote in Git first, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		44 button Description: Refresh, Help: Refresh ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		45 button Description: Search repository, Help: Search current repository ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		46 button Description: Inspector, Help: Show Inspector, Value: Closed, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		47 menu button More actions, Help: Activity, command palette, and more actions, ID: toolbar-more
+	48 close button
+	49 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	50 minimize button
+	51 text fixture main
+52 menu bar
+	53 WeGit
+	54 File
+	55 Edit
+	56 View
+	57 Repository
+	58 Workspace
+	59 Window
+	60 Help
+
+The focused UI element is 0 standard window fixture – main, ID: main, Secondary Actions: Raise

@@ -1,0 +1,10 @@
+{
+  "AppleInterfaceStyle": {
+    "exists": true,
+    "value": "Dark"
+  },
+  "AppleInterfaceStyleSwitchesAutomatically": {
+    "exists": true,
+    "value": "1"
+  }
+}

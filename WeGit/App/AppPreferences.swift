@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import Observation
 import WeGitCore
@@ -5,10 +6,71 @@ import WeGitCore
 @Observable @MainActor
 final class AppPreferences {
     private let defaults: UserDefaults
+    @ObservationIgnored private var systemAppearanceObservation: NSKeyValueObservation?
+    private(set) var systemUsesDarkAppearance = false
     var configurationWriteInProgress = false
     var onDiffChange: (@MainActor () -> Void)?
     var onActivityChange: (@MainActor () -> Void)?
-    var appearance: String { didSet { defaults.set(appearance, forKey: "appearance") } }
+    private(set) var customTheme: CustomTheme {
+        didSet {
+            if let data = try? customTheme.encoded() { defaults.set(data, forKey: "customTheme") }
+            customThemeLoadFailed = false
+            AppPresentation.updateDockIcon(for: resolvedAppearance)
+        }
+    }
+    private(set) var customThemeLoadFailed = false
+    private(set) var previewTheme: CustomTheme? {
+        didSet { AppPresentation.updateDockIcon(for: resolvedAppearance) }
+    }
+
+    var resolvedAppearance: String {
+        if let previewTheme { return previewTheme.controls.rawValue }
+        return appearance == "custom" ? customTheme.controls.rawValue : appearance
+    }
+
+    var themeColors: AppColors {
+        AppColors(
+            custom: previewTheme ?? (appearance == "custom" ? customTheme : nil),
+            dark: resolvedAppearance == "dark" || (resolvedAppearance == "system" && systemUsesDarkAppearance)
+        )
+    }
+
+    func applyCustomTheme(_ theme: CustomTheme) throws {
+        customTheme = try theme.validated()
+        previewTheme = nil
+        appearance = "custom"
+    }
+
+    func previewCustomTheme(_ theme: CustomTheme?) {
+        if let theme {
+            if let valid = try? theme.validated() { previewTheme = valid }
+        } else {
+            previewTheme = nil
+        }
+    }
+    var language: AppLanguage {
+        didSet {
+            defaults.set(language.rawValue, forKey: "language")
+            if language == .system {
+                defaults.removeObject(forKey: "AppleLanguages")
+                let preferred =
+                    UserDefaults.standard.persistentDomain(forName: UserDefaults.globalDomain)?[
+                        "AppleLanguages"] as? [String] ?? Locale.preferredLanguages
+                L10n.language = language.resolved(preferredLanguages: preferred)
+            } else {
+                defaults.set([language.rawValue], forKey: "AppleLanguages")
+                L10n.language = language
+            }
+        }
+    }
+    var appearance: String {
+        didSet {
+            defaults.set(appearance, forKey: "appearance")
+            AppPresentation.updateDockIcon(for: resolvedAppearance)
+        }
+    }
+    var interfaceMotion: Bool { didSet { defaults.set(interfaceMotion, forKey: "interfaceMotion") } }
+    var showMenuBar: Bool { didSet { defaults.set(showMenuBar, forKey: "showMenuBar") } }
     var codeSize: Double { didSet { defaults.set(codeSize, forKey: "codeSize") } }
     var codeFont: String { didSet { defaults.set(codeFont, forKey: "codeFont") } }
     var density: String { didSet { defaults.set(density, forKey: "density") } }
@@ -61,12 +123,19 @@ final class AppPreferences {
 
     init(defaults: UserDefaults) {
         self.defaults = defaults
+        let storedTheme = defaults.data(forKey: "customTheme")
+        let decodedTheme = storedTheme.flatMap { try? CustomTheme.decode($0) }
+        customTheme = decodedTheme ?? .starter
+        customThemeLoadFailed = storedTheme != nil && decodedTheme == nil
+        language = AppLanguage(rawValue: defaults.string(forKey: "language") ?? "") ?? .system
         func flag(_ key: String, _ fallback: Bool) -> Bool {
             defaults.object(forKey: key) == nil ? fallback : defaults.bool(forKey: key)
         }
         appearance =
-            ["system", "light", "dark"].contains(defaults.string(forKey: "appearance") ?? "")
+            ["system", "light", "dark", "custom"].contains(defaults.string(forKey: "appearance") ?? "")
             ? defaults.string(forKey: "appearance")! : "system"
+        interfaceMotion = flag("interfaceMotion", true)
+        showMenuBar = flag("showMenuBar", true)
         codeSize = min(
             24, max(11, defaults.object(forKey: "codeSize") == nil ? 13 : defaults.double(forKey: "codeSize"))
         )
@@ -93,10 +162,32 @@ final class AppPreferences {
         activityLimit = [100, 500, 1000].contains(limit) ? limit : 100
         let hours = defaults.integer(forKey: "activityHours")
         activityHours = [1, 24, 168].contains(hours) ? hours : 24
+        L10n.language = language
+        if language != .system { defaults.set([language.rawValue], forKey: "AppleLanguages") }
+    }
+
+    /// Observe the unmodified application appearance, not an already themed window.
+    /// The status item also inherits this system appearance; windows set their own preference.
+    func observeSystemAppearance() {
+        guard systemAppearanceObservation == nil else { return }
+        updateSystemAppearance()
+        systemAppearanceObservation = NSApplication.shared.observe(\.effectiveAppearance) {
+            [weak self] _, _ in
+            Task { @MainActor [weak self] in self?.updateSystemAppearance() }
+        }
+    }
+
+    private func updateSystemAppearance() {
+        systemUsesDarkAppearance =
+            NSApplication.shared.effectiveAppearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+        AppPresentation.updateDockIcon(for: resolvedAppearance)
     }
 
     func resetInterface() {
+        previewTheme = nil
         appearance = "system"
+        interfaceMotion = true
+        showMenuBar = true
         codeSize = 13
         codeFont = "system"
         density = "comfortable"

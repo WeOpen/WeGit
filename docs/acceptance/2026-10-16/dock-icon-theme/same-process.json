@@ -1,0 +1,11 @@
+{
+  "pid": 31634,
+  "sameProcessAcrossThemes": true,
+  "themes": [
+    "dark",
+    "light",
+    "system"
+  ],
+  "isolatedPreferences": true,
+  "newProjectCreated": false
+}

@@ -1,0 +1,30 @@
+{
+  "boundary": "Token color pairs only; excludes composited native control states and actual pixels",
+  "pairs": {
+    "filledPrimaryWhiteLabel": {
+      "foreground": "#FFFFFF",
+      "background": "#2B67D8",
+      "ratio": 5.205
+    },
+    "filledDestructiveWhiteLabel": {
+      "foreground": "#FFFFFF",
+      "background": "#9C2C2C",
+      "ratio": 7.473
+    },
+    "lightSecondaryOnChrome": {
+      "foreground": "#53565C",
+      "background": "#F8FAFD",
+      "ratio": 7.038
+    },
+    "darkSecondaryOnChrome": {
+      "foreground": "#C2C4C8",
+      "background": "#1B212C",
+      "ratio": 9.245
+    },
+    "darkAccentOnSurface": {
+      "foreground": "#79AAFF",
+      "background": "#202733",
+      "ratio": 6.436
+    }
+  }
+}

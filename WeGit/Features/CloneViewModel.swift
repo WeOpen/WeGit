@@ -69,12 +69,13 @@ final class CloneViewModel {
                     }
                 }
                 phase = .opening
-                notice = "克隆完成：\(location.root.path)"
+                notice = L10n.text("克隆完成：\(location.root.path)")
                 await onSuccess(location)
                 phase = .completed
             } catch {
                 failure = error as? CloneFailure
-                self.error = error is CancellationError ? "克隆已取消，没有创建仓库。" : error.localizedDescription
+                self.error =
+                    error is CancellationError ? L10n.text("克隆已取消，没有创建仓库。") : error.localizedDescription
                 phase = .failed
             }
         }
@@ -95,7 +96,7 @@ final class CloneViewModel {
                 _ = try await coordinator.cleanUp(token)
                 failure = nil
                 error = nil
-                notice = "未完成目录已移到废纸篓，可以使用相同名称重试。"
+                notice = L10n.text("未完成目录已移到废纸篓，可以使用相同名称重试。")
                 phase = .editing
             } catch {
                 self.error = error.localizedDescription

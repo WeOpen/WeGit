@@ -1,0 +1,16 @@
+Window: "关于 WeGit", App: WeGit.
+0 对话框 关于 WeGit, Description: 警告, Secondary Actions: Raise
+	1 图像 警告
+	2 text WeGit 版本 0.1.0 · MIT
+	3 按钮 好, ID: action-button-1
+4 menu bar
+	5 WeGit, ID: native-menu-app
+	6 文件, ID: native-menu-file
+	7 编辑, ID: native-menu-edit
+	8 显示, ID: native-menu-view
+	9 仓库, ID: native-menu-repository
+	10 工作区, ID: native-menu-workspace
+	11 窗口, ID: native-menu-window
+	12 帮助, ID: native-menu-help
+
+The focused UI element is 0 对话框 关于 WeGit, Description: 警告, Secondary Actions: Raise

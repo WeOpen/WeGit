@@ -11,26 +11,26 @@ public enum BranchParser {
         if data.isEmpty { return [] }
         let fields = data.split(separator: 0, omittingEmptySubsequences: false)
         guard fields.last == Data([10]), (fields.count - 1).isMultiple(of: 8) else {
-            throw ModelFailure.invalidOutput("分支记录被截断")
+            throw ModelFailure.invalidOutput(L10n.text("分支记录被截断"))
         }
         var branches: [GitBranch] = []
         for offset in stride(from: 0, to: fields.count - 1, by: 8) {
             var first = fields[offset]
             if offset > 0 {
-                guard first.first == 10 else { throw ModelFailure.invalidOutput("分支记录缺少结束符") }
+                guard first.first == 10 else { throw ModelFailure.invalidOutput(L10n.text("分支记录缺少结束符")) }
                 first = first.dropFirst()
             }
             let bytes = [first] + Array(fields[(offset + 1)..<(offset + 8)])
             let values = try bytes.map { bytes -> String in
                 guard let value = String(data: bytes, encoding: .utf8) else {
-                    throw ModelFailure.invalidOutput("分支名称或路径编码不受支持")
+                    throw ModelFailure.invalidOutput(L10n.text("分支名称或路径编码不受支持"))
                 }
                 return value
             }
             let ref = values[0]
             guard GitObjectID.valid(values[1]), ref.hasPrefix("refs/heads/") || ref.hasPrefix("refs/remotes/")
             else {
-                throw ModelFailure.invalidOutput("分支引用无效")
+                throw ModelFailure.invalidOutput(L10n.text("分支引用无效"))
             }
             let remote = ref.hasPrefix("refs/remotes/")
             if remote && !values[7].isEmpty { continue }
@@ -43,14 +43,14 @@ public enum BranchParser {
                     for field in values[5].split(separator: ",") {
                         let parts = field.trimmingCharacters(in: .whitespaces).split(separator: " ")
                         guard parts.count == 2, let count = Int(parts[1]), count >= 0 else {
-                            throw ModelFailure.invalidOutput("分支领先/落后数据无效")
+                            throw ModelFailure.invalidOutput(L10n.text("分支领先/落后数据无效"))
                         }
                         if parts[0] == "ahead" {
                             ahead = count
                         } else if parts[0] == "behind" {
                             behind = count
                         } else {
-                            throw ModelFailure.invalidOutput("无法识别分支跟踪状态")
+                            throw ModelFailure.invalidOutput(L10n.text("无法识别分支跟踪状态"))
                         }
                     }
                 }
@@ -66,7 +66,7 @@ public enum BranchParser {
                     symbolicTarget: values[7].isEmpty ? nil : values[7]))
         }
         guard Set(branches.map(\.id)).count == branches.count else {
-            throw ModelFailure.invalidOutput("分支记录重复")
+            throw ModelFailure.invalidOutput(L10n.text("分支记录重复"))
         }
         return branches
     }

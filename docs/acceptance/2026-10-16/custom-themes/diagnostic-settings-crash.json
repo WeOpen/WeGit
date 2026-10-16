@@ -1,0 +1,24 @@
+{
+  "procName": "WeGit",
+  "procPath": "/Users/USER/*/WeGit.app/Contents/MacOS/WeGit",
+  "captureTime": "2026-10-16 08:20:44.2142 +0800",
+  "exception": {
+    "codes": "0x0000000000000001, 0x0000000195168d4c",
+    "rawCodes": [
+      1,
+      6796250444
+    ],
+    "type": "EXC_BREAKPOINT",
+    "signal": "SIGTRAP"
+  },
+  "termination": {
+    "flags": 0,
+    "code": 5,
+    "namespace": "SIGNAL",
+    "indicator": "Trace/BPT trap: 5",
+    "byProc": "exc handler",
+    "byPid": 86017
+  },
+  "faultingThread": 0,
+  "reason": "Observable preferences were applied inside, rather than outside, the appearance modifier."
+}

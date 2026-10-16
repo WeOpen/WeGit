@@ -108,7 +108,7 @@ mode = sys.argv[4]
 info = plistlib.loads((output / "WeGit.app/Contents/Info.plist").read_bytes())
 paths = [root / "Package.swift", root / "project.yml", root / "LICENSE"]
 for name in ("WeGitCore", "WeGit", "WeGitAskPass", "WeGitTests", "WeGitUITests", "WeGitPerformanceTests", "Benchmarks", "scripts"):
-    paths.extend(p for p in (root / name).rglob("*") if p.is_file() and p.suffix in (".swift", ".c", ".h", ".sh", ".py", ".entitlements"))
+    paths.extend(p for p in (root / name).rglob("*") if p.is_file() and p.suffix in (".swift", ".c", ".h", ".sh", ".py", ".entitlements", ".strings", ".stringsdict"))
 sources = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 commit = subprocess.run(["git", "rev-parse", "--verify", "HEAD"], cwd=root, text=True,
                         stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)

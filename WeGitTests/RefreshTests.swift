@@ -27,6 +27,23 @@ private actor SnapshotRunner: ProcessRunning {
 }
 
 struct RefreshTests {
+    @Test func backgroundStatusDoesNotRewriteTheIndexStatCache() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file.txt", "stable content\n")
+        _ = try await f.commit()
+        let file = f.root.appending(path: "file.txt")
+        try FileManager.default.setAttributes(
+            [.modificationDate: Date(timeIntervalSinceNow: 10)],
+            ofItemAtPath: file.path)
+        let index = f.service.location.gitDirectory.appending(path: "index")
+        let before = try Data(contentsOf: index)
+        #expect(try await f.service.status().files.isEmpty)
+        #expect(try Data(contentsOf: index) == before)
+        _ = try await f.engine.run(["update-index", "--refresh"], in: f.root)
+        #expect(try Data(contentsOf: index) != before)
+    }
+
     @Test func fileEventsMergeScopesAndIgnoreObjectStorage() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }

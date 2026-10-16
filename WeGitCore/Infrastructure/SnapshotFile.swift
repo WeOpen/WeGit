@@ -38,7 +38,7 @@ final class SnapshotDirectory: @unchecked Sendable {
 
 public enum DiffSnapshotStorage {
     static func root() throws -> URL {
-        let url = FileManager.default.temporaryDirectory.appending(path: "org.weopen.WeGit.snapshots")
+        let url = FileManager.default.temporaryDirectory.appending(path: "com.willxue.wegit.snapshots")
         if mkdir(url.path, 0o700) != 0 && errno != EEXIST { throw ProcessFailure.outputWrite(errno) }
         try validateRoot(url)
         return url
@@ -48,7 +48,7 @@ public enum DiffSnapshotStorage {
         var info = stat()
         guard lstat(root.path, &info) == 0, info.st_mode & UInt16(S_IFMT) == UInt16(S_IFDIR),
             info.st_uid == getuid(), info.st_mode & 0o077 == 0
-        else { throw ModelFailure.unsupported("差异缓存目录的类型或权限异常，请检查临时目录。") }
+        else { throw ModelFailure.unsupported(L10n.text("差异缓存目录的类型或权限异常，请检查临时目录。")) }
     }
 
     /// Only dead-process directories in the private cache are eligible. A running app,

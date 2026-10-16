@@ -136,7 +136,7 @@ final class HistoryState {
                     page.commits, using: priorGraph, filtered: !anchor.query.isEmpty)
                 guard requestID == request, self.anchor?.id == anchor.id, !Task.isCancelled else { return }
                 guard loadedIDs.isDisjoint(with: page.commits.map(\.id)) else {
-                    throw ModelFailure.invalidOutput("历史分页包含重复提交，请重新读取。")
+                    throw ModelFailure.invalidOutput(L10n.text("历史分页包含重复提交，请重新读取。"))
                 }
                 commits += page.commits
                 tableRows += zip(page.commits, layout.0).map { HistoryTableRow(commit: $0.0, graph: $0.1) }

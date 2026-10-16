@@ -1,0 +1,9 @@
+{
+  "configuration": "Debug",
+  "appInputSHA256": "abf032bdab6e609a41ae5710a14a25cc641abe8903bd12c950103e3036e54d32",
+  "sourceFileCount": 114,
+  "architecture": [
+    "arm64"
+  ],
+  "xcodeBuild": "27A266a"
+}

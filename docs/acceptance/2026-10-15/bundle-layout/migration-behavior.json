@@ -1,0 +1,21 @@
+{
+  "checks" : [
+    "Fresh destination migrates",
+    "Appearance migrates",
+    "Draft bytes remain exact",
+    "Workspace bytes remain exact",
+    "Repository bookmark remains exact",
+    "Window and split state migrate",
+    "Legacy domain is unchanged",
+    "Existing destination values win, including false",
+    "Existing destination receives missing draft",
+    "Second launch skips migration",
+    "Deleted destination setting stays deleted",
+    "Legacy priority is stable",
+    "Fresh install does not import unrelated preferences",
+    "Production domain mappings match the new identifiers",
+    "Test and performance domains stay isolated"
+  ],
+  "passed" : true,
+  "scope" : "Actual migration source; private UUID preference domains only"
+}

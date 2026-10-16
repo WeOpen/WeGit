@@ -1,0 +1,22 @@
+{
+  "memory-split-dark.png": {
+    "size": [
+      2720,
+      1700
+    ],
+    "inspectorBoundaryPixelX": 2078,
+    "sampleRowY": 520,
+    "lastAdditionBackgroundPixelX": 2077,
+    "emptyPixelsBeforeDivider": 0
+  },
+  "disk-split-dark.png": {
+    "size": [
+      2720,
+      1700
+    ],
+    "inspectorBoundaryPixelX": 2238,
+    "sampleRowY": 550,
+    "lastAdditionBackgroundPixelX": 2237,
+    "emptyPixelsBeforeDivider": 0
+  }
+}

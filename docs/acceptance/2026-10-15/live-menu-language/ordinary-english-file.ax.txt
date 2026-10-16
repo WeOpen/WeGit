@@ -1,0 +1,8 @@
+Window: "WeGit Settings", App: WeGit.
+0 File, ID: native-menu-file, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 Open repository…, ID: native-command-openRepository
+		3 Clone repository…, ID: native-command-clone
+		4 Switch repository…, ID: native-command-switchRepository
+		5 Close, ID: native-command-close
+		6 Close All, ID: native-command-closeAll

@@ -1,0 +1,19 @@
+Window: "fixture", App: WeGit.
+0 Repository, ID: native-menu-repository, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 Switch branch…, ID: native-command-switchBranch
+		3 Refresh, ID: native-command-refresh
+		4 New branch…, ID: native-command-newBranch
+		5 Stage all, ID: native-command-stageAll
+		6 (disabled) Unstage all, ID: native-command-unstageAll
+		7 (disabled) Commit, ID: native-command-commit
+		8 (disabled) Commit and Push…, ID: native-command-commitAndPush
+		9 (disabled) Pull…, ID: native-command-pull
+		10 (disabled) Push…, ID: native-command-push
+		11 Close repository, ID: native-command-closeRepository
+		12 Activity, ID: native-command-activity
+		13 Open in Terminal, ID: native-command-terminal
+		14 Open in Xcode…, ID: native-command-xcode
+		15 Copy repository path, ID: native-command-copyPath
+		16 Search current repository…, ID: native-command-search
+		17 Command palette…, ID: native-command-palette

@@ -1,0 +1,27 @@
+(lldb) thread backtrace -c 14
+* thread #1, queue = 'com.apple.main-thread', stop reason = hit Objective-C exception
+   * frame #0: 0x000000018062c5b4 libobjc.A.dylib`objc_exception_throw
+     frame #1: 0x0000000180bce7b0 CoreFoundation`+[NSException raise:format:] + 128
+     frame #2: 0x0000000185a63778 AppKit`-[NSWindow(NSDisplayCycle) _postWindowNeedsUpdateConstraints] + 1716
+     frame #3: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #4: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #5: 0x0000000185efc6a4 AppKit`-[_NSConstraintBasedLayoutHostingView _informContainerThatSubviewsNeedUpdateConstraints] + 52
+     frame #6: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #7: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #8: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #9: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #10: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #11: 0x0000000185efc6a4 AppKit`-[_NSConstraintBasedLayoutHostingView _informContainerThatSubviewsNeedUpdateConstraints] + 52
+     frame #12: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+     frame #13: 0x000000018512f350 AppKit`-[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+(lldb) register read x0
+      x0 = 0x00000074e252a130
+(lldb) expression -l objc -O -- (id)$x0
+The window has been marked as needing another Update Constraints in Window pass, but it has already had more Update Constraints in Window passes than there are views in the window. 
+<SwiftUI.AppKitWindow: 0x1005ebe30> 0x449a (17562) {{0, 90}, {1512, 859}} en
+(null)
+
+(lldb) expression -l objc -O -- [(id)$x0 reason]
+The window has been marked as needing another Update Constraints in Window pass, but it has already had more Update Constraints in Window passes than there are views in the window. 
+<SwiftUI.AppKitWindow: 0x1005ebe30> 0x449a (17562) {{0, 90}, {1512, 859}} en
+

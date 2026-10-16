@@ -1,0 +1,34 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: Settings categories, ID: settings-tabs
+			3 radio button Description: General, Value: 0
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: Appearance, Value: 0
+			6 radio button Description: Diff, Value: 1
+			7 radio button Description: Commit, Value: 0
+			8 radio button Description: Advanced, Value: 0
+		9 scroll area
+			10 heading Default reading options
+			11 container
+				12 pop up button Layout, Value: Unified
+				13 pop up button Context line count, Value: 3 lines
+				14 switch Word diff, Value: off
+				15 switch Show line numbers, Value: on
+				16 switch Show space and tab markers, Value: off, ID: settings-whitespace
+				17 switch Ignore whitespace (read only), Value: off
+				18 text Whitespace markers affect display only. Copying and patches preserve the original content. Ignoring whitespace disables hunk writes. Temporary layout choices are saved per repository.
+	19 close button
+	20 zoom button (disabled)
+	21 text WeGit Settings
+22 menu bar
+	23 WeGit
+	24 File
+	25 Edit
+	26 View
+	27 Repository
+	28 Workspace
+	29 Window
+	30 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

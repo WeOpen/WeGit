@@ -1,0 +1,49 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: Settings categories, ID: settings-tabs
+			3 radio button Description: General, Value: 1
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: Appearance, Value: 0
+			6 radio button Description: Diff, Value: 0
+			7 radio button Description: Commit, Value: 0
+			8 radio button Description: Advanced, Value: 0
+		9 scroll area Secondary Actions: Scroll Up, Scroll Down
+			10 heading Language
+			11 container
+				12 pop up button Interface language, Value: English, ID: settings-language
+				13 text App text updates immediately. Restart WeGit to update system menus and dialogs.
+			14 heading Opening and cloning
+			15 container
+				16 text Default folder, Value: /Users/willxue
+				17 button Choose default folder…
+			18 heading Startup and windows
+			19 container
+				20 switch Show WeGit in the menu bar, Value: on, ID: settings-menu-bar
+				21 text Access repository status, recent repositories, and common actions from the menu bar, and reopen the main window after closing it.
+				22 switch Restore last repository at launch, Value: on, ID: settings-restore-repository
+				23 switch Restore windows, splits, and repository pages, Value: on
+				24 switch Confirm before switching repositories, Value: off
+				25 text Switching repositories does not cancel running Git operations. Wait for them to finish or cancel them before closing a repository.
+			26 heading Risk confirmations
+			27 text Discarding changes, amending commits, deleting unmerged branches, and Force Push With Lease always require explicit confirmation.
+			28 scroll bar (settable, float) 0
+				29 value indicator (settable, float) 0
+				30 increment arrow button
+				31 decrement arrow button
+				32 increment page button
+				33 decrement page button
+	34 close button
+	35 zoom button (disabled)
+	36 text WeGit Settings
+37 menu bar
+	38 WeGit
+	39 File
+	40 Edit
+	41 View
+	42 Repository
+	43 Workspace
+	44 Window
+	45 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

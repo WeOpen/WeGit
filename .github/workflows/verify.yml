@@ -37,6 +37,7 @@ jobs:
           "$RUNNER_TEMP/wegit-tools/actionlint" -color
           python3 scripts/ci/check_policy.py
           python3 -m unittest discover -s scripts/ci/tests -v
+          python3 scripts/ci/verify_secret_policy.py --gitleaks "$RUNNER_TEMP/wegit-tools/gitleaks"
           git diff --check
       - name: Scan committed history for credentials
         run: |

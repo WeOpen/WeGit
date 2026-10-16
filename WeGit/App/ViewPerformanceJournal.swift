@@ -1,4 +1,5 @@
 import AppKit
+import OSLog
 import SwiftUI
 
 struct ViewPerformanceSpan: Equatable {
@@ -9,13 +10,30 @@ struct ViewPerformanceSpan: Equatable {
 /// Enabled only in the isolated ReleasePerformance target. Production builds
 /// neither accept its environment variable nor write performance fixture data.
 @MainActor enum ViewPerformanceJournal {
+    static func waitForProfiler() async {
+        #if WEGIT_PERFORMANCE
+            guard let path = ProcessInfo.processInfo.environment["WEGIT_PERFORMANCE_START_FILE"] else {
+                return
+            }
+            let deadline = ContinuousClock.now.advanced(by: .seconds(30))
+            while !FileManager.default.fileExists(atPath: path), ContinuousClock.now < deadline,
+                !Task.isCancelled
+            {
+                try? await Task.sleep(for: .milliseconds(20))
+            }
+        #endif
+    }
     #if WEGIT_PERFORMANCE
         private struct Pending {
             let id: UUID?
             let began: UInt64
+            let interval: OSSignpostIntervalState
         }
+        private static let signposter = OSSignposter(
+            subsystem: "com.willxue.wegit", category: "PointsOfInterest")
         private struct Sample: Codable {
             let name: String
+            let id: UUID
             let milliseconds: Double
             let peakRSSBytes: Int
             let endedAtNanoseconds: UInt64
@@ -26,7 +44,12 @@ struct ViewPerformanceSpan: Equatable {
 
     static func selectionChanged() {
         #if WEGIT_PERFORMANCE
-            pending["diff"] = Pending(id: nil, began: DispatchTime.now().uptimeNanoseconds)
+            if let previous = pending["diff"] {
+                signposter.endInterval("View to paint", previous.interval)
+            }
+            pending["diff"] = Pending(
+                id: nil, began: DispatchTime.now().uptimeNanoseconds,
+                interval: signposter.beginInterval("View to paint", id: signposter.makeSignpostID(), "diff"))
         #endif
     }
     static func begin(_ name: String, id: UUID, preservingSelection: Bool = false) {
@@ -35,20 +58,29 @@ struct ViewPerformanceSpan: Equatable {
                 preservingSelection && pending[name]?.id == nil
                 ? pending[name]?.began ?? DispatchTime.now().uptimeNanoseconds
                 : DispatchTime.now().uptimeNanoseconds
-            pending[name] = Pending(id: id, began: began)
+            let interval: OSSignpostIntervalState
+            if preservingSelection, let previous = pending[name], previous.id == nil {
+                interval = previous.interval
+            } else {
+                if let previous = pending[name] { signposter.endInterval("View to paint", previous.interval) }
+                interval = signposter.beginInterval(
+                    "View to paint", id: signposter.makeSignpostID(), "\(name, privacy: .public)")
+            }
+            pending[name] = Pending(id: id, began: began, interval: interval)
         #endif
     }
     static func finish(_ name: String, id: UUID) {
         #if WEGIT_PERFORMANCE
             guard let start = pending[name], start.id == id else { return }
             pending.removeValue(forKey: name)
+            signposter.endInterval("View to paint", start.interval)
             let ended = DispatchTime.now().uptimeNanoseconds
             let elapsed = Double(ended - start.began) / 1_000_000
             var usage = rusage()
             getrusage(RUSAGE_SELF, &usage)
             samples.append(
                 Sample(
-                    name: name, milliseconds: elapsed, peakRSSBytes: usage.ru_maxrss,
+                    name: name, id: id, milliseconds: elapsed, peakRSSBytes: usage.ru_maxrss,
                     endedAtNanoseconds: ended))
             guard let path = ProcessInfo.processInfo.environment["WEGIT_PERFORMANCE_REPORT"] else { return }
             do {

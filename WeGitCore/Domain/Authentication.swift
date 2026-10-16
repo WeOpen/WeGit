@@ -26,11 +26,11 @@ public enum AuthenticationFailure: Error, LocalizedError, Sendable {
     case unavailable, invalidRequest, cancelled, timedOut, connection
     public var errorDescription: String? {
         switch self {
-        case .unavailable: "无法启动认证辅助工具，请重新构建或安装完整的 WeGit 应用。"
-        case .invalidRequest: "认证请求无效或超出长度限制。"
-        case .cancelled: "认证已取消。"
-        case .timedOut: "认证等待超时，请重试操作。"
-        case .connection: "认证通道已关闭，请重试操作。"
+        case .unavailable: L10n.text("无法启动认证辅助工具，请重新构建或安装完整的 WeGit 应用。")
+        case .invalidRequest: L10n.text("认证请求无效或超出长度限制。")
+        case .cancelled: L10n.text("认证已取消。")
+        case .timedOut: L10n.text("认证等待超时，请重试操作。")
+        case .connection: L10n.text("认证通道已关闭，请重试操作。")
         }
     }
 }

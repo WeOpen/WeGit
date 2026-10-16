@@ -1,0 +1,7 @@
+history/light: FAIL
+changes/light: FAIL
+branches/light: PASS
+history/dark: FAIL
+changes/dark: FAIL
+branches/dark: PASS
+Startup regression failed; inspect /Users/willxue/will/WeOpen/WeGit/docs/acceptance/2026-10-13/inspector-startup/startup-before-fix.json

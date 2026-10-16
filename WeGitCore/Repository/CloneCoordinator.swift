@@ -15,7 +15,7 @@ public struct CloneRequest: Sendable {
         guard !address.isEmpty, !address.hasPrefix("-"), !address.contains("\0"),
             !folderName.isEmpty, folderName != ".", folderName != "..",
             !folderName.contains("/"), !folderName.contains("\0")
-        else { throw ModelFailure.unsupported("请输入有效的仓库地址和单个文件夹名称。") }
+        else { throw ModelFailure.unsupported(L10n.text("请输入有效的仓库地址和单个文件夹名称。")) }
         if let components = URLComponents(string: address) {
             let http = ["http", "https"].contains(components.scheme?.lowercased() ?? "")
             let secretQuery =
@@ -24,7 +24,7 @@ public struct CloneRequest: Sendable {
                         $0.name.lowercased())
                 } ?? false
             guard components.password == nil, !(http && components.user != nil), !secretQuery else {
-                throw ModelFailure.unsupported("请使用不含密码或 Token 的地址，通过系统凭证认证。")
+                throw ModelFailure.unsupported(L10n.text("请使用不含密码或 Token 的地址，通过系统凭证认证。"))
             }
         }
         let directory = parent.standardizedFileURL.resolvingSymlinksInPath()
@@ -32,7 +32,7 @@ public struct CloneRequest: Sendable {
         guard directory.isFileURL,
             FileManager.default.fileExists(atPath: directory.path, isDirectory: &isDirectory),
             isDirectory.boolValue, FileManager.default.isWritableFile(atPath: directory.path)
-        else { throw ModelFailure.unsupported("请选择已存在且可写的保存目录。") }
+        else { throw ModelFailure.unsupported(L10n.text("请选择已存在且可写的保存目录。")) }
         return directory.appendingPathComponent(folderName, isDirectory: true)
     }
 }
@@ -42,14 +42,14 @@ public struct CloneProgress: Equatable, Sendable {
         case connecting, enumerating, counting, compressing, receiving, resolving, checkingOut, validating
         public var title: String {
             switch self {
-            case .connecting: "连接仓库"
-            case .enumerating: "枚举对象"
-            case .counting: "统计对象"
-            case .compressing: "压缩对象"
-            case .receiving: "接收对象"
-            case .resolving: "解析增量"
-            case .checkingOut: "检出文件"
-            case .validating: "检查克隆结果"
+            case .connecting: L10n.text("连接仓库")
+            case .enumerating: L10n.text("枚举对象")
+            case .counting: L10n.text("统计对象")
+            case .compressing: L10n.text("压缩对象")
+            case .receiving: L10n.text("接收对象")
+            case .resolving: L10n.text("解析增量")
+            case .checkingOut: L10n.text("检出文件")
+            case .validating: L10n.text("检查克隆结果")
             }
         }
     }
@@ -159,12 +159,12 @@ public actor CloneCoordinator {
         _ request: CloneRequest,
         onProgress: @escaping @Sendable (CloneProgress) -> Void = { _ in }
     ) async throws -> RepositoryLocation {
-        guard !running else { throw ModelFailure.unsupported("已有克隆操作正在进行，请等待或取消该操作。") }
+        guard !running else { throw ModelFailure.unsupported(L10n.text("已有克隆操作正在进行，请等待或取消该操作。")) }
         try Task.checkCancellation()
         let destination = try request.validatedDestination()
         // mkdir is atomic: an already existing empty directory, file or symlink is never taken over.
         guard mkdir(destination.path, 0o700) == 0 else {
-            throw ModelFailure.unsupported("目标已存在或无法创建。请选择另一个文件夹名称。")
+            throw ModelFailure.unsupported(L10n.text("目标已存在或无法创建。请选择另一个文件夹名称。"))
         }
         let identity = try FileStamp.read(destination)
         running = true
@@ -189,7 +189,8 @@ public actor CloneCoordinator {
                 ? snapshot.map { CloneCleanupToken(id: UUID(), directory: destination, snapshot: $0) } : nil
             if let token { pendingCleanup[token.id] = token }
             throw CloneFailure(
-                message: error is CancellationError ? "操作已取消。未完成的目录会保留供检查。" : error.localizedDescription,
+                message: error is CancellationError
+                    ? L10n.text("操作已取消。未完成的目录会保留供检查。") : error.localizedDescription,
                 details: (error as? GitFailure)?.details ?? "",
                 retainedDirectory: owned ? destination : nil, cleanup: token)
         }
@@ -202,11 +203,11 @@ public actor CloneCoordinator {
     /// Call only after the UI confirms this exact failed operation and destination.
     public func cleanUp(_ token: CloneCleanupToken) throws -> URL? {
         guard let saved = pendingCleanup[token.id], saved.directory == token.directory else {
-            throw ModelFailure.unsupported("此目录没有有效的克隆归属记录，请在 Finder 中检查。")
+            throw ModelFailure.unsupported(L10n.text("此目录没有有效的克隆归属记录，请在 Finder 中检查。"))
         }
         let now = try DirectorySnapshot.capture(saved.directory)
         guard now == saved.snapshot else {
-            throw ModelFailure.unsupported("目录在克隆失败后发生了变化，已保留全部内容。请在 Finder 中检查。")
+            throw ModelFailure.unsupported(L10n.text("目录在克隆失败后发生了变化，已保留全部内容。请在 Finder 中检查。"))
         }
         let result = try trash.moveToTrash(saved.directory)
         pendingCleanup.removeValue(forKey: token.id)
@@ -255,7 +256,9 @@ private struct DirectorySnapshot: Equatable, Sendable {
         else { throw ModelFailure.changed }
         for case let file as URL in enumerator {
             // Bound the recovery snapshot; very large failures remain available in Finder for manual review.
-            guard result.count < 20_000 else { throw ModelFailure.unsupported("目录过大，请在 Finder 中处理。") }
+            guard result.count < 20_000 else {
+                throw ModelFailure.unsupported(L10n.text("目录过大，请在 Finder 中处理。"))
+            }
             let path = file.relativePath
             guard !path.hasPrefix("/"), !path.split(separator: "/").contains("..") else {
                 throw ModelFailure.changed

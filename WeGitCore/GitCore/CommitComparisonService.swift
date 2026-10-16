@@ -11,7 +11,7 @@ extension RepositoryService {
         let commit = try await readCommit(id)
         let selected = parent ?? commit.parents.first
         guard selected == nil || commit.parents.contains(selected!) else {
-            throw ModelFailure.unsupported("比较对象不是此提交的父提交。")
+            throw ModelFailure.unsupported(L10n.text("比较对象不是此提交的父提交。"))
         }
         let base = selected == nil ? ["diff-tree", "--root", "--no-commit-id", "-r"] : ["diff"]
         let revisions = [selected, id].compactMap { $0 }

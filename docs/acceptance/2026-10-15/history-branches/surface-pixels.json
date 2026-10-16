@@ -1,0 +1,170 @@
+{
+  "branches-before.png": {
+    "body": {
+      "pixelPoint": [
+        700,
+        1100
+      ],
+      "RGB": [
+        48,
+        48,
+        46
+      ]
+    },
+    "header": {
+      "pixelPoint": [
+        800,
+        160
+      ],
+      "RGB": [
+        30,
+        30,
+        30
+      ]
+    }
+  },
+  "history-before.png": {
+    "tableBody": {
+      "pixelPoint": [
+        800,
+        1100
+      ],
+      "RGB": [
+        48,
+        48,
+        46
+      ]
+    },
+    "detailBody": {
+      "pixelPoint": [
+        1500,
+        1100
+      ],
+      "RGB": [
+        30,
+        30,
+        30
+      ]
+    }
+  },
+  "branches-dark-final.png": {
+    "body": {
+      "pixelPoint": [
+        700,
+        1100
+      ],
+      "RGB": [
+        30,
+        30,
+        30
+      ]
+    },
+    "header": {
+      "pixelPoint": [
+        800,
+        160
+      ],
+      "RGB": [
+        30,
+        30,
+        30
+      ]
+    }
+  },
+  "history-dark-final.png": {
+    "tableBody": {
+      "pixelPoint": [
+        800,
+        1100
+      ],
+      "RGB": [
+        30,
+        30,
+        30
+      ]
+    },
+    "detailBody": {
+      "pixelPoint": [
+        1500,
+        1100
+      ],
+      "RGB": [
+        30,
+        30,
+        30
+      ]
+    }
+  },
+  "branches-light-final.png": {
+    "body": {
+      "pixelPoint": [
+        700,
+        1100
+      ],
+      "RGB": [
+        255,
+        255,
+        255
+      ]
+    },
+    "header": {
+      "pixelPoint": [
+        800,
+        160
+      ],
+      "RGB": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "history-light-final.png": {
+    "tableBody": {
+      "pixelPoint": [
+        800,
+        1100
+      ],
+      "RGB": [
+        255,
+        255,
+        255
+      ]
+    },
+    "detailBody": {
+      "pixelPoint": [
+        1500,
+        1100
+      ],
+      "RGB": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "branches-minimum-light.png": {
+    "pixelSize": [
+      1960,
+      1386
+    ],
+    "scale": 2
+  },
+  "branches-minimum-inspector-light.png": {
+    "pixelSize": [
+      2584,
+      1386
+    ],
+    "scale": 2
+  },
+  "diffInspectorBoundary": {
+    "image": "changes-final-dark.png",
+    "samplePixelY": 520,
+    "inspectorDividerPixelRange": [
+      2078,
+      2079
+    ],
+    "lastAdditionBackgroundPixelX": 2077,
+    "emptyPixelsBeforeDivider": 0
+  }
+}

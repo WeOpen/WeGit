@@ -1,0 +1,20 @@
+Window: "WeGit", App: WeGit.
+0 WeGit, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 关于WeGit, ID: orderFrontStandardAboutPanel:
+		3 设置…, ID: menuAction:
+		4 服务
+			5 菜单 Secondary Actions: Cancel
+				6 Activity Monitor
+				7 Allocations & Leaks
+				8 File Activity
+				9 System Trace
+				10 Time Profile Active Application
+				11 Time Profile App Under Mouse
+				12 Time Profile Entire System
+				13 Toggle Instruments Recording
+				14 服务设置…
+		15 隐藏WeGit, ID: hide:
+		16 隐藏其他, ID: hideOtherApplications:
+		17 (disabled) 全部显示, ID: unhideAllApplications:
+		18 退出WeGit, ID: terminate:

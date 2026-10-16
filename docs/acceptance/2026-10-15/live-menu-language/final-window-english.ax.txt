@@ -1,0 +1,42 @@
+Window: "WeGit Settings", App: WeGit.
+0 Window, ID: native-menu-window, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 (disabled) Fill
+		3 Center
+		4 Move & Resize
+			5 菜单 Secondary Actions: Cancel
+				6 (disabled) Halves
+				7 Left
+				8 Right
+				9 Top
+				10 Bottom
+				11 (disabled) Quarters
+				12 Top Left
+				13 Top Right
+				14 Bottom Left
+				15 Bottom Right
+				16 (disabled) Arrange
+				17 Left & Right
+				18 Left & Quarters
+				19 Right & Left
+				20 Right & Quarters
+				21 Top & Bottom
+				22 Top & Quarters
+				23 Bottom & Top
+				24 Bottom & Quarters
+				25 Quarters
+				26 (disabled) Return to Previous Size
+		27 (disabled) Full Screen Tile
+			28 菜单 Secondary Actions: Cancel
+				29 (disabled) Left of Screen
+				30 (disabled) Right of Screen
+		31 Move to “小旭姐的iPad”
+		32 (disabled) Remove Window from Set
+		33 (disabled) Minimize, ID: native-command-minimize
+		34 Minimize All, ID: native-command-minimizeAll
+		35 (disabled) Zoom, ID: native-command-zoom
+		36 Zoom All, ID: native-command-zoomAll
+		37 Show WeGit main window, ID: native-command-showMainWindow
+		38 Bring All to Front, ID: native-command-bringAllToFront
+		39 WeGit Settings, ID: makeKeyAndOrderFront:
+		40 fixture, ID: native-window-0

@@ -1,0 +1,9 @@
+{
+  "appPID": 46402,
+  "gitReadPID": 48684,
+  "appAndReadAliveAfterLanguageSwitch": true,
+  "beforeLanguage": "en",
+  "afterLanguage": "zh-Hans",
+  "readHeldBeforeAndAfter": true,
+  "releaseAt": 1792067629.087341
+}

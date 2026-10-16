@@ -1,0 +1,204 @@
+Window: "WeGit", App: WeGit.
+0 标准窗口 WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selected) 更改
+1017
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) WeGit、codex/v1-validation
+				12 文本 Value: WeGit, ID: sidebar-brand
+				13 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			14 分离器 (disabled, settable, float) 209.5
+			15 分离组
+				16 container
+					17 分离组
+						18 container
+							19 text 更改 1017
+							20 菜单按钮 更多, ID: ellipsis
+							21 文本栏 (settable) Description: 筛选文件路径, ID: changes-filter
+							22 弹出式按钮 Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							23 滚动区 Secondary Actions: Scroll Up, Scroll Down
+								24 列表 changes-list (showing 0-11 of 100 items)
+									25 row (selectable) 未暂存（103）
+									26 row (selectable) Description: 暂存 verify.yml, Value: verify.yml
+.github/workflows
+状态：修改
+									27 row (selectable) Description: 暂存 .gitignore, Value: .gitignore
+状态：修改
+									28 row (selectable) Description: 暂存 CHANGELOG.md, Value: CHANGELOG.md
+状态：修改
+									29 row (selected) Description: 暂存 Package.swift, Value: Package.swift
+状态：修改
+									30 row (selectable) Description: 暂存 README.md, Value: README.md
+状态：修改
+									31 row (selectable) Description: 暂存 project.pbxproj, Value: project.pbxproj
+WeGit.xcodeproj
+状态：修改
+									32 row (selectable) Description: 暂存 AppPreferences.swift, Value: AppPreferences.swift
+WeGit/App
+状态：修改
+									33 row (selectable) Description: 暂存 AppState.swift, Value: AppState.swift
+WeGit/App
+状态：修改
+									34 row (selectable) Description: 暂存 ApplicationDelegate.swift, Value: ApplicationDelegate.swift
+WeGit/App
+状态：修改
+									35 row (selectable) Description: 暂存 AuthenticationController.swift, Value: AuthenticationController.swift
+WeGit/App
+状态：修改
+								36 滚动条 (settable, float) 0
+									37 值指示器 (settable, float) 0
+									38 增箭头按钮
+									39 减箭头按钮
+									40 增页面按钮
+									41 减页面按钮
+						42 分离器 (disabled, settable, float) 570
+						43 container
+							44 text Help: Package.swift, Value: Package.swift +2 −1 工作区 ↔ 暂存区
+							45 Description: 差异布局, ID: diff-layout
+								46 单选按钮 Description: 统一, Value: 0
+								47 单选按钮 Description: 分栏, Value: 1
+							48 菜单按钮 更多, Help: 差异文件操作, ID: ellipsis
+							49 弹出式按钮 上下文, Value: 3 行, ID: diff-context
+							50 复选框 Description: 忽略空白, Value: 0, ID: diff-ignore-whitespace
+							51 复选框 Description: 词级差异, Help: 突出替换行中变化的词；长行仍保留整行差异标识。, Value: 0, ID: diff-word-highlight
+							52 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+							53 按钮 Description: 下一差异块, ID: diff-hunk-next
+							54 文本 Value: 差异块 1 / 2, ID: diff-hunk-position
+							55 滚动区 Description: 文本差异, ID: diff-content, Secondary Actions: Scroll Up, Scroll Down
+								56 container 文本差异内容
+									57 container Description: 差异列标题, ID: diff-column-headers
+										58 text 原始内容 修改后
+									59 container 上下文展开控制
+										60 按钮 Description: 向上展开 2 行, ID: diff-context-expand-0
+										61 文本 2 行未显示
+									62 container 差异块：@@ -3,6 +3,7 @@ import PackageDescription
+										63 文本 @@ -3,6 +3,7 @@ import PackageDescription
+										64 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+										65 按钮 暂存此块
+										66 按钮 丢弃此块…
+									67 container Description: 原始与修改后的代码行, ID: split-diff-row
+										68 文本 3
+										69 文本输入区 Description: 原始代码，第 3 行, Value:  , ID: diff-code:0
+										70 文本 3
+										71 文本输入区 Description: 修改后的代码，第 3 行, Value:  , ID: diff-code:0
+									72 container Description: 原始与修改后的代码行, ID: split-diff-row
+										73 文本 4
+										74 文本输入区 Description: 原始代码，第 4 行, Value: let package = Package(, ID: diff-code:1
+										75 文本 4
+										76 文本输入区 Description: 修改后的代码，第 4 行, Value: let package = Package(, ID: diff-code:1
+									77 container Description: 原始与修改后的代码行, ID: split-diff-row
+										78 文本 5
+										79 文本输入区 Description: 原始代码，第 5 行, Value:     name: "WeGit",, ID: diff-code:2
+										80 文本 5
+										81 文本输入区 Description: 修改后的代码，第 5 行, Value:     name: "WeGit",, ID: diff-code:2
+									82 container Description: 原始与修改后的代码行, ID: split-diff-row
+										83 文本 6
+										84 文本输入区 Description: 修改后的代码，第 6 行, Value:     defaultLocalization: "zh-Hans",, ID: diff-code:3
+									85 container Description: 原始与修改后的代码行, ID: split-diff-row
+										86 文本 6
+										87 文本输入区 Description: 原始代码，第 6 行, Value:     platforms: [.macOS("27.0")],, ID: diff-code:4
+										88 文本 7
+										89 文本输入区 Description: 修改后的代码，第 7 行, Value:     platforms: [.macOS("27.0")],, ID: diff-code:4
+									90 container Description: 原始与修改后的代码行, ID: split-diff-row
+										91 文本 7
+										92 文本输入区 Description: 原始代码，第 7 行, Value:     products: [, ID: diff-code:5
+										93 文本 8
+										94 文本输入区 Description: 修改后的代码，第 8 行, Value:     products: [, ID: diff-code:5
+									95 container Description: 原始与修改后的代码行, ID: split-diff-row
+										96 文本 8
+										97 文本输入区 Description: 原始代码，第 8 行, Value:         .library(name: "WeGitCore", targets: ["WeGitCore"]),, ID: diff-code:6
+										98 文本 9
+										99 文本输入区 Description: 修改后的代码，第 9 行, Value:         .library(name: "WeGitCore", targets: ["WeGitCore"]),, ID: diff-code:6
+									100 container 上下文展开控制
+										101 按钮 Description: 展开 1 行, ID: diff-context-expand-1
+										102 文本 1 行未显示
+									103 container 差异块：@@ -10,7 +11,7 @@ let package = Package(
+										104 文本 @@ -10,7 +11,7 @@ let package = Package(
+										105 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:1
+										106 按钮 暂存此块
+										107 按钮 丢弃此块…
+									108 container Description: 原始与修改后的代码行, ID: split-diff-row
+										109 文本 10
+										110 文本输入区 Description: 原始代码，第 10 行, Value:         .executable(name: "WeGitBenchmarks", targets: ["WeGitBenchmarks"]),, ID: diff-code:7
+										111 文本 11
+										112 文本输入区 Description: 修改后的代码，第 11 行, Value:         .executable(name: "WeGitBenchmarks", targets: ["WeGitBenchmarks"]),, ID: diff-code:7
+									113 container Description: 原始与修改后的代码行, ID: split-diff-row
+										114 文本 11
+										115 文本输入区 Description: 原始代码，第 11 行, Value:     ],, ID: diff-code:8
+										116 文本 12
+										117 文本输入区 Description: 修改后的代码，第 12 行, Value:     ],, ID: diff-code:8
+									118 container Description: 原始与修改后的代码行, ID: split-diff-row
+										119 文本 12
+										120 文本输入区 Description: 原始代码，第 12 行, Value:     targets: [, ID: diff-code:9
+										121 文本 13
+										122 文本输入区 Description: 修改后的代码，第 13 行, Value:     targets: [, ID: diff-code:9
+									123 container Description: 原始与修改后的代码行, ID: split-diff-row
+										124 文本 13
+										125 文本输入区 Description: 原始代码，第 13 行, Value:         .target(name: "WeGitCore", path: "WeGitCore"),, ID: diff-code:10
+										126 文本 14
+										127 文本输入区 Description: 修改后的代码，第 14 行, Value:         .target(name: "WeGitCore", path: "WeGitCore", resources: [.process("Resources")]),, ID: diff-code:11
+									128 container Description: 原始与修改后的代码行, ID: split-diff-row
+										129 文本 14
+										130 文本输入区 Description: 原始代码，第 14 行, Value:         .executableTarget(name: "WeGitAskPass", dependencies: ["WeGitCore"], path: "WeGitAskPass"),, ID: diff-code:12
+										131 文本 15
+										132 文本输入区 Description: 修改后的代码，第 15 行, Value:         .executableTarget(name: "WeGitAskPass", dependencies: ["WeGitCore"], path: "WeGitAskPass"),, ID: diff-code:12
+									133 container Description: 原始与修改后的代码行, ID: split-diff-row
+										134 文本 15
+										135 文本输入区 Description: 原始代码，第 15 行, Value:         .executableTarget(name: "WeGitBenchmarks", dependencies: ["WeGitCore"], path: "Benchmarks"),, ID: diff-code:13
+										136 文本 16
+										137 文本输入区 Description: 修改后的代码，第 16 行, Value:         .executableTarget(name: "WeGitBenchmarks", dependencies: ["WeGitCore"], path: "Benchmarks"),, ID: diff-code:13
+									138 container Description: 原始与修改后的代码行, ID: split-diff-row
+										139 文本 16
+										140 文本输入区 Description: 原始代码，第 16 行, ID: diff-code:14, Value:         .testTarget(name: "WeGitCoreTests", dependencies: ["WeGitCore", "WeGitAskPass"], path: "WeGitTests"),
+										141 文本 17
+										142 文本输入区 Description: 修改后的代码，第 17 行, ID: diff-code:14, Value:         .testTarget(name: "WeGitCoreTests", dependencies: ["WeGitCore", "WeGitAskPass"], path: "WeGitTests"),
+									143 container 上下文展开控制
+										144 按钮 Description: 展开 20 行, ID: diff-context-expand-2
+										145 文本 后续上下文
+								146 滚动条 (settable, float) 0
+									147 值指示器 (settable, float) 0
+									148 增箭头按钮
+									149 减箭头按钮
+									150 增页面按钮
+									151 减页面按钮
+					152 unknown Description: 已暂存 0 个文件, ID: commit-staged-count
+					153 文本栏 (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					154 按钮 (disabled) Description: 提交（0 个文件）, Help: 填写提交消息, ID: commit-button
+					155 按钮 (disabled) Description: 提交并推送…, Help: 填写提交消息, ID: commit-push-button
+					156 复选框 Description: 修改上次提交（Amend）, Value: 0
+					157 文本 Value: 填写提交消息, ID: operation-feedback
+	158 工具栏
+		159 container 隐藏边栏
+			160 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		161 按钮 Description: WeGit, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/will/WeOpen/WeGit
+切换仓库 ⌘K
+		162 菜单按钮 codex/v1-validation · 无上游, Description: 分叉为两条路径的三角形箭头, Value: 同步状态：无上游, ID: current-branch
+		163 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		164 按钮 Description: 拉取, Help: 选择远端、目标分支和同步方式, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		165 按钮 Description: 推送, Help: 选择远端、目标分支和同步方式, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		166 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		167 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		168 按钮 Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		169 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	170 关闭按钮
+	171 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	172 最小化按钮
+	173 text WeGit codex/v1-validation
+174 menu bar
+	175 WeGit, ID: native-menu-app
+	176 文件, ID: native-menu-file
+	177 编辑, ID: native-menu-edit
+	178 显示, ID: native-menu-view
+	179 仓库, ID: native-menu-repository
+	180 工作区, ID: native-menu-workspace
+	181 窗口, ID: native-menu-window
+	182 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise

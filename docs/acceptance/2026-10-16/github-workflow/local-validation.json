@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-16",
+  "scope": "Isolated committed-main CI baseline, not the uncommitted app",
+  "coreTestsPerGit": 175,
+  "coreSuites": 31,
+  "toolingTests": 19,
+  "debug": true,
+  "nativeUITestCompilation": true,
+  "adhocProductionBundleID": "com.willxue.wegit",
+  "developerAccountRequired": false,
+  "localSerialCoreSeconds": 52.509,
+  "localSerialProbeSeconds": 0.006,
+  "failuresRetained": [
+    "main-failed-excerpt.txt",
+    "scheduling-pr-failed-excerpt.txt"
+  ],
+  "fullUIExecutionClaimed": false,
+  "releasePublished": false
+}

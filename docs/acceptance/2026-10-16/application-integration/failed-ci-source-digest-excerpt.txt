@@ -1,0 +1,13 @@
+Repository policy	Scan committed history for credentials	﻿2026-10-16T15:23:21.8988386Z ##[group]Run mkdir -p .build/ci
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.8988735Z [36;1mmkdir -p .build/ci[0m
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.8989108Z [36;1m"$RUNNER_TEMP/wegit-tools/gitleaks" git --no-banner --redact=100 \[0m
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.8989622Z [36;1m  --report-format=json --report-path=.build/ci/secrets.json .[0m
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.9052014Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.9052372Z env:
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.9052579Z   WEGIT_SKIP_PROJECT_GENERATION: 1
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.9052843Z   WEGIT_SERIAL_CORE_TESTS: 1
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:21.9053082Z ##[endgroup]
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:23.6010896Z [90m3:23PM[0m [32mINF[0m [1m6 commits scanned.[0m
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:23.6011507Z [90m3:23PM[0m [32mINF[0m [1mscanned ~13685544 bytes (13.69 MB) in 1.4s[0m
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:23.6012008Z [90m3:23PM[0m [33mWRN[0m [1mleaks found: 2[0m
+Repository policy	Scan committed history for credentials	2026-10-16T15:23:23.6052163Z ##[error]Process completed with exit code 1.
