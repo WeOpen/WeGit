@@ -1,0 +1,79 @@
+Window: "fixture", App: WeGit.
+0 standard window fixture – main, ID: main, Secondary Actions: Raise
+	1 container WeGit workspace
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) Workspace
+						7 row (selected) Changes
+1
+						8 row (selectable) History
+						9 row (selectable) Branches
+						10 row (selectable) Repository
+						11 row (selectable) fixture, main
+				12 text Value: WeGit, ID: sidebar-brand
+				13 button Description: Open repository, Help: Open repository ⌘O, ID: sidebar-add-repository
+			14 splitter (disabled, settable, float) 209.5
+			15 split group
+				16 container
+					17 split group
+						18 container
+							19 text Changes 1
+							20 menu button More
+							21 text field (settable) Description: Filter file paths, ID: changes-filter
+							22 pop up button Description: Change status, Value: All statuses, ID: changes-state-filter
+							23 scroll area
+								24 list changes-list
+									25 row (selectable) Unstaged (1)
+									26 row (selectable) Description: Stage Theme.swift, Value: Theme.swift
+Status: Modified
+						27 splitter (disabled, settable, float) 589.5
+						28 container
+							29 text Select a file Review working tree and index changes, and prepare your next commit.
+					30 unknown Description: 0 staged files, ID: commit-staged-count
+					31 text field (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message
+					32 button (disabled) Description: Commit (0 files), Help: Enter a commit message, ID: commit-button
+					33 button (disabled) Description: Commit and Push…, Help: Enter a commit message, ID: commit-push-button
+					34 checkbox Description: Amend last commit, Value: 0
+					35 text Value: Enter a commit message, ID: operation-feedback
+				36 splitter (disabled, settable, float) 1051
+				37 scroll area Description: Inspector, ID: repository-inspector
+					38 heading Repository
+					39 container
+						40 text Name, Value: fixture /Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture
+						41 button Show in Finder
+						42 button Open in Terminal
+						43 button Open in Xcode…
+						44 button Copy repository path
+					45 heading Branches
+					46 container
+						47 text Current, Value: main Not set — / —
+	48 toolbar
+		49 container Hide Sidebar
+			50 button Description: Sidebar, Help: Hide sidebar, Value: Open, ID: toolbar-sidebar
+		51 button Description: fixture, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture
+Switch repository ⌘K
+		52 menu button main · No upstream, Description: Triangle-headed arrow branching into two paths, Value: Sync status: No upstream, ID: current-branch
+		53 menu button (disabled) Fetch, Help: No remote configured, ID: toolbar-fetch
+		54 button (disabled) Description: Pull, Help: No remote configured. Add a remote in Git first, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		55 button (disabled) Description: Push, Help: No remote configured. Add a remote in Git first, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		56 button Description: Refresh, Help: Refresh ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		57 button Description: Search repository, Help: Search current repository ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		58 button Description: Inspector, Help: Hide Inspector, Value: Open, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		59 menu button More actions, Help: Activity, command palette, and more actions, ID: toolbar-more
+	60 close button
+	61 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	62 minimize button
+	63 text fixture main
+64 menu bar
+	65 WeGit, ID: native-menu-app
+	66 File, ID: native-menu-file
+	67 Edit, ID: native-menu-edit
+	68 View, ID: native-menu-view
+	69 Repository, ID: native-menu-repository
+	70 Workspace, ID: native-menu-workspace
+	71 Window, ID: native-menu-window
+	72 Help, ID: native-menu-help
+
+The focused UI element is 0 standard window fixture – main, ID: main, Secondary Actions: Raise

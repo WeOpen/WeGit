@@ -1,0 +1,92 @@
+{
+  "verifiedAt": "2026-10-12",
+  "branch": "codex/v1-validation",
+  "applicationSourceSHA256": "a67ade06585ea10b4e001677c63743701f4904fb47ea4080ab231ef1c18d7f9c",
+  "core": [
+    {
+      "git": "Apple Git 2.54.0",
+      "tests": 176,
+      "suites": 31,
+      "passed": true,
+      "log": "/tmp/wegit-v1-validation-final-core-system.log"
+    },
+    {
+      "git": "2.46.0",
+      "tests": 176,
+      "suites": 31,
+      "passed": true,
+      "log": "/tmp/wegit-v1-validation-final-core-git246.log"
+    }
+  ],
+  "functionalUI": {
+    "tests": 37,
+    "passed": 36,
+    "failed": 1,
+    "resultBundle": ".build-app/v1-validation-complete-functional-matrix.xcresult",
+    "readingCombinations": 144,
+    "readingMatrixPassed": true,
+    "failure": "Clone long URL input retains only a prefix; no successful retry recorded"
+  },
+  "uiEnvironment": {
+    "resultBundle": ".build-app/v1-validation-clone-long-input-diagnostics.xcresult",
+    "failure": "Timed out while enabling automation mode before any test executed",
+    "computerUse": "Native application inspection also timed out"
+  },
+  "performance": {
+    "normal": "docs/performance/2026-10-11/workbench-final-normal.json",
+    "normalBudgetsPassed": true,
+    "large": "docs/performance/2026-10-11/workbench-final-large.json",
+    "diskScroll": "docs/performance/2026-10-11/large-scroll.json",
+    "diskScrollAllSamplesAbove60FPS": true,
+    "pending": [
+      "History scrolling",
+      "Complex graph UI",
+      "Large operation UI cancellation",
+      "Special types complete layout/accessibility matrix"
+    ]
+  },
+  "accessibility": {
+    "passed": false,
+    "latestAutomaticIssueCount": 44,
+    "voiceOverPassed": false,
+    "latestResultBundle": ".build-app/v1-native-anchor-audit.xcresult",
+    "finalSourceReaudit": "Blocked by XCTest initialization"
+  },
+  "releaseReady": false,
+  "externalDependencies": [
+    "Developer ID Application certificate and private key",
+    "Apple Team ID and local notarytool profile",
+    "Qualified interactive runner",
+    "Clean target machine",
+    "GitLab/GPG/Homebrew acceptance environments",
+    "10-30 Beta users and explicit invite authorization"
+  ],
+  "formatCheck": {
+    "strict": true,
+    "passed": true,
+    "log": "/tmp/wegit-v1-validation-final-format.log"
+  },
+  "format": 1,
+  "builds": {
+    "Debug": {
+      "passed": true,
+      "log": "/tmp/wegit-v1-validation-final-debug-build.log"
+    },
+    "Release": {
+      "passed": true,
+      "log": "/tmp/wegit-v1-validation-final-release-build.log"
+    }
+  },
+  "developmentPackage": {
+    "archive": ".build/releases/package-rbNdcN/WeGit-0.1.0-development.zip",
+    "manifest": ".build/releases/package-rbNdcN/manifest.json",
+    "sha256": "931702d394e6befdbb10ee713817a0def0a5f0c42069d14f06dac0916bc49644",
+    "configuration": "Release",
+    "notarized": false,
+    "zipCRCVerified": true,
+    "unsafeEntitlements": [],
+    "sourceMatchesAcceptedPerformanceBuild": true,
+    "workspaceDirty": true
+  },
+  "commitPush": "Deferred until full native validation succeeds, as requested"
+}

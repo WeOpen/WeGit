@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-16",
+  "scope": "Native surfaces and independent custom theme feature",
+  "sourceSummarySHA256": "9b8f7f77bc312b804d1d42c9429c695009fad10be91523ab972c8f6622e6ba1f",
+  "gitCommit": "c99aa80b96465e4651e810bcd7ee2ddfbccfd1a0",
+  "workspaceDirty": true,
+  "toolchain": {
+    "os": "27.0.1",
+    "xcode": "Xcode 27.0\nBuild version 27A266a",
+    "architecture": "arm64"
+  },
+  "checks": {
+    "coreAppleGit": {
+      "tests": 183,
+      "suites": 32,
+      "passed": true
+    },
+    "coreGit246": {
+      "tests": 183,
+      "suites": 32,
+      "passed": true
+    },
+    "themes": 34,
+    "appearanceIcons": 16,
+    "nativeMenu": 27,
+    "preferenceMigration": 15,
+    "localizationStrings": 998,
+    "pluralKeys": 7,
+    "strictFormat": true,
+    "debug": true,
+    "release": true,
+    "nativeUITestCompilation": true,
+    "restoredStartup": 6,
+    "startupSourceMatchesRelease": true,
+    "zipCRC": true,
+    "archiveSHA256": "94698b5f1e75aac03e976f6cccfe5967225222e9b59988603f35da9927f334ec",
+    "signatureIntegrity": true,
+    "entitlements": {},
+    "v1ResourcesPreserved": 67
+  },
+  "manual": {
+    "fixtureReused": ".build/ui-review/alert-inspector-fcada191/fixture",
+    "fixtureUnchanged": true,
+    "builtinLightDarkCustomRoutes": [
+      "Changes",
+      "History",
+      "Branches"
+    ],
+    "inspectorAndSplit": true,
+    "customQuickPanel": true,
+    "englishSettingsEditorToolbarMenus": true,
+    "importExportEqual": true,
+    "malformedImportKeepsDraft": true,
+    "invalidColorDisablesApply": true,
+    "previewCancelRestoresTheme": true,
+    "savedThemeAndUnicodeCommitDraftSurviveRestart": true,
+    "preferencesRestored": true
+  },
+  "package": {
+    "directory": ".build/releases/package-MlXpuO",
+    "archive": "WeGit-0.1.0-development.zip",
+    "sha256": "94698b5f1e75aac03e976f6cccfe5967225222e9b59988603f35da9927f334ec",
+    "mode": "ad-hoc development preview",
+    "notarized": false
+  },
+  "limitations": [
+    "Full native XCTest execution remains blocked by the recorded initialization issue; compiled only.",
+    "No new complete VoiceOver, full keyboard, visual options or 144-combination acceptance.",
+    "No new 30-sample Release latency, memory or FPS conclusion.",
+    "Native OS controls follow selected light/dark base; contrast warnings cover declared solid-color pairs.",
+    "Formal Developer ID, notarization, clean-machine installation and Beta remain incomplete."
+  ]
+}

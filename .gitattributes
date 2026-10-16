@@ -1,0 +1,3 @@
+# Preserve captured diagnostics byte-for-byte; source and Markdown keep normal checks.
+docs/acceptance/**/*.log -whitespace
+docs/acceptance/**/*.txt -whitespace

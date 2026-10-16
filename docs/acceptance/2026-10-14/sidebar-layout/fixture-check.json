@@ -1,0 +1,6 @@
+{
+  "['rev-parse', 'HEAD']": true,
+  "['status', '--porcelain=v1']": true,
+  "['ls-files', '--stage']": true,
+  "['diff', 'HEAD']": true
+}

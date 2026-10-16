@@ -1,0 +1,19 @@
+{
+  "unchanged": true,
+  "before": {
+    "root": "/Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture",
+    "head": "a009c3519cb792d61d7ef5bf6574700510cdf44a\n",
+    "status": " M Theme.swift\n",
+    "files": {
+      "Theme.swift": "5a538d8c6ddfe72f8cfd744dbc63c1503de7266368a63ecd33dc23024c00e991"
+    }
+  },
+  "after": {
+    "root": "/Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture",
+    "head": "a009c3519cb792d61d7ef5bf6574700510cdf44a\n",
+    "status": " M Theme.swift\n",
+    "files": {
+      "Theme.swift": "5a538d8c6ddfe72f8cfd744dbc63c1503de7266368a63ecd33dc23024c00e991"
+    }
+  }
+}

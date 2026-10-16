@@ -1,0 +1,26 @@
+Executable=/Users/willxue/will/WeOpen/WeGit/.build/releases/package-Fg4E0i/WeGit.app/Contents/MacOS/WeGit
+Identifier=com.willxue.wegit.development
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20500 size=22782 flags=0x10002(adhoc,runtime) hashes=705+3 location=embedded
+VersionPlatform=1
+VersionMin=1769472
+VersionSDK=1769472
+Hash type=sha256 size=32
+CandidateCDHash sha256=50fa6b492c81566fca8ec2692a179b53348841e3
+CandidateCDHashFull sha256=50fa6b492c81566fca8ec2692a179b53348841e31a9220c647076330a550b169
+Hash choices=sha256
+CMSDigest=50fa6b492c81566fca8ec2692a179b53348841e31a9220c647076330a550b169
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=3768320
+Executable Segment flags=0x1
+Page size=16384
+CDHash=50fa6b492c81566fca8ec2692a179b53348841e3
+Signature=adhoc
+Info.plist entries=24
+TeamIdentifier=not set
+Runtime Version=27.0.0
+Sealed Resources version=2 rules=13 files=15
+Internal requirements count=0 size=12
+Total signatures=1
+Chosen signature=1

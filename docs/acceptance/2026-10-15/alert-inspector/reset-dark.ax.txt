@@ -1,0 +1,17 @@
+Window: "", App: WeGit.
+0 dialog Description: alert, Secondary Actions: Raise
+	1 image alert
+	2 text Reset interface preferences? Reset theme, density, diff display, and repository page layouts. Git configuration, repositories, recent entries, and commit drafts are kept.
+	3 button Reset interface, ID: action-button-2
+	4 button Cancel, ID: action-button-1
+5 menu bar
+	6 WeGit, ID: native-menu-app
+	7 File, ID: native-menu-file
+	8 Edit, ID: native-menu-edit
+	9 View, ID: native-menu-view
+	10 Repository, ID: native-menu-repository
+	11 Workspace, ID: native-menu-workspace
+	12 Window, ID: native-menu-window
+	13 Help, ID: native-menu-help
+
+The focused UI element is 0 dialog Description: alert, Secondary Actions: Raise

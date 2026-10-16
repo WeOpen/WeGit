@@ -1,0 +1,38 @@
+Window: "fixture", App: WeGit.
+0 Window, ID: native-menu-window, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 填充
+		3 居中
+		4 移动与调整大小
+			5 菜单 Secondary Actions: Cancel
+				6 (disabled) 二等分
+				7 左侧
+				8 右侧
+				9 顶部
+				10 底部
+				11 (disabled) 四等分
+				12 左上
+				13 右上
+				14 左下
+				15 右下
+				16 (disabled) 排列
+				17 左侧与右侧
+				18 左侧与四等分
+				19 右侧与左侧
+				20 右侧与四等分
+				21 顶部与底部
+				22 顶部与四等分
+				23 底部与顶部
+				24 底部与四等分
+				25 四等分
+				26 (disabled) 恢复上一个大小
+		27 全屏幕平铺
+			28 菜单 Secondary Actions: Cancel
+				29 屏幕左侧
+				30 屏幕右侧
+		31 移到“小旭姐的iPad”
+		32 (disabled) 从组中移除窗口
+		33 Minimize, ID: native-command-minimize
+		34 Zoom, ID: native-command-zoom
+		35 Show WeGit main window, ID: native-command-showMainWindow
+		36 Bring All to Front, ID: native-command-bringAllToFront

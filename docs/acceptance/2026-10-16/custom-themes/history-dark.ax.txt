@@ -1,0 +1,113 @@
+Window: "fixture", App: WeGit.
+0 标准窗口 fixture – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+1
+						8 row (selected) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) fixture、main
+				12 文本 Value: WeGit, ID: sidebar-brand
+				13 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			14 分离器 (disabled, settable, float) 209.5
+			15 分离组
+				16 分离组
+					17 container 历史浏览与筛选
+						18 文本 提交历史
+						19 文本 Value: 1 个提交, ID: history-count
+						20 弹出式按钮 Description: 浏览范围, Value: 全部引用, ID: history-scope
+						21 弹出式按钮 Description: 搜索字段, Value: 消息, ID: history-search-field
+						22 文本栏 (settable) Description: 搜索提交消息, ID: history-search
+						23 滚动区
+							24 外框 Description: 提交历史列表, ID: history-list
+								25 row (selected) Value: 提交 a009c3519cb7，作者 UI Fixture，0 个父提交, Description: HEAD，分支列 1
+Initial theme fixture
+								26 container
+									27 排序按钮 图
+									28 排序按钮 提交
+					29 分离器 (disabled, settable, float) 550
+					30 container 提交详情
+						31 text Initial theme fixture 作者：UI Fixture <ui@example.invalid> 2026年10月15日 21:27 提交者：UI Fixture <ui@example.invalid> · 2026年10月15日 21:27
+						32 显示三角形 Description: 完整提交消息, Value: off
+						33 文本 a009c3519cb792d61d7ef5bf6574700510cdf44a
+							34 文本 a009c3519cb792d61d7ef5bf6574700510cdf44a
+						35 按钮 Description: 复制 SHA, ID: history-copy-sha
+						36 菜单按钮 所选提交的操作, ID: history-operations
+						37 文本 根提交 · 相对于空树
+						38 滚动区 Secondary Actions: Scroll Up, Scroll Down
+							39 列表 Description: 本次提交的文件变化, ID: commit-files
+								40 row (selected) 状态：新增
+Theme.swift
++1 −0
+							41 滚动条 (settable, float) 0
+								42 值指示器 (settable, float) 0
+								43 增箭头按钮
+								44 减箭头按钮
+								45 增页面按钮
+								46 减页面按钮
+						47 Description: 布局, ID: diff-layout
+							48 单选按钮 Description: 统一, Value: 0
+							49 单选按钮 Description: 分栏, Value: 1
+						50 菜单按钮 阅读选项
+						51 按钮 复制补丁
+						52 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+						53 按钮 (disabled) Description: 下一差异块, ID: diff-hunk-next
+						54 文本 Value: 差异块 1 / 1, ID: diff-hunk-position
+						55 滚动区 Description: 文本差异, ID: diff-content
+							56 container 文本差异内容
+								57 container Description: 差异列标题, ID: diff-column-headers
+									58 text 原始内容 修改后
+								59 container 差异块：@@ -0,0 +1 @@
+									60 文本 @@ -0,0 +1 @@
+									61 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+								62 container Description: 原始与修改后的代码行, ID: split-diff-row
+									63 文本 1
+									64 文本输入区 Description: 修改后的代码，第 1 行, Value: let value = 1, ID: diff-code:0
+				65 分离器 (disabled, settable, float) 971
+				66 滚动区 Description: 检查器, ID: repository-inspector
+					67 标题 仓库
+					68 container
+						69 text 名称, Value: fixture /Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture
+						70 按钮 在 Finder 中显示
+						71 按钮 在 Terminal 中打开
+						72 按钮 在 Xcode 中打开…
+						73 按钮 复制仓库路径
+					74 标题 分支
+					75 container
+						76 text 当前, Value: main 未设置 — / —
+					77 标题 文件
+					78 container
+						79 text Theme.swift 1 1
+	80 工具栏
+		81 container 隐藏边栏
+			82 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		83 按钮 Description: fixture, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture
+切换仓库 ⌘K
+		84 菜单按钮 main · 无上游, Description: 分叉为两条路径的三角形箭头, Value: 同步状态：无上游, ID: current-branch
+		85 菜单按钮 (disabled) 获取, Help: 尚未配置 Remote, ID: toolbar-fetch
+		86 按钮 (disabled) Description: 拉取, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		87 按钮 (disabled) Description: 推送, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		88 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		89 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		90 按钮 Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		91 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	92 关闭按钮
+	93 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	94 最小化按钮
+	95 text fixture main
+96 menu bar
+	97 WeGit, ID: native-menu-app
+	98 文件, ID: native-menu-file
+	99 编辑, ID: native-menu-edit
+	100 显示, ID: native-menu-view
+	101 仓库, ID: native-menu-repository
+	102 工作区, ID: native-menu-workspace
+	103 窗口, ID: native-menu-window
+	104 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 fixture – main, ID: main, Secondary Actions: Raise

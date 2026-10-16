@@ -1,0 +1,19 @@
+{
+  "sourceSHA256": "b5b9e32eeb997e1e091c509f6895fb3a6c1eb20601e16e602ef83c4fbcf0d866",
+  "archiveSHA256": "75cf1834e848df38801b088882ed9804b83075c00e7e7c36446a8bf4a24b50f9",
+  "package": ".build/releases/package-M47FMn",
+  "coreInputsUnchanged": true,
+  "changedApplicationInputs": [
+    "WeGit/DesignSystem/AppColors.swift",
+    "WeGit/DesignSystem/AppStyle.swift",
+    "WeGit/DesignSystem/Components.swift",
+    "WeGit/DesignSystem/GlassControls.swift",
+    "WeGit/Features/ChangesView.swift",
+    "WeGit/Features/CommitFilesView.swift",
+    "WeGit/Features/DiffCodeRow.swift",
+    "WeGit/Features/DiffContentView.swift",
+    "WeGit/Features/DiskDiffView.swift",
+    "WeGit/Features/HistoryView.swift",
+    "WeGit/Features/WorkspaceView.swift"
+  ]
+}

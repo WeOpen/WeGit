@@ -1,0 +1,16 @@
+{
+  "semanticUnchanged": true,
+  "before": {
+    "head": "6fcdc1a8a3fbdfb4d2ee6fc1ff34e46f61cceead",
+    "status": "M  README.md\n M Sources/Repository.swift\n?? Sources/MenuSignal.swift\n?? Sources/Review.swift\n",
+    "indexEntries": "100644 ef6e6999cc85d53540798f572aa73c487dbc94a7 0\tConfiguration/theme.json\n100644 1701fda5b6f3b01227fd86366ee5987a818e7c86 0\tREADME.md\n100644 b70113800cb182a959bfbd957ae32c77d651e0fb 0\tSources/Repository.swift\n100644 81b8cbcecbc7ea452a45f831dd70d8ffc128a634 0\tSources/Workspace.swift\n",
+    "diffSHA256": "07f326c2d58f35b6f92c4472e0f322b81ea2e4aa0fb273c0d52b8b05d7386773"
+  },
+  "after": {
+    "head": "6fcdc1a8a3fbdfb4d2ee6fc1ff34e46f61cceead",
+    "status": "M  README.md\n M Sources/Repository.swift\n?? Sources/MenuSignal.swift\n?? Sources/Review.swift\n",
+    "indexEntries": "100644 ef6e6999cc85d53540798f572aa73c487dbc94a7 0\tConfiguration/theme.json\n100644 1701fda5b6f3b01227fd86366ee5987a818e7c86 0\tREADME.md\n100644 b70113800cb182a959bfbd957ae32c77d651e0fb 0\tSources/Repository.swift\n100644 81b8cbcecbc7ea452a45f831dd70d8ffc128a634 0\tSources/Workspace.swift\n",
+    "diffSHA256": "07f326c2d58f35b6f92c4472e0f322b81ea2e4aa0fb273c0d52b8b05d7386773"
+  },
+  "note": "Physical index bytes were not asserted; copied cache metadata may refresh during Git reads."
+}

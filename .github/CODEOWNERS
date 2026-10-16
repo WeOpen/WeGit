@@ -6,3 +6,4 @@
 /scripts/build_provenance.py @xuewill
 /site/ @xuewill
 /scripts/build_website.py @xuewill
+/.gitleaks.toml @xuewill

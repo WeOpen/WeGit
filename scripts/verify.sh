@@ -3,6 +3,13 @@ set -euo pipefail
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
 swift format lint --strict --recursive WeGitCore WeGit WeGitAskPass WeGitTests WeGitUITests WeGitPerformanceTests Benchmarks Package.swift
+swift format lint --strict scripts/PreferenceMigrationChecks.swift
+swift format lint --strict scripts/NativeApplicationMenuChecks.swift
+swift format lint --strict scripts/AppearanceIconChecks.swift
+swift format lint --strict scripts/ThemeChecks.swift
+swift format lint --strict scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift
+scripts/verify-preference-migration.sh
+python3 scripts/verify-localization.py
 if [[ "${WEGIT_SERIAL_CORE_TESTS:-0}" == 1 ]]; then
   swift test --no-parallel
 else
@@ -10,6 +17,9 @@ else
 fi
 scripts/build.sh Debug
 if [[ "${1:-}" == "--ui" ]]; then
+  scripts/verify-themes.sh
+  scripts/verify-appearance-icons.sh
+  scripts/verify-native-application-menu.sh
   xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
     -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app test
 fi

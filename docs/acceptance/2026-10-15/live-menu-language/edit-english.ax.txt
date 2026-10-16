@@ -1,0 +1,11 @@
+Window: "fixture", App: WeGit.
+0 Edit, ID: native-menu-edit, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 Undo, ID: native-command-undo
+		3 (disabled) Redo, ID: native-command-redo
+		4 (disabled) Cut, ID: native-command-cut
+		5 (disabled) Copy, ID: native-command-copy
+		6 (disabled) Paste, ID: native-command-paste
+		7 (disabled) Paste and Match Style, ID: native-command-pasteMatchingStyle
+		8 (disabled) Delete, ID: native-command-delete
+		9 Select All, ID: native-command-selectAll

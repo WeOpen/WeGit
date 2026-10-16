@@ -41,7 +41,7 @@ extension RepositoryService {
         if let path = branch.worktreePath,
             URL(fileURLWithPath: path).resolvingSymlinksInPath() != location.root
         {
-            throw ModelFailure.unsupported("此分支正在其他工作树中使用：\(path)")
+            throw ModelFailure.unsupported(L10n.text("此分支正在其他工作树中使用：\(path)"))
         }
     }
 
@@ -50,7 +50,7 @@ extension RepositoryService {
             try await verifyHead(expectedHead)
             try await verifyCommit(oid)
             guard try await status().sequencer == .none else {
-                throw ModelFailure.unsupported("请先完成当前 Git 操作。")
+                throw ModelFailure.unsupported(L10n.text("请先完成当前 Git 操作。"))
             }
             try await verifyHead(expectedHead)
             _ = try await engine.run(["switch", "--detach", oid], in: location.root)
@@ -60,13 +60,15 @@ extension RepositoryService {
     func verifyCommit(_ oid: String) async throws {
         guard GitObjectID.valid(oid) else { throw ModelFailure.invalidPath }
         let type = try await engine.run(["cat-file", "-t", oid], in: location.root).text.removingLastNewline
-        guard type == "commit" else { throw ModelFailure.unsupported("起点不是有效提交。") }
+        guard type == "commit" else { throw ModelFailure.unsupported(L10n.text("起点不是有效提交。")) }
     }
 
     public func switchBranch(_ branch: GitBranch, expectedHead: String?) async throws {
         try await queue.perform {
             try await verifyHead(expectedHead)
-            guard !branch.remote else { throw ModelFailure.unsupported("请先创建本地跟踪分支；当前版本不会自动猜测名称。") }
+            guard !branch.remote else {
+                throw ModelFailure.unsupported(L10n.text("请先创建本地跟踪分支；当前版本不会自动猜测名称。"))
+            }
             let fresh = try await freshBranch(branch, localOnly: true)
             try ensureNotInOtherWorktree(fresh)
             try await verifyHead(expectedHead)
@@ -79,7 +81,7 @@ extension RepositoryService {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard state.files.isEmpty, state.sequencer == .none else {
-                throw ModelFailure.unsupported("合并前请先处理工作区改动。")
+                throw ModelFailure.unsupported(L10n.text("合并前请先处理工作区改动。"))
             }
             let source = try await engine.run(["rev-parse", "--verify", branch.id], in: location.root).text
                 .removingLastNewline
@@ -96,7 +98,7 @@ extension RepositoryService {
                 throw ModelFailure.changed
             }
             guard !continueOperation || state.conflicts.isEmpty else {
-                throw ModelFailure.unsupported("请先解决所有冲突。")
+                throw ModelFailure.unsupported(L10n.text("请先解决所有冲突。"))
             }
             let args =
                 expected == .merge && continueOperation

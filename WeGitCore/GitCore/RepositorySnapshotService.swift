@@ -1,15 +1,24 @@
 import Darwin
 import Foundation
+import OSLog
 
 extension RepositoryService {
-    public func readSnapshot(
+    private static let snapshotSignposter = OSSignposter(
+        subsystem: "com.willxue.wegit", category: "PointsOfInterest")
+    @concurrent public func readSnapshot(
         scope requested: RepositoryRefreshScope = .all,
         previousHead: String? = nil, previousBranch: String? = nil
     ) async throws -> RepositoryReadSnapshot {
-        try await queue.perform {
+        let interval = Self.snapshotSignposter.beginInterval(
+            "Repository snapshot", id: Self.snapshotSignposter.makeSignpostID())
+        defer { Self.snapshotSignposter.endInterval("Repository snapshot", interval) }
+        return try await queue.perform {
             // A CLI read sequence is not an atomic Git snapshot. Retry a bounded number
             // of times if HEAD, branch identity or index changes while reading it.
             for _ in 0..<3 {
+                let attempt = Self.snapshotSignposter.beginInterval(
+                    "Snapshot attempt", id: Self.snapshotSignposter.makeSignpostID())
+                defer { Self.snapshotSignposter.endInterval("Snapshot attempt", attempt) }
                 try Task.checkCancellation()
                 try location.validateIdentity()
                 let index = try IndexVersion.read(location.gitDirectory.appending(path: "index"))
@@ -18,13 +27,20 @@ extension RepositoryService {
                 if state.head != previousHead || state.branch != previousBranch {
                     scope.formUnion([.status, .references, .history, .diff])
                 }
-                let refs = scope.contains(.references) ? try await branches() : nil
-                let remotes = scope.contains(.configuration) ? try await remotes() : nil
-                let finalHead = try await head()
-                let symbolic = try await engine.run(
+                let readsReferences = scope.contains(.references)
+                let readsConfiguration = scope.contains(.configuration)
+                // These independent reads stay inside the same repository permit.
+                // Await both before the final HEAD/branch/index consistency checks.
+                async let references: [GitBranch]? = readsReferences ? branches() : nil
+                async let configuration: [String]? = readsConfiguration ? remotes() : nil
+                let (refs, remotes) = try await (references, configuration)
+                async let headCheck = head()
+                async let branchCheck = engine.run(
                     ["symbolic-ref", "--quiet", "HEAD"], in: location.root,
                     accepted: [0, 1]
-                ).text.removingLastNewline
+                )
+                let (finalHead, branchResult) = try await (headCheck, branchCheck)
+                let symbolic = branchResult.text.removingLastNewline
                 let finalBranch =
                     symbolic.hasPrefix("refs/heads/")
                     ? String(symbolic.dropFirst("refs/heads/".count)) : "(detached)"
@@ -53,7 +69,7 @@ private struct IndexVersion: Equatable {
         var info = stat()
         guard lstat(url.path, &info) == 0 else {
             if errno == ENOENT { return nil }
-            throw ModelFailure.unsupported("无法检查 Git 索引，请确认仓库权限。")
+            throw ModelFailure.unsupported(L10n.text("无法检查 Git 索引，请确认仓库权限。"))
         }
         return Self(
             device: info.st_dev, inode: info.st_ino, size: info.st_size,

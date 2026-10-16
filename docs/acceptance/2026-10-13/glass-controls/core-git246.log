@@ -1,0 +1,466 @@
+Building for debugging...
+[1 / 1]
+Build complete! (0.38秒)
+Test Suite 'All tests' started at 2026-10-13 22:25:01.365.
+Test Suite 'All tests' passed at 2026-10-13 22:25:01.365.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2084
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite RefreshTests started.
+􀟈  Suite DiffWorkflowTests started.
+􀟈  Suite CommitComparisonTests started.
+􀟈  Suite QueueTests started.
+􀟈  Suite DiffPresentationTests started.
+􀟈  Suite ProcessTests started.
+􀟈  Suite CompatibilityTests started.
+􀟈  Suite DiffNavigationTests started.
+􀟈  Suite RepositoryTests started.
+􀟈  Suite CloneTests started.
+􀟈  Suite WordDiffTests started.
+􀟈  Suite HistoryPagingTests started.
+􀟈  Suite GitSafetyTests started.
+􀟈  Suite GitInstallationTests started.
+􀟈  Suite SyntaxCoverageTests started.
+􀟈  Suite UntrackedTrashTests started.
+􀟈  Suite ActivityOutcomeTests started.
+􀟈  Suite GitConfigurationTests started.
+􀟈  Suite ContextAndWatcherTests started.
+􀟈  Suite ChangeFilterTests started.
+􀟈  Suite GitCompatibilityTests started.
+􀟈  Suite TestGitIsolationTests started.
+􀟈  Suite DiffLoadingTests started.
+􀟈  Suite SequencerAndGraphTests started.
+􀟈  Suite RemoteWorkflowTests started.
+􀟈  Suite DiskDiffTests started.
+􀟈  Test backgroundStatusDoesNotRewriteTheIndexStatCache() started.
+􀟈  Suite DiffContextTests started.
+􀟈  Test fileEventsMergeScopesAndIgnoreObjectStorage() started.
+􀟈  Suite CodeTextPresentationTests started.
+􀟈  Test snapshotSupportsUnbornAndDetachedHeads() started.
+􀟈  Suite BranchManagementTests started.
+􀟈  Test binaryLookingCodeIsTextAndTypeChangeIsReadOnly() started.
+􀟈  Suite RepositoryFileTests started.
+􀟈  Test worktreeRefreshDoesNotRescanReferencesAndRemoteConfiguration() started.
+􀟈  Test rejectsHunkThatDoesNotBelongToTheFreshDiff() started.
+􀟈  Suite AuthenticationTests started.
+􀟈  Test continuousExternalChangesFailRatherThanPublishAMixedSnapshot() started.
+􀟈  Test ignoreWhitespaceNeverPermitsWritingTheFilteredPatch() started.
+􀟈  Test branchSwitchDuringReadRetriesEvenWhenTheCommitIsUnchanged() started.
+􀟈  Test staleBinaryDiscardIsRejected() started.
+􀟈  Test rootCommitListsLiteralPathsAndBinaryFiles() started.
+􀟈  Test patchPathsAreIndependentOfUserDiffPrefixConfiguration() started.
+􀟈  Test parserRejectsIncompleteAndOverflowingHunks() started.
+􀟈  Test mergeFilesChangeWithTheSelectedParent() started.
+􀟈  Test rejectsTruncatedRenameAndNonUTF8Paths() started.
+􀟈  Test cancellingCloneRetainsRecoveryAndRejectsConcurrentStart() started.
+􀟈  Test alignsReplacementsAndUnequalSides() started.
+􀟈  Test hookFailurePreservesIndexAndMessage() started.
+􀟈  Test credentialsAndInvalidNamesRejectedBeforeStarting() started.
+􀟈  Test cloneRealRepositoryAndValidateResult() started.
+􀟈  Test literalPathsUnbornUnstageAndPartialCommit() started.
+􀟈  Test cleanupRefusesNewFilesAndReplacedDirectories() started.
+􀟈  Test cancelledWaiterNeverExecutesAndPermitRecovers() started.
+􀟈  Test ownsPermitAcrossSuspension() started.
+􀟈  Test expandedContextIsReadAndAppliedAgainstTheSameOptions() started.
+􀟈  Test neverTakesOverExistingFileDirectoryOrSymlink() started.
+􀟈  Test mergeConflictCanBeResolvedAndContinued() started.
+􀟈  Test unstageRenameRestoresBothIndexPaths() started.
+􀟈  Test renamedFilesKeepBothPathsAndZeroChangeStatistics() started.
+􀟈  Test concurrentProcessesDoNotStarveTheirPipeReaders() started.
+􀟈  Test discardHunkKeepsStagedContentAndOtherWorkingChanges() started.
+􀟈  Test failedCloneCanOnlyMoveItsOwnUnchangedDirectory() started.
+􀟈  Test cancellationAndOutputLimit() started.
+􀟈  Test progressHandlesFragmentedCarriageReturnsAndIgnoresSecrets() started.
+􀟈  Test preservesCRLFAndNoFinalNewlineInPatch() started.
+􀟈  Test untrackedSymlinkIsNotFollowedAndFIFOIsRejected() started.
+􀟈  Test historyUsesLengthDelimitedObjects() started.
+􀟈  Test hunkStageStalePatchAndMessageOnlyAmend() started.
+􀟈  Test handlesInsertionsDeletionsAndWhitespace() started.
+􀟈  Test drainsBothPipesAndClosesInput() started.
+􀟈  Test highlightingDoesNotChangeThePatchAppliedToGit() started.
+􀟈  Test graphEndsAtRootsAndDoesNotInventAnIncomingEdgeForNewTips() started.
+􀟈  Test queuedProcessCancellationNeverLaunchesAndReturnsCapacity() started.
+􀟈  Test boundsWorkForLongLinesAndDenseTokens() started.
+􀟈  Test rejectsWrongHeadAndInvalidPaths() started.
+􀟈  Test launchFailureAndClosedStdinDoNotCrash() started.
+􀟈  Test timeoutTerminatesProcessGroup() started.
+􀟈  Test messageAndAuthorSearchUseLiteralQueriesAndFixedTips() started.
+􀟈  Test immutableCommitDiffIgnoresLaterWorktreeAndHeadChanges() started.
+􀟈  Test graphLanesContinueAcrossMergePages() started.
+􀟈  Test interruptedCommitReportsAnObservedHeadWithoutClaimingRollback() started.
+􀟈  Test shaSearchIgnoresRefNameAmbiguityAndHonorsTheChosenRange() started.
+􀟈  Test advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test repeatedWordsKeepTheCommonSuffix() started.
+􀟈  Test movedRepositoryKeepsEntityIdentityButRequiresItsNewPath() started.
+􀟈  Test distinguishesSeparateChangedWords() started.
+􀟈  Test presentationPreparationRespectsCancellation() started.
+􀟈  Test diagnosticRedactionRemovesWholeAuthenticationValues() started.
+􀟈  Test initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test shallowHistoryRetainsRealParentIDsAndMarksTheBoundary() started.
+􀟈  Test splitRowIdentityIsUniqueAcrossHunks() started.
+􀟈  Test unknownLanguagesAndOversizedLinesUsePlainText() started.
+􀟈  Test cancelledAndTimedOutOperationsAreRecordedWithoutInventedExitCodes() started.
+􀟈  Test strategyAndBranchValidationDoesNotWriteInvalidValues() started.
+􀟈  Test samePathReplacementWithIdenticalHeadCannotUseTheOldSession() started.
+􀟈  Test replacingTheRepositoryAfterPatchPreflightStopsTheActualWrite() started.
+􀟈  Test activityIdentifiesRepositoriesWithoutStoringCommandArguments() started.
+􀟈  Test onlyTheSymlinkEntryMovesToTrash() started.
+􀟈  Test changedOrNewlyTrackedFilesCannotUseAnOldConfirmation() started.
+􀟈  Test systemTrashProducesARecoverableReceipt() started.
+􀟈  Test keepsUnicodeGraphemesIntact() started.
+􀟈  Test defaultRangeIncludesTagOnlyHistoryAndCurrentBranchCanBeSelected() started.
+􀟈  Test removalPreservesTheIndexAndOtherWorkingFiles() started.
+􀟈  Test staleConfigurationIsNotOverwritten() started.
+􀟈  Test changedGitFilePointerInvalidatesTheCapturedRepository() started.
+􀟈  Test configurationEditorDistinguishesScopeInheritanceAndOrigins() started.
+􀟈  Test pagesKeepFixedTipsAfterReferencesMove() started.
+􀟈  Test rejectsSameCommitOnDifferentBranch() started.
+􀟈  Test lineEndingsRemainExactAcrossMemoryAndDiskPageBoundaries() started.
+􀟈  Test unavailableTrashNeverDeletesTheFile() started.
+􀟈  Test receivesExternalFileEvents() started.
+􀟈  Test statusFilteringMatchesTheDisplayedLayerAndCountsEachPathOnce() started.
+􀟈  Test parserPreservesControlCharactersAndRejectsIncompleteObjects() started.
+􀟈  Test diskDisplayPrefixesPreserveUnicodeAtTheirByteBoundary() started.
+􀟈  Test conflictAndUntrackedStatesRemainDistinctFromAddedFiles() started.
+􀟈  Test selectedGitPassesTheRequiredRuntimeConfigurationProbe() started.
+􀟈  Test detectsInstalledGitAndRejectsInvalidPreference() started.
+􀟈  Test unsupportedGitIsRejectedBeforeAnyFixtureCommand() started.
+􀟈  Test globalWritesRequireAnExplicitPrivateFileAndCannotUseInheritedPaths() started.
+􀟈  Test sparseJumpAndCopiedPatchMatchTheExactSelectedHunk() started.
+􀟈  Test historicalBranchStartAndDetachedCheckoutUseExactCommits() started.
+􀟈  Test copiedHunkRefusesAChangedSnapshot() started.
+􀟈  Test respectsExistingSSHSigningConfiguration() started.
+􀟈  Test globalScopeIsRewrittenToThePrivateFileBeforeTheProcessRuns() started.
+􀟈  Test concurrentFixtureCommandsShareTheReadOnlyIsolationProbe() started.
+􀟈  Test untrackedSummaryUsesSizeAndSpillsPastItsMemoryLimit() started.
+􀟈  Test cancelsAnExplicitReadAfterTheGitRequestHasStarted() started.
+􀟈  Test replacedPrivateConfigurationNeverReachesGit() started.
+􀟈  Test longLineFallsBackToSummaryThenKeepsAnExactPatch() started.
+􀟈  Test binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) started.
+􀟈  Test cancelledReadAndPageRequestsThrow() started.
+􀟈  Test memoryCeilingsSwitchToCompleteDiskSnapshots() started.
+􀟈  Test failedGitAmIsNotMisidentifiedAsAnAppSupportedRebase() started.
+􀟈  Test largeDiffIsSummarizedBeforeReadingAnyPatch() started.
+􀟈  Test summaryHandlesSpecialPathsBinaryAndInvalidCounts() started.
+􀟈  Test failedAbortKeepsTheUsersResolutionAndSequencerState() started.
+􀟈  Test realOctopusMergePreservesEveryParentAcrossPages() started.
+􀟈  Test invalidPushTargetDoesNotCreateAnAvoidableLocalCommit() started.
+􀟈  Test fastForwardRejectionKeepsTheLocalTipAndCleansTheFetchReference() started.
+􀟈  Test divergenceRejectsNormalPushAndFetchCannotRefreshAnExistingLease() started.
+􀟈  Test configuredEmptyURLValuesClearEarlierDestinations() started.
+􀟈  Test firstPushCreatesOnlyTheSelectedBranchAndSetsItsUpstream() started.
+􀟈  Test commitAndPushRetainsTheDeliveredCommitWhenItsReplyIsLost() started.
+􀟈  Test pushCannotBeRedirectedAfterItsDestinationWasVerified() started.
+􀟈  Test remoteChangesAfterDeliveryStayUncertainAndVerificationCannotWrite() started.
+􀟈  Test pullCannotBeRedirectedAfterItsDestinationWasVerified() started.
+􀟈  Test anotherFetchCannotReplaceTheCommitBeingPulled() started.
+􀟈  Test pullPreferenceShowsItsConfigurationSourceAndRequiresExplicitUnsupportedChoices() started.
+􀟈  Test lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test urlRewritingUsesTheEffectivePushDestinationForTheLease() started.
+􀟈  Test upstreamFailureReportsTheSuccessfulPushWithoutRepeatingIt() started.
+􀟈  Test failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) started.
+􀟈  Test case passing 1 argument failure → .oldVersion to advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test case passing 1 argument failure → .ignoredIsolation to advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test verificationKeepsTheOriginalDestinationAndDoesNotDependOnCurrentHead() started.
+􀟈  Test case passing 1 argument failure → .ignoredURLReset to advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test movedBranchAndChangedRemoteConfigurationInvalidatePushPlans() started.
+􀟈  Test porcelainRemoteFailureAndPartialReportsCannotProveRejection() started.
+􀟈  Test case passing 1 argument sample → ("file.swift", "let value = \"中文🙂\" // note", "let") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test cancellingAfterCommitRetainsTheCommittedOutcome() started.
+􀟈  Test case passing 1 argument sample → ("file.m", "@interface Example", "interface") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.js", "const value = 42", "const") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test configuredNoFastForwardPullCreatesAnExplicitMergeCommit() started.
+􀟈  Test case passing 1 argument sample → ("file.ts", "interface Example {}", "interface") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test anEffectiveURLIsNotRewrittenASecondTimeDuringLeaseLookup() started.
+􀟈  Test case passing 1 argument sample → ("file.html", "<div class=\"title\">", "<div") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.css", "color: #abcdef;", "color") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test commitThenPushFailureCanRetryOnlyThePush() started.
+􀟈  Test pullRebaseHandlesRepeatedConflictsAndAbort(abort:) started.
+􀟈  Test case passing 1 argument sample → ("file.yaml", "enabled: true # note", "# note") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.json", "{\"enabled\": true}", "true") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.md", "# Document title", "# Document title") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test restoredReceiptsRejectAnotherRepositoryBeforeQueryingItsRemote() started.
+􀟈  Test case passing 1 argument sample → ("file.java", "public class Example {}", "public") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.kt", "fun example() = 42", "fun") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.go", "func example() {}", "func") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.rs", "pub fn example() {}", "pub") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.sh", "echo \'value\' # note", "echo") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test confirmedLocalDestinationsPreserveNewlines(relative:) started.
+􀟈  Test relativeDestinationsCannotChangeAfterMovingTheRepository() started.
+􀟈  Test case passing 1 argument sample → ("file.py", "def example(): # note", "def") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test firstPushRespectsCustomTrackingMappings() started.
+􀟈  Test largePatchReadsOnlyRequestedPagesAndExportsExactBytes() started.
+􀟈  Test cancellingDiskCapturePreservesAReplacementAtItsOriginalPath() started.
+􀟈  Test diskPagesMatchUnifiedAndSplitAcrossHunksAndPageBoundaries() started.
+􀟈  Test missingBranchLeaseProtectsAgainstAConcurrentCreation() started.
+􀟈  Test outputFileCaptureDoesNotBufferStdoutOrOverwriteExistingFiles() started.
+􀟈  Test receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test releasedSnapshotsRemoveTheirPrivateFiles() started.
+􀟈  Test previewHandlesLongUTF8LinesBinaryAndFileChanges() started.
+􀟈  Test fileBackedHunkStageUnstageAndDiscardPreserveOtherChanges() started.
+􀟈  Test diskCaptureRetainsSymlinkSafetyAndRejectsFIFOAndOversizedFiles() started.
+􀟈  Test diskAndMemorySnapshotsExposeTheSameContextRanges() started.
+􀟈  Test largeContextReadsFixedBlobOffsetsAfterIndexChanges() started.
+􀟈  Test selectionAcrossLoadedCellsPreservesSourceOrderAndLineEndings() started.
+􀟈  Test emptyAndInvalidSelectionsNeverFabricateSource() started.
+􀟈  Test truncatedDisplayDoesNotCopyEllipsisOrBrokenUnicode() started.
+􀟈  Test multipleURLsPushToExactlyOneDestination(explicitPushURL:) started.
+􀟈  Test renameAndSafeDeleteKeepTheCurrentBranchAndWorktree() started.
+􀟈  Test copyUsesOriginalWhitespaceAndUnicodeOffsets() started.
+􀟈  Test trackingBranchReportsDivergenceAndMissingUpstream() started.
+􀟈  Test contextUsesTheCapturedIndexBlobEvenAfterFurtherEdits() started.
+􀟈  Test abandonedCleanupPreservesLiveUnknownAndSymlinkEntries() started.
+􀟈  Test aTagWithTheSameNameDoesNotChangeTheBranchCommandName() started.
+􀟈  Test oversizedContextObjectUsesBoundedDiskPrefixes() started.
+􀟈  Test worktreePathsWithNewlinesArePreservedAndProtected() started.
+􀟈  Test unmergedDeletionRequiresConfirmationAndRejectsMovedTips() started.
+􀟈  Test cancellingAWorktreeReadStopsBeforeTheNextChunk() started.
+􀟈  Test allPreviewPathsRejectSymlinkedParentDirectories() started.
+􀟈  Test closingTheCommandCancelsItsPendingAuthentication() started.
+􀟈  Test replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) started.
+􀟈  Test invalidCapabilitiesCannotPromptAndRepliesAreRedactedUntilTheSessionCloses() started.
+􀟈  Test truncatedBranchOutputIsRejected() started.
+􀟈  Test encryptedSSHSigningCanAskForAPassphraseWithoutATerminal() started.
+􀟈  Test unansweredAuthenticationHasABoundedLifetime() started.
+􀟈  Test hostConfirmationIsExplicitAndExistingAskPassProgramsArePreserved() started.
+􀟈  Test gitCredentialsTravelThroughTheHelperAndNeverEnterActivityOrArguments() started.
+􀟈  Test expansionAndPagingNeverChangeTheHunkAppliedToTheIndex() started.
+􀟈  Test whitespaceFilteredDiffHasNoExpandersAndEmptyTailEndsCleanly() started.
+􀟈  Test deepPathsAndLiteralNamesUseTheSameBoundedReader() started.
+􁁛  Test binaryLookingCodeIsTextAndTypeChangeIsReadOnly() passed after 0.004 seconds.
+􀟈  Test longEchoedSecretsAreRemovedBeforeDiagnosticTruncation() started.
+􀟈  Test pullAppliesTheChosenPolicy(strategy:) started.
+􀟈  Test case passing 1 argument abort → false to binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) started.
+􀟈  Test case passing 1 argument abort → true to binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) started.
+􁁛  Test alignsReplacementsAndUnequalSides() passed after 0.004 seconds.
+􀟈  Test failedVerificationNeverRetriesTheWrite() started.
+􁁛  Test progressHandlesFragmentedCarriageReturnsAndIgnoresSecrets() passed after 0.004 seconds.
+􁁛  Test rejectsTruncatedRenameAndNonUTF8Paths() passed after 0.004 seconds.
+􀟈  Test case passing 1 argument mode → .timeout to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test case passing 1 argument mode → .cancellation to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􁁛  Test parserRejectsIncompleteAndOverflowingHunks() passed after 0.004 seconds.
+􀟈  Test case passing 1 argument mode → .transportFailure to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test case passing 1 argument mode → .cancelledFetch to failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) started.
+􀟈  Test case passing 1 argument mode → .switchBranch to failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) started.
+􁁛  Test graphLanesContinueAcrossMergePages() passed after 0.004 seconds.
+􁁛  Test graphEndsAtRootsAndDoesNotInventAnIncomingEdgeForNewTips() passed after 0.004 seconds.
+􁁛  Test boundsWorkForLongLinesAndDenseTokens() passed after 0.004 seconds.
+􁁛  Test splitRowIdentityIsUniqueAcrossHunks() passed after 0.004 seconds.
+􁁛  Test handlesInsertionsDeletionsAndWhitespace() passed after 0.004 seconds.
+􁁛  Test repeatedWordsKeepTheCommonSuffix() passed after 0.004 seconds.
+􁁛  Test distinguishesSeparateChangedWords() passed after 0.004 seconds.
+􁁛  Test diagnosticRedactionRemovesWholeAuthenticationValues() passed after 0.004 seconds.
+􀟈  Test case passing 1 argument abort → false to pullRebaseHandlesRepeatedConflictsAndAbort(abort:) started.
+􀟈  Test case passing 1 argument abort → true to pullRebaseHandlesRepeatedConflictsAndAbort(abort:) started.
+􁁛  Test unknownLanguagesAndOversizedLinesUsePlainText() passed after 0.004 seconds.
+􁁛  Test keepsUnicodeGraphemesIntact() passed after 0.004 seconds.
+􀟈  Test case passing 1 argument relative → true to confirmedLocalDestinationsPreserveNewlines(relative:) started.
+􀟈  Test case passing 1 argument relative → false to confirmedLocalDestinationsPreserveNewlines(relative:) started.
+􁁛  Test initialLanguagesHaveBoundedLexicalHighlighting(sample:) with 15 test cases passed after 0.004 seconds.
+􀟈  Test case passing 1 argument destination → "https://user:fixture-password@example.invalid/repo?access_token=fixture-token" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test case passing 1 argument destination → "ssh://user:fixture-password@example.invalid/repo" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test case passing 1 argument destination → "https://example.invalid/repo?custom_key=fixture-token" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test case passing 1 argument destination → "https://example.invalid/repo#fixture-token" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test case passing 1 argument explicitPushURL → true to multipleURLsPushToExactlyOneDestination(explicitPushURL:) started.
+􀟈  Test case passing 1 argument explicitPushURL → false to multipleURLsPushToExactlyOneDestination(explicitPushURL:) started.
+􀟈  Test contextPagesMapZeroLengthHunksCRLFAndFinalLine() started.
+􀟈  Test case passing 1 argument replaceParent → true to replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) started.
+􁁛  Test globalWritesRequireAnExplicitPrivateFileAndCannotUseInheritedPaths() passed after 0.005 seconds.
+􀟈  Test case passing 1 argument replaceParent → false to replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) started.
+􀟈  Test case passing 1 argument mode → .remoteFailure to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􁁛  Test conflictAndUntrackedStatesRemainDistinctFromAddedFiles() passed after 0.004 seconds.
+􁁛  Test parserPreservesControlCharactersAndRejectsIncompleteObjects() passed after 0.005 seconds.
+􀟈  Test case passing 1 argument strategy → .fastForwardOnly to pullAppliesTheChosenPolicy(strategy:) started.
+􀟈  Test case passing 1 argument strategy → .rebase to pullAppliesTheChosenPolicy(strategy:) started.
+􀟈  Test case passing 1 argument strategy → .merge to pullAppliesTheChosenPolicy(strategy:) started.
+􁁛  Test summaryHandlesSpecialPathsBinaryAndInvalidCounts() passed after 0.006 seconds.
+􁁛  Test porcelainRemoteFailureAndPartialReportsCannotProveRejection() passed after 0.006 seconds.
+􁁛  Test emptyAndInvalidSelectionsNeverFabricateSource() passed after 0.005 seconds.
+􁁛  Test truncatedDisplayDoesNotCopyEllipsisOrBrokenUnicode() passed after 0.005 seconds.
+􁁛  Test copyUsesOriginalWhitespaceAndUnicodeOffsets() passed after 0.005 seconds.
+􁁛  Test selectionAcrossLoadedCellsPreservesSourceOrderAndLineEndings() passed after 0.005 seconds.
+􁁛  Test truncatedBranchOutputIsRejected() passed after 0.005 seconds.
+􁁛  Test replacedPrivateConfigurationNeverReachesGit() passed after 0.008 seconds.
+􁁛  Suite SyntaxCoverageTests passed after 0.009 seconds.
+􁁛  Test presentationPreparationRespectsCancellation() passed after 0.008 seconds.
+􁁛  Suite CodeTextPresentationTests passed after 0.009 seconds.
+􁁛  Test unsupportedGitIsRejectedBeforeAnyFixtureCommand() passed after 0.008 seconds.
+􁁛  Test launchFailureAndClosedStdinDoNotCrash() passed after 0.011 seconds.
+􁁛  Test statusFilteringMatchesTheDisplayedLayerAndCountsEachPathOnce() passed after 0.011 seconds.
+􁁛  Suite ChangeFilterTests passed after 0.012 seconds.
+􁁛  Test hostConfirmationIsExplicitAndExistingAskPassProgramsArePreserved() passed after 0.024 seconds.
+􁁛  Test globalScopeIsRewrittenToThePrivateFileBeforeTheProcessRuns() passed after 0.031 seconds.
+􁁛  Test cancelledAndTimedOutOperationsAreRecordedWithoutInventedExitCodes() passed after 0.039 seconds.
+􁁛  Test queuedProcessCancellationNeverLaunchesAndReturnsCapacity() passed after 0.041 seconds.
+􁁛  Test unansweredAuthenticationHasABoundedLifetime() passed after 0.073 seconds.
+􁁛  Test concurrentProcessesDoNotStarveTheirPipeReaders() passed after 0.092 seconds.
+􁁛  Test drainsBothPipesAndClosesInput() passed after 0.092 seconds.
+􁁛  Test concurrentFixtureCommandsShareTheReadOnlyIsolationProbe() passed after 0.095 seconds.
+􁁛  Suite TestGitIsolationTests passed after 0.096 seconds.
+􁁛  Test advertisedVersionsCannotBypassRequiredCapabilities(failure:) with 3 test cases passed after 0.097 seconds.
+􁁛  Suite GitInstallationTests passed after 0.098 seconds.
+􁁛  Test invalidCapabilitiesCannotPromptAndRepliesAreRedactedUntilTheSessionCloses() passed after 0.094 seconds.
+􁁛  Test closingTheCommandCancelsItsPendingAuthentication() passed after 0.099 seconds.
+􁁛  Test longEchoedSecretsAreRemovedBeforeDiagnosticTruncation() passed after 0.099 seconds.
+􁁛  Test cancelledWaiterNeverExecutesAndPermitRecovers() passed after 0.104 seconds.
+􁁛  Test ownsPermitAcrossSuspension() passed after 0.158 seconds.
+􁁛  Suite QueueTests passed after 0.159 seconds.
+􁁛  Test timeoutTerminatesProcessGroup() passed after 0.611 seconds.
+􁁛  Test selectedGitPassesTheRequiredRuntimeConfigurationProbe() passed after 0.803 seconds.
+􁁛  Suite GitCompatibilityTests passed after 0.804 seconds.
+􁁛  Test detectsInstalledGitAndRejectsInvalidPreference() passed after 0.973 seconds.
+􁁛  Test cancellationAndOutputLimit() passed after 1.192 seconds.
+􁁛  Suite ProcessTests passed after 1.193 seconds.
+􁁛  Test cancellingAWorktreeReadStopsBeforeTheNextChunk() passed after 1.518 seconds.
+􁁛  Test abandonedCleanupPreservesLiveUnknownAndSymlinkEntries() passed after 1.529 seconds.
+􁁛  Test replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) with 2 test cases passed after 1.531 seconds.
+􁁛  Test cancelledReadAndPageRequestsThrow() passed after 1.572 seconds.
+􁁛  Test neverTakesOverExistingFileDirectoryOrSymlink() passed after 1.610 seconds.
+􁁛  Test failedCloneCanOnlyMoveItsOwnUnchangedDirectory() passed after 1.613 seconds.
+􁁛  Test cleanupRefusesNewFilesAndReplacedDirectories() passed after 1.616 seconds.
+􁁛  Test fileEventsMergeScopesAndIgnoreObjectStorage() passed after 1.616 seconds.
+􁁛  Test credentialsAndInvalidNamesRejectedBeforeStarting() passed after 1.629 seconds.
+􁁛  Test cancellingCloneRetainsRecoveryAndRejectsConcurrentStart() passed after 1.639 seconds.
+􁁛  Test releasedSnapshotsRemoveTheirPrivateFiles() passed after 1.681 seconds.
+􁁛  Test receivesExternalFileEvents() passed after 1.800 seconds.
+􁁛  Test activityIdentifiesRepositoriesWithoutStoringCommandArguments() passed after 1.811 seconds.
+􁁛  Suite ActivityOutcomeTests passed after 1.812 seconds.
+􁁛  Test gitCredentialsTravelThroughTheHelperAndNeverEnterActivityOrArguments() passed after 1.818 seconds.
+􁁛  Test previewHandlesLongUTF8LinesBinaryAndFileChanges() passed after 1.875 seconds.
+􁁛  Test deepPathsAndLiteralNamesUseTheSameBoundedReader() passed after 1.905 seconds.
+􁁛  Test untrackedSymlinkIsNotFollowedAndFIFOIsRejected() passed after 1.943 seconds.
+􁁛  Test diskCaptureRetainsSymlinkSafetyAndRejectsFIFOAndOversizedFiles() passed after 1.978 seconds.
+􁁛  Test allPreviewPathsRejectSymlinkedParentDirectories() passed after 1.995 seconds.
+􁁛  Suite RepositoryFileTests passed after 1.999 seconds.
+􁁛  Test encryptedSSHSigningCanAskForAPassphraseWithoutATerminal() passed after 2.061 seconds.
+􁁛  Suite AuthenticationTests passed after 2.066 seconds.
+􁁛  Test cancellingDiskCapturePreservesAReplacementAtItsOriginalPath() passed after 2.287 seconds.
+􁁛  Test onlyTheSymlinkEntryMovesToTrash() passed after 2.308 seconds.
+􁁛  Test unavailableTrashNeverDeletesTheFile() passed after 2.316 seconds.
+􁁛  Test systemTrashProducesARecoverableReceipt() passed after 2.318 seconds.
+􁁛  Test outputFileCaptureDoesNotBufferStdoutOrOverwriteExistingFiles() passed after 2.485 seconds.
+􁁛  Test untrackedSummaryUsesSizeAndSpillsPastItsMemoryLimit() passed after 2.489 seconds.
+􁁛  Test rejectsWrongHeadAndInvalidPaths() passed after 3.142 seconds.
+􁁛  Test copiedHunkRefusesAChangedSnapshot() passed after 3.238 seconds.
+􁁛  Test staleConfigurationIsNotOverwritten() passed after 3.242 seconds.
+􁁛  Test hookFailurePreservesIndexAndMessage() passed after 3.247 seconds.
+􁁛  Test worktreeRefreshDoesNotRescanReferencesAndRemoteConfiguration() passed after 3.259 seconds.
+􁁛  Test backgroundStatusDoesNotRewriteTheIndexStatCache() passed after 3.277 seconds.
+􁁛  Test cancelsAnExplicitReadAfterTheGitRequestHasStarted() passed after 3.344 seconds.
+􁁛  Test diskDisplayPrefixesPreserveUnicodeAtTheirByteBoundary() passed after 3.367 seconds.
+􁁛  Test shallowHistoryRetainsRealParentIDsAndMarksTheBoundary() passed after 3.405 seconds.
+􁁛  Test diskPagesMatchUnifiedAndSplitAcrossHunksAndPageBoundaries() passed after 3.411 seconds.
+􁁛  Test sparseJumpAndCopiedPatchMatchTheExactSelectedHunk() passed after 3.448 seconds.
+􁁛  Test rejectsSameCommitOnDifferentBranch() passed after 3.456 seconds.
+􁁛  Suite ContextAndWatcherTests passed after 3.457 seconds.
+􁁛  Test lineEndingsRemainExactAcrossMemoryAndDiskPageBoundaries() passed after 3.464 seconds.
+􁁛  Suite DiffNavigationTests passed after 3.465 seconds.
+Diff fixture: 2,400 changed lines, document and first page in 0.011870875 seconds
+􁁛  Test largeDiffIsSummarizedBeforeReadingAnyPatch() passed after 3.524 seconds.
+􁁛  Test changedOrNewlyTrackedFilesCannotUseAnOldConfirmation() passed after 3.553 seconds.
+􁁛  Test movedRepositoryKeepsEntityIdentityButRequiresItsNewPath() passed after 3.564 seconds.
+􁁛  Test respectsExistingSSHSigningConfiguration() passed after 3.570 seconds.
+􁁛  Suite CompatibilityTests passed after 3.571 seconds.
+􁁛  Test staleBinaryDiscardIsRejected() passed after 3.579 seconds.
+􁁛  Test ignoreWhitespaceNeverPermitsWritingTheFilteredPatch() passed after 3.584 seconds.
+􁁛  Test whitespaceFilteredDiffHasNoExpandersAndEmptyTailEndsCleanly() passed after 3.606 seconds.
+􁁛  Test contextPagesMapZeroLengthHunksCRLFAndFinalLine() passed after 3.608 seconds.
+􁁛  Test rejectsHunkThatDoesNotBelongToTheFreshDiff() passed after 3.670 seconds.
+􁁛  Test rootCommitListsLiteralPathsAndBinaryFiles() passed after 3.676 seconds.
+􁁛  Test branchSwitchDuringReadRetriesEvenWhenTheCommitIsUnchanged() passed after 3.694 seconds.
+􁁛  Test cloneRealRepositoryAndValidateResult() passed after 3.720 seconds.
+􁁛  Suite CloneTests passed after 3.721 seconds.
+􁁛  Test oversizedContextObjectUsesBoundedDiskPrefixes() passed after 3.786 seconds.
+􁁛  Test changedGitFilePointerInvalidatesTheCapturedRepository() passed after 3.805 seconds.
+􁁛  Test worktreePathsWithNewlinesArePreservedAndProtected() passed after 3.812 seconds.
+􁁛  Test historyUsesLengthDelimitedObjects() passed after 3.841 seconds.
+􁁛  Test historicalBranchStartAndDetachedCheckoutUseExactCommits() passed after 3.851 seconds.
+􁁛  Test unstageRenameRestoresBothIndexPaths() passed after 3.855 seconds.
+􁁛  Test pagesKeepFixedTipsAfterReferencesMove() passed after 3.955 seconds.
+􁁛  Test replacingTheRepositoryAfterPatchPreflightStopsTheActualWrite() passed after 3.969 seconds.
+􁁛  Test diskAndMemorySnapshotsExposeTheSameContextRanges() passed after 3.970 seconds.
+􁁛  Test highlightingDoesNotChangeThePatchAppliedToGit() passed after 4.019 seconds.
+􁁛  Suite WordDiffTests passed after 4.019 seconds.
+􁁛  Test renamedFilesKeepBothPathsAndZeroChangeStatistics() passed after 4.052 seconds.
+􁁛  Test literalPathsUnbornUnstageAndPartialCommit() passed after 4.061 seconds.
+􁁛  Test aTagWithTheSameNameDoesNotChangeTheBranchCommandName() passed after 4.064 seconds.
+􁁛  Test messageAndAuthorSearchUseLiteralQueriesAndFixedTips() passed after 4.186 seconds.
+􁁛  Test snapshotSupportsUnbornAndDetachedHeads() passed after 4.194 seconds.
+􁁛  Test largeContextReadsFixedBlobOffsetsAfterIndexChanges() passed after 4.191 seconds.
+􁁛  Test largePatchReadsOnlyRequestedPagesAndExportsExactBytes() passed after 4.192 seconds.
+􁁛  Test samePathReplacementWithIdenticalHeadCannotUseTheOldSession() passed after 4.249 seconds.
+􁁛  Test removalPreservesTheIndexAndOtherWorkingFiles() passed after 4.249 seconds.
+􁁛  Suite UntrackedTrashTests passed after 4.250 seconds.
+􁁛  Test interruptedCommitReportsAnObservedHeadWithoutClaimingRollback() passed after 4.254 seconds.
+􁁛  Suite GitSafetyTests passed after 4.255 seconds.
+􁁛  Test expandedContextIsReadAndAppliedAgainstTheSameOptions() passed after 4.257 seconds.
+􁁛  Test patchPathsAreIndependentOfUserDiffPrefixConfiguration() passed after 4.258 seconds.
+􁁛  Test continuousExternalChangesFailRatherThanPublishAMixedSnapshot() passed after 4.261 seconds.
+􁁛  Suite RefreshTests passed after 4.261 seconds.
+􁁛  Test memoryCeilingsSwitchToCompleteDiskSnapshots() passed after 4.424 seconds.
+􁁛  Test strategyAndBranchValidationDoesNotWriteInvalidValues() passed after 4.517 seconds.
+􁁛  Test preservesCRLFAndNoFinalNewlineInPatch() passed after 4.649 seconds.
+􁁛  Suite DiffPresentationTests passed after 4.649 seconds.
+􁁛  Test contextUsesTheCapturedIndexBlobEvenAfterFurtherEdits() passed after 4.661 seconds.
+􁁛  Test expansionAndPagingNeverChangeTheHunkAppliedToTheIndex() passed after 4.700 seconds.
+􁁛  Suite DiffContextTests passed after 4.704 seconds.
+􁁛  Test longLineFallsBackToSummaryThenKeepsAnExactPatch() passed after 4.707 seconds.
+􁁛  Suite DiffLoadingTests passed after 4.709 seconds.
+􁁛  Test configurationEditorDistinguishesScopeInheritanceAndOrigins() passed after 4.732 seconds.
+􁁛  Suite GitConfigurationTests passed after 4.733 seconds.
+􁁛  Test defaultRangeIncludesTagOnlyHistoryAndCurrentBranchCanBeSelected() passed after 4.751 seconds.
+􁁛  Test discardHunkKeepsStagedContentAndOtherWorkingChanges() passed after 4.797 seconds.
+􁁛  Suite DiffWorkflowTests passed after 4.797 seconds.
+􁁛  Test hunkStageStalePatchAndMessageOnlyAmend() passed after 5.336 seconds.
+􁁛  Test immutableCommitDiffIgnoresLaterWorktreeAndHeadChanges() passed after 5.410 seconds.
+􁁛  Test renameAndSafeDeleteKeepTheCurrentBranchAndWorktree() passed after 5.491 seconds.
+􁁛  Test failedGitAmIsNotMisidentifiedAsAnAppSupportedRebase() passed after 5.559 seconds.
+􁁛  Test fileBackedHunkStageUnstageAndDiscardPreserveOtherChanges() passed after 5.635 seconds.
+􁁛  Suite DiskDiffTests passed after 5.639 seconds.
+􁁛  Test failedAbortKeepsTheUsersResolutionAndSequencerState() passed after 5.714 seconds.
+􁁛  Test mergeFilesChangeWithTheSelectedParent() passed after 5.784 seconds.
+􁁛  Suite CommitComparisonTests passed after 5.784 seconds.
+􁁛  Test restoredReceiptsRejectAnotherRepositoryBeforeQueryingItsRemote() passed after 5.846 seconds.
+􁁛  Test receiptsNeverPersistCredentialBearingDestinations(destination:) with 4 test cases passed after 5.900 seconds.
+􁁛  Test invalidPushTargetDoesNotCreateAnAvoidableLocalCommit() passed after 5.938 seconds.
+􁁛  Test shaSearchIgnoresRefNameAmbiguityAndHonorsTheChosenRange() passed after 5.968 seconds.
+􁁛  Suite HistoryPagingTests passed after 5.968 seconds.
+􁁛  Test upstreamFailureReportsTheSuccessfulPushWithoutRepeatingIt() passed after 6.012 seconds.
+􁁛  Test firstPushRespectsCustomTrackingMappings() passed after 6.152 seconds.
+􁁛  Test unmergedDeletionRequiresConfirmationAndRejectsMovedTips() passed after 6.155 seconds.
+􁁛  Test binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) with 2 test cases passed after 6.204 seconds.
+􁁛  Test firstPushCreatesOnlyTheSelectedBranchAndSetsItsUpstream() passed after 6.277 seconds.
+􁁛  Test movedBranchAndChangedRemoteConfigurationInvalidatePushPlans() passed after 6.424 seconds.
+􁁛  Test relativeDestinationsCannotChangeAfterMovingTheRepository() passed after 6.455 seconds.
+􁁛  Test urlRewritingUsesTheEffectivePushDestinationForTheLease() passed after 6.511 seconds.
+􁁛  Test cancellingAfterCommitRetainsTheCommittedOutcome() passed after 6.516 seconds.
+􁁛  Test pullPreferenceShowsItsConfigurationSourceAndRequiresExplicitUnsupportedChoices() passed after 6.524 seconds.
+􁁛  Test mergeConflictCanBeResolvedAndContinued() passed after 6.563 seconds.
+􁁛  Suite RepositoryTests passed after 6.564 seconds.
+􁁛  Test failedVerificationNeverRetriesTheWrite() passed after 6.695 seconds.
+􁁛  Test missingBranchLeaseProtectsAgainstAConcurrentCreation() passed after 6.791 seconds.
+􁁛  Test confirmedLocalDestinationsPreserveNewlines(relative:) with 2 test cases passed after 6.889 seconds.
+􁁛  Test pushCannotBeRedirectedAfterItsDestinationWasVerified() passed after 6.895 seconds.
+􁁛  Test remoteChangesAfterDeliveryStayUncertainAndVerificationCannotWrite() passed after 6.941 seconds.
+􁁛  Test failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) with 2 test cases passed after 6.941 seconds.
+􁁛  Test anEffectiveURLIsNotRewrittenASecondTimeDuringLeaseLookup() passed after 6.948 seconds.
+􁁛  Test multipleURLsPushToExactlyOneDestination(explicitPushURL:) with 2 test cases passed after 6.979 seconds.
+􁁛  Test configuredEmptyURLValuesClearEarlierDestinations() passed after 7.017 seconds.
+􁁛  Test trackingBranchReportsDivergenceAndMissingUpstream() passed after 7.028 seconds.
+􁁛  Suite BranchManagementTests passed after 7.032 seconds.
+􁁛  Test pullCannotBeRedirectedAfterItsDestinationWasVerified() passed after 7.060 seconds.
+􁁛  Test lostPushRepliesRequireReadOnlyVerification(mode:) with 4 test cases passed after 7.089 seconds.
+􁁛  Test anotherFetchCannotReplaceTheCommitBeingPulled() passed after 7.093 seconds.
+􁁛  Test realOctopusMergePreservesEveryParentAcrossPages() passed after 7.107 seconds.
+􁁛  Suite SequencerAndGraphTests passed after 7.109 seconds.
+􁁛  Test configuredNoFastForwardPullCreatesAnExplicitMergeCommit() passed after 7.126 seconds.
+􁁛  Test fastForwardRejectionKeepsTheLocalTipAndCleansTheFetchReference() passed after 7.194 seconds.
+􁁛  Test verificationKeepsTheOriginalDestinationAndDoesNotDependOnCurrentHead() passed after 7.199 seconds.
+􁁛  Test pullAppliesTheChosenPolicy(strategy:) with 3 test cases passed after 7.240 seconds.
+􁁛  Test commitAndPushRetainsTheDeliveredCommitWhenItsReplyIsLost() passed after 7.306 seconds.
+􁁛  Test pullRebaseHandlesRepeatedConflictsAndAbort(abort:) with 2 test cases passed after 7.406 seconds.
+􁁛  Test commitThenPushFailureCanRetryOnlyThePush() passed after 7.463 seconds.
+􁁛  Test divergenceRejectsNormalPushAndFetchCannotRefreshAnExistingLease() passed after 7.492 seconds.
+􁁛  Suite RemoteWorkflowTests passed after 7.495 seconds.
+􁁛  Test run with 176 tests in 31 suites passed after 7.495 seconds.

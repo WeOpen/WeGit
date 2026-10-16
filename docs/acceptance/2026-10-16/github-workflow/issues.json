@@ -1,0 +1,420 @@
+[
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC7KopNg",
+        "name": "bug",
+        "description": "Something is not working",
+        "color": "d73a4a"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9zKg",
+        "name": "status:in-progress",
+        "description": "Implementation is underway",
+        "color": "1d76db"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c90Og",
+        "name": "area:ci",
+        "description": "Automation and project workflow",
+        "color": "0052cc"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 13,
+    "state": "OPEN",
+    "title": "[CI] Prevent isolation-probe timeouts from oversubscribed test cases",
+    "url": "https://github.com/WeOpen/WeGit/issues/13"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9yxw",
+        "name": "status:ready",
+        "description": "Scoped and ready to implement",
+        "color": "0e8a16"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c90Og",
+        "name": "area:ci",
+        "description": "Automation and project workflow",
+        "color": "0052cc"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 12,
+    "state": "OPEN",
+    "title": "[V1.0] Integrate and validate the current uncommitted application changes",
+    "url": "https://github.com/WeOpen/WeGit/issues/12"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9zqw",
+        "name": "status:blocked",
+        "description": "Waiting for a concrete dependency",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c92rg",
+        "name": "area:release",
+        "description": "Packaging and delivery",
+        "color": "bfdadc"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 9,
+    "state": "OPEN",
+    "title": "[V1.0] Collect Beta feedback and sign off the first release",
+    "url": "https://github.com/WeOpen/WeGit/issues/9"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9yxw",
+        "name": "status:ready",
+        "description": "Scoped and ready to implement",
+        "color": "0e8a16"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c-DUw",
+        "name": "area:website",
+        "description": "Project website",
+        "color": "c5def5"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 8,
+    "state": "OPEN",
+    "title": "[V1.0] Launch the project website and public download path",
+    "url": "https://github.com/WeOpen/WeGit/issues/8"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9yxw",
+        "name": "status:ready",
+        "description": "Scoped and ready to implement",
+        "color": "0e8a16"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c92rg",
+        "name": "area:release",
+        "description": "Packaging and delivery",
+        "color": "bfdadc"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 7,
+    "state": "OPEN",
+    "title": "[V1.0] Validate ad-hoc release installation and data migration",
+    "url": "https://github.com/WeOpen/WeGit/issues/7"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9zqw",
+        "name": "status:blocked",
+        "description": "Waiting for a concrete dependency",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c90Og",
+        "name": "area:ci",
+        "description": "Automation and project workflow",
+        "color": "0052cc"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 6,
+    "state": "OPEN",
+    "title": "[V1.0] Provision a dedicated interactive acceptance runner",
+    "url": "https://github.com/WeOpen/WeGit/issues/6"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9yxw",
+        "name": "status:ready",
+        "description": "Scoped and ready to implement",
+        "color": "0e8a16"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c92PQ",
+        "name": "area:git",
+        "description": "Git workflows and compatibility",
+        "color": "c2e0c6"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 5,
+    "state": "OPEN",
+    "title": "[V1.0] Complete Git, authentication and workflow compatibility",
+    "url": "https://github.com/WeOpen/WeGit/issues/5"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9zqw",
+        "name": "status:blocked",
+        "description": "Waiting for a concrete dependency",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c91uA",
+        "name": "area:performance",
+        "description": "Latency, memory and scrolling",
+        "color": "f9d0c4"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 4,
+    "state": "OPEN",
+    "title": "[V1.0] Revalidate final-source Release performance",
+    "url": "https://github.com/WeOpen/WeGit/issues/4"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9yxw",
+        "name": "status:ready",
+        "description": "Scoped and ready to implement",
+        "color": "0e8a16"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c91LQ",
+        "name": "area:accessibility",
+        "description": "Assistive technology and keyboard",
+        "color": "006b75"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 3,
+    "state": "OPEN",
+    "title": "[V1.0] Close accessibility and complete keyboard acceptance",
+    "url": "https://github.com/WeOpen/WeGit/issues/3"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9zqw",
+        "name": "status:blocked",
+        "description": "Waiting for a concrete dependency",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c90kQ",
+        "name": "area:ui",
+        "description": "Native interface and reading",
+        "color": "7057ff"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 2,
+    "state": "OPEN",
+    "title": "[V1.0] Complete native UI regression on the final source",
+    "url": "https://github.com/WeOpen/WeGit/issues/2"
+  },
+  {
+    "labels": [
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9vqg",
+        "name": "type:task",
+        "description": "Engineering or validation task",
+        "color": "5319e7"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9wmA",
+        "name": "priority:P0",
+        "description": "Blocks the target milestone",
+        "color": "b60205"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c9zKg",
+        "name": "status:in-progress",
+        "description": "Implementation is underway",
+        "color": "1d76db"
+      },
+      {
+        "id": "LA_kwDOU9f5AM8AAAAC9c90Og",
+        "name": "area:ci",
+        "description": "Automation and project workflow",
+        "color": "0052cc"
+      }
+    ],
+    "milestone": {
+      "number": 1,
+      "title": "V1.0",
+      "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized.",
+      "dueOn": null
+    },
+    "number": 1,
+    "state": "CLOSED",
+    "title": "[Workflow] Issue-driven development and layered CI/CD",
+    "url": "https://github.com/WeOpen/WeGit/issues/1"
+  }
+]

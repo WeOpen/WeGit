@@ -1,0 +1,37 @@
+{
+  "state": "OPEN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-16T09:37:22Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/WeOpen/WeGit/actions/runs/38881684303/job/116909666598",
+      "name": "Repository policy",
+      "startedAt": "2026-10-16T09:37:09Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-16T09:37:18Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/WeOpen/WeGit/actions/runs/38881684224/job/116909666079",
+      "name": "PR policy",
+      "startedAt": "2026-10-16T09:37:09Z",
+      "status": "COMPLETED",
+      "workflowName": "PR policy"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-16T09:43:23Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/WeOpen/WeGit/actions/runs/38881684303/job/116909761367",
+      "name": "Native macOS",
+      "startedAt": "2026-10-16T09:37:29Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ],
+  "title": "chore(deps): bump pyyaml from 6.0.2 to 6.0.3 in /scripts/ci in the ci-python group",
+  "url": "https://github.com/WeOpen/WeGit/pull/11"
+}

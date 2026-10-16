@@ -1,0 +1,36 @@
+{
+  "marker": true,
+  "legacyUnchanged": true,
+  "legacyKeyCount": 25,
+  "copiedValuesAfterStartup": {
+    "workspace:73c31af006731973d3ff46ddcec777a66c66636e99cb410163764895e55b9734": true,
+    "NSWindow Frame WeGit.UITests.B5EA1081-C3D1-4E5E-B855-01ABA413D555": true,
+    "NSOSPLastRootDirectory": true,
+    "NSSplitView Subview Frames WeGit.columns.2": false,
+    "NSWindow Frame GoToSheet": true,
+    "workspace:a18f581a74c9e7afba7a3d234a98281219725ffafdc9fe725e13c0aac16ef104": true,
+    "NSWindow Frame com_apple_SwiftUI_Settings_window": true,
+    "lastRepository": true,
+    "NSNavPanelExpandedSizeForOpenMode": true,
+    "draft-v2:a18f581a74c9e7afba7a3d234a98281219725ffafdc9fe725e13c0aac16ef104": true,
+    "appearance": true,
+    "settingsTab": true,
+    "NSSplitView Subview Frames WeGit.columns.1": true,
+    "NSWindow Frame WeGit.main": true,
+    "NSWindow Frame main": true,
+    "NSSplitView Subview Frames main, SidebarNavigationSplitView": true,
+    "NSWindow Frame WeGit.UITests.B4B416D9-79E2-46FD-A527-FF12A3DC5DED": true,
+    "NSWindow Frame WeGit.UITests.76200710-A357-4F91-B6D6-A737B95BA7AB": true,
+    "draft-v2:73c31af006731973d3ff46ddcec777a66c66636e99cb410163764895e55b9734": true,
+    "draft-v2:ace5290a4f73dc3caec03ca15419aad355fc2a060b743ed5964656ec54500df3": true,
+    "NSWindow Frame WeGit.UITests.674FC70B-38B4-48D3-AC00-C3746B5F6A8D": true,
+    "NSWindow Frame WeGit.UITests.0AF50E31-0F59-4F56-8E85-3BE7C6F95094": true,
+    "com_apple_SwiftUI_Settings_selectedTabIndex": true,
+    "draft:/Users/willxue/will/WeOpen/WeGit/.build-app/QARepository": true,
+    "workspace:ace5290a4f73dc3caec03ca15419aad355fc2a060b743ed5964656ec54500df3": true
+  },
+  "changedKeysAfterStartup": [
+    "NSSplitView Subview Frames WeGit.columns.2"
+  ],
+  "scope": "Startup may reserialize workspace JSON and update native layout frames; semantic values compared."
+}

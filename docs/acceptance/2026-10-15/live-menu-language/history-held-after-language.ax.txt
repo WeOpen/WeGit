@@ -1,0 +1,65 @@
+Window: "fixture", App: WeGit.
+0 标准窗口 fixture – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+1
+						8 row (selected) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) fixture、main
+				12 文本 Value: WeGit, ID: sidebar-brand
+				13 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			14 分离器 (disabled, settable, float) 209.5
+			15 分离组
+				16 分离组
+					17 container 历史浏览与筛选
+						18 文本 提交历史
+						19 文本 Value: 1 个提交, ID: history-count
+						20 弹出式按钮 Description: 浏览范围, Value: 全部引用, ID: history-scope
+						21 弹出式按钮 Description: 搜索字段, Value: 消息, ID: history-search-field
+						22 文本栏 (settable) Description: 搜索提交消息, Value: Initial, ID: history-search
+						23 按钮 Description: 清除搜索提交消息, Help: 清除筛选并继续输入, ID: history-search-clear
+						24 滚动区
+							25 外框 Description: 提交历史列表, ID: history-list
+								26 row (selectable) Description: Initial 中文, Value: 提交 7392ac87757f，作者 UI Fixture，0 个父提交
+UI Fixture
+								27 container
+									28 排序按钮 提交
+									29 排序按钮 作者
+						30 文本 筛选结果；清除搜索可查看完整提交图。
+					31 分离器 (disabled, settable, float) 750.5
+					32 container 提交详情
+						33 text 选择一次提交 查看提交消息、父子关系和代码差异。
+	34 工具栏
+		35 container Hide Sidebar
+			36 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		37 按钮 Description: fixture, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/live-menu-6a93e5f8/fixture
+切换仓库 ⌘K
+		38 菜单按钮 当前分支：main, Description: 分叉为两条路径的三角形箭头, Value: 同步状态：无上游, ID: current-branch
+		39 菜单按钮 (disabled) 获取, Help: 尚未配置 Remote, ID: toolbar-fetch
+		40 按钮 (disabled) Description: 拉取, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		41 按钮 (disabled) Description: 推送, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		42 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		43 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		44 按钮 Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		45 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	46 关闭按钮
+	47 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	48 最小化按钮
+	49 text fixture main
+50 menu bar
+	51 WeGit, ID: native-menu-app
+	52 文件, ID: native-menu-file
+	53 编辑, ID: native-menu-edit
+	54 显示, ID: native-menu-view
+	55 仓库, ID: native-menu-repository
+	56 工作区, ID: native-menu-workspace
+	57 窗口, ID: native-menu-window
+	58 帮助, ID: native-menu-help
+
+The focused UI element is 22 文本栏 (settable) Description: 搜索提交消息, Value: Initial, ID: history-search

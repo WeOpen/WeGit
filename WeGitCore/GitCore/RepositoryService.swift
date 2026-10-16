@@ -24,7 +24,9 @@ public struct RepositoryService: Sendable {
     public static func discover(_ directory: URL, engine: GitEngine) async throws -> RepositoryLocation {
         let bare = try await engine.run(["rev-parse", "--is-bare-repository"], in: directory).text
             .trimmingCharacters(in: .whitespacesAndNewlines)
-        guard bare == "false" else { throw ModelFailure.unsupported("此版本尚不支持打开 Bare 仓库，请选择含工作区的仓库。") }
+        guard bare == "false" else {
+            throw ModelFailure.unsupported(L10n.text("此版本尚不支持打开 Bare 仓库，请选择含工作区的仓库。"))
+        }
         let root = try await engine.run(["rev-parse", "--show-toplevel"], in: directory).text
             .removingLastNewline
         let git = try await engine.run(["rev-parse", "--absolute-git-dir"], in: directory).text
@@ -33,7 +35,7 @@ public struct RepositoryService: Sendable {
             ["rev-parse", "--path-format=absolute", "--git-common-dir"], in: directory
         ).text.removingLastNewline
         guard git == common else {
-            throw ModelFailure.unsupported("已识别 linked worktree。共享引用写入支持计划在 V1.2 提供，请打开主仓库。")
+            throw ModelFailure.unsupported(L10n.text("已识别 linked worktree。共享引用写入支持计划在 V1.2 提供，请打开主仓库。"))
         }
         let rootURL = URL(fileURLWithPath: root).resolvingSymlinksInPath()
         let gitURL = URL(fileURLWithPath: git).resolvingSymlinksInPath()
@@ -47,8 +49,12 @@ public struct RepositoryService: Sendable {
 
     public func status() async throws -> RepositoryStatus {
         try location.validateIdentity()
+        // Background reads must not refresh the index stat cache and generate
+        // their own filesystem events or contend with real index writes.
+        var readEngine = engine
+        readEngine.environment["GIT_OPTIONAL_LOCKS"] = "0"
         var value = try StatusParser.parse(
-            await engine.run(
+            await readEngine.run(
                 ["status", "--porcelain=v2", "-z", "--branch", "--untracked-files=all"], in: location.root
             ).stdout)
         let base = location.gitDirectory
@@ -85,12 +91,12 @@ public struct RepositoryService: Sendable {
     )
         async throws -> FileDiff
     {
-        guard layer != .commit else { throw ModelFailure.unsupported("提交差异需要明确的提交和父提交。") }
+        guard layer != .commit else { throw ModelFailure.unsupported(L10n.text("提交差异需要明确的提交和父提交。")) }
         guard (1...DiffReadBudget.patchBytes).contains(outputLimit) else {
-            throw ModelFailure.unsupported("差异读取上限无效。")
+            throw ModelFailure.unsupported(L10n.text("差异读取上限无效。"))
         }
         guard (0...200).contains(options.contextLines) else {
-            throw ModelFailure.unsupported("上下文行数须在 0～200 之间。")
+            throw ModelFailure.unsupported(L10n.text("上下文行数须在 0～200 之间。"))
         }
         try validate(path)
         let current = try await head()
@@ -139,7 +145,7 @@ public struct RepositoryService: Sendable {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard !paths.contains(where: { path in state.conflicts.contains { $0.path == path } }) else {
-                throw ModelFailure.unsupported("冲突文件必须通过“标记已解决”单独确认。")
+                throw ModelFailure.unsupported(L10n.text("冲突文件必须通过“标记已解决”单独确认。"))
             }
             try await verifyHead(expectedHead)
             try await add(expandingRenames(paths, in: state))
@@ -169,7 +175,7 @@ public struct RepositoryService: Sendable {
             guard !paths.isEmpty else { return }
             let state = try await status()
             guard !state.conflicts.contains(where: { paths.contains($0.path) }) else {
-                throw ModelFailure.unsupported("请通过当前冲突流程处理未合并文件。")
+                throw ModelFailure.unsupported(L10n.text("请通过当前冲突流程处理未合并文件。"))
             }
             let expanded = expandingRenames(paths, in: state)
             try expanded.forEach(validate)
@@ -186,9 +192,9 @@ public struct RepositoryService: Sendable {
         try await queue.perform {
             try await verifyHead(diff.head)
             guard !discard || diff.layer == .unstaged else {
-                throw ModelFailure.unsupported("只能丢弃未暂存的差异块。")
+                throw ModelFailure.unsupported(L10n.text("只能丢弃未暂存的差异块。"))
             }
-            guard diff.canApplyHunk else { throw ModelFailure.unsupported("此差异只支持文件级操作。") }
+            guard diff.canApplyHunk else { throw ModelFailure.unsupported(L10n.text("此差异只支持文件级操作。")) }
             let fresh = try await self.diff(path: diff.path, layer: diff.layer, options: diff.options)
             guard fresh.raw == diff.raw, fresh.head == diff.head else { throw ModelFailure.changed }
             guard fresh.hunks.contains(hunk) else { throw ModelFailure.changed }
@@ -207,7 +213,7 @@ public struct RepositoryService: Sendable {
         try await queue.perform {
             try await verifyHead(diff.head)
             guard diff.layer == .unstaged && !diff.options.ignoreWhitespace else {
-                throw ModelFailure.unsupported("此入口只丢弃未暂存的已跟踪文件改动。")
+                throw ModelFailure.unsupported(L10n.text("此入口只丢弃未暂存的已跟踪文件改动。"))
             }
             let fresh = try await self.diff(path: diff.path, layer: diff.layer, options: diff.options)
             guard fresh.raw == diff.raw, fresh.head == diff.head else { throw ModelFailure.changed }
@@ -221,11 +227,13 @@ public struct RepositoryService: Sendable {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                throw ModelFailure.unsupported("请填写提交消息。")
+                throw ModelFailure.unsupported(L10n.text("请填写提交消息。"))
             }
-            guard state.conflicts.isEmpty else { throw ModelFailure.unsupported("请先解决所有冲突。") }
-            guard state.sequencer == .none else { throw ModelFailure.unsupported("请使用当前操作的继续入口。") }
-            guard !amend || state.head != nil else { throw ModelFailure.unsupported("没有可以修改的上次提交。") }
+            guard state.conflicts.isEmpty else { throw ModelFailure.unsupported(L10n.text("请先解决所有冲突。")) }
+            guard state.sequencer == .none else { throw ModelFailure.unsupported(L10n.text("请使用当前操作的继续入口。")) }
+            guard !amend || state.head != nil else {
+                throw ModelFailure.unsupported(L10n.text("没有可以修改的上次提交。"))
+            }
             var args = ["commit", "--file=-"]
             if amend { args.append("--amend") }
             try await verifyHead(expectedHead)

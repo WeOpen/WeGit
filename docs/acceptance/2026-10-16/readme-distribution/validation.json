@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-16",
+  "documentationOnly": true,
+  "defaultReadme": "README.md (English)",
+  "translatedReadme": "README.zh-CN.md",
+  "checkedDocuments": [
+    "README.md",
+    "README.zh-CN.md",
+    "docs/V1_RELEASE_CHECKLIST.md",
+    "docs/PLAN.md",
+    "docs/RELEASE.md",
+    "docs/README.md",
+    "docs/WeGit_PRD.md",
+    "docs/WeGit_Architecture.md"
+  ],
+  "localReferencesChecked": 169,
+  "brokenLocalReferences": [],
+  "centeredBrandAndSixBadges": true,
+  "badges": [
+    {
+      "url": "https://img.shields.io/badge/Git-2.46%2B-F05032?style=flat&logo=git&logoColor=white",
+      "status": 200,
+      "type": "image/svg+xml;charset=utf-8"
+    },
+    {
+      "url": "https://img.shields.io/badge/Swift-6-F05138?style=flat&logo=swift&logoColor=white",
+      "status": 200,
+      "type": "image/svg+xml;charset=utf-8"
+    },
+    {
+      "url": "https://img.shields.io/badge/license-MIT-3DA639?style=flat",
+      "status": 200,
+      "type": "image/svg+xml;charset=utf-8"
+    },
+    {
+      "url": "https://img.shields.io/badge/macOS-27%2B-111111?style=flat&logo=apple&logoColor=white",
+      "status": 200,
+      "type": "image/svg+xml;charset=utf-8"
+    },
+    {
+      "url": "https://img.shields.io/badge/status-development_preview-orange?style=flat",
+      "status": 200,
+      "type": "image/svg+xml;charset=utf-8"
+    },
+    {
+      "url": "https://img.shields.io/badge/version-0.1.0-blue?style=flat",
+      "status": 200,
+      "type": "image/svg+xml;charset=utf-8"
+    }
+  ],
+  "applicationTestsRerun": false,
+  "published": false,
+  "readOnlyRemoteSnapshot": [
+    "github-repository.json",
+    "github-runners.json",
+    "github-latest-run.json"
+  ],
+  "website": "Not live; confirmed by user",
+  "browserVisualPreview": {
+    "passed": false,
+    "reasons": [
+      "In-app browser could not connect to local preview server.",
+      "Chrome browser unavailable.",
+      "Self-contained data URL rejected by browser URL security policy; no bypass or further browser attempts."
+    ],
+    "localHtmlRendered": true
+  },
+  "sourceFiles": {
+    "README.md": "391a23caebdf19f81a43d2ef16390ba30d80348f60cac7aab3cf5f203c805f3d",
+    "README.zh-CN.md": "251ce40a1a7d3c7e5aa7efc1dbe46a03e7c68c5cc8f54f14149712c20606456a",
+    "docs/V1_RELEASE_CHECKLIST.md": "8853185911b3c1b0875e8ca03d6dda13e02a88c7b0514701e53f7919ac5e26fe",
+    "docs/PLAN.md": "c26d0a9174cdc581c3abd6b937d7361df96c147433b737b242b79cc3964f563d",
+    "docs/RELEASE.md": "4b3b615a64a35efa59793099267f9cd8d3b8ee54182f937a5cc2e6f8d9f77f18",
+    "docs/WeGit_PRD.md": "dceef6868aeb7f09f9a77043592b472eb62d9f63b0908360f49a9902d0474aa1",
+    "docs/WeGit_Architecture.md": "f77ffe709ee88a914898074a51ce26aa836581d1aebe193c05b4320de9834933",
+    "docs/README.md": "d88af5c9671c14bdeead4b7c309ff839e47c1e45f3d4fef4ed942a78cbd69320",
+    "docs/DEVELOPMENT.md": "da8dc99afe81fdd45b7ad51b2ede08ff74234060cfd17a73514f4da3ee92b65c",
+    "CHANGELOG.md": "2de83e752e4344eb6fdfd98344990f3bb2918e6017c5fb0a988007d7c8259bf3"
+  }
+}

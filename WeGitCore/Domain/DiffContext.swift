@@ -131,7 +131,7 @@ public actor DiffContextReader {
     public func page(for gap: DiffContextGap, offset: Int, limit: Int = 20) async throws -> DiffContextPage {
         guard gaps.contains(gap), let oid, offset >= 0, (1...200).contains(limit),
             offset <= (gap.count ?? Int.max), offset < Int.max - gap.oldStart
-        else { throw ModelFailure.unsupported("这个范围无法展开上下文。") }
+        else { throw ModelFailure.unsupported(L10n.text("这个范围无法展开上下文。")) }
         try Task.checkCancellation()
         if source == nil && diskSource == nil {
             try service.location.validateIdentity()
@@ -139,7 +139,7 @@ public actor DiffContextReader {
                 ["cat-file", "-s", oid], in: service.location.root
             ).text.removingLastNewline
             guard let size = Int(sizeText), size >= 0 else {
-                throw ModelFailure.invalidOutput("无法读取上下文对象大小")
+                throw ModelFailure.invalidOutput(L10n.text("无法读取上下文对象大小"))
             }
             guard size <= DiskDiffBudget.bytes else {
                 throw DiffContentLimit.bytes(DiskDiffBudget.bytes)
@@ -153,7 +153,7 @@ public actor DiffContextReader {
                 ).stdout
                 try Task.checkCancellation()
                 guard data.count == size, !data.contains(0) else {
-                    throw ModelFailure.unsupported("此对象不支持文本上下文。")
+                    throw ModelFailure.unsupported(L10n.text("此对象不支持文本上下文。"))
                 }
                 source = data
             }
@@ -174,10 +174,12 @@ public actor DiffContextReader {
         func appendLine(ending: Int, newline: Bool) throws {
             guard lineNumber >= start, consumed < requested else { return }
             guard let text = String(data: source[beginning..<ending], encoding: .utf8) else {
-                throw ModelFailure.unsupported("上下文包含不受支持的文本编码。")
+                throw ModelFailure.unsupported(L10n.text("上下文包含不受支持的文本编码。"))
             }
             let delta = lineNumber - gap.oldStart
-            guard gap.newStart <= Int.max - delta else { throw ModelFailure.invalidOutput("上下文行号超出范围") }
+            guard gap.newStart <= Int.max - delta else {
+                throw ModelFailure.invalidOutput(L10n.text("上下文行号超出范围"))
+            }
             let newNumber = gap.newStart + delta
             lines.append(
                 DiffLine(
@@ -208,7 +210,7 @@ public actor DiffContextReader {
             }
         }
         if gap.count != nil && consumed != requested {
-            throw ModelFailure.invalidOutput("上下文范围与补丁对象不一致")
+            throw ModelFailure.invalidOutput(L10n.text("上下文范围与补丁对象不一致"))
         }
         return DiffContextPage(
             lines: lines, consumedLines: consumed,

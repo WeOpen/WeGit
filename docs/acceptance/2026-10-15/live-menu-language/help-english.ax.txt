@@ -1,0 +1,4 @@
+Window: "fixture", App: WeGit.
+0 Help, ID: native-menu-help, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 WeGit Help, ID: native-command-help

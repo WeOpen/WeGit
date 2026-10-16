@@ -3,12 +3,14 @@ import XCTest
 
 extension XCUIApplication {
     @MainActor func launchWeGit() {
+        if !launchArguments.contains("-language") { launchArguments += ["-language", "zh-Hans"] }
         launch()
         activate()
+        XCTAssertTrue(menuBars.menuBarItems["native-menu-app"].waitForExistence(timeout: 5))
         if !windows["main"].waitForExistence(timeout: 2) {
             XCTContext.runActivity(named: "Reopen the main window from its native menu") { _ in
-                menuBars.menuBarItems["Window"].click()
-                menuItems["显示 WeGit 主窗口"].click()
+                menuBars.menuBarItems["native-menu-window"].click()
+                menuItems["native-command-showMainWindow"].click()
             }
         }
     }

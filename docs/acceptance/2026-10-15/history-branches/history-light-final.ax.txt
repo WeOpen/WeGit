@@ -1,0 +1,112 @@
+Window: "A", App: WeGit.
+0 standard window A – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+1
+						8 row (selected) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) A, main
+				12 text Value: WeGit, ID: sidebar-brand
+				13 button Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			14 splitter (disabled, settable, float) 209.5
+			15 split group
+				16 split group
+					17 container 历史浏览与筛选
+						18 text 提交历史
+						19 text Value: 1 个提交, ID: history-count
+						20 pop up button Description: 浏览范围, Value: 全部引用, ID: history-scope
+						21 pop up button Description: 搜索字段, Value: 消息, ID: history-search-field
+						22 text field (settable) Description: 搜索提交消息, ID: history-search
+						23 scroll area
+							24 outline Description: 提交历史列表, ID: history-list
+								25 row (selected) Value: 提交 b415734009d0，作者 UI Fixture，0 个父提交, Description: HEAD，分支列 1
+History and branch layout fixture
+								26 container
+									27 sort button 图
+									28 sort button 提交
+					29 splitter (disabled, settable, float) 664
+					30 container 提交详情
+						31 text History and branch layout fixture 作者：UI Fixture <ui@example.invalid> Oct 15, 2026 at 10:39 提交者：UI Fixture <ui@example.invalid> · Oct 15, 2026 at 10:39
+						32 disclosure triangle Description: 完整提交消息, Value: off
+						33 text b415734009d0d99fd279ab3fbfa1be7561c0ceaa
+						34 button Description: 复制 SHA, ID: history-copy-sha
+						35 menu button 所选提交的操作, ID: history-operations
+						36 text 根提交 · 相对于空树
+						37 scroll area Secondary Actions: Scroll Up, Scroll Down
+							38 list Description: 本次提交的文件变化, ID: commit-files
+								39 row (selected) 状态：新增
+A.swift
++1 −0
+							40 scroll bar (settable, float) 0
+								41 value indicator (settable, float) 0
+								42 increment arrow button
+								43 decrement arrow button
+								44 increment page button
+								45 decrement page button
+						46 Description: 布局, ID: diff-layout
+							47 radio button Description: 统一, Value: 0
+							48 radio button Description: 分栏, Value: 1
+						49 menu button 阅读选项
+						50 button 复制补丁
+						51 button (disabled) Description: 上一差异块, ID: diff-hunk-previous
+						52 button (disabled) Description: 下一差异块, ID: diff-hunk-next
+						53 text Value: 差异块 1 / 1, ID: diff-hunk-position
+						54 scroll area Description: 文本差异, ID: diff-content
+							55 container 文本差异内容
+								56 container Description: 差异列标题, ID: diff-column-headers
+									57 text 原始内容 修改后
+								58 container 差异块：@@ -0,0 +1 @@
+									59 text @@ -0,0 +1 @@
+									60 button Description: 复制此块补丁, ID: diff-hunk-copy:0
+								61 container Description: 原始与修改后的代码行, ID: split-diff-row
+									62 text 1
+									63 text entry area Description: 修改后的代码，第 1 行, Value: let value = 1, ID: diff-code:0
+				64 splitter (disabled, settable, float) 1119
+				65 scroll area Description: 检查器, ID: repository-inspector
+					66 heading 仓库
+					67 container
+						68 text 名称, Value: A /Users/willxue/will/WeOpen/WeGit/.build/ui-review/history-branches-c9d247d6/A
+						69 button 在 Finder 中显示
+						70 button 在 Terminal 中打开
+						71 button 在 Xcode 中打开…
+						72 button 复制仓库路径
+					73 heading 分支
+					74 container
+						75 text 当前, Value: main 未设置 — / —
+					76 heading 文件
+					77 container
+						78 text A.swift 1 1
+	79 toolbar
+		80 container Hide Sidebar
+			81 button Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		82 button Description: A, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/history-branches-c9d247d6/A
+切换仓库 ⌘K
+		83 menu button main · 无上游, Description: Triangle-headed arrow branching into two paths, Value: 同步状态：无上游, ID: current-branch
+		84 menu button (disabled) 获取, Help: 尚未配置 Remote, ID: toolbar-fetch
+		85 button (disabled) Description: 拉取, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		86 button (disabled) Description: 推送, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		87 button Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		88 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		89 button Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		90 menu button 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	91 close button
+	92 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	93 minimize button
+	94 text A main
+95 menu bar
+	96 WeGit
+	97 File
+	98 Edit
+	99 View
+	100 仓库
+	101 工作区
+	102 Window
+	103 Help
+
+The focused UI element is 0 standard window A – main, ID: main, Secondary Actions: Raise

@@ -1,0 +1,33 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: Settings categories, ID: settings-tabs
+			3 radio button Description: General, Value: 0
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: Appearance, Value: 0
+			6 radio button Description: Diff, Value: 0
+			7 radio button Description: Commit, Value: 1
+			8 radio button Description: Advanced, Value: 0
+		9 scroll area
+			10 heading Draft
+			11 container
+				12 switch Save commit drafts per repository, Value: on, ID: settings-save-drafts
+				13 text New edits will no longer be saved automatically. Existing drafts remain available to restore or clear manually. Drafts are not synced or uploaded. A
+				14 button Clear this repository's draft…
+			15 heading Commits and recovery
+			16 container
+				17 text Amend always asks you to confirm rewriting history. Commit and Push records each result separately; retrying a failed push will not create another commit. Git continues to run your hooks and GPG/SSH signing configuration. Drafts are kept on failure.
+	18 close button
+	19 zoom button (disabled)
+	20 text WeGit Settings
+21 menu bar
+	22 WeGit
+	23 File
+	24 Edit
+	25 View
+	26 Repository
+	27 Workspace
+	28 Window
+	29 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

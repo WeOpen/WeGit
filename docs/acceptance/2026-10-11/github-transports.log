@@ -1,0 +1,9 @@
+https: initial Push and original-target verification passed; refs/heads/codex/acceptance-6a9c316e-a3ee-4726-83d7-fb87f6c3890d-https
+https: Clone, Fetch, and fast-forward Pull passed
+https: stale Force With Lease rejected; peer commit preserved
+ssh: initial Push and original-target verification passed; refs/heads/codex/acceptance-a7a5bc6f-716d-410f-a34b-10241e1e9ea5-ssh
+ssh: Clone, Fetch, and fast-forward Pull passed
+ssh: stale Force With Lease rejected; peer commit preserved
+Removed only the owned fixture ref: refs/heads/codex/acceptance-6a9c316e-a3ee-4726-83d7-fb87f6c3890d-https
+Removed only the owned fixture ref: refs/heads/codex/acceptance-a7a5bc6f-716d-410f-a34b-10241e1e9ea5-ssh
+Both transports passed; default main unchanged; no fixture refs remain.

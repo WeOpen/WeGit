@@ -1,0 +1,32 @@
+[
+  {
+    "name": "accent on light plate",
+    "foreground": "2B67D8",
+    "background": "EBF1FC",
+    "contrast": 4.591
+  },
+  {
+    "name": "accent on dark plate",
+    "foreground": "79AAFF",
+    "background": "26344B",
+    "contrast": 5.377
+  },
+  {
+    "name": "light secondary on canvas",
+    "foreground": "53565C",
+    "background": "F5F7FB",
+    "contrast": 6.862
+  },
+  {
+    "name": "dark secondary on chrome",
+    "foreground": "C2C4C8",
+    "background": "1B212C",
+    "contrast": 9.245
+  },
+  {
+    "name": "primary white label",
+    "foreground": "FFFFFF",
+    "background": "2B67D8",
+    "contrast": 5.205
+  }
+]

@@ -1,0 +1,1 @@
+SwiftUICore/Environment+Objects.swift:34: Fatal error: No Observable object of type AppPreferences found. A View.environmentObject(_:) for AppPreferences may be missing as an ancestor of this view.

@@ -1,0 +1,35 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: Settings categories, ID: settings-tabs
+			3 radio button Description: General, Value: 0
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: Appearance, Value: 0
+			6 radio button Description: Diff, Value: 0
+			7 radio button Description: Commit, Value: 0
+			8 radio button Description: Advanced, Value: 1
+		9 scroll area
+			10 heading Activity
+			11 container
+				12 pop up button Maximum entries, Value: Entries: 100
+				13 pop up button Retention period, Value: 24 hours
+				14 text Activity summaries are kept in memory for this run and cleared on quit. Both entry count and age limits apply.
+				15 button Export diagnostic summary…
+				16 button Clear activity
+				17 text The diagnostic summary contains versions, command names, times, and results. It excludes repository paths, code, diffs, commit messages, output, and credentials.
+			18 heading Interface state
+			19 button Reset interface preferences…
+	20 close button
+	21 zoom button (disabled)
+	22 text WeGit Settings
+23 menu bar
+	24 WeGit
+	25 File
+	26 Edit
+	27 View
+	28 Repository
+	29 Workspace
+	30 Window
+	31 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

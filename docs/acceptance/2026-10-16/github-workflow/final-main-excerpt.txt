@@ -1,0 +1,9 @@
+Native macOS	Formatting, core tests and Debug build	2026-10-16T09:40:51.3341020Z ✔ Test run with 175 tests in 31 suites passed after 129.553 seconds.
+Native macOS	Formatting, core tests and Debug build	2026-10-16T09:41:35.2495780Z ** BUILD SUCCEEDED **
+Native macOS	Minimum Git 2.46 core regression	2026-10-16T09:42:21.1980640Z git version 2.46.0
+Native macOS	Minimum Git 2.46 core regression	2026-10-16T09:43:29.2601910Z ✔ Test run with 175 tests in 31 suites passed after 65.696 seconds.
+Native macOS	Native feature behavior checks	2026-10-16T09:43:29.3400710Z Feature absent at this source revision: WeGit/DesignSystem/CustomTheme.swift
+Native macOS	Native feature behavior checks	2026-10-16T09:43:29.3402550Z Feature absent at this source revision: WeGit/DesignSystem/AppPresentation.swift
+Native macOS	Native feature behavior checks	2026-10-16T09:43:29.3407180Z Feature absent at this source revision: WeGit/App/NativeApplicationMenu.swift
+Native macOS	Compile native UI regressions	2026-10-16T09:43:37.0556480Z ** TEST BUILD SUCCEEDED **
+Native macOS	Ordinary Release and preview package	2026-10-16T09:44:32.2879260Z ** BUILD SUCCEEDED **

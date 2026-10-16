@@ -1,0 +1,68 @@
+Window: "B", App: WeGit.
+0 standard window B – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) 工作区
+						7 row (selected) 更改
+1
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) B, main
+						12 row (selectable) A
+				13 text Value: WeGit, ID: sidebar-brand
+				14 button Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			15 splitter (disabled, settable, float) 209.5
+			16 split group
+				17 container
+					18 split group
+						19 container
+							20 text 更改 1
+							21 menu button More, ID: ellipsis
+							22 text field (settable) Description: 筛选文件路径, ID: changes-filter
+							23 pop up button Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							24 scroll area
+								25 list changes-list
+									26 row (selectable) 未暂存（1）
+									27 row (selectable) Description: 暂存 B.swift, Value: B.swift
+状态：修改
+						28 splitter (disabled, settable, float) 589.5
+						29 container
+							30 text 选择一个文件 查看工作区与暂存区的差异，整理下一次提交。
+					31 unknown Description: 已暂存 0 个文件, ID: commit-staged-count
+					32 text field (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					33 button (disabled) Description: 提交（0 个文件）, Help: 填写提交消息, ID: commit-button
+					34 button (disabled) Description: 提交并推送…, Help: 填写提交消息, ID: commit-push-button
+					35 checkbox Description: 修改上次提交（Amend）, Value: 0
+					36 text Value: 填写提交消息, ID: operation-feedback
+	37 toolbar
+		38 container Hide Sidebar
+			39 button Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		40 button Description: B, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/sidebar-blue-a37e4581/B
+切换仓库 ⌘K
+		41 menu button 当前分支：main, Description: Triangle-headed arrow branching into two paths, Value: 同步状态：无上游, ID: current-branch
+		42 menu button (disabled) 获取, Help: 尚未配置 Remote, ID: toolbar-fetch
+		43 button (disabled) Description: 拉取, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		44 button (disabled) Description: 推送, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		45 button Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		46 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		47 button Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		48 menu button 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	49 close button
+	50 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	51 minimize button
+	52 text B main
+53 menu bar
+	54 WeGit
+	55 File
+	56 Edit
+	57 View
+	58 仓库
+	59 工作区
+	60 Window
+	61 Help
+
+The focused UI element is 0 standard window B – main, ID: main, Secondary Actions: Raise

@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-16",
+  "commit": "453422d1020357a8830852ba95a34c6b9562bcb5",
+  "applicationSourceSHA256": "6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda",
+  "sourceHashEncoding": "SHA-256 of json.dumps(sourceFiles, sort_keys=True) UTF-8",
+  "toolchain": {
+    "macOS": "27.0.1",
+    "xcode": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "checks": {
+    "coreTestsPerGit": 183,
+    "coreSuites": 32,
+    "theme": 34,
+    "appearanceIcons": 18,
+    "nativeMenus": 27,
+    "tooling": 19,
+    "realScannerCases": 5,
+    "strictFormat": true,
+    "localization": true,
+    "migration": true,
+    "debug": true,
+    "nativeUICompilation": true,
+    "release": true,
+    "developmentPackage": true,
+    "productionIdAdhocPackage": true,
+    "committedHistoryScan": true
+  },
+  "steps": [
+    {
+      "name": "core-git246",
+      "exitCode": 0,
+      "seconds": 43.694,
+      "log": "core-git246.log"
+    },
+    {
+      "name": "native-features",
+      "exitCode": 0,
+      "seconds": 12.848,
+      "log": "native-features.log"
+    },
+    {
+      "name": "ui-compilation",
+      "exitCode": 0,
+      "seconds": 6.016,
+      "log": "ui-compilation.log"
+    },
+    {
+      "name": "release",
+      "exitCode": 0,
+      "seconds": 13.628,
+      "log": "release.log"
+    },
+    {
+      "name": "package",
+      "exitCode": 0,
+      "seconds": 0.629,
+      "log": "package.log"
+    }
+  ],
+  "fullInteractiveUI": false,
+  "accessibility": false,
+  "finalReleasePerformance": false,
+  "cleanDownloadedInstallation": false,
+  "releasePublished": false
+}

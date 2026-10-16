@@ -1,0 +1,141 @@
+{
+  "startedOn": "2026-10-15",
+  "completedOn": "2026-10-16",
+  "scope": "Integrate WeGit v2 brand and preserve v1 resources",
+  "environment": {
+    "macOS": "27.0.1",
+    "Xcode": "27.0",
+    "xcodeBuild": "27A266a",
+    "architecture": "arm64"
+  },
+  "applicationSourceMapSHA256": "abf032bdab6e609a41ae5710a14a25cc641abe8903bd12c950103e3036e54d32",
+  "implementation": {
+    "nativeIcon": "WeGit/Resources/AppIcon.icon",
+    "sharedGeometry": "WeGit/DesignSystem/BrandGeometry.swift",
+    "statusItemTemplate": true,
+    "oldResourcesPreserved": true
+  },
+  "checks": {
+    "debugBuild": {
+      "passed": true,
+      "log": "debug.log"
+    },
+    "ordinaryReleaseBuild": {
+      "passed": true,
+      "log": "release.log"
+    },
+    "strictFormat": {
+      "passed": true,
+      "log": "format.log"
+    },
+    "nativeUITestCompilation": {
+      "passed": true,
+      "log": "native-compile.log",
+      "execution": "Not rerun; existing XCTest initialization blocker"
+    },
+    "restoredStartup": {
+      "passed": true,
+      "count": 6,
+      "result": "startup.json"
+    },
+    "coreInputComparison": {
+      "reference": "../alert-inspector",
+      "unchanged": true,
+      "comparedFiles": 81,
+      "coreTestsRerunThisRound": false,
+      "previousTestsPerGit": 183
+    },
+    "v1Retention": {
+      "unchanged": true,
+      "checkedFiles": 67,
+      "includesOriginalIconSource": true,
+      "includesOriginalArchives": true,
+      "record": "v1-preservation-before.json"
+    },
+    "fixture": {
+      "headUnchanged": true,
+      "statusUnchanged": true,
+      "fileBytesUnchanged": true,
+      "reusedExistingFixture": true,
+      "newProjectFixtureRetained": false
+    },
+    "preferencesRestoredBeforeOrdinaryLaunch": {
+      "com.willxue.wegit.development": true,
+      "com.willxue.wegit.UITests": true
+    },
+    "lightDarkManualReview": {
+      "passed": true,
+      "evidence": [
+        "welcome-light.png",
+        "welcome-dark.png",
+        "workspace-light.png",
+        "workspace-dark.png",
+        "menu-panel-light.png",
+        "menu-panel-dark.png",
+        "about-dark.png"
+      ]
+    },
+    "compiledIconAppearances": {
+      "passed": true,
+      "entries": 21,
+      "appearances": [
+        "NSAppearanceNameAqua",
+        "NSAppearanceNameDarkAqua",
+        "ISAppearanceTintable"
+      ],
+      "evidence": "compiled-icon-assets.json"
+    },
+    "ordinaryReleaseStartup": {
+      "passed": true,
+      "restored": [
+        "Chinese",
+        "Light",
+        "WeGit repository",
+        "Changes",
+        "Package.swift",
+        "Unified",
+        "Inspector open",
+        "empty commit draft"
+      ],
+      "evidence": [
+        "ordinary-release.png",
+        "ordinary-release.ax.txt"
+      ]
+    },
+    "brandAssetExports": {
+      "pngCount": 47,
+      "passed": true,
+      "result": "../../../../branding/wegit-v2/validation.json"
+    },
+    "temporaryCleanup": {
+      "preferenceBackupDirectoryRemoved": true,
+      "pointerRemoved": true,
+      "reusedFixturePreserved": true
+    }
+  },
+  "delivery": {
+    "directory": ".build/releases/package-Fg4E0i",
+    "archive": "WeGit-0.1.0-development.zip",
+    "sha256": "fdefc5133bd4cadc058302096e1319242e8f73a112b09fd19f6b329a7e7adc79",
+    "version": "0.1.0",
+    "bundleIdentifier": "com.willxue.wegit.development",
+    "signing": "ad-hoc",
+    "entitlements": {},
+    "notarized": false,
+    "sourceReceiptVerified": true,
+    "zipCRCVerified": true,
+    "sha256Verified": true,
+    "askPassMITAndTestExclusionVerified": true,
+    "brandArchive": "branding/WeGit-brand-v2-integrated.zip",
+    "brandArchiveSHA256": "5d5415ae5cc45cbf27b3611ebd2160d0346ef5c2dc5c499f3a8f99f611c8cb6a"
+  },
+  "remaining": [
+    "Full native XCTest execution",
+    "Full accessibility and actual status-bar contrast checks",
+    "144 reading combinations",
+    "Final source Release performance",
+    "Missing compatibility environments",
+    "Real Beta and formal distribution"
+  ],
+  "v1Released": false
+}

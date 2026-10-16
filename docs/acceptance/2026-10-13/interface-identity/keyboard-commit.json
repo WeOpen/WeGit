@@ -1,0 +1,18 @@
+{
+  "beforeHead": "8c71ebdab59c3554477ae5eee8883b7d1ea1410d",
+  "commitSHA": "6fcdc1a8a3fbdfb4d2ee6fc1ff34e46f61cceead",
+  "message": "Refine the native workspace\n\nKeep the review flow clear.",
+  "committedFiles": [
+    "Configuration/theme.json",
+    "Sources/Repository.swift"
+  ],
+  "remainingStatus": " M README.md\n?? Sources/Review.swift\n",
+  "nativeNewline": "Option+Return",
+  "commitShortcut": "Command+Return",
+  "stagedCountTransition": [
+    1,
+    2,
+    0
+  ],
+  "draftRestoredAfterRestart": true
+}

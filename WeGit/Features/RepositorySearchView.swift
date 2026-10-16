@@ -11,6 +11,7 @@ private enum RepositorySearchScope: String, CaseIterable {
     case files = "更改文件"
     case commits = "提交"
     case branches = "分支"
+    var title: String { L10n.key(rawValue) }
 }
 
 private enum RepositorySearchResult: Identifiable {
@@ -34,14 +35,18 @@ private enum RepositorySearchResult: Identifiable {
     var subtitle: String {
         switch self {
         case .file(let value):
-            value.conflict ? "存在冲突" : value.untracked ? "未跟踪" : value.staged ? "已暂存" : "未暂存"
+            value.conflict
+                ? L10n.text("存在冲突")
+                : value.untracked ? L10n.text("未跟踪") : value.staged ? L10n.text("已暂存") : L10n.text("未暂存")
         case .commit(let value): "\(value.id.prefix(12)) · \(value.author)"
-        case .branch(let value): "\(value.oid.prefix(12)) · \(value.remote ? "远端跟踪分支" : "本地分支")"
+        case .branch(let value):
+            "\(value.oid.prefix(12)) · \(value.remote ? L10n.text("远端跟踪分支") : L10n.text("本地分支"))"
         }
     }
 }
 
 struct RepositorySearchView: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     let request: RepositorySearchRequest
     @Environment(\.dismiss) private var dismiss
@@ -79,35 +84,38 @@ struct RepositorySearchView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("搜索 \(request.session.location.name)").font(.title2.weight(.semibold))
-            Picker("搜索范围", selection: $scope) {
-                ForEach(RepositorySearchScope.allCases, id: \.self) { Text($0.rawValue).tag($0) }
-            }.pickerStyle(.segmented).accessibilityIdentifier("repository-search-scope")
+            SheetTitle(title: L10n.text("搜索 \(request.session.location.name)"), symbol: "magnifyingglass")
+            WorkbenchGlassTabs(
+                title: L10n.text("搜索范围"), selection: $scope,
+                tabs: RepositorySearchScope.allCases.map { GlassTab(value: $0, title: $0.title) },
+                height: 36, identifier: "repository-search-scope")
             HStack {
                 if scope == .commits {
-                    Picker("提交字段", selection: $field) {
+                    Picker(L10n.text("提交字段"), selection: $field) {
                         ForEach(HistorySearchField.allCases, id: \.self) { Text($0.title).tag($0) }
                     }.frame(width: 110).accessibilityIdentifier("repository-search-field")
                 }
-                TextField(scope == .commits ? "搜索提交\(field.title)" : "输入名称或路径", text: $query)
-                    .textFieldStyle(.roundedBorder).focused($searchFocused).onSubmit { openSelected() }
-                    .accessibilityIdentifier("repository-search-query")
-                    .onKeyPress(.downArrow) {
-                        move(1)
-                        return .handled
-                    }
-                    .onKeyPress(.upArrow) {
-                        move(-1)
-                        return .handled
-                    }
+                WorkbenchSearchField(
+                    prompt: scope == .commits ? L10n.text("搜索提交\(field.title)") : L10n.text("输入名称或路径"),
+                    text: $query, identifier: "repository-search-query", focus: $searchFocused
+                )
+                .onSubmit { openSelected() }
+                .onKeyPress(.downArrow) {
+                    move(1)
+                    return .handled
+                }
+                .onKeyPress(.upArrow) {
+                    move(-1)
+                    return .handled
+                }
             }
-            if loading { ProgressView("搜索提交…").controlSize(.small) }
-            if let error { Text(error).font(.callout).foregroundStyle(.red) }
+            if loading { ProgressView(L10n.text("搜索提交…")).controlSize(.small) }
+            if let error { Text(error).font(.callout).foregroundStyle(colors.negative) }
             List(selection: $selected) {
                 ForEach(results) { result in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(result.title).lineLimit(1).truncationMode(.middle)
-                        Text(result.subtitle).font(.caption).foregroundStyle(AppColors.secondaryText)
+                        Text(result.subtitle).font(.caption).foregroundStyle(colors.secondaryText)
                     }.padding(.vertical, 3).tag(result.id).contentShape(Rectangle())
                         .onTapGesture(count: 2) {
                             selected = result.id
@@ -116,20 +124,23 @@ struct RepositorySearchView: View {
                 }
             }.overlay {
                 if results.isEmpty && !loading && error == nil {
-                    Text(scope == .commits && query.isEmpty ? "输入提交消息、作者或 SHA 开始搜索" : "没有匹配结果")
-                        .foregroundStyle(AppColors.secondaryText)
+                    Text(
+                        scope == .commits && query.isEmpty
+                            ? L10n.text("输入提交消息、作者或 SHA 开始搜索") : L10n.text("没有匹配结果")
+                    )
+                    .foregroundStyle(colors.secondaryText)
                 }
             }.accessibilityIdentifier("repository-search-results")
             HStack {
                 Text(
                     scope == .commits
-                        ? (more ? "显示前 50 项，可在历史页面继续搜索" : "\(results.count) 项结果")
-                        : "最多显示 100 项；更改文件仅包含当前未提交内容"
+                        ? (more ? L10n.text("显示前 50 项，可在历史页面继续搜索") : L10n.text("\(results.count) 项结果"))
+                        : L10n.text("最多显示 100 项；更改文件仅包含当前未提交内容")
                 )
-                .font(.caption).foregroundStyle(AppColors.secondaryText)
+                .font(.caption).foregroundStyle(colors.secondaryText)
                 Spacer()
-                Button("关闭") { dismiss() }.keyboardShortcut(.cancelAction)
-                Button("打开结果") { openSelected() }.keyboardShortcut(.defaultAction)
+                Button(L10n.text("关闭")) { dismiss() }.keyboardShortcut(.cancelAction)
+                Button(L10n.text("打开结果")) { openSelected() }.keyboardShortcut(.defaultAction)
                     .disabled(selected == nil || app.session !== request.session)
             }
         }.padding(22).frame(width: 630, height: 490)

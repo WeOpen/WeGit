@@ -80,7 +80,7 @@ final class RepositoryFileReader {
         }
         let kind = info.st_mode & UInt16(S_IFMT)
         guard kind == UInt16(S_IFREG) || kind == UInt16(S_IFLNK) else {
-            throw ModelFailure.unsupported("此文件类型不支持文本预览。")
+            throw ModelFailure.unsupported(L10n.text("此文件类型不支持文本预览。"))
         }
         if kind == UInt16(S_IFREG) && openContents {
             let fd = openat(parentFD, last, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
@@ -129,7 +129,9 @@ final class RepositoryFileReader {
                 repeat {
                     count = Darwin.read(descriptor, &bytes, bytes.count)
                 } while count < 0 && errno == EINTR
-                guard count >= 0 else { throw ModelFailure.unsupported("读取文件失败，请检查权限和磁盘状态（\(errno)）。") }
+                guard count >= 0 else {
+                    throw ModelFailure.unsupported(L10n.text("读取文件失败，请检查权限和磁盘状态（\(errno)）。"))
+                }
                 if count == 0 { break }
                 guard count <= limit - total else { throw ProcessFailure.outputLimit }
                 try consume(Data(bytes.prefix(count)))
@@ -137,7 +139,7 @@ final class RepositoryFileReader {
             }
             guard total == size else { throw ModelFailure.changed }
         } else {
-            throw ModelFailure.unsupported("此文件未以内容读取模式打开。")
+            throw ModelFailure.unsupported(L10n.text("此文件未以内容读取模式打开。"))
         }
         try validate()
     }

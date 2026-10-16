@@ -1,0 +1,19 @@
+{
+  "image": "changes-english-dark-final.png",
+  "scale": 2,
+  "commitAndPushBlueBounds": [
+    [
+      1455,
+      1502,
+      1730,
+      1557
+    ],
+    [
+      1755,
+      1502,
+      2045,
+      1557
+    ]
+  ],
+  "heightDifferencePixels": 0
+}

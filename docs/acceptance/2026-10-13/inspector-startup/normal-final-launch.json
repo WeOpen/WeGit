@@ -1,0 +1,9 @@
+{
+  "command": "open .build-app/Build/Products/Debug/WeGit.app",
+  "normalPreferences": true,
+  "testArguments": false,
+  "survived8s": true,
+  "processPaths": [
+    "/Users/willxue/will/WeOpen/WeGit/.build-app/Build/Products/Debug/WeGit.app/Contents/MacOS/WeGit"
+  ]
+}

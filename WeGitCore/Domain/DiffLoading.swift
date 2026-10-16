@@ -29,11 +29,11 @@ public enum DiffContentLimit: Error, LocalizedError, Sendable, Equatable {
     public var errorDescription: String? {
         switch self {
         case .bytes(let count):
-            "内容超过 \(count / 1024 / 1024) MiB 的读取上限。请在外部工具中查看完整内容。"
+            L10n.text("内容超过 \(count / 1024 / 1024) MiB 的读取上限。请在外部工具中查看完整内容。")
         case .lines(let count):
-            "内容超过 \(count) 行的读取上限。请在外部工具中查看完整内容。"
+            L10n.text("内容超过 \(count) 行的读取上限。请在外部工具中查看完整内容。")
         case .regions(let count):
-            "差异超过 \(count) 个区间的读取上限。请缩小比较范围或在外部工具中查看。"
+            L10n.text("差异超过 \(count) 个区间的读取上限。请缩小比较范围或在外部工具中查看。")
         }
     }
 }
@@ -53,14 +53,14 @@ public struct DiffSummary: Sendable, Equatable {
 
     /// --numstat -z with --no-renames: two numeric fields, then an unescaped path.
     public static func parse(_ raw: Data, path: String, layer: DiffLayer) throws -> DiffSummary {
-        guard raw.isEmpty || raw.last == 0 else { throw ModelFailure.invalidOutput("差异摘要被截断") }
+        guard raw.isEmpty || raw.last == 0 else { throw ModelFailure.invalidOutput(L10n.text("差异摘要被截断")) }
         var additions = 0
         var deletions = 0
         var binary = false
         for record in raw.split(separator: 0) {
             let fields = record.split(separator: 9, maxSplits: 2, omittingEmptySubsequences: false)
             guard fields.count == 3, !fields[2].isEmpty else {
-                throw ModelFailure.invalidOutput("差异摘要字段不完整")
+                throw ModelFailure.invalidOutput(L10n.text("差异摘要字段不完整"))
             }
             if fields[0] == Data("-".utf8) && fields[1] == Data("-".utf8) {
                 binary = true
@@ -69,7 +69,7 @@ public struct DiffSummary: Sendable, Equatable {
             guard let added = Int(String(decoding: fields[0], as: UTF8.self)), added >= 0,
                 let removed = Int(String(decoding: fields[1], as: UTF8.self)), removed >= 0,
                 added <= Int.max - additions, removed <= Int.max - deletions
-            else { throw ModelFailure.invalidOutput("差异摘要行数无效") }
+            else { throw ModelFailure.invalidOutput(L10n.text("差异摘要行数无效")) }
             additions += added
             deletions += removed
         }
@@ -94,11 +94,11 @@ extension RepositoryService {
         loadLarge: Bool = false
     ) async throws -> DiffReadResult {
         try Task.checkCancellation()
-        guard layer != .commit else { throw ModelFailure.unsupported("提交差异需要明确的比较对象。") }
+        guard layer != .commit else { throw ModelFailure.unsupported(L10n.text("提交差异需要明确的比较对象。")) }
         try location.validateIdentity()
         try validate(path)
         guard (0...200).contains(options.contextLines) else {
-            throw ModelFailure.unsupported("上下文行数须在 0～200 之间。")
+            throw ModelFailure.unsupported(L10n.text("上下文行数须在 0～200 之间。"))
         }
         let summary: DiffSummary
         if layer == .untracked {

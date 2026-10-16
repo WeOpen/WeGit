@@ -41,6 +41,7 @@ jobs:
             python3 scripts/build_website.py
             node site/release.test.mjs
           fi
+          python3 scripts/ci/verify_secret_policy.py --gitleaks "$RUNNER_TEMP/wegit-tools/gitleaks"
           git diff --check
       - name: Scan committed history for credentials
         run: |

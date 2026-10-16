@@ -1,0 +1,37 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 radio button Description: 通用, Value: 0
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: 外观, Value: 1
+			6 radio button Description: 差异, Value: 0
+			7 radio button Description: 提交, Value: 0
+			8 radio button Description: 高级, Value: 0
+		9 scroll area
+			10 heading 界面
+			11 container
+				12 pop up button 主题, Value: 深色
+				13 pop up button 列表密度, Value: 舒适
+				14 switch 显示文件图标, Value: on
+				15 switch 界面动效, Value: on, ID: settings-interface-motion
+				16 text 欢迎标记与操作反馈使用短动画，并遵循 macOS 的“减少动态效果”设置。
+			17 heading 差异文本
+			18 container
+				19 pop up button 代码字体, Value: 系统等宽字体, ID: settings-code-font
+				20 slider (settable, float) 字号 13 pt, Value: 13, ID: settings-code-size
+				21 text let changes = repository.status()
+	22 close button
+	23 zoom button (disabled)
+	24 text WeGit Settings
+25 menu bar
+	26 WeGit
+	27 File
+	28 Edit
+	29 View
+	30 仓库
+	31 工作区
+	32 Window
+	33 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

@@ -138,7 +138,7 @@ public struct DiskDiffSnapshot: Sendable, Identifiable {
                 flushRun()
                 guard let currentHeader else { return }
                 guard oldRemaining == 0, newRemaining == 0 else {
-                    throw ModelFailure.invalidOutput("差异块行数与头信息不一致")
+                    throw ModelFailure.invalidOutput(L10n.text("差异块行数与头信息不一致"))
                 }
                 hunks.append(
                     DiskDiffHunk(
@@ -158,7 +158,7 @@ public struct DiskDiffSnapshot: Sendable, Identifiable {
                     throw DiffContentLimit.regions(DiskDiffBudget.regions)
                 }
                 if preview { continue }
-                guard line.terminated else { throw ModelFailure.invalidOutput("差异输出被截断") }
+                guard line.terminated else { throw ModelFailure.invalidOutput(L10n.text("差异输出被截断")) }
                 let prefix = line.prefix
                 // Headers are small in normal Git output. Body text is never decoded during indexing.
                 let structural = prefix.first == 64 || prefix.first == 100 || currentHeader == nil
@@ -178,7 +178,7 @@ public struct DiskDiffSnapshot: Sendable, Identifiable {
                         let range = match.range(at: group)
                         if range.location == NSNotFound { return fallback }
                         guard let value = Int((text as NSString).substring(with: range)), value >= 0 else {
-                            throw ModelFailure.invalidOutput("差异块行号超出范围")
+                            throw ModelFailure.invalidOutput(L10n.text("差异块行号超出范围"))
                         }
                         return value
                     }
@@ -188,7 +188,7 @@ public struct DiskDiffSnapshot: Sendable, Identifiable {
                     newRemaining = try number(4)
                     guard oldLine <= Int.max - oldRemaining, newLine <= Int.max - newRemaining,
                         oldRemaining == 0 || oldLine > 0, newRemaining == 0 || newLine > 0
-                    else { throw ModelFailure.invalidOutput("差异块行号超出范围") }
+                    else { throw ModelFailure.invalidOutput(L10n.text("差异块行号超出范围")) }
                     let oldStart = oldLine - (oldRemaining == 0 ? 0 : 1)
                     let newStart = newLine - (newRemaining == 0 ? 0 : 1)
                     oldRange = oldStart..<(oldStart + oldRemaining)
@@ -203,7 +203,7 @@ public struct DiskDiffSnapshot: Sendable, Identifiable {
                     continue
                 }
                 guard currentHeader != nil else {
-                    if text.hasPrefix("@@") { throw ModelFailure.invalidOutput("无法识别差异块头信息") }
+                    if text.hasPrefix("@@") { throw ModelFailure.invalidOutput(L10n.text("无法识别差异块头信息")) }
                     if text.hasPrefix("Binary files ") || text == "GIT binary patch" { binary = true }
                     if ["new file mode ", "deleted file mode ", "rename from ", "old mode "].contains(
                         where: text.hasPrefix)
@@ -222,19 +222,19 @@ public struct DiskDiffSnapshot: Sendable, Identifiable {
                     continue
                 }
                 guard let kind = prefix.first, [32, 43, 45, 92].contains(kind) else {
-                    throw ModelFailure.invalidOutput("无法识别差异行")
+                    throw ModelFailure.invalidOutput(L10n.text("无法识别差异行"))
                 }
                 if kind == 92 {
                     guard prefix == Data("\\ No newline at end of file".utf8), previousKind != nil,
                         previousKind != 92
                     else {
-                        throw ModelFailure.invalidOutput("非法行尾标记")
+                        throw ModelFailure.invalidOutput(L10n.text("非法行尾标记"))
                     }
                 }
                 let usesOld = kind == 32 || kind == 45
                 let usesNew = kind == 32 || kind == 43
                 guard !usesOld || oldRemaining > 0, !usesNew || newRemaining > 0 else {
-                    throw ModelFailure.invalidOutput("差异块包含多余行")
+                    throw ModelFailure.invalidOutput(L10n.text("差异块包含多余行"))
                 }
                 if pending?.kind != kind { flushRun() }
                 if pending == nil {

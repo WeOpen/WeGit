@@ -1,0 +1,17 @@
+{
+  "checks" : [
+    "Chinese startup File becomes English without restart",
+    "Native Close becomes English",
+    "Action remains native",
+    "Shortcut and modifiers preserved",
+    "Validation and payload preserved",
+    "English File becomes Chinese",
+    "English Window becomes Chinese",
+    "Window names remain exact",
+    "External services remain exact",
+    "Custom commands remain SwiftUI owned",
+    "AppKit rebuilding a title is repaired",
+    "Round trip retains menu identity"
+  ],
+  "passed" : true
+}

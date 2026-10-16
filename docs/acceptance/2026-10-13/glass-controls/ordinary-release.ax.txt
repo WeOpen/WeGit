@@ -1,0 +1,270 @@
+Window: "WeGit", App: WeGit.
+0 standard window WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 text WeGit，当前仓库：WeGit
+				5 scroll area
+					6 list Sidebar
+						7 row (selectable) 工作区
+						8 row (selected) 更改
+302
+						9 row (selectable) 提交历史
+						10 row (selectable) 分支
+						11 row (selectable) 仓库
+						12 row (selectable) WeGit, codex/v1-validation
+						13 row (selectable) disk-snapshot-0r9jy3z6
+						14 row (selectable) repository
+				15 text Value: 302 个文件有改动 codex/v1-validation, ID: sidebar-repository-state
+				16 button Description: 打开仓库, Help: 打开仓库 ⌘O, ID: plus
+			17 splitter (disabled, settable, float) 227
+			18 split group
+				19 container
+					20 split group
+						21 container
+							22 text 更改 302
+							23 menu button More, ID: ellipsis
+							24 text field (settable) Description: 筛选文件路径, ID: changes-filter
+							25 pop up button Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							26 scroll area Secondary Actions: Scroll Up, Scroll Down
+								27 list changes-list (showing 0-11 of 100 items)
+									28 row (selectable) 未暂存（51）
+									29 row (selectable) Description: 暂存 verify.yml, Value: verify.yml
+.github/workflows
+状态：修改
+									30 row (selectable) Description: 暂存 CHANGELOG.md, Value: CHANGELOG.md
+状态：修改
+									31 row (selectable) Description: 暂存 README.md, Value: README.md
+状态：修改
+									32 row (selectable) Description: 暂存 project.pbxproj, Value: project.pbxproj
+WeGit.xcodeproj
+状态：修改
+									33 row (selected) Description: 暂存 AppPreferences.swift, Value: AppPreferences.swift
+WeGit/App
+状态：修改
+									34 row (selectable) Description: 暂存 AppState.swift, Value: AppState.swift
+WeGit/App
+状态：修改
+									35 row (selectable) Description: 暂存 ApplicationDelegate.swift, Value: ApplicationDelegate.swift
+WeGit/App
+状态：修改
+									36 row (selectable) Description: 暂存 ViewPerformanceJournal.swift, Value: ViewPerformanceJournal.swift
+WeGit/App
+状态：修改
+									37 row (selectable) Description: 暂存 WeGitApp.swift, Value: WeGitApp.swift
+WeGit/App
+状态：修改
+									38 row (selectable) Description: 暂存 WindowStateBridge.swift, Value: WindowStateBridge.swift
+WeGit/App
+状态：修改
+								39 scroll bar (settable, float) 0
+									40 value indicator (settable, float) 0
+									41 increment arrow button
+									42 decrement arrow button
+									43 increment page button
+									44 decrement page button
+						45 splitter (disabled, settable, float) 487
+						46 container
+							47 text Help: WeGit/App/AppPreferences.swift, Value: WeGit/App/AppPreferences.swift +6 −0 工作区 ↔ 暂存区
+							48 Description: 差异布局, ID: diff-layout
+								49 radio button Description: 统一, Value: 0
+								50 radio button Description: 分栏, Value: 1
+							51 menu button More, Help: 差异文件操作, ID: ellipsis
+							52 pop up button 上下文, Value: 3 行, ID: diff-context
+							53 checkbox Description: 忽略空白, Value: 0, ID: diff-ignore-whitespace
+							54 checkbox Description: 词级差异, Help: 突出替换行中变化的词；长行仍保留整行差异标识。, Value: 0, ID: diff-word-highlight
+							55 button (disabled) Description: 上一差异块, ID: diff-hunk-previous
+							56 button Description: 下一差异块, ID: diff-hunk-next
+							57 text Value: 差异块 1 / 3, ID: diff-hunk-position
+							58 scroll area Description: 文本差异, ID: diff-content, Secondary Actions: Scroll Up, Scroll Down
+								59 container 文本差异内容
+									60 unknown Description: 原始内容，修改后, ID: diff-column-headers
+									61 container 上下文展开控制
+										62 button Description: 向上展开 8 行, ID: diff-context-expand-0
+										63 text 8 行未显示
+									64 container 差异块：@@ -9,6 +9,8 @@ final class AppPreferences {
+										65 text @@ -9,6 +9,8 @@ final class AppPreferences {
+										66 button Description: 复制此块补丁, ID: diff-hunk-copy:0
+										67 button 暂存此块
+										68 button 丢弃此块…
+									69 container Description: 原始与修改后的代码行, ID: split-diff-row
+										70 text 9
+										71 text entry area Description: 原始代码，第 9 行, Value:     var onDiffChange: (@MainActor () -> Void)?, ID: diff-code:0
+										72 text 9
+										73 text entry area Description: 修改后的代码，第 9 行, Value:     var onDiffChange: (@MainActor () -> Void)?, ID: diff-code:0
+									74 container Description: 原始与修改后的代码行, ID: split-diff-row
+										75 text 10
+										76 text entry area Description: 原始代码，第 10 行, Value:     var onActivityChange: (@MainActor () -> Void)?, ID: diff-code:1
+										77 text 10
+										78 text entry area Description: 修改后的代码，第 10 行, Value:     var onActivityChange: (@MainActor () -> Void)?, ID: diff-code:1
+									79 container Description: 原始与修改后的代码行, ID: split-diff-row
+										80 text 11
+										81 text entry area Description: 原始代码，第 11 行, Value:     var appearance: String { didSet { defaults.set(appearance, forKey: "appearance") } }, ID: diff-code:2
+										82 text 11
+										83 text entry area Description: 修改后的代码，第 11 行, Value:     var appearance: String { didSet { defaults.set(appearance, forKey: "appearance") } }, ID: diff-code:2
+									84 container Description: 原始与修改后的代码行, ID: split-diff-row
+										85 text 12
+										86 text entry area Description: 修改后的代码，第 12 行, ID: diff-code:3, Value:     var interfaceMotion: Bool { didSet { defaults.set(interfaceMotion, forKey: "interfaceMotion") } }
+									87 container Description: 原始与修改后的代码行, ID: split-diff-row
+										88 text 13
+										89 text entry area Description: 修改后的代码，第 13 行, Value:     var showMenuBar: Bool { didSet { defaults.set(showMenuBar, forKey: "showMenuBar") } }, ID: diff-code:4
+									90 container Description: 原始与修改后的代码行, ID: split-diff-row
+										91 text 12
+										92 text entry area Description: 原始代码，第 12 行, Value:     var codeSize: Double { didSet { defaults.set(codeSize, forKey: "codeSize") } }, ID: diff-code:5
+										93 text 14
+										94 text entry area Description: 修改后的代码，第 14 行, Value:     var codeSize: Double { didSet { defaults.set(codeSize, forKey: "codeSize") } }, ID: diff-code:5
+									95 container Description: 原始与修改后的代码行, ID: split-diff-row
+										96 text 13
+										97 text entry area Description: 原始代码，第 13 行, Value:     var codeFont: String { didSet { defaults.set(codeFont, forKey: "codeFont") } }, ID: diff-code:6
+										98 text 15
+										99 text entry area Description: 修改后的代码，第 15 行, Value:     var codeFont: String { didSet { defaults.set(codeFont, forKey: "codeFont") } }, ID: diff-code:6
+									100 container Description: 原始与修改后的代码行, ID: split-diff-row
+										101 text 14
+										102 text entry area Description: 原始代码，第 14 行, Value:     var density: String { didSet { defaults.set(density, forKey: "density") } }, ID: diff-code:7
+										103 text 16
+										104 text entry area Description: 修改后的代码，第 16 行, Value:     var density: String { didSet { defaults.set(density, forKey: "density") } }, ID: diff-code:7
+									105 container 上下文展开控制
+										106 button Description: 展开 20 行, ID: diff-context-expand-1
+										107 text 52 行未显示
+									108 container 差异块：@@ -67,6 +69,8 @@ final class AppPreferences {
+										109 text @@ -67,6 +69,8 @@ final class AppPreferences {
+										110 button Description: 复制此块补丁, ID: diff-hunk-copy:1
+										111 button 暂存此块
+										112 button 丢弃此块…
+									113 container Description: 原始与修改后的代码行, ID: split-diff-row
+										114 text 67
+										115 text entry area Description: 原始代码，第 67 行, Value:         appearance =, ID: diff-code:8
+										116 text 69
+										117 text entry area Description: 修改后的代码，第 69 行, Value:         appearance =, ID: diff-code:8
+									118 container Description: 原始与修改后的代码行, ID: split-diff-row
+										119 text 68
+										120 text entry area Description: 原始代码，第 68 行, Value:             ["system", "light", "dark"].contains(defaults.string(forKey: "appearance") ?? ""), ID: diff-code:9
+										121 text 70
+										122 text entry area Description: 修改后的代码，第 70 行, Value:             ["system", "light", "dark"].contains(defaults.string(forKey: "appearance") ?? ""), ID: diff-code:9
+									123 container Description: 原始与修改后的代码行, ID: split-diff-row
+										124 text 69
+										125 text entry area Description: 原始代码，第 69 行, Value:             ? defaults.string(forKey: "appearance")! : "system", ID: diff-code:10
+										126 text 71
+										127 text entry area Description: 修改后的代码，第 71 行, Value:             ? defaults.string(forKey: "appearance")! : "system", ID: diff-code:10
+									128 container Description: 原始与修改后的代码行, ID: split-diff-row
+										129 text 72
+										130 text entry area Description: 修改后的代码，第 72 行, Value:         interfaceMotion = flag("interfaceMotion", true), ID: diff-code:11
+									131 container Description: 原始与修改后的代码行, ID: split-diff-row
+										132 text 73
+										133 text entry area Description: 修改后的代码，第 73 行, Value:         showMenuBar = flag("showMenuBar", true), ID: diff-code:12
+									134 container Description: 原始与修改后的代码行, ID: split-diff-row
+										135 text 70
+										136 text entry area Description: 原始代码，第 70 行, Value:         codeSize = min(, ID: diff-code:13
+										137 text 74
+										138 text entry area Description: 修改后的代码，第 74 行, Value:         codeSize = min(, ID: diff-code:13
+									139 container Description: 原始与修改后的代码行, ID: split-diff-row
+										140 text 71
+										141 text entry area Description: 原始代码，第 71 行, ID: diff-code:14, Value:             24, max(11, defaults.object(forKey: "codeSize") == nil ? 13 : defaults.double(forKey: "codeSize"))
+										142 text 75
+										143 text entry area Description: 修改后的代码，第 75 行, ID: diff-code:14, Value:             24, max(11, defaults.object(forKey: "codeSize") == nil ? 13 : defaults.double(forKey: "codeSize"))
+									144 container Description: 原始与修改后的代码行, ID: split-diff-row
+										145 text 72
+										146 text entry area Description: 原始代码，第 72 行, Value:         ), ID: diff-code:15
+										147 text 76
+										148 text entry area Description: 修改后的代码，第 76 行, Value:         ), ID: diff-code:15
+									149 container 上下文展开控制
+										150 button Description: 展开 20 行, ID: diff-context-expand-2
+										151 text 24 行未显示
+									152 container 差异块：@@ -97,6 +101,8 @@ final class AppPreferences {
+										153 text @@ -97,6 +101,8 @@ final class AppPreferences {
+										154 button Description: 复制此块补丁, ID: diff-hunk-copy:2
+										155 button 暂存此块
+										156 button 丢弃此块…
+									157 container Description: 原始与修改后的代码行, ID: split-diff-row
+										158 text 97
+										159 text entry area Description: 原始代码，第 97 行, Value:  , ID: diff-code:16
+										160 text 101
+										161 text entry area Description: 修改后的代码，第 101 行, Value:  , ID: diff-code:16
+									162 container Description: 原始与修改后的代码行, ID: split-diff-row
+										163 text 98
+										164 text entry area Description: 原始代码，第 98 行, Value:     func resetInterface() {, ID: diff-code:17
+										165 text 102
+										166 text entry area Description: 修改后的代码，第 102 行, Value:     func resetInterface() {, ID: diff-code:17
+									167 container Description: 原始与修改后的代码行, ID: split-diff-row
+										168 text 99
+										169 text entry area Description: 原始代码，第 99 行, Value:         appearance = "system", ID: diff-code:18
+										170 text 103
+										171 text entry area Description: 修改后的代码，第 103 行, Value:         appearance = "system", ID: diff-code:18
+									172 container Description: 原始与修改后的代码行, ID: split-diff-row
+										173 text 104
+										174 text entry area Description: 修改后的代码，第 104 行, Value:         interfaceMotion = true, ID: diff-code:19
+									175 container Description: 原始与修改后的代码行, ID: split-diff-row
+										176 text 105
+										177 text entry area Description: 修改后的代码，第 105 行, Value:         showMenuBar = true, ID: diff-code:20
+									178 container Description: 原始与修改后的代码行, ID: split-diff-row
+										179 text 100
+										180 text entry area Description: 原始代码，第 100 行, Value:         codeSize = 13, ID: diff-code:21
+										181 text 106
+										182 text entry area Description: 修改后的代码，第 106 行, Value:         codeSize = 13, ID: diff-code:21
+									183 container Description: 原始与修改后的代码行, ID: split-diff-row
+										184 text 101
+										185 text entry area Description: 原始代码，第 101 行, Value:         codeFont = "system", ID: diff-code:22
+										186 text 107
+										187 text entry area Description: 修改后的代码，第 107 行, Value:         codeFont = "system", ID: diff-code:22
+									188 container Description: 原始与修改后的代码行, ID: split-diff-row
+										189 text 102
+										190 text entry area Description: 原始代码，第 102 行, Value:         density = "comfortable", ID: diff-code:23
+										191 text 108
+										192 text entry area Description: 修改后的代码，第 108 行, Value:         density = "comfortable", ID: diff-code:23
+									193 container 上下文展开控制
+										194 button Description: 展开 20 行, ID: diff-context-expand-3
+										195 text 后续上下文
+								196 scroll bar (settable, float) 0
+									197 value indicator (settable, float) 0
+									198 increment arrow button
+									199 decrement arrow button
+									200 increment page button
+									201 decrement page button
+					202 unknown Description: 已暂存 0 个文件, ID: commit-staged-count
+					203 text field (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					204 button (disabled) Description: 提交（0 个文件）, Help: 填写提交消息, ID: commit-button
+					205 button (disabled) Description: 提交并推送…, Help: 填写提交消息, ID: commit-push-button
+					206 checkbox Description: 修改上次提交（Amend）, Value: 0
+					207 text Value: 填写提交消息, ID: operation-feedback
+				208 splitter (disabled, settable, float) 971
+				209 scroll area Description: 检查器, ID: repository-inspector
+					210 heading 仓库
+					211 container
+						212 text 名称, Value: WeGit /Users/willxue/will/WeOpen/WeGit
+						213 button 在 Finder 中显示
+						214 button 在 Terminal 中打开
+						215 button 在 Xcode 中打开…
+						216 button 复制仓库路径
+					217 heading 分支
+					218 container
+						219 text 当前, Value: codex/v1-validation 未设置 — / —
+					220 heading 文件
+					221 container
+						222 text WeGit/App/AppPreferences.swift 6 0
+	223 toolbar
+		224 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		225 button Description: WeGit, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit
+切换仓库 ⌘K
+		226 menu button codex/v1-validation · 无上游, Description: Triangle-headed arrow branching into two paths, Value: 同步状态：无上游, ID: current-branch
+		227 menu button 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		228 button Description: 拉取, Help: 选择远端、目标分支和同步方式, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		229 button Description: 推送, Help: 选择远端、目标分支和同步方式, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		230 button Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		231 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		232 button Description: 检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		233 menu button 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	234 close button
+	235 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	236 minimize button
+	237 text WeGit codex/v1-validation
+238 menu bar
+	239 WeGit
+	240 File
+	241 Edit
+	242 View
+	243 仓库
+	244 工作区
+	245 Window
+	246 Help
+
+The focused UI element is 203 text field (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message

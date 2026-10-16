@@ -4,6 +4,7 @@ import XCTest
 final class WorkbenchPerformanceTests: XCTestCase {
     private struct Sample: Codable {
         let name: String
+        let id: UUID?
         let milliseconds: Double
         let peakRSSBytes: Int
         let endedAtNanoseconds: UInt64
@@ -29,11 +30,45 @@ final class WorkbenchPerformanceTests: XCTestCase {
         let root = output.appending(path: "fixture")
         try FileManager.default.copyItem(at: sourceRoot, to: root)
         defer { try? FileManager.default.removeItem(at: root) }
+        let copiedIndex = try Data(contentsOf: root.appending(path: ".git/index"))
+        // Copying changes file identities. Reconcile that private index before
+        // the warm-cache measurements, rather than timing one-time copy repair.
+        let warmup = Process()
+        warmup.executableURL = URL(fileURLWithPath: try XCTUnwrap(environment["WEGIT_PERFORMANCE_GIT"]))
+        warmup.arguments = ["-C", root.path, "update-index", "--refresh"]
+        var warmEnvironment = environment.filter { !$0.key.hasPrefix("GIT_") }
+        warmEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        warmEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
+        warmEnvironment["LC_ALL"] = "C"
+        warmup.environment = warmEnvironment
+        let warmOutput = Pipe()
+        warmup.standardOutput = warmOutput
+        warmup.standardError = warmOutput
+        try warmup.run()
+        let warmResult = warmOutput.fileHandleForReading.readDataToEndOfFile()
+        warmup.waitUntilExit()
+        let warmEvidence = XCTAttachment(data: warmResult, uniformTypeIdentifier: "public.plain-text")
+        warmEvidence.name = "index-reconciliation-output"
+        warmEvidence.lifetime = .keepAlways
+        add(warmEvidence)
+        XCTAssertTrue([0, 1].contains(warmup.terminationStatus))
+        if warmup.terminationStatus == 1 {
+            let lines = String(decoding: warmResult, as: UTF8.self).split(separator: "\n")
+            XCTAssertEqual(lines.count, manifest?["modifiedFiles"] as? Int)
+            XCTAssertTrue(lines.allSatisfy { $0.hasSuffix(": needs update") })
+        }
+        XCTAssertNotEqual(
+            copiedIndex, try Data(contentsOf: root.appending(path: ".git/index")),
+            "The copied index must actually be reconciled before measurement.")
         let app = XCUIApplication()
-        app.launchArguments = ["--uitesting", "-appearance", "light"]
+        app.launchArguments = ["--uitesting", "-appearance", "light", "-language", "zh-Hans"]
         app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = root.path
         app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
+        if let marker = environment["WEGIT_PERFORMANCE_START_FILE"] {
+            XCTAssertEqual(count, 1, "A profiling pause must never affect acceptance samples.")
+            app.launchEnvironment["WEGIT_PERFORMANCE_START_FILE"] = marker
+        }
         defer { app.terminate() }
         var all: [Sample] = []
         for index in 0..<count {
@@ -65,6 +100,11 @@ final class WorkbenchPerformanceTests: XCTestCase {
             }
             XCTAssertEqual(first.count, 4)
             all += first
+            if let status = first.first(where: { $0.name == "status" }),
+                let read = measured.first(where: { $0.name == "status-read" && $0.id == status.id })
+            {
+                all.append(read)
+            }
             app.typeKey("1", modifierFlags: .command)
             let eventFile = root.appending(path: "wegit-event-\(UUID().uuidString).txt")
             defer { try? FileManager.default.removeItem(at: eventFile) }
@@ -83,6 +123,7 @@ final class WorkbenchPerformanceTests: XCTestCase {
             all.append(
                 Sample(
                     name: "external-update",
+                    id: event.id,
                     milliseconds: Double(event.endedAtNanoseconds - stableWriteBegan) / 1_000_000,
                     peakRSSBytes: event.peakRSSBytes, endedAtNanoseconds: event.endedAtNanoseconds))
             app.terminate()

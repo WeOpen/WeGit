@@ -1,0 +1,34 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 radio button Description: 通用, Value: 0
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: 外观, Value: 0
+			6 radio button Description: 差异, Value: 1
+			7 radio button Description: 提交, Value: 0
+			8 radio button Description: 高级, Value: 0
+		9 scroll area
+			10 heading 默认阅读方式
+			11 container
+				12 pop up button 布局, Value: 统一
+				13 pop up button 上下文行数, Value: 3 行
+				14 switch 词级差异, Value: off
+				15 switch 显示行号, Value: on
+				16 switch 显示空格和 Tab 标记, Value: off, ID: settings-whitespace
+				17 switch 忽略空白差异（只读）, Value: off
+				18 text 空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。
+	19 close button
+	20 zoom button (disabled)
+	21 text WeGit Settings
+22 menu bar
+	23 WeGit
+	24 File
+	25 Edit
+	26 View
+	27 仓库
+	28 工作区
+	29 Window
+	30 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
