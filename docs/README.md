@@ -98,3 +98,5 @@ WeGit 是面向 macOS 的原生 Git 客户端，以「查看改动 → 暂存 �
 仓库首页：[English](../README.md) · [简体中文](../README.zh-CN.md)。当前分发决定和剩余事项见 [V1.0 发布清单](V1_RELEASE_CHECKLIST.md)。
 
 GitHub 协作：[Issue → PR → CI/CD 方案](GITHUB_WORKFLOW.md)，包含已建立的标签/里程碑、公开仓库与 main 保护、托管 macOS 27 和独立完整验收。
+
+项目网站：[English](https://weopen.github.io/WeGit/) · [简体中文](https://weopen.github.io/WeGit/zh/)，代码和部署说明见 [site/README](../site/README.md)。

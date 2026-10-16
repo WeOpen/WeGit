@@ -9,7 +9,7 @@
 | 状态 | 开发进行中；首个提交闭环已实现，完整阶段验收见开发记录 |
 | 关联文档 | [文档索引](README.md) · [PRD](WeGit_PRD.md) · [UI/UX](WeGit_UI_UX_Spec.md) · [架构](WeGit_Architecture.md) |
 
-> 当前实现与验证证据：[开发进度](DEVELOPMENT.md)。最新两套 Git 核心各 183 项 / 32 套件通过；普通启动恢复 Inspector 崩溃已修复，独立 6 种启动组合与实际 Debug/Release 恢复有证据。此前源码的原生联合回归为 36/37、144 阅读组合通过；最新界面与恢复行为回归仅确认编译，完整 XCTest 执行仍阻塞。[辅助访问审查](ACCESSIBILITY.md) 尚未通过；新界面源码的完整 [性能](PERFORMANCE.md)、Beta 与 [正式分发](RELEASE.md) 继续待验。已提交 main 的托管 CI 已实际通过，最新应用仍需经 [#12](https://github.com/WeOpen/WeGit/issues/12) 整理提交并接入 CI，基线证据不能代替新源码验收。已有 GitHub HTTPS/SSH 真实验收保留原来源，其他 Git/服务环境见 [兼容性](COMPATIBILITY.md)。MIT 有效；按 2026-10-16 用户更新，仅通过 GitHub＋项目网站、无商店/无开发者账号直接分发，Developer ID／公证改为未来可选。当前剩余工作以 [发布清单](V1_RELEASE_CHECKLIST.md) 为入口。已勾选代表该条已验证，不代表整阶段或 V1.0 完成。
+> 当前实现与验证证据：[开发进度](DEVELOPMENT.md)。最新两套 Git 核心各 183 项 / 32 套件通过；普通启动恢复 Inspector 崩溃已修复，独立 6 种启动组合与实际 Debug/Release 恢复有证据。此前源码的原生联合回归为 36/37、144 阅读组合通过；最新界面与恢复行为回归仅确认编译，完整 XCTest 执行仍阻塞。[辅助访问审查](ACCESSIBILITY.md) 尚未通过；新界面源码的完整 [性能](PERFORMANCE.md)、Beta 与 [正式分发](RELEASE.md) 继续待验。已提交 main 的托管 CI 已实际通过，最新应用已通过 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 合并并关闭 #12，远端两套 Git 各 183 项及原生专项/构建已通过；完整交互验收仍独立保留。已有 GitHub HTTPS/SSH 真实验收保留原来源，其他 Git/服务环境见 [兼容性](COMPATIBILITY.md)。MIT 有效；按 2026-10-16 用户更新，仅通过 GitHub＋项目网站、无商店/无开发者账号直接分发，Developer ID／公证改为未来可选。当前剩余工作以 [发布清单](V1_RELEASE_CHECKLIST.md) 为入口。已勾选代表该条已验证，不代表整阶段或 V1.0 完成。
 
 ## 1. 执行目标与规则
 

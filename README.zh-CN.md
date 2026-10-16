@@ -26,7 +26,7 @@ WeGit 使用 SwiftUI 构建，围绕日常开发流程组织界面：阅读差�
 
 它复用已有的 Git 安装、配置、Credential Helper 和 SSH Agent。原生窗口、键盘快捷键、菜单栏快捷面板，以及浅色、深色和独立自定义主题，让 Git 工作流融入 macOS。Git 核心没有第三方运行时依赖。
 
-> 🚧 **开发预览：** 当前版本为 **0.1.0**，V1.0 尚在验收中。目前没有已发布的 GitHub Release，项目网站也尚未上线。仓库现已公开。
+> 🚧 **开发预览：** 当前版本为 **0.1.0**，V1.0 尚在验收中。目前没有已发布的 GitHub Release，[项目网站](https://weopen.github.io/WeGit/)提供当前源码与版本信息。仓库现已公开。
 
 ## ✨ 核心功能
 
@@ -55,7 +55,7 @@ WeGit 使用 SwiftUI 构建，围绕日常开发流程组织界面：阅读差�
 
 WeGit 仅计划通过 **GitHub Releases 和项目网站**分发，不计划上架 Mac App Store，也不采用 TestFlight。
 
-**目前尚未发布 GitHub Release。** 可以先按下方步骤从源码构建。正式提供下载时，版本说明会列出环境要求、已知限制、签名状态和 SHA-256 校验和；未来网站将指向同一份版本化 GitHub 发布资源。
+**目前尚未发布 GitHub Release。** 可以先按下方步骤从源码构建。正式提供下载时，版本说明会列出环境要求、已知限制、签名状态和 SHA-256 校验和；网站链接同一份版本化 GitHub 发布资源、校验和与来源清单。
 
 项目目前没有 Apple Developer Program 账号。已有预览包使用 **ad-hoc 签名，未经 Apple 公证**。ad-hoc 签名不代表经过验证的开发者身份，macOS 可能拦截下载后的应用。对于自行确认可信的应用，可参考 [Apple 的安全打开说明](https://support.apple.com/zh-cn/102445)。在干净 Mac 上通过实际下载进行安装的闭环仍待验证。
 
@@ -111,7 +111,7 @@ scripts/verify.sh --ui
 
 最新核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 2.46.0** 下分别通过 **183 项测试 / 32 个套件**。近期专项包含 **34 项主题行为、18 项图标行为、27 项原生菜单行为，以及 6 种恢复启动组合**。这些结果有各自验证范围，不代表 V1.0 已完成验收。
 
-⚠️ 完整原生 UI 执行仍受已记录的 XCTest 初始化问题阻塞。较早的完整回合为 36/37 项功能通过，剩余一项是 Clone 长路径输入失败；144 个阅读组合在该轮旧源码下通过。最终完整 UI、辅助访问和最终源码 Release 性能仍待验。已提交 main 基线的托管 macOS CI 已通过；最新应用改动已在 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 为 [Issue #12](https://github.com/WeOpen/WeGit/issues/12) 单独接入验证，专用完整验收 Runner 仍待配置。剩余事项见 [V1.0 当前发布清单](docs/V1_RELEASE_CHECKLIST.md)。
+⚠️ 完整原生 UI 执行仍受已记录的 XCTest 初始化问题阻塞。较早的完整回合为 36/37 项功能通过，剩余一项是 Clone 长路径输入失败；144 个阅读组合在该轮旧源码下通过。最终完整 UI、辅助访问和最终源码 Release 性能仍待验。最新应用已通过 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 合并并关闭 Issue #12，[对应托管 CI](https://github.com/WeOpen/WeGit/actions/runs/38924928448) 已通过两套 Git 各 183 项及原生专项/构建检查，专用完整验收 Runner 仍待配置。剩余事项见 [V1.0 当前发布清单](docs/V1_RELEASE_CHECKLIST.md)。
 
 测试采用隔离配置、临时仓库与独立偏好。请勿把写入测试指向不能承受改动的仓库。
 

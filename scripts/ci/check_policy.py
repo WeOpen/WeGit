@@ -39,6 +39,15 @@ def check_workflow(workflow, name):
             require("concurrency" in job, name + ": interactive resource needs a cross-workflow lock")
         if job.get("permissions", {}).get("contents") == "write":
             require(name == "release.yml" and key == "publish", "Only draft release publication may write contents")
+        if any(job.get("permissions", {}).get(permission) == "write" for permission in ("pages", "id-token")):
+            require(name == "pages.yml" and key == "deploy", "Pages/OIDC write is restricted to website deployment")
+            require(job.get("if") == "github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'release')",
+                    "Website deployment must reject PR and non-main manual events")
+            require(job.get("needs") == "build" and job.get("environment", {}).get("name") == "github-pages",
+                    "Website deployment requires a completed build and Pages environment")
+            steps = job.get("steps", [])
+            require(len(steps) == 1 and steps[0].get("uses", "").startswith("actions/deploy-pages@") and "run" not in steps[0],
+                    "Privileged Pages job must not execute repository code")
         for step in job.get("steps", []):
             action = step.get("uses", "")
             if action and not action.startswith("./"):
