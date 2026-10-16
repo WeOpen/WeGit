@@ -22,7 +22,7 @@ open .build-app/Build/Products/Debug/WeGit.app
 
 也可以直接用 Xcode 打开 `WeGit.xcodeproj`，选择 WeGit scheme 后运行。`project.yml` 是工程配置源，生成的 Xcode 工程保留在仓库中。
 
-当前开发包采用本机 ad-hoc 签名，Bundle ID 为 `org.weopen.WeGit.development`，不启用 App Sandbox。项目使用 [MIT 许可证](LICENSE)，正式发行采用 Developer ID 签名、公证后直接分发；签名身份与公证环境仍待配置，当前开发包尚未公证。
+当前开发包采用本机 ad-hoc 签名，Bundle ID 为 `org.weopen.WeGit.development`，不启用 App Sandbox。项目使用 [MIT 许可证](LICENSE)，仅通过 GitHub Releases＋项目网站直接分发，目前没有开发者账号，采用明确标识为未公证的 ad-hoc 制品；Developer ID／公证为未来可选。
 
 ## 验证
 
@@ -81,7 +81,7 @@ CI 工作流使用 `wegit-macos27` 标签的自托管 macOS 27 Runner；需要�
 
 ## 已知边界
 
-后续尚需完成真实远端写入与认证矩阵、字号/密度/辅助技术验收、大型完整应用性能，以及 CI、Beta 和签名公证。显式加载超过 8 MiB 补丁、2 MiB 预览或 100,000 行的内容时会转入磁盘分页；超过 256 MiB、2,000,000 行或 100,000 个差异区间时保留摘要并提示外部查看。完整 UI 规范是目标，不应视为当前全部已验收。
+后续尚需完成真实远端写入与认证矩阵、字号/密度/辅助技术验收、大型完整应用性能，以及 CI、Beta 和干净机器下载安装。显式加载超过 8 MiB 补丁、2 MiB 预览或 100,000 行的内容时会转入磁盘分页；超过 256 MiB、2,000,000 行或 100,000 个差异区间时保留摘要并提示外部查看。完整 UI 规范是目标，不应视为当前全部已验收。
 
 尚不开放 linked worktree、Bare 仓库、Stash/Tag 管理、内置冲突编辑器和 Interactive Rebase。克隆失败后保留本次新建目录，用户确认后可移到废纸篓；目录被替换、内容改变或无法完整核对时停止清理。超过 20,000 个目录项的失败目录通过 Finder 手动处理。
 
@@ -100,11 +100,11 @@ CI 工作流使用 `wegit-macos27` 标签的自托管 macOS 27 Runner；需要�
 
 产品和技术设计从 [文档索引](docs/README.md) 开始阅读。
 
-后台性能复现使用 `scripts/benchmark.sh`，原生启动使用 `scripts/benchmark-ui-launch.sh`，工作区首屏使用 `scripts/benchmark-ui-workbench.sh`，需 Python 3 标准库；安装包准备见 [分发与发布操作](docs/RELEASE.md)。`scripts/package-release.sh --preview` 只生成本机开发包，且要求构建回执匹配当前源码并排除测试签名权限；正式分发必须完成 Developer ID 与公证路径。
+后台性能复现使用 `scripts/benchmark.sh`，原生启动使用 `scripts/benchmark-ui-launch.sh`，工作区首屏使用 `scripts/benchmark-ui-workbench.sh`，需 Python 3 标准库；安装包准备见 [分发与发布操作](docs/RELEASE.md)。`scripts/package-release.sh --preview` 只生成本机开发包，且要求构建回执匹配当前源码并排除测试签名权限；`scripts/package-release.sh --adhoc` 可生成正式 Bundle ID 的无账号制品；仍须如实说明未公证状态并完成实际下载安装验收。
 
 ## 反馈与帮助
 
-遇到问题可到 [项目 Issues](https://github.com/WeOpen/WeGit/issues) 提供复现步骤、系统/Git 版本和实际结果；当前仓库为私有，需要有仓库访问权限。设置中的高级页面可主动导出诊断摘要，其范围不包含代码、Diff、提交消息、路径或凭证。不要把敏感内容直接贴进反馈。
+遇到问题可到 [项目 Issues](https://github.com/WeOpen/WeGit/issues) 提供复现步骤、系统/Git 版本和实际结果；仓库已公开，欢迎通过 Issue 管理需求与问题。设置中的高级页面可主动导出诊断摘要，其范围不包含代码、Diff、提交消息、路径或凭证。不要把敏感内容直接贴进反馈。
 
 ### GitHub 协作与 CI/CD
 
