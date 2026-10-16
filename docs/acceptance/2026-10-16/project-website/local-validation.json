@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-16",
+  "issue": 8,
+  "deploymentPending": true,
+  "plannedURL": "https://weopen.github.io/WeGit/",
+  "checks": {
+    "toolingBehaviorTests": 21,
+    "releaseLinkCases": 11,
+    "workflowLint": true,
+    "projectSubpathBuild": true,
+    "englishChineseNavigation": true,
+    "desktopLight": true,
+    "mobile390pxLight": true,
+    "keyboardSkipLink": true,
+    "noPublishedReleaseState": true,
+    "systemDarkVisualCheck": false
+  },
+  "releasePublished": false,
+  "applicationRebuiltByWebsite": false,
+  "scope": "Website setup does not complete Issue #8 until a published release can be downloaded and verified."
+}

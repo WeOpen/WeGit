@@ -4,7 +4,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from check_policy import check_pr, check_workflow, validate_issue_targets
+from check_policy import check_pr, check_workflow, validate_issue_targets, Loader
 from project_setup import issue_marker, plan
 
 
@@ -66,6 +66,26 @@ class PolicyTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             check_workflow(workflow, "verify.yml")
         check_workflow(self.workflow(), "verify.yml")
+
+    def test_pages_privilege_cannot_move_to_a_build_or_another_workflow(self):
+        workflow = self.workflow()
+        workflow["jobs"]["check"]["permissions"] = {"pages": "write", "id-token": "write"}
+        with self.assertRaises(ValueError):
+            check_workflow(workflow, "verify.yml")
+
+    def test_pages_deploy_rejects_prs_and_repository_code_with_write_permission(self):
+        import copy
+        import yaml
+        path = Path(__file__).resolve().parents[3] / ".github/workflows/pages.yml"
+        source = yaml.load(path.read_text(), Loader=Loader)
+        check_workflow(source, "pages.yml")
+        for mutation in [lambda job: job.update({"if": "true"}),
+                         lambda job: job.update({"needs": []}),
+                         lambda job: job["steps"].append({"run": "python3 untrusted.py"})]:
+            workflow = copy.deepcopy(source)
+            mutation(workflow["jobs"]["deploy"])
+            with self.assertRaises(ValueError):
+                check_workflow(workflow, "pages.yml")
 
     def test_backlog_setup_is_idempotent_and_preserves_closed_work(self):
         label = {"name": "bug", "color": "d73a4a", "description": "A bug"}
