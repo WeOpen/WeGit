@@ -1,0 +1,110 @@
+{
+  "conclusion": "success",
+  "headSha": "d4f131ecf3522a5b56dcc9a35d9befff48652410",
+  "jobs": [
+    {
+      "completedAt": "2026-10-16T16:14:59Z",
+      "conclusion": "success",
+      "databaseId": 117072639765,
+      "name": "Website build",
+      "startedAt": "2026-10-16T16:14:49Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-16T16:14:51Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-16T16:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:14:51Z",
+          "conclusion": "success",
+          "name": "Resolve immutable source",
+          "number": 2,
+          "startedAt": "2026-10-16T16:14:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:14:54Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 3,
+          "startedAt": "2026-10-16T16:14:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:14:55Z",
+          "conclusion": "success",
+          "name": "Validate release links and build both languages",
+          "number": 4,
+          "startedAt": "2026-10-16T16:14:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:14:56Z",
+          "conclusion": "success",
+          "name": "Upload static website",
+          "number": 5,
+          "startedAt": "2026-10-16T16:14:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:14:56Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 10,
+          "startedAt": "2026-10-16T16:14:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:14:56Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-16T16:14:56Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/WeOpen/WeGit/actions/runs/38930408217/job/117072639765"
+    },
+    {
+      "completedAt": "2026-10-16T16:15:12Z",
+      "conclusion": "success",
+      "databaseId": 117072730183,
+      "name": "Deploy website",
+      "startedAt": "2026-10-16T16:15:02Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-16T16:15:04Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-16T16:15:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:15:11Z",
+          "conclusion": "success",
+          "name": "Deploy static content",
+          "number": 2,
+          "startedAt": "2026-10-16T16:15:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T16:15:11Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 3,
+          "startedAt": "2026-10-16T16:15:11Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/WeOpen/WeGit/actions/runs/38930408217/job/117072730183"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/WeOpen/WeGit/actions/runs/38930408217"
+}
