@@ -4,12 +4,13 @@ useDefault = true
 
 # See docs/acceptance/2026-10-16/application-integration/secret-scan-review.json.
 [[allowlists]]
-description = "Reviewed authentication source digests in JSON provenance receipts"
+description = "Reviewed source digests in JSON provenance receipts"
 targetRules = ["generic-api-key"]
 condition = "AND"
 paths = ['''(?:^|/)docs/(?:acceptance|performance)/.+\.json$''']
 regexTarget = "match"
 regexes = [
+  '''^verify_secret_policy\.py"\s*:\s*"8622927199ee92a720666e44d6d81a6840d4c0c0670eb22284ef3bd548bb6e67"$''',
   '''^AuthenticationView\.swift"\s*:\s*"03126212a654c94402e033e6db3104d37ee4981afa235d7e3a0c24fbe2e38cac"$''',
   '''^AuthenticationView\.swift"\s*:\s*"44f0ea42f7fcda29c852f6ab7a0b46dd4d95c55d17ee98345720f42fb6495ee3"$''',
   '''^AuthenticationView\.swift"\s*:\s*"4be67f25eb9ec83a193f9a20e0604ff00f514ba5a312e24a537fe1a5d87d7cef"$''',

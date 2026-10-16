@@ -1,0 +1,93 @@
+{
+  "conclusion": "failure",
+  "headSha": "f78bd5167a99f11953e20aeadd12e5d25dcf5bb0",
+  "jobs": [
+    {
+      "completedAt": "2026-10-16T15:23:27Z",
+      "conclusion": "failure",
+      "databaseId": 117049015236,
+      "name": "Repository policy",
+      "startedAt": "2026-10-16T15:23:06Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-16T15:23:08Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-16T15:23:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T15:23:14Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-16T15:23:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T15:23:19Z",
+          "conclusion": "success",
+          "name": "Install checksum-pinned tools and policy dependency",
+          "number": 3,
+          "startedAt": "2026-10-16T15:23:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T15:23:21Z",
+          "conclusion": "success",
+          "name": "Workflow lint, repository contracts and tooling tests",
+          "number": 4,
+          "startedAt": "2026-10-16T15:23:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T15:23:23Z",
+          "conclusion": "failure",
+          "name": "Scan committed history for credentials",
+          "number": 5,
+          "startedAt": "2026-10-16T15:23:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T15:23:24Z",
+          "conclusion": "success",
+          "name": "Retain policy evidence",
+          "number": 6,
+          "startedAt": "2026-10-16T15:23:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T15:23:25Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 12,
+          "startedAt": "2026-10-16T15:23:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-16T15:23:25Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-16T15:23:25Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/WeOpen/WeGit/actions/runs/38923337810/job/117049015236"
+    },
+    {
+      "completedAt": "2026-10-16T15:23:27Z",
+      "conclusion": "skipped",
+      "databaseId": 117049199772,
+      "name": "Native macOS",
+      "startedAt": "2026-10-16T15:23:27Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/WeOpen/WeGit/actions/runs/38923337810/job/117049199772"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/WeOpen/WeGit/actions/runs/38923337810"
+}

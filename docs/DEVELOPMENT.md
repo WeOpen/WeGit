@@ -798,4 +798,4 @@ Icon Composer 27.0 实际导出的 Default/Dark 已检查；Debug 与普通 Rele
 
 ## 47. 最新应用接入受保护 CI（2026-10-16）
 
-通过 PR #15 / Issue #12 整理应用、核心、测试、品牌和双语文档，与 main 的 CI/打包改动合并。旧品牌保留，重复 ZIP/构建输出/原始活动日志和 .spec-workflow 留在本地。本地两套 Git 各 183 项/32 套件、34/18/27 原生专项、15 项迁移、翻译覆盖、格式、Debug/Release 和 UI 编译通过；干净提交的开发与正式 ID ad-hoc 包已生成。凭据扫描的 134 项均核对为 8 个认证源码摘要，例外同时绑定路径/文件名/明确值，5 项实际扫描器回归通过。完整 XCTest、辅助访问、最终性能与安装/Beta 仍未通过，见 [本轮证据](acceptance/2026-10-16/application-integration/README.md)。
+通过 PR #15 / Issue #12 整理应用、核心、测试、品牌和双语文档，与 main 的 CI/打包改动合并。旧品牌保留，重复 ZIP/构建输出/原始活动日志和 .spec-workflow 留在本地。本地两套 Git 各 183 项/32 套件、34/18/27 原生专项、15 项迁移、翻译覆盖、格式、Debug/Release 和 UI 编译通过；干净提交的开发与正式 ID ad-hoc 包已生成。凭据扫描的 134 项均核对为 8 个认证源码摘要及新增清单中的 1 个校验脚本源码摘要，例外同时绑定路径/文件名/明确值，5 项实际扫描器回归通过。完整 XCTest、辅助访问、最终性能与安装/Beta 仍未通过，见 [本轮证据](acceptance/2026-10-16/application-integration/README.md)。
