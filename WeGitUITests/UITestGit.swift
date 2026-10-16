@@ -35,8 +35,26 @@ struct UITestGit {
         action(clipboard)
     }
 
-    private static let executable = URL(
-        fileURLWithPath: "/Applications/Xcode.app/Contents/Developer/usr/bin/git")
+    private static let executable: Result<URL, any Error> = Result {
+        let resolver = Process()
+        let output = Pipe()
+        resolver.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
+        resolver.arguments = ["--find", "git"]
+        resolver.standardOutput = output
+        resolver.standardError = output
+        try resolver.run()
+        let data = output.fileHandleForReading.readDataToEndOfFile()
+        resolver.waitUntilExit()
+        let path = String(decoding: data, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard resolver.terminationStatus == 0, path.hasPrefix("/"),
+            FileManager.default.isExecutableFile(atPath: path)
+        else {
+            throw NSError(
+                domain: "WeGitUITests.Toolchain", code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "Could not resolve Git from the selected Xcode."])
+        }
+        return URL(fileURLWithPath: path)
+    }
     private static let environment: [String: String] = {
         var value = ProcessInfo.processInfo.environment.filter { !$0.key.hasPrefix("GIT_") }
         value["GIT_CONFIG_GLOBAL"] = "/dev/null"
@@ -109,7 +127,7 @@ struct UITestGit {
     ) throws -> String {
         let process = Process()
         let output = Pipe()
-        process.executableURL = executable
+        process.executableURL = try executable.get()
         process.arguments = ["-C", root.path] + arguments
         process.environment = environment
         process.standardOutput = output

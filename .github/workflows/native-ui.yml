@@ -1,0 +1,56 @@
+name: Native UI validation
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: Always run the minimal smoke first; larger scopes require its success
+        type: choice
+        options: [smoke, functional, accessibility]
+        default: smoke
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: native-ui-validation
+  cancel-in-progress: false
+env:
+  WEGIT_SKIP_PROJECT_GENERATION: '1'
+jobs:
+  ui:
+    name: Native UI validation
+    if: github.ref == 'refs/heads/main'
+    runs-on: xcode-27
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Isolate Git configuration
+        run: scripts/ci/isolate-git.sh
+      - name: Check toolchain and real interactive session
+        run: |
+          mkdir -p .build/ci/ui
+          scripts/ci/check-toolchain.sh | tee .build/ci/ui/toolchain.txt
+          python3 scripts/ci/ui_probe.py --mode environment --require-interactive
+      - name: Build native regression once
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+            build-for-testing > .build/ci/ui/build.log 2>&1
+      - name: Run bounded native scope
+        env:
+          UI_SCOPE: ${{ inputs.scope }}
+        run: |
+          case "$UI_SCOPE" in smoke|functional|accessibility) ;; *) exit 2 ;; esac
+          python3 scripts/ci/ui_probe.py --mode "$UI_SCOPE"
+      - name: Retain actual environment, failures and results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-ui-${{ inputs.scope }}-${{ github.sha }}
+          path: .build/ci/ui/
+          include-hidden-files: true
+          retention-days: 14
