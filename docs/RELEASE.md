@@ -1,10 +1,10 @@
 # WeGit 分发与发布操作
 
-当前决定（2026-10-16，覆盖此前签名公证前置要求）：**MIT＋GitHub Releases＋项目网站直接分发，不发布到商店，不使用 TestFlight，目前没有 Apple Developer Program 账号**。网站尚未上线，仓库已公开但没有 Release。版本仍为 `0.1.0` 开发预览，尚未完成 Beta 或 V1.0 发布。
+当前决定（2026-10-16，覆盖此前签名公证前置要求）：**MIT＋GitHub Releases＋项目网站直接分发，不发布到商店，不使用 TestFlight，目前没有 Apple Developer Program 账号**。项目网站采用 [GitHub Pages](https://weopen.github.io/WeGit/)，仓库已公开但没有 Release。版本仍为 `0.1.0` 开发预览，尚未完成 Beta 或 V1.0 发布。
 
 当前路线使用 ad-hoc 完整性签名、无 Developer ID、未公证；Developer ID／公证为未来可选，不能再将账号/证书/profile 缺失列为本路线的前置阻塞。ad-hoc 不提供开发者身份认证，macOS 可能阻止下载后的首启；必须按实际目标机器记录下载、系统提示、用户信任选择与核心流程。参考 [Apple 的 Developer ID 说明](https://developer.apple.com/developer-id/)及[安全打开说明](https://support.apple.com/zh-cn/102445)。当前 P0 汇总见 [发布清单](V1_RELEASE_CHECKLIST.md)。
 
-仓库与 CI/CD 已在 PR #10/#14 落地，最新应用通过 Issue #12 整理接入；本轮没有上传 Release 或部署网站。下方历次开发包证据保留原有时点的发布要求与结果。
+仓库与 CI/CD 已在 PR #10/#14 落地，最新应用已由 PR #15 合并并关闭 Issue #12；静态网站独立部署，当前没有上传应用 Release。下方历次开发包证据保留原有时点的发布要求与结果。
 
 ## 1. 打包前验证
 
@@ -31,7 +31,7 @@ WEGIT_SKIP_PROJECT_GENERATION=1 scripts/package-release.sh --adhoc
 
 预览包仍使用开发 Bundle ID 和本机 ad-hoc 签名，未经公证。清单如实记录未提交源码状态，不伪造 Git 版本号或发布记录。
 
-正式 ID `com.willxue.wegit` 的 `--adhoc` 构建/打包路径已实现并实测。V1.0 仍需最新应用源码接入、最终版本、开发域数据导入、公开版本命名和下载说明。现有 `--preview` 只是开发包入口，不能直接改名冒充最终正式包。网站应链接同一版本化 GitHub ZIP、SHA-256、manifest 与版本说明，避免两套独立构建来源。
+正式 ID `com.willxue.wegit` 的 `--adhoc` 构建/打包路径已实现并实测。最新应用已接入 CI；V1.0 仍需最终版本、开发域数据导入、公开版本命名和下载说明。现有 `--preview` 只是开发包入口，不能直接改名冒充最终正式包。网站应链接同一版本化 GitHub ZIP、SHA-256、manifest 与版本说明，避免两套独立构建来源。
 
 2026-10-12 图标接入前的开发包为 `.build/releases/package-rbNdcN/WeGit-0.1.0-development.zip`，SHA-256 为 `931702d394e6befdbb10ee713817a0def0a5f0c42069d14f06dac0916bc49644`。该包的普通 Release 构建来源与已通过的 30 次性能源码摘要一致，ZIP CRC、签名完整性、AskPass、MIT 许可证及测试入口排除均通过；签名权限为空。核心两套 Git 各 176 项通过；原生联合回归为 36/37，长 Clone 路径输入有失败，专项复测被 XCTest 初始化阻塞。完整状态见 [验收汇总](acceptance/2026-10-11/final-validation.json)，历史包证据保留。
 
@@ -86,7 +86,7 @@ scripts/package-release.sh --notarize
 
 `Draft release` 手动解析已有 tag，检查同一 SHA 的 main CI；稳定标签另要求同一 SHA 的完整验收成功，随后重新构建显式 `--adhoc` 正式标识制品、验证清单/校验和并只创建草稿。干净机器、Beta 和最终公开发布由维护者核对，网站只引用同一版本资产。操作与限制见 [GitHub workflow 方案](GITHUB_WORKFLOW.md)。
 
-当前应用、品牌和双语改动已提交 [PR #15](https://github.com/WeOpen/WeGit/pull/15)，由 [Issue #12](https://github.com/WeOpen/WeGit/issues/12) 单独接入验证；不能用已提交 CI 基线的 175 项通过覆盖本地 183 项源码。每个最终安装包仍须绑定版本、Bundle ID、实际签名/公证状态、提交与来源摘要，源码变化后重新构建。
+当前应用、品牌和双语改动已通过 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 合并并关闭 Issue #12；[对应远端 CI](https://github.com/WeOpen/WeGit/actions/runs/38924928448) 两套 Git 各 183 项、原生专项与构建通过。每个最终安装包仍须绑定版本、Bundle ID、实际签名/公证状态、提交与来源摘要，源码变化后重新构建。
 
 ## 5. Beta 与正式发布门槛
 

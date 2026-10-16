@@ -13,9 +13,12 @@
     "mobile390pxLight": true,
     "keyboardSkipLink": true,
     "noPublishedReleaseState": true,
-    "systemDarkVisualCheck": false
+    "systemDarkVisualCheck": false,
+    "dark320pxIframeVisual": true,
+    "osAppearanceChanged": false
   },
   "releasePublished": false,
   "applicationRebuiltByWebsite": false,
-  "scope": "Website setup does not complete Issue #8 until a published release can be downloaded and verified."
+  "scope": "Website setup does not complete Issue #8 until a published release can be downloaded and verified.",
+  "phase": "pre-deployment snapshot"
 }

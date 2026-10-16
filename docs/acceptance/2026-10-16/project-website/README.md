@@ -7,3 +7,5 @@
 初次浏览器直接读取 GitHub API 超时，已改为部署 job 获取并过滤公开元数据，浏览器只读本站快照；旧失败截图 download-zh.png 保留，修复后实际确认无公开版本状态。
 
 Pages 已配置 GitHub Actions、HTTPS，默认 URL 为 https://weopen.github.io/WeGit/，主分支与 v* 标签受环境限制。实际部署与公开访问尚待 workflow 通过确认；不因站点建好而关闭完整原生、辅助访问、性能、干净安装、Beta 或发布门槛。
+
+通过 iframe 的 `color-scheme: dark` 实测了 320 px 中文深色媒体查询，石墨图标和深色表面对应；没有修改系统主题。此为浏览器受控视口检查，不冒充真实手机设备或系统选项切换验收。

@@ -5,7 +5,7 @@
 ## 📦 当前分发决定
 
 - **渠道：GitHub Releases＋项目网站**；不发布到 Mac App Store，不使用 TestFlight。
-- **网站：尚未上线**，暂不填写域名或占位链接。
+- **网站：GitHub Pages**，地址为 [weopen.github.io/WeGit](https://weopen.github.io/WeGit/)，没有自定义域名。公开访问证据由 Issue #8 和站点验收记录跟进。
 - **账号：没有 Apple Developer Program 账号**。当前路线为无 Developer ID、未公证的直接分发，保留 ad-hoc 签名和来源回执；Developer ID／公证属于将来的可选升级，不作为本路线的账号前置依赖。
 - **许可证与标识：MIT**；正式标识 `com.willxue.wegit`，当前开发包标识 `com.willxue.wegit.development`。
 - 无账号分发不等于通过系统默认信任。ad-hoc 不证明开发者身份，实际浏览器下载后的 Gatekeeper 首启行为与用户安装说明必须在干净目标机器验收。参考 [Apple Developer ID](https://developer.apple.com/developer-id/) 与 [Apple 安全打开说明](https://support.apple.com/zh-cn/102445)。
@@ -30,9 +30,9 @@
 | P0 | **辅助访问与显示选项** | 逐条处理原 44 条待判定自动报告；完成 VoiceOver、完整键盘、实际对比度、减少透明度/动态效果与增强对比度；记录例外及系统设置恢复。[辅助访问记录](ACCESSIBILITY.md)。 |
 | P0 | **最终源码完整性能** | 固定夹具和冷热条件，串行至少 30 次 Release 采样；普通外壳 <500 ms、Status <300 ms、Diff <150 ms、History <300 ms、外部稳定更新 <1 s。补复杂图、十万级内存/滚动、磁盘 Diff、取消响应；用 signpost/Instruments 定位实际热点。[性能记录](PERFORMANCE.md)。 |
 | P0 | **兼容性与真实工作流边界** | 补 Homebrew Git/GPG、Helper/签名组合、GitLab/通用服务与未覆盖系统/显示器条件；统一复核权限失效、排队/取消/关闭/切换后的权威状态、草稿、冲突恢复。已有 GitHub 验收不重复标为缺失。[兼容性矩阵](COMPATIBILITY.md)、[PLAN](PLAN.md)。 |
-| P0 | **完整验收 Runner 与最新应用 CI** | 常规托管 CI 已在 [main 实际通过](https://github.com/WeOpen/WeGit/actions/runs/38881671955)，调度/工具链修正已合并。专用交互 Runner 仍为 0，需配置并通过完整验收；最新应用已在 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 经 [#12](https://github.com/WeOpen/WeGit/issues/12) 接入新 CI，结果按其提交记录，不能把基线通过移作新代码证据。 |
+| P0 | **完整验收 Runner 与最新应用 CI** | 常规托管 CI 已在 [main 实际通过](https://github.com/WeOpen/WeGit/actions/runs/38881671955)，调度/工具链修正已合并。专用交互 Runner 仍为 0，需配置并通过完整验收；最新应用已在 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 合并，[CI 38924928448](https://github.com/WeOpen/WeGit/actions/runs/38924928448) 两套 Git 各 183 项及原生专项/构建通过，#12 已关闭；这不代表完整 UI 执行通过。 |
 | P0 | **无账号的正式制品与干净机器安装** | 正式 ID 的 `--adhoc` 打包路径已完成并实测；仍需最终版本、开发偏好与数据迁移、更新/回退说明；版本化 ZIP、SHA-256、manifest、AskPass/许可/权限核对。通过实际 HTTPS 下载→解压/安装→首次系统提示→打开仓库/提交/同步完整流程，不能用同机本地产物启动代替。此项不依赖购买开发者账号。 |
-| P0 | **可公开访问的 GitHub 和网站渠道** | 仓库已公开，Issue/PR 与草稿发布流程已配置。仍需实际创建和核对正式制品、公开 Release、下载/帮助入口及网站上线，链接同一版本资产及校验和；没有自动发布应用或站点。 |
+| P0 | **可公开访问的 GitHub 和网站渠道** | 仓库已公开，Issue/PR 与草稿发布流程已配置。网站代码、双语页面与 Pages 部署流程已建立，下载仅引用同一版本 GitHub 资产；仍需实际公开 Release 与文件下载/校验和验证。站点上线不等于应用发布。 |
 | P0 | **真实 Beta 与 V1.0 发布收尾** | 按计划约 10～30 名用户，取得名单与发送授权后邀请；记录并关闭发布阻塞反馈。完成版本说明、已知限制、安装/升级/回退与数据说明，再对最终制品统一签收和发布。当前没有 Beta 反馈记录。 |
 
 ## 📝 已更新与不属于本次阻塞的事项
@@ -47,4 +47,4 @@
 
 ## 🧭 Issue 入口
 
-首版收尾以 [V1.0 milestone](https://github.com/WeOpen/WeGit/milestone/1) 管理。#2 UI、#3 辅助访问、#4 性能、#5 兼容性、#6 交互 Runner、#7 安装、#8 网站、#9 Beta/发布；[最新应用源码接入 #12](https://github.com/WeOpen/WeGit/issues/12) 单独跟进；[CI 稳定化 #13](https://github.com/WeOpen/WeGit/issues/13) 已在复验通过后关闭。创建需求与 PR 的规则见 [贡献说明](../CONTRIBUTING.md)。
+首版收尾以 [V1.0 milestone](https://github.com/WeOpen/WeGit/milestone/1) 管理。#2 UI、#3 辅助访问、#4 性能、#5 兼容性、#6 交互 Runner、#7 安装、#8 网站、#9 Beta/发布；[最新应用源码接入 #12](https://github.com/WeOpen/WeGit/issues/12) 已完成；[CI 稳定化 #13](https://github.com/WeOpen/WeGit/issues/13) 已在复验通过后关闭。创建需求与 PR 的规则见 [贡献说明](../CONTRIBUTING.md)。
