@@ -1,0 +1,28 @@
+name: "🧩 Engineering task / 开发与验收任务"
+description: Track implementation, validation, documentation or release work.
+title: "chore: "
+labels: ["type:task", "status:triage"]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective / 目标
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and dependencies / 范围与依赖
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Done when / 验收条件
+      description: Include the required evidence, source revision and limits of the result.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References / 关联资料

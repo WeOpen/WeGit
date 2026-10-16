@@ -1,0 +1,37 @@
+name: Project metadata
+on:
+  workflow_dispatch:
+    inputs:
+      seed_backlog:
+        description: Create missing V1.0 tracking Issues without overwriting existing Issues
+        type: boolean
+        default: false
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: project-metadata-${{ github.repository }}
+  cancel-in-progress: false
+jobs:
+  metadata:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Synchronize labels and milestones
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SEED_BACKLOG: ${{ inputs.seed_backlog }}
+        run: |
+          args=(--repo "$GITHUB_REPOSITORY" --apply)
+          if [[ "$SEED_BACKLOG" == true ]]; then args+=(--seed-backlog); fi
+          python3 scripts/ci/project_setup.py "${args[@]}"

@@ -77,3 +77,7 @@ WeGit 是面向 macOS 的原生 Git 客户端，以「查看改动 → 暂存 �
 4. 范围变化先更新 PRD，再同步页面、服务和开发计划。
 5. 实现完成后补充验证结果；设计目标与实际结果分别记录。
 6. 新增文档时更新本索引；不要创建同一内容的多份副本。
+
+## GitHub 协作与自动化（2026-10-16）
+
+[Issue → PR → CI/CD 方案](GITHUB_WORKFLOW.md)定义需求表单、标签/里程碑、托管 macOS 27 CI、专用完整验收和无账号 Draft Release；贡献入口见 [CONTRIBUTING](../CONTRIBUTING.md)。仓库已设为 public，完整验收与正式发布尚未完成。

@@ -1,0 +1,36 @@
+name: "✨ Feature request / 需求建议"
+description: Describe a user problem and a measurable outcome.
+title: "feat: "
+labels: [enhancement, "status:triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem / 用户问题
+      description: Who needs this, in which workflow, and what is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior / 预期行为
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria / 验收条件
+      description: List observable behavior, failure handling and any keyboard/accessibility requirements.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Alternatives and out of scope / 替代方案与范围边界
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact / 影响
+      options: [Blocks a daily workflow, Improves a daily workflow, Occasional use, Exploration]
+    validations:
+      required: true

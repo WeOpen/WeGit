@@ -1,0 +1,48 @@
+name: "🐛 Bug report / 问题反馈"
+description: Report a reproducible problem with WeGit.
+title: "fix: "
+labels: [bug, "status:triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Search existing issues first. Remove tokens, private paths, code and repository URLs from shared logs.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / 问题
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps / 复现步骤
+      placeholder: "1. Open…\n2. Click…\n3. Observe…"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment / 环境
+      placeholder: "WeGit 0.1.0; macOS 27.0.1; arm64; Git 2.46.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area / 功能区域
+      options: [Repositories and clone, Changes and diff, Commit and history, Branches and conflicts, Remotes and authentication, Interface and themes, Accessibility, Build and release, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / 证据
+      description: Sanitized screenshots, error text or diagnostic summaries. State whether data or drafts were affected.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Done when / 验收条件
+      description: The observable result that would demonstrate the fix.
+    validations:
+      required: true

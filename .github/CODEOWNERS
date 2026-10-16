@@ -1,0 +1,6 @@
+# Current repository administrator; expand this when maintainers are added.
+/.github/ @xuewill
+/scripts/ci/ @xuewill
+/scripts/build.sh @xuewill
+/scripts/package-release.sh @xuewill
+/scripts/build_provenance.py @xuewill

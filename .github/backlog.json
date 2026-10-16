@@ -1,0 +1,110 @@
+[
+  {
+    "key": "ci-workflow",
+    "title": "[Workflow] Issue-driven development and layered CI/CD",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:ci",
+      "status:in-progress"
+    ],
+    "body": "## 目标与当前证据\n\n建立 Issue → PR → 托管 CI → 专用完整验收 → Draft Release 的开发流程。\n\n## 验收条件\n\n- [ ] 三类 Issue 表单、PR 模板、标签/里程碑与贡献说明就绪。\n- [ ] PR/main 的托管 macOS 27 CI、最低 Git 回归、结果归档可运行。\n- [ ] 无开发者账号的 ad-hoc 制品与只创建 Draft Release 的路径有行为测试。\n- [ ] 正式版门禁核对同一 SHA 的 CI 和完整验收；专用 Runner 和功能验收由独立任务跟踪。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "native-ui",
+    "title": "[V1.0] Complete native UI regression on the final source",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:ui",
+      "status:blocked"
+    ],
+    "body": "## 目标与当前证据\n\n旧联合回合为 36/37，Clone 长路径输入失败待复测；当前 XCTest 初始化仍阻塞。局部手动通过不代替完整验收。\n\n## 验收条件\n\n- [ ] 在有效交互会话先通过最小 XCTest 用例。\n- [ ] 关闭 Clone 长路径输入的失败并保留回归证据。\n- [ ] 同一稳定源码完成完整功能、144 阅读组合、复制/分页、恢复和多轮冲突。\n- [ ] 记录源码摘要、工具链、夹具和全部失败/通过回合。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "accessibility",
+    "title": "[V1.0] Close accessibility and complete keyboard acceptance",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:accessibility",
+      "status:ready"
+    ],
+    "body": "## 目标与当前证据\n\n原自动报告 44 条尚待逐项判定，不能等同于 44 个已证实缺陷；VoiceOver/完整键盘尚未关闭。\n\n## 验收条件\n\n- [ ] 重新运行最终源码自动审查并逐项修复或记录明确例外。\n- [ ] 完成 VoiceOver 与所有核心操作的完整键盘路径。\n- [ ] 验证实际对比度、减少透明度/动态效果、增强对比度及原状态恢复。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "performance",
+    "title": "[V1.0] Revalidate final-source Release performance",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:performance",
+      "status:blocked"
+    ],
+    "body": "## 目标与当前证据\n\n旧源码普通 30 次五项预算已通过；后续界面/主题改动仍需最终源码重测，不能沿用旧结果。\n\n## 验收条件\n\n- [ ] 固定条件并串行采样至少 30 次，记录中位数/P95与原始数据。\n- [ ] 普通外壳 <500 ms、Status <300 ms、Diff <150 ms、History <300 ms、稳定外部更新 <1 s。\n- [ ] 补十万级内存、滚动、复杂图、磁盘 Diff 和取消响应。\n- [ ] 用 Release signpost/Instruments 关闭实际热点，不放宽预算。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "compatibility",
+    "title": "[V1.0] Complete Git, authentication and workflow compatibility",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:git",
+      "status:ready"
+    ],
+    "body": "## 目标与当前证据\n\nGitHub HTTPS/SSH 已有完整传输验收。尚缺 Homebrew/GPG、其他 Helper、GitLab 与未覆盖条件，不把已有 GitHub 通过列为缺失。\n\n## 验收条件\n\n- [ ] 记录缺失 Git/签名/Helper/服务组合的实际版本与结果。\n- [ ] 复核权限失效、排队/取消/关闭/切换后的权威状态和草稿。\n- [ ] 验证冲突恢复、特殊路径和未支持序列状态，记录具体限制。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "interactive-runner",
+    "title": "[V1.0] Provision a dedicated interactive acceptance runner",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:ci",
+      "status:blocked"
+    ],
+    "body": "## 目标与当前证据\n\n常规 CI 采用 GitHub 托管 xcode-27；完整 UI/辅助访问/性能需要独立可交互 macOS 27/Xcode 27 环境。当前自托管 Runner 数量为 0。\n\n## 验收条件\n\n- [ ] 为受信任 main/手动验收配置 wegit-macos27 + wegit-interactive 标签。\n- [ ] 保持真实登录会话，串行执行，禁止外部 PR 在自托管设备运行。\n- [ ] 完整验收产出同一 SHA 的结果，失败日志亦归档，性能后重建普通 Release。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "installation",
+    "title": "[V1.0] Validate ad-hoc release installation and data migration",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:release",
+      "status:ready"
+    ],
+    "body": "## 目标与当前证据\n\n用户无 Apple Developer Program 账号，仅 GitHub+网站、无商店。Developer ID/公证是将来可选，当前安装验证仍是 P0。\n\n## 验收条件\n\n- [ ] 正式版本与 com.willxue.wegit 制品包含 manifest、SHA-256、AskPass/MIT 和准确签名状态。\n- [ ] 从实际 HTTPS 下载到干净 Mac，验证解压/安装、首次系统提示、打开仓库/提交/同步。\n- [ ] 完成开发域数据导入、更新/回退与未公证安装说明。\n- [ ] 不以同机本地 open 或关闭系统保护代替下载首启验收。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "website",
+    "title": "[V1.0] Launch the project website and public download path",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:website",
+      "status:ready"
+    ],
+    "body": "## 目标与当前证据\n\n仓库已获用户授权公开；项目网站尚未上线，没有可填写的正式域名。\n\n## 验收条件\n\n- [ ] 确定网站代码、域名和部署位置并上线。\n- [ ] 网站链接同一 GitHub 版本制品、校验和、安装限制、版本说明与反馈入口。\n- [ ] 不重新构建第二套同版本二进制；验证公开可下载的真实文件。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  },
+  {
+    "key": "beta-release",
+    "title": "[V1.0] Collect Beta feedback and sign off the first release",
+    "milestone": "V1.0",
+    "labels": [
+      "type:task",
+      "priority:P0",
+      "area:release",
+      "status:blocked"
+    ],
+    "body": "## 目标与当前证据\n\n约 10–30 名真实用户的反馈尚未收集；邀请必须取得明确名单与发送授权。\n\n## 验收条件\n\n- [ ] 在前置质量/安装门槛满足后邀请获准名单，不自动发送邀请。\n- [ ] 记录并修复发布阻塞反馈，使用新包回归。\n- [ ] 完成版本说明、已知限制、帮助、迁移与回退说明。\n- [ ] 最终核对验收 SHA、tag 和实际制品，人工发布 Draft Release。\n\n## 记录规则\n\n实现、验证和环境依赖分别记录；关闭时附源码提交、验证结果与限制。此任务承接既有 V1.0 计划，不表示相关功能均未实现。"
+  }
+]
