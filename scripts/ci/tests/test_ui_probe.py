@@ -7,6 +7,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from ui_probe import run_logged, verify_summary
+from ui_source import choose_source
 
 
 class NativeProcessDeadlineTests(unittest.TestCase):
@@ -41,6 +42,28 @@ class NativeProcessDeadlineTests(unittest.TestCase):
             # A terminated child may briefly be a zombie until its init parent reaps it.
             status = subprocess.run(["ps", "-o", "stat=", "-p", str(child_pid)], capture_output=True, text=True)
             self.assertTrue(status.returncode != 0 or status.stdout.strip().startswith("Z"), status.stdout)
+
+
+class NativeCandidateSourceTests(unittest.TestCase):
+    def candidate(self):
+        return {"state": "open", "base": {"ref": "main", "repo": {"full_name": "WeOpen/WeGit"}},
+                "head": {"sha": "b" * 40, "repo": {"full_name": "WeOpen/WeGit"}}}
+
+    def test_main_and_owned_candidate_use_explicit_immutable_commits(self):
+        self.assertEqual(choose_source("a" * 40, "WeOpen/WeGit"), "a" * 40)
+        self.assertEqual(choose_source("a" * 40, "WeOpen/WeGit", self.candidate()), "b" * 40)
+
+    def test_forks_closed_wrong_base_and_mutable_source_are_refused(self):
+        import copy
+        for mutate in [lambda p: p.update(state="closed"), lambda p: p["base"].update(ref="other"),
+                       lambda p: p["head"].update(repo={"full_name": "external/WeGit"}),
+                       lambda p: p["head"].update(sha="main")]:
+            candidate = copy.deepcopy(self.candidate())
+            mutate(candidate)
+            with self.assertRaises(ValueError):
+                choose_source("a" * 40, "WeOpen/WeGit", candidate)
+        with self.assertRaises(ValueError):
+            choose_source("main", "WeOpen/WeGit")
 
 
 if __name__ == "__main__":

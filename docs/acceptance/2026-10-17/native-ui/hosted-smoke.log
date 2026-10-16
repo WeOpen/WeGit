@@ -1,0 +1,92 @@
+Command line invocation:
+    /Applications/Xcode_27.app/Contents/Developer/usr/bin/xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug -destination platform=macOS,arch=arm64 -derivedDataPath .build-app -parallel-testing-enabled NO test-without-building "-only-testing:WeGitUITests/WeGitUITests/testWelcomeAndCloneForm" -test-timeouts-enabled YES -default-test-execution-time-allowance 60 -maximum-test-execution-time-allowance 90 -resultBundlePath .build/ci/ui/smoke.xcresult
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  WeGit: /Users/runner/work/WeGit/WeGit
+
+Writing result bundle at path:
+	/Users/runner/work/WeGit/WeGit/.build/ci/ui/smoke.xcresult
+
+2026-10-16 16:42:07.964762+0000 WeGitUITests-Runner[15288:43850] [Default] Running tests...
+Test Suite 'Selected tests' started at 2026-10-16 16:42:08.683.
+Test Suite 'WeGitUITests.xctest' started at 2026-10-16 16:42:08.691.
+Test Suite 'WeGitUITests' started at 2026-10-16 16:42:08.691.
+Test Case '-[WeGitUITests.WeGitUITests testWelcomeAndCloneForm]' started.
+    t =     0.00s Start Test at 2026-10-16 16:42:08.694
+    t =     3.09s Set Up
+    t =     3.13s Open com.willxue.wegit.development
+    t =     3.14s     Launch com.willxue.wegit.development
+2026-10-16 16:42:12.771 xcodebuild[14951:42869] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-16 16:42:12.771 xcodebuild[14951:42869] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     5.77s         Wait for accessibility to load
+    t =     6.57s         Setting up automation session
+    t =     6.70s         Wait for com.willxue.wegit.development to idle
+    t =     6.71s Open com.willxue.wegit.development
+    t =     6.71s     Activate com.willxue.wegit.development
+    t =     6.72s         Wait for com.willxue.wegit.development to idle
+    t =     6.72s Waiting 5.0s for "native-menu-app" MenuBarItem to exist
+    t =     7.82s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =     7.82s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =     7.96s         Capturing element debug description
+    t =     8.79s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =     8.80s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =     8.82s         Capturing element debug description
+    t =     9.74s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =     9.74s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =     9.76s         Capturing element debug description
+    t =    10.78s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =    10.78s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =    10.80s         Capturing element debug description
+    t =    11.73s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =    11.73s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =    11.74s         Capturing element debug description
+    t =    11.75s     Checking existence of `"native-menu-app" MenuBarItem`
+    t =    11.76s Collecting debug information to assist test failure triage
+    t =    11.76s     Requesting snapshot of accessibility hierarchy for app with pid 15368
+/Users/runner/work/WeGit/WeGit/WeGitUITests/UITestGit.swift:9: error: -[WeGitUITests.WeGitUITests testWelcomeAndCloneForm] : XCTAssertTrue failed
+    t =    12.37s Waiting 2.0s for "main" Window to exist
+    t =    13.40s     Checking `Expect predicate `existsNoRetry == 1` for object "main" Window`
+    t =    13.40s         Checking existence of `"main" Window`
+    t =    13.44s         Capturing element debug description
+    t =    14.38s     Checking `Expect predicate `existsNoRetry == 1` for object "main" Window`
+    t =    14.38s         Checking existence of `"main" Window`
+    t =    14.40s         Capturing element debug description
+    t =    14.41s     Checking existence of `"main" Window`
+    t =    14.43s Collecting debug information to assist test failure triage
+    t =    14.43s     Requesting snapshot of accessibility hierarchy for app with pid 15368
+    t =    14.46s Reopen the main window from its native menu
+    t =    14.46s     Click "native-menu-window" MenuBarItem
+    t =    14.46s         Wait for com.willxue.wegit.development to idle
+    t =    14.47s         Find the "native-menu-window" MenuBarItem
+    t =    15.49s             Find the "native-menu-window" MenuBarItem (retry 1)
+    t =    16.51s             Find the "native-menu-window" MenuBarItem (retry 2)
+    t =    16.54s     Requesting snapshot of accessibility hierarchy for app with pid 15368
+/Users/runner/work/WeGit/WeGit/WeGitUITests/UITestGit.swift:12: error: -[WeGitUITests.WeGitUITests testWelcomeAndCloneForm] : Failed to click "native-menu-window" MenuBarItem: No matches found for Elements matching predicate '"native-menu-window" IN identifiers' from input {(
+    MenuBarItem, title: 'Apple',
+    MenuBarItem, title: 'WeGit'
+)}
+    t =    16.58s Tear Down
+Test Case '-[WeGitUITests.WeGitUITests testWelcomeAndCloneForm]' failed (16.684 seconds).
+Test Suite 'WeGitUITests' failed at 2026-10-16 16:42:25.379.
+	 Executed 1 test, with 2 failures (0 unexpected) in 16.684 (16.687) seconds
+Test Suite 'WeGitUITests.xctest' failed at 2026-10-16 16:42:25.380.
+	 Executed 1 test, with 2 failures (0 unexpected) in 16.684 (16.689) seconds
+Test Suite 'Selected tests' failed at 2026-10-16 16:42:25.380.
+	 Executed 1 test, with 2 failures (0 unexpected) in 16.684 (16.697) seconds
+2026-10-16 16:42:31.846 xcodebuild[14951:42869] [MT] IDETestOperationsObserverDebug: 26.255 elapsed -- Testing started completed.
+2026-10-16 16:42:31.846 xcodebuild[14951:42869] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-16 16:42:31.846 xcodebuild[14951:42869] [MT] IDETestOperationsObserverDebug: 26.255 sec, +26.255 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/runner/work/WeGit/WeGit/.build/ci/ui/smoke.xcresult
+
+Failing tests:
+	WeGitUITests.testWelcomeAndCloneForm()
+	WeGitUITests.testWelcomeAndCloneForm()
+
+** TEST EXECUTE FAILED **
+
+Testing started

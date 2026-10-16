@@ -1,0 +1,9 @@
+{
+  "checks": 4,
+  "passed": true,
+  "git": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git",
+  "version": "git version 2.54.0 (Apple Git-157)",
+  "isolation": true,
+  "stdinBytesPreserved": true,
+  "failureStatusPreserved": true
+}
