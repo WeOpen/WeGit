@@ -111,7 +111,7 @@ scripts/verify.sh --ui
 
 最新核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 2.46.0** 下分别通过 **183 项测试 / 32 个套件**。近期专项包含 **34 项主题行为、18 项图标行为、27 项原生菜单行为，以及 6 种恢复启动组合**。这些结果有各自验证范围，不代表 V1.0 已完成验收。
 
-⚠️ 完整原生 UI 执行仍受已记录的 XCTest 初始化问题阻塞。较早的完整回合为 36/37 项功能通过，剩余一项是 Clone 长路径输入失败；144 个阅读组合在该轮旧源码下通过。最终完整 UI、辅助访问和最终源码 Release 性能仍待验。已提交 main 基线的托管 macOS CI 已通过；最新未提交应用改动由 [Issue #12](https://github.com/WeOpen/WeGit/issues/12) 单独接入验证，专用完整验收 Runner 仍待配置。剩余事项见 [V1.0 当前发布清单](docs/V1_RELEASE_CHECKLIST.md)。
+⚠️ 完整原生 UI 执行仍受已记录的 XCTest 初始化问题阻塞。较早的完整回合为 36/37 项功能通过，剩余一项是 Clone 长路径输入失败；144 个阅读组合在该轮旧源码下通过。最终完整 UI、辅助访问和最终源码 Release 性能仍待验。已提交 main 基线的托管 macOS CI 已通过；最新应用改动已在 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 为 [Issue #12](https://github.com/WeOpen/WeGit/issues/12) 单独接入验证，专用完整验收 Runner 仍待配置。剩余事项见 [V1.0 当前发布清单](docs/V1_RELEASE_CHECKLIST.md)。
 
 测试采用隔离配置、临时仓库与独立偏好。请勿把写入测试指向不能承受改动的仓库。
 

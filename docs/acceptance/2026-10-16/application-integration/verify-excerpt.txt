@@ -1,0 +1,4 @@
+15 preference migration behavior checks passed.
+Localization verified: 998 string keys, 7 plural keys; source coverage and arguments match.
+􁁛  Test run with 183 tests in 32 suites passed after 55.064 seconds.
+** BUILD SUCCEEDED **

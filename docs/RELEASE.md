@@ -86,7 +86,7 @@ scripts/package-release.sh --notarize
 
 `Draft release` 手动解析已有 tag，检查同一 SHA 的 main CI；稳定标签另要求同一 SHA 的完整验收成功，随后重新构建显式 `--adhoc` 正式标识制品、验证清单/校验和并只创建草稿。干净机器、Beta 和最终公开发布由维护者核对，网站只引用同一版本资产。操作与限制见 [GitHub workflow 方案](GITHUB_WORKFLOW.md)。
 
-当前主工作区仍有尚未提交的应用、品牌和双语改动，单独由 [Issue #12](https://github.com/WeOpen/WeGit/issues/12) 管理；不能用已提交 CI 基线的 175 项通过覆盖本地 183 项源码。每个最终安装包仍须绑定版本、Bundle ID、实际签名/公证状态、提交与来源摘要，源码变化后重新构建。
+当前应用、品牌和双语改动已提交 [PR #15](https://github.com/WeOpen/WeGit/pull/15)，由 [Issue #12](https://github.com/WeOpen/WeGit/issues/12) 单独接入验证；不能用已提交 CI 基线的 175 项通过覆盖本地 183 项源码。每个最终安装包仍须绑定版本、Bundle ID、实际签名/公证状态、提交与来源摘要，源码变化后重新构建。
 
 ## 5. Beta 与正式发布门槛
 

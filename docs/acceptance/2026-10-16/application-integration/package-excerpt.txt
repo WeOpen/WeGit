@@ -1,0 +1,3 @@
+Release source receipt and bundle metadata verified.
+Package: /Users/willxue/will/WeOpen/WeGit/.build/releases/package-Mgh57b/WeGit-0.1.0-development.zip
+Manifest: /Users/willxue/will/WeOpen/WeGit/.build/releases/package-Mgh57b/manifest.json

@@ -11,3 +11,5 @@
 凭据扫描初次报告 134 项，逐项核对后全部是两个认证源码文件在 JSON 来源回执中的 SHA-256，共 8 个明确值。配置只在 JSON 验收/性能文档路径中匹配这些文件名与明确哈希，并保留全部默认规则。详见 [核对记录](secret-scan-review.json) 与 [上游配置说明](https://github.com/gitleaks/gitleaks/blob/v8.30.1/README.md#configuration)。实际扫描器的 5 项行为检查确认：已核对回执通过，未知哈希、其他路径、凭据字段及同文件其他字段仍被检出。
 
 当前本地严格格式、迁移与翻译完整性检查、183 项核心测试 / 32 套件和 Debug 构建通过。最终两套 Git、原生功能专项、UI 编译、普通 Release 与包来源及远端运行结果在后续验证回执中按提交 SHA 记录。
+
+最新应用已提交 [PR #15](https://github.com/WeOpen/WeGit/pull/15)。两套 Git 各 183 项、34/18/27 原生功能专项、UI 编译和普通 Release 均通过，开发/正式 ID 两种本地包均来自干净提交 `453422d`；见 [本地验证](local-validation.json)。远端结果尚需按实际运行核对，完整交互与发布门槛继续保留。

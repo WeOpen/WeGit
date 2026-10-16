@@ -795,3 +795,7 @@ Icon Composer 27.0 实际导出的 Default/Dark 已检查；Debug 与普通 Rele
 ## 46. GitHub 工作流、公开仓库与 CI/CD（2026-10-16）
 
 公开前审查提交历史与凭据，两个疑似项确认为初始性能报告中的源码 SHA-256，仅加入精确指纹例外；用户授权公开已执行。通过独立工作树提交 PR #10 并按保护规则 Squash 合并；标签/里程碑与 P0 Issues 已建立，默认 token 降为只读，main 强制三检查。19 项工具行为、隔离 main 基线两套 Git 各 175 项、Debug/UI 编译和显式正式 ID 的无账号 ad-hoc 包本地通过，PR 首轮托管全绿；main 发生探针竞争超时与工具链 head 管道问题，已由 PR #14 修复，main `5f647fa` 在 run 38881671955 全绿，失败日志不删除。元数据 workflow 已在 main 实际通过且重复计划为 0。最终状态见 [验收](acceptance/2026-10-16/github-workflow/README.md)。主工作区应用、图标、默认英文/中文 README 和预存文件未混入 CI PR，Issue #12 追踪后续接入。
+
+## 47. 最新应用接入受保护 CI（2026-10-16）
+
+通过 PR #15 / Issue #12 整理应用、核心、测试、品牌和双语文档，与 main 的 CI/打包改动合并。旧品牌保留，重复 ZIP/构建输出/原始活动日志和 .spec-workflow 留在本地。本地两套 Git 各 183 项/32 套件、34/18/27 原生专项、15 项迁移、翻译覆盖、格式、Debug/Release 和 UI 编译通过；干净提交的开发与正式 ID ad-hoc 包已生成。凭据扫描的 134 项均核对为 8 个认证源码摘要，例外同时绑定路径/文件名/明确值，5 项实际扫描器回归通过。完整 XCTest、辅助访问、最终性能与安装/Beta 仍未通过，见 [本轮证据](acceptance/2026-10-16/application-integration/README.md)。
