@@ -1,0 +1,17 @@
+{
+  "verifiedAt": "2026-10-16T16:19:49.961949+00:00",
+  "sourceCommit": "d4f131ecf3522a5b56dcc9a35d9befff48652410",
+  "deploymentRun": "https://github.com/WeOpen/WeGit/actions/runs/38930408217",
+  "conclusion": "success",
+  "englishURL": "https://weopen.github.io/WeGit/",
+  "chineseURL": "https://weopen.github.io/WeGit/zh/",
+  "browserVerified": [
+    "English page",
+    "Chinese page",
+    "same-origin release snapshot",
+    "no public release state"
+  ],
+  "applicationReleasePublished": false,
+  "issue8Complete": false,
+  "remaining": "Download and verify a real published application asset after release gates pass."
+}

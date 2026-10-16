@@ -9,3 +9,7 @@
 Pages 已配置 GitHub Actions、HTTPS，默认 URL 为 https://weopen.github.io/WeGit/，主分支与 v* 标签受环境限制。实际部署与公开访问尚待 workflow 通过确认；不因站点建好而关闭完整原生、辅助访问、性能、干净安装、Beta 或发布门槛。
 
 通过 iframe 的 `color-scheme: dark` 实测了 320 px 中文深色媒体查询，石墨图标和深色表面对应；没有修改系统主题。此为浏览器受控视口检查，不冒充真实手机设备或系统选项切换验收。
+
+## 2026-10-17 公开部署复验
+
+PR #16 已合并 main `d4f131e`，[Pages 38930408217](https://github.com/WeOpen/WeGit/actions/runs/38930408217) 通过。实际浏览器打开 https://weopen.github.io/WeGit/ 与 /zh/，图标、样式、脚本和同源发布快照均生效，显示无公开版本。截图 public-en.png / public-zh.png 与 public-validation.json 保存在本目录。Issue #8 的站点上线部分完成；真实制品下载仍等待正式发布，不关闭 Issue。

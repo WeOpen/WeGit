@@ -14,4 +14,5 @@
 
 最新应用已提交 [PR #15](https://github.com/WeOpen/WeGit/pull/15)。两套 Git 各 183 项、34/18/27 原生功能专项、UI 编译和普通 Release 均通过，开发/正式 ID 两种本地包均来自干净提交 `453422d`；见 [本地验证](local-validation.json)。远端结果尚需按实际运行核对，完整交互与发布门槛继续保留。
 
+main `9889517` 的 [CI 38926343839](https://github.com/WeOpen/WeGit/actions/runs/38926343839) 也已全绿；见 main-ci.json。
 [远端 PR CI 38924928448](https://github.com/WeOpen/WeGit/actions/runs/38924928448) 已全绿，源提交 8c3d229；对应 [日志摘要](passed-pr-ci-excerpt.txt)。PR #15 已合并 main 9889517，Issue #12 关闭；main 复验另按实际运行记录。
