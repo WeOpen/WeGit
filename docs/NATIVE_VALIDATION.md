@@ -30,10 +30,12 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=accessibil
 
 脚本的进程组截止行为经过实际成功/超时/子进程停止断言；还解析 xcresult 实际数量，拒绝 0 项、跳过、失败及不完整的计数，最小范围必须恰好执行并通过 1 项。超时只负责结束当前测试命令，不重试、不提高产品性能预算。日志、环境与 xcresult 限定归档到对应 Actions artifact。
 
-原生夹具通过 `xcrun --find git` 使用当前选中 Xcode 的 Git，避免 `/Applications/Xcode.app` 固定路径与预览工具链不一致；所有仓库命令仍先执行原有隔离探针，配置写入约束不变。
+Swift 夹具执行器与 C 延迟/回执辅助均通过 `xcrun --find git` 使用当前选中 Xcode 的 Git，避免 `/Applications/Xcode.app` 固定路径与预览工具链不一致；所有仓库命令仍先执行原有隔离探针，配置写入约束不变。
 
 ## 发布边界
 
 该路径首先用于验证托管 VM 是否能执行实际 UI。尚无成功记录时，不把它标为可用验收 Runner。即使 smoke 成功，也不等于完整功能、VoiceOver、辅助访问、性能或干净机器安装通过。
 
 `Full acceptance` 的同一 SHA 稳定版发布门禁继续保留；本 workflow 不能替代它。专用自托管 Runner 当前仍为 0。若托管环境通过实际最小用例，再根据完整结果、原始系统保护状态和性能隔离条件决定可承载的范围，不能仅为改标签而宣称完成。
+
+另有 4 项真实辅助程序验证：配置隔离、实际 Git 版本、大块 Unicode/CRLF/NUL 输入字节与输出、错误退出码/stderr，不能只凭辅助程序可编译就声明透明转发。
