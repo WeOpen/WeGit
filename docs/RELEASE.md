@@ -1,10 +1,10 @@
 # WeGit 分发与发布操作
 
-当前决定（2026-10-16，覆盖此前签名公证前置要求）：**MIT＋GitHub Releases＋项目网站直接分发，不发布到商店，不使用 TestFlight，目前没有 Apple Developer Program 账号**。网站尚未上线，仓库当前私有且没有 Release。版本仍为 `0.1.0` 开发预览，尚未完成 Beta 或 V1.0 发布。
+当前决定（2026-10-16，覆盖此前签名公证前置要求）：**MIT＋GitHub Releases＋项目网站直接分发，不发布到商店，不使用 TestFlight，目前没有 Apple Developer Program 账号**。网站尚未上线，仓库已公开但没有 Release。版本仍为 `0.1.0` 开发预览，尚未完成 Beta 或 V1.0 发布。
 
 当前路线使用 ad-hoc 完整性签名、无 Developer ID、未公证；Developer ID／公证为未来可选，不能再将账号/证书/profile 缺失列为本路线的前置阻塞。ad-hoc 不提供开发者身份认证，macOS 可能阻止下载后的首启；必须按实际目标机器记录下载、系统提示、用户信任选择与核心流程。参考 [Apple 的 Developer ID 说明](https://developer.apple.com/developer-id/)及[安全打开说明](https://support.apple.com/zh-cn/102445)。当前 P0 汇总见 [发布清单](V1_RELEASE_CHECKLIST.md)。
 
-本轮只更新文档和剩余事项，不修改仓库可见性、不上传 Release，也不部署网站。下方历次开发包证据保留原有时点的发布要求与结果。
+仓库与 CI/CD 已在 PR #10/#14 落地，最新应用通过 Issue #12 整理接入；本轮没有上传 Release 或部署网站。下方历次开发包证据保留原有时点的发布要求与结果。
 
 ## 1. 打包前验证
 
