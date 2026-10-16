@@ -62,6 +62,8 @@ python3 scripts/ci/project_setup.py --repo WeOpen/WeGit --seed-backlog --apply
 
 GitHub 当前官方 `xcode-27` 镜像为 macOS 27.0.1；这是公开预览标签，不使用会随时间变化的 macos-latest 冒充目标系统。每次运行再次核对真实 OS、架构和 Xcode；若镜像不可分配或不匹配，该项保持失败/待运行，不自动降到 macOS 26。
 
+托管 VM 显式使用 `swift test --no-parallel` 调度外层核心用例，避免 175 个真实 Git 夹具争用有限资源、触发隔离探针超时；测试内部的 TaskGroup 并发、队列、取消和超时断言保持不变。`WEGIT_SERIAL_CORE_TESTS=1` 可在本机复现该 CI 调度方式；普通本地运行默认不改。保留 main 首轮失败记录，不通过重试或增加超时掩盖。该配置不是性能预算调整。
+
 PR 代码只在 GitHub 托管 VM 运行。所有 action 固定提交 SHA，checkout 不持久保存凭据；默认令牌只读。PR 标题/正文/手动输入不插入 shell 源码，发布参数经环境和严格格式检查。CI 工具下载校验固定 SHA-256；两条 gitleaks 例外只对应初始提交性能报告中的确切源码摘要误报，不忽略整个文档目录。
 
 `WEGIT_SKIP_PROJECT_GENERATION=1` 防止不同 XcodeGen 版本改写已提交工程，制品与源码回执保持对应。旧版本没有某个功能模块时不宣称其专项通过；模块一旦存在，对应行为检查脚本必须存在并执行。
