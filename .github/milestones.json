@@ -1,0 +1,10 @@
+[
+  {
+    "title": "V1.0",
+    "description": "Complete P0 validation and GitHub + website direct distribution; ad-hoc and not notarized."
+  },
+  {
+    "title": "V1.1",
+    "description": "Post-V1 daily workflow improvements; scope accepted through Issues."
+  }
+]

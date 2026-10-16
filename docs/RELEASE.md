@@ -1,5 +1,7 @@
 # WeGit 分发与发布操作
 
+> 2026-10-16 更新：用户仅选择 GitHub Releases＋项目网站，无商店/无开发者账号。新增 `scripts/package-release.sh --adhoc`，采用正式 Bundle ID、明确未公证状态和来源校验；Developer ID／公证改为未来可选。本文件下方较早的签名公证要求保留其历史时点，以 [当前 CI/CD 发布流程](GITHUB_WORKFLOW.md#5-无开发者账号的-cd)为准。
+
 用户已选择 **MIT + Developer ID 签名、公证后直接分发**。当前版本仍为 `0.1.0` 开发预览，尚未完成 Beta 或正式发布。
 
 ## 1. 打包前验证

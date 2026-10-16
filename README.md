@@ -105,3 +105,7 @@ CI 工作流使用 `wegit-macos27` 标签的自托管 macOS 27 Runner；需要�
 ## 反馈与帮助
 
 遇到问题可到 [项目 Issues](https://github.com/WeOpen/WeGit/issues) 提供复现步骤、系统/Git 版本和实际结果；当前仓库为私有，需要有仓库访问权限。设置中的高级页面可主动导出诊断摘要，其范围不包含代码、Diff、提交消息、路径或凭证。不要把敏感内容直接贴进反馈。
+
+### GitHub 协作与 CI/CD
+
+需求先开 [Issue](https://github.com/WeOpen/WeGit/issues/new/choose)，再通过关联 PR 交付；见 [贡献说明](CONTRIBUTING.md)和 [CI/CD 方案](docs/GITHUB_WORKFLOW.md)。常规 CI 使用托管 macOS 27；专用完整验收及无账号 ad-hoc Draft Release 分别设置门槛，公开发布由维护者最终确认。

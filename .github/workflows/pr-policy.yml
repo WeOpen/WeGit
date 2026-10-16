@@ -1,0 +1,33 @@
+name: PR policy
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: pr-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  pr-policy:
+    name: PR policy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install policy dependency
+        run: |
+          python3 -m venv "$RUNNER_TEMP/wegit-python"
+          "$RUNNER_TEMP/wegit-python/bin/python" -m pip install --disable-pip-version-check -r scripts/ci/requirements.txt
+          echo "$RUNNER_TEMP/wegit-python/bin" >> "$GITHUB_PATH"
+      - name: Require a conventional title and linked Issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/ci/check_policy.py --event "$GITHUB_EVENT_PATH" --verify-issues

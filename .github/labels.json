@@ -1,0 +1,107 @@
+[
+  {
+    "name": "bug",
+    "color": "d73a4a",
+    "description": "Something is not working"
+  },
+  {
+    "name": "enhancement",
+    "color": "a2eeef",
+    "description": "New user-facing capability"
+  },
+  {
+    "name": "documentation",
+    "color": "0075ca",
+    "description": "Documentation change"
+  },
+  {
+    "name": "dependencies",
+    "color": "0366d6",
+    "description": "Dependency updates"
+  },
+  {
+    "name": "type:task",
+    "color": "5319e7",
+    "description": "Engineering or validation task"
+  },
+  {
+    "name": "type:release",
+    "color": "1d76db",
+    "description": "Distribution and release work"
+  },
+  {
+    "name": "priority:P0",
+    "color": "b60205",
+    "description": "Blocks the target milestone"
+  },
+  {
+    "name": "priority:P1",
+    "color": "d93f0b",
+    "description": "Important follow-up"
+  },
+  {
+    "name": "priority:P2",
+    "color": "fbca04",
+    "description": "Nice to have"
+  },
+  {
+    "name": "status:triage",
+    "color": "ededed",
+    "description": "Needs scope and priority"
+  },
+  {
+    "name": "status:ready",
+    "color": "0e8a16",
+    "description": "Scoped and ready to implement"
+  },
+  {
+    "name": "status:in-progress",
+    "color": "1d76db",
+    "description": "Implementation is underway"
+  },
+  {
+    "name": "status:blocked",
+    "color": "b60205",
+    "description": "Waiting for a concrete dependency"
+  },
+  {
+    "name": "area:ci",
+    "color": "0052cc",
+    "description": "Automation and project workflow"
+  },
+  {
+    "name": "area:ui",
+    "color": "7057ff",
+    "description": "Native interface and reading"
+  },
+  {
+    "name": "area:accessibility",
+    "color": "006b75",
+    "description": "Assistive technology and keyboard"
+  },
+  {
+    "name": "area:performance",
+    "color": "f9d0c4",
+    "description": "Latency, memory and scrolling"
+  },
+  {
+    "name": "area:git",
+    "color": "c2e0c6",
+    "description": "Git workflows and compatibility"
+  },
+  {
+    "name": "area:release",
+    "color": "bfdadc",
+    "description": "Packaging and delivery"
+  },
+  {
+    "name": "area:website",
+    "color": "c5def5",
+    "description": "Project website"
+  },
+  {
+    "name": "skip-changelog",
+    "color": "eeeeee",
+    "description": "Exclude internal-only changes from generated notes"
+  }
+]
