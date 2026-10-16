@@ -1,0 +1,25 @@
+{
+  "before": {
+    "AppleInterfaceStyle": {
+      "exists": true,
+      "value": "Dark"
+    },
+    "AppleInterfaceStyleSwitchesAutomatically": {
+      "exists": true,
+      "value": "1"
+    }
+  },
+  "after": {
+    "AppleInterfaceStyle": {
+      "exists": false,
+      "value": null
+    },
+    "AppleInterfaceStyleSwitchesAutomatically": {
+      "exists": true,
+      "value": "1"
+    }
+  },
+  "autoModeRestored": true,
+  "effectiveAppearanceEqualAtFinalCheck": false,
+  "note": "The Auto selection and flag were restored. The effective appearance differed at the final check; it was not forced back to Dark."
+}

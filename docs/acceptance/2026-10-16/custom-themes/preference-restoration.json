@@ -1,0 +1,12 @@
+[
+  {
+    "domain" : "com.willxue.wegit.development",
+    "keyCount" : 40,
+    "restoredExactly" : true
+  },
+  {
+    "domain" : "com.willxue.wegit.UITests",
+    "keyCount" : 0,
+    "restoredExactly" : true
+  }
+]

@@ -924,9 +924,24 @@ final class WeGitUITests: XCTestCase {
         app.buttons["克隆仓库…"].firstMatch.click()
         func fill(_ identifier: String, _ value: String) {
             let field = app.textFields[identifier]
+            let before = field.frame
             field.click()
             field.typeKey("a", modifierFlags: .command)
             field.typeText(value)
+            let complete = XCTNSPredicateExpectation(
+                predicate: NSPredicate(format: "value == %@", value), object: field)
+            let result = XCTWaiter.wait(for: [complete], timeout: 2)
+            if result != .completed {
+                let evidence = XCTAttachment(
+                    string: "Before: \(before); after: \(field.frame)\n" + app.debugDescription)
+                evidence.name = "Long clone input state"
+                evidence.lifetime = .keepAlways
+                add(evidence)
+                let screenshot = XCTAttachment(screenshot: app.screenshot())
+                screenshot.name = "Long clone input layout"
+                screenshot.lifetime = .keepAlways
+                add(screenshot)
+            }
             XCTAssertEqual(field.value as? String, value, "输入字段 \(identifier) 未保留完整内容")
         }
         fill("clone-url", source.path)

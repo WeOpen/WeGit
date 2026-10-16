@@ -21,9 +21,9 @@ public struct AskPassBridge: Sendable {
 
 /// Per-command capability and private Unix socket. No credential or reply touches a file.
 final class AskPassSession: @unchecked Sendable {
-    private static let listenerQueue = DispatchQueue(label: "org.weopen.WeGit.askpass-listener")
+    private static let listenerQueue = DispatchQueue(label: "com.willxue.wegit.askpass-listener")
     private static let ioQueue = DispatchQueue(
-        label: "org.weopen.WeGit.askpass-io", qos: .userInitiated, attributes: .concurrent)
+        label: "com.willxue.wegit.askpass-io", qos: .userInitiated, attributes: .concurrent)
     private let lock = NSLock()
     private let listener: DispatchSourceRead
     private let directory: String

@@ -132,7 +132,7 @@ final class CommitDetailState {
         fileID = UUID()
         fileTask?.cancel()
         loadingFile = false
-        fileError = "已取消读取，可重新选择文件或重试。"
+        fileError = L10n.text("已取消读取，可重新选择文件或重试。")
         display?.cancelAll()
         diskDisplay?.cancelAll()
     }
@@ -144,7 +144,7 @@ final class CommitDetailState {
         task?.cancel()
         loading = false
         cancelFile()
-        if userInitiated { error = "已取消读取，可随时重试。" }
+        if userInitiated { error = L10n.text("已取消读取，可随时重试。") }
     }
 
     func releaseCache() {

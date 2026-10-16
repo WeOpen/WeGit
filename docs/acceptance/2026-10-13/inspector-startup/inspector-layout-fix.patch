@@ -1,0 +1,75 @@
+--- system-inspector-control/WorkspaceView.swift
++++ auxiliary-split/WorkspaceView.swift
+@@ -14,25 +14,36 @@
+                     sidebar(session)
+                         .navigationSplitViewColumnWidth(min: 180, ideal: 210, max: 270)
+                 } detail: {
+-                    GeometryReader { geometry in
+-                        VStack(spacing: 0) {
+-                            statusBanner(session)
+-                            switch app.workspace.route {
+-                            case .changes: ChangesView(app: app, session: session)
+-                            case .history: HistoryView(app: app, session: session)
+-                            case .branches: BranchesView(app: app, session: session)
+-                            }
+-                        }
+-                        .padding(geometry.safeAreaInsets)
+-                        .frame(
+-                            width: geometry.size.width + geometry.safeAreaInsets.leading
+-                                + geometry.safeAreaInsets.trailing,
+-                            height: geometry.size.height + geometry.safeAreaInsets.top
+-                                + geometry.safeAreaInsets.bottom
+-                        )
+-                        .ignoresSafeArea()
+-                    }
+-                    .background(AppColors.canvas)
++                    // A native auxiliary split avoids SwiftUI Inspector's constraint-update
++                    // cycle when restored beside a nested HSplitView on macOS 27.
++                    HSplitView {
++                        GeometryReader { geometry in
++                            VStack(spacing: 0) {
++                                statusBanner(session)
++                                switch app.workspace.route {
++                                case .changes: ChangesView(app: app, session: session)
++                                case .history: HistoryView(app: app, session: session)
++                                case .branches: BranchesView(app: app, session: session)
++                                }
++                            }
++                            .padding(geometry.safeAreaInsets)
++                            .frame(
++                                width: geometry.size.width + geometry.safeAreaInsets.leading
++                                    + geometry.safeAreaInsets.trailing,
++                                height: geometry.size.height + geometry.safeAreaInsets.top
++                                    + geometry.safeAreaInsets.bottom
++                            )
++                            .ignoresSafeArea()
++                        }
++                        .background(AppColors.canvas)
++                        if app.workspace.inspector {
++                            inspector(session)
++                                .frame(minWidth: 240, idealWidth: 260, maxWidth: 320)
++                                .accessibilityElement(children: .contain)
++                                .accessibilityLabel("检查器")
++                                .accessibilityIdentifier("repository-inspector")
++                        }
++                    }
+                 }
+                 .background(
+                     ViewPerformanceProbe(spans: [
+@@ -41,13 +52,13 @@
+                 )
+                 .navigationTitle(session.location.name)
+                 .navigationSubtitle(session.status.displayBranch)
+-                .inspector(isPresented: $app.workspace.inspector) { inspector(session) }
+-                .inspectorColumnWidth(min: 240, ideal: 260, max: 320)
+             } else {
+                 WelcomeView(app: app)
+             }
+         }
+-        .frame(minWidth: 980, minHeight: 640)
++        // Reserve both work panes and the widest optional columns without adding
++        // another minimum inside the detail area's safe-inset compensation.
++        .frame(minWidth: app.workspace.inspector ? 1292 : 980, minHeight: 640)
+         .animation(nil, value: app.appearance)
+         .accessibilityElement(children: .contain)
+         .accessibilityLabel("WeGit 工作区")

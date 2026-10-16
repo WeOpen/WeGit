@@ -1,0 +1,107 @@
+[
+  {
+    "file": "branding/wegit-v2/revisions/before-dock-material-2026-10-16/WeGit.icns",
+    "canvas": [
+      1024,
+      1024
+    ],
+    "bounds": [
+      0,
+      0,
+      1023,
+      1023
+    ],
+    "tileWidthRatio": 1.0,
+    "tileHeightRatio": 1.0
+  },
+  {
+    "file": "branding/wegit-v2/WeGit.icns",
+    "canvas": [
+      1024,
+      1024
+    ],
+    "bounds": [
+      100,
+      100,
+      923,
+      923
+    ],
+    "tileWidthRatio": 0.8046875,
+    "tileHeightRatio": 0.8046875
+  },
+  {
+    "file": "branding/wegit-v2/WeGit-dark.icns",
+    "canvas": [
+      1024,
+      1024
+    ],
+    "bounds": [
+      100,
+      100,
+      923,
+      923
+    ],
+    "tileWidthRatio": 0.8046875,
+    "tileHeightRatio": 0.8046875
+  },
+  {
+    "file": ".build/releases/package-mbWTnE/WeGit.app/Contents/Resources/AppIcon.icns",
+    "canvas": [
+      256,
+      256
+    ],
+    "bounds": [
+      25,
+      25,
+      230,
+      230
+    ],
+    "tileWidthRatio": 0.8046875,
+    "tileHeightRatio": 0.8046875
+  },
+  {
+    "file": "/System/Applications/Notes.app/Contents/Resources/AppIcon.icns",
+    "canvas": [
+      256,
+      256
+    ],
+    "bounds": [
+      25,
+      25,
+      230,
+      230
+    ],
+    "tileWidthRatio": 0.8046875,
+    "tileHeightRatio": 0.8046875
+  },
+  {
+    "file": "/System/Applications/Utilities/Terminal.app/Contents/Resources/Terminal.icns",
+    "canvas": [
+      256,
+      256
+    ],
+    "bounds": [
+      25,
+      25,
+      230,
+      230
+    ],
+    "tileWidthRatio": 0.8046875,
+    "tileHeightRatio": 0.8046875
+  },
+  {
+    "file": "/System/Library/CoreServices/Finder.app/Contents/Resources/Finder.icns",
+    "canvas": [
+      256,
+      256
+    ],
+    "bounds": [
+      25,
+      25,
+      230,
+      230
+    ],
+    "tileWidthRatio": 0.8046875,
+    "tileHeightRatio": 0.8046875
+  }
+]

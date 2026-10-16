@@ -1,0 +1,20 @@
+[
+  {
+    "domain": "com.willxue.wegit.development",
+    "matchesOriginalAfterOrdinaryLaunch": false,
+    "changedKeys": [
+      "workspace:ace5290a4f73dc3caec03ca15419aad355fc2a060b743ed5964656ec54500df3"
+    ],
+    "customThemePresent": false,
+    "semanticChangedKeys": [],
+    "semanticallyMatchesOriginalAfterOrdinaryLaunch": true
+  },
+  {
+    "domain": "com.willxue.wegit.UITests",
+    "matchesOriginalAfterOrdinaryLaunch": true,
+    "changedKeys": [],
+    "customThemePresent": false,
+    "semanticChangedKeys": [],
+    "semanticallyMatchesOriginalAfterOrdinaryLaunch": true
+  }
+]

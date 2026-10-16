@@ -31,9 +31,7 @@ WorkspaceState / Feature State
           ↓
 Domain Services / Commands
           ↓
-RepositoryOperationCoordinator → GitEngine
-                                    ↓
-                               GitEngine
+RepositoryOperationQueue → GitEngine
                                     ↓
                                ProcessRunner
                                     ↓
@@ -54,7 +52,6 @@ WeGit/
 │   ├── Commands/
 │   └── Errors/
 ├── GitCore/
-│   ├── GitEngine.swift
 │   ├── GitEngine.swift
 │   ├── GitCommand.swift
 │   ├── GitCommandResult.swift
@@ -150,7 +147,7 @@ V1.0 使用具体的 `GitEngine: Sendable`，通过 `any ProcessRunning` 注入�
 
 所有 Git 命令使用可执行路径和参数数组；消息、补丁等内容通过标准输入传入。禁止借助 `/bin/sh -c` 或 `/bin/zsh -c` 拼接 Git 操作。数组参数仍需处理选项注入、ref 校验、pathspec 语义和目标重验。
 
-UI、菜单、快捷键和命令面板共享 `DomainCommand` 执行入口与 `CommandAvailability`，其中包括可用状态和禁用原因。避免与系统 `AppIntent` 类型同名造成概念混淆。
+UI、原生菜单与命令面板复用 AppState/RepositorySession 的动作与可用状态；命令面板使用 WorkspaceCommand，菜单通过 ApplicationMenuActions 适配这些入口。Git 写入仍进入已有仓库队列。
 
 ## 7. ProcessRunner
 
@@ -187,13 +184,13 @@ Git 写操作取消后，先确认进程结束，再刷新实际仓库和序列�
 | 远端写入 | Push | 显式目标并排队；可能同时更新本地跟踪信息 |
 | 仓库创建 | Clone | 独立协调器，按目标目录互斥；完成后创建 Session |
 
-Status 可使用 `--no-optional-locks` 降低可选索引更新，但不能因此假定所有读命令都绝无写入副作用。
+背景 Status 已在现有 GitEngine 值副本中设置 `GIT_OPTIONAL_LOCKS=0`，不改写用户配置；真实索引字节断言验证读取没有刷新 stat 缓存。这不能替代快照/写入预检的一致性校验，也不能因此假定所有读命令都绝无写入副作用。
 
 ### 8.2 Actor 重入与显式互斥
 
 Swift Actor 在 `await` 挂起时允许处理其他消息。仅在 Actor 方法中调用 `try await operation()`，并不能防止两个 Git 写操作同时运行。
 
-`RepositoryOperationCoordinator` 必须持有跨挂起点仍有效的队列状态或异步许可：
+当前 `RepositoryOperationQueue` actor 持有跨挂起点仍有效的显式 FIFO 许可：
 
 ```text
 提交操作 → 进入 FIFO 队列 → 获得唯一写许可
@@ -378,7 +375,7 @@ SwiftData 保存最近仓库、收藏、窗口状态和每仓库 UI 偏好；轻
 
 不把全量 Git 状态作为 SwiftData 权威数据，不明文存储 Token。应用自己的 Token/PAT/OAuth Secret 放入 Keychain；优先复用系统 Helper 和 SSH Agent，不保存 SSH 私钥副本。
 
-Phase 0 已由用户选择 Developer ID 签名、公证后直接分发，当前不启用 App Sandbox。外部 Git、SSH、Hooks、GPG、Helper、仓库外配置和文件访问仍需完成兼容性验证。若后续另行选择 Sandbox 路线，需使用 Security-scoped Bookmark，处理过期和权限撤回，并按 Session 引用计数配对开始/结束访问；书签不能代替外部工具兼容性验证。
+2026-10-16 用户更新为仅 GitHub Releases＋项目网站直接分发，无商店/无开发者账号；当前采用 ad-hoc／未公证制品，Developer ID／公证保留为未来可选，当前不启用 App Sandbox。外部 Git、SSH、Hooks、GPG、Helper、仓库外配置和文件访问仍需完成兼容性验证。若后续另行选择 Sandbox 路线，需使用 Security-scoped Bookmark，处理过期和权限撤回，并按 Session 引用计数配对开始/结束访问；书签不能代替外部工具兼容性验证。
 
 图形认证流程需受控 AskPass/Helper 通道：凭证不进入命令行、日志或普通临时文件，交互可取消且有限时。SSH 未知/变更主机密钥需说明验证方式，不自动关闭主机校验。
 
@@ -467,3 +464,49 @@ Hosting Provider 独立于 GitEngine，处理账户、PR/MR、元数据和托管
 - [Git Apply](https://git-scm.com/docs/git-apply)
 - [Git Push 与 Force With Lease](https://git-scm.com/docs/git-push)
 - [Swift Concurrency](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/)
+
+## 菜单栏适配补充 · 2026-10-13
+
+ApplicationDelegate 持有具体 MenuBarController，管理一个 NSStatusItem 与 NSPopover，SwiftUI 的 MenuBarPanel 继续读取同一 AppState。窗口挂载、弹层显示与窗口打开请求分别记录观察所有权，最后一个观察界面关闭时停用当前会话。首次 Git/仓库恢复不在每次窗口重开重复执行；当前会话重新激活并刷新，保留草稿与选择。窗口宽度从现有 WindowStateBridge 的原生 resize 通知读取，仅变化时发布。
+
+菜单栏的写入口进入已有主窗口确认，读取和退出使用现有权限与 anyOperationRunning；未增加 Git 公共接口、额外仓库队列或另一个活动状态来源。具体来源与验证范围见 [工具栏与菜单栏验收](acceptance/2026-10-13/toolbar-menu-bar/README.md)。
+
+## 液态玻璃控件实现边界 · 2026-10-13
+
+GlassControls.swift 提供视图级样式与共享 Tabs，不修改 GitEngine、ProcessRunning、仓库服务或队列。常规/主操作继续使用原生 PrimitiveButtonStyle；菜单使用 native Menu 的交互和语义，外层添加圆形或胶囊材质。Tabs 使用 NSViewRepresentable 的透明 NSSegmentedControl 负责命中、键盘与辅助访问，SwiftUI 绘制标签和选中层；Coordinator 的状态写入位于 MainActor。只在选项变化时动画，页切换绑定既有领域/工作区状态。设置分类迁移后保存至 app.defaults，避免验收实例污染正常偏好。
+
+## 主题状态补充 · 2026-10-15
+
+AppPreferences 保存用户主题，并拥有单个 NSApplication.effectiveAppearance KVO 观察；应用 appearance 保持系统默认，显式窗口主题与状态栏系统主题彼此独立。WorkbenchAppearance 将 Light/Dark 或解析后的 System 传给同一原生呈现偏好，窗口、设置及弹层使用同一来源，不读取已覆盖窗口的 colorScheme 决定 System，也不遍历改写所有窗口。领域服务、GitEngine/ProcessRunning 和仓库队列不变，见 [主题与悬浮卡片修复](acceptance/2026-10-15/theme-footer/README.md)。
+
+## 标识迁移补充 · 2026-10-15
+
+普通应用启动在创建 AppPreferences 前执行缺失值迁移；目标键优先，标记后不再导入。UITests / performanceHarness 不读真实旧偏好，既有最近仓库数据库位置保持。正式根标识为 com.willxue.wegit，日志/队列/快照亦使用该前缀，领域服务与仓库队列接口不变。验证见 [标识迁移与 Diff 边界](acceptance/2026-10-15/bundle-layout/README.md)。
+
+## 中英文资源与呈现边界 · 2026-10-15
+
+WeGitCore 提供 `AppLanguage`、参数化 `LocalizedMessage` 与 `L10n`，标准 strings/stringsdict 通过 SwiftPM 资源 Bundle 随应用打包。语言选择由 Mutex 保护，Observation 注册使视图直接刷新文案；AppPreferences 在主线程持久化用户选择，未新增 Git 服务接口。插值参数单独传入格式化，字面百分号转义，代码/补丁与 Git 参数不经翻译；枚举 rawValue 和 AX 标识保持稳定。应用使用选定 locale，自有原生菜单在同一进程即时更新；原生应用语言偏好也会保存供下一次启动使用。校验脚本使用已安装 Xcode 的 SwiftSyntax 做只读覆盖/参数检查，不引入运行时第三方库；打包校验两语言资源存在，见 [按钮与中英文本地化验收](acceptance/2026-10-15/i18n/README.md)。
+
+## 原生主菜单所有权 · 2026-10-15
+
+NativeApplicationMenu 持有一棵普通 AppKit 菜单树，ApplicationMenuActions 把应用菜单命令映射到 AppState 的既有动作与可用状态。SwiftUI 继续拥有窗口和内容，以 commandsRemoved 取消命令生成；MenuBarRegistration 只提供 openWindow/openSettings 回调。框架在场景激活时仍可能改写当前菜单，控制层以公开的菜单/窗口通知和 mainMenu 观察恢复自有树，保留 AppKit 注入的窗口与帮助项目。窗口列表和外部名称不参与词条翻译，窗口排列项在展开时按白名单更新。
+
+编辑命令使用当前响应链目标；用独立的 NSMenuItem 向原生目标校验，避免系统验证改写菜单标签。执行时重新解析目标，仓库动作依旧调用已有 AppState/RepositorySession 入口，无新增 Git 服务接口或队列。语言只更新既有菜单项、设置标题和状态图标说明，不重建窗口、会话或草稿。独立 MenuTitles 表区分 File 与文件列表的 Files。公开接口见 [AppKit 菜单文档](https://developer.apple.com/documentation/appkit/menus)，实现/证据见 [验收](acceptance/2026-10-15/live-menu-language/README.md)。
+
+### 原生面板主题与图标（2026-10-15）
+
+内部 AppPresentation 解析应用外观偏好并配置 NSAlert.window.appearance 与 Bundle 图标，供 AppState 确认、退出保护及原生关于入口复用。该边界处理 SwiftUI 环境之外的原生呈现，不增加公共接口、Git 服务或仓库队列。Inspector 与中心 canvas 共用原生 controlBackgroundColor；实现与证据见 [验收](acceptance/2026-10-15/alert-inspector/README.md)。
+
+### 品牌几何与原生图标（2026-10-16）
+
+内部 BrandGeometry 与第二版品牌母版保持一致，提供常规及光学加粗路径，供 SwiftUI BrandGlyph 和 AppKit 状态项复用。原生 AppIcon.icon 由 Xcode 编译 Default/Dark，当轮应用仅依赖系统图标选择；随后于 2026-10-16 增加了运行中 Dock 与应用主题的显式同步。无新增公共接口、领域服务或仓库队列；旧版资源在 branding/wegit-v1 保留，见 [第二版品牌接入验收](acceptance/2026-10-15/brand-v2/README.md)。
+
+### Dock 图标主题同步（2026-10-16）
+
+AppPresentation 缓存两份 Bundle ICNS，按应用偏好解析系统外观并更新 NSApplication.applicationIconImage，原生面板共用同一资源选择。AppPreferences.didSet 和已有 effectiveAppearance KVO 驱动更新，无新增公共接口或 Git 服务。Release 来源校验核对两份资源，独立私有偏好域检查验证真实 AppKit 图像和无窗口生命周期，见 [Dock 图标主题同步修复](acceptance/2026-10-16/dock-icon-theme/README.md)。
+
+### 自定义主题与呈现环境（2026-10-16）
+
+内部 CustomTheme 为版本化 Codable 的完整颜色表，ThemeRGB 负责 ASCII Hex 校验/sRGB 对比度，导入限制 64 KiB 与确切角色集合。AppPreferences 单独持久化 customTheme 与外观选择，previewTheme 仅驻内存；resolvedAppearance 同时供原生面板与 Dock 图标使用。AppColors 从静态表改为值类型环境，所有应用视图读取 themeColors；原生控件继续受选定明暗基底管理。
+
+workbenchAppearance 显式接收同一个 preferences，并在共享辅助器内建立正确环境层级；NSHostingView 实际挂载回归防止设置呈现缺失观察对象。ThemeWindowBridge 只设置所在窗口的透明标题栏与解析后的背景，不改 NSApp 全局外观；ThemedForm 在内置时保留原生 Form，在 Custom 时复用同一内容和 trailing 控件对齐绘制方案表面。Diff 原生文本桥接只改变呈现与选区颜色，不改变原始代码/补丁。没有新增公共 Git 接口或仓库队列，见 [原生底色与独立自定义主题验收](acceptance/2026-10-16/custom-themes/README.md)。

@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-16",
+  "scope": "Running Dock and native panel icons follow the application appearance preference",
+  "debugStatus": "DONE_WITH_CONCERNS",
+  "environment": {
+    "macOS": "27.0.1",
+    "Xcode": "27.0",
+    "xcodeBuild": "27A266a",
+    "architecture": "arm64"
+  },
+  "applicationSourceMapSHA256": "bcedd0fcf7adfa767783a4e8b91539ab02356fa2448ed7eeaa3091d2bf59164e",
+  "checks": {
+    "regressionBefore": {
+      "passed": false,
+      "expectedFailure": true,
+      "result": "before.json"
+    },
+    "nativeAppearanceChecks": {
+      "passed": true,
+      "count": 16,
+      "result": "appearance-checks.json"
+    },
+    "coreAppleGit": {
+      "passed": true,
+      "gitVersion": "2.54.0 (Apple Git-157)",
+      "tests": 183,
+      "suites": 32,
+      "log": "verify.log"
+    },
+    "coreMinimumGit": {
+      "passed": true,
+      "gitVersion": "2.46.0",
+      "tests": 183,
+      "suites": 32,
+      "log": "core-git246.log"
+    },
+    "nativeMenu": {
+      "passed": true,
+      "count": 27,
+      "result": "native-menu.json"
+    },
+    "debugBuild": {
+      "passed": true,
+      "log": "debug.log"
+    },
+    "ordinaryRelease": {
+      "passed": true,
+      "log": "release.log"
+    },
+    "formatMigrationLocalization": {
+      "passed": true,
+      "log": "verify.log"
+    },
+    "nativeUICompilation": {
+      "passed": true,
+      "log": "native-compile.log",
+      "execution": "Not rerun; existing XCTest initialization blocker"
+    },
+    "restoredStartup": {
+      "passed": true,
+      "count": 6,
+      "result": "startup.json"
+    },
+    "sameProcess": {
+      "pid": 31634,
+      "sameProcessAcrossThemes": true,
+      "themes": [
+        "dark",
+        "light",
+        "system"
+      ],
+      "isolatedPreferences": true,
+      "newProjectCreated": false
+    },
+    "manualNativePanels": {
+      "passed": true,
+      "evidence": [
+        "about-dark.png",
+        "about-light.png",
+        "about-system.png",
+        "settings-system.ax.txt"
+      ]
+    },
+    "dockUIScreenshot": {
+      "captured": false,
+      "reason": "Dock computer-control target timed out; actual AppKit applicationIconImage pixels verified separately"
+    },
+    "preferenceRestorationBeforeOrdinaryLaunch": {
+      "com.willxue.wegit.development": {
+        "equal": true,
+        "keys": 40,
+        "beforeSHA256": "247b2b70731754ea555fc3611b14c733cde1d85ea1eaa396a4a2e00a7b9cb8f0",
+        "restoredSHA256": "247b2b70731754ea555fc3611b14c733cde1d85ea1eaa396a4a2e00a7b9cb8f0"
+      },
+      "com.willxue.wegit.UITests": {
+        "equal": true,
+        "keys": 0,
+        "beforeSHA256": "9261ecceda608ef174256e5fdc774c1e6e3dcf533409c1bc393d490d01c713f1",
+        "restoredSHA256": "9261ecceda608ef174256e5fdc774c1e6e3dcf533409c1bc393d490d01c713f1"
+      }
+    },
+    "v1Preservation": {
+      "unchanged": true,
+      "checkedFiles": 67,
+      "originalRecord": "../../2026-10-15/brand-v2/v1-preservation-before.json"
+    },
+    "ordinaryReleaseStartup": {
+      "passed": true,
+      "restored": [
+        "Chinese",
+        "Light",
+        "WeGit repository",
+        "Changes",
+        "Package.swift",
+        "Split",
+        "Inspector closed",
+        "empty commit draft"
+      ],
+      "evidence": [
+        "ordinary-release.ax.txt",
+        "ordinary-release.png"
+      ]
+    },
+    "temporaryCleanup": {
+      "preferenceBackupRemoved": true,
+      "pointerRemoved": true,
+      "newProjectCreated": false,
+      "helperApplicationsRemovedByTrap": true
+    }
+  },
+  "delivery": {
+    "directory": ".build/releases/package-0QjAlo",
+    "archive": "WeGit-0.1.0-development.zip",
+    "sha256": "3bdac66d22fa259b210031b6dfab4de15d01c8ebebd0d8f68a0b5b102ff9b1ca",
+    "version": "0.1.0",
+    "bundleIdentifier": "com.willxue.wegit.development",
+    "signing": "ad-hoc",
+    "entitlements": {},
+    "notarized": false,
+    "sourceReceiptVerified": true,
+    "runtimeIconsByteMatched": true,
+    "zipCRCVerified": true,
+    "sha256Verified": true,
+    "askPassMITAndTestExclusionVerified": true
+  },
+  "remaining": [
+    "Full native XCTest execution",
+    "Direct Dock visual capture and full accessibility review",
+    "Final source reading matrix and Release performance",
+    "Missing compatibility environments",
+    "Real Beta and formal distribution"
+  ],
+  "v1Released": false
+}

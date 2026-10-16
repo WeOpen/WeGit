@@ -1,0 +1,49 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 radio button Description: 通用, Value: 1
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: 外观, Value: 0
+			6 radio button Description: 差异, Value: 0
+			7 radio button Description: 提交, Value: 0
+			8 radio button Description: 高级, Value: 0
+		9 scroll area Secondary Actions: Scroll Up, Scroll Down
+			10 heading 语言
+			11 container
+				12 pop up button 界面语言, Value: 跟随系统, ID: settings-language
+				13 text 界面立即切换；系统菜单和对话框将在重新打开 WeGit 后使用所选语言。
+			14 heading 打开与克隆
+			15 container
+				16 text 默认目录, Value: /Users/willxue
+				17 button 选择默认目录…
+			18 heading 启动与窗口
+			19 container
+				20 switch 在菜单栏显示 WeGit, Value: on, ID: settings-menu-bar
+				21 text 从菜单栏查看仓库状态、最近仓库与常用操作，关闭主窗口后也可重新打开。
+				22 switch 启动时恢复上次仓库, Value: on, ID: settings-restore-repository
+				23 switch 恢复窗口、分栏和仓库页面, Value: on
+				24 switch 切换仓库前确认, Value: off
+				25 text 切换仓库不会取消正在进行的 Git 操作；关闭仓库前需要等待或取消操作。
+			26 heading 风险确认
+			27 text 丢弃改动、修改提交、删除未合并分支和 Force Push With Lease 始终需要明确确认。
+			28 scroll bar (settable, float) 0
+				29 value indicator (settable, float) 0
+				30 increment arrow button
+				31 decrement arrow button
+				32 increment page button
+				33 decrement page button
+	34 close button
+	35 zoom button (disabled)
+	36 text WeGit Settings
+37 menu bar
+	38 WeGit
+	39 File
+	40 Edit
+	41 View
+	42 仓库
+	43 工作区
+	44 Window
+	45 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

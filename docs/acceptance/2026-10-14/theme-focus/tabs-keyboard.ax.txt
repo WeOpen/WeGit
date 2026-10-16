@@ -1,0 +1,16 @@
+The following is a diff from the previous accessibility tree for Window: "WeGit Settings" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 159-171
++		175 scroll area
++			176 heading 界面
++			177 container
++				178 pop up button 主题, Value: 跟随系统
++				179 pop up button 列表密度, Value: 舒适
++				180 switch 显示文件图标, Value: on
++				181 switch 界面动效, Value: on, ID: settings-interface-motion
++				182 text 欢迎标记与操作反馈使用短动画，并遵循 macOS 的“减少动态效果”设置。
++			183 heading 差异文本
++			184 container
++				185 pop up button 代码字体, Value: 系统等宽字体, ID: settings-code-font
++				186 slider (settable, float) 字号 13 pt, Value: 13, ID: settings-code-size
++				187 text let changes = repository.status()
+The focused UI element is 155 radio button Description: 外观, Value: 1

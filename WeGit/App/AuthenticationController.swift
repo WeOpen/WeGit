@@ -5,6 +5,7 @@ import WeGitCore
 
 @Observable @MainActor
 final class AuthenticationController {
+    weak var presentationPreferences: AppPreferences?
     private(set) var request: AuthenticationRequest?
     @ObservationIgnored private var waiters: [(AuthenticationRequest, CheckedContinuation<String?, Error>)] =
         []
@@ -62,13 +63,18 @@ final class AuthenticationController {
             let panel = NSPanel(
                 contentRect: NSRect(x: 0, y: 0, width: 520, height: 400),
                 styleMask: [.titled, .closable], backing: .buffered, defer: false)
-            panel.title = "Git 认证"
+            panel.title = L10n.text("Git 认证")
             panel.isFloatingPanel = true
             panel.worksWhenModal = true
             panel.level = .modalPanel
             panel.hidesOnDeactivate = false
             panel.isReleasedWhenClosed = false
-            panel.contentView = NSHostingView(rootView: AuthenticationView(controller: self))
+            if let preferences = presentationPreferences {
+                panel.contentView = NSHostingView(
+                    rootView: AuthenticationView(controller: self).workbenchAppearance(preferences))
+            } else {
+                panel.contentView = NSHostingView(rootView: AuthenticationView(controller: self))
+            }
             let delegate = AuthenticationPanelDelegate(controller: self)
             panel.delegate = delegate
             panelDelegate = delegate

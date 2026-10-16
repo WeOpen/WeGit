@@ -1,0 +1,24 @@
+{
+  "colors" : {
+    "accent" : "#0A7660",
+    "border" : "#A3BEB4",
+    "canvas" : "#EFF8F5",
+    "chrome" : "#EFF8F5",
+    "comment" : "#4F6B61",
+    "diffAdded" : "#D7EFE3",
+    "diffRemoved" : "#F7E0E5",
+    "keyword" : "#7053A5",
+    "modified" : "#855A10",
+    "negative" : "#A7364D",
+    "number" : "#1B5D91",
+    "positive" : "#176944",
+    "secondaryText" : "#46665D",
+    "sidebar" : "#DFECE8",
+    "string" : "#825122",
+    "surface" : "#F6FFFC",
+    "text" : "#163D36"
+  },
+  "controls" : "light",
+  "name" : "Sea Glass · 海玻璃",
+  "version" : 1
+}

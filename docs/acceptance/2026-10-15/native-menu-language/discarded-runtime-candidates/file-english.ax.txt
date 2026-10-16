@@ -1,0 +1,8 @@
+Window: "WeGit设置", App: WeGit.
+0 File, Secondary Actions: Cancel, Pick
+	1 菜单 Secondary Actions: Cancel
+		2 Open repository…, ID: menuAction:
+		3 Clone repository…, ID: menuAction:
+		4 Switch repository…, ID: menuAction:
+		5 关闭, ID: performClose:
+		6 全部关闭, ID: closeAll:

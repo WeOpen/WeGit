@@ -1,0 +1,2 @@
+Native macOS	Verify actual OS, architecture and Xcode	2026-10-16T09:23:50.8017070Z swift-driver version: 1.168.6 *** Terminating app due to uncaught exception 'NSFileHandleOperationException', reason: '*** -[_NSStdIOFileHandle writeData:]: Broken pipe'
+Native macOS	Verify actual OS, architecture and Xcode	2026-10-16T09:23:50.8211150Z scripts/ci/check-toolchain.sh: line 7:  5313 Abort trap: 6           xcodebuild -version

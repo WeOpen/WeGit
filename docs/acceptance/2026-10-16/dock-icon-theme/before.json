@@ -1,0 +1,17 @@
+{
+  "checks" : [
+
+  ],
+  "failedCheck" : "Restored Dark selects the graphite Dock icon",
+  "passed" : false,
+  "samples" : [
+    {
+      "label" : "restored-dark",
+      "rgb" : [
+        0.25550556182861328,
+        0.44259089231491089,
+        0.79578202962875366
+      ]
+    }
+  ]
+}

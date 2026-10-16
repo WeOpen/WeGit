@@ -1,0 +1,30 @@
+Building for debugging...
+[Planning deferred tasks]
+[11 / 38]
+[12 / 39] WeGitCore
+[17 / 44] WeGitCore
+[26 / 46] WeGitCore-product
+[31 / 47] WeGitAskPass
+[40 / 51] WeGitCoreTests-product
+[53 / 64] WeGitCoreTests-product
+[57 / 63] WeGitCoreTests-product
+[59 / 63] WeGitCoreTests-product
+Build complete! (4.19秒)
+􀟈  Test run started.
+􀄵  Testing Library Version: 2084
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite "Localization" started.
+􀟈  Test translatesInterfaceAndRecoveryMessages() started.
+􀟈  Test explicitLanguagesAreIndependentAcrossConcurrentReaders() started.
+􀟈  Test countsUseEnglishPluralRulesAndChineseSourceWording() started.
+􀟈  Test missingKeysFallBackWithoutLosingInterpolatedData() started.
+􀟈  Test argumentsArePreservedVerbatimAndCannotBecomeFormatStrings() started.
+􀟈  Test resolvesSupportedLanguagesWithoutChangingStableIDs() started.
+􁁛  Test missingKeysFallBackWithoutLosingInterpolatedData() passed after 0.011 seconds.
+􁁛  Test argumentsArePreservedVerbatimAndCannotBecomeFormatStrings() passed after 0.011 seconds.
+􁁛  Test resolvesSupportedLanguagesWithoutChangingStableIDs() passed after 0.011 seconds.
+􁁛  Test explicitLanguagesAreIndependentAcrossConcurrentReaders() passed after 0.011 seconds.
+􁁛  Test translatesInterfaceAndRecoveryMessages() passed after 0.011 seconds.
+􁁛  Test countsUseEnglishPluralRulesAndChineseSourceWording() passed after 0.011 seconds.
+􁁛  Suite "Localization" passed after 0.011 seconds.
+􁁛  Test run with 6 tests in 1 suite passed after 0.012 seconds.

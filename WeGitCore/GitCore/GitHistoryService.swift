@@ -17,7 +17,7 @@ extension RepositoryService {
         -> [GitCommit]
     {
         guard (1...10_000).contains(limit), tips?.allSatisfy(GitObjectID.valid) ?? true else {
-            throw ModelFailure.unsupported("一次读取的历史范围无效；大型历史请使用分页接口。")
+            throw ModelFailure.unsupported(L10n.text("一次读取的历史范围无效；大型历史请使用分页接口。"))
         }
         let base = try await historyAnchor(query: query)
         let anchor = HistoryAnchor(

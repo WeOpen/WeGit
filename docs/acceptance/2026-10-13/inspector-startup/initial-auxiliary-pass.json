@@ -1,0 +1,12 @@
+[
+  {
+    "case": "history-inspector",
+    "survived8s": true,
+    "exit": null
+  },
+  {
+    "case": "changes-inspector",
+    "survived8s": true,
+    "exit": null
+  }
+]

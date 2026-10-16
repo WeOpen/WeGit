@@ -6,8 +6,8 @@ public enum HistorySearchField: String, CaseIterable, Sendable {
     case message, author, sha
     public var title: String {
         switch self {
-        case .message: "消息"
-        case .author: "作者"
+        case .message: L10n.text("消息")
+        case .author: L10n.text("作者")
         case .sha: "SHA"
         }
     }

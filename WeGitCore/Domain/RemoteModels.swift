@@ -17,9 +17,9 @@ public enum PullStrategy: String, CaseIterable, Sendable {
     case fastForwardOnly, merge, rebase
     public var title: String {
         switch self {
-        case .fastForwardOnly: "仅快进"
-        case .merge: "合并"
-        case .rebase: "变基"
+        case .fastForwardOnly: L10n.text("仅快进")
+        case .merge: L10n.text("合并")
+        case .rebase: L10n.text("变基")
         }
     }
 }
@@ -102,7 +102,7 @@ public struct PushOutcomeUnknown: Error, LocalizedError, Sendable {
     public let receipt: PushReceipt
     public let details: String
     public var errorDescription: String? {
-        "推送没有返回可核实的结果。远端可能已收到提交，请先核对确认时的目标。"
+        L10n.text("推送没有返回可核实的结果。远端可能已收到提交，请先核对确认时的目标。")
     }
 }
 
@@ -112,13 +112,13 @@ public struct PushVerification: Sendable {
     public var matches: Bool { observedOID == receipt.head }
     public var message: String {
         if matches {
-            return "已核对：远端目标当前指向本次提交。"
-                + (receipt.setUpstream ? "上游设置尚未核实，可在分支页面检查。" : "")
+            return L10n.text("已核对：远端目标当前指向本次提交。")
+                + (receipt.setUpstream ? L10n.text("上游设置尚未核实，可在分支页面检查。") : "")
         }
         if let observedOID {
-            return "远端目标当前为 \(observedOID.prefix(12))，与本次提交不同；无法据此判断此前是否曾推送成功。"
+            return L10n.text("远端目标当前为 \(observedOID.prefix(12))，与本次提交不同；无法据此判断此前是否曾推送成功。")
         }
-        return "当前未找到该远端分支；无法据此判断此前是否曾推送成功。"
+        return L10n.text("当前未找到该远端分支；无法据此判断此前是否曾推送成功。")
     }
 }
 

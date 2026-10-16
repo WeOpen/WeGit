@@ -1,0 +1,14 @@
+changelog:
+  exclude:
+    labels: ["skip-changelog"]
+  categories:
+    - title: "✨ Features"
+      labels: [enhancement]
+    - title: "🐛 Fixes"
+      labels: [bug]
+    - title: "📚 Documentation"
+      labels: [documentation]
+    - title: "⚙️ Build, CI and dependencies"
+      labels: ["area:ci", dependencies]
+    - title: "🧩 Other changes"
+      labels: ["*"]

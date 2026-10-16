@@ -1,26 +1,105 @@
-name: Verify macOS app
+name: CI
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+env:
+  WEGIT_SKIP_PROJECT_GENERATION: '1'
+  WEGIT_SERIAL_CORE_TESTS: '1'
 jobs:
-  verify:
-    # Provision this label on a macOS 27 / Xcode 27 runner before enabling remote CI.
-    # No pull_request trigger: untrusted fork code must not run on a personal self-hosted machine.
-    runs-on: [self-hosted, macOS, ARM64, wegit-macos27]
-    timeout-minutes: 20
+  policy:
+    name: Repository policy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1; runner >= 2.327.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install checksum-pinned tools and policy dependency
+        run: |
+          python3 -m venv "$RUNNER_TEMP/wegit-python"
+          "$RUNNER_TEMP/wegit-python/bin/python" -m pip install --disable-pip-version-check -r scripts/ci/requirements.txt
+          echo "$RUNNER_TEMP/wegit-python/bin" >> "$GITHUB_PATH"
+          python3 scripts/ci/install_tools.py --destination "$RUNNER_TEMP/wegit-tools" actionlint gitleaks
+      - name: Workflow lint, repository contracts and tooling tests
+        run: |
+          "$RUNNER_TEMP/wegit-tools/actionlint" -color
+          python3 scripts/ci/check_policy.py
+          python3 -m unittest discover -s scripts/ci/tests -v
+          python3 scripts/ci/verify_secret_policy.py --gitleaks "$RUNNER_TEMP/wegit-tools/gitleaks"
+          git diff --check
+      - name: Scan committed history for credentials
+        run: |
+          mkdir -p .build/ci
+          "$RUNNER_TEMP/wegit-tools/gitleaks" git --no-banner --redact=100 \
+            --report-format=json --report-path=.build/ci/secrets.json .
+      - name: Retain policy evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: policy-${{ github.sha }}
+          path: .build/ci/
+          include-hidden-files: true
+          retention-days: 14
+  native:
+    name: Native macOS
+    needs: policy
+    # GitHub's xcode-27 preview image currently runs macOS 27, arm64.
+    # PR code only runs on fresh GitHub-hosted VMs, never a personal Mac.
+    runs-on: xcode-27
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Verify toolchain
+      - name: Isolate Git configuration without affecting checkout cleanup
+        run: scripts/ci/isolate-git.sh
+      - name: Verify actual OS, architecture and Xcode
         run: |
-          xcodebuild -version
-          swift --version
-          test "$(sw_vers -productVersion | cut -d. -f1)" -ge 27
-      - name: Core tests and application build
+          mkdir -p .build/ci
+          scripts/ci/check-toolchain.sh | tee .build/ci/toolchain.txt
+      - name: Formatting, core tests and Debug build
         run: scripts/verify.sh
-      - name: Ordinary Release build
-        run: scripts/build.sh Release
+      - name: Minimum Git 2.46 core regression
+        run: |
+          scripts/ci/prepare-git-246.sh
+          env WEGIT_TEST_GIT="$(cat .build/git-246-path)" swift test --no-parallel
+      - name: Native feature behavior checks
+        run: scripts/ci/native-behavior.sh
+      - name: Compile native UI regressions
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+            -resultBundlePath .build/ci/native-build.xcresult build-for-testing
+      - name: Ordinary Release and preview package
+        run: |
+          scripts/build.sh Release
+          scripts/package-release.sh --preview
+          git diff --exit-code
+      - name: Retain native evidence and preview
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-${{ github.sha }}
+          path: |
+            .build/ci/
+            .build/*-checks-*/result.json
+            .build/appearance-icons-*/result.json
+            .build/native-application-menu-*/result.json
+            .build/releases/package-*/*.zip
+            .build/releases/package-*/*.sha256
+            .build/releases/package-*/manifest.json
+            .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json
+          include-hidden-files: true
+          retention-days: 14

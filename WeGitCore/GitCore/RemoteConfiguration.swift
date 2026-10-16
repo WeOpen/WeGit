@@ -17,11 +17,11 @@ extension RepositoryService {
         let output = try await engine.run(
             ["config", "--null", "--get-all", key], in: location.root, accepted: [0, 1])
         guard output.stdout.isEmpty || output.stdout.last == 0 else {
-            throw ModelFailure.invalidOutput("Git 配置记录被截断")
+            throw ModelFailure.invalidOutput(L10n.text("Git 配置记录被截断"))
         }
         return try output.stdout.split(separator: 0, omittingEmptySubsequences: false).dropLast().map {
             guard let value = String(data: $0, encoding: .utf8) else {
-                throw ModelFailure.invalidOutput("Git 配置编码不受支持")
+                throw ModelFailure.invalidOutput(L10n.text("Git 配置编码不受支持"))
             }
             return value
         }
@@ -48,7 +48,7 @@ extension RepositoryService {
         let urls = effectiveList(rawURLs)
         let configuredPushURLs = effectiveList(rawPushURLs)
         guard !urls.isEmpty else {
-            throw ModelFailure.unsupported("远端没有有效的获取地址。")
+            throw ModelFailure.unsupported(L10n.text("远端没有有效的获取地址。"))
         }
         let fetchURL = try await engine.run(["remote", "get-url", name], in: location.root).text
             .removingLastNewline
@@ -64,7 +64,7 @@ extension RepositoryService {
             pushURLs.append(value)
         }
         guard !fetchURL.isEmpty, !pushURLs.isEmpty, pushURLs.allSatisfy({ !$0.isEmpty }) else {
-            throw ModelFailure.invalidOutput("远端地址为空")
+            throw ModelFailure.invalidOutput(L10n.text("远端地址为空"))
         }
         let refspecs = try await configValues("remote.\(name).fetch")
         return GitRemote(
@@ -86,7 +86,7 @@ extension RepositoryService {
             let slash = destination.firstIndex(of: "/")
             let isLocal = colon.map { colon in slash.map { $0 < colon } ?? false } ?? true
             guard isLocal else {
-                throw ModelFailure.unsupported("此远端地址包含无法安全固定的换行符，请使用编码后的 URL。")
+                throw ModelFailure.unsupported(L10n.text("此远端地址包含无法安全固定的换行符，请使用编码后的 URL。"))
             }
             let file =
                 destination.hasPrefix("/")
@@ -129,7 +129,7 @@ extension RepositoryService {
         if let ff = pullFF, !(falseValues + trueValues).contains(ff.0.lowercased()) {
             return PullPreference(
                 strategy: nil, preserveMerges: false, source: ff.1,
-                warning: "无法识别 pull.ff，请明确选择本次拉取策略。")
+                warning: L10n.text("无法识别 pull.ff，请明确选择本次拉取策略。"))
         }
         var effectiveFF = pullFF
         if effectiveFF == nil { effectiveFF = try await setting("merge.ff") }
@@ -145,7 +145,8 @@ extension RepositoryService {
             }
             return PullPreference(
                 strategy: .fastForwardOnly, preserveMerges: false,
-                source: "未配置 Pull 策略，建议仅快进" + (effectiveFF.map { "；合并时使用 " + $0.1 } ?? ""),
+                source: L10n.text("未配置 Pull 策略，建议仅快进")
+                    + (effectiveFF.map { L10n.text("；合并时使用 ") + $0.1 } ?? ""),
                 warning: nil, createMergeCommit: createMerge)
         }
         switch value.0.lowercased() {
@@ -161,7 +162,7 @@ extension RepositoryService {
         default:
             return PullPreference(
                 strategy: nil, preserveMerges: false, source: value.1,
-                warning: "当前 Git 配置要求其他变基方式，请明确选择本次拉取策略。")
+                warning: L10n.text("当前 Git 配置要求其他变基方式，请明确选择本次拉取策略。"))
         }
     }
 }

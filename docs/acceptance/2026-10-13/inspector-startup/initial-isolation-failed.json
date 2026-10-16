@@ -1,0 +1,20 @@
+[
+  {
+    "case": "history-inspector",
+    "survived6s": false,
+    "exit": -5,
+    "log": "original-wegit-startup-history-inspector.log"
+  },
+  {
+    "case": "history-no-inspector",
+    "survived6s": true,
+    "exit": null,
+    "log": "original-wegit-startup-history-no-inspector.log"
+  },
+  {
+    "case": "changes-inspector",
+    "survived6s": false,
+    "exit": -5,
+    "log": "original-wegit-startup-changes-inspector.log"
+  }
+]

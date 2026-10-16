@@ -1,0 +1,30 @@
+{
+  "light": {
+    "centerRGB": [
+      255,
+      255,
+      255
+    ],
+    "inspectorRGB": [
+      255,
+      255,
+      255
+    ],
+    "maxChannelDifference": 0,
+    "alertBlueBrandPixels": 2533
+  },
+  "dark": {
+    "centerRGB": [
+      30,
+      30,
+      30
+    ],
+    "inspectorRGB": [
+      30,
+      30,
+      30
+    ],
+    "maxChannelDifference": 0,
+    "alertBlueBrandPixels": 2533
+  }
+}

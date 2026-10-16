@@ -1,0 +1,37 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: Settings categories, ID: settings-tabs
+			3 radio button Description: General, Value: 0
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: Appearance, Value: 1
+			6 radio button Description: Diff, Value: 0
+			7 radio button Description: Commit, Value: 0
+			8 radio button Description: Advanced, Value: 0
+		9 scroll area
+			10 heading Interface
+			11 container
+				12 pop up button Theme, Value: Dark
+				13 pop up button List density, Value: Comfortable
+				14 switch Show file icons, Value: on
+				15 switch Interface animations, Value: on, ID: settings-interface-motion
+				16 text The welcome mark and operation feedback use short animations and respect the macOS Reduce Motion setting.
+			17 heading Diff text
+			18 container
+				19 pop up button Code font, Value: System monospace, ID: settings-code-font
+				20 slider (settable, float) Font size 13 pt, Value: 13, ID: settings-code-size
+				21 text let changes = repository.status()
+	22 close button
+	23 zoom button (disabled)
+	24 text WeGit Settings
+25 menu bar
+	26 WeGit
+	27 File
+	28 Edit
+	29 View
+	30 Repository
+	31 Workspace
+	32 Window
+	33 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

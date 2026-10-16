@@ -1,0 +1,22 @@
+{
+  "className": "IDECommandLineBuildLog",
+  "documentTypeString": "<nil>",
+  "domainType": "Xcode.IDEActivityLogDomainType.BuildLog",
+  "fileName": "0E7F855F-25D8-4D2D-B3B9-3CC88C388D97.xcactivitylog",
+  "hasPrimaryLog": true,
+  "primaryObservable": {
+    "highLevelStatus": "E",
+    "totalNumberOfAnalyzerIssues": 0,
+    "totalNumberOfErrors": 1,
+    "totalNumberOfTestFailures": 0,
+    "totalNumberOfWarnings": 0
+  },
+  "schemeIdentifier-containerName": "WeGit project",
+  "schemeIdentifier-schemeName": "WeGit",
+  "schemeIdentifier-sharedScheme": 1,
+  "signature": "Building project WeGit with scheme WeGit and configuration Debug",
+  "timeStartedRecording": 813802617.662058,
+  "timeStoppedRecording": 813802618.708189,
+  "title": "Building project WeGit with scheme WeGit and configuration Debug",
+  "uniqueIdentifier": "0E7F855F-25D8-4D2D-B3B9-3CC88C388D97"
+}

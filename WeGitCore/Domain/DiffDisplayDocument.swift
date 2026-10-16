@@ -85,7 +85,7 @@ public struct DiffDisplayDocument: Sendable {
     @concurrent
     public func page(from offset: Int, count: Int = DiffReadBudget.pageRows) async throws -> DiffDisplayPage {
         guard offset >= 0, offset <= rows.count, (1...2_000).contains(count) else {
-            throw ModelFailure.unsupported("差异显示范围无效。")
+            throw ModelFailure.unsupported(L10n.text("差异显示范围无效。"))
         }
         try Task.checkCancellation()
         let end = offset + min(count, rows.count - offset)

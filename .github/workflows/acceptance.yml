@@ -1,0 +1,79 @@
+name: Full acceptance
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: acceptance-${{ github.repository }}
+  cancel-in-progress: false
+jobs:
+  acceptance:
+    name: Full acceptance
+    if: github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, macOS, ARM64, wegit-macos27, wegit-interactive]
+    timeout-minutes: 120
+    concurrency:
+      group: wegit-interactive-${{ github.repository }}
+      cancel-in-progress: false
+    env:
+      WEGIT_SKIP_PROJECT_GENERATION: '1'
+      WEGIT_SERIAL_CORE_TESTS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Isolate Git configuration without affecting checkout cleanup
+        run: scripts/ci/isolate-git.sh
+      - name: Verify toolchain and core checks
+        run: |
+          scripts/ci/check-toolchain.sh
+          scripts/verify.sh
+          scripts/ci/prepare-git-246.sh
+          env WEGIT_TEST_GIT="$(cat .build/git-246-path)" swift test --no-parallel
+          scripts/ci/native-behavior.sh
+      - name: Functional UI and 144 reading combinations
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+            -skip-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes \
+            -skip-testing:WeGitUITests/ManualAccessibilitySession \
+            -resultBundlePath .build-app/functional.xcresult test
+      - name: Independent accessibility audit
+        if: success() || failure()
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+            -only-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes \
+            -resultBundlePath .build-app/accessibility.xcresult test
+      - name: Release backend and fixtures
+        if: success() || failure()
+        run: scripts/benchmark.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Normal repository, 30 serial Release samples
+        if: success() || failure()
+        run: scripts/benchmark-ui-workbench.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/fixtures/normal" 30
+      - name: Large repository, 30 serial Release samples
+        if: success() || failure()
+        run: scripts/benchmark-ui-workbench.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/fixtures/large" 30
+      - name: Large disk diff fixed scrolling trajectory
+        if: success() || failure()
+        run: scripts/benchmark-ui-large-scroll.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/fixtures/large"
+      - name: Rebuild ordinary Release after instrumentation
+        if: success() || failure()
+        run: scripts/build.sh Release
+      - name: Retain acceptance results, including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: acceptance-${{ github.sha }}
+          path: |
+            .build-app/*.xcresult
+            .build/ui-benchmarks/
+            .build/benchmarks/*/normal.json
+            .build/benchmarks/*/large.json
+            .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json
+          include-hidden-files: true
+          retention-days: 30

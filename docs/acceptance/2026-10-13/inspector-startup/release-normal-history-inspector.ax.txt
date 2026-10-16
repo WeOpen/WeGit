@@ -1,0 +1,75 @@
+Window: "WeGit", App: WeGit.
+0 standard window WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+198
+						8 row (selected) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) WeGit, codex/v1-validation
+						12 row (selectable) repository
+						13 row (selectable) disk-snapshot-0r9jy3z6
+				14 button Description: 打开仓库, ID: plus
+				15 text WeGit
+			16 splitter (disabled, settable, float) 270
+			17 split group
+				18 split group
+					19 container 历史浏览与筛选
+						20 text 提交历史
+						21 text Value: 1 个提交, ID: history-count
+						22 pop up button Description: 浏览范围, Value: 全部引用, ID: history-scope
+						23 pop up button Description: 搜索字段, Value: 消息, ID: history-search-field
+						24 text field (settable) Description: 搜索提交消息, ID: history-search
+						25 scroll area
+							26 outline Description: 提交历史列表, ID: history-list
+								27 row (selectable) Value: 提交 c99aa80b9646，作者 willxue，0 个父提交, Description: HEAD，分支列 1
+Initial WeGit development preview
+								28 container
+									29 sort button 图
+									30 sort button 提交
+					31 splitter (disabled, settable, float) 717.5
+					32 container 提交详情
+						33 text 选择一次提交 查看提交消息、父子关系和代码差异。
+				34 splitter (disabled, settable, float) 1191
+				35 scroll area Description: 检查器, ID: repository-inspector
+					36 heading 仓库
+					37 container
+						38 text 名称, Value: WeGit /Users/willxue/will/WeOpen/WeGit
+						39 button 在 Finder 中显示
+						40 button 在 Terminal 中打开
+						41 button 在 Xcode 中打开…
+						42 button 复制仓库路径
+					43 heading 分支
+					44 container
+						45 text 当前, Value: codex/v1-validation 未设置 — / —
+	46 toolbar
+		47 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		48 button Description: WeGit, Help: 切换仓库 ⌘K, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		49 menu button 当前分支：codex/v1-validation, ID: current-branch
+		50 menu button 获取, Help: 选择要获取的远端, ID: arrow.clockwise
+		51 button Description: 拉取, Help: 选择远端、目标分支和同步方式, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		52 button Description: 推送, Help: 选择远端、目标分支和同步方式, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		53 button Description: 刷新, Help: 刷新 ⌘R, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		54 button Description: 活动记录, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		55 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		56 button Description: 检查器, Value: 已打开, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Remove from toolbar
+	57 close button
+	58 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	59 minimize button
+	60 text WeGit codex/v1-validation
+61 menu bar
+	62 WeGit
+	63 File
+	64 Edit
+	65 View
+	66 仓库
+	67 工作区
+	68 Window
+	69 Help
+
+The focused UI element is 0 standard window WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise

@@ -1,0 +1,297 @@
+{
+  "applicationIntegrationChecked" : false,
+  "generatedOriginalsUnmodified" : true,
+  "icnsDecoded" : true,
+  "nativeAppearancesRendered" : [
+    "Default",
+    "Dark"
+  ],
+  "outlinedWordmarks" : true,
+  "passed" : true,
+  "pngChecks" : [
+    {
+      "file" : "mark.png",
+      "height" : 2048,
+      "transparentCorner" : true,
+      "width" : 2048
+    },
+    {
+      "file" : "mark-dark.png",
+      "height" : 2048,
+      "transparentCorner" : true,
+      "width" : 2048
+    },
+    {
+      "file" : "mark-black.png",
+      "height" : 2048,
+      "transparentCorner" : true,
+      "width" : 2048
+    },
+    {
+      "file" : "mark-white.png",
+      "height" : 2048,
+      "transparentCorner" : true,
+      "width" : 2048
+    },
+    {
+      "file" : "logo-light.png",
+      "height" : 1080,
+      "transparentCorner" : true,
+      "width" : 3006
+    },
+    {
+      "file" : "logo-dark.png",
+      "height" : 1080,
+      "transparentCorner" : true,
+      "width" : 3006
+    },
+    {
+      "file" : "WeGit.iconset\/icon_16x16.png",
+      "height" : 16,
+      "transparentCorner" : true,
+      "width" : 16
+    },
+    {
+      "file" : "WeGit.iconset\/icon_16x16@2x.png",
+      "height" : 32,
+      "transparentCorner" : true,
+      "width" : 32
+    },
+    {
+      "file" : "WeGit.iconset\/icon_32x32.png",
+      "height" : 32,
+      "transparentCorner" : true,
+      "width" : 32
+    },
+    {
+      "file" : "WeGit.iconset\/icon_32x32@2x.png",
+      "height" : 64,
+      "transparentCorner" : true,
+      "width" : 64
+    },
+    {
+      "file" : "WeGit.iconset\/icon_128x128.png",
+      "height" : 128,
+      "transparentCorner" : true,
+      "width" : 128
+    },
+    {
+      "file" : "WeGit.iconset\/icon_128x128@2x.png",
+      "height" : 256,
+      "transparentCorner" : true,
+      "width" : 256
+    },
+    {
+      "file" : "WeGit.iconset\/icon_256x256.png",
+      "height" : 256,
+      "transparentCorner" : true,
+      "width" : 256
+    },
+    {
+      "file" : "WeGit.iconset\/icon_256x256@2x.png",
+      "height" : 512,
+      "transparentCorner" : true,
+      "width" : 512
+    },
+    {
+      "file" : "WeGit.iconset\/icon_512x512.png",
+      "height" : 512,
+      "transparentCorner" : true,
+      "width" : 512
+    },
+    {
+      "file" : "WeGit.iconset\/icon_512x512@2x.png",
+      "height" : 1024,
+      "transparentCorner" : true,
+      "width" : 1024
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_16x16.png",
+      "height" : 16,
+      "transparentCorner" : true,
+      "width" : 16
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_16x16@2x.png",
+      "height" : 32,
+      "transparentCorner" : true,
+      "width" : 32
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_32x32.png",
+      "height" : 32,
+      "transparentCorner" : true,
+      "width" : 32
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_32x32@2x.png",
+      "height" : 64,
+      "transparentCorner" : true,
+      "width" : 64
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_128x128.png",
+      "height" : 128,
+      "transparentCorner" : true,
+      "width" : 128
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_128x128@2x.png",
+      "height" : 256,
+      "transparentCorner" : true,
+      "width" : 256
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_256x256.png",
+      "height" : 256,
+      "transparentCorner" : true,
+      "width" : 256
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_256x256@2x.png",
+      "height" : 512,
+      "transparentCorner" : true,
+      "width" : 512
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_512x512.png",
+      "height" : 512,
+      "transparentCorner" : true,
+      "width" : 512
+    },
+    {
+      "file" : "WeGit-dark.iconset\/icon_512x512@2x.png",
+      "height" : 1024,
+      "transparentCorner" : true,
+      "width" : 1024
+    },
+    {
+      "file" : "app-icon-light.png",
+      "height" : 1024,
+      "transparentCorner" : true,
+      "width" : 1024
+    },
+    {
+      "file" : "app-icon-dark.png",
+      "height" : 1024,
+      "transparentCorner" : true,
+      "width" : 1024
+    },
+    {
+      "file" : "menu-bar\/mark-16-black.png",
+      "height" : 16,
+      "transparentCorner" : true,
+      "width" : 16
+    },
+    {
+      "file" : "menu-bar\/mark-16-white.png",
+      "height" : 16,
+      "transparentCorner" : true,
+      "width" : 16
+    },
+    {
+      "file" : "menu-bar\/mark-18-black.png",
+      "height" : 18,
+      "transparentCorner" : true,
+      "width" : 18
+    },
+    {
+      "file" : "menu-bar\/mark-18-white.png",
+      "height" : 18,
+      "transparentCorner" : true,
+      "width" : 18
+    },
+    {
+      "file" : "menu-bar\/mark-20-black.png",
+      "height" : 20,
+      "transparentCorner" : true,
+      "width" : 20
+    },
+    {
+      "file" : "menu-bar\/mark-20-white.png",
+      "height" : 20,
+      "transparentCorner" : true,
+      "width" : 20
+    },
+    {
+      "file" : "menu-bar\/mark-24-black.png",
+      "height" : 24,
+      "transparentCorner" : true,
+      "width" : 24
+    },
+    {
+      "file" : "menu-bar\/mark-24-white.png",
+      "height" : 24,
+      "transparentCorner" : true,
+      "width" : 24
+    },
+    {
+      "file" : "menu-bar\/mark-32-black.png",
+      "height" : 32,
+      "transparentCorner" : true,
+      "width" : 32
+    },
+    {
+      "file" : "menu-bar\/mark-32-white.png",
+      "height" : 32,
+      "transparentCorner" : true,
+      "width" : 32
+    },
+    {
+      "file" : "menu-bar\/mark-36-black.png",
+      "height" : 36,
+      "transparentCorner" : true,
+      "width" : 36
+    },
+    {
+      "file" : "menu-bar\/mark-36-white.png",
+      "height" : 36,
+      "transparentCorner" : true,
+      "width" : 36
+    },
+    {
+      "file" : "menu-bar\/mark-40-black.png",
+      "height" : 40,
+      "transparentCorner" : true,
+      "width" : 40
+    },
+    {
+      "file" : "menu-bar\/mark-40-white.png",
+      "height" : 40,
+      "transparentCorner" : true,
+      "width" : 40
+    },
+    {
+      "file" : "menu-bar\/mark-48-black.png",
+      "height" : 48,
+      "transparentCorner" : true,
+      "width" : 48
+    },
+    {
+      "file" : "menu-bar\/mark-48-white.png",
+      "height" : 48,
+      "transparentCorner" : true,
+      "width" : 48
+    },
+    {
+      "file" : "menu-bar\/mark-64-black.png",
+      "height" : 64,
+      "transparentCorner" : true,
+      "width" : 64
+    },
+    {
+      "file" : "menu-bar\/mark-64-white.png",
+      "height" : 64,
+      "transparentCorner" : true,
+      "width" : 64
+    },
+    {
+      "file" : "preview.png",
+      "height" : 1260,
+      "transparentCorner" : false,
+      "width" : 1800
+    }
+  ],
+  "scope" : "Asset export integrity and visual size review, not application acceptance",
+  "solidNodeOverlap" : true
+}

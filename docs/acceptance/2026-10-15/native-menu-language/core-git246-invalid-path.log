@@ -1,0 +1,634 @@
+Building for debugging...
+[1 / 1]
+Build complete! (0.38秒)
+Test Suite 'All tests' started at 2026-10-15 15:25:53.595.
+Test Suite 'All tests' passed at 2026-10-15 15:25:53.595.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+􀟈  Test run started.
+􀄵  Testing Library Version: 2084
+􀄵  Target Platform: arm64e-apple-macos14.0
+􀟈  Suite GitCompatibilityTests started.
+􀟈  Suite UntrackedTrashTests started.
+􀟈  Suite GitConfigurationTests started.
+􀟈  Suite DiffContextTests started.
+􀟈  Suite "Localization" started.
+􀟈  Suite TestGitIsolationTests started.
+􀟈  Suite ActivityOutcomeTests started.
+􀟈  Suite BranchManagementTests started.
+􀟈  Suite WordDiffTests started.
+􀟈  Suite ProcessTests started.
+􀟈  Suite CompatibilityTests started.
+􀟈  Suite ChangeFilterTests started.
+􀟈  Suite DiffWorkflowTests started.
+􀟈  Suite CommitComparisonTests started.
+􀟈  Suite AuthenticationTests started.
+􀟈  Suite CodeTextPresentationTests started.
+􀟈  Suite GitInstallationTests started.
+􀟈  Suite SequencerAndGraphTests started.
+􀟈  Suite ContextAndWatcherTests started.
+􀟈  Suite DiffLoadingTests started.
+􀟈  Suite GitSafetyTests started.
+􀟈  Suite QueueTests started.
+􀟈  Suite RemoteWorkflowTests started.
+􀟈  Suite RepositoryFileTests started.
+􀟈  Suite DiffNavigationTests started.
+􀟈  Suite CloneTests started.
+􀟈  Suite RepositoryTests started.
+􀟈  Suite RefreshTests started.
+􀟈  Suite DiskDiffTests started.
+􀟈  Suite SyntaxCoverageTests started.
+􀟈  Test selectedGitPassesTheRequiredRuntimeConfigurationProbe() started.
+􀟈  Test systemTrashProducesARecoverableReceipt() started.
+􀟈  Test unavailableTrashNeverDeletesTheFile() started.
+􀟈  Test onlyTheSymlinkEntryMovesToTrash() started.
+􀟈  Test oversizedContextObjectUsesBoundedDiskPrefixes() started.
+􀟈  Test removalPreservesTheIndexAndOtherWorkingFiles() started.
+􀟈  Test whitespaceFilteredDiffHasNoExpandersAndEmptyTailEndsCleanly() started.
+􀟈  Test largeContextReadsFixedBlobOffsetsAfterIndexChanges() started.
+􀟈  Test changedOrNewlyTrackedFilesCannotUseAnOldConfirmation() started.
+􀟈  Test expansionAndPagingNeverChangeTheHunkAppliedToTheIndex() started.
+􀟈  Test nativeMenuTitlesHaveTheirOwnContext() started.
+􀟈  Suite DiffPresentationTests started.
+􀟈  Test translatesInterfaceAndRecoveryMessages() started.
+􀟈  Test countsUseEnglishPluralRulesAndChineseSourceWording() started.
+􀟈  Test resolvesSupportedLanguagesWithoutChangingStableIDs() started.
+􀟈  Test contextPagesMapZeroLengthHunksCRLFAndFinalLine() started.
+􀟈  Test explicitLanguagesAreIndependentAcrossConcurrentReaders() started.
+􀟈  Test replacedPrivateConfigurationNeverReachesGit() started.
+􀟈  Test globalScopeIsRewrittenToThePrivateFileBeforeTheProcessRuns() started.
+􀟈  Test concurrentFixtureCommandsShareTheReadOnlyIsolationProbe() started.
+􀟈  Test unsupportedGitIsRejectedBeforeAnyFixtureCommand() started.
+􀟈  Test contextUsesTheCapturedIndexBlobEvenAfterFurtherEdits() started.
+􀟈  Suite HistoryPagingTests started.
+􀟈  Test argumentsArePreservedVerbatimAndCannotBecomeFormatStrings() started.
+􀟈  Test trackingBranchReportsDivergenceAndMissingUpstream() started.
+􀟈  Test aTagWithTheSameNameDoesNotChangeTheBranchCommandName() started.
+􀟈  Test truncatedBranchOutputIsRejected() started.
+􀟈  Test diskAndMemorySnapshotsExposeTheSameContextRanges() started.
+􀟈  Test cancelledAndTimedOutOperationsAreRecordedWithoutInventedExitCodes() started.
+􀟈  Test missingKeysFallBackWithoutLosingInterpolatedData() started.
+􀟈  Test presentationPreparationRespectsCancellation() started.
+􀟈  Test globalWritesRequireAnExplicitPrivateFileAndCannotUseInheritedPaths() started.
+􀟈  Test highlightingDoesNotChangeThePatchAppliedToGit() started.
+􀟈  Test handlesInsertionsDeletionsAndWhitespace() started.
+􀟈  Test keepsUnicodeGraphemesIntact() started.
+􀟈  Test unmergedDeletionRequiresConfirmationAndRejectsMovedTips() started.
+􀟈  Test launchFailureAndClosedStdinDoNotCrash() started.
+􀟈  Test boundsWorkForLongLinesAndDenseTokens() started.
+􀟈  Test respectsExistingSSHSigningConfiguration() started.
+􀟈  Test cancellationAndOutputLimit() started.
+􀟈  Test detectsInstalledGitAndRejectsInvalidPreference() started.
+􀟈  Test renameAndSafeDeleteKeepTheCurrentBranchAndWorktree() started.
+􀟈  Test activityIdentifiesRepositoriesWithoutStoringCommandArguments() started.
+􀟈  Test concurrentProcessesDoNotStarveTheirPipeReaders() started.
+􀟈  Test distinguishesSeparateChangedWords() started.
+􀟈  Test configurationEditorDistinguishesScopeInheritanceAndOrigins() started.
+􀟈  Test drainsBothPipesAndClosesInput() started.
+􀟈  Test statusFilteringMatchesTheDisplayedLayerAndCountsEachPathOnce() started.
+􀟈  Test conflictAndUntrackedStatesRemainDistinctFromAddedFiles() started.
+􀟈  Test parserRejectsIncompleteAndOverflowingHunks() started.
+􀟈  Test discardHunkKeepsStagedContentAndOtherWorkingChanges() started.
+􀟈  Test queuedProcessCancellationNeverLaunchesAndReturnsCapacity() started.
+􀟈  Test expandedContextIsReadAndAppliedAgainstTheSameOptions() started.
+􀟈  Test timeoutTerminatesProcessGroup() started.
+􀟈  Test strategyAndBranchValidationDoesNotWriteInvalidValues() started.
+􀟈  Test splitRowIdentityIsUniqueAcrossHunks() started.
+􀟈  Test untrackedSymlinkIsNotFollowedAndFIFOIsRejected() started.
+􀟈  Test copyUsesOriginalWhitespaceAndUnicodeOffsets() started.
+􀟈  Test staleBinaryDiscardIsRejected() started.
+􀟈  Test rejectsHunkThatDoesNotBelongToTheFreshDiff() started.
+􀟈  Test worktreePathsWithNewlinesArePreservedAndProtected() started.
+􀟈  Test emptyAndInvalidSelectionsNeverFabricateSource() started.
+􀟈  Test unansweredAuthenticationHasABoundedLifetime() started.
+􀟈  Test advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test selectionAcrossLoadedCellsPreservesSourceOrderAndLineEndings() started.
+􀟈  Test repeatedWordsKeepTheCommonSuffix() started.
+􀟈  Test ignoreWhitespaceNeverPermitsWritingTheFilteredPatch() started.
+􀟈  Test unstageRenameRestoresBothIndexPaths() started.
+􀟈  Test closingTheCommandCancelsItsPendingAuthentication() started.
+􀟈  Test failedAbortKeepsTheUsersResolutionAndSequencerState() started.
+􀟈  Test binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) started.
+􀟈  Test truncatedDisplayDoesNotCopyEllipsisOrBrokenUnicode() started.
+􀟈  Test receivesExternalFileEvents() started.
+􀟈  Test staleConfigurationIsNotOverwritten() started.
+􀟈  Test mergeFilesChangeWithTheSelectedParent() started.
+􀟈  Test rejectsSameCommitOnDifferentBranch() started.
+􀟈  Test realOctopusMergePreservesEveryParentAcrossPages() started.
+􀟈  Test encryptedSSHSigningCanAskForAPassphraseWithoutATerminal() started.
+􀟈  Test invalidCapabilitiesCannotPromptAndRepliesAreRedactedUntilTheSessionCloses() started.
+􀟈  Test longEchoedSecretsAreRemovedBeforeDiagnosticTruncation() started.
+􀟈  Test renamedFilesKeepBothPathsAndZeroChangeStatistics() started.
+􀟈  Test cancelsAnExplicitReadAfterTheGitRequestHasStarted() started.
+􀟈  Test hostConfirmationIsExplicitAndExistingAskPassProgramsArePreserved() started.
+􀟈  Test binaryLookingCodeIsTextAndTypeChangeIsReadOnly() started.
+􀟈  Test gitCredentialsTravelThroughTheHelperAndNeverEnterActivityOrArguments() started.
+􀟈  Test largeDiffIsSummarizedBeforeReadingAnyPatch() started.
+􀟈  Test memoryCeilingsSwitchToCompleteDiskSnapshots() started.
+􀟈  Test patchPathsAreIndependentOfUserDiffPrefixConfiguration() started.
+􀟈  Test summaryHandlesSpecialPathsBinaryAndInvalidCounts() started.
+􀟈  Test relativeDestinationsCannotChangeAfterMovingTheRepository() started.
+􀟈  Test cancelledReadAndPageRequestsThrow() started.
+􀟈  Test diagnosticRedactionRemovesWholeAuthenticationValues() started.
+􀟈  Test replacingTheRepositoryAfterPatchPreflightStopsTheActualWrite() started.
+􀟈  Test failedGitAmIsNotMisidentifiedAsAnAppSupportedRebase() started.
+􀟈  Test replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) started.
+􀟈  Test multipleURLsPushToExactlyOneDestination(explicitPushURL:) started.
+􀟈  Test changedGitFilePointerInvalidatesTheCapturedRepository() started.
+􀟈  Test allPreviewPathsRejectSymlinkedParentDirectories() started.
+􀟈  Test firstPushCreatesOnlyTheSelectedBranchAndSetsItsUpstream() started.
+􀟈  Test cancelledWaiterNeverExecutesAndPermitRecovers() started.
+􀟈  Test restoredReceiptsRejectAnotherRepositoryBeforeQueryingItsRemote() started.
+􀟈  Test movedRepositoryKeepsEntityIdentityButRequiresItsNewPath() started.
+􀟈  Test cancellingAWorktreeReadStopsBeforeTheNextChunk() started.
+􀟈  Test upstreamFailureReportsTheSuccessfulPushWithoutRepeatingIt() started.
+􀟈  Test interruptedCommitReportsAnObservedHeadWithoutClaimingRollback() started.
+􀟈  Test longLineFallsBackToSummaryThenKeepsAnExactPatch() started.
+􀟈  Test pullCannotBeRedirectedAfterItsDestinationWasVerified() started.
+􀟈  Test urlRewritingUsesTheEffectivePushDestinationForTheLease() started.
+􀟈  Test sparseJumpAndCopiedPatchMatchTheExactSelectedHunk() started.
+􀟈  Test porcelainRemoteFailureAndPartialReportsCannotProveRejection() started.
+􀟈  Test pullAppliesTheChosenPolicy(strategy:) started.
+􀟈  Test deepPathsAndLiteralNamesUseTheSameBoundedReader() started.
+􀟈  Test ownsPermitAcrossSuspension() started.
+􀟈  Test pullRebaseHandlesRepeatedConflictsAndAbort(abort:) started.
+􀟈  Test samePathReplacementWithIdenticalHeadCannotUseTheOldSession() started.
+􀟈  Test lineEndingsRemainExactAcrossMemoryAndDiskPageBoundaries() started.
+􀟈  Test remoteChangesAfterDeliveryStayUncertainAndVerificationCannotWrite() started.
+􀟈  Test cloneRealRepositoryAndValidateResult() started.
+􀟈  Test verificationKeepsTheOriginalDestinationAndDoesNotDependOnCurrentHead() started.
+􀟈  Test failedCloneCanOnlyMoveItsOwnUnchangedDirectory() started.
+􀟈  Test copiedHunkRefusesAChangedSnapshot() started.
+􀟈  Test diskDisplayPrefixesPreserveUnicodeAtTheirByteBoundary() started.
+􀟈  Test neverTakesOverExistingFileDirectoryOrSymlink() started.
+􀟈  Test untrackedSummaryUsesSizeAndSpillsPastItsMemoryLimit() started.
+􀟈  Test cleanupRefusesNewFilesAndReplacedDirectories() started.
+􀟈  Test cancellingCloneRetainsRecoveryAndRejectsConcurrentStart() started.
+􀟈  Test credentialsAndInvalidNamesRejectedBeforeStarting() started.
+􀟈  Test anotherFetchCannotReplaceTheCommitBeingPulled() started.
+􀟈  Test invalidPushTargetDoesNotCreateAnAvoidableLocalCommit() started.
+􀟈  Test configuredEmptyURLValuesClearEarlierDestinations() started.
+􀟈  Test configuredNoFastForwardPullCreatesAnExplicitMergeCommit() started.
+􀟈  Test pushCannotBeRedirectedAfterItsDestinationWasVerified() started.
+􀟈  Test cancellingAfterCommitRetainsTheCommittedOutcome() started.
+􀟈  Test literalPathsUnbornUnstageAndPartialCommit() started.
+􀟈  Test hunkStageStalePatchAndMessageOnlyAmend() started.
+􀟈  Test rejectsWrongHeadAndInvalidPaths() started.
+􀟈  Test missingBranchLeaseProtectsAgainstAConcurrentCreation() started.
+􀟈  Test failedVerificationNeverRetriesTheWrite() started.
+􀟈  Test rootCommitListsLiteralPathsAndBinaryFiles() started.
+􀟈  Test hookFailurePreservesIndexAndMessage() started.
+􀟈  Test mergeConflictCanBeResolvedAndContinued() started.
+􀟈  Test historyUsesLengthDelimitedObjects() started.
+􀟈  Test progressHandlesFragmentedCarriageReturnsAndIgnoresSecrets() started.
+􀟈  Test worktreeRefreshDoesNotRescanReferencesAndRemoteConfiguration() started.
+􀟈  Test fastForwardRejectionKeepsTheLocalTipAndCleansTheFetchReference() started.
+􀟈  Test commitThenPushFailureCanRetryOnlyThePush() started.
+􀟈  Test failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) started.
+􀟈  Test anEffectiveURLIsNotRewrittenASecondTimeDuringLeaseLookup() started.
+􀟈  Test receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test commitAndPushRetainsTheDeliveredCommitWhenItsReplyIsLost() started.
+􀟈  Test continuousExternalChangesFailRatherThanPublishAMixedSnapshot() started.
+􀟈  Test branchSwitchDuringReadRetriesEvenWhenTheCommitIsUnchanged() started.
+􀟈  Test immutableCommitDiffIgnoresLaterWorktreeAndHeadChanges() started.
+􀟈  Test movedBranchAndChangedRemoteConfigurationInvalidatePushPlans() started.
+􀟈  Test pullPreferenceShowsItsConfigurationSourceAndRequiresExplicitUnsupportedChoices() started.
+􀟈  Test snapshotSupportsUnbornAndDetachedHeads() started.
+􀟈  Test lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test backgroundStatusDoesNotRewriteTheIndexStatCache() started.
+􀟈  Test confirmedLocalDestinationsPreserveNewlines(relative:) started.
+􀟈  Test divergenceRejectsNormalPushAndFetchCannotRefreshAnExistingLease() started.
+􀟈  Test firstPushRespectsCustomTrackingMappings() started.
+􀟈  Test fileEventsMergeScopesAndIgnoreObjectStorage() started.
+􀟈  Test fileBackedHunkStageUnstageAndDiscardPreserveOtherChanges() started.
+􀟈  Test abandonedCleanupPreservesLiveUnknownAndSymlinkEntries() started.
+􀟈  Test diskPagesMatchUnifiedAndSplitAcrossHunksAndPageBoundaries() started.
+􀟈  Test previewHandlesLongUTF8LinesBinaryAndFileChanges() started.
+􀟈  Test diskCaptureRetainsSymlinkSafetyAndRejectsFIFOAndOversizedFiles() started.
+􀟈  Test outputFileCaptureDoesNotBufferStdoutOrOverwriteExistingFiles() started.
+􀟈  Test largePatchReadsOnlyRequestedPagesAndExportsExactBytes() started.
+􀟈  Test releasedSnapshotsRemoveTheirPrivateFiles() started.
+􀟈  Test cancellingDiskCapturePreservesAReplacementAtItsOriginalPath() started.
+􀟈  Test initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test unknownLanguagesAndOversizedLinesUsePlainText() started.
+􀟈  Test case passing 1 argument failure → .oldVersion to advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test case passing 1 argument failure → .ignoredIsolation to advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test case passing 1 argument failure → .ignoredURLReset to advertisedVersionsCannotBypassRequiredCapabilities(failure:) started.
+􀟈  Test case passing 1 argument abort → false to binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) started.
+􀟈  Test case passing 1 argument abort → true to binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) started.
+􀟈  Test case passing 1 argument replaceParent → true to replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) started.
+􀟈  Test case passing 1 argument replaceParent → false to replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) started.
+􀟈  Test case passing 1 argument explicitPushURL → true to multipleURLsPushToExactlyOneDestination(explicitPushURL:) started.
+􀟈  Test case passing 1 argument explicitPushURL → false to multipleURLsPushToExactlyOneDestination(explicitPushURL:) started.
+􀟈  Test case passing 1 argument strategy → .fastForwardOnly to pullAppliesTheChosenPolicy(strategy:) started.
+􀟈  Test case passing 1 argument abort → false to pullRebaseHandlesRepeatedConflictsAndAbort(abort:) started.
+􀟈  Test case passing 1 argument abort → true to pullRebaseHandlesRepeatedConflictsAndAbort(abort:) started.
+􀟈  Test case passing 1 argument strategy → .merge to pullAppliesTheChosenPolicy(strategy:) started.
+􀟈  Test case passing 1 argument strategy → .rebase to pullAppliesTheChosenPolicy(strategy:) started.
+􀟈  Test case passing 1 argument mode → .cancelledFetch to failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) started.
+􀟈  Test case passing 1 argument mode → .switchBranch to failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) started.
+􀟈  Test preservesCRLFAndNoFinalNewlineInPatch() started.
+􀟈  Test rejectsTruncatedRenameAndNonUTF8Paths() started.
+􀟈  Test case passing 1 argument destination → "https://user:fixture-password@example.invalid/repo?access_token=fixture-token" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test case passing 1 argument destination → "ssh://user:fixture-password@example.invalid/repo" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test alignsReplacementsAndUnequalSides() started.
+􀟈  Test case passing 1 argument destination → "https://example.invalid/repo?custom_key=fixture-token" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test case passing 1 argument destination → "https://example.invalid/repo#fixture-token" to receiptsNeverPersistCredentialBearingDestinations(destination:) started.
+􀟈  Test case passing 1 argument mode → .timeout to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test case passing 1 argument relative → true to confirmedLocalDestinationsPreserveNewlines(relative:) started.
+􀟈  Test case passing 1 argument mode → .cancellation to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test case passing 1 argument relative → false to confirmedLocalDestinationsPreserveNewlines(relative:) started.
+􀟈  Test case passing 1 argument mode → .transportFailure to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test case passing 1 argument mode → .remoteFailure to lostPushRepliesRequireReadOnlyVerification(mode:) started.
+􀟈  Test messageAndAuthorSearchUseLiteralQueriesAndFixedTips() started.
+􀟈  Test defaultRangeIncludesTagOnlyHistoryAndCurrentBranchCanBeSelected() started.
+􀟈  Test graphEndsAtRootsAndDoesNotInventAnIncomingEdgeForNewTips() started.
+􀟈  Test shaSearchIgnoresRefNameAmbiguityAndHonorsTheChosenRange() started.
+􀟈  Test graphLanesContinueAcrossMergePages() started.
+􀟈  Test shallowHistoryRetainsRealParentIDsAndMarksTheBoundary() started.
+􀟈  Test historicalBranchStartAndDetachedCheckoutUseExactCommits() started.
+􀟈  Test pagesKeepFixedTipsAfterReferencesMove() started.
+􀟈  Test parserPreservesControlCharactersAndRejectsIncompleteObjects() started.
+􁁛  Test handlesInsertionsDeletionsAndWhitespace() passed after 0.013 seconds.
+􁁛  Test keepsUnicodeGraphemesIntact() passed after 0.013 seconds.
+􁁛  Test distinguishesSeparateChangedWords() passed after 0.013 seconds.
+􁁛  Test conflictAndUntrackedStatesRemainDistinctFromAddedFiles() passed after 0.013 seconds.
+􁁛  Test boundsWorkForLongLinesAndDenseTokens() passed after 0.013 seconds.
+􀟈  Test case passing 1 argument sample → ("file.js", "const value = 42", "const") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.swift", "let value = \"中文🙂\" // note", "let") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.ts", "interface Example {}", "interface") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.m", "@interface Example", "interface") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.html", "<div class=\"title\">", "<div") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.json", "{\"enabled\": true}", "true") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.css", "color: #abcdef;", "color") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.md", "# Document title", "# Document title") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.py", "def example(): # note", "def") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.kt", "fun example() = 42", "fun") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.go", "func example() {}", "func") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.rs", "pub fn example() {}", "pub") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􀟈  Test case passing 1 argument sample → ("file.sh", "echo \'value\' # note", "echo") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􁁛  Test copyUsesOriginalWhitespaceAndUnicodeOffsets() passed after 0.013 seconds.
+􁁛  Test splitRowIdentityIsUniqueAcrossHunks() passed after 0.014 seconds.
+􁁛  Test emptyAndInvalidSelectionsNeverFabricateSource() passed after 0.013 seconds.
+􁁛  Test selectionAcrossLoadedCellsPreservesSourceOrderAndLineEndings() passed after 0.013 seconds.
+􁁛  Test truncatedDisplayDoesNotCopyEllipsisOrBrokenUnicode() passed after 0.013 seconds.
+􁁛  Test repeatedWordsKeepTheCommonSuffix() passed after 0.014 seconds.
+􁁛  Test statusFilteringMatchesTheDisplayedLayerAndCountsEachPathOnce() passed after 0.014 seconds.
+􀟈  Test case passing 1 argument sample → ("file.yaml", "enabled: true # note", "# note") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􁁛  Test binaryLookingCodeIsTextAndTypeChangeIsReadOnly() passed after 0.013 seconds.
+􁁛  Test diagnosticRedactionRemovesWholeAuthenticationValues() passed after 0.013 seconds.
+􁁛  Test porcelainRemoteFailureAndPartialReportsCannotProveRejection() passed after 0.013 seconds.
+􁁛  Test missingKeysFallBackWithoutLosingInterpolatedData() passed after 0.014 seconds.
+􁁛  Test progressHandlesFragmentedCarriageReturnsAndIgnoresSecrets() passed after 0.013 seconds.
+􁁛  Test translatesInterfaceAndRecoveryMessages() passed after 0.014 seconds.
+􁁛  Test parserRejectsIncompleteAndOverflowingHunks() passed after 0.014 seconds.
+􁁛  Test truncatedBranchOutputIsRejected() passed after 0.014 seconds.
+􁁛  Test countsUseEnglishPluralRulesAndChineseSourceWording() passed after 0.014 seconds.
+􀟈  Test case passing 1 argument sample → ("file.java", "public class Example {}", "public") to initialLanguagesHaveBoundedLexicalHighlighting(sample:) started.
+􁁛  Test replacedPrivateConfigurationNeverReachesGit() passed after 0.014 seconds.
+􁁛  Test resolvesSupportedLanguagesWithoutChangingStableIDs() passed after 0.014 seconds.
+􁁛  Test nativeMenuTitlesHaveTheirOwnContext() passed after 0.014 seconds.
+􁁛  Test summaryHandlesSpecialPathsBinaryAndInvalidCounts() passed after 0.014 seconds.
+􀢄  Test selectedGitPassesTheRequiredRuntimeConfigurationProbe() recorded an issue at TestGit.swift:113:6: Caught error: .unsupported("未找到支持安全配置和远端地址隔离的 Git 2.46 或更新版本。请安装新版 Xcode Command Line Tools，或在设置中选择 Git。\n所选文件不存在或没有执行权限。")
+􁁛  Test initialLanguagesHaveBoundedLexicalHighlighting(sample:) with 15 test cases passed after 0.013 seconds.
+􁁛  Test unknownLanguagesAndOversizedLinesUsePlainText() passed after 0.012 seconds.
+􁁛  Test globalWritesRequireAnExplicitPrivateFileAndCannotUseInheritedPaths() passed after 0.016 seconds.
+􁁛  Test argumentsArePreservedVerbatimAndCannotBecomeFormatStrings() passed after 0.016 seconds.
+􁁛  Test graphEndsAtRootsAndDoesNotInventAnIncomingEdgeForNewTips() passed after 0.003 seconds.
+􁁛  Test alignsReplacementsAndUnequalSides() passed after 0.004 seconds.
+􀢄  Test selectedGitPassesTheRequiredRuntimeConfigurationProbe() failed after 0.016 seconds with 1 issue.
+􁁛  Test rejectsTruncatedRenameAndNonUTF8Paths() passed after 0.004 seconds.
+􁁛  Test parserPreservesControlCharactersAndRejectsIncompleteObjects() passed after 0.003 seconds.
+􁁛  Test graphLanesContinueAcrossMergePages() passed after 0.003 seconds.
+􁁛  Suite ChangeFilterTests passed after 0.017 seconds.
+􁁛  Test explicitLanguagesAreIndependentAcrossConcurrentReaders() passed after 0.016 seconds.
+􁁛  Suite CodeTextPresentationTests passed after 0.017 seconds.
+􁁛  Suite SyntaxCoverageTests passed after 0.016 seconds.
+􀢄  Suite GitCompatibilityTests failed after 0.017 seconds with 1 issue.
+􁁛  Test presentationPreparationRespectsCancellation() passed after 0.016 seconds.
+􁁛  Suite "Localization" passed after 0.017 seconds.
+􁁛  Test unsupportedGitIsRejectedBeforeAnyFixtureCommand() passed after 0.016 seconds.
+􀢄  Test pagesKeepFixedTipsAfterReferencesMove() recorded an issue at HistoryPagingTests.swift:84:6: Caught error: .launch(2)
+􀢄  Test shaSearchIgnoresRefNameAmbiguityAndHonorsTheChosenRange() recorded an issue at HistoryPagingTests.swift:34:6: Caught error: .launch(2)
+􀢄  Test historicalBranchStartAndDetachedCheckoutUseExactCommits() recorded an issue at HistoryPagingTests.swift:55:6: Caught error: .launch(2)
+􀢄  Test shallowHistoryRetainsRealParentIDsAndMarksTheBoundary() recorded an issue at HistoryPagingTests.swift:137:6: Caught error: .launch(2)
+􀢄  Test defaultRangeIncludesTagOnlyHistoryAndCurrentBranchCanBeSelected() recorded an issue at HistoryPagingTests.swift:117:6: Caught error: .launch(2)
+􀢄  Test releasedSnapshotsRemoveTheirPrivateFiles() recorded an issue at DiskDiffTests.swift:43:6: Caught error: .launch(2)
+􀢄  Test messageAndAuthorSearchUseLiteralQueriesAndFixedTips() recorded an issue at HistoryPagingTests.swift:22:6: Caught error: .launch(2)
+􀢄  Test cancellingDiskCapturePreservesAReplacementAtItsOriginalPath() recorded an issue at DiskDiffTests.swift:14:6: Caught error: .launch(2)
+􀢄  Test outputFileCaptureDoesNotBufferStdoutOrOverwriteExistingFiles() recorded an issue at DiskDiffTests.swift:227:6: Caught error: .launch(2)
+􀢄  Test preservesCRLFAndNoFinalNewlineInPatch() recorded an issue at CoreTests.swift:344:6: Caught error: .launch(2)
+􀢄  Test previewHandlesLongUTF8LinesBinaryAndFileChanges() recorded an issue at DiskDiffTests.swift:181:6: Caught error: .launch(2)
+􀢄  Test largePatchReadsOnlyRequestedPagesAndExportsExactBytes() recorded an issue at DiskDiffTests.swift:120:6: Caught error: .launch(2)
+􀢄  Test diskPagesMatchUnifiedAndSplitAcrossHunksAndPageBoundaries() recorded an issue at DiskDiffTests.swift:82:6: Caught error: .launch(2)
+􀢄  Test pagesKeepFixedTipsAfterReferencesMove() failed after 0.004 seconds with 1 issue.
+􀢄  Test shallowHistoryRetainsRealParentIDsAndMarksTheBoundary() failed after 0.004 seconds with 1 issue.
+􀢄  Test historicalBranchStartAndDetachedCheckoutUseExactCommits() failed after 0.004 seconds with 1 issue.
+􀢄  Test defaultRangeIncludesTagOnlyHistoryAndCurrentBranchCanBeSelected() failed after 0.004 seconds with 1 issue.
+􀢄  Test releasedSnapshotsRemoveTheirPrivateFiles() failed after 0.014 seconds with 1 issue.
+􀢄  Test messageAndAuthorSearchUseLiteralQueriesAndFixedTips() failed after 0.004 seconds with 1 issue.
+􀢄  Test outputFileCaptureDoesNotBufferStdoutOrOverwriteExistingFiles() failed after 0.014 seconds with 1 issue.
+􀢄  Test shaSearchIgnoresRefNameAmbiguityAndHonorsTheChosenRange() failed after 0.004 seconds with 1 issue.
+􀢄  Test preservesCRLFAndNoFinalNewlineInPatch() failed after 0.005 seconds with 1 issue.
+􀢄  Test previewHandlesLongUTF8LinesBinaryAndFileChanges() failed after 0.014 seconds with 1 issue.
+􀢄  Test cancellingDiskCapturePreservesAReplacementAtItsOriginalPath() failed after 0.014 seconds with 1 issue.
+􀢄  Test diskCaptureRetainsSymlinkSafetyAndRejectsFIFOAndOversizedFiles() recorded an issue at DiskDiffTests.swift:201:6: Caught error: .launch(2)
+􀢄  Test largePatchReadsOnlyRequestedPagesAndExportsExactBytes() failed after 0.014 seconds with 1 issue.
+􀢄  Test diskPagesMatchUnifiedAndSplitAcrossHunksAndPageBoundaries() failed after 0.015 seconds with 1 issue.
+􀢄  Test diskCaptureRetainsSymlinkSafetyAndRejectsFIFOAndOversizedFiles() failed after 0.014 seconds with 1 issue.
+􀢄  Suite HistoryPagingTests failed after 0.018 seconds with 6 issues.
+􀢄  Test fileBackedHunkStageUnstageAndDiscardPreserveOtherChanges() recorded an issue at DiskDiffTests.swift:158:6: Caught error: .launch(2)
+􀢄  Test abandonedCleanupPreservesLiveUnknownAndSymlinkEntries() recorded an issue at DiskDiffTests.swift:59:6: Caught error: .launch(2)
+􀢄  Suite DiffPresentationTests failed after 0.017 seconds with 1 issue.
+􀢄  Test fileEventsMergeScopesAndIgnoreObjectStorage() recorded an issue at RefreshTests.swift:47:6: Caught error: .launch(2)
+􀢄  Test lostPushRepliesRequireReadOnlyVerification(mode:) recorded an issue with 1 argument mode → .remoteFailure at RemoteWorkflowTests.swift:156:6: Caught error: .launch(2)
+􀢄  Test fileBackedHunkStageUnstageAndDiscardPreserveOtherChanges() failed after 0.016 seconds with 1 issue.
+􀢄  Test abandonedCleanupPreservesLiveUnknownAndSymlinkEntries() failed after 0.015 seconds with 1 issue.
+􀢄  Test fileEventsMergeScopesAndIgnoreObjectStorage() failed after 0.016 seconds with 1 issue.
+􀢄  Test firstPushRespectsCustomTrackingMappings() recorded an issue at RemoteWorkflowTests.swift:673:6: Caught error: .launch(2)
+􀢄  Suite DiskDiffTests failed after 0.018 seconds with 9 issues.
+􀢄  Test immutableCommitDiffIgnoresLaterWorktreeAndHeadChanges() recorded an issue at CommitComparisonTests.swift:72:6: Caught error: .launch(2)
+􀢄  Test divergenceRejectsNormalPushAndFetchCannotRefreshAnExistingLease() recorded an issue at RemoteWorkflowTests.swift:623:6: Caught error: .launch(2)
+􀢄  Test lostPushRepliesRequireReadOnlyVerification(mode:) recorded an issue with 1 argument mode → .transportFailure at RemoteWorkflowTests.swift:156:6: Caught error: .launch(2)
+􀢄  Test movedBranchAndChangedRemoteConfigurationInvalidatePushPlans() recorded an issue at RemoteWorkflowTests.swift:659:6: Caught error: .launch(2)
+􀢄  Test immutableCommitDiffIgnoresLaterWorktreeAndHeadChanges() failed after 0.016 seconds with 1 issue.
+􀢄  Test confirmedLocalDestinationsPreserveNewlines(relative:) recorded an issue with 1 argument relative → false at RemoteWorkflowTests.swift:362:6: Caught error: .launch(2)
+􀢄  Test movedBranchAndChangedRemoteConfigurationInvalidatePushPlans() failed after 0.016 seconds with 1 issue.
+􀢄  Test confirmedLocalDestinationsPreserveNewlines(relative:) recorded an issue with 1 argument relative → true at RemoteWorkflowTests.swift:362:6: Caught error: .launch(2)
+􀢄  Test confirmedLocalDestinationsPreserveNewlines(relative:) with 2 test cases failed after 0.016 seconds with 2 issues.
+􀢄  Test lostPushRepliesRequireReadOnlyVerification(mode:) recorded an issue with 1 argument mode → .timeout at RemoteWorkflowTests.swift:156:6: Caught error: .launch(2)
+􀢄  Test lostPushRepliesRequireReadOnlyVerification(mode:) recorded an issue with 1 argument mode → .cancellation at RemoteWorkflowTests.swift:156:6: Caught error: .launch(2)
+􀢄  Test firstPushRespectsCustomTrackingMappings() failed after 0.016 seconds with 1 issue.
+􀢄  Test snapshotSupportsUnbornAndDetachedHeads() recorded an issue at RefreshTests.swift:128:6: Caught error: .launch(2)
+􀢄  Test divergenceRejectsNormalPushAndFetchCannotRefreshAnExistingLease() failed after 0.016 seconds with 1 issue.
+􀢄  Test pullPreferenceShowsItsConfigurationSourceAndRequiresExplicitUnsupportedChoices() recorded an issue at RemoteWorkflowTests.swift:704:6: Caught error: .launch(2)
+􀢄  Test backgroundStatusDoesNotRewriteTheIndexStatCache() recorded an issue at RefreshTests.swift:30:6: Caught error: .launch(2)
+􀢄  Test lostPushRepliesRequireReadOnlyVerification(mode:) with 4 test cases failed after 0.016 seconds with 4 issues.
+􀢄  Test backgroundStatusDoesNotRewriteTheIndexStatCache() failed after 0.016 seconds with 1 issue.
+􀢄  Test commitThenPushFailureCanRetryOnlyThePush() recorded an issue at RemoteWorkflowTests.swift:496:6: Caught error: .launch(2)
+􀢄  Test snapshotSupportsUnbornAndDetachedHeads() failed after 0.016 seconds with 1 issue.
+􀢄  Test commitAndPushRetainsTheDeliveredCommitWhenItsReplyIsLost() recorded an issue at RemoteWorkflowTests.swift:262:6: Caught error: .launch(2)
+􀢄  Test branchSwitchDuringReadRetriesEvenWhenTheCommitIsUnchanged() recorded an issue at RefreshTests.swift:98:6: Caught error: .launch(2)
+􀢄  Test commitThenPushFailureCanRetryOnlyThePush() failed after 0.016 seconds with 1 issue.
+􀢄  Test continuousExternalChangesFailRatherThanPublishAMixedSnapshot() recorded an issue at RefreshTests.swift:115:6: Caught error: .launch(2)
+􀢄  Test branchSwitchDuringReadRetriesEvenWhenTheCommitIsUnchanged() failed after 0.016 seconds with 1 issue.
+􀢄  Test continuousExternalChangesFailRatherThanPublishAMixedSnapshot() failed after 0.016 seconds with 1 issue.
+􀢄  Test receiptsNeverPersistCredentialBearingDestinations(destination:) recorded an issue with 1 argument destination → "https://example.invalid/repo#fixture-token" at RemoteWorkflowTests.swift:283:6: Caught error: .launch(2)
+􀢄  Test receiptsNeverPersistCredentialBearingDestinations(destination:) recorded an issue with 1 argument destination → "ssh://user:fixture-password@example.invalid/repo" at RemoteWorkflowTests.swift:283:6: Caught error: .launch(2)
+􀢄  Test pullPreferenceShowsItsConfigurationSourceAndRequiresExplicitUnsupportedChoices() failed after 0.016 seconds with 1 issue.
+􀢄  Test anEffectiveURLIsNotRewrittenASecondTimeDuringLeaseLookup() recorded an issue at RemoteWorkflowTests.swift:453:6: Caught error: .launch(2)
+􀢄  Test commitAndPushRetainsTheDeliveredCommitWhenItsReplyIsLost() failed after 0.017 seconds with 1 issue.
+􀢄  Test receiptsNeverPersistCredentialBearingDestinations(destination:) recorded an issue with 1 argument destination → "https://example.invalid/repo?custom_key=fixture-token" at RemoteWorkflowTests.swift:283:6: Caught error: .launch(2)
+􀢄  Test failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) recorded an issue with 1 argument mode → .switchBranch at RemoteWorkflowTests.swift:795:6: Caught error: .launch(2)
+􀢄  Test failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) recorded an issue with 1 argument mode → .cancelledFetch at RemoteWorkflowTests.swift:795:6: Caught error: .launch(2)
+􀢄  Test anEffectiveURLIsNotRewrittenASecondTimeDuringLeaseLookup() failed after 0.017 seconds with 1 issue.
+􀢄  Test worktreeRefreshDoesNotRescanReferencesAndRemoteConfiguration() recorded an issue at RefreshTests.swift:81:6: Caught error: .launch(2)
+􀢄  Test failedOrInterruptedFetchCleansOnlyItsOwnRef(mode:) with 2 test cases failed after 0.017 seconds with 2 issues.
+􀢄  Test worktreeRefreshDoesNotRescanReferencesAndRemoteConfiguration() failed after 0.017 seconds with 1 issue.
+􀢄  Test mergeConflictCanBeResolvedAndContinued() recorded an issue at CoreTests.swift:247:6: Caught error: .launch(2)
+􀢄  Test historyUsesLengthDelimitedObjects() recorded an issue at CoreTests.swift:234:6: Caught error: .launch(2)
+􀢄  Test fastForwardRejectionKeepsTheLocalTipAndCleansTheFetchReference() recorded an issue at RemoteWorkflowTests.swift:755:6: Caught error: .launch(2)
+􀢄  Test hookFailurePreservesIndexAndMessage() recorded an issue at CoreTests.swift:284:6: Caught error: .launch(2)
+􀢄  Test receiptsNeverPersistCredentialBearingDestinations(destination:) recorded an issue with 1 argument destination → "https://user:fixture-password@example.invalid/repo?access_token=fixture-token" at RemoteWorkflowTests.swift:283:6: Caught error: .launch(2)
+􀢄  Test rootCommitListsLiteralPathsAndBinaryFiles() recorded an issue at CommitComparisonTests.swift:7:6: Caught error: .launch(2)
+􀢄  Test mergeConflictCanBeResolvedAndContinued() failed after 0.017 seconds with 1 issue.
+􀢄  Test fastForwardRejectionKeepsTheLocalTipAndCleansTheFetchReference() failed after 0.017 seconds with 1 issue.
+􀢄  Test hookFailurePreservesIndexAndMessage() failed after 0.017 seconds with 1 issue.
+􀢄  Test missingBranchLeaseProtectsAgainstAConcurrentCreation() recorded an issue at RemoteWorkflowTests.swift:646:6: Caught error: .launch(2)
+􀢄  Suite RefreshTests failed after 0.018 seconds with 6 issues.
+􀢄  Test historyUsesLengthDelimitedObjects() failed after 0.017 seconds with 1 issue.
+􀢄  Test rejectsWrongHeadAndInvalidPaths() recorded an issue at CoreTests.swift:271:6: Caught error: .launch(2)
+􀢄  Test missingBranchLeaseProtectsAgainstAConcurrentCreation() failed after 0.017 seconds with 1 issue.
+􀢄  Test receiptsNeverPersistCredentialBearingDestinations(destination:) with 4 test cases failed after 0.017 seconds with 4 issues.
+􀢄  Test failedVerificationNeverRetriesTheWrite() recorded an issue at RemoteWorkflowTests.swift:244:6: Caught error: .launch(2)
+􀢄  Test literalPathsUnbornUnstageAndPartialCommit() recorded an issue at CoreTests.swift:193:6: Caught error: .launch(2)
+􀢄  Test cancellingAfterCommitRetainsTheCommittedOutcome() recorded an issue at RemoteWorkflowTests.swift:519:6: Caught error: .launch(2)
+􀢄  Test rootCommitListsLiteralPathsAndBinaryFiles() failed after 0.017 seconds with 1 issue.
+􀢄  Test pushCannotBeRedirectedAfterItsDestinationWasVerified() recorded an issue at RemoteWorkflowTests.swift:408:6: Caught error: .launch(2)
+􀢄  Test cancellingAfterCommitRetainsTheCommittedOutcome() failed after 0.017 seconds with 1 issue.
+􀢄  Test configuredNoFastForwardPullCreatesAnExplicitMergeCommit() recorded an issue at RemoteWorkflowTests.swift:478:6: Caught error: .launch(2)
+􀢄  Test cleanupRefusesNewFilesAndReplacedDirectories() recorded an issue at CloneTests.swift:155:6: Caught error: .launch(2)
+􀢄  Test configuredEmptyURLValuesClearEarlierDestinations() recorded an issue at RemoteWorkflowTests.swift:385:6: Caught error: .launch(2)
+􀢄  Test configuredNoFastForwardPullCreatesAnExplicitMergeCommit() failed after 0.017 seconds with 1 issue.
+􀢄  Test invalidPushTargetDoesNotCreateAnAvoidableLocalCommit() recorded an issue at RemoteWorkflowTests.swift:539:6: Caught error: .launch(2)
+􀢄  Test rejectsWrongHeadAndInvalidPaths() failed after 0.017 seconds with 1 issue.
+􀢄  Test cleanupRefusesNewFilesAndReplacedDirectories() failed after 0.017 seconds with 1 issue.
+􀢄  Test configuredEmptyURLValuesClearEarlierDestinations() failed after 0.017 seconds with 1 issue.
+􀢄  Test untrackedSummaryUsesSizeAndSpillsPastItsMemoryLimit() recorded an issue at DiffLoadingTests.swift:160:6: Caught error: .launch(2)
+􀢄  Test literalPathsUnbornUnstageAndPartialCommit() failed after 0.017 seconds with 1 issue.
+􀢄  Test neverTakesOverExistingFileDirectoryOrSymlink() recorded an issue at CloneTests.swift:88:6: Caught error: .launch(2)
+􀢄  Test hunkStageStalePatchAndMessageOnlyAmend() recorded an issue at CoreTests.swift:213:6: Caught error: .launch(2)
+􀢄  Test pullAppliesTheChosenPolicy(strategy:) recorded an issue with 1 argument strategy → .rebase at RemoteWorkflowTests.swift:719:6: Caught error: .launch(2)
+􀢄  Test anotherFetchCannotReplaceTheCommitBeingPulled() recorded an issue at RemoteWorkflowTests.swift:775:6: Caught error: .launch(2)
+􀢄  Test credentialsAndInvalidNamesRejectedBeforeStarting() recorded an issue at CloneTests.swift:114:6: Caught error: .launch(2)
+􀢄  Test diskDisplayPrefixesPreserveUnicodeAtTheirByteBoundary() recorded an issue at DiffNavigationTests.swift:36:6: Caught error: .launch(2)
+􀢄  Test invalidPushTargetDoesNotCreateAnAvoidableLocalCommit() failed after 0.017 seconds with 1 issue.
+􀢄  Test cancellingCloneRetainsRecoveryAndRejectsConcurrentStart() recorded an issue at CloneTests.swift:177:6: Caught error: .launch(2)
+􀢄  Test pullAppliesTheChosenPolicy(strategy:) recorded an issue with 1 argument strategy → .merge at RemoteWorkflowTests.swift:719:6: Caught error: .launch(2)
+􀢄  Test anotherFetchCannotReplaceTheCommitBeingPulled() failed after 0.017 seconds with 1 issue.
+􀢄  Test failedVerificationNeverRetriesTheWrite() failed after 0.017 seconds with 1 issue.
+􀢄  Test credentialsAndInvalidNamesRejectedBeforeStarting() failed after 0.017 seconds with 1 issue.
+􀢄  Test pullRebaseHandlesRepeatedConflictsAndAbort(abort:) recorded an issue with 1 argument abort → true at RemoteWorkflowTests.swift:812:6: Caught error: .launch(2)
+􀢄  Test copiedHunkRefusesAChangedSnapshot() recorded an issue at DiffNavigationTests.swift:88:6: Caught error: .launch(2)
+􀢄  Test diskDisplayPrefixesPreserveUnicodeAtTheirByteBoundary() failed after 0.017 seconds with 1 issue.
+􀢄  Test cancellingCloneRetainsRecoveryAndRejectsConcurrentStart() failed after 0.017 seconds with 1 issue.
+􀢄  Test copiedHunkRefusesAChangedSnapshot() failed after 0.017 seconds with 1 issue.
+􀢄  Test hunkStageStalePatchAndMessageOnlyAmend() failed after 0.017 seconds with 1 issue.
+􀢄  Test verificationKeepsTheOriginalDestinationAndDoesNotDependOnCurrentHead() recorded an issue at RemoteWorkflowTests.swift:189:6: Caught error: .launch(2)
+􀢄  Test untrackedSummaryUsesSizeAndSpillsPastItsMemoryLimit() failed after 0.017 seconds with 1 issue.
+􀢄  Test remoteChangesAfterDeliveryStayUncertainAndVerificationCannotWrite() recorded an issue at RemoteWorkflowTests.swift:221:6: Caught error: .launch(2)
+􀢄  Test verificationKeepsTheOriginalDestinationAndDoesNotDependOnCurrentHead() failed after 0.017 seconds with 1 issue.
+􀢄  Suite RepositoryTests failed after 0.019 seconds with 6 issues.
+􀢄  Test neverTakesOverExistingFileDirectoryOrSymlink() failed after 0.017 seconds with 1 issue.
+􀢄  Test lineEndingsRemainExactAcrossMemoryAndDiskPageBoundaries() recorded an issue at DiffNavigationTests.swift:7:6: Caught error: .launch(2)
+􀢄  Test samePathReplacementWithIdenticalHeadCannotUseTheOldSession() recorded an issue at GitSafetyTests.swift:81:6: Caught error: .launch(2)
+􀢄  Test cloneRealRepositoryAndValidateResult() recorded an issue at CloneTests.swift:68:6: Caught error: .launch(2)
+􀢄  Test remoteChangesAfterDeliveryStayUncertainAndVerificationCannotWrite() failed after 0.018 seconds with 1 issue.
+􀢄  Test deepPathsAndLiteralNamesUseTheSameBoundedReader() recorded an issue at RepositoryFileTests.swift:39:6: Caught error: .launch(2)
+􀢄  Test lineEndingsRemainExactAcrossMemoryAndDiskPageBoundaries() failed after 0.018 seconds with 1 issue.
+􀢄  Test samePathReplacementWithIdenticalHeadCannotUseTheOldSession() failed after 0.018 seconds with 1 issue.
+􀢄  Test cloneRealRepositoryAndValidateResult() failed after 0.018 seconds with 1 issue.
+􀢄  Test pushCannotBeRedirectedAfterItsDestinationWasVerified() failed after 0.017 seconds with 1 issue.
+􀢄  Test deepPathsAndLiteralNamesUseTheSameBoundedReader() failed after 0.018 seconds with 1 issue.
+􀢄  Test urlRewritingUsesTheEffectivePushDestinationForTheLease() recorded an issue at RemoteWorkflowTests.swift:599:6: Caught error: .launch(2)
+􀢄  Test sparseJumpAndCopiedPatchMatchTheExactSelectedHunk() recorded an issue at DiffNavigationTests.swift:63:6: Caught error: .launch(2)
+􀢄  Test pullCannotBeRedirectedAfterItsDestinationWasVerified() recorded an issue at RemoteWorkflowTests.swift:431:6: Caught error: .launch(2)
+􀢄  Test sparseJumpAndCopiedPatchMatchTheExactSelectedHunk() failed after 0.018 seconds with 1 issue.
+􀢄  Test longLineFallsBackToSummaryThenKeepsAnExactPatch() recorded an issue at DiffLoadingTests.swift:98:6: Caught error: .launch(2)
+􀢄  Test interruptedCommitReportsAnObservedHeadWithoutClaimingRollback() recorded an issue at GitSafetyTests.swift:37:6: Caught error: .launch(2)
+􀢄  Test pullCannotBeRedirectedAfterItsDestinationWasVerified() failed after 0.018 seconds with 1 issue.
+􀢄  Test cancellingAWorktreeReadStopsBeforeTheNextChunk() recorded an issue at RepositoryFileTests.swift:99:6: Caught error: .launch(2)
+􀢄  Test longLineFallsBackToSummaryThenKeepsAnExactPatch() failed after 0.018 seconds with 1 issue.
+􀢄  Test pullAppliesTheChosenPolicy(strategy:) recorded an issue with 1 argument strategy → .fastForwardOnly at RemoteWorkflowTests.swift:719:6: Caught error: .launch(2)
+􀢄  Test interruptedCommitReportsAnObservedHeadWithoutClaimingRollback() failed after 0.018 seconds with 1 issue.
+􀢄  Test pullRebaseHandlesRepeatedConflictsAndAbort(abort:) recorded an issue with 1 argument abort → false at RemoteWorkflowTests.swift:812:6: Caught error: .launch(2)
+􀢄  Test cancellingAWorktreeReadStopsBeforeTheNextChunk() failed after 0.018 seconds with 1 issue.
+􀢄  Test pullRebaseHandlesRepeatedConflictsAndAbort(abort:) with 2 test cases failed after 0.018 seconds with 2 issues.
+􀢄  Suite DiffNavigationTests failed after 0.019 seconds with 4 issues.
+􀢄  Test upstreamFailureReportsTheSuccessfulPushWithoutRepeatingIt() recorded an issue at RemoteWorkflowTests.swift:689:6: Caught error: .launch(2)
+􀢄  Test restoredReceiptsRejectAnotherRepositoryBeforeQueryingItsRemote() recorded an issue at RemoteWorkflowTests.swift:324:6: Caught error: .launch(2)
+􀢄  Test upstreamFailureReportsTheSuccessfulPushWithoutRepeatingIt() failed after 0.018 seconds with 1 issue.
+􀢄  Test restoredReceiptsRejectAnotherRepositoryBeforeQueryingItsRemote() failed after 0.018 seconds with 1 issue.
+􀢄  Test allPreviewPathsRejectSymlinkedParentDirectories() recorded an issue at RepositoryFileTests.swift:14:6: Caught error: .launch(2)
+􀢄  Test allPreviewPathsRejectSymlinkedParentDirectories() failed after 0.018 seconds with 1 issue.
+􀢄  Test movedRepositoryKeepsEntityIdentityButRequiresItsNewPath() recorded an issue at GitSafetyTests.swift:111:6: Caught error: .launch(2)
+􀢄  Test pullAppliesTheChosenPolicy(strategy:) with 3 test cases failed after 0.018 seconds with 3 issues.
+􀢄  Test movedRepositoryKeepsEntityIdentityButRequiresItsNewPath() failed after 0.018 seconds with 1 issue.
+􀢄  Test urlRewritingUsesTheEffectivePushDestinationForTheLease() failed after 0.018 seconds with 1 issue.
+􁁛  Test launchFailureAndClosedStdinDoNotCrash() passed after 0.019 seconds.
+􀢄  Test changedGitFilePointerInvalidatesTheCapturedRepository() recorded an issue at GitSafetyTests.swift:128:6: Caught error: .launch(2)
+􀢄  Test changedGitFilePointerInvalidatesTheCapturedRepository() failed after 0.018 seconds with 1 issue.
+􀢄  Test replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) recorded an issue with 1 argument replaceParent → false at RepositoryFileTests.swift:55:6: Caught error: .launch(2)
+􀢄  Test replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) recorded an issue with 1 argument replaceParent → true at RepositoryFileTests.swift:55:6: Caught error: .launch(2)
+􀢄  Test replacingAnAncestorOrLeafDuringReadCannotRedirectContent(replaceParent:) with 2 test cases failed after 0.019 seconds with 2 issues.
+􀢄  Test multipleURLsPushToExactlyOneDestination(explicitPushURL:) recorded an issue with 1 argument explicitPushURL → false at RemoteWorkflowTests.swift:572:6: Caught error: .launch(2)
+􀢄  Test firstPushCreatesOnlyTheSelectedBranchAndSetsItsUpstream() recorded an issue at RemoteWorkflowTests.swift:554:6: Caught error: .launch(2)
+􀢄  Test multipleURLsPushToExactlyOneDestination(explicitPushURL:) recorded an issue with 1 argument explicitPushURL → true at RemoteWorkflowTests.swift:572:6: Caught error: .launch(2)
+􀢄  Test replacingTheRepositoryAfterPatchPreflightStopsTheActualWrite() recorded an issue at GitSafetyTests.swift:60:6: Caught error: .launch(2)
+􀢄  Test failedGitAmIsNotMisidentifiedAsAnAppSupportedRebase() recorded an issue at SequencerAndGraphTests.swift:123:6: Caught error: .launch(2)
+􀢄  Suite RepositoryFileTests failed after 0.020 seconds with 5 issues.
+􀢄  Test cancelledReadAndPageRequestsThrow() recorded an issue at DiffLoadingTests.swift:207:6: Caught error: .launch(2)
+􀢄  Test failedCloneCanOnlyMoveItsOwnUnchangedDirectory() recorded an issue at CloneTests.swift:138:6: Caught error: .launch(2)
+􀢄  Test failedGitAmIsNotMisidentifiedAsAnAppSupportedRebase() failed after 0.019 seconds with 1 issue.
+􀢄  Test firstPushCreatesOnlyTheSelectedBranchAndSetsItsUpstream() failed after 0.019 seconds with 1 issue.
+􀢄  Test cancelledReadAndPageRequestsThrow() failed after 0.019 seconds with 1 issue.
+􀢄  Test largeDiffIsSummarizedBeforeReadingAnyPatch() recorded an issue at DiffLoadingTests.swift:46:6: Caught error: .launch(2)
+􀢄  Test replacingTheRepositoryAfterPatchPreflightStopsTheActualWrite() failed after 0.019 seconds with 1 issue.
+􀢄  Test largeDiffIsSummarizedBeforeReadingAnyPatch() failed after 0.019 seconds with 1 issue.
+􀢄  Test relativeDestinationsCannotChangeAfterMovingTheRepository() recorded an issue at RemoteWorkflowTests.swift:338:6: Caught error: .launch(2)
+􀢄  Test memoryCeilingsSwitchToCompleteDiskSnapshots() recorded an issue at DiffLoadingTests.swift:125:6: Caught error: .launch(2)
+􀢄  Suite GitSafetyTests failed after 0.020 seconds with 5 issues.
+􀢄  Test relativeDestinationsCannotChangeAfterMovingTheRepository() failed after 0.019 seconds with 1 issue.
+􀢄  Test patchPathsAreIndependentOfUserDiffPrefixConfiguration() recorded an issue at DiffWorkflowTests.swift:148:6: Caught error: .launch(2)
+􀢄  Test gitCredentialsTravelThroughTheHelperAndNeverEnterActivityOrArguments() recorded an issue at AuthenticationTests.swift:61:6: Caught error: .launch(2)
+􀢄  Test memoryCeilingsSwitchToCompleteDiskSnapshots() failed after 0.019 seconds with 1 issue.
+􀢄  Test multipleURLsPushToExactlyOneDestination(explicitPushURL:) with 2 test cases failed after 0.019 seconds with 2 issues.
+􀢄  Test longEchoedSecretsAreRemovedBeforeDiagnosticTruncation() recorded an issue at AuthenticationTests.swift:26:6: Caught error: .launch(2)
+􀢄  Test gitCredentialsTravelThroughTheHelperAndNeverEnterActivityOrArguments() failed after 0.019 seconds with 1 issue.
+􀢄  Test patchPathsAreIndependentOfUserDiffPrefixConfiguration() failed after 0.019 seconds with 1 issue.
+􀢄  Test cancelsAnExplicitReadAfterTheGitRequestHasStarted() recorded an issue at DiffLoadingTests.swift:227:6: Caught error: .launch(2)
+􀢄  Test longEchoedSecretsAreRemovedBeforeDiagnosticTruncation() failed after 0.019 seconds with 1 issue.
+􀢄  Test cancelsAnExplicitReadAfterTheGitRequestHasStarted() failed after 0.019 seconds with 1 issue.
+􀢄  Suite RemoteWorkflowTests failed after 0.020 seconds with 43 issues.
+􀢄  Test failedCloneCanOnlyMoveItsOwnUnchangedDirectory() failed after 0.019 seconds with 1 issue.
+􀢄  Test realOctopusMergePreservesEveryParentAcrossPages() recorded an issue at SequencerAndGraphTests.swift:17:6: Caught error: .launch(2)
+􀢄  Test renamedFilesKeepBothPathsAndZeroChangeStatistics() recorded an issue at CommitComparisonTests.swift:30:6: Caught error: .launch(2)
+􀢄  Test realOctopusMergePreservesEveryParentAcrossPages() failed after 0.019 seconds with 1 issue.
+􀢄  Test mergeFilesChangeWithTheSelectedParent() recorded an issue at CommitComparisonTests.swift:50:6: Caught error: .launch(2)
+􀢄  Suite DiffLoadingTests failed after 0.020 seconds with 6 issues.
+􀢄  Test staleConfigurationIsNotOverwritten() recorded an issue at GitConfigurationTests.swift:31:6: Caught error: .launch(2)
+􀢄  Test mergeFilesChangeWithTheSelectedParent() failed after 0.019 seconds with 1 issue.
+􀢄  Test encryptedSSHSigningCanAskForAPassphraseWithoutATerminal() recorded an issue at AuthenticationTests.swift:185:6: Caught error: .launch(2)
+􀢄  Test rejectsSameCommitOnDifferentBranch() recorded an issue at CoreTests.swift:303:6: Caught error: .launch(2)
+􀢄  Test renamedFilesKeepBothPathsAndZeroChangeStatistics() failed after 0.019 seconds with 1 issue.
+􀢄  Suite CloneTests failed after 0.020 seconds with 6 issues.
+􀢄  Test receivesExternalFileEvents() recorded an issue at CoreTests.swift:317:6: Caught error: .launch(2)
+􀢄  Test encryptedSSHSigningCanAskForAPassphraseWithoutATerminal() failed after 0.019 seconds with 1 issue.
+􀢄  Test binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) recorded an issue with 1 argument abort → true at SequencerAndGraphTests.swift:59:6: Caught error: .launch(2)
+􀢄  Test binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) recorded an issue with 1 argument abort → false at SequencerAndGraphTests.swift:59:6: Caught error: .launch(2)
+􀢄  Test staleConfigurationIsNotOverwritten() failed after 0.020 seconds with 1 issue.
+􀢄  Test receivesExternalFileEvents() failed after 0.019 seconds with 1 issue.
+􀢄  Test binaryAndModifyDeleteConflictsCanContinueOrAbort(abort:) with 2 test cases failed after 0.019 seconds with 2 issues.
+􀢄  Test unstageRenameRestoresBothIndexPaths() recorded an issue at DiffWorkflowTests.swift:82:6: Caught error: .launch(2)
+􀢄  Test rejectsSameCommitOnDifferentBranch() failed after 0.019 seconds with 1 issue.
+􀢄  Suite CommitComparisonTests failed after 0.020 seconds with 4 issues.
+􀢄  Test ignoreWhitespaceNeverPermitsWritingTheFilteredPatch() recorded an issue at DiffWorkflowTests.swift:24:6: Caught error: .launch(2)
+􀢄  Test unstageRenameRestoresBothIndexPaths() failed after 0.019 seconds with 1 issue.
+􀢄  Test ignoreWhitespaceNeverPermitsWritingTheFilteredPatch() failed after 0.020 seconds with 1 issue.
+􀢄  Suite ContextAndWatcherTests failed after 0.020 seconds with 2 issues.
+􀢄  Test rejectsHunkThatDoesNotBelongToTheFreshDiff() recorded an issue at DiffWorkflowTests.swift:67:6: Caught error: .launch(2)
+􀢄  Test worktreePathsWithNewlinesArePreservedAndProtected() recorded an issue at BranchManagementTests.swift:82:6: Caught error: .launch(2)
+􀢄  Test strategyAndBranchValidationDoesNotWriteInvalidValues() recorded an issue at GitConfigurationTests.swift:43:6: Caught error: .launch(2)
+􀢄  Test rejectsHunkThatDoesNotBelongToTheFreshDiff() failed after 0.020 seconds with 1 issue.
+􀢄  Test worktreePathsWithNewlinesArePreservedAndProtected() failed after 0.020 seconds with 1 issue.
+􀢄  Test staleBinaryDiscardIsRejected() recorded an issue at DiffWorkflowTests.swift:135:6: Caught error: .launch(2)
+􀢄  Test strategyAndBranchValidationDoesNotWriteInvalidValues() failed after 0.020 seconds with 1 issue.
+􀢄  Test staleBinaryDiscardIsRejected() failed after 0.020 seconds with 1 issue.
+􀢄  Test failedAbortKeepsTheUsersResolutionAndSequencerState() recorded an issue at SequencerAndGraphTests.swift:97:6: Caught error: .launch(2)
+􀢄  Test failedAbortKeepsTheUsersResolutionAndSequencerState() failed after 0.020 seconds with 1 issue.
+􀢄  Test untrackedSymlinkIsNotFollowedAndFIFOIsRejected() recorded an issue at DiffWorkflowTests.swift:122:6: Caught error: .launch(2)
+􀢄  Test discardHunkKeepsStagedContentAndOtherWorkingChanges() recorded an issue at DiffWorkflowTests.swift:44:6: Caught error: .launch(2)
+􀢄  Test expandedContextIsReadAndAppliedAgainstTheSameOptions() recorded an issue at DiffWorkflowTests.swift:8:6: Caught error: .launch(2)
+􀢄  Test configurationEditorDistinguishesScopeInheritanceAndOrigins() recorded an issue at GitConfigurationTests.swift:15:6: Caught error: .launch(2)
+􀢄  Test untrackedSymlinkIsNotFollowedAndFIFOIsRejected() failed after 0.020 seconds with 1 issue.
+􀢄  Test discardHunkKeepsStagedContentAndOtherWorkingChanges() failed after 0.020 seconds with 1 issue.
+􀢄  Test activityIdentifiesRepositoriesWithoutStoringCommandArguments() recorded an issue at CloneTests.swift:221:6: Caught error: .launch(2)
+􀢄  Test unmergedDeletionRequiresConfirmationAndRejectsMovedTips() recorded an issue at BranchManagementTests.swift:58:6: Caught error: .launch(2)
+􀢄  Test globalScopeIsRewrittenToThePrivateFileBeforeTheProcessRuns() recorded an issue at TestGitIsolationTests.swift:69:6: Caught error: .launch(2)
+􀢄  Test activityIdentifiesRepositoriesWithoutStoringCommandArguments() failed after 0.020 seconds with 1 issue.
+􀢄  Test renameAndSafeDeleteKeepTheCurrentBranchAndWorktree() recorded an issue at BranchManagementTests.swift:37:6: Caught error: .launch(2)
+􀢄  Test respectsExistingSSHSigningConfiguration() recorded an issue at CoreTests.swift:386:6: Caught error: .launch(2)
+􀢄  Test unmergedDeletionRequiresConfirmationAndRejectsMovedTips() failed after 0.020 seconds with 1 issue.
+􀢄  Test respectsExistingSSHSigningConfiguration() failed after 0.020 seconds with 1 issue.
+􀢄  Test highlightingDoesNotChangeThePatchAppliedToGit() recorded an issue at WordDiffTests.swift:59:6: Caught error: .launch(2)
+􀢄  Suite SequencerAndGraphTests failed after 0.021 seconds with 5 issues.
+􀢄  Test expandedContextIsReadAndAppliedAgainstTheSameOptions() failed after 0.020 seconds with 1 issue.
+􀢄  Test diskAndMemorySnapshotsExposeTheSameContextRanges() recorded an issue at DiffContextTests.swift:128:6: Caught error: .launch(2)
+􀢄  Test globalScopeIsRewrittenToThePrivateFileBeforeTheProcessRuns() failed after 0.020 seconds with 1 issue.
+􀢄  Test cancelledAndTimedOutOperationsAreRecordedWithoutInventedExitCodes() recorded an issue at CloneTests.swift:253:30: Expectation failed: entries[0].state == .cancelled
+􀄵  entries[0].state == .cancelled → false
+􀄵    entries[0].state → .failed
+􀢄  Test highlightingDoesNotChangeThePatchAppliedToGit() failed after 0.020 seconds with 1 issue.
+􀢄  Test diskAndMemorySnapshotsExposeTheSameContextRanges() failed after 0.021 seconds with 1 issue.
+􀢄  Test aTagWithTheSameNameDoesNotChangeTheBranchCommandName() recorded an issue at BranchManagementTests.swift:105:6: Caught error: .launch(2)
+􀢄  Test trackingBranchReportsDivergenceAndMissingUpstream() recorded an issue at BranchManagementTests.swift:7:6: Caught error: .launch(2)
+􀢄  Test contextUsesTheCapturedIndexBlobEvenAfterFurtherEdits() recorded an issue at DiffContextTests.swift:46:6: Caught error: .launch(2)
+􀢄  Test aTagWithTheSameNameDoesNotChangeTheBranchCommandName() failed after 0.020 seconds with 1 issue.
+􀢄  Suite WordDiffTests failed after 0.021 seconds with 1 issue.
+􀢄  Test contextPagesMapZeroLengthHunksCRLFAndFinalLine() recorded an issue at DiffContextTests.swift:7:6: Caught error: .launch(2)
+􀢄  Test trackingBranchReportsDivergenceAndMissingUpstream() failed after 0.020 seconds with 1 issue.
+􀢄  Test contextUsesTheCapturedIndexBlobEvenAfterFurtherEdits() failed after 0.021 seconds with 1 issue.
+􀢄  Test contextPagesMapZeroLengthHunksCRLFAndFinalLine() failed after 0.021 seconds with 1 issue.
+􀢄  Test configurationEditorDistinguishesScopeInheritanceAndOrigins() failed after 0.020 seconds with 1 issue.
+􀢄  Test changedOrNewlyTrackedFilesCannotUseAnOldConfirmation() recorded an issue at UntrackedTrashTests.swift:42:6: Caught error: .launch(2)
+􀢄  Suite DiffWorkflowTests failed after 0.021 seconds with 8 issues.
+􀢄  Test expansionAndPagingNeverChangeTheHunkAppliedToTheIndex() recorded an issue at DiffContextTests.swift:68:6: Caught error: .launch(2)
+􀢄  Test largeContextReadsFixedBlobOffsetsAfterIndexChanges() recorded an issue at DiffContextTests.swift:154:6: Caught error: .launch(2)
+􀢄  Test changedOrNewlyTrackedFilesCannotUseAnOldConfirmation() failed after 0.021 seconds with 1 issue.
+􀢄  Test whitespaceFilteredDiffHasNoExpandersAndEmptyTailEndsCleanly() recorded an issue at DiffContextTests.swift:93:6: Caught error: .launch(2)
+􀢄  Test largeContextReadsFixedBlobOffsetsAfterIndexChanges() failed after 0.021 seconds with 1 issue.
+􀢄  Suite GitConfigurationTests failed after 0.021 seconds with 3 issues.
+􀢄  Test whitespaceFilteredDiffHasNoExpandersAndEmptyTailEndsCleanly() failed after 0.021 seconds with 1 issue.
+􀢄  Test renameAndSafeDeleteKeepTheCurrentBranchAndWorktree() failed after 0.021 seconds with 1 issue.
+􀢄  Suite BranchManagementTests failed after 0.021 seconds with 5 issues.
+􀢄  Test removalPreservesTheIndexAndOtherWorkingFiles() recorded an issue at UntrackedTrashTests.swift:20:6: Caught error: .launch(2)
+􀢄  Test removalPreservesTheIndexAndOtherWorkingFiles() failed after 0.021 seconds with 1 issue.
+􀢄  Test expansionAndPagingNeverChangeTheHunkAppliedToTheIndex() failed after 0.021 seconds with 1 issue.
+􀢄  Test cancelledAndTimedOutOperationsAreRecordedWithoutInventedExitCodes() recorded an issue at CloneTests.swift:254:29: Expectation failed: entries[0].state == .timedOut
+􀄵  entries[0].state == .timedOut → false
+􀄵    entries[0].state → .failed
+􀢄  Test systemTrashProducesARecoverableReceipt() recorded an issue at UntrackedTrashTests.swift:91:6: Caught error: .launch(2)
+􀢄  Test systemTrashProducesARecoverableReceipt() failed after 0.021 seconds with 1 issue.
+􁁛  Test drainsBothPipesAndClosesInput() passed after 0.021 seconds.
+􀢄  Test oversizedContextObjectUsesBoundedDiskPrefixes() recorded an issue at DiffContextTests.swift:109:6: Caught error: .launch(2)
+􀢄  Test onlyTheSymlinkEntryMovesToTrash() recorded an issue at UntrackedTrashTests.swift:75:6: Caught error: .launch(2)
+􀢄  Test oversizedContextObjectUsesBoundedDiskPrefixes() failed after 0.022 seconds with 1 issue.
+􀢄  Test onlyTheSymlinkEntryMovesToTrash() failed after 0.022 seconds with 1 issue.
+􀢄  Test unavailableTrashNeverDeletesTheFile() recorded an issue at UntrackedTrashTests.swift:64:6: Caught error: .launch(2)
+􀢄  Suite DiffContextTests failed after 0.022 seconds with 7 issues.
+􀢄  Test unavailableTrashNeverDeletesTheFile() failed after 0.022 seconds with 1 issue.
+􀢄  Suite UntrackedTrashTests failed after 0.022 seconds with 5 issues.
+􀢄  Test cancelledAndTimedOutOperationsAreRecordedWithoutInventedExitCodes() failed after 0.022 seconds with 2 issues.
+􀢄  Suite ActivityOutcomeTests failed after 0.022 seconds with 3 issues.
+􁁛  Test advertisedVersionsCannotBypassRequiredCapabilities(failure:) with 3 test cases passed after 0.024 seconds.
+􁁛  Suite GitInstallationTests passed after 0.025 seconds.
+􁁛  Test hostConfirmationIsExplicitAndExistingAskPassProgramsArePreserved() passed after 0.024 seconds.
+􀢄  Test concurrentFixtureCommandsShareTheReadOnlyIsolationProbe() recorded an issue at TestGitIsolationTests.swift:43:6: Caught error: .launch(2)
+􀢄  Test concurrentFixtureCommandsShareTheReadOnlyIsolationProbe() failed after 0.033 seconds with 1 issue.
+􀢄  Suite TestGitIsolationTests failed after 0.034 seconds with 2 issues.
+􁁛  Test queuedProcessCancellationNeverLaunchesAndReturnsCapacity() passed after 0.048 seconds.
+􁁛  Test unansweredAuthenticationHasABoundedLifetime() passed after 0.064 seconds.
+􁁛  Test closingTheCommandCancelsItsPendingAuthentication() passed after 0.112 seconds.
+􁁛  Test concurrentProcessesDoNotStarveTheirPipeReaders() passed after 0.112 seconds.
+􁁛  Test invalidCapabilitiesCannotPromptAndRepliesAreRedactedUntilTheSessionCloses() passed after 0.113 seconds.
+􀢄  Suite AuthenticationTests failed after 0.114 seconds with 3 issues.
+􁁛  Test cancelledWaiterNeverExecutesAndPermitRecovers() passed after 0.115 seconds.
+􁁛  Test detectsInstalledGitAndRejectsInvalidPreference() passed after 0.139 seconds.
+􀢄  Suite CompatibilityTests failed after 0.139 seconds with 1 issue.
+􁁛  Test ownsPermitAcrossSuspension() passed after 0.172 seconds.
+􁁛  Suite QueueTests passed after 0.173 seconds.
+􁁛  Test timeoutTerminatesProcessGroup() passed after 0.638 seconds.
+􁁛  Test cancellationAndOutputLimit() passed after 1.102 seconds.
+􁁛  Suite ProcessTests passed after 1.102 seconds.
+􀢄  Test run with 183 tests in 32 suites failed after 1.103 seconds with 147 issues.
+Note: Some test targets reported failures:
+  - WeGitCoreTests (Swift Testing)

@@ -1,0 +1,55 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 radio button Description: 通用, Value: 0
+			4 radio button Description: Git, Value: 1
+			5 radio button Description: 外观, Value: 0
+			6 radio button Description: 差异, Value: 0
+			7 radio button Description: 提交, Value: 0
+			8 radio button Description: 高级, Value: 0
+		9 scroll area Secondary Actions: Scroll Up, Scroll Down
+			10 heading Git 可执行文件
+			11 container
+				12 text 正在使用, Value: /Applications/Xcode.app/Contents/Developer/usr/bin/git git version 2.54.0 (Apple Git-157) 需要 Git 2.46+ 和运行时配置能力。自动检测依次检查系统/Xcode、Homebrew 和 PATH。
+				13 button 选择 Git…
+				14 button 恢复自动检测
+			15 heading 身份与策略
+			16 container
+				17 pop up button 写入作用域, Value: 当前仓库, ID: git-setting-scope
+				18 text 只编辑当前仓库：WeGit Studio 提交者姓名 WeGit Studio local · file:.git/config 当前仓库直接设置：WeGit Studio
+				19 button Description: 编辑…, ID: edit-setting:user.name
+				20 text 提交邮箱 studio@example.invalid local · file:.git/config 当前仓库直接设置：studio@example.invalid
+				21 button Description: 编辑…, ID: edit-setting:user.email
+				22 text 新仓库默认分支 main unknown · file:/Applications/Xcode.app/Contents/Developer/usr/share/git-core/gitconfig 当前仓库直接设置：未设置，使用继承值
+				23 button Description: 编辑…, ID: edit-setting:init.defaultBranch
+				24 text Pull 整合方式 未配置 当前仓库直接设置：未设置，使用继承值
+				25 button Description: 编辑…, ID: edit-setting:pull.rebase
+				26 text Pull 快进策略 未配置 当前仓库直接设置：未设置，使用继承值
+				27 button Description: 编辑…, ID: edit-setting:pull.ff
+				28 text Merge 快进策略 未配置 当前仓库直接设置：未设置，使用继承值
+				29 button Description: 编辑…, ID: edit-setting:merge.ff
+				30 button 重新读取配置
+			31 heading 认证
+			32 container
+				33 text 优先复用 Credential Helper、SSH Agent 和已配置的 AskPass。缺少凭证时使用独立窗口输入，等待超过 2 分钟自动取消。 不会自动信任新主机或关闭主机检查。签名继续使用现有 Git 配置。
+			34 scroll bar (settable, float) 0
+				35 value indicator (settable, float) 0
+				36 increment arrow button
+				37 decrement arrow button
+				38 increment page button
+				39 decrement page button
+	40 close button
+	41 zoom button (disabled)
+	42 text WeGit Settings
+43 menu bar
+	44 WeGit
+	45 File
+	46 Edit
+	47 View
+	48 仓库
+	49 工作区
+	50 Window
+	51 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

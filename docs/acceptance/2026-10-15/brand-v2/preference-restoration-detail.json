@@ -1,0 +1,14 @@
+{
+  "com.willxue.wegit.development": {
+    "keys": 40,
+    "beforeSHA256": "b6d99bb3e10b58a645b332c972e04e799f3ddf01c769ac5613b69bcdec16ee56",
+    "restoredSHA256": "b6d99bb3e10b58a645b332c972e04e799f3ddf01c769ac5613b69bcdec16ee56",
+    "equal": true
+  },
+  "com.willxue.wegit.UITests": {
+    "keys": 0,
+    "beforeSHA256": "9261ecceda608ef174256e5fdc774c1e6e3dcf533409c1bc393d490d01c713f1",
+    "restoredSHA256": "9261ecceda608ef174256e5fdc774c1e6e3dcf533409c1bc393d490d01c713f1",
+    "equal": true
+  }
+}

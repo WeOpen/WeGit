@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "configuration": "ReleasePerformance",
+  "durationSeconds": 20,
+  "trace": ".build/qa/profiles/v1-release-status.trace",
+  "conditions": "Attached after launch; warm private normal fixture; manual refresh; diagnostic only, excludes startup and is not an acceptance latency/FPS result.",
+  "sampleRows": 557,
+  "inclusiveFrames": {
+    "AG::Graph::UpdateStack::update()": 131,
+    "-[NSView layoutSubtreeIfNeeded]": 90,
+    "-[NSView _layoutSubtreeIfNeededAndAllowTemporaryEngine:]": 90,
+    "__56-[NSView _layoutSubtreeIfNeededAndAllowTemporaryEngine:]_block_invoke": 90,
+    "specialized static ProcessRunner.execute(_:control:)": 11,
+    "static ProcessRunner.execute(_:control:)": 11,
+    "closure #1 in RepositoryService.readSnapshot(scope:previousHead:previousBranch:)": 1,
+    "RepositoryService.remotes()": 1,
+    "AG::Graph::UpdateStack::push(AG::data::ptr<AG::Node>, AG::Node&, bool, bool)": 1
+  },
+  "topLeafFrames": [
+    [
+      "getMethodNoSuper_nolock(objc_class*, objc_selector*)",
+      22
+    ],
+    [
+      "objc_msgSend",
+      20
+    ],
+    [
+      "<deduplicated_symbol>",
+      20
+    ],
+    [
+      "mach_msg2_trap",
+      16
+    ],
+    [
+      "find(_:key:filter:)",
+      14
+    ],
+    [
+      "_platform_memmove",
+      11
+    ],
+    [
+      "AG::Graph::propagate_dirty(AG::AttributeID)",
+      9
+    ],
+    [
+      "swift::MetadataCacheKey::operator==(swift::MetadataCacheKey const&) const",
+      8
+    ],
+    [
+      "__CF_IS_OBJC",
+      8
+    ],
+    [
+      "__posix_spawn",
+      8
+    ],
+    [
+      "closure #6 in find(_:key:filter:)",
+      7
+    ],
+    [
+      "_xzm_free_main",
+      6
+    ]
+  ],
+  "limitation": "CPU sampling does not measure asynchronous process waits. Original performance-category Git signposts were not captured by the default template. Added PointsOfInterest and a separately bound status-read measurement for subsequent rounds."
+}
