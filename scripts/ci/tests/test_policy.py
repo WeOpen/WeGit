@@ -76,6 +76,26 @@ class PolicyTests(unittest.TestCase):
         existing = {"body": issue_marker("ui") + "\nHuman edits", "state": "closed"}
         self.assertEqual(plan([label], [milestone], [issue], [label], [milestone], [existing]), [])
 
+class GitIsolationTests(unittest.TestCase):
+    def test_private_global_config_remains_writable_for_checkout_cleanup(self):
+        import os
+        import subprocess
+        import tempfile
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "environment"
+            environment = dict(os.environ, RUNNER_TEMP=str(root), GITHUB_ENV=str(output))
+            script = Path(__file__).resolve().parents[1] / "isolate-git.sh"
+            subprocess.run(["bash", str(script)], env=environment, check=True)
+            isolated = dict(line.split("=", 1) for line in output.read_text().splitlines())
+            config = Path(isolated["GIT_CONFIG_GLOBAL"])
+            self.assertEqual(config.parent, root)
+            self.assertEqual(config.stat().st_mode & 0o777, 0o600)
+            subprocess.run(["git", "config", "--global", "--add", "safe.directory", "/fixture"],
+                           env=environment | isolated, check=True)
+            self.assertIn("/fixture", config.read_text())
+            self.assertEqual(isolated["GIT_CONFIG_SYSTEM"], "/dev/null")
+
 
 if __name__ == "__main__":
     unittest.main()
