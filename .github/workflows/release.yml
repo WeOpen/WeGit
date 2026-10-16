@@ -50,8 +50,6 @@ jobs:
     env:
       WEGIT_SKIP_PROJECT_GENERATION: '1'
       WEGIT_RELEASE_TAG: ${{ inputs.tag }}
-      GIT_CONFIG_GLOBAL: /dev/null
-      GIT_CONFIG_SYSTEM: /dev/null
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -63,6 +61,9 @@ jobs:
           ref: ${{ needs.resolve.outputs.commit }}
           path: source
           persist-credentials: false
+      - name: Isolate Git configuration without affecting checkout cleanup
+        working-directory: source
+        run: scripts/ci/isolate-git.sh
       - name: Verify tagged source and rebuild ordinary ad-hoc Release
         working-directory: source
         run: |

@@ -20,13 +20,13 @@ jobs:
       cancel-in-progress: false
     env:
       WEGIT_SKIP_PROJECT_GENERATION: '1'
-      GIT_CONFIG_GLOBAL: /dev/null
-      GIT_CONFIG_SYSTEM: /dev/null
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+      - name: Isolate Git configuration without affecting checkout cleanup
+        run: scripts/ci/isolate-git.sh
       - name: Verify toolchain and core checks
         run: |
           scripts/ci/check-toolchain.sh

@@ -57,13 +57,12 @@ jobs:
     # PR code only runs on fresh GitHub-hosted VMs, never a personal Mac.
     runs-on: xcode-27
     timeout-minutes: 60
-    env:
-      GIT_CONFIG_GLOBAL: /dev/null
-      GIT_CONFIG_SYSTEM: /dev/null
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - name: Isolate Git configuration without affecting checkout cleanup
+        run: scripts/ci/isolate-git.sh
       - name: Verify actual OS, architecture and Xcode
         run: |
           mkdir -p .build/ci
