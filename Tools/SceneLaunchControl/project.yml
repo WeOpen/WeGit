@@ -89,6 +89,54 @@ targets:
         CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
         CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/LanguageApp.app'
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) LANGUAGE_CONTROL_ARGUMENTS'
+  DefaultArgumentsApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  DefaultArgumentsTests:
+    templates: [ControlTests]
+    dependencies: [{target: DefaultArgumentsApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/DefaultArgumentsApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) DEFAULT_CONTROL_ARGUMENTS'
+
+  MarkerApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  MarkerTests:
+    templates: [ControlTests]
+    dependencies: [{target: MarkerApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/MarkerApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) MARKER_CONTROL_ARGUMENTS'
+
+  LanguageApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  LanguageTests:
+    templates: [ControlTests]
+    dependencies: [{target: LanguageApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/LanguageApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) LANGUAGE_CONTROL_ARGUMENTS'
+
   AppKitBareApp:
     templates: [AppKitApplication]
     settings:
@@ -257,3 +305,27 @@ schemes:
         GroupControlTests: [test]
     test:
       targets: [GroupControlTests]
+
+  DefaultArgumentsControl:
+    build:
+      targets:
+        DefaultArgumentsApp: all
+        DefaultArgumentsTests: [test]
+    test:
+      targets: [DefaultArgumentsTests]
+
+  MarkerControl:
+    build:
+      targets:
+        MarkerApp: all
+        MarkerTests: [test]
+    test:
+      targets: [MarkerTests]
+
+  LanguageControl:
+    build:
+      targets:
+        LanguageApp: all
+        LanguageTests: [test]
+    test:
+      targets: [LanguageTests]
