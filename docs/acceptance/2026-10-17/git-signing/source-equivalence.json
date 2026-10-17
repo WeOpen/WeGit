@@ -1,0 +1,10 @@
+{
+  "coreSourcesMatchTestedSHA256": true,
+  "checkerMatchesTestedSHA256": true,
+  "testedCommit": "18083727c24e525157e749137d2fce5692bbbffa",
+  "pullRequestHead": "a4ab7a95e1c333fb7b6eb6a25f2a37efaf6dbc9b",
+  "result": "passed",
+  "applicationSourceSHA256": "6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda",
+  "applicationInputCount": 120,
+  "applicationInputsMatchTestedRelease": true
+}

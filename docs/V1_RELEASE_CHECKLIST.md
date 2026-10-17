@@ -14,7 +14,7 @@
 
 | 已有结果 | 证据与边界 |
 | --- | --- |
-| 两套 Git 各 183 项核心测试 / 32 套件通过 | Apple Git 2.54.0、私有 Git 2.46.0；[主题轮完整验证](acceptance/2026-10-16/custom-themes/README.md)。最新图标轮核对核心输入未变，没有冒充重跑。 |
+| 三套 Git 各 183 项核心测试 / 32 套件通过 | Apple Git 2.54.0、私有 Git 2.46.0，以及新增 Homebrew Git 2.56.0；[OpenPGP / Homebrew 验收](acceptance/2026-10-17/git-signing/README.md)。Apple / Homebrew 各 7 项非交互 OpenPGP 及清理也已通过。 |
 | 34 项主题、18 项图标、27 项原生菜单行为通过 | 不同专项分别记录；[主题](acceptance/2026-10-16/custom-themes/README.md)与[图标](acceptance/2026-10-16/dock-scale-material/README.md)。 |
 | Debug / 普通 Release、格式、可追溯开发包通过 | 最近图标轮源码摘要 `6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda`；[开发包记录](acceptance/2026-10-16/dock-scale-material/README.md)。 |
 | 6 种恢复启动与部分实际 UI 检查通过 | 属于存活、恢复及局部交互检查，不代表完整 XCTest 或辅助访问通过。 |
@@ -29,7 +29,7 @@
 | P0 | **恢复完整原生 UI 执行并统一回归** | 新托管路径已进入实际 XCTest，首次窗口未呈现仍阻塞，正在建立独立 SwiftUI 控制；三项试验未改善且已撤回，见 [启动证据](acceptance/2026-10-17/native-ui/README.md)。先通过最小用例，再跑完整功能、144 阅读组合和专项。旧完整回合为 36/37；Clone 长路径输入失败仍需关闭。最终中英、内置/自定义主题、复制/缓存、分页、恢复与任务生命周期使用同一稳定源码验收。 |
 | P0 | **辅助访问与显示选项** | 逐条处理原 44 条待判定自动报告；完成 VoiceOver、完整键盘、实际对比度、减少透明度/动态效果与增强对比度；记录例外及系统设置恢复。[辅助访问记录](ACCESSIBILITY.md)。 |
 | P0 | **最终源码完整性能** | 固定夹具和冷热条件，串行至少 30 次 Release 采样；普通外壳 <500 ms、Status <300 ms、Diff <150 ms、History <300 ms、外部稳定更新 <1 s。补复杂图、十万级内存/滚动、磁盘 Diff、取消响应；用 signpost/Instruments 定位实际热点。[性能记录](PERFORMANCE.md)。 |
-| P0 | **兼容性与真实工作流边界** | 补 Homebrew Git/GPG、Helper/签名组合、GitLab/通用服务与未覆盖系统/显示器条件；统一复核权限失效、排队/取消/关闭/切换后的权威状态、草稿、冲突恢复。已有 GitHub 验收不重复标为缺失。[兼容性矩阵](COMPATIBILITY.md)、[PLAN](PLAN.md)。 |
+| P0 | **兼容性与真实工作流边界** | Homebrew 核心与非交互 OpenPGP 已有实际证据；继续补真实 Pinentry/硬件密钥、Helper/签名组合、GitLab/通用服务与未覆盖系统/显示器条件，统一复核权限失效、排队/取消/关闭/切换后的权威状态、草稿、冲突恢复。已有 GitHub 验收不重复标为缺失。[兼容性矩阵](COMPATIBILITY.md)、[PLAN](PLAN.md)。 |
 | P0 | **完整验收 Runner 与最新应用 CI** | 常规托管 CI 已在 [main 实际通过](https://github.com/WeOpen/WeGit/actions/runs/38881671955)，调度/工具链修正已合并。专用交互 Runner 仍为 0，需配置并通过完整验收；最新应用已在 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 合并，[CI 38924928448](https://github.com/WeOpen/WeGit/actions/runs/38924928448) 两套 Git 各 183 项及原生专项/构建通过，#12 已关闭；这不代表完整 UI 执行通过。 |
 | P0 | **无账号的正式制品与干净机器安装** | 正式 ID 的 `--adhoc` 打包路径已完成并实测；仍需最终版本、开发偏好与数据迁移、更新/回退说明；版本化 ZIP、SHA-256、manifest、AskPass/许可/权限核对。通过实际 HTTPS 下载→解压/安装→首次系统提示→打开仓库/提交/同步完整流程，不能用同机本地产物启动代替。此项不依赖购买开发者账号。 |
 | P0 | **可公开访问的 GitHub 和网站渠道** | 仓库已公开，Issue/PR 与草稿发布流程已配置。网站代码、双语页面与 Pages 部署流程已建立，下载仅引用同一版本 GitHub 资产；仍需实际公开 Release 与文件下载/校验和验证。站点上线不等于应用发布。 |

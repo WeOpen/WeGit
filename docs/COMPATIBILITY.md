@@ -1,6 +1,6 @@
 # Git 兼容性与测试隔离
 
-> 总览更新：2026-10-16；历史验证记录保留原日期。运行环境：macOS 27.0.1（26A434）、Xcode 27、Swift 6.4、Apple Silicon Mac16,8。
+> 总览更新：2026-10-17；历史验证记录保留原日期。环境包含 macOS 27.0.1（26A434）、Xcode 27 / Swift 6.4 的本机 Apple Silicon Mac16,8 与独立托管 arm64 VM，具体来源和范围见各项证据。
 
 ## 1. 最低能力要求
 
@@ -21,9 +21,10 @@ WeGit 要求 **Git 2.46 或更新版本**。启动时除版本号外，还实际
 | Git 官方源码，项目目录内独立编译 | 2.46.0 | 同一套 183 项核心测试、32 个套件全部通过 |
 | Git 官方源码，项目目录内独立编译 | 2.31.8 | 不受支持；隔离修复后在任何仓库命令前拒绝，配置文件校验值保持一致 |
 | Xcode 内 Git | 与当前 Xcode 配套 | 用于原生 UI 夹具，独立执行配置隔离探针；UI 结果见开发记录 |
-| Homebrew Git / GPG | 当前未找到 | 尚未验证，不能用其他来源的结果代替 |
+| Homebrew Git，独立托管 VM | 2.56.0（formula 2.56.0_1） | 同一套 183 项核心测试 / 32 套件通过；[2026-10-17 证据](acceptance/2026-10-17/git-signing/README.md) |
+| GnuPG，独立托管 VM | 2.5.24 | Apple / Homebrew Git 各 7 项非交互签名行为及私有服务/夹具清理通过；真实 Pinentry/硬件密钥待验 |
 
-核心矩阵覆盖真实临时仓库、SSH 临时密钥签名、Hooks、配置编辑、差异写入、历史与分支、多个本地 Bare Remote、Lease、Pull/Rebase 冲突与取消。GitHub HTTPS/SSH 的真实写入已通过，见第 6 节；GitLab、交互认证完整矩阵、GPG、干净机器与当前无账号正式安装验收仍需补齐。
+核心矩阵覆盖真实临时仓库、SSH 临时密钥签名、Hooks、配置编辑、差异写入、历史与分支、多个本地 Bare Remote、Lease、Pull/Rebase 冲突与取消；OpenPGP 非交互范围另有实际签名核验。GitHub HTTPS/SSH 的真实写入已通过，见第 6 节；GitLab、交互认证完整矩阵、真实 Pinentry/硬件密钥、干净机器与当前无账号正式安装验收仍需补齐。
 
 最新系统 Git 日志：`/tmp/wegit-v1-status-core-system-final.log`；2.46 日志：`/tmp/wegit-v1-status-core-git246-final.log`。此前 156 项的地址固定回归记录分别为 `/tmp/wegit-system-git-pinning-full.log`、`/tmp/wegit-git246-full.log`；不受支持版本的拒绝记录为 `/tmp/wegit-git231-isolation-rejection.log`。日志路径为本机验证产物，并非随仓库分发的测试数据。
 
@@ -156,4 +157,12 @@ macOS 27.0.1 / Xcode 27.0（27A266a）arm64 下验证内置 Light/Dark 与独立
 
 macOS 27.0.1 / Xcode 27.0 arm64 下对比本机 Finder/Notes/Terminal 的静态图标底板 206/256；修正后运行图标 824/1024、原生编译图标 206/256。18 项图标生命周期/尺寸检查和构建通过；系统 Dock UI 访问超时，未扩展其他系统或动态反光效果通过结论，见 [Dock 比例与材质修正](acceptance/2026-10-16/dock-scale-material/README.md)。
 
-最新应用的两套 Git 和原生专项/构建证据见 [PR #15 接入记录](acceptance/2026-10-16/application-integration/README.md)。没有新增 Homebrew/GPG/GitLab 或其他系统的通过结论。
+截至 2026-10-16，最新应用的两套 Git 和原生专项/构建证据见 [PR #15 接入记录](acceptance/2026-10-16/application-integration/README.md)；当时没有新增 Homebrew/GPG/GitLab 或其他系统的通过结论。2026-10-17 的新增范围见下节，原历史回合保持原条件。
+
+## 隔离的 OpenPGP 验证入口（2026-10-17）
+
+新增 `scripts/verify-gpg-compatibility.sh`，分别使用选中 Xcode 的实际 Git 与已安装的 Homebrew Git，通过现有 `GitEngine` / `RepositoryService` 执行真实签名、核对指定密钥、无效密钥拒绝及 HEAD/暂存内容保留、仓库覆盖和移除后恢复继承。每次使用独立 `mkdtemp`、Git 全局文件和 GNUPGHOME；结束只停止该目录的 GnuPG 服务并删除本次夹具，不改 HOME、用户密钥或原 Git 配置。源码摘要、实际 Git/GPG 版本、行为与清理结果独立归档。
+
+常规 CI 增加串行签名与完整核心回归步骤，要求镜像已有 Homebrew Git/GnuPG；缺失即报错，不安装、不回退为 Apple Git 或 SSH 签名。核心回归通过现有 WEGIT_TEST_GIT 选择实际 Homebrew Git。仅编译可运行 `scripts/verify-gpg-compatibility.sh --compile-only`，不能记作签名通过。[CI 38994191287](https://github.com/WeOpen/WeGit/actions/runs/38994191287) 已实际通过 Apple / Homebrew 各 7 项签名及 Homebrew 183 项核心，私有服务与夹具清理通过，来源和条件见 [验收记录](acceptance/2026-10-17/git-signing/README.md)。
+
+该入口使用无口令的临时测试密钥，不覆盖真实 Pinentry、硬件密钥、账号或原生 UI。依据 [GnuPG 批量密钥接口](https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html)；托管镜像软件清单只是前置参考，实际版本以本轮结果为准。相关完整矩阵保持各自范围。
