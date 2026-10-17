@@ -157,3 +157,11 @@ macOS 27.0.1 / Xcode 27.0（27A266a）arm64 下验证内置 Light/Dark 与独立
 macOS 27.0.1 / Xcode 27.0 arm64 下对比本机 Finder/Notes/Terminal 的静态图标底板 206/256；修正后运行图标 824/1024、原生编译图标 206/256。18 项图标生命周期/尺寸检查和构建通过；系统 Dock UI 访问超时，未扩展其他系统或动态反光效果通过结论，见 [Dock 比例与材质修正](acceptance/2026-10-16/dock-scale-material/README.md)。
 
 最新应用的两套 Git 和原生专项/构建证据见 [PR #15 接入记录](acceptance/2026-10-16/application-integration/README.md)。没有新增 Homebrew/GPG/GitLab 或其他系统的通过结论。
+
+## 隔离的 OpenPGP 验证入口（2026-10-17）
+
+新增 `scripts/verify-gpg-compatibility.sh`，分别使用选中 Xcode 的实际 Git 与已安装的 Homebrew Git，通过现有 `GitEngine` / `RepositoryService` 执行真实签名、核对指定密钥、无效密钥拒绝及 HEAD/暂存内容保留、仓库覆盖和移除后恢复继承。每次使用独立 `mkdtemp`、Git 全局文件和 GNUPGHOME；结束只停止该目录的 agent 并删除本次夹具，不改 HOME、用户密钥或原 Git 配置。源码摘要、实际 Git/GPG 版本、行为与清理结果独立归档。
+
+常规 CI 增加串行签名与完整核心回归步骤，要求镜像已有 Homebrew Git/GnuPG；缺失即报错，不安装、不回退为 Apple Git 或 SSH 签名。核心回归通过现有 WEGIT_TEST_GIT 选择实际 Homebrew Git。仅编译可运行 `scripts/verify-gpg-compatibility.sh --compile-only`，不能记作签名通过。当前先记录实现与编译，远端实际行为结果待补。
+
+该入口使用无口令的临时测试密钥，不覆盖真实 Pinentry、硬件密钥、账号或原生 UI。依据 [GnuPG 批量密钥接口](https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html)；托管镜像软件清单只是前置参考，实际版本以本轮结果为准。相关完整矩阵保持各自范围。

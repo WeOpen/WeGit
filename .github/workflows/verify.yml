@@ -81,6 +81,11 @@ jobs:
           env WEGIT_TEST_GIT="$(cat .build/git-246-path)" swift test --no-parallel
       - name: Native feature behavior checks
         run: scripts/ci/native-behavior.sh
+      - name: Apple and Homebrew Git with isolated OpenPGP signing
+        run: scripts/verify-gpg-compatibility.sh
+      - name: Complete core regression with actual Homebrew Git
+        run: |
+          env WEGIT_TEST_GIT="$(brew --prefix git)/bin/git" swift test --no-parallel | tee .build/ci/homebrew-core.log
       - name: Compile native UI regressions
         run: |
           xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
