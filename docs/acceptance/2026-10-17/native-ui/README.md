@@ -24,6 +24,8 @@
 
 本机使用同一裸场景源的普通后台启动实际显示 `control-ready`，截图与范围见 [本机记录](scene-controls/local-bare-native.json)，控制应用已退出。它不等价于托管 XCTest。下一轮仅运行异步 XCTest / NSWorkspace 两个新通道，原三项失败不重复执行。两份 UI runner 的实际 sandbox 仍开启；NSWorkspace 可能因此忽略参数，必须独立核对隔离参数到达后才可判定通道通过，不能据窗口显示就替换 WeGit 启动器。
 
+第二轮 [38995024310](https://github.com/WeOpen/WeGit/actions/runs/38995024310) 在 `bf12c72` 两组各实际执行 1、失败 1、跳过 0，仍在内容呈现断言失败；见 [通道报告](scene-controls/launch-routes-report.json)。没有采用任一新启动器，也没有关闭 sandbox。下一步仅运行 AppKit 显式窗口与 AppKit＋NSHostingView 两个新控制，进一步区分窗口系统、SwiftUI 承载及 App/Scene 生命周期；旧五项不自动重试。
+
 ## 本机旁白尝试与恢复
 
 系统设置确认原开关 off，临时 on 后仍未观察到 VoiceOver 读屏进程；已存在的 Quickstart 引导无法通过控制通道读取，未取得字幕或朗读证据。开关恢复 off，系统设置恢复原 General 页面，未改其他辅助选项，见 [voiceover-attempt.json](voiceover-attempt.json)。旁白验收保持未完成。

@@ -4,6 +4,8 @@ from datetime import datetime, timezone
 import argparse
 import json
 from pathlib import Path
+import plistlib
+import subprocess
 import sys
 
 from ui_probe import inspect_environment, result_summary, run_logged, verify_summary
@@ -11,13 +13,21 @@ from ui_probe import inspect_environment, result_summary, run_logged, verify_sum
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--controls", default="async,workspace")
+    parser.add_argument("--controls", default="appkit,hosting")
     args = parser.parse_args()
     schemes = {"bare": "BareControl", "single": "SingleControl", "group": "GroupControl",
-               "async": "AsyncControl", "workspace": "WorkspaceControl"}
+               "async": "AsyncControl", "workspace": "WorkspaceControl",
+               "appkit": "AppKitControl", "hosting": "HostingControl"}
+    products = {"bare": ("BareControl", "BareControlTests"),
+                "single": ("SingleControl", "SingleControlTests"),
+                "group": ("GroupControl", "GroupControlTests"),
+                "async": ("AsyncBareApp", "AsyncLaunchTests"),
+                "workspace": ("WorkspaceBareApp", "WorkspaceLaunchTests"),
+                "appkit": ("AppKitBareApp", "AppKitLaunchTests"),
+                "hosting": ("HostingBareApp", "HostingLaunchTests")}
     selection = args.controls.split(",")
     if not selection or len(selection) != len(set(selection)) or any(key not in schemes for key in selection):
-        parser.error("Select unique controls from bare,single,group,async,workspace")
+        parser.error("Select unique controls from bare,single,group,async,workspace,appkit,hosting")
     output = Path(".build/ci/scene-controls")
     output.mkdir(parents=True, exist_ok=True)
     report = {"date": datetime.now(timezone.utc).isoformat(), "kind": "isolated-scene-controls",
@@ -44,6 +54,19 @@ def main():
         if item["build"]["exitCode"] or item["build"]["timedOut"]:
             failed = True
             continue
+        signed = {}
+        for role, name in zip(("application", "runner"), products[key]):
+            suffix = ".app" if role == "application" else "-Runner.app"
+            path = Path(".build/scene-controls/Build/Products/Debug") / (name + suffix)
+            result = subprocess.run(["codesign", "-d", "--entitlements", ":-", str(path)],
+                                    capture_output=True, timeout=15)
+            try:
+                entitlements = plistlib.loads(result.stdout)
+                signed[role] = {"readSucceeded": result.returncode == 0,
+                                "sandboxed": bool(entitlements.get("com.apple.security.app-sandbox", False))}
+            except (ValueError, plistlib.InvalidFileException):
+                signed[role] = {"readSucceeded": False, "sandboxed": None}
+        item["signatureMetadata"] = signed
         bundle = output / (scheme + ".xcresult")
         item["test"] = run_logged(base + ["test-without-building", "-test-timeouts-enabled", "YES",
                                          "-default-test-execution-time-allowance", "60",

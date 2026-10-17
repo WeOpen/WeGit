@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       controls:
-        description: Comma-separated independent controls; bare,single,group,async,workspace
+        description: Comma-separated controls; bare,single,group,async,workspace,appkit,hosting
         type: string
-        default: async,workspace
+        default: appkit,hosting
 permissions:
   contents: read
 defaults:
@@ -25,7 +25,7 @@ jobs:
     name: Independent scene launch controls
     if: github.ref == 'refs/heads/main' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: xcode-27
-    timeout-minutes: 20
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -33,9 +33,9 @@ jobs:
           persist-credentials: false
       - name: Compile and test isolated scenes serially
         env:
-          SCENE_CONTROLS: ${{ inputs.controls || 'async,workspace' }}
+          SCENE_CONTROLS: ${{ inputs.controls || 'appkit,hosting' }}
         run: |
-          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift Tools/SceneLaunchControl/AsyncSceneControlUITests.swift
+          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/AppKitControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift Tools/SceneLaunchControl/AsyncSceneControlUITests.swift
           python3 scripts/ci/scene_control.py --controls "$SCENE_CONTROLS"
       - name: Retain compact control summaries
         if: always()

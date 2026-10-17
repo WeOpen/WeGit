@@ -32,7 +32,14 @@ final class SceneControlUITests: XCTestCase {
                 activity.add(screenshot)
             }
         }
-        XCTAssertTrue(ready, "The plain SwiftUI scene must present its content after launch.")
+        XCTAssertTrue(ready, "The control must present its content after launch.")
         XCTAssertEqual(app.windows.count, 1)
+        XCTAssertTrue(app.windows.firstMatch.isHittable)
+        XCTContext.runActivity(named: "Visible control window") { activity in
+            let screenshot = XCTAttachment(screenshot: app.screenshot())
+            screenshot.name = "Visible control window"
+            screenshot.lifetime = .keepAlways
+            activity.add(screenshot)
+        }
     }
 }
