@@ -160,7 +160,7 @@ macOS 27.0.1 / Xcode 27.0 arm64 下对比本机 Finder/Notes/Terminal 的静态�
 
 ## 隔离的 OpenPGP 验证入口（2026-10-17）
 
-新增 `scripts/verify-gpg-compatibility.sh`，分别使用选中 Xcode 的实际 Git 与已安装的 Homebrew Git，通过现有 `GitEngine` / `RepositoryService` 执行真实签名、核对指定密钥、无效密钥拒绝及 HEAD/暂存内容保留、仓库覆盖和移除后恢复继承。每次使用独立 `mkdtemp`、Git 全局文件和 GNUPGHOME；结束只停止该目录的 agent 并删除本次夹具，不改 HOME、用户密钥或原 Git 配置。源码摘要、实际 Git/GPG 版本、行为与清理结果独立归档。
+新增 `scripts/verify-gpg-compatibility.sh`，分别使用选中 Xcode 的实际 Git 与已安装的 Homebrew Git，通过现有 `GitEngine` / `RepositoryService` 执行真实签名、核对指定密钥、无效密钥拒绝及 HEAD/暂存内容保留、仓库覆盖和移除后恢复继承。每次使用独立 `mkdtemp`、Git 全局文件和 GNUPGHOME；结束只停止该目录的 GnuPG 服务并删除本次夹具，不改 HOME、用户密钥或原 Git 配置。源码摘要、实际 Git/GPG 版本、行为与清理结果独立归档。
 
 常规 CI 增加串行签名与完整核心回归步骤，要求镜像已有 Homebrew Git/GnuPG；缺失即报错，不安装、不回退为 Apple Git 或 SSH 签名。核心回归通过现有 WEGIT_TEST_GIT 选择实际 Homebrew Git。仅编译可运行 `scripts/verify-gpg-compatibility.sh --compile-only`，不能记作签名通过。当前先记录实现与编译，远端实际行为结果待补。
 

@@ -14,7 +14,7 @@ private struct Report: Encodable {
     var gitVersion = ""
     var gpgVersion = ""
     var checks: [String] = []
-    var privateAgentStopped = false
+    var privateServicesStopped = false
     var fixtureRemoved = false
     var errorType: String?
     let scope = "RepositoryService with an ephemeral unprotected OpenPGP key and private configuration"
@@ -172,16 +172,16 @@ struct GPGCompatibilityChecks {
         }
         if agentMayExist {
             let stopped = try? await tool(
-                gpgconf, ["--homedir", home.path, "--kill", "gpg-agent"], name: "Stop private agent")
-            report.privateAgentStopped = stopped?.exitCode == 0
+                gpgconf, ["--homedir", home.path, "--kill", "all"], name: "Stop private services")
+            report.privateServicesStopped = stopped?.exitCode == 0
         } else {
-            report.privateAgentStopped = true
+            report.privateServicesStopped = true
         }
         do {
             try FileManager.default.removeItem(at: root)
             report.fixtureRemoved = !FileManager.default.fileExists(atPath: root.path)
         } catch { report.fixtureRemoved = false }
-        if !report.privateAgentStopped || !report.fixtureRemoved { report.result = "failed" }
+        if !report.privateServicesStopped || !report.fixtureRemoved { report.result = "failed" }
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         try encoder.encode(report).write(to: destination)

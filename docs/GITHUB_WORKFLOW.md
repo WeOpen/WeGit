@@ -126,4 +126,4 @@ WEGIT_SKIP_PROJECT_GENERATION=1 scripts/package-release.sh --adhoc
 
 PR #15 已合并 main `9889517`，应用 CI 为 183 项/32 套件 × 两套 Git，另有 34/18/27 原生主题/图标/菜单专项、UI 编译与 Debug/Release 构建；来源摘要仍为 `6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda`。网站新增独立构建/部署与 11 项版本资产行为测试。完整 UI、辅助访问、最终性能及安装/Beta 仍开放。
 
-CI 的 Native macOS 在原生专项之后串行执行 Apple/Homebrew Git 的真实 OpenPGP 校验与 Homebrew Git 完整核心回归。使用镜像已有工具和私有临时配置/密钥，输出 `.build/ci/gpg-compatibility/` 与 `homebrew-core.log`；原始密钥目录不属于上传范围，agent 停止及清理失败会使检查失败。它不替代 Pinentry、真实服务或 UI 验收，详见 [兼容性记录](COMPATIBILITY.md)。
+CI 的 Native macOS 在原生专项之后串行执行 Apple/Homebrew Git 的真实 OpenPGP 校验与 Homebrew Git 完整核心回归。使用镜像已有工具和私有临时配置/密钥，输出 `.build/ci/gpg-compatibility/` 与 `homebrew-core.log`；原始密钥目录不属于上传范围，私有服务停止及清理失败会使检查失败。它不替代 Pinentry、真实服务或 UI 验收，详见 [兼容性记录](COMPATIBILITY.md)。
