@@ -35,3 +35,5 @@
 参数拆分 [39002210951](https://github.com/WeOpen/WeGit/actions/runs/39002210951) 的默认参数、单独测试标记、单独语言参数各执行 1 项并通过，见 [参数报告](scene-controls/individual-arguments-report.json)。三组同源裸场景新增显式初始化日志；尚不能将原失败归因于参数。下一轮用相同新源比较原组合、重排组合与标准 AppleLanguages 键，先验证可复现性。
 
 同源组合 [39010111869](https://github.com/WeOpen/WeGit/actions/runs/39010111869) 证实原组合失败 1/1、重排组合通过 1/1、标记在前的 AppleLanguages 组合失败 1/1，均无跳过，见 [报告](scene-controls/combined-arguments-report.json)。差异已限定到启动参数顺序。Foundation 独立探针中两种顺序都正确读取 language，未证实“下一参数被吞掉”的解析机制，见 [探针](scene-controls/launch-defaults-probe.json)。公共 UI 测试启动器将带值设置放在三个无值测试开关之前；正式应用源码没有修改。已本地编译测试包，产品 smoke 仍待实际执行。
+
+WeGit 候选 `4609baf` 的 [实际 smoke 39010563892](https://github.com/WeOpen/WeGit/actions/runs/39010563892) 执行并通过 1 项、0 失败/跳过，首窗与原生菜单/Clone 表单正常；应用输入逐文件未变。公共启动器修正已由产品场景验证，证据见 [修正回执](launch-order-fix/README.md)，完整功能待主分支统一执行。

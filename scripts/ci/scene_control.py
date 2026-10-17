@@ -13,7 +13,7 @@ from ui_probe import inspect_environment, result_summary, run_logged, verify_sum
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--controls", default="combined,reordered,applelanguage")
+    parser.add_argument("--controls", default="reordered")
     args = parser.parse_args()
     schemes = {"bare": "BareControl", "single": "SingleControl", "group": "GroupControl",
                "async": "AsyncControl", "workspace": "WorkspaceControl",
