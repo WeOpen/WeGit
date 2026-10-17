@@ -32,6 +32,7 @@ struct WeGitApp: App {
                 }
         }
         .defaultSize(width: 1360, height: 880)
+        .restorationBehavior(.disabled)
         .defaultLaunchBehavior(.presented)
         .windowResizability(.contentMinSize)
         .commandsRemoved()
