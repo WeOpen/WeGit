@@ -1,0 +1,2474 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		16B381125402929FF822DE83 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		190534CAF6513DBAB68FD30E /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		233AB0DE339FD53381CC8F63 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		2999B0A8C483E47C945FD578 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		2BCA91FB29B6D03684F9C72C /* AppKitControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2256171CDF698B2BBFAFA778 /* AppKitControl.swift */; };
+		2EA8DB786E8BD9E0ED6F288F /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		3809E8590EB6CDA6F40DBB2D /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		38BCF473ACA966C04D1C7B8D /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		6325BCF28CF7404F2ACB5EEC /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		6647FF9AC4610B7F0CB4DB48 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		787F023F8131A133BA428733 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		8CF596B2E099A0FD16488611 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		8E913381DE82E3D75B6E23AC /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		9F8F8EC094FB1DBAECA67F07 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		A04C0FA921B674EDD8589278 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		AAC7CADF04C39B2D597A102B /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		AEA231130F58B8BE61C99CF6 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		B72DE883FFE492519C95E6E0 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		BDCC4E620D96BAA2B3FF7FCE /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		D0452F54B02C122B5C0E765C /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		D57F2F3E038ECCE019000A48 /* AsyncSceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */; };
+		DB7810A164ECB69739F31105 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		E1C013B5DB494BCDC8ED16F2 /* AsyncSceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */; };
+		EBD826B1B5C0A694F74CEECA /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		F08023C8AEB0BC8D3E3196FA /* AppKitControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2256171CDF698B2BBFAFA778 /* AppKitControl.swift */; };
+		F5ECB5D5A00ED2B34BD831E0 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0B1EDFD072908AAD0D4BEB31 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A436CB501636C16851FBAF87;
+			remoteInfo = LanguageApp;
+		};
+		163590A3D89972FD04ACE20A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CAC69DCA760E9D938A3A3EDD;
+			remoteInfo = AsyncBareApp;
+		};
+		16FAAC406B7FBDD35CF5E78A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD93EEF5C5C10FC1CA3AB5D6;
+			remoteInfo = CombinedApp;
+		};
+		52E98B19D602046D9C92A5D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FACD2C867C4AACE9390F695;
+			remoteInfo = HostingBareApp;
+		};
+		6CC4309FCEF2E91B7D4AB7B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCAD8261787F2C3884B78FC6;
+			remoteInfo = AppKitBareApp;
+		};
+		86BFDC6FA3A23B91E01DF520 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ED5E5D1089D999549C7CF7E0;
+			remoteInfo = AppleLanguageApp;
+		};
+		8AC93C32F43057C724991D7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 42D24ED19D3F3A265A9B1A62;
+			remoteInfo = ReorderedApp;
+		};
+		BEEDCC311420F358E38D7FD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8D7B404484B3BD23F8E5B58;
+			remoteInfo = WorkspaceBareApp;
+		};
+		C2090C28BE24D807BB37120F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18CD3594410F378B17764C4A;
+			remoteInfo = DefaultArgumentsApp;
+		};
+		C95A4B9F1660EF097B6B8DA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD79B89D370358EA55341647;
+			remoteInfo = GroupControl;
+		};
+		D3BA22D9D11A359D4FFD01C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AC9E527B1D5D045864D790F;
+			remoteInfo = MarkerApp;
+		};
+		F066B4D830E12FC35BEA4C04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6217A6BBA974FEB7AD4CB319;
+			remoteInfo = SingleControl;
+		};
+		F683D225DAFE1902EB71EA67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3BFCDF19C58FE5750A212F83;
+			remoteInfo = BareControl;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0A77EDE3028E1F750276A844 /* HostingBareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HostingBareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControlUITests.swift; sourceTree = "<group>"; };
+		197666C0437ACF92058435CE /* AppKitBareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppKitBareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CBA24C8B655EB1DFA03C29F /* AsyncLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsyncLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED795ABA6513787C6A1932D /* GroupControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EF1B998F55C64BDA13D9353 /* WorkspaceBareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkspaceBareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2256171CDF698B2BBFAFA778 /* AppKitControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitControl.swift; sourceTree = "<group>"; };
+		28F313300C0873E05D207791 /* DefaultArgumentsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DefaultArgumentsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31FBDBBCE7F2D3D591877C60 /* MarkerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarkerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncSceneControlUITests.swift; sourceTree = "<group>"; };
+		4AFCFDC3E93012757C4B31A0 /* SingleControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SingleControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FCE46119CDCA04EAD4C9132 /* AppleLanguageApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleLanguageApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		576F2E55DDAF3DB73B543BDC /* CombinedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CombinedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C4846CB77FCAF5744690117 /* ReorderedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReorderedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E3A8D5DF26B870255CB3E08 /* MarkerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65D198F78DBC6BBB580154BB /* SceneControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControl.swift; sourceTree = "<group>"; };
+		6B0F27FDABF41D01246DB2A3 /* AppleLanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleLanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		77ED94824EE728BDA7A10BA3 /* DefaultArgumentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DefaultArgumentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BE397411FD9A7BE2AEA27C8 /* LanguageApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanguageApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DE877A63418144B5F0A956F /* WorkspaceLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkspaceLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BareControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A61ADA2668DF0A0068F3E831 /* AsyncBareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsyncBareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9393D04B715A437B1801ECE /* SingleControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBE1FB72514AD9CD734A9E28 /* HostingLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostingLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D57FC5E9A2E1AA1DE78EBB38 /* CombinedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CombinedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6EB3DE6E2C8DFF2D963CAA8 /* AppKitLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppKitLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC43642D51D7630814189C06 /* ReorderedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReorderedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1C5437A17991335232D41EE /* GroupControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GroupControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF1A0F9F53FEBC6D7E7B67AA /* BareControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BareControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1AE5C2E6F22ED0FB6542BBD5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				197666C0437ACF92058435CE /* AppKitBareApp.app */,
+				E6EB3DE6E2C8DFF2D963CAA8 /* AppKitLaunchTests.xctest */,
+				4FCE46119CDCA04EAD4C9132 /* AppleLanguageApp.app */,
+				6B0F27FDABF41D01246DB2A3 /* AppleLanguageTests.xctest */,
+				A61ADA2668DF0A0068F3E831 /* AsyncBareApp.app */,
+				1CBA24C8B655EB1DFA03C29F /* AsyncLaunchTests.xctest */,
+				FF1A0F9F53FEBC6D7E7B67AA /* BareControl.app */,
+				A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */,
+				D57FC5E9A2E1AA1DE78EBB38 /* CombinedApp.app */,
+				576F2E55DDAF3DB73B543BDC /* CombinedTests.xctest */,
+				28F313300C0873E05D207791 /* DefaultArgumentsApp.app */,
+				77ED94824EE728BDA7A10BA3 /* DefaultArgumentsTests.xctest */,
+				1ED795ABA6513787C6A1932D /* GroupControl.app */,
+				F1C5437A17991335232D41EE /* GroupControlTests.xctest */,
+				0A77EDE3028E1F750276A844 /* HostingBareApp.app */,
+				CBE1FB72514AD9CD734A9E28 /* HostingLaunchTests.xctest */,
+				9BE397411FD9A7BE2AEA27C8 /* LanguageApp.app */,
+				C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */,
+				5E3A8D5DF26B870255CB3E08 /* MarkerApp.app */,
+				31FBDBBCE7F2D3D591877C60 /* MarkerTests.xctest */,
+				EC43642D51D7630814189C06 /* ReorderedApp.app */,
+				5C4846CB77FCAF5744690117 /* ReorderedTests.xctest */,
+				C9393D04B715A437B1801ECE /* SingleControl.app */,
+				4AFCFDC3E93012757C4B31A0 /* SingleControlTests.xctest */,
+				1EF1B998F55C64BDA13D9353 /* WorkspaceBareApp.app */,
+				9DE877A63418144B5F0A956F /* WorkspaceLaunchTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F7DC155111A67C0091085F9C = {
+			isa = PBXGroup;
+			children = (
+				2256171CDF698B2BBFAFA778 /* AppKitControl.swift */,
+				3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */,
+				65D198F78DBC6BBB580154BB /* SceneControl.swift */,
+				170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */,
+				1AE5C2E6F22ED0FB6542BBD5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		07CB1A1932547E594FF0F494 /* HostingLaunchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD37E6B930EBC06476FC6FE8 /* Build configuration list for PBXNativeTarget "HostingLaunchTests" */;
+			buildPhases = (
+				2806D6AB22701C66F7355931 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7050F07AB5DDCA8E1F6615E5 /* PBXTargetDependency */,
+			);
+			name = HostingLaunchTests;
+			packageProductDependencies = (
+			);
+			productName = HostingLaunchTests;
+			productReference = CBE1FB72514AD9CD734A9E28 /* HostingLaunchTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		18CD3594410F378B17764C4A /* DefaultArgumentsApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7250B46DC1E56789D5D17CAA /* Build configuration list for PBXNativeTarget "DefaultArgumentsApp" */;
+			buildPhases = (
+				8B95DC8FA3D6E62756D0680B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DefaultArgumentsApp;
+			packageProductDependencies = (
+			);
+			productName = DefaultArgumentsApp;
+			productReference = 28F313300C0873E05D207791 /* DefaultArgumentsApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1FACD2C867C4AACE9390F695 /* HostingBareApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34CE3BED18153A1D7B2D5BA1 /* Build configuration list for PBXNativeTarget "HostingBareApp" */;
+			buildPhases = (
+				D13117DD9E0B18C658E9D9D6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HostingBareApp;
+			packageProductDependencies = (
+			);
+			productName = HostingBareApp;
+			productReference = 0A77EDE3028E1F750276A844 /* HostingBareApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		230106E59A9A3CF37FB46DEF /* WorkspaceLaunchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6B711F1359F3FDAF2B11A3D /* Build configuration list for PBXNativeTarget "WorkspaceLaunchTests" */;
+			buildPhases = (
+				92D29C1F90C0B5294E7D1E7A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63A7A59A69221B2E57481245 /* PBXTargetDependency */,
+			);
+			name = WorkspaceLaunchTests;
+			packageProductDependencies = (
+			);
+			productName = WorkspaceLaunchTests;
+			productReference = 9DE877A63418144B5F0A956F /* WorkspaceLaunchTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		25FE1810FCC9E6CE52F18BE1 /* AppKitLaunchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAC6FED827B613B363C15904 /* Build configuration list for PBXNativeTarget "AppKitLaunchTests" */;
+			buildPhases = (
+				782E14C4E704A17CA990E234 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7AAE9C2A2BE9447907D7455F /* PBXTargetDependency */,
+			);
+			name = AppKitLaunchTests;
+			packageProductDependencies = (
+			);
+			productName = AppKitLaunchTests;
+			productReference = E6EB3DE6E2C8DFF2D963CAA8 /* AppKitLaunchTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		2E0B6E4104F8660B12590040 /* AsyncLaunchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 415B9818F4E9C5C488F747AC /* Build configuration list for PBXNativeTarget "AsyncLaunchTests" */;
+			buildPhases = (
+				C894965485F262B801371A2C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8E5DADE8EC4044C1DCEEB0AC /* PBXTargetDependency */,
+			);
+			name = AsyncLaunchTests;
+			packageProductDependencies = (
+			);
+			productName = AsyncLaunchTests;
+			productReference = 1CBA24C8B655EB1DFA03C29F /* AsyncLaunchTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		35C431796D92903597E8E451 /* ReorderedTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B28E1FCAF67C7FB65B5A79C3 /* Build configuration list for PBXNativeTarget "ReorderedTests" */;
+			buildPhases = (
+				E3CC43EA2D40D94EA327EF57 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57FC4768C3C4849AA7E84CD8 /* PBXTargetDependency */,
+			);
+			name = ReorderedTests;
+			packageProductDependencies = (
+			);
+			productName = ReorderedTests;
+			productReference = 5C4846CB77FCAF5744690117 /* ReorderedTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		3BFCDF19C58FE5750A212F83 /* BareControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 917BA080409EFFF9FA4CF660 /* Build configuration list for PBXNativeTarget "BareControl" */;
+			buildPhases = (
+				3B7FF1136AD77FF3D7D584AA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BareControl;
+			packageProductDependencies = (
+			);
+			productName = BareControl;
+			productReference = FF1A0F9F53FEBC6D7E7B67AA /* BareControl.app */;
+			productType = "com.apple.product-type.application";
+		};
+		427DF1424E712E47109FC919 /* DefaultArgumentsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70C26E8AFEA6861C385A0D8F /* Build configuration list for PBXNativeTarget "DefaultArgumentsTests" */;
+			buildPhases = (
+				6C0C31A210475B2C02429805 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2046C8F6CB2BEC2171DD6FDC /* PBXTargetDependency */,
+			);
+			name = DefaultArgumentsTests;
+			packageProductDependencies = (
+			);
+			productName = DefaultArgumentsTests;
+			productReference = 77ED94824EE728BDA7A10BA3 /* DefaultArgumentsTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		42D24ED19D3F3A265A9B1A62 /* ReorderedApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC284D4398BEDAC9D4D310F3 /* Build configuration list for PBXNativeTarget "ReorderedApp" */;
+			buildPhases = (
+				E1E03AA796AC83C2A5329417 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReorderedApp;
+			packageProductDependencies = (
+			);
+			productName = ReorderedApp;
+			productReference = EC43642D51D7630814189C06 /* ReorderedApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6217A6BBA974FEB7AD4CB319 /* SingleControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F12FC5241B0518180AEC432 /* Build configuration list for PBXNativeTarget "SingleControl" */;
+			buildPhases = (
+				ADAE27288F4B4469EAAF27CF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SingleControl;
+			packageProductDependencies = (
+			);
+			productName = SingleControl;
+			productReference = C9393D04B715A437B1801ECE /* SingleControl.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6F46E791DA042E0AAFD1B13F /* GroupControlTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAE975D5712D139056938BBC /* Build configuration list for PBXNativeTarget "GroupControlTests" */;
+			buildPhases = (
+				2B57E4F0F1503818E6831DF6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				641DDAA29D7005223B754E52 /* PBXTargetDependency */,
+			);
+			name = GroupControlTests;
+			packageProductDependencies = (
+			);
+			productName = GroupControlTests;
+			productReference = F1C5437A17991335232D41EE /* GroupControlTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		708CD8AE6AC3A2C6C72DE1B5 /* BareControlTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CF609BC157153AAE42E662CF /* Build configuration list for PBXNativeTarget "BareControlTests" */;
+			buildPhases = (
+				BA2A6777B91307E7E2271D14 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F4280F653F584FC72C143B3 /* PBXTargetDependency */,
+			);
+			name = BareControlTests;
+			packageProductDependencies = (
+			);
+			productName = BareControlTests;
+			productReference = A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		78A20550BB140335D413A330 /* MarkerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89B7118F93D45760B8076135 /* Build configuration list for PBXNativeTarget "MarkerTests" */;
+			buildPhases = (
+				D3CDAAB4FA1FE889219DD2B7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				153453F67A573932369FCC72 /* PBXTargetDependency */,
+			);
+			name = MarkerTests;
+			packageProductDependencies = (
+			);
+			productName = MarkerTests;
+			productReference = 31FBDBBCE7F2D3D591877C60 /* MarkerTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		7C0A9857C38BCF7E4834AC14 /* LanguageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6566C80666F99B4CB22DAF4D /* Build configuration list for PBXNativeTarget "LanguageTests" */;
+			buildPhases = (
+				650DA38C3E4AA1EC65512001 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				050924C1D45C7AD40EB03C5A /* PBXTargetDependency */,
+			);
+			name = LanguageTests;
+			packageProductDependencies = (
+			);
+			productName = LanguageTests;
+			productReference = C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		8AC9E527B1D5D045864D790F /* MarkerApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F314CBC320233AAE004107F /* Build configuration list for PBXNativeTarget "MarkerApp" */;
+			buildPhases = (
+				755BCC14E83232C8ED9DCE58 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MarkerApp;
+			packageProductDependencies = (
+			);
+			productName = MarkerApp;
+			productReference = 5E3A8D5DF26B870255CB3E08 /* MarkerApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A436CB501636C16851FBAF87 /* LanguageApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18D2E3CB2ADE8A3E438F21A8 /* Build configuration list for PBXNativeTarget "LanguageApp" */;
+			buildPhases = (
+				C901038B1C8F927311459D40 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LanguageApp;
+			packageProductDependencies = (
+			);
+			productName = LanguageApp;
+			productReference = 9BE397411FD9A7BE2AEA27C8 /* LanguageApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BCAD8261787F2C3884B78FC6 /* AppKitBareApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 440C00EFD0FD1F7CCA150052 /* Build configuration list for PBXNativeTarget "AppKitBareApp" */;
+			buildPhases = (
+				C8AC51EB1CF923BAE0993C99 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppKitBareApp;
+			packageProductDependencies = (
+			);
+			productName = AppKitBareApp;
+			productReference = 197666C0437ACF92058435CE /* AppKitBareApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C48631CF71965CCE51302A6B /* CombinedTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE0723517FF35C7A286B8CAB /* Build configuration list for PBXNativeTarget "CombinedTests" */;
+			buildPhases = (
+				B6F6459A4E39D592FA5C3F15 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFA01BB3057B77962D7D6C16 /* PBXTargetDependency */,
+			);
+			name = CombinedTests;
+			packageProductDependencies = (
+			);
+			productName = CombinedTests;
+			productReference = 576F2E55DDAF3DB73B543BDC /* CombinedTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		CAC69DCA760E9D938A3A3EDD /* AsyncBareApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAB1FCCB39AB8AFFCCAE72E4 /* Build configuration list for PBXNativeTarget "AsyncBareApp" */;
+			buildPhases = (
+				241E294E0D41625BE53836FF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AsyncBareApp;
+			packageProductDependencies = (
+			);
+			productName = AsyncBareApp;
+			productReference = A61ADA2668DF0A0068F3E831 /* AsyncBareApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CD93EEF5C5C10FC1CA3AB5D6 /* CombinedApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 955E55807831CE38AA3A3702 /* Build configuration list for PBXNativeTarget "CombinedApp" */;
+			buildPhases = (
+				B951D1F43C009291982C9BFB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CombinedApp;
+			packageProductDependencies = (
+			);
+			productName = CombinedApp;
+			productReference = D57FC5E9A2E1AA1DE78EBB38 /* CombinedApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D56F7CB879E2A02333C9D2E7 /* SingleControlTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDADDF85F0AF97AB08142100 /* Build configuration list for PBXNativeTarget "SingleControlTests" */;
+			buildPhases = (
+				5B40178986EDD9BA5D744306 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CBF8B0689CF967EEE8A372DE /* PBXTargetDependency */,
+			);
+			name = SingleControlTests;
+			packageProductDependencies = (
+			);
+			productName = SingleControlTests;
+			productReference = 4AFCFDC3E93012757C4B31A0 /* SingleControlTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		E0981244F2240117F32E2FDA /* AppleLanguageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D13CBE5D1A1917BD1748DCB /* Build configuration list for PBXNativeTarget "AppleLanguageTests" */;
+			buildPhases = (
+				B10C25EDB1CEF03A9B67A917 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E87AA18C6AF8011A672E9546 /* PBXTargetDependency */,
+			);
+			name = AppleLanguageTests;
+			packageProductDependencies = (
+			);
+			productName = AppleLanguageTests;
+			productReference = 6B0F27FDABF41D01246DB2A3 /* AppleLanguageTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		ED5E5D1089D999549C7CF7E0 /* AppleLanguageApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92813A3F808D1A514E9F9C75 /* Build configuration list for PBXNativeTarget "AppleLanguageApp" */;
+			buildPhases = (
+				4C2939B40F583CE479E73B3F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppleLanguageApp;
+			packageProductDependencies = (
+			);
+			productName = AppleLanguageApp;
+			productReference = 4FCE46119CDCA04EAD4C9132 /* AppleLanguageApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F8D7B404484B3BD23F8E5B58 /* WorkspaceBareApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8D3744372DB483ADBCA7D16 /* Build configuration list for PBXNativeTarget "WorkspaceBareApp" */;
+			buildPhases = (
+				FE75659EBD514114FB0BEE35 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WorkspaceBareApp;
+			packageProductDependencies = (
+			);
+			productName = WorkspaceBareApp;
+			productReference = 1EF1B998F55C64BDA13D9353 /* WorkspaceBareApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FD79B89D370358EA55341647 /* GroupControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF33AFC2395FB962C625D2E7 /* Build configuration list for PBXNativeTarget "GroupControl" */;
+			buildPhases = (
+				3E56AB3AE10731DD8E42BA37 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GroupControl;
+			packageProductDependencies = (
+			);
+			productName = GroupControl;
+			productReference = 1ED795ABA6513787C6A1932D /* GroupControl.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0F13AA1A37E84419C5E800E5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					07CB1A1932547E594FF0F494 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 1FACD2C867C4AACE9390F695;
+					};
+					18CD3594410F378B17764C4A = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					1FACD2C867C4AACE9390F695 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					230106E59A9A3CF37FB46DEF = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = F8D7B404484B3BD23F8E5B58;
+					};
+					25FE1810FCC9E6CE52F18BE1 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = BCAD8261787F2C3884B78FC6;
+					};
+					2E0B6E4104F8660B12590040 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = CAC69DCA760E9D938A3A3EDD;
+					};
+					35C431796D92903597E8E451 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 42D24ED19D3F3A265A9B1A62;
+					};
+					3BFCDF19C58FE5750A212F83 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					427DF1424E712E47109FC919 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 18CD3594410F378B17764C4A;
+					};
+					42D24ED19D3F3A265A9B1A62 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					6217A6BBA974FEB7AD4CB319 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					6F46E791DA042E0AAFD1B13F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = FD79B89D370358EA55341647;
+					};
+					708CD8AE6AC3A2C6C72DE1B5 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 3BFCDF19C58FE5750A212F83;
+					};
+					78A20550BB140335D413A330 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 8AC9E527B1D5D045864D790F;
+					};
+					7C0A9857C38BCF7E4834AC14 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = A436CB501636C16851FBAF87;
+					};
+					8AC9E527B1D5D045864D790F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					A436CB501636C16851FBAF87 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					BCAD8261787F2C3884B78FC6 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					C48631CF71965CCE51302A6B = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = CD93EEF5C5C10FC1CA3AB5D6;
+					};
+					CAC69DCA760E9D938A3A3EDD = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					CD93EEF5C5C10FC1CA3AB5D6 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					D56F7CB879E2A02333C9D2E7 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 6217A6BBA974FEB7AD4CB319;
+					};
+					E0981244F2240117F32E2FDA = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = ED5E5D1089D999549C7CF7E0;
+					};
+					ED5E5D1089D999549C7CF7E0 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					F8D7B404484B3BD23F8E5B58 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					FD79B89D370358EA55341647 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = F38E9168720C7F0BEFAFC8FF /* Build configuration list for PBXProject "SceneLaunchControl" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F7DC155111A67C0091085F9C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BCAD8261787F2C3884B78FC6 /* AppKitBareApp */,
+				25FE1810FCC9E6CE52F18BE1 /* AppKitLaunchTests */,
+				ED5E5D1089D999549C7CF7E0 /* AppleLanguageApp */,
+				E0981244F2240117F32E2FDA /* AppleLanguageTests */,
+				CAC69DCA760E9D938A3A3EDD /* AsyncBareApp */,
+				2E0B6E4104F8660B12590040 /* AsyncLaunchTests */,
+				3BFCDF19C58FE5750A212F83 /* BareControl */,
+				708CD8AE6AC3A2C6C72DE1B5 /* BareControlTests */,
+				CD93EEF5C5C10FC1CA3AB5D6 /* CombinedApp */,
+				C48631CF71965CCE51302A6B /* CombinedTests */,
+				18CD3594410F378B17764C4A /* DefaultArgumentsApp */,
+				427DF1424E712E47109FC919 /* DefaultArgumentsTests */,
+				FD79B89D370358EA55341647 /* GroupControl */,
+				6F46E791DA042E0AAFD1B13F /* GroupControlTests */,
+				1FACD2C867C4AACE9390F695 /* HostingBareApp */,
+				07CB1A1932547E594FF0F494 /* HostingLaunchTests */,
+				A436CB501636C16851FBAF87 /* LanguageApp */,
+				7C0A9857C38BCF7E4834AC14 /* LanguageTests */,
+				8AC9E527B1D5D045864D790F /* MarkerApp */,
+				78A20550BB140335D413A330 /* MarkerTests */,
+				42D24ED19D3F3A265A9B1A62 /* ReorderedApp */,
+				35C431796D92903597E8E451 /* ReorderedTests */,
+				6217A6BBA974FEB7AD4CB319 /* SingleControl */,
+				D56F7CB879E2A02333C9D2E7 /* SingleControlTests */,
+				F8D7B404484B3BD23F8E5B58 /* WorkspaceBareApp */,
+				230106E59A9A3CF37FB46DEF /* WorkspaceLaunchTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		241E294E0D41625BE53836FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E913381DE82E3D75B6E23AC /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2806D6AB22701C66F7355931 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6647FF9AC4610B7F0CB4DB48 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B57E4F0F1503818E6831DF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEA231130F58B8BE61C99CF6 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B7FF1136AD77FF3D7D584AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CF596B2E099A0FD16488611 /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3E56AB3AE10731DD8E42BA37 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38BCF473ACA966C04D1C7B8D /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C2939B40F583CE479E73B3F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2999B0A8C483E47C945FD578 /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B40178986EDD9BA5D744306 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F8F8EC094FB1DBAECA67F07 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		650DA38C3E4AA1EC65512001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16B381125402929FF822DE83 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C0C31A210475B2C02429805 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3809E8590EB6CDA6F40DBB2D /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		755BCC14E83232C8ED9DCE58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A04C0FA921B674EDD8589278 /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		782E14C4E704A17CA990E234 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5ECB5D5A00ED2B34BD831E0 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B95DC8FA3D6E62756D0680B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAC7CADF04C39B2D597A102B /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		92D29C1F90C0B5294E7D1E7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D57F2F3E038ECCE019000A48 /* AsyncSceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADAE27288F4B4469EAAF27CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0452F54B02C122B5C0E765C /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B10C25EDB1CEF03A9B67A917 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				190534CAF6513DBAB68FD30E /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6F6459A4E39D592FA5C3F15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB7810A164ECB69739F31105 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B951D1F43C009291982C9BFB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDCC4E620D96BAA2B3FF7FCE /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA2A6777B91307E7E2271D14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				787F023F8131A133BA428733 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C894965485F262B801371A2C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1C013B5DB494BCDC8ED16F2 /* AsyncSceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8AC51EB1CF923BAE0993C99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BCA91FB29B6D03684F9C72C /* AppKitControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C901038B1C8F927311459D40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B72DE883FFE492519C95E6E0 /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D13117DD9E0B18C658E9D9D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08023C8AEB0BC8D3E3196FA /* AppKitControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3CDAAB4FA1FE889219DD2B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6325BCF28CF7404F2ACB5EEC /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E03AA796AC83C2A5329417 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBD826B1B5C0A694F74CEECA /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3CC43EA2D40D94EA327EF57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				233AB0DE339FD53381CC8F63 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE75659EBD514114FB0BEE35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EA8DB786E8BD9E0ED6F288F /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		050924C1D45C7AD40EB03C5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A436CB501636C16851FBAF87 /* LanguageApp */;
+			targetProxy = 0B1EDFD072908AAD0D4BEB31 /* PBXContainerItemProxy */;
+		};
+		153453F67A573932369FCC72 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AC9E527B1D5D045864D790F /* MarkerApp */;
+			targetProxy = D3BA22D9D11A359D4FFD01C2 /* PBXContainerItemProxy */;
+		};
+		2046C8F6CB2BEC2171DD6FDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18CD3594410F378B17764C4A /* DefaultArgumentsApp */;
+			targetProxy = C2090C28BE24D807BB37120F /* PBXContainerItemProxy */;
+		};
+		57FC4768C3C4849AA7E84CD8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 42D24ED19D3F3A265A9B1A62 /* ReorderedApp */;
+			targetProxy = 8AC93C32F43057C724991D7B /* PBXContainerItemProxy */;
+		};
+		63A7A59A69221B2E57481245 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8D7B404484B3BD23F8E5B58 /* WorkspaceBareApp */;
+			targetProxy = BEEDCC311420F358E38D7FD3 /* PBXContainerItemProxy */;
+		};
+		641DDAA29D7005223B754E52 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD79B89D370358EA55341647 /* GroupControl */;
+			targetProxy = C95A4B9F1660EF097B6B8DA4 /* PBXContainerItemProxy */;
+		};
+		6F4280F653F584FC72C143B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3BFCDF19C58FE5750A212F83 /* BareControl */;
+			targetProxy = F683D225DAFE1902EB71EA67 /* PBXContainerItemProxy */;
+		};
+		7050F07AB5DDCA8E1F6615E5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FACD2C867C4AACE9390F695 /* HostingBareApp */;
+			targetProxy = 52E98B19D602046D9C92A5D5 /* PBXContainerItemProxy */;
+		};
+		7AAE9C2A2BE9447907D7455F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCAD8261787F2C3884B78FC6 /* AppKitBareApp */;
+			targetProxy = 6CC4309FCEF2E91B7D4AB7B9 /* PBXContainerItemProxy */;
+		};
+		8E5DADE8EC4044C1DCEEB0AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CAC69DCA760E9D938A3A3EDD /* AsyncBareApp */;
+			targetProxy = 163590A3D89972FD04ACE20A /* PBXContainerItemProxy */;
+		};
+		CBF8B0689CF967EEE8A372DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6217A6BBA974FEB7AD4CB319 /* SingleControl */;
+			targetProxy = F066B4D830E12FC35BEA4C04 /* PBXContainerItemProxy */;
+		};
+		E87AA18C6AF8011A672E9546 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ED5E5D1089D999549C7CF7E0 /* AppleLanguageApp */;
+			targetProxy = 86BFDC6FA3A23B91E01DF520 /* PBXContainerItemProxy */;
+		};
+		FFA01BB3057B77962D7D6C16 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD93EEF5C5C10FC1CA3AB5D6 /* CombinedApp */;
+			targetProxy = 16FAAC406B7FBDD35CF5E78A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		005852E2D98E4A35646E6D44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.group;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		026520F43C8A1A78160B3093 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.group;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/GroupControl.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.group.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = GroupControl;
+			};
+			name = Debug;
+		};
+		096D5F3D90F3049B60EAE416 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.reordered;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/ReorderedApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.reordered.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) REORDERED_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = ReorderedApp;
+			};
+			name = Release;
+		};
+		0B342A3B49302A54A3EE2A40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.workspace;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/WorkspaceBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.workspace.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) WORKSPACE_LAUNCH";
+				TEST_TARGET_NAME = WorkspaceBareApp;
+			};
+			name = Debug;
+		};
+		17197F44BF5C7AB516C8243D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.appkit;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1CB06EA8E8BBDA2CD60B4379 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.bare;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/BareControl.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.bare.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = BareControl;
+			};
+			name = Debug;
+		};
+		1D16E78E63CC3B59BDC9E843 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.hosting;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/HostingBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.hosting.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = HostingBareApp;
+			};
+			name = Release;
+		};
+		26ACC7D1AEC34BF9B5D770B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.applelanguage;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		27384A05C9BFE50F50CC90B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.applelanguage;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AppleLanguageApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.applelanguage.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) APPLE_LANGUAGE_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = AppleLanguageApp;
+			};
+			name = Release;
+		};
+		27EFD09A69855F27F84CB5A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.single;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SINGLE_WINDOW";
+			};
+			name = Release;
+		};
+		2B285C0435B582B495586CB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.bare;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/BareControl.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.bare.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = BareControl;
+			};
+			name = Release;
+		};
+		2C744AAB4825D30FF2893F12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.async;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		2E63CE091E62FC70F48F2A75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		3061CD9730C99D6C37E8A44D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.async;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		30FE3831DCD823315DB5A4EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.applelanguage;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AppleLanguageApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.applelanguage.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) APPLE_LANGUAGE_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = AppleLanguageApp;
+			};
+			name = Debug;
+		};
+		32D55F72AB20BF0E3876FE28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		3A5F9AB3B85F7088081A6429 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.reordered;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/ReorderedApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.reordered.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) REORDERED_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = ReorderedApp;
+			};
+			name = Debug;
+		};
+		3E6A8B3B181C401E4CC669A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/DefaultArgumentsApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEFAULT_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = DefaultArgumentsApp;
+			};
+			name = Debug;
+		};
+		3F272A626528519A36F6384F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/LanguageApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) LANGUAGE_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = LanguageApp;
+			};
+			name = Debug;
+		};
+		485FF811F2105C0B08462D6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.reordered;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		48624E1A953F208216CC73E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.hosting;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/HostingBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.hosting.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = HostingBareApp;
+			};
+			name = Debug;
+		};
+		48E80907173B02EF70D924DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		5AF4BDD3CB8FB729D5FE8D1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.reordered;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		716A93533A5ADA8DA3251E25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/LanguageApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) LANGUAGE_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = LanguageApp;
+			};
+			name = Release;
+		};
+		77A2A5614E2F9EE3533A1A0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.combined;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/CombinedApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.combined.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) COMBINED_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = CombinedApp;
+			};
+			name = Release;
+		};
+		788195D2F57997FF040CB9B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.hosting;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) HOSTED_SWIFTUI";
+			};
+			name = Release;
+		};
+		792C7EB6ECE09C3788C52BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.hosting;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) HOSTED_SWIFTUI";
+			};
+			name = Debug;
+		};
+		7D0233F8C41030D6CF9D1070 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.combined;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		7DC321C3D79D3E321E0BC130 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.workspace;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		8031637A6D13251D778FF9F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.applelanguage;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		8413CF185F973E0895748473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/DefaultArgumentsApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEFAULT_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = DefaultArgumentsApp;
+			};
+			name = Release;
+		};
+		8897DF13B630C01E149A9C64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		8E22B26A2E7957079AAA9A59 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.combined;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/CombinedApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.combined.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) COMBINED_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = CombinedApp;
+			};
+			name = Debug;
+		};
+		8E93861D11849B4E2A88DC88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.appkit;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AppKitBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.appkit.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AppKitBareApp;
+			};
+			name = Debug;
+		};
+		8FF89FEDB36D91C471117AEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.single;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SINGLE_WINDOW";
+			};
+			name = Debug;
+		};
+		9B574F4A8C0DFA4A86C00B49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.async;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AsyncBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.async.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AsyncBareApp;
+			};
+			name = Release;
+		};
+		9BAF9135A902723A5858CC1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.appkit;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9E91712D3C46A63F87CA2780 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		A6AC40F24EF354A948C9054E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.async;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AsyncBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.async.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AsyncBareApp;
+			};
+			name = Debug;
+		};
+		A889BD3F3DFB30751CBF33DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.appkit;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AppKitBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.appkit.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AppKitBareApp;
+			};
+			name = Release;
+		};
+		AFDCCD420F02C09A7360D315 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.single;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/SingleControl.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.single.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = SingleControl;
+			};
+			name = Release;
+		};
+		B5E46E2160D86CB8583245DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.group;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/GroupControl.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.group.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = GroupControl;
+			};
+			name = Release;
+		};
+		B60C3A59F725F4BEAF43E51E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.workspace;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		BD3D77A50899EFEE63409CC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.workspace;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/WorkspaceBareApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.workspace.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) WORKSPACE_LAUNCH";
+				TEST_TARGET_NAME = WorkspaceBareApp;
+			};
+			name = Release;
+		};
+		BE017793512B91CC774BFFF3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.group;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C010C8CDB45671AE6F8ECF65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.single;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/SingleControl.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.single.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = SingleControl;
+			};
+			name = Debug;
+		};
+		C0D58456A87B20DD387CDD18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.combined;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		C6B04CE579637552C073FE6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/MarkerApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) MARKER_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = MarkerApp;
+			};
+			name = Release;
+		};
+		CE79537708F9034D3A6454F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		DA519F1FE545008E775954AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/MarkerApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) MARKER_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = MarkerApp;
+			};
+			name = Debug;
+		};
+		DFE1A4DCB2EA970CA9CECC9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.bare;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		E3139795AD69D1944D2005C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		F8331AFEB4DCF156C8075543 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.bare;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		FF6F0EBE0BE2E7DACF9C4A95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18D2E3CB2ADE8A3E438F21A8 /* Build configuration list for PBXNativeTarget "LanguageApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E91712D3C46A63F87CA2780 /* Debug */,
+				48E80907173B02EF70D924DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2D13CBE5D1A1917BD1748DCB /* Build configuration list for PBXNativeTarget "AppleLanguageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30FE3831DCD823315DB5A4EA /* Debug */,
+				27384A05C9BFE50F50CC90B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		34CE3BED18153A1D7B2D5BA1 /* Build configuration list for PBXNativeTarget "HostingBareApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				792C7EB6ECE09C3788C52BB5 /* Debug */,
+				788195D2F57997FF040CB9B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		415B9818F4E9C5C488F747AC /* Build configuration list for PBXNativeTarget "AsyncLaunchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6AC40F24EF354A948C9054E /* Debug */,
+				9B574F4A8C0DFA4A86C00B49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		440C00EFD0FD1F7CCA150052 /* Build configuration list for PBXNativeTarget "AppKitBareApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17197F44BF5C7AB516C8243D /* Debug */,
+				9BAF9135A902723A5858CC1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6566C80666F99B4CB22DAF4D /* Build configuration list for PBXNativeTarget "LanguageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F272A626528519A36F6384F /* Debug */,
+				716A93533A5ADA8DA3251E25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		70C26E8AFEA6861C385A0D8F /* Build configuration list for PBXNativeTarget "DefaultArgumentsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3E6A8B3B181C401E4CC669A8 /* Debug */,
+				8413CF185F973E0895748473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7250B46DC1E56789D5D17CAA /* Build configuration list for PBXNativeTarget "DefaultArgumentsApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF6F0EBE0BE2E7DACF9C4A95 /* Debug */,
+				32D55F72AB20BF0E3876FE28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		89B7118F93D45760B8076135 /* Build configuration list for PBXNativeTarget "MarkerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA519F1FE545008E775954AD /* Debug */,
+				C6B04CE579637552C073FE6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F12FC5241B0518180AEC432 /* Build configuration list for PBXNativeTarget "SingleControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8FF89FEDB36D91C471117AEC /* Debug */,
+				27EFD09A69855F27F84CB5A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F314CBC320233AAE004107F /* Build configuration list for PBXNativeTarget "MarkerApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE79537708F9034D3A6454F4 /* Debug */,
+				E3139795AD69D1944D2005C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		917BA080409EFFF9FA4CF660 /* Build configuration list for PBXNativeTarget "BareControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFE1A4DCB2EA970CA9CECC9F /* Debug */,
+				F8331AFEB4DCF156C8075543 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		92813A3F808D1A514E9F9C75 /* Build configuration list for PBXNativeTarget "AppleLanguageApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8031637A6D13251D778FF9F3 /* Debug */,
+				26ACC7D1AEC34BF9B5D770B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		955E55807831CE38AA3A3702 /* Build configuration list for PBXNativeTarget "CombinedApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0D58456A87B20DD387CDD18 /* Debug */,
+				7D0233F8C41030D6CF9D1070 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AC284D4398BEDAC9D4D310F3 /* Build configuration list for PBXNativeTarget "ReorderedApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				485FF811F2105C0B08462D6A /* Debug */,
+				5AF4BDD3CB8FB729D5FE8D1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AE0723517FF35C7A286B8CAB /* Build configuration list for PBXNativeTarget "CombinedTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E22B26A2E7957079AAA9A59 /* Debug */,
+				77A2A5614E2F9EE3533A1A0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B28E1FCAF67C7FB65B5A79C3 /* Build configuration list for PBXNativeTarget "ReorderedTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A5F9AB3B85F7088081A6429 /* Debug */,
+				096D5F3D90F3049B60EAE416 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BAC6FED827B613B363C15904 /* Build configuration list for PBXNativeTarget "AppKitLaunchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E93861D11849B4E2A88DC88 /* Debug */,
+				A889BD3F3DFB30751CBF33DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BD37E6B930EBC06476FC6FE8 /* Build configuration list for PBXNativeTarget "HostingLaunchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48624E1A953F208216CC73E5 /* Debug */,
+				1D16E78E63CC3B59BDC9E843 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C6B711F1359F3FDAF2B11A3D /* Build configuration list for PBXNativeTarget "WorkspaceLaunchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B342A3B49302A54A3EE2A40 /* Debug */,
+				BD3D77A50899EFEE63409CC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CDADDF85F0AF97AB08142100 /* Build configuration list for PBXNativeTarget "SingleControlTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C010C8CDB45671AE6F8ECF65 /* Debug */,
+				AFDCCD420F02C09A7360D315 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CF609BC157153AAE42E662CF /* Build configuration list for PBXNativeTarget "BareControlTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1CB06EA8E8BBDA2CD60B4379 /* Debug */,
+				2B285C0435B582B495586CB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D8D3744372DB483ADBCA7D16 /* Build configuration list for PBXNativeTarget "WorkspaceBareApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B60C3A59F725F4BEAF43E51E /* Debug */,
+				7DC321C3D79D3E321E0BC130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EAB1FCCB39AB8AFFCCAE72E4 /* Build configuration list for PBXNativeTarget "AsyncBareApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3061CD9730C99D6C37E8A44D /* Debug */,
+				2C744AAB4825D30FF2893F12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EF33AFC2395FB962C625D2E7 /* Build configuration list for PBXNativeTarget "GroupControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				005852E2D98E4A35646E6D44 /* Debug */,
+				BE017793512B91CC774BFFF3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F38E9168720C7F0BEFAFC8FF /* Build configuration list for PBXProject "SceneLaunchControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8897DF13B630C01E149A9C64 /* Debug */,
+				2E63CE091E62FC70F48F2A75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FAE975D5712D139056938BBC /* Build configuration list for PBXNativeTarget "GroupControlTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				026520F43C8A1A78160B3093 /* Debug */,
+				B5E46E2160D86CB8583245DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0F13AA1A37E84419C5E800E5 /* Project object */;
+}

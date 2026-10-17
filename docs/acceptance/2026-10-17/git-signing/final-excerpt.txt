@@ -1,0 +1,8 @@
+✔ Test run with 183 tests in 32 suites passed after 174.373 seconds.
+** BUILD SUCCEEDED **
+✔ Test run with 183 tests in 32 suites passed after 96.684 seconds.
+apple: passed, 7 behavior checks, phase restore-inheritance
+homebrew: passed, 7 behavior checks, phase restore-inheritance
+✔ Test run with 183 tests in 32 suites passed after 93.131 seconds.
+** TEST BUILD SUCCEEDED **
+** BUILD SUCCEEDED **

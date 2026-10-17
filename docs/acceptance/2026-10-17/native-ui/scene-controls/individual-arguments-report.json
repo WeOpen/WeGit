@@ -1,0 +1,236 @@
+{
+  "date": "2026-10-17T04:20:58.252953+00:00",
+  "kind": "isolated-scene-controls",
+  "environment": {
+    "date": "2026-10-17T04:20:58.287131+00:00",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "sourceCommit": "0e83feed89691b53d40c4df51d655b4faebdd323",
+    "workspaceDirty": false,
+    "imageVersion": "20261012.0260.1",
+    "runId": "39002210951",
+    "manager": {
+      "exitCode": 0,
+      "output": "Aqua"
+    },
+    "consoleUIDMatches": true,
+    "developerTools": {
+      "exitCode": 0,
+      "output": "Developer mode is currently enabled."
+    },
+    "interactivePrerequisites": true,
+    "sip": {
+      "exitCode": 0,
+      "output": "System Integrity Protection status: disabled."
+    },
+    "gatekeeper": {
+      "exitCode": 0,
+      "output": "assessments enabled"
+    },
+    "xcode": {
+      "exitCode": 0,
+      "output": "Xcode 27.0\nBuild version 27A266a"
+    },
+    "firstLaunch": {
+      "exitCode": 0,
+      "output": ""
+    },
+    "selectedGit": {
+      "exitCode": 0,
+      "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+    },
+    "osPermissionsChanged": false
+  },
+  "controls": [
+    {
+      "scheme": "DefaultArgumentsControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 25.298,
+        "log": "DefaultArgumentsControl-build.log"
+      },
+      "signatureMetadata": {
+        "application": {
+          "readSucceeded": true,
+          "sandboxed": false
+        },
+        "runner": {
+          "readSucceeded": true,
+          "sandboxed": true
+        }
+      },
+      "test": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 13.147,
+        "log": "DefaultArgumentsControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "8d74c7df64510100fccf7faa217629cf9c596e6f",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "DefaultArgumentsControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792210898.1,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792210887.884,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - DefaultArgumentsControl",
+        "topInsights": [],
+        "totalTestCount": 1
+      },
+      "passed": true
+    },
+    {
+      "scheme": "MarkerControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 5.298,
+        "log": "MarkerControl-build.log"
+      },
+      "signatureMetadata": {
+        "application": {
+          "readSucceeded": true,
+          "sandboxed": false
+        },
+        "runner": {
+          "readSucceeded": true,
+          "sandboxed": true
+        }
+      },
+      "test": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 5.616,
+        "log": "MarkerControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "8d74c7df64510100fccf7faa217629cf9c596e6f",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "MarkerControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792210909.889,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792210905.319,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - MarkerControl",
+        "topInsights": [],
+        "totalTestCount": 1
+      },
+      "passed": true
+    },
+    {
+      "scheme": "LanguageControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 4.809,
+        "log": "LanguageControl-build.log"
+      },
+      "signatureMetadata": {
+        "application": {
+          "readSucceeded": true,
+          "sandboxed": false
+        },
+        "runner": {
+          "readSucceeded": true,
+          "sandboxed": true
+        }
+      },
+      "test": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 5.381,
+        "log": "LanguageControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "8d74c7df64510100fccf7faa217629cf9c596e6f",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "LanguageControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792210920.278,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792210915.953,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - LanguageControl",
+        "topInsights": [],
+        "totalTestCount": 1
+      },
+      "passed": true
+    }
+  ],
+  "releaseReady": false,
+  "result": "passed"
+}

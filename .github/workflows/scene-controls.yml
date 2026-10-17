@@ -1,0 +1,56 @@
+name: SwiftUI scene controls
+on:
+  pull_request:
+    paths:
+      - Tools/SceneLaunchControl/**
+      - scripts/ci/scene_control.py
+      - scripts/ci/ui_probe.py
+      - .github/workflows/scene-controls.yml
+  workflow_dispatch:
+    inputs:
+      controls:
+        description: Default reordered regression; failed historical cases require explicit selection
+        type: string
+        default: reordered
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: scene-controls-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  controls:
+    name: Independent scene launch controls
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: xcode-27
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Compile and test isolated scenes serially
+        env:
+          SCENE_CONTROLS: ${{ inputs.controls || 'reordered' }}
+        run: |
+          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/AppKitControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift Tools/SceneLaunchControl/AsyncSceneControlUITests.swift
+          python3 scripts/ci/scene_control.py --controls "$SCENE_CONTROLS"
+      - name: Retain compact control summaries
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scene-control-summary-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            .build/ci/scene-controls/report.json
+            .build/ci/scene-controls/*-summary.json
+          retention-days: 14
+      - name: Retain actual control environment and results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scene-controls-${{ github.event.pull_request.head.sha || github.sha }}
+          path: .build/ci/scene-controls/
+          include-hidden-files: true
+          retention-days: 14
