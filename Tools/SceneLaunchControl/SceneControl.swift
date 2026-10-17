@@ -20,6 +20,16 @@ final class SceneControlDelegate: NSObject, NSApplicationDelegate {
 
 @main
 struct SceneControl: App {
+    init() {
+        let arguments = ProcessInfo.processInfo.arguments
+        let environment = ProcessInfo.processInfo.environment
+        trace(
+            "init marker=\(arguments.contains("--uitesting")) "
+                + "language=\(arguments.contains("-language")) "
+                + "private-global=\(environment["GIT_CONFIG_GLOBAL"] == "/dev/null") "
+                + "private-system=\(environment["GIT_CONFIG_SYSTEM"] == "/dev/null")")
+    }
+
     #if !BARE_WINDOW_GROUP
         @NSApplicationDelegateAdaptor(SceneControlDelegate.self) private var delegate
     #endif

@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       controls:
-        description: Comma-separated controls; bare,single,group,async,workspace,appkit,hosting
+        description: Comma-separated controls; defaultargs,marker,language or prior explicit controls
         type: string
-        default: appkit,hosting
+        default: defaultargs,marker,language
 permissions:
   contents: read
 defaults:
@@ -33,7 +33,7 @@ jobs:
           persist-credentials: false
       - name: Compile and test isolated scenes serially
         env:
-          SCENE_CONTROLS: ${{ inputs.controls || 'appkit,hosting' }}
+          SCENE_CONTROLS: ${{ inputs.controls || 'defaultargs,marker,language' }}
         run: |
           xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/AppKitControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift Tools/SceneLaunchControl/AsyncSceneControlUITests.swift
           python3 scripts/ci/scene_control.py --controls "$SCENE_CONTROLS"

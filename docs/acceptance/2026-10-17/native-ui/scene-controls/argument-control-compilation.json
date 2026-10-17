@@ -1,0 +1,24 @@
+{
+  "executedXCTestLocally": false,
+  "weGitApplicationSourceChanged": false,
+  "controls": [
+    {
+      "app": "DefaultArgumentsApp",
+      "testBundle": "DefaultArgumentsTests",
+      "buildExitCode": 0,
+      "metadataVerified": true
+    },
+    {
+      "app": "MarkerApp",
+      "testBundle": "MarkerTests",
+      "buildExitCode": 0,
+      "metadataVerified": true
+    },
+    {
+      "app": "LanguageApp",
+      "testBundle": "LanguageTests",
+      "buildExitCode": 0,
+      "metadataVerified": true
+    }
+  ]
+}

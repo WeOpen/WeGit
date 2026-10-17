@@ -6,7 +6,15 @@ final class SceneControlUITests: XCTestCase {
         continueAfterFailure = false
         let app = XCUIApplication()
         defer { app.terminate() }
-        app.launchArguments = ["--uitesting", "-language", "zh-Hans"]
+        #if DEFAULT_CONTROL_ARGUMENTS
+            // Keep XCTest's default launch arguments for the baseline.
+        #elseif MARKER_CONTROL_ARGUMENTS
+            app.launchArguments = ["--uitesting"]
+        #elseif LANGUAGE_CONTROL_ARGUMENTS
+            app.launchArguments = ["-language", "zh-Hans"]
+        #else
+            app.launchArguments = ["--uitesting", "-language", "zh-Hans"]
+        #endif
         app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launch()

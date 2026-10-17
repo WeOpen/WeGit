@@ -13,21 +13,26 @@ from ui_probe import inspect_environment, result_summary, run_logged, verify_sum
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--controls", default="appkit,hosting")
+    parser.add_argument("--controls", default="defaultargs,marker,language")
     args = parser.parse_args()
     schemes = {"bare": "BareControl", "single": "SingleControl", "group": "GroupControl",
                "async": "AsyncControl", "workspace": "WorkspaceControl",
-               "appkit": "AppKitControl", "hosting": "HostingControl"}
+               "appkit": "AppKitControl", "hosting": "HostingControl",
+               "defaultargs": "DefaultArgumentsControl", "marker": "MarkerControl",
+               "language": "LanguageControl"}
     products = {"bare": ("BareControl", "BareControlTests"),
                 "single": ("SingleControl", "SingleControlTests"),
                 "group": ("GroupControl", "GroupControlTests"),
                 "async": ("AsyncBareApp", "AsyncLaunchTests"),
                 "workspace": ("WorkspaceBareApp", "WorkspaceLaunchTests"),
                 "appkit": ("AppKitBareApp", "AppKitLaunchTests"),
-                "hosting": ("HostingBareApp", "HostingLaunchTests")}
+                "hosting": ("HostingBareApp", "HostingLaunchTests"),
+                "defaultargs": ("DefaultArgumentsApp", "DefaultArgumentsTests"),
+                "marker": ("MarkerApp", "MarkerTests"),
+                "language": ("LanguageApp", "LanguageTests")}
     selection = args.controls.split(",")
     if not selection or len(selection) != len(set(selection)) or any(key not in schemes for key in selection):
-        parser.error("Select unique controls from bare,single,group,async,workspace,appkit,hosting")
+        parser.error("Select unique controls from " + ",".join(schemes))
     output = Path(".build/ci/scene-controls")
     output.mkdir(parents=True, exist_ok=True)
     report = {"date": datetime.now(timezone.utc).isoformat(), "kind": "isolated-scene-controls",

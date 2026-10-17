@@ -16,3 +16,5 @@
 53 个核心输入的聚合 SHA-256 为 `421fc53e24a43ab5f05e38634ecce86114b7a477822694d24d2e5aaccb2500b9`，方法由 source.json 记录；后续文档回执加入时核对核心与检查器均未变化，见 source-equivalence.json。应用、领域服务和公开接口没有改动。
 
 本轮只覆盖无口令临时密钥的非交互 OpenPGP，不覆盖真实 Pinentry、硬件密钥、GitLab/其他账号、原生界面、受保护目标机器安装或完整发布。此前本机 Homebrew 5.1.6 不支持 macOS 27 的失败记录保留，不能以托管环境的成功替换其条件。
+
+最终提交 `f0164bbd8e25ca7696f4b446590fb9a541c9e5dc` 的 [CI 38995575313](https://github.com/WeOpen/WeGit/actions/runs/38995575313) 再次全绿，合并快照 `61d02d7db5760bec68620438d086fcd9757af618`；两份签名报告各 7 项与清理全部通过，核心输入和检查器摘要相同。实际产物已下载核对，见 final-*。PR #20 已按受保护流程 Squash 合入 main `caca33279f1aa7be5a6e3760bc51b6c55d4c5304`；完整兼容性 Issue #5 仍开放。

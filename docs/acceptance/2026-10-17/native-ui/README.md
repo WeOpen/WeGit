@@ -26,6 +26,8 @@
 
 第二轮 [38995024310](https://github.com/WeOpen/WeGit/actions/runs/38995024310) 在 `bf12c72` 两组各实际执行 1、失败 1、跳过 0，仍在内容呈现断言失败；见 [通道报告](scene-controls/launch-routes-report.json)。没有采用任一新启动器，也没有关闭 sandbox。下一步仅运行 AppKit 显式窗口与 AppKit＋NSHostingView 两个新控制，进一步区分窗口系统、SwiftUI 承载及 App/Scene 生命周期；旧五项不自动重试。
 
+第三轮 [38995999775](https://github.com/WeOpen/WeGit/actions/runs/38995999775) 在 `15b01e7` 中 AppKit / NSHostingView 两组各实际执行并通过 1 项、失败 0、跳过 0，且断言一个可点击窗口。报告见 [hosting-report.json](scene-controls/hosting-report.json)。应用 sandbox 未启用、测试 runner sandbox 启用；系统权限没有改变。这将范围缩到 SwiftUI App/Scene 的首次呈现，而非 SwiftUI 文本承载或窗口系统；尚未证明具体原因。下一轮仅比较三份裸场景的默认 XCTest 参数、仅 `--uitesting`、仅 `-language zh-Hans`，保持两项 Git 配置隔离环境和窗口断言；原七组不自动重跑。
+
 ## 本机旁白尝试与恢复
 
 系统设置确认原开关 off，临时 on 后仍未观察到 VoiceOver 读屏进程；已存在的 Quickstart 引导无法通过控制通道读取，未取得字幕或朗读证据。开关恢复 off，系统设置恢复原 General 页面，未改其他辅助选项，见 [voiceover-attempt.json](voiceover-attempt.json)。旁白验收保持未完成。

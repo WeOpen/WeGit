@@ -7,15 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16B381125402929FF822DE83 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		2BCA91FB29B6D03684F9C72C /* AppKitControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2256171CDF698B2BBFAFA778 /* AppKitControl.swift */; };
 		2EA8DB786E8BD9E0ED6F288F /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		3809E8590EB6CDA6F40DBB2D /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		38BCF473ACA966C04D1C7B8D /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		6325BCF28CF7404F2ACB5EEC /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		6647FF9AC4610B7F0CB4DB48 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		787F023F8131A133BA428733 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		8CF596B2E099A0FD16488611 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		8E913381DE82E3D75B6E23AC /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		9F8F8EC094FB1DBAECA67F07 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		A04C0FA921B674EDD8589278 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		AAC7CADF04C39B2D597A102B /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		AEA231130F58B8BE61C99CF6 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		B72DE883FFE492519C95E6E0 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		D0452F54B02C122B5C0E765C /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		D57F2F3E038ECCE019000A48 /* AsyncSceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */; };
 		E1C013B5DB494BCDC8ED16F2 /* AsyncSceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */; };
@@ -24,6 +30,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0B1EDFD072908AAD0D4BEB31 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A436CB501636C16851FBAF87;
+			remoteInfo = LanguageApp;
+		};
 		163590A3D89972FD04ACE20A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
@@ -52,12 +65,26 @@
 			remoteGlobalIDString = F8D7B404484B3BD23F8E5B58;
 			remoteInfo = WorkspaceBareApp;
 		};
+		C2090C28BE24D807BB37120F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18CD3594410F378B17764C4A;
+			remoteInfo = DefaultArgumentsApp;
+		};
 		C95A4B9F1660EF097B6B8DA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = FD79B89D370358EA55341647;
 			remoteInfo = GroupControl;
+		};
+		D3BA22D9D11A359D4FFD01C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AC9E527B1D5D045864D790F;
+			remoteInfo = MarkerApp;
 		};
 		F066B4D830E12FC35BEA4C04 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -83,12 +110,18 @@
 		1ED795ABA6513787C6A1932D /* GroupControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EF1B998F55C64BDA13D9353 /* WorkspaceBareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkspaceBareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2256171CDF698B2BBFAFA778 /* AppKitControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKitControl.swift; sourceTree = "<group>"; };
+		28F313300C0873E05D207791 /* DefaultArgumentsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DefaultArgumentsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31FBDBBCE7F2D3D591877C60 /* MarkerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarkerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncSceneControlUITests.swift; sourceTree = "<group>"; };
 		4AFCFDC3E93012757C4B31A0 /* SingleControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SingleControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E3A8D5DF26B870255CB3E08 /* MarkerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D198F78DBC6BBB580154BB /* SceneControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControl.swift; sourceTree = "<group>"; };
+		77ED94824EE728BDA7A10BA3 /* DefaultArgumentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DefaultArgumentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BE397411FD9A7BE2AEA27C8 /* LanguageApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanguageApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE877A63418144B5F0A956F /* WorkspaceLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkspaceLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BareControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61ADA2668DF0A0068F3E831 /* AsyncBareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsyncBareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9393D04B715A437B1801ECE /* SingleControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE1FB72514AD9CD734A9E28 /* HostingLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostingLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6EB3DE6E2C8DFF2D963CAA8 /* AppKitLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppKitLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,10 +139,16 @@
 				1CBA24C8B655EB1DFA03C29F /* AsyncLaunchTests.xctest */,
 				FF1A0F9F53FEBC6D7E7B67AA /* BareControl.app */,
 				A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */,
+				28F313300C0873E05D207791 /* DefaultArgumentsApp.app */,
+				77ED94824EE728BDA7A10BA3 /* DefaultArgumentsTests.xctest */,
 				1ED795ABA6513787C6A1932D /* GroupControl.app */,
 				F1C5437A17991335232D41EE /* GroupControlTests.xctest */,
 				0A77EDE3028E1F750276A844 /* HostingBareApp.app */,
 				CBE1FB72514AD9CD734A9E28 /* HostingLaunchTests.xctest */,
+				9BE397411FD9A7BE2AEA27C8 /* LanguageApp.app */,
+				C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */,
+				5E3A8D5DF26B870255CB3E08 /* MarkerApp.app */,
+				31FBDBBCE7F2D3D591877C60 /* MarkerTests.xctest */,
 				C9393D04B715A437B1801ECE /* SingleControl.app */,
 				4AFCFDC3E93012757C4B31A0 /* SingleControlTests.xctest */,
 				1EF1B998F55C64BDA13D9353 /* WorkspaceBareApp.app */,
@@ -149,6 +188,23 @@
 			productName = HostingLaunchTests;
 			productReference = CBE1FB72514AD9CD734A9E28 /* HostingLaunchTests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		18CD3594410F378B17764C4A /* DefaultArgumentsApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7250B46DC1E56789D5D17CAA /* Build configuration list for PBXNativeTarget "DefaultArgumentsApp" */;
+			buildPhases = (
+				8B95DC8FA3D6E62756D0680B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DefaultArgumentsApp;
+			packageProductDependencies = (
+			);
+			productName = DefaultArgumentsApp;
+			productReference = 28F313300C0873E05D207791 /* DefaultArgumentsApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 		1FACD2C867C4AACE9390F695 /* HostingBareApp */ = {
 			isa = PBXNativeTarget;
@@ -238,6 +294,24 @@
 			productReference = FF1A0F9F53FEBC6D7E7B67AA /* BareControl.app */;
 			productType = "com.apple.product-type.application";
 		};
+		427DF1424E712E47109FC919 /* DefaultArgumentsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70C26E8AFEA6861C385A0D8F /* Build configuration list for PBXNativeTarget "DefaultArgumentsTests" */;
+			buildPhases = (
+				6C0C31A210475B2C02429805 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2046C8F6CB2BEC2171DD6FDC /* PBXTargetDependency */,
+			);
+			name = DefaultArgumentsTests;
+			packageProductDependencies = (
+			);
+			productName = DefaultArgumentsTests;
+			productReference = 77ED94824EE728BDA7A10BA3 /* DefaultArgumentsTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		6217A6BBA974FEB7AD4CB319 /* SingleControl */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F12FC5241B0518180AEC432 /* Build configuration list for PBXNativeTarget "SingleControl" */;
@@ -290,6 +364,76 @@
 			productName = BareControlTests;
 			productReference = A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		78A20550BB140335D413A330 /* MarkerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89B7118F93D45760B8076135 /* Build configuration list for PBXNativeTarget "MarkerTests" */;
+			buildPhases = (
+				D3CDAAB4FA1FE889219DD2B7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				153453F67A573932369FCC72 /* PBXTargetDependency */,
+			);
+			name = MarkerTests;
+			packageProductDependencies = (
+			);
+			productName = MarkerTests;
+			productReference = 31FBDBBCE7F2D3D591877C60 /* MarkerTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		7C0A9857C38BCF7E4834AC14 /* LanguageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6566C80666F99B4CB22DAF4D /* Build configuration list for PBXNativeTarget "LanguageTests" */;
+			buildPhases = (
+				650DA38C3E4AA1EC65512001 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				050924C1D45C7AD40EB03C5A /* PBXTargetDependency */,
+			);
+			name = LanguageTests;
+			packageProductDependencies = (
+			);
+			productName = LanguageTests;
+			productReference = C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		8AC9E527B1D5D045864D790F /* MarkerApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F314CBC320233AAE004107F /* Build configuration list for PBXNativeTarget "MarkerApp" */;
+			buildPhases = (
+				755BCC14E83232C8ED9DCE58 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MarkerApp;
+			packageProductDependencies = (
+			);
+			productName = MarkerApp;
+			productReference = 5E3A8D5DF26B870255CB3E08 /* MarkerApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A436CB501636C16851FBAF87 /* LanguageApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18D2E3CB2ADE8A3E438F21A8 /* Build configuration list for PBXNativeTarget "LanguageApp" */;
+			buildPhases = (
+				C901038B1C8F927311459D40 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LanguageApp;
+			packageProductDependencies = (
+			);
+			productName = LanguageApp;
+			productReference = 9BE397411FD9A7BE2AEA27C8 /* LanguageApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 		BCAD8261787F2C3884B78FC6 /* AppKitBareApp */ = {
 			isa = PBXNativeTarget;
@@ -391,6 +535,10 @@
 						ProvisioningStyle = Manual;
 						TestTargetID = 1FACD2C867C4AACE9390F695;
 					};
+					18CD3594410F378B17764C4A = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
 					1FACD2C867C4AACE9390F695 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
@@ -414,6 +562,11 @@
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
 					};
+					427DF1424E712E47109FC919 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 18CD3594410F378B17764C4A;
+					};
 					6217A6BBA974FEB7AD4CB319 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
@@ -427,6 +580,24 @@
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
 						TestTargetID = 3BFCDF19C58FE5750A212F83;
+					};
+					78A20550BB140335D413A330 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 8AC9E527B1D5D045864D790F;
+					};
+					7C0A9857C38BCF7E4834AC14 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = A436CB501636C16851FBAF87;
+					};
+					8AC9E527B1D5D045864D790F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					A436CB501636C16851FBAF87 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
 					};
 					BCAD8261787F2C3884B78FC6 = {
 						DevelopmentTeam = "";
@@ -471,10 +642,16 @@
 				2E0B6E4104F8660B12590040 /* AsyncLaunchTests */,
 				3BFCDF19C58FE5750A212F83 /* BareControl */,
 				708CD8AE6AC3A2C6C72DE1B5 /* BareControlTests */,
+				18CD3594410F378B17764C4A /* DefaultArgumentsApp */,
+				427DF1424E712E47109FC919 /* DefaultArgumentsTests */,
 				FD79B89D370358EA55341647 /* GroupControl */,
 				6F46E791DA042E0AAFD1B13F /* GroupControlTests */,
 				1FACD2C867C4AACE9390F695 /* HostingBareApp */,
 				07CB1A1932547E594FF0F494 /* HostingLaunchTests */,
+				A436CB501636C16851FBAF87 /* LanguageApp */,
+				7C0A9857C38BCF7E4834AC14 /* LanguageTests */,
+				8AC9E527B1D5D045864D790F /* MarkerApp */,
+				78A20550BB140335D413A330 /* MarkerTests */,
 				6217A6BBA974FEB7AD4CB319 /* SingleControl */,
 				D56F7CB879E2A02333C9D2E7 /* SingleControlTests */,
 				F8D7B404484B3BD23F8E5B58 /* WorkspaceBareApp */,
@@ -532,11 +709,43 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		650DA38C3E4AA1EC65512001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16B381125402929FF822DE83 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C0C31A210475B2C02429805 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3809E8590EB6CDA6F40DBB2D /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		755BCC14E83232C8ED9DCE58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A04C0FA921B674EDD8589278 /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		782E14C4E704A17CA990E234 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F5ECB5D5A00ED2B34BD831E0 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B95DC8FA3D6E62756D0680B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAC7CADF04C39B2D597A102B /* SceneControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,11 +789,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C901038B1C8F927311459D40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B72DE883FFE492519C95E6E0 /* SceneControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D13117DD9E0B18C658E9D9D6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F08023C8AEB0BC8D3E3196FA /* AppKitControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3CDAAB4FA1FE889219DD2B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6325BCF28CF7404F2ACB5EEC /* SceneControlUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +824,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		050924C1D45C7AD40EB03C5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A436CB501636C16851FBAF87 /* LanguageApp */;
+			targetProxy = 0B1EDFD072908AAD0D4BEB31 /* PBXContainerItemProxy */;
+		};
+		153453F67A573932369FCC72 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AC9E527B1D5D045864D790F /* MarkerApp */;
+			targetProxy = D3BA22D9D11A359D4FFD01C2 /* PBXContainerItemProxy */;
+		};
+		2046C8F6CB2BEC2171DD6FDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18CD3594410F378B17764C4A /* DefaultArgumentsApp */;
+			targetProxy = C2090C28BE24D807BB37120F /* PBXContainerItemProxy */;
+		};
 		63A7A59A69221B2E57481245 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F8D7B404484B3BD23F8E5B58 /* WorkspaceBareApp */;
@@ -884,6 +1124,67 @@
 			};
 			name = Debug;
 		};
+		32D55F72AB20BF0E3876FE28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		3E6A8B3B181C401E4CC669A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/DefaultArgumentsApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEFAULT_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = DefaultArgumentsApp;
+			};
+			name = Debug;
+		};
+		3F272A626528519A36F6384F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/LanguageApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) LANGUAGE_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = LanguageApp;
+			};
+			name = Debug;
+		};
 		48624E1A953F208216CC73E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -905,6 +1206,44 @@
 				TEST_TARGET_NAME = HostingBareApp;
 			};
 			name = Debug;
+		};
+		48E80907173B02EF70D924DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		716A93533A5ADA8DA3251E25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/LanguageApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) LANGUAGE_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = LanguageApp;
+			};
+			name = Release;
 		};
 		788195D2F57997FF040CB9B9 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -948,6 +1287,29 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.workspace;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		8413CF185F973E0895748473 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/DefaultArgumentsApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEFAULT_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = DefaultArgumentsApp;
 			};
 			name = Release;
 		};
@@ -1093,6 +1455,21 @@
 				SDKROOT = macosx;
 			};
 			name = Release;
+		};
+		9E91712D3C46A63F87CA2780 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.language;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
 		};
 		A6AC40F24EF354A948C9054E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1256,6 +1633,67 @@
 			};
 			name = Debug;
 		};
+		C6B04CE579637552C073FE6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/MarkerApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) MARKER_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = MarkerApp;
+			};
+			name = Release;
+		};
+		CE79537708F9034D3A6454F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
+		DA519F1FE545008E775954AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/MarkerApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker.tests;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) MARKER_CONTROL_ARGUMENTS";
+				TEST_TARGET_NAME = MarkerApp;
+			};
+			name = Debug;
+		};
 		DFE1A4DCB2EA970CA9CECC9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1270,6 +1708,21 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
 			};
 			name = Debug;
+		};
+		E3139795AD69D1944D2005C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.marker;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
 		};
 		F8331AFEB4DCF156C8075543 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1286,9 +1739,33 @@
 			};
 			name = Release;
 		};
+		FF6F0EBE0BE2E7DACF9C4A95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.defaultargs;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		18D2E3CB2ADE8A3E438F21A8 /* Build configuration list for PBXNativeTarget "LanguageApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9E91712D3C46A63F87CA2780 /* Debug */,
+				48E80907173B02EF70D924DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		34CE3BED18153A1D7B2D5BA1 /* Build configuration list for PBXNativeTarget "HostingBareApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1316,11 +1793,56 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		6566C80666F99B4CB22DAF4D /* Build configuration list for PBXNativeTarget "LanguageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F272A626528519A36F6384F /* Debug */,
+				716A93533A5ADA8DA3251E25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		70C26E8AFEA6861C385A0D8F /* Build configuration list for PBXNativeTarget "DefaultArgumentsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3E6A8B3B181C401E4CC669A8 /* Debug */,
+				8413CF185F973E0895748473 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7250B46DC1E56789D5D17CAA /* Build configuration list for PBXNativeTarget "DefaultArgumentsApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF6F0EBE0BE2E7DACF9C4A95 /* Debug */,
+				32D55F72AB20BF0E3876FE28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		89B7118F93D45760B8076135 /* Build configuration list for PBXNativeTarget "MarkerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA519F1FE545008E775954AD /* Debug */,
+				C6B04CE579637552C073FE6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		8F12FC5241B0518180AEC432 /* Build configuration list for PBXNativeTarget "SingleControl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8FF89FEDB36D91C471117AEC /* Debug */,
 				27EFD09A69855F27F84CB5A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F314CBC320233AAE004107F /* Build configuration list for PBXNativeTarget "MarkerApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE79537708F9034D3A6454F4 /* Debug */,
+				E3139795AD69D1944D2005C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
