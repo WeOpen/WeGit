@@ -4,18 +4,6 @@ import SwiftData
 import SwiftUI
 import WeGitCore
 
-@MainActor
-enum AppStartupDiagnostics {
-    static func record(_ stage: String) {
-        #if DEBUG
-            guard ProcessInfo.processInfo.arguments.contains("--uitesting"),
-                ProcessInfo.processInfo.environment["WEGIT_UI_STARTUP_TRACE"] == "1"
-            else { return }
-            FileHandle.standardError.write(Data("WeGit startup: \(stage)\n".utf8))
-        #endif
-    }
-}
-
 @Model
 final class RecentRepository {
     @Attribute(.unique) var path: String
@@ -463,7 +451,6 @@ final class AppState {
     }
 
     init() {
-        AppStartupDiagnostics.record("state-init-start app-exists=\(NSApp != nil)")
         let testing = Self.isUITesting
         if !testing { PreferenceMigration.migrateStandardPreferences() }
         defaults = testing ? UserDefaults(suiteName: "com.willxue.wegit.UITests")! : .standard
@@ -522,7 +509,6 @@ final class AppState {
             let retention = Double(preferences.activityHours) * 3600
             Task { await self.engine.activity.configure(limit: limit, retention: retention) }
         }
-        AppStartupDiagnostics.record("state-init-finished app-exists=\(NSApp != nil)")
     }
 
     func reloadRecents() {

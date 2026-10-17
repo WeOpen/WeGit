@@ -1,0 +1,40 @@
+name: SwiftUI scene controls
+on:
+  pull_request:
+    paths:
+      - Tools/SceneLaunchControl/**
+      - scripts/ci/scene_control.py
+      - scripts/ci/ui_probe.py
+      - .github/workflows/scene-controls.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: scene-controls-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  controls:
+    name: Independent scene launch controls
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: xcode-27
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Compile and test isolated scenes serially
+        run: |
+          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift
+          python3 scripts/ci/scene_control.py
+      - name: Retain actual control environment and results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scene-controls-${{ github.event.pull_request.head.sha || github.sha }}
+          path: .build/ci/scene-controls/
+          include-hidden-files: true
+          retention-days: 14

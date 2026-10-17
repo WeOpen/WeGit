@@ -14,7 +14,11 @@
 
 [Run 38990703801](https://github.com/WeOpen/WeGit/actions/runs/38990703801)，源码 `73905434917c03c24647e9589060e21384e74523`，同一应用摘要 `6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda`，实际执行 1、失败 1、跳过 0。诊断显示进程 active=true、hidden=false、finishedLaunching=true、普通激活策略；桌面截图没有主窗口，也没有权限弹窗。非提权 `sample` 被系统拒绝，未改权限或使用 sudo。详见 `diagnostic-*` 文件，失败不作为任何功能验收通过。
 
-本机独立 `Window`/`WindowGroup` 对照均在后台启动时呈现窗口，已关闭两份专用控制应用，见 [local-scene-controls.json](local-scene-controls.json)。它只反驳“单窗口在后台必定不显示”的泛化假设，不能代替托管环境复现。应用窗口类型保持原样。下一步通过仅在 DEBUG、`--uitesting` 且明确环境标记同时启用的日志区分状态初始化、场景求值、工作区求值/出现和启动后窗口数量；日志不读取仓库内容或用户路径。
+本机独立 `Window`/`WindowGroup` 对照均在后台启动时呈现窗口，已关闭两份专用控制应用，见 [local-scene-controls.json](local-scene-controls.json)。它只反驳“单窗口在后台必定不显示”的泛化假设，不能代替托管环境复现。随后临时 Debug 阶段日志确认状态初始化及场景声明完成，但没有工作区或窗口。场景恢复、命令抑制和窗口类型三项受控候选均未改善；详见 [全部候选](startup-experiments.json) 及逐轮 `candidate-*` 摘要。所有实验性应用改动及临时日志已撤回，120 个输入文件与原开发包一致，摘要仍为 `6fbcded...`，见 [源码核对](reverted-source.json)。
+
+额外的本机应用封装对照改变了可执行入口，不能当作 XCTest 的等价复现或产品根因证据，明确记录为 [未定](local-wrapper-inconclusive.json)。四份专用控制应用均已停止并删除，原始日志/控制源保留在本机 `.build/`，用户的 WeGit 应用和仓库不受影响。
+
+后续建立不依赖 WeGit 的 [独立 SwiftUI/XCTest 控制工程](../../../../Tools/SceneLaunchControl/README.md)，包含裸 WindowGroup 与两种匹配场景配置。每组实际执行 1 项，串行、有限时、保留失败和环境；这不是完整产品 UI 或发布验收。原产品仍使用单个 `Window`。
 
 ## 本机旁白尝试与恢复
 

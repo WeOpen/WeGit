@@ -6,19 +6,6 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
     weak var state: AppState?
     var menuBarController: MenuBarController?
     var applicationMenu: NativeApplicationMenu?
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        AppStartupDiagnostics.record("application-did-finish")
-        #if DEBUG
-            guard ProcessInfo.processInfo.arguments.contains("--uitesting"),
-                ProcessInfo.processInfo.environment["WEGIT_UI_STARTUP_TRACE"] == "1"
-            else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                AppStartupDiagnostics.record(
-                    "windows-after-launch total=\(NSApp.windows.count) visible=\(NSApp.windows.filter(\.isVisible).count)"
-                )
-            }
-        #endif
-    }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard let state, state.anyOperationRunning else {
             return .terminateNow

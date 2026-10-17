@@ -55,3 +55,5 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=smoke -f c
 该入口只接受仍开放、同仓库、目标为 main 的 PR，并固定其 head SHA；禁止 fork/其他分支、可变 ref 和大套件候选运行。构建前将 main 的测试计数/截止驱动复制到 RUNNER_TEMP，之后签出候选源码，归档名与 build-source 记录实际源码。该诊断的 workflow head 仍是 main，判读必须查看报告里的实际 sourceCommit；它不能作为稳定版的同 SHA Full acceptance 证明。
 
 第二次诊断 [run 38990703801](https://github.com/WeOpen/WeGit/actions/runs/38990703801) 在 `7390543` 实际执行 1 项并失败，没有跳过。进程已 active/finishedLaunching，桌面没有主窗口或权限弹窗；普通权限的线程采样被系统拒绝，没有提权。独立的本机单窗口/窗口组后台启动对照均正常，尚不能断言窗口类型是根因。仅在隔离 Debug UI 测试中增加阶段日志，继续用候选 PR smoke 定位；完整证据见 [本轮记录](acceptance/2026-10-17/native-ui/README.md)。
+
+阶段日志及三项候选随后均已撤回，产品源码保持原单窗口和原配置；各失败回合保留，尚无根因结论。新的 [独立控制工程](../Tools/SceneLaunchControl/README.md) 用三个无 WeGit 依赖的应用区分最基础 SwiftUI 启动与匹配场景配置。`SwiftUI scene controls` 仅运行同仓库 PR 的固定 head 或 main 手动入口；每个控制串行构建、执行恰好 1 项并检查实际结果，不能关闭任何产品发布门槛。

@@ -7,14 +7,11 @@ struct WeGitApp: App {
     @State private var app = AppState()
     @NSApplicationDelegateAdaptor(ApplicationDelegate.self) private var delegate
     var body: some Scene {
-        let _ = AppStartupDiagnostics.record("scene-body")
-        WindowGroup("WeGit", id: "main") {
-            let _ = AppStartupDiagnostics.record("window-content")
+        Window("WeGit", id: "main") {
             WorkspaceView(app: app)
                 .workbenchControlFamily()
                 .background(MenuBarRegistration(app: app, delegate: delegate).frame(width: 0, height: 0))
                 .workbenchAppearance(app.preferences)
-                .onAppear { AppStartupDiagnostics.record("workspace-appeared") }
 
                 .task {
                     delegate.state = app

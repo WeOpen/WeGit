@@ -4,7 +4,6 @@ import XCTest
 extension XCUIApplication {
     @MainActor func launchWeGit() {
         if !launchArguments.contains("-language") { launchArguments += ["-language", "zh-Hans"] }
-        launchEnvironment["WEGIT_UI_STARTUP_TRACE"] = "1"
         launch()
         activate()
         let menuReady = menuBars.menuBarItems["native-menu-app"].waitForExistence(timeout: 5)

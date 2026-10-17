@@ -1,0 +1,90 @@
+name: SceneLaunchControl
+options:
+  minimumXcodeGenVersion: 2.43.0
+  deploymentTarget:
+    macOS: '27.0'
+settings:
+  base:
+    SWIFT_VERSION: '6.0'
+    SWIFT_STRICT_CONCURRENCY: complete
+    MACOSX_DEPLOYMENT_TARGET: '27.0'
+    CODE_SIGN_IDENTITY: '-'
+    CODE_SIGN_STYLE: Manual
+    DEVELOPMENT_TEAM: ''
+    ENABLE_APP_SANDBOX: NO
+    ENABLE_HARDENED_RUNTIME: YES
+    GENERATE_INFOPLIST_FILE: YES
+targetTemplates:
+  ControlApplication:
+    type: application
+    platform: macOS
+    sources: [SceneControl.swift]
+  ControlTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [SceneControlUITests.swift]
+    settings:
+      base:
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+targets:
+  BareControl:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  SingleControl:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.single
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) SINGLE_WINDOW'
+  GroupControl:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.group
+  SingleControlTests:
+    templates: [ControlTests]
+    dependencies: [{target: SingleControl}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.single.tests
+        INFOPLIST_KEY_ControlAppBundleIdentifier: com.willxue.wegit.scenecontrol.single
+  GroupControlTests:
+    templates: [ControlTests]
+    dependencies: [{target: GroupControl}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.group.tests
+        INFOPLIST_KEY_ControlAppBundleIdentifier: com.willxue.wegit.scenecontrol.group
+  BareControlTests:
+    templates: [ControlTests]
+    dependencies: [{target: BareControl}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare.tests
+        INFOPLIST_KEY_ControlAppBundleIdentifier: com.willxue.wegit.scenecontrol.bare
+schemes:
+  BareControl:
+    build:
+      targets:
+        BareControl: all
+        BareControlTests: [test]
+    test:
+      targets: [BareControlTests]
+  SingleControl:
+    build:
+      targets:
+        SingleControl: all
+        SingleControlTests: [test]
+    test:
+      targets: [SingleControlTests]
+  GroupControl:
+    build:
+      targets:
+        GroupControl: all
+        GroupControlTests: [test]
+    test:
+      targets: [GroupControlTests]
