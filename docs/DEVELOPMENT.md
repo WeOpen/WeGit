@@ -803,3 +803,7 @@ Icon Composer 27.0 实际导出的 Default/Dark 已检查；Debug 与普通 Rele
 ## 48. 应用远端验证与中英文网站（2026-10-16）
 
 PR #15 的远端源码 `8c3d229` 已全绿并合并 main `9889517`，Issue #12 关闭。两套 Git 各 183 项、998/7 翻译、34/18/27 原生专项与构建通过；失败的清单摘要扫描及精确修正保留。网站使用已有品牌、真实开发截图和系统字体，提供双语、320/390 px 布局、系统浅深色及键盘入口；下载以同一 GitHub 版本的 ZIP/校验和/manifest 为准。GitHub Pages 已配置 HTTPS 和 main/v* 环境规则，实际公开访问见 Issue #8；没有发布应用版本或完成 V1.0 验收。
+
+## 49. Homebrew Git 与非交互 OpenPGP（2026-10-17）
+
+通过既有 GitEngine / RepositoryService 增加私有目录、全局文件和 GNUPGHOME 的真实签名检查，不改变生产接口或配置。Apple Git 2.54.0 / Homebrew Git 2.56.0 配合 GnuPG 2.5.24 各 7 项行为与清理通过；Homebrew 完整 183 项 / 32 套件通过。CI 同时完成原两套 Git、原生专项、UI 编译、Debug/普通 Release 与预览包；核心与检查器摘要在加入回执时逐字匹配。原本机 Homebrew 不支持系统的失败仍保留，真实 Pinentry、硬件密钥、其他服务与完整 UI/发布继续待验，见 [证据](acceptance/2026-10-17/git-signing/README.md)。
