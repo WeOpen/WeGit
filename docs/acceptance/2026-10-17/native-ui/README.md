@@ -32,4 +32,4 @@
 
 系统设置确认原开关 off，临时 on 后仍未观察到 VoiceOver 读屏进程；已存在的 Quickstart 引导无法通过控制通道读取，未取得字幕或朗读证据。开关恢复 off，系统设置恢复原 General 页面，未改其他辅助选项，见 [voiceover-attempt.json](voiceover-attempt.json)。旁白验收保持未完成。
 
-第三轮 [38995999775](https://github.com/WeOpen/WeGit/actions/runs/38995999775) 在 `15b01e7` 中 AppKit / NSHostingView 各实际执行 1、通过 1、跳过 0，单个窗口可交互；两组 UI runner 的 sandbox 均开启，应用 sandbox 均关闭，与原产品条件一致。见 [承载报告](scene-controls/hosting-report.json)。这将范围缩小到 SwiftUI App/Scene 启动，尚不证明具体根因。下一轮保持裸场景、Git 隔离和 XCTest 通道，仅比较默认参数、测试标记与语言参数；原有五项失败与两项通过不自动重跑。
+参数拆分 [39002210951](https://github.com/WeOpen/WeGit/actions/runs/39002210951) 的默认参数、单独测试标记、单独语言参数各执行 1 项并通过，见 [参数报告](scene-controls/individual-arguments-report.json)。三组同源裸场景新增显式初始化日志；尚不能将原失败归因于参数。下一轮用相同新源比较原组合、重排组合与标准 AppleLanguages 键，先验证可复现性。

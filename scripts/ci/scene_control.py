@@ -13,13 +13,14 @@ from ui_probe import inspect_environment, result_summary, run_logged, verify_sum
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--controls", default="defaultargs,marker,language")
+    parser.add_argument("--controls", default="combined,reordered,applelanguage")
     args = parser.parse_args()
     schemes = {"bare": "BareControl", "single": "SingleControl", "group": "GroupControl",
                "async": "AsyncControl", "workspace": "WorkspaceControl",
                "appkit": "AppKitControl", "hosting": "HostingControl",
                "defaultargs": "DefaultArgumentsControl", "marker": "MarkerControl",
-               "language": "LanguageControl"}
+               "language": "LanguageControl", "combined": "CombinedControl",
+               "reordered": "ReorderedControl", "applelanguage": "AppleLanguageControl"}
     products = {"bare": ("BareControl", "BareControlTests"),
                 "single": ("SingleControl", "SingleControlTests"),
                 "group": ("GroupControl", "GroupControlTests"),
@@ -29,7 +30,10 @@ def main():
                 "hosting": ("HostingBareApp", "HostingLaunchTests"),
                 "defaultargs": ("DefaultArgumentsApp", "DefaultArgumentsTests"),
                 "marker": ("MarkerApp", "MarkerTests"),
-                "language": ("LanguageApp", "LanguageTests")}
+                "language": ("LanguageApp", "LanguageTests"),
+                "combined": ("CombinedApp", "CombinedTests"),
+                "reordered": ("ReorderedApp", "ReorderedTests"),
+                "applelanguage": ("AppleLanguageApp", "AppleLanguageTests")}
     selection = args.controls.split(",")
     if not selection or len(selection) != len(set(selection)) or any(key not in schemes for key in selection):
         parser.error("Select unique controls from " + ",".join(schemes))

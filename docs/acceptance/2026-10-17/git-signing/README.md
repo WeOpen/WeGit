@@ -18,5 +18,3 @@
 本轮只覆盖无口令临时密钥的非交互 OpenPGP，不覆盖真实 Pinentry、硬件密钥、GitLab/其他账号、原生界面、受保护目标机器安装或完整发布。此前本机 Homebrew 5.1.6 不支持 macOS 27 的失败记录保留，不能以托管环境的成功替换其条件。
 
 最终提交 `f0164bbd8e25ca7696f4b446590fb9a541c9e5dc` 的 [CI 38995575313](https://github.com/WeOpen/WeGit/actions/runs/38995575313) 再次全绿，合并快照 `61d02d7db5760bec68620438d086fcd9757af618`；两份签名报告各 7 项与清理全部通过，核心输入和检查器摘要相同。实际产物已下载核对，见 final-*。PR #20 已按受保护流程 Squash 合入 main `caca33279f1aa7be5a6e3760bc51b6c55d4c5304`；完整兼容性 Issue #5 仍开放。
-
-最终 PR head `f0164bbd8e25ca7696f4b446590fb9a541c9e5dc` 的 [CI 38995575313](https://github.com/WeOpen/WeGit/actions/runs/38995575313) 也已全部通过，实际合并快照为 `61d02d7db5760bec68620438d086fcd9757af618`。两组各 7 项签名及清理已从最终 artifact 核对，核心摘要不变，见 final-*。PR #20 已按分支保护 Squash 合入 main `caca33279f1aa7be5a6e3760bc51b6c55d4c5304`，见 merge.json；完整兼容性 Issue #5 保持开启。

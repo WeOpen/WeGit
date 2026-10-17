@@ -1,0 +1,18 @@
+{
+  "executedXCTestLocally": false,
+  "controls": [
+    {
+      "scheme": "CombinedControl",
+      "buildExitCode": 0
+    },
+    {
+      "scheme": "ReorderedControl",
+      "buildExitCode": 0
+    },
+    {
+      "scheme": "AppleLanguageControl",
+      "buildExitCode": 0
+    }
+  ],
+  "weGitApplicationSourceChanged": false
+}

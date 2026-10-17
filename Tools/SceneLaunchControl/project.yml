@@ -44,6 +44,54 @@ targetTemplates:
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: ControlTests-Info.plist
 targets:
+  CombinedApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.combined
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  CombinedTests:
+    templates: [ControlTests]
+    dependencies: [{target: CombinedApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.combined.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.combined
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/CombinedApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) COMBINED_CONTROL_ARGUMENTS'
+
+  ReorderedApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.reordered
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  ReorderedTests:
+    templates: [ControlTests]
+    dependencies: [{target: ReorderedApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.reordered.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.reordered
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/ReorderedApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) REORDERED_CONTROL_ARGUMENTS'
+
+  AppleLanguageApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.applelanguage
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  AppleLanguageTests:
+    templates: [ControlTests]
+    dependencies: [{target: AppleLanguageApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.applelanguage.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.applelanguage
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AppleLanguageApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) APPLE_LANGUAGE_CONTROL_ARGUMENTS'
+
   DefaultArgumentsApp:
     templates: [ControlApplication]
     settings:
@@ -89,54 +137,6 @@ targets:
         CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
         CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/LanguageApp.app'
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) LANGUAGE_CONTROL_ARGUMENTS'
-  DefaultArgumentsApp:
-    templates: [ControlApplication]
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs
-        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
-  DefaultArgumentsTests:
-    templates: [ControlTests]
-    dependencies: [{target: DefaultArgumentsApp}]
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs.tests
-        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs
-        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/DefaultArgumentsApp.app'
-        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) DEFAULT_CONTROL_ARGUMENTS'
-
-  MarkerApp:
-    templates: [ControlApplication]
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker
-        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
-  MarkerTests:
-    templates: [ControlTests]
-    dependencies: [{target: MarkerApp}]
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker.tests
-        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker
-        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/MarkerApp.app'
-        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) MARKER_CONTROL_ARGUMENTS'
-
-  LanguageApp:
-    templates: [ControlApplication]
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
-        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
-  LanguageTests:
-    templates: [ControlTests]
-    dependencies: [{target: LanguageApp}]
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language.tests
-        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
-        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/LanguageApp.app'
-        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) LANGUAGE_CONTROL_ARGUMENTS'
-
   AppKitBareApp:
     templates: [AppKitApplication]
     settings:
@@ -306,26 +306,26 @@ schemes:
     test:
       targets: [GroupControlTests]
 
-  DefaultArgumentsControl:
+  CombinedControl:
     build:
       targets:
-        DefaultArgumentsApp: all
-        DefaultArgumentsTests: [test]
+        CombinedApp: all
+        CombinedTests: [test]
     test:
-      targets: [DefaultArgumentsTests]
+      targets: [CombinedTests]
 
-  MarkerControl:
+  ReorderedControl:
     build:
       targets:
-        MarkerApp: all
-        MarkerTests: [test]
+        ReorderedApp: all
+        ReorderedTests: [test]
     test:
-      targets: [MarkerTests]
+      targets: [ReorderedTests]
 
-  LanguageControl:
+  AppleLanguageControl:
     build:
       targets:
-        LanguageApp: all
-        LanguageTests: [test]
+        AppleLanguageApp: all
+        AppleLanguageTests: [test]
     test:
-      targets: [LanguageTests]
+      targets: [AppleLanguageTests]

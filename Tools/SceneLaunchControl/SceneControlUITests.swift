@@ -12,6 +12,10 @@ final class SceneControlUITests: XCTestCase {
             app.launchArguments = ["--uitesting"]
         #elseif LANGUAGE_CONTROL_ARGUMENTS
             app.launchArguments = ["-language", "zh-Hans"]
+        #elseif REORDERED_CONTROL_ARGUMENTS
+            app.launchArguments = ["-language", "zh-Hans", "--uitesting"]
+        #elseif APPLE_LANGUAGE_CONTROL_ARGUMENTS
+            app.launchArguments = ["--uitesting", "-AppleLanguages", "(zh-Hans)"]
         #else
             app.launchArguments = ["--uitesting", "-language", "zh-Hans"]
         #endif
