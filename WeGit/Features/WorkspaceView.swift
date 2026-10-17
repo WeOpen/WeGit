@@ -10,6 +10,7 @@ struct WorkspaceView: View {
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     private var workspaceWidth: CGFloat { app.windowContentWidth }
     var body: some View {
+        let _ = AppStartupDiagnostics.record("workspace-body")
         Group {
             if let session = app.session {
                 NavigationSplitView(columnVisibility: $columnVisibility) {
