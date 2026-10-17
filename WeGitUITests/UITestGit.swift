@@ -6,7 +6,50 @@ extension XCUIApplication {
         if !launchArguments.contains("-language") { launchArguments += ["-language", "zh-Hans"] }
         launch()
         activate()
-        XCTAssertTrue(menuBars.menuBarItems["native-menu-app"].waitForExistence(timeout: 5))
+        let menuReady = menuBars.menuBarItems["native-menu-app"].waitForExistence(timeout: 5)
+        if !menuReady {
+            XCTContext.runActivity(named: "Startup failure evidence") { activity in
+                let applications = NSRunningApplication.runningApplications(
+                    withBundleIdentifier: "com.willxue.wegit.development")
+                let metadata = applications.map {
+                    "pid=\($0.processIdentifier) active=\($0.isActive) hidden=\($0.isHidden) "
+                        + "finishedLaunching=\($0.isFinishedLaunching) policy=\($0.activationPolicy.rawValue)"
+                }.joined(separator: "\n")
+                let state = XCTAttachment(string: metadata + "\n" + debugDescription)
+                state.name = "Application startup state"
+                state.lifetime = .keepAlways
+                activity.add(state)
+                if let application = applications.first {
+                    let sampleFile = FileManager.default.temporaryDirectory.appending(
+                        path: "WeGitStartupSample-\(UUID().uuidString).txt")
+                    defer { try? FileManager.default.removeItem(at: sampleFile) }
+                    let sampler = Process()
+                    let output = Pipe()
+                    sampler.executableURL = URL(fileURLWithPath: "/usr/bin/sample")
+                    sampler.arguments = [
+                        String(application.processIdentifier), "1", "1", "-file", sampleFile.path,
+                    ]
+                    sampler.standardOutput = output
+                    sampler.standardError = output
+                    if (try? sampler.run()) != nil {
+                        let diagnostic = output.fileHandleForReading.readDataToEndOfFile()
+                        sampler.waitUntilExit()
+                        let text =
+                            (try? String(contentsOf: sampleFile, encoding: .utf8))
+                            ?? String(decoding: diagnostic, as: UTF8.self)
+                        let sample = XCTAttachment(string: text)
+                        sample.name = "Application startup thread sample"
+                        sample.lifetime = .keepAlways
+                        activity.add(sample)
+                    }
+                }
+                let screen = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+                screen.name = "Startup desktop"
+                screen.lifetime = .keepAlways
+                activity.add(screen)
+            }
+        }
+        XCTAssertTrue(menuReady)
         if !windows["main"].waitForExistence(timeout: 2) {
             XCTContext.runActivity(named: "Reopen the main window from its native menu") { _ in
                 menuBars.menuBarItems["native-menu-window"].click()

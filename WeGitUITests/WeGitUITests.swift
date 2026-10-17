@@ -835,6 +835,7 @@ final class WeGitUITests: XCTestCase {
     }
 
     @MainActor func testWelcomeAndCloneForm() {
+        continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
         app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"

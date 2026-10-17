@@ -7,6 +7,10 @@ on:
         type: choice
         options: [smoke, functional, accessibility]
         default: smoke
+      candidate_pr:
+        description: Optional open same-repository PR number; smoke diagnostics only, not release acceptance
+        type: string
+        default: ''
 permissions:
   contents: read
 defaults:
@@ -23,6 +27,9 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: xcode-27
     timeout-minutes: 120
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -30,28 +37,42 @@ jobs:
           persist-credentials: false
       - name: Isolate Git configuration
         run: scripts/ci/isolate-git.sh
+      - name: Resolve an explicit diagnostic source using trusted main code
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UI_CANDIDATE: ${{ inputs.candidate_pr }}
+          UI_SCOPE: ${{ inputs.scope }}
+        run: |
+          python3 scripts/ci/ui_source.py --candidate "$UI_CANDIDATE" --scope "$UI_SCOPE" >> "$GITHUB_OUTPUT"
+          cp scripts/ci/ui_probe.py "$RUNNER_TEMP/wegit-trusted-ui-probe.py"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          persist-credentials: false
       - name: Check toolchain and real interactive session
         run: |
           mkdir -p .build/ci/ui
           scripts/ci/check-toolchain.sh | tee .build/ci/ui/toolchain.txt
-          python3 scripts/ci/ui_probe.py --mode environment --require-interactive
+          python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode environment --require-interactive
       - name: Build native regression once
         run: |
           xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
             -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
             build-for-testing > .build/ci/ui/build.log 2>&1
           python3 scripts/verify-ui-git-wrapper.py .build-app/Build/Products/Debug/WeGitTestGit --report .build/ci/ui/git-wrapper.json
+          cp .build-app/Build/Products/Debug/WeGit.app/Contents/Resources/build-source.json .build/ci/ui/build-source.json
       - name: Run bounded native scope
         env:
           UI_SCOPE: ${{ inputs.scope }}
         run: |
           case "$UI_SCOPE" in smoke|functional|accessibility) ;; *) exit 2 ;; esac
-          python3 scripts/ci/ui_probe.py --mode "$UI_SCOPE"
+          python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE"
       - name: Retain actual environment, failures and results
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: native-ui-${{ inputs.scope }}-${{ github.sha }}
+          name: native-ui-${{ inputs.scope }}-${{ steps.source.outputs.sha }}
           path: .build/ci/ui/
           include-hidden-files: true
           retention-days: 14
