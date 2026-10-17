@@ -463,7 +463,7 @@ final class AppState {
     }
 
     init() {
-        AppStartupDiagnostics.record("state-init-start")
+        AppStartupDiagnostics.record("state-init-start app-exists=\(NSApp != nil)")
         let testing = Self.isUITesting
         if !testing { PreferenceMigration.migrateStandardPreferences() }
         defaults = testing ? UserDefaults(suiteName: "com.willxue.wegit.UITests")! : .standard
@@ -522,7 +522,7 @@ final class AppState {
             let retention = Double(preferences.activityHours) * 3600
             Task { await self.engine.activity.configure(limit: limit, retention: retention) }
         }
-        AppStartupDiagnostics.record("state-init-finished")
+        AppStartupDiagnostics.record("state-init-finished app-exists=\(NSApp != nil)")
     }
 
     func reloadRecents() {

@@ -9,6 +9,7 @@ struct WeGitApp: App {
     var body: some Scene {
         let _ = AppStartupDiagnostics.record("scene-body")
         Window("WeGit", id: "main") {
+            let _ = AppStartupDiagnostics.record("window-content")
             WorkspaceView(app: app)
                 .workbenchControlFamily()
                 .background(MenuBarRegistration(app: app, delegate: delegate).frame(width: 0, height: 0))
@@ -32,10 +33,8 @@ struct WeGitApp: App {
                 }
         }
         .defaultSize(width: 1360, height: 880)
-        .restorationBehavior(.disabled)
         .defaultLaunchBehavior(.presented)
         .windowResizability(.contentMinSize)
-        .commandsRemoved()
         Settings {
             SettingsView(app: app).workbenchControlFamily().workbenchAppearance(app.preferences)
         }.commandsRemoved()
