@@ -8,7 +8,7 @@ struct WeGitApp: App {
     @NSApplicationDelegateAdaptor(ApplicationDelegate.self) private var delegate
     var body: some Scene {
         let _ = AppStartupDiagnostics.record("scene-body")
-        Window("WeGit", id: "main") {
+        WindowGroup("WeGit", id: "main") {
             let _ = AppStartupDiagnostics.record("window-content")
             WorkspaceView(app: app)
                 .workbenchControlFamily()
@@ -35,6 +35,7 @@ struct WeGitApp: App {
         .defaultSize(width: 1360, height: 880)
         .defaultLaunchBehavior(.presented)
         .windowResizability(.contentMinSize)
+        .commandsRemoved()
         Settings {
             SettingsView(app: app).workbenchControlFamily().workbenchAppearance(app.preferences)
         }.commandsRemoved()
