@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Run three independent tiny SwiftUI/XCTest controls, without changing OS permissions."""
+"""Run selected independent SwiftUI/XCTest controls, without changing OS permissions."""
 from datetime import datetime, timezone
+import argparse
 import json
 from pathlib import Path
 import sys
@@ -9,6 +10,14 @@ from ui_probe import inspect_environment, result_summary, run_logged, verify_sum
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--controls", default="async,workspace")
+    args = parser.parse_args()
+    schemes = {"bare": "BareControl", "single": "SingleControl", "group": "GroupControl",
+               "async": "AsyncControl", "workspace": "WorkspaceControl"}
+    selection = args.controls.split(",")
+    if not selection or len(selection) != len(set(selection)) or any(key not in schemes for key in selection):
+        parser.error("Select unique controls from bare,single,group,async,workspace")
     output = Path(".build/ci/scene-controls")
     output.mkdir(parents=True, exist_ok=True)
     report = {"date": datetime.now(timezone.utc).isoformat(), "kind": "isolated-scene-controls",
@@ -23,7 +32,8 @@ def main():
     project = "Tools/SceneLaunchControl/SceneLaunchControl.xcodeproj"
     failed = False
     # These are independent one-test controls, not a larger WeGit suite after a failed smoke.
-    for scheme in ("BareControl", "SingleControl", "GroupControl"):
+    for key in selection:
+        scheme = schemes[key]
         base = ["xcodebuild", "-project", project, "-scheme", scheme, "-configuration", "Debug",
                 "-destination", "platform=macOS,arch=arm64", "-derivedDataPath", ".build/scene-controls",
                 "-parallel-testing-enabled", "NO"]
@@ -48,6 +58,9 @@ def main():
             item["passed"] = False
         failed = failed or not item["passed"]
         save()
+        print(scheme, "passed=" + str(item["passed"]),
+              {name: item["summary"].get(name) for name in ("totalTestCount", "passedTests", "failedTests", "skippedTests")},
+              flush=True)
     report["result"] = "failed" if failed else "passed"
     save()
     print("Independent scene controls:", report["result"], "(not WeGit product acceptance)")

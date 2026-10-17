@@ -1,0 +1,10 @@
+{
+  "sceneSourceSHA256": "7f965fd0a1f7f0ebf53a01ca044b680ac99847bbbe7e663a12db9995bc67fe8d",
+  "mode": "Local ordinary background launch through native app control, without XCTest launch arguments",
+  "windowVisible": true,
+  "readyTextObserved": true,
+  "evidence": "local-bare-native.png",
+  "controlAppClosed": true,
+  "userWeGitUnchanged": true,
+  "hostedXCTestEquivalent": false
+}

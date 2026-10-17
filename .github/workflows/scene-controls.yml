@@ -7,6 +7,11 @@ on:
       - scripts/ci/ui_probe.py
       - .github/workflows/scene-controls.yml
   workflow_dispatch:
+    inputs:
+      controls:
+        description: Comma-separated independent controls; bare,single,group,async,workspace
+        type: string
+        default: async,workspace
 permissions:
   contents: read
 defaults:
@@ -27,9 +32,20 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - name: Compile and test isolated scenes serially
+        env:
+          SCENE_CONTROLS: ${{ inputs.controls || 'async,workspace' }}
         run: |
-          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift
-          python3 scripts/ci/scene_control.py
+          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift Tools/SceneLaunchControl/AsyncSceneControlUITests.swift
+          python3 scripts/ci/scene_control.py --controls "$SCENE_CONTROLS"
+      - name: Retain compact control summaries
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scene-control-summary-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            .build/ci/scene-controls/report.json
+            .build/ci/scene-controls/*-summary.json
+          retention-days: 14
       - name: Retain actual control environment and results
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

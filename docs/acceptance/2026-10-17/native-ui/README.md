@@ -20,6 +20,10 @@
 
 后续建立不依赖 WeGit 的 [独立 SwiftUI/XCTest 控制工程](../../../../Tools/SceneLaunchControl/README.md)，包含裸 WindowGroup 与两种匹配场景配置。每组实际执行 1 项，串行、有限时、保留失败和环境；这不是完整产品 UI 或发布验收。原产品仍使用单个 `Window`。
 
+独立控制 [38993550710](https://github.com/WeOpen/WeGit/actions/runs/38993550710) 在 `9d1d9d7` 中三组各执行 1 项、失败 1 项、跳过 0；裸场景也未显示内容，见 [首轮报告](scene-controls/first-report.json)。首轮可选进程信息的自定义 Info 字段未进入生成 plist，未影响内容断言或实际计数；后续改为显式 plist 并核对最终产物。不能依据缺失的可选进程字段判断前台状态。
+
+本机使用同一裸场景源的普通后台启动实际显示 `control-ready`，截图与范围见 [本机记录](scene-controls/local-bare-native.json)，控制应用已退出。它不等价于托管 XCTest。下一轮仅运行异步 XCTest / NSWorkspace 两个新通道，原三项失败不重复执行。两份 UI runner 的实际 sandbox 仍开启；NSWorkspace 可能因此忽略参数，必须独立核对隔离参数到达后才可判定通道通过，不能据窗口显示就替换 WeGit 启动器。
+
 ## 本机旁白尝试与恢复
 
 系统设置确认原开关 off，临时 on 后仍未观察到 VoiceOver 读屏进程；已存在的 Quickstart 引导无法通过控制通道读取，未取得字幕或朗读证据。开关恢复 off，系统设置恢复原 General 页面，未改其他辅助选项，见 [voiceover-attempt.json](voiceover-attempt.json)。旁白验收保持未完成。

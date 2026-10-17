@@ -6,8 +6,12 @@ The checked-in Xcode project is generated with XcodeGen 2.43.0 from `project.yml
 
 ```bash
 python3 scripts/ci/scene_control.py
+# Reproduce the original three scene controls explicitly:
+python3 scripts/ci/scene_control.py --controls bare,single,group
 ```
 
 The driver first reads the real Aqua/console/developer-tools state. It then builds and tests each control serially with bounded deadlines. Each control must actually execute and pass exactly one test without skips. A failed control is retained; the other controls are independent and contain no larger WeGit regression. The result never marks a product or release gate complete.
+
+The first hosted run executed and failed all three controls, including the bare baseline. The next comparison selects only `async,workspace`: two fresh bundle IDs use the identical bare app source and asynchronous test method, with XCTest or public NSWorkspace launch respectively. Both require the requested isolation arguments to reach the child and the window content to appear. Xcode's generated UI runners are sandboxed in the inspected build; that protection is unchanged, and argument receipt is a separate required assertion. The earlier unchanged failing controls are not automatically retried. NSWorkspace launch is diagnostic only; the WeGit test launcher is unchanged. See [Apple's launch configuration API](https://developer.apple.com/documentation/appkit/nsworkspace/openconfiguration).
 
 The same-repository PR workflow checks out the explicit head SHA on a disposable hosted VM with a read-only token. Manual dispatch is restricted to main. No system permission, SIP, Gatekeeper, default Git configuration or user's WeGit data is modified. Raw xcresults, startup output, failure hierarchies and desktop screenshots remain in the corresponding Actions artifact. Results must be interpreted with the recorded original system protection state.

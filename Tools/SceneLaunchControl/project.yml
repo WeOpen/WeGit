@@ -27,7 +27,48 @@ targetTemplates:
       base:
         ENABLE_HARDENED_RUNTIME: NO
         CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
+  AsyncControlTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [AsyncSceneControlUITests.swift]
+    settings:
+      base:
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
 targets:
+  AsyncBareApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.async
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  WorkspaceBareApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.workspace
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  AsyncLaunchTests:
+    templates: [AsyncControlTests]
+    dependencies: [{target: AsyncBareApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.async.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.async
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AsyncBareApp.app'
+  WorkspaceLaunchTests:
+    templates: [AsyncControlTests]
+    dependencies: [{target: WorkspaceBareApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.workspace.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.workspace
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/WorkspaceBareApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) WORKSPACE_LAUNCH'
   BareControl:
     templates: [ControlApplication]
     settings:
@@ -51,22 +92,39 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.single.tests
-        INFOPLIST_KEY_ControlAppBundleIdentifier: com.willxue.wegit.scenecontrol.single
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.single
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/SingleControl.app'
   GroupControlTests:
     templates: [ControlTests]
     dependencies: [{target: GroupControl}]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.group.tests
-        INFOPLIST_KEY_ControlAppBundleIdentifier: com.willxue.wegit.scenecontrol.group
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.group
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/GroupControl.app'
   BareControlTests:
     templates: [ControlTests]
     dependencies: [{target: BareControl}]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare.tests
-        INFOPLIST_KEY_ControlAppBundleIdentifier: com.willxue.wegit.scenecontrol.bare
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/BareControl.app'
 schemes:
+  AsyncControl:
+    build:
+      targets:
+        AsyncBareApp: all
+        AsyncLaunchTests: [test]
+    test:
+      targets: [AsyncLaunchTests]
+  WorkspaceControl:
+    build:
+      targets:
+        WorkspaceBareApp: all
+        WorkspaceLaunchTests: [test]
+    test:
+      targets: [WorkspaceLaunchTests]
   BareControl:
     build:
       targets:
