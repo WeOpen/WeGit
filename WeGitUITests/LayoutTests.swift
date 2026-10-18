@@ -175,8 +175,12 @@ final class LayoutTests: XCTestCase {
             XCTAssertEqual(window.frame.height, 692, accuracy: 4)
             visible(navigation)
             visible(app.buttons["commit-button"])
+            let sidebar = app.windows["main"].outlines.containing(
+                .staticText, identifier: "route-更改"
+            ).firstMatch
+            XCTAssertTrue(sidebar.waitForExistence(timeout: 3))
             XCTAssertGreaterThanOrEqual(
-                app.textFields["changes-filter"].frame.minX, app.outlines["Sidebar"].frame.maxX - 2)
+                app.textFields["changes-filter"].frame.minX, sidebar.frame.maxX - 2)
             app.staticTexts["file.swift"].firstMatch.click()
             XCTAssertTrue(app.buttons["暂存此块"].firstMatch.waitForExistence(timeout: 5))
             visible(app.buttons["暂存此块"].firstMatch)
