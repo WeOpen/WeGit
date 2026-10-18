@@ -1,0 +1,28 @@
+[
+  {
+    "focus": "sync-recovery",
+    "runId": 39092250879,
+    "sourceCommit": "2f19cdb86067f7333ff5d4e217c02903d255a740",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 30.032,
+    "applicationInputsMatchCurrent": true
+  },
+  {
+    "focus": "menu-localization",
+    "runId": 39092639702,
+    "sourceCommit": "2f19cdb86067f7333ff5d4e217c02903d255a740",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 46.968,
+    "applicationInputsMatchCurrent": true
+  }
+]
