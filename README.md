@@ -7,8 +7,8 @@
   <p><strong>A native Git workspace for macOS.</strong></p>
   <p>Read changes clearly. Shape your commits. Keep your workflow close.</p>
   <p>
-    <img src="https://img.shields.io/badge/status-development_preview-orange?style=flat" alt="Development preview">
-    <img src="https://img.shields.io/badge/version-0.1.0-blue?style=flat" alt="Version 0.1.0">
+    <img src="https://img.shields.io/badge/status-public_release-green?style=flat" alt="Public release">
+    <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat" alt="Version 1.0.0">
     <img src="https://img.shields.io/badge/macOS-27%2B-111111?style=flat&amp;logo=apple&amp;logoColor=white" alt="macOS 27 or later">
     <img src="https://img.shields.io/badge/Swift-6-F05138?style=flat&amp;logo=swift&amp;logoColor=white" alt="Swift 6">
     <img src="https://img.shields.io/badge/Git-2.46%2B-F05032?style=flat&amp;logo=git&amp;logoColor=white" alt="Git 2.46 or later">
@@ -26,7 +26,7 @@ WeGit is a SwiftUI Git client built around the work you do every day: inspect a 
 
 It uses your existing Git installation, configuration, credential helpers, and SSH agent. Native windows, keyboard shortcuts, a menu bar panel, and light, dark, and custom themes keep the experience at home on macOS. The Git core has no third-party runtime dependencies.
 
-> 🚧 **Development preview:** the current version is **0.1.0**. V1.0 acceptance is still in progress. There is no published GitHub Release yet; the [project website](https://weopen.github.io/WeGit/) provides the current source and release information.
+> **WeGit 1.0.0** · [Download](https://github.com/WeOpen/WeGit/releases/tag/v1.0.0) · [Website](https://weopen.github.io/WeGit/). Ad-hoc signed, not notarized by Apple. Accessibility acceptance is deferred; see the [release notes and remaining validation limits](docs/releases/v1.0.0.md).
 
 ## ✨ Features
 
@@ -53,11 +53,11 @@ See the [product specification](docs/WeGit_PRD.md), [interface notes](docs/INTER
 
 ## 📦 Downloads & distribution
 
-WeGit will be distributed through **GitHub Releases and the project website**. It is not planned for the Mac App Store or TestFlight.
+WeGit is distributed through **GitHub Releases and the project website**. It is not planned for the Mac App Store or TestFlight.
 
-**No GitHub release is available yet.** Build from source using the steps below. When releases are published, their notes will include requirements, known limitations, signing status, and SHA-256 checksums. The website links to the same versioned GitHub release assets, checksums and source manifests.
+Download [WeGit 1.0.0](https://github.com/WeOpen/WeGit/releases/tag/v1.0.0), including the ZIP, SHA-256 checksum and source manifest. The website links to these same versioned assets. See the [installation, data and rollback notes](docs/releases/v1.0.0.md).
 
-There is currently no Apple Developer Program account for this project. Existing preview packages use **ad-hoc signing** and are **not notarized by Apple**. Ad-hoc signing does not provide a verified developer identity, and macOS may block a downloaded build. For an app you have chosen to trust, consult [Apple’s guidance on opening apps safely](https://support.apple.com/102445). Downloaded-package installation on a clean Mac is still pending validation.
+There is currently no Apple Developer Program account for this project. Public packages use **ad-hoc signing** and are **not notarized by Apple**. Ad-hoc signing does not provide a verified developer identity, and macOS may block a downloaded build. For an app you have chosen to trust, consult [Apple’s guidance on opening apps safely](https://support.apple.com/102445). Downloaded-package installation on a clean Mac is still pending validation.
 
 ## 🚀 Build & run
 

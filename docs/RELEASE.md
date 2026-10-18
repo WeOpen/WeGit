@@ -1,5 +1,13 @@
 # WeGit 分发与发布操作
 
+## v1.0.0 发布决定（2026-10-19）
+
+维护者已明确要求“跳过辅助功能这块吧，直接上线发布 v1.0”。本次按 **v1.0.0 单次发布例外**执行：保留常规受保护 PR、同提交 main CI、干净正式标识构建与完整制品校验，人工创建草稿并核对后公开发布。完整验收没有通过，`acceptanceRun` 保持 `null`；默认稳定版 workflow 的同提交完整验收要求不修改。
+
+功能、安装、开发预览数据、回退、签名与所有未完成验证以[1.0.0 版本说明](releases/v1.0.0.md)为准。辅助功能暂缓不等于通过，最终性能、受保护目标机安装、Beta 和剩余兼容性也不标记完成。GitHub Releases 与网站使用同一份版本化 ZIP、校验和与来源清单。
+
+以下为此前各时点的操作与证据，历史“尚无 Release / 0.1.0 开发预览 / 发布前置”表述不代表本次发布状态。
+
 当前决定（2026-10-16，覆盖此前签名公证前置要求）：**MIT＋GitHub Releases＋项目网站直接分发，不发布到商店，不使用 TestFlight，目前没有 Apple Developer Program 账号**。项目网站采用 [GitHub Pages](https://weopen.github.io/WeGit/)，仓库已公开但没有 Release。版本仍为 `0.1.0` 开发预览，尚未完成 Beta 或 V1.0 发布。
 
 当前路线使用 ad-hoc 完整性签名、无 Developer ID、未公证；Developer ID／公证为未来可选，不能再将账号/证书/profile 缺失列为本路线的前置阻塞。ad-hoc 不提供开发者身份认证，macOS 可能阻止下载后的首启；必须按实际目标机器记录下载、系统提示、用户信任选择与核心流程。参考 [Apple 的 Developer ID 说明](https://developer.apple.com/developer-id/)及[安全打开说明](https://support.apple.com/zh-cn/102445)。当前 P0 汇总见 [发布清单](V1_RELEASE_CHECKLIST.md)。
