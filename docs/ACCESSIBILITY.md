@@ -171,3 +171,7 @@ VoiceOver 初次引导已退出，但本轮自动控制未取得可核对的朗�
 ## 2026-10-17 旁白重试边界
 
 在系统设置中确认旁白原为关闭，临时开启后仅观察到此前已存在的 Quickstart 与输出服务，没有可确认的 VoiceOver 读屏进程，引导窗口读取超时。未取得朗读/字幕证据，开关已恢复关闭，系统设置恢复原 General 页面，没有修改其他辅助选项。该尝试保持未完成，不关闭旧报告；见 [恢复记录](acceptance/2026-10-17/native-ui/voiceover-attempt.json)。托管最小 UI 仍失败，因此没有继续运行自动辅助访问审查。
+
+## 2026-10-18 执行恢复后的自动审查前置失败
+
+Git 夹具与启动前置已修正，强化 smoke 通过。[独立审查 39089168828](https://github.com/WeOpen/WeGit/actions/runs/39089168828) 在 main `6087cf7` 先通过 smoke 1/1，再执行审查用例 1、失败 1、零跳过。失败在旧侧栏 Outline 查询，尚未调用 performAccessibilityAudit，因此没有新系统报告，旧 44 条与 VoiceOver/完整键盘/系统显示选项验收仍未关闭。保留 [原始基线](acceptance/2026-10-18/native-ui/full-baseline/README.md)，后续先用有界单项诊断核对当前语义树。
