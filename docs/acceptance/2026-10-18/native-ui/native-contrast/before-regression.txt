@@ -1,0 +1,3 @@
+Report: /Users/willxue/will/WeOpen/WeGit/.build/theme-checks-LDZyKw/result.json
+Swift/ErrorType.swift:254: Fatal error: Error raised at top level: Error Domain=WeGit.ThemeChecks Code=1 "Native Light increased=false secondaryText/canvas contrast 3.9494396480491156 meets 4.5:1" UserInfo={NSLocalizedDescription=Native Light increased=false secondaryText/canvas contrast 3.9494396480491156 meets 4.5:1}
+scripts/verify-themes.sh: line 17: 58694 Trace/BPT trap: 5       "$check_run/checks" "$check_run/result.json"

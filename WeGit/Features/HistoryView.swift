@@ -138,6 +138,7 @@ struct HistoryView: View {
                                     }
                                 }
                             }.fixedSize().disabled(!session.canWrite)
+                                .tint(colors.accentText)
                                 .accessibilityIdentifier("history-operations")
                                 .accessibilityLabel(L10n.text("所选提交的操作"))
                         }
@@ -146,7 +147,7 @@ struct HistoryView: View {
                                 ForEach(Array(commit.parents.enumerated()), id: \.element) { index, oid in
                                     Text(L10n.text("父提交 \(index + 1) · \(oid.prefix(7))")).tag(Optional(oid))
                                 }
-                            }.accessibilityIdentifier("history-parent")
+                            }.tint(colors.accentText).accessibilityIdentifier("history-parent")
                         } else {
                             Text(
                                 commit.parents.isEmpty
@@ -194,13 +195,13 @@ struct HistoryView: View {
         Picker(L10n.text("浏览范围"), selection: $history.scope) {
             Text(L10n.text("全部引用")).tag(HistoryScope.all)
             Text(L10n.text("当前分支")).tag(HistoryScope.currentBranch)
-        }.labelsHidden().fixedSize().accessibilityIdentifier("history-scope")
+        }.labelsHidden().fixedSize().tint(colors.accentText).accessibilityIdentifier("history-scope")
     }
 
     private var searchFieldPicker: some View {
         Picker(L10n.text("搜索字段"), selection: $history.searchField) {
             ForEach(HistorySearchField.allCases, id: \.self) { Text($0.title).tag($0) }
-        }.labelsHidden().fixedSize().accessibilityIdentifier("history-search-field")
+        }.labelsHidden().fixedSize().tint(colors.accentText).accessibilityIdentifier("history-search-field")
     }
 
     private var searchInput: some View {

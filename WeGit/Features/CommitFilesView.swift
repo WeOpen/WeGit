@@ -62,7 +62,7 @@ struct CommitFilesView: View {
                                 }
                                 Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
                                 Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)
-                            }.fixedSize()
+                            }.fixedSize().tint(colors.accentText)
                             Spacer()
                             if let display = detail.display, !display.diff.binary {
                                 Button(L10n.text("复制补丁")) {

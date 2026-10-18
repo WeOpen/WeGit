@@ -18,6 +18,8 @@ FOCUSED_TESTS = {
     "theme-interaction": "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus",
     "window-restoration": "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen",
     "inspector-boundary": "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets",
+    "inspector-restoration": "InspectorRestorationTests/testOpenInspectorRestoresAcrossBothSplitWorkspaces",
+    "search-keyboard": "InterfacePolishTests/testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes",
     "sync-recovery": "WeGitUITests/testLostPushReplyRestoresVerificationAfterLocalHeadMoves",
     "diff-options": "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState",
     "large-diff": "WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset",

@@ -1,0 +1,1011 @@
+Command line invocation:
+    /Applications/Xcode_27.app/Contents/Developer/usr/bin/xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug -destination platform=macOS,arch=arm64 -derivedDataPath .build-app -parallel-testing-enabled NO test-without-building "-only-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes" -resultBundlePath .build/ci/ui/accessibility.xcresult
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  WeGit: /Users/runner/work/WeGit/WeGit
+
+Writing result bundle at path:
+	/Users/runner/work/WeGit/WeGit/.build/ci/ui/accessibility.xcresult
+
+2026-10-18 10:30:14.550406+0000 WeGitUITests-Runner[9428:30529] [Default] Running tests...
+Test Suite 'Selected tests' started at 2026-10-18 10:30:14.626.
+Test Suite 'WeGitUITests.xctest' started at 2026-10-18 10:30:14.627.
+Test Suite 'LayoutTests' started at 2026-10-18 10:30:14.627.
+Test Case '-[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes]' started.
+    t =     0.00s Start Test at 2026-10-18 10:30:14.628
+    t =     0.32s Set Up
+    t =     1.04s Open com.willxue.wegit.development
+2026-10-18 10:30:15.827 xcodebuild[9422:30419] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-18 10:30:15.828 xcodebuild[9422:30419] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     1.04s     Launch com.willxue.wegit.development
+    t =     2.31s         Wait for accessibility to load
+    t =     3.06s         Setting up automation session
+    t =     3.11s         Wait for com.willxue.wegit.development to idle
+    t =     3.12s Open com.willxue.wegit.development
+    t =     3.12s     Activate com.willxue.wegit.development
+    t =     3.13s         Wait for com.willxue.wegit.development to idle
+    t =     3.14s Waiting 5.0s for "native-menu-app" MenuBarItem to exist
+    t =     4.17s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =     4.17s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =     5.43s         Capturing element debug description
+    t =     6.17s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =     6.17s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =     6.44s Waiting 2.0s for "main" Window to exist
+    t =     7.45s     Checking `Expect predicate `existsNoRetry == 1` for object "main" Window`
+    t =     7.45s         Checking existence of `"main" Window`
+    t =     7.64s Waiting 10.0s for "file.swift" StaticText to exist
+    t =     8.65s     Checking `Expect predicate `existsNoRetry == 1` for object "file.swift" StaticText`
+    t =     8.65s         Checking existence of `"file.swift" StaticText`
+    t =     8.81s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =     9.00s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =     9.16s Added attachment named 'Minimum workspace hierarchy - light'
+    t =     9.17s Checking existence of `StaticText (First Match)`
+    t =     9.25s Find the StaticText (First Match)
+    t =     9.34s Find the "main" Window
+    t =     9.46s Find the "route-更改" StaticText
+    t =     9.54s Checking existence of `"commit-button" Button`
+    t =     9.69s Find the "commit-button" Button
+    t =     9.86s Find the "main" Window
+    t =     9.95s Find the "commit-button" Button
+    t =    10.12s Find the "main" Window
+    t =    10.27s Click and drag from "main" Window[1.00, 1.00] -> (-1.0, -1.0) to "main" Window[1.00, 1.00] -> (-1.0, -1.0) -> (-380.0, -188.0) with velocity of 500.00 pixels per second, and then hold for 0.0 seconds
+    t =    10.27s     Wait for com.willxue.wegit.development to idle
+    t =    10.27s     Find the "main" Window
+    t =    10.46s     Check for interrupting elements affecting "main" Window
+    t =    10.47s     Synthesize event
+    t =    10.49s         Find the "main" Window
+    t =    10.65s         Find the "main" Window
+    t =    10.83s         Find the "main" Window
+    t =    10.95s         Find the "main" Window
+    t =    13.04s     Wait for com.willxue.wegit.development to idle
+    t =    13.04s Find the "main" Window
+    t =    13.21s Find the "main" Window
+    t =    13.37s Checking existence of `"route-更改" StaticText`
+    t =    13.43s Find the "route-更改" StaticText
+    t =    13.51s Find the "main" Window
+    t =    13.66s Find the "route-更改" StaticText
+    t =    13.72s Checking existence of `"commit-button" Button`
+    t =    13.84s Find the "commit-button" Button
+    t =    13.96s Find the "main" Window
+    t =    14.08s Find the "commit-button" Button
+    t =    14.21s Waiting 3.0s for Outline (First Match) to exist
+    t =    15.22s     Checking `Expect predicate `existsNoRetry == 1` for object Outline (First Match)`
+    t =    15.22s         Checking existence of `Outline (First Match)`
+    t =    15.25s Find the "changes-filter" TextField
+    t =    15.38s Find the Outline (First Match)
+    t =    15.41s Click "file.swift" StaticText
+    t =    15.41s     Wait for com.willxue.wegit.development to idle
+    t =    15.41s     Find the "file.swift" StaticText
+    t =    15.52s     Check for interrupting elements affecting "file.swift" StaticText
+    t =    15.56s     Synthesize event
+    t =    16.07s     Wait for com.willxue.wegit.development to idle
+    t =    16.08s Waiting 5.0s for "暂存此块" Button to exist
+    t =    17.09s     Checking `Expect predicate `existsNoRetry == 1` for object "暂存此块" Button`
+    t =    17.09s         Checking existence of `"暂存此块" Button`
+    t =    17.19s Checking existence of `"暂存此块" Button`
+    t =    17.26s Find the "暂存此块" Button
+    t =    17.36s Find the "main" Window
+    t =    17.52s Find the "暂存此块" Button
+    t =    17.64s Checking existence of `"丢弃此块…" Button`
+    t =    17.76s Find the "丢弃此块…" Button
+    t =    17.86s Find the "main" Window
+    t =    18.04s Find the "丢弃此块…" Button
+    t =    18.14s Type '2' key with modifiers '⌘' (0x10)
+    t =    18.14s     Wait for com.willxue.wegit.development to idle
+    t =    18.14s     Find the Target Application 'com.willxue.wegit.development'
+    t =    18.25s     Check for interrupting elements affecting "WeGit" Application
+    t =    18.26s     Synthesize event
+2026-10-18 10:30:32.885089+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+2026-10-18 10:30:32.886732+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    18.74s     Wait for com.willxue.wegit.development to idle
+    t =    18.74s Waiting 5.0s for "Layout fixture" StaticText to exist
+    t =    19.74s     Checking `Expect predicate `existsNoRetry == 1` for object "Layout fixture" StaticText`
+    t =    19.75s         Checking existence of `"Layout fixture" StaticText`
+    t =    19.88s Click "Layout fixture" StaticText
+    t =    19.88s     Wait for com.willxue.wegit.development to idle
+    t =    19.89s     Find the "Layout fixture" StaticText
+    t =    19.99s     Check for interrupting elements affecting "Layout fixture" StaticText
+    t =    20.03s     Synthesize event
+2026-10-18 10:30:34.659864+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    20.63s     Wait for com.willxue.wegit.development to idle
+    t =    20.64s Checking existence of `"history-search" Any`
+    t =    20.83s Find the "history-search" Any
+    t =    21.03s Find the "main" Window
+    t =    21.15s Find the "history-search" TextField
+    t =    21.30s Find the Target Application 'com.willxue.wegit.development'
+2026-10-18 10:30:35.989309+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    21.42s Added attachment named 'Minimum window - light'
+    t =    22.43s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLQAAAAAAAAA=)
+    t =    22.51s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    22.63s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLQAAAAAAAAA=
+    t =    22.64s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    22.76s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLQAAAAAAAAA=
+    t =    22.76s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    22.77s Using snapshot previously cached by application
+    t =    22.77s Added attachment named 'Accessibility issue - light'
+    t =    22.77s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLQAAAAAAAAA=)
+    t =    22.84s Checking existence of `Group`
+    t =    22.90s Find the Group
+2026-10-18 10:30:37.588899+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 980.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    23.33s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRQAAAAAAAAA=)
+    t =    23.39s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    23.53s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRQAAAAAAAAA=
+    t =    23.55s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    23.70s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRQAAAAAAAAA=
+    t =    23.70s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    23.71s Using snapshot previously cached by application
+    t =    23.71s Added attachment named 'Accessibility issue - light'
+    t =    23.71s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRQAAAAAAAAA=)
+    t =    23.79s Checking existence of `Group`
+    t =    23.86s Find the Group
+2026-10-18 10:30:38.606047+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 210.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    24.00s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD5/////////04AAAAAAAAAAAAAAAAAAAA=)
+    t =    24.12s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    24.33s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD5/////////04AAAAAAAAAAAAAAAAAAAA=
+    t =    24.38s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    24.59s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD5/////////04AAAAAAAAAAAAAAAAAAAA=
+    t =    24.59s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    24.59s Using snapshot previously cached by application
+    t =    24.61s Added attachment named 'Accessibility issue - light'
+    t =    24.61s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD5/////////04AAAAAAAAAAAAAAAAAAAA=)
+    t =    24.76s Checking existence of `Group`
+    t =    24.86s Find the Group
+2026-10-18 10:30:39.592039+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (294.0, 129.0, 194.0, 19.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    24.99s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdQAAAAAAAAA=)
+    t =    25.09s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    25.30s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdQAAAAAAAAA=
+    t =    25.34s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    25.56s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdQAAAAAAAAA=
+    t =    25.58s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    25.58s Using snapshot previously cached by application
+    t =    25.58s Added attachment named 'Accessibility issue - light'
+    t =    25.58s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdQAAAAAAAAA=)
+    t =    25.70s Checking existence of `"route-更改" StaticText`
+    t =    25.85s Find the "route-更改" StaticText
+2026-10-18 10:30:40.583255+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (340.0, 165.0, 26.0, 16.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    25.98s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdgAAAAAAAAA=)
+    t =    26.07s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    26.24s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdgAAAAAAAAA=
+    t =    26.27s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    26.42s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdgAAAAAAAAA=
+    t =    26.44s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    26.44s Using snapshot previously cached by application
+    t =    26.45s Added attachment named 'Accessibility issue - light'
+    t =    26.45s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdgAAAAAAAAA=)
+    t =    26.53s Checking existence of `"route-更改" StaticText`
+    t =    26.61s Find the "route-更改" StaticText
+2026-10-18 10:30:41.353756+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (451.0, 166.0, 8.0, 14.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    26.74s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jeQAAAAAAAAA=)
+    t =    26.84s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    27.00s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jeQAAAAAAAAA=
+    t =    27.02s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    27.15s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jeQAAAAAAAAA=
+    t =    27.15s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    27.15s Using snapshot previously cached by application
+    t =    27.16s Added attachment named 'Accessibility issue - light'
+    t =    27.16s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jeQAAAAAAAAA=)
+    t =    27.23s Checking existence of `"route-提交历史" StaticText`
+    t =    27.30s Find the "route-提交历史" StaticText
+2026-10-18 10:30:42.002765+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (296.0, 202.0, 178.0, 42.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast nearly passed
+    t =    27.39s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD1/////////04AAAAAAAAAAAAAAAAAAAA=)
+    t =    27.48s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    27.62s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD1/////////04AAAAAAAAAAAAAAAAAAAA=
+    t =    27.64s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    27.81s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD1/////////04AAAAAAAAAAAAAAAAAAAA=
+    t =    27.82s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    27.82s Using snapshot previously cached by application
+    t =    27.82s Added attachment named 'Accessibility issue - light'
+    t =    27.82s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTAAAAAAAAAD1/////////04AAAAAAAAAAAAAAAAAAAA=)
+    t =    27.91s Checking existence of `Group`
+    t =    27.98s Find the Group
+2026-10-18 10:30:42.685888+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (294.0, 311.0, 194.0, 19.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    28.08s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRwAAAAAAAAA=)
+    t =    28.20s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    28.35s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRwAAAAAAAAA=
+    t =    28.36s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    28.52s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRwAAAAAAAAA=
+    t =    28.52s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    28.52s Using snapshot previously cached by application
+    t =    28.53s Added attachment named 'Accessibility issue - light'
+    t =    28.53s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jRwAAAAAAAAA=)
+    t =    28.60s Checking existence of `Group`
+    t =    28.66s Find the Group
+2026-10-18 10:30:43.350936+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 980.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    28.75s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTQAAAAAAAAA=)
+    t =    28.82s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    28.99s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTQAAAAAAAAA=
+    t =    29.01s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    29.15s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTQAAAAAAAAA=
+    t =    29.16s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    29.16s Using snapshot previously cached by application
+    t =    29.16s Added attachment named 'Accessibility issue - light'
+    t =    29.16s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jTQAAAAAAAAA=)
+    t =    29.23s Checking existence of `Group`
+    t =    29.29s Find the Group
+2026-10-18 10:30:43.995103+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 980.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    29.39s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jswAAAAAAAAA=)
+    t =    29.46s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    29.56s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jswAAAAAAAAA=
+    t =    29.58s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    29.70s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jswAAAAAAAAA=
+    t =    29.70s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    29.70s Using snapshot previously cached by application
+    t =    29.71s Added attachment named 'Accessibility issue - light'
+    t =    29.71s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jswAAAAAAAAA=)
+    t =    29.77s Checking existence of `Group`
+    t =    29.83s Find the Group
+2026-10-18 10:30:44.521066+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 559.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    29.91s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jugAAAAAAAAA=)
+    t =    29.98s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    30.13s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jugAAAAAAAAA=
+    t =    30.15s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    30.32s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jugAAAAAAAAA=
+    t =    30.33s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    30.33s Using snapshot previously cached by application
+    t =    30.33s Added attachment named 'Accessibility issue - light'
+    t =    30.33s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jugAAAAAAAAA=)
+    t =    30.42s Checking existence of `"history-scope" PopUpButton`
+    t =    30.50s Find the "history-scope" PopUpButton
+2026-10-18 10:30:45.199651+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (502.0, 177.0, 100.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    30.59s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29juwAAAAAAAAA=)
+    t =    30.67s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    30.80s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29juwAAAAAAAAA=
+    t =    30.82s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    30.98s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29juwAAAAAAAAA=
+    t =    30.98s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    30.98s Using snapshot previously cached by application
+    t =    30.99s Added attachment named 'Accessibility issue - light'
+    t =    30.99s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29juwAAAAAAAAA=)
+    t =    31.07s Checking existence of `"history-search-field" PopUpButton`
+    t =    31.13s Find the "history-search-field" PopUpButton
+2026-10-18 10:30:45.816559+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (610.0, 177.0, 74.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    31.20s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8EAAAAAAAAAAAAAAAAAAAA=)
+    t =    31.27s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    31.38s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8EAAAAAAAAAAAAAAAAAAAA=
+    t =    31.42s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    31.52s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8EAAAAAAAAAAAAAAAAAAAA=
+    t =    31.53s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    31.53s Using snapshot previously cached by application
+    t =    31.53s Added attachment named 'Accessibility issue - light'
+    t =    31.53s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8EAAAAAAAAAAAAAAAAAAAA=)
+    t =    31.60s Checking existence of `Group`
+    t =    31.66s Find the Group
+2026-10-18 10:30:46.339807+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (506.0, 283.0, 36.0, 68.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    31.73s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8IAAAAAAAAAAAAAAAAAAAA=)
+    t =    31.80s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    31.91s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8IAAAAAAAAAAAAAAAAAAAA=
+    t =    31.95s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    32.05s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8IAAAAAAAAAAAAAAAAAAAA=
+    t =    32.06s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    32.06s Using snapshot previously cached by application
+    t =    32.06s Added attachment named 'Accessibility issue - light'
+    t =    32.06s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jwAAAAAAAAAD//////////8IAAAAAAAAAAAAAAAAAAAA=)
+    t =    32.13s Checking existence of `Group`
+    t =    32.19s Find the Group
+2026-10-18 10:30:46.875446+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (559.0, 283.0, 264.0, 68.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    32.26s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jtQAAAAAAAAA=)
+    t =    32.33s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    32.44s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jtQAAAAAAAAA=
+    t =    32.47s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    32.58s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jtQAAAAAAAAA=
+    t =    32.58s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    32.58s Using snapshot previously cached by application
+    t =    32.59s Added attachment named 'Accessibility issue - light'
+    t =    32.59s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jtQAAAAAAAAA=)
+    t =    32.66s Checking existence of `Group`
+    t =    32.71s Find the Group
+2026-10-18 10:30:47.396045+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (840.0, 77.0, 420.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    32.78s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jyQAAAAAAAAA=)
+    t =    32.85s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    32.96s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jyQAAAAAAAAA=
+    t =    32.98s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    33.11s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jyQAAAAAAAAA=
+    t =    33.11s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    33.11s Using snapshot previously cached by application
+    t =    33.12s Added attachment named 'Accessibility issue - light'
+    t =    33.12s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jyQAAAAAAAAA=)
+    t =    33.19s Checking existence of `"作者：UI Test <ui@example.invalid>" StaticText`
+    t =    33.25s Find the "作者：UI Test <ui@example.invalid>" StaticText
+2026-10-18 10:30:47.943231+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (858.0, 176.0, 172.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    33.33s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jygAAAAAAAAA=)
+    t =    33.40s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    33.51s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jygAAAAAAAAA=
+    t =    33.54s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    33.66s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jygAAAAAAAAA=
+    t =    33.66s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    33.67s Using snapshot previously cached by application
+    t =    33.67s Added attachment named 'Accessibility issue - light'
+    t =    33.67s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jygAAAAAAAAA=)
+    t =    33.74s Checking existence of `"2026年10月18日 10:30" StaticText`
+    t =    33.81s Find the "2026年10月18日 10:30" StaticText
+2026-10-18 10:30:48.498270+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1038.0, 176.0, 108.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    33.88s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jywAAAAAAAAA=)
+    t =    33.96s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    34.08s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jywAAAAAAAAA=
+    t =    34.11s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    34.24s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jywAAAAAAAAA=
+    t =    34.25s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    34.25s Using snapshot previously cached by application
+    t =    34.25s Added attachment named 'Accessibility issue - light'
+    t =    34.25s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jywAAAAAAAAA=)
+    t =    34.32s Checking existence of `"提交者：UI Test <ui@example.invalid> · 2026年10月18日 10:30" StaticText`
+    t =    34.38s Find the "提交者：UI Test <ui@example.invalid> · 2026年10月18日 10:30" StaticText
+2026-10-18 10:30:49.074188+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (858.0, 199.0, 298.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    34.46s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzQAAAAAAAAA=)
+    t =    34.53s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    34.64s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzQAAAAAAAAA=
+    t =    34.66s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    34.77s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzQAAAAAAAAA=
+    t =    34.77s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    34.77s Using snapshot previously cached by application
+    t =    34.78s Added attachment named 'Accessibility issue - light'
+    t =    34.78s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzQAAAAAAAAA=)
+    t =    34.85s Checking existence of `"e4c638632af72c483ddfcf614463aeff636787f7" StaticText`
+    t =    34.90s Find the "e4c638632af72c483ddfcf614463aeff636787f7" StaticText
+2026-10-18 10:30:49.584993+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (858.0, 259.5, 248.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    34.97s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2AAAAAAAAAA=)
+    t =    35.04s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    35.15s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2AAAAAAAAAA=
+    t =    35.18s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    35.29s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2AAAAAAAAAA=
+    t =    35.29s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    35.29s Using snapshot previously cached by application
+    t =    35.29s Added attachment named 'Accessibility issue - light'
+    t =    35.29s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2AAAAAAAAAA=)
+    t =    35.36s Checking existence of `"e4c638632af72c483ddfcf614463aeff636787f7" StaticText`
+    t =    35.42s Find the "e4c638632af72c483ddfcf614463aeff636787f7" StaticText
+2026-10-18 10:30:50.106323+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (858.0, 259.5, 248.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    35.49s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzwAAAAAAAAA=)
+    t =    35.56s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    35.67s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzwAAAAAAAAA=
+    t =    35.69s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    35.87s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzwAAAAAAAAA=
+    t =    35.87s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    35.87s Using snapshot previously cached by application
+    t =    35.88s Added attachment named 'Accessibility issue - light'
+    t =    35.88s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzwAAAAAAAAA=)
+    t =    35.95s Checking existence of `"history-operations" MenuButton`
+    t =    36.02s Find the "history-operations" MenuButton
+2026-10-18 10:30:50.766090+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1169.0, 254.0, 73.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    36.15s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0AAAAAAAAAA=)
+    t =    36.27s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    36.47s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0AAAAAAAAAA=
+    t =    36.51s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    36.68s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0AAAAAAAAAA=
+    t =    36.69s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    36.69s Using snapshot previously cached by application
+    t =    36.70s Added attachment named 'Accessibility issue - light'
+    t =    36.70s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0AAAAAAAAAA=)
+    t =    36.79s Checking existence of `"根提交 · 相对于空树" StaticText`
+    t =    36.86s Find the "根提交 · 相对于空树" StaticText
+2026-10-18 10:30:51.564613+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (858.0, 289.0, 89.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast nearly passed
+    t =    36.95s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2wAAAAAAAAA=)
+    t =    37.04s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    37.18s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2wAAAAAAAAA=
+    t =    37.22s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    37.35s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2wAAAAAAAAA=
+    t =    37.35s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    37.35s Using snapshot previously cached by application
+    t =    37.35s Added attachment named 'Accessibility issue - light'
+    t =    37.35s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j2wAAAAAAAAA=)
+    t =    37.44s Checking existence of `"commit-file:file.swift" StaticText`
+    t =    37.50s Find the "commit-file:file.swift" StaticText
+2026-10-18 10:30:52.199600+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (886.0, 339.5, 42.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    37.58s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j3AAAAAAAAAA=)
+    t =    37.65s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    37.77s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j3AAAAAAAAAA=
+    t =    37.80s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    37.91s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j3AAAAAAAAAA=
+    t =    37.92s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    37.92s Using snapshot previously cached by application
+    t =    37.92s Added attachment named 'Accessibility issue - light'
+    t =    37.92s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j3AAAAAAAAAA=)
+    t =    38.00s Checking existence of `"commit-file:file.swift" StaticText`
+    t =    38.06s Find the "commit-file:file.swift" StaticText
+2026-10-18 10:30:52.762380+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1200.0, 339.5, 27.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    38.15s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0wAAAAAAAAA=)
+    t =    38.23s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    38.38s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0wAAAAAAAAA=
+    t =    38.41s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    38.58s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0wAAAAAAAAA=
+    t =    38.59s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    38.59s Using snapshot previously cached by application
+    t =    38.59s Added attachment named 'Accessibility issue - light'
+    t =    38.59s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0wAAAAAAAAA=)
+    t =    38.67s Checking existence of `"阅读选项" MenuButton`
+    t =    38.74s Find the "阅读选项" MenuButton
+2026-10-18 10:30:53.431708+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (972.0, 375.0, 100.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    38.82s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j4AAAAAAAAAA=)
+    t =    38.91s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    39.03s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j4AAAAAAAAAA=
+    t =    39.05s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    39.19s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j4AAAAAAAAAA=
+    t =    39.19s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    39.19s Using snapshot previously cached by application
+    t =    39.20s Added attachment named 'Accessibility issue - light'
+    t =    39.20s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j4AAAAAAAAAA=)
+    t =    39.27s Checking existence of `"diff-hunk-position" StaticText`
+    t =    39.33s Find the "diff-hunk-position" StaticText
+2026-10-18 10:30:54.027596+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1193.0, 422.0, 55.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    39.41s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j6QAAAAAAAAA=)
+    t =    39.50s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    39.63s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j6QAAAAAAAAA=
+    t =    39.66s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    39.79s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j6QAAAAAAAAA=
+    t =    39.80s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    39.80s Using snapshot previously cached by application
+    t =    39.80s Added attachment named 'Accessibility issue - light'
+    t =    39.80s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j6QAAAAAAAAA=)
+    t =    39.87s Checking existence of `"@@ -0,0 +1 @@" StaticText`
+    t =    39.94s Find the "@@ -0,0 +1 @@" StaticText
+2026-10-18 10:30:54.628484+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (852.0, 457.0, 89.0, 14.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    40.01s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5gAAAAAAAAA=)
+    t =    40.09s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    40.20s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5gAAAAAAAAA=
+    t =    40.23s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    40.36s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5gAAAAAAAAA=
+    t =    40.36s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    40.36s Using snapshot previously cached by application
+    t =    40.36s Added attachment named 'Accessibility issue - light'
+    t =    40.36s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5gAAAAAAAAA=)
+    t =    40.45s Checking existence of `"1" StaticText`
+    t =    40.52s Find the "1" StaticText
+2026-10-18 10:30:55.220414+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (919.0, 486.0, 9.0, 16.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast nearly passed
+    t =    40.61s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5wAAAAAAAAA=)
+    t =    40.70s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    40.83s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5wAAAAAAAAA=
+    t =    40.86s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    40.97s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5wAAAAAAAAA=
+    t =    40.98s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    40.98s Using snapshot previously cached by application
+    t =    40.98s Added attachment named 'Accessibility issue - light'
+    t =    40.99s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5wAAAAAAAAA=)
+    t =    41.06s Checking existence of `"+" StaticText`
+    t =    41.13s Find the "+" StaticText
+2026-10-18 10:30:55.822796+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (937.5, 486.0, 9.0, 16.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    41.21s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQAAAAAAAAAA=)
+    t =    41.27s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    41.38s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQAAAAAAAAAA=
+    t =    41.39s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    41.51s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQAAAAAAAAAA=
+    t =    41.52s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    41.52s Using snapshot previously cached by application
+    t =    41.52s Added attachment named 'Accessibility issue - light'
+    t =    41.52s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQAAAAAAAAAA=)
+    t =    41.58s Checking existence of `"current-branch" MenuButton`
+    t =    41.64s Find the "current-branch" MenuButton
+2026-10-18 10:30:56.336602+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (856.0, 95.0, 115.0, 17.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    41.72s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jiwAAAAAAAAA=)
+    t =    41.78s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    41.88s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jiwAAAAAAAAA=
+    t =    41.89s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    42.00s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jiwAAAAAAAAA=
+    t =    42.01s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    42.01s Using snapshot previously cached by application
+    t =    42.01s Added attachment named 'Accessibility issue - light'
+    t =    42.01s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jiwAAAAAAAAA=)
+    t =    42.08s Checking existence of `"toolbar-sync" MenuButton`
+    t =    42.13s Find the "toolbar-sync" MenuButton
+2026-10-18 10:30:56.815764+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (997.0, 94.0, 67.0, 18.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    42.20s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQwAAAAAAAAA=)
+    t =    42.26s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    42.38s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQwAAAAAAAAA=
+    t =    42.39s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    42.50s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQwAAAAAAAAA=
+    t =    42.50s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    42.50s Using snapshot previously cached by application
+    t =    42.51s Added attachment named 'Accessibility issue - light'
+    t =    42.51s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQwAAAAAAAAA=)
+    t =    42.58s Checking existence of `"toolbar-more" MenuButton`
+    t =    42.64s Find the "toolbar-more" MenuButton
+2026-10-18 10:30:57.330621+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1223.0, 95.0, 22.0, 16.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    42.71s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLAAAAAAAAAA=)
+    t =    42.78s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    42.90s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLAAAAAAAAAA=
+    t =    42.90s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    43.02s Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLAAAAAAAAAA=
+    t =    43.02s Requesting snapshot of accessibility hierarchy for app with pid 9441
+    t =    43.02s Using snapshot previously cached by application
+    t =    43.03s Added attachment named 'Accessibility issue - light'
+    t =    43.03s Find the Any (Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jLAAAAAAAAAA=)
+    t =    43.09s Checking existence of `TouchBar`
+    t =    43.15s Find the TouchBar
+2026-10-18 10:30:57.836697+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    43.22s Terminate com.willxue.wegit.development:9441
+    t =    44.26s Open com.willxue.wegit.development
+    t =    44.26s     Launch com.willxue.wegit.development
+2026-10-18 10:30:58.893 xcodebuild[9422:30419] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-18 10:30:58.893 xcodebuild[9422:30419] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =    44.75s         Wait for accessibility to load
+    t =    45.27s         Setting up automation session
+    t =    45.30s         Wait for com.willxue.wegit.development to idle
+    t =    45.30s Open com.willxue.wegit.development
+    t =    45.30s     Activate com.willxue.wegit.development
+    t =    45.30s         Wait for com.willxue.wegit.development to idle
+    t =    45.30s Waiting 5.0s for "native-menu-app" MenuBarItem to exist
+    t =    46.32s     Checking `Expect predicate `existsNoRetry == 1` for object "native-menu-app" MenuBarItem`
+    t =    46.32s         Checking existence of `"native-menu-app" MenuBarItem`
+    t =    46.56s Waiting 2.0s for "main" Window to exist
+    t =    47.58s     Checking `Expect predicate `existsNoRetry == 1` for object "main" Window`
+    t =    47.58s         Checking existence of `"main" Window`
+    t =    47.70s Waiting 10.0s for "file.swift" StaticText to exist
+    t =    48.76s     Checking `Expect predicate `existsNoRetry == 1` for object "file.swift" StaticText`
+    t =    48.87s         Checking existence of `"file.swift" StaticText`
+    t =    49.56s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    49.68s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    49.77s Added attachment named 'Minimum workspace hierarchy - dark'
+    t =    49.77s Checking existence of `StaticText (First Match)`
+    t =    49.81s Find the StaticText (First Match)
+    t =    49.86s Find the "main" Window
+    t =    49.95s Find the "route-更改" StaticText
+    t =    49.99s Checking existence of `"commit-button" Button`
+    t =    50.09s Find the "commit-button" Button
+    t =    50.17s Find the "main" Window
+    t =    50.25s Find the "commit-button" Button
+    t =    50.33s Find the "main" Window
+    t =    50.40s Click and drag from "main" Window[1.00, 1.00] -> (-1.0, -1.0) to "main" Window[1.00, 1.00] -> (-1.0, -1.0) -> (0.0, 0.0) with velocity of 500.00 pixels per second, and then hold for 0.0 seconds
+    t =    50.40s     Wait for com.willxue.wegit.development to idle
+    t =    50.40s     Find the "main" Window
+    t =    50.50s     Check for interrupting elements affecting "main" Window
+    t =    50.51s     Synthesize event
+    t =    50.52s         Find the "main" Window
+    t =    50.62s         Find the "main" Window
+    t =    50.70s         Find the "main" Window
+    t =    50.78s         Find the "main" Window
+    t =    51.37s     Wait for com.willxue.wegit.development to idle
+    t =    51.38s Find the "main" Window
+    t =    51.47s Find the "main" Window
+    t =    51.61s Checking existence of `"route-更改" StaticText`
+    t =    51.66s Find the "route-更改" StaticText
+    t =    51.71s Find the "main" Window
+    t =    51.80s Find the "route-更改" StaticText
+    t =    51.85s Checking existence of `"commit-button" Button`
+    t =    51.94s Find the "commit-button" Button
+    t =    52.02s Find the "main" Window
+    t =    52.10s Find the "commit-button" Button
+    t =    52.17s Waiting 3.0s for Outline (First Match) to exist
+    t =    53.19s     Checking `Expect predicate `existsNoRetry == 1` for object Outline (First Match)`
+    t =    53.19s         Checking existence of `Outline (First Match)`
+    t =    53.21s Find the "changes-filter" TextField
+    t =    53.30s Find the Outline (First Match)
+    t =    53.32s Click "file.swift" StaticText
+    t =    53.32s     Wait for com.willxue.wegit.development to idle
+    t =    53.32s     Find the "file.swift" StaticText
+    t =    53.38s     Check for interrupting elements affecting "file.swift" StaticText
+    t =    53.40s     Synthesize event
+    t =    53.95s     Wait for com.willxue.wegit.development to idle
+    t =    53.97s Waiting 5.0s for "暂存此块" Button to exist
+    t =    54.97s     Checking `Expect predicate `existsNoRetry == 1` for object "暂存此块" Button`
+    t =    54.98s         Checking existence of `"暂存此块" Button`
+    t =    55.05s Checking existence of `"暂存此块" Button`
+    t =    55.13s Find the "暂存此块" Button
+    t =    55.22s Find the "main" Window
+    t =    55.36s Find the "暂存此块" Button
+    t =    55.42s Checking existence of `"丢弃此块…" Button`
+    t =    55.48s Find the "丢弃此块…" Button
+    t =    55.56s Find the "main" Window
+    t =    55.67s Find the "丢弃此块…" Button
+    t =    55.74s Type '2' key with modifiers '⌘' (0x10)
+    t =    55.74s     Wait for com.willxue.wegit.development to idle
+    t =    55.74s     Find the Target Application 'com.willxue.wegit.development'
+    t =    55.81s     Check for interrupting elements affecting "WeGit" Application
+    t =    55.81s     Synthesize event
+2026-10-18 10:31:10.437831+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+2026-10-18 10:31:10.438955+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    56.14s     Wait for com.willxue.wegit.development to idle
+    t =    56.14s Waiting 5.0s for "Layout fixture" StaticText to exist
+    t =    57.15s     Checking `Expect predicate `existsNoRetry == 1` for object "Layout fixture" StaticText`
+    t =    57.15s         Checking existence of `"Layout fixture" StaticText`
+    t =    57.25s Click "Layout fixture" StaticText
+    t =    57.25s     Wait for com.willxue.wegit.development to idle
+    t =    57.25s     Find the "Layout fixture" StaticText
+    t =    57.32s     Check for interrupting elements affecting "Layout fixture" StaticText
+    t =    57.35s     Synthesize event
+2026-10-18 10:31:11.974217+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    57.90s     Wait for com.willxue.wegit.development to idle
+    t =    57.90s Checking existence of `"history-search" Any`
+    t =    58.06s Find the "history-search" Any
+    t =    58.31s Find the "main" Window
+    t =    58.55s Find the "history-search" TextField
+    t =    58.75s Find the Target Application 'com.willxue.wegit.development'
+2026-10-18 10:31:13.469804+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    58.91s Added attachment named 'Minimum window - dark'
+    t =    59.65s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLQAAAAAAAAA=)
+    t =    59.73s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    59.86s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLQAAAAAAAAA=
+    t =    59.88s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    60.01s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLQAAAAAAAAA=
+    t =    60.02s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    60.02s Using snapshot previously cached by application
+    t =    60.02s Added attachment named 'Accessibility issue - dark'
+    t =    60.02s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLQAAAAAAAAA=)
+    t =    60.13s Checking existence of `Group`
+    t =    60.22s Find the Group
+2026-10-18 10:31:14.945809+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 980.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    60.37s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTAAAAAAAAAA=)
+    t =    60.49s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    60.67s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTAAAAAAAAAA=
+    t =    60.69s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    60.93s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTAAAAAAAAAA=
+    t =    60.93s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    60.93s Using snapshot previously cached by application
+    t =    60.94s Added attachment named 'Accessibility issue - dark'
+    t =    60.94s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTAAAAAAAAAA=)
+    t =    61.06s Checking existence of `Group`
+    t =    61.13s Find the Group
+2026-10-18 10:31:15.819595+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 210.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    61.21s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD//////////18AAAAAAAAAAAAAAAAAAAA=)
+    t =    61.28s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    61.46s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD//////////18AAAAAAAAAAAAAAAAAAAA=
+    t =    61.47s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    61.61s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD//////////18AAAAAAAAAAAAAAAAAAAA=
+    t =    61.62s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    61.62s Using snapshot previously cached by application
+    t =    61.62s Added attachment named 'Accessibility issue - dark'
+    t =    61.62s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD//////////18AAAAAAAAAAAAAAAAAAAA=)
+    t =    61.69s Checking existence of `Group`
+    t =    61.76s Find the Group
+2026-10-18 10:31:16.475160+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (294.0, 129.0, 194.0, 19.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    61.87s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jaAAAAAAAAAA=)
+    t =    61.94s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    62.08s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jaAAAAAAAAAA=
+    t =    62.12s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    62.26s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jaAAAAAAAAAA=
+    t =    62.26s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    62.26s Using snapshot previously cached by application
+    t =    62.27s Added attachment named 'Accessibility issue - dark'
+    t =    62.27s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jaAAAAAAAAAA=)
+    t =    62.35s Checking existence of `"route-提交历史" StaticText`
+    t =    62.45s Find the "route-提交历史" StaticText
+2026-10-18 10:31:17.138735+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (296.0, 202.0, 178.0, 42.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast nearly passed
+    t =    62.53s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD7/////////18AAAAAAAAAAAAAAAAAAAA=)
+    t =    62.59s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    62.74s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD7/////////18AAAAAAAAAAAAAAAAAAAA=
+    t =    62.76s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    62.90s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD7/////////18AAAAAAAAAAAAAAAAAAAA=
+    t =    62.91s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    62.91s Using snapshot previously cached by application
+    t =    62.91s Added attachment named 'Accessibility issue - dark'
+    t =    62.91s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVwAAAAAAAAD7/////////18AAAAAAAAAAAAAAAAAAAA=)
+    t =    62.99s Checking existence of `Group`
+    t =    63.06s Find the Group
+2026-10-18 10:31:17.753828+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (294.0, 311.0, 194.0, 19.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    63.14s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTgAAAAAAAAA=)
+    t =    63.21s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    63.36s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTgAAAAAAAAA=
+    t =    63.37s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    63.51s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTgAAAAAAAAA=
+    t =    63.52s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    63.52s Using snapshot previously cached by application
+    t =    63.53s Added attachment named 'Accessibility issue - dark'
+    t =    63.53s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jTgAAAAAAAAA=)
+    t =    63.60s Checking existence of `Group`
+    t =    63.66s Find the Group
+2026-10-18 10:31:18.374467+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 980.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    63.77s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVgAAAAAAAAA=)
+    t =    63.85s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    63.98s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVgAAAAAAAAA=
+    t =    64.00s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    64.11s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVgAAAAAAAAA=
+    t =    64.12s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    64.12s Using snapshot previously cached by application
+    t =    64.12s Added attachment named 'Accessibility issue - dark'
+    t =    64.12s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jVgAAAAAAAAA=)
+    t =    64.20s Checking existence of `Group`
+    t =    64.25s Find the Group
+2026-10-18 10:31:18.970697+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 980.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    64.40s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29joQAAAAAAAAA=)
+    t =    64.48s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    64.62s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29joQAAAAAAAAA=
+    t =    64.65s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    64.79s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29joQAAAAAAAAA=
+    t =    64.80s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    64.80s Using snapshot previously cached by application
+    t =    64.81s Added attachment named 'Accessibility issue - dark'
+    t =    64.81s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29joQAAAAAAAAA=)
+    t =    64.89s Checking existence of `Group`
+    t =    64.96s Find the Group
+2026-10-18 10:31:19.656337+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (280.0, 77.0, 559.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    65.06s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqAAAAAAAAAA=)
+    t =    65.13s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    65.26s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqAAAAAAAAAA=
+    t =    65.28s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    65.41s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqAAAAAAAAAA=
+    t =    65.42s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    65.42s Using snapshot previously cached by application
+    t =    65.42s Added attachment named 'Accessibility issue - dark'
+    t =    65.43s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqAAAAAAAAAA=)
+    t =    65.50s Checking existence of `"history-scope" PopUpButton`
+    t =    65.56s Find the "history-scope" PopUpButton
+2026-10-18 10:31:20.250584+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (502.0, 177.0, 100.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    65.64s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqQAAAAAAAAA=)
+    t =    65.71s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    65.83s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqQAAAAAAAAA=
+    t =    65.85s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    65.98s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqQAAAAAAAAA=
+    t =    65.98s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    65.98s Using snapshot previously cached by application
+    t =    65.98s Added attachment named 'Accessibility issue - dark'
+    t =    65.98s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jqQAAAAAAAAA=)
+    t =    66.05s Checking existence of `"history-search-field" PopUpButton`
+    t =    66.12s Find the "history-search-field" PopUpButton
+2026-10-18 10:31:20.806950+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (610.0, 177.0, 74.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    66.19s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////68AAAAAAAAAAAAAAAAAAAA=)
+    t =    66.26s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    66.37s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////68AAAAAAAAAAAAAAAAAAAA=
+    t =    66.40s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    66.52s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////68AAAAAAAAAAAAAAAAAAAA=
+    t =    66.52s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    66.52s Using snapshot previously cached by application
+    t =    66.53s Added attachment named 'Accessibility issue - dark'
+    t =    66.53s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////68AAAAAAAAAAAAAAAAAAAA=)
+    t =    66.59s Checking existence of `Group`
+    t =    66.65s Find the Group
+2026-10-18 10:31:21.341064+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (506.0, 283.0, 36.0, 68.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    66.73s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////7AAAAAAAAAAAAAAAAAAAAA=)
+    t =    66.79s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    66.90s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////7AAAAAAAAAAAAAAAAAAAAA=
+    t =    66.93s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    67.06s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////7AAAAAAAAAAAAAAAAAAAAA=
+    t =    67.06s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    67.06s Using snapshot previously cached by application
+    t =    67.06s Added attachment named 'Accessibility issue - dark'
+    t =    67.07s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jrgAAAAAAAAD//////////7AAAAAAAAAAAAAAAAAAAAA=)
+    t =    67.14s Checking existence of `Group`
+    t =    67.20s Find the Group
+2026-10-18 10:31:21.883624+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (559.0, 283.0, 264.0, 68.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    67.27s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jswAAAAAAAAA=)
+    t =    67.34s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    67.45s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jswAAAAAAAAA=
+    t =    67.48s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    67.60s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jswAAAAAAAAA=
+    t =    67.60s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    67.60s Using snapshot previously cached by application
+    t =    67.60s Added attachment named 'Accessibility issue - dark'
+    t =    67.60s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jswAAAAAAAAA=)
+    t =    67.67s Checking existence of `"Layout fixture" StaticText`
+    t =    67.73s Find the "Layout fixture" StaticText
+2026-10-18 10:31:22.431950+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (559.0, 291.0, 142.0, 52.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    67.83s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jowAAAAAAAAA=)
+    t =    67.95s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    68.14s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jowAAAAAAAAA=
+    t =    68.19s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    68.37s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jowAAAAAAAAA=
+    t =    68.37s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    68.37s Using snapshot previously cached by application
+    t =    68.38s Added attachment named 'Accessibility issue - dark'
+    t =    68.38s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jowAAAAAAAAA=)
+    t =    68.46s Checking existence of `Group`
+    t =    68.51s Find the Group
+2026-10-18 10:31:23.197807+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (840.0, 77.0, 420.0, 692.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    68.59s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jtwAAAAAAAAA=)
+    t =    68.65s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    68.78s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jtwAAAAAAAAA=
+    t =    68.80s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    68.91s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jtwAAAAAAAAA=
+    t =    68.92s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    68.92s Using snapshot previously cached by application
+    t =    68.92s Added attachment named 'Accessibility issue - dark'
+    t =    68.92s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jtwAAAAAAAAA=)
+    t =    68.99s Checking existence of `"2026年10月18日 10:30" StaticText`
+    t =    69.05s Find the "2026年10月18日 10:30" StaticText
+2026-10-18 10:31:23.747181+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1038.0, 176.0, 108.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    69.13s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jugAAAAAAAAA=)
+    t =    69.20s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    69.32s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jugAAAAAAAAA=
+    t =    69.34s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    69.46s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jugAAAAAAAAA=
+    t =    69.47s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    69.47s Using snapshot previously cached by application
+    t =    69.48s Added attachment named 'Accessibility issue - dark'
+    t =    69.48s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jugAAAAAAAAA=)
+    t =    69.56s Checking existence of `"e4c638632af72c483ddfcf614463aeff636787f7" StaticText`
+    t =    69.62s Find the "e4c638632af72c483ddfcf614463aeff636787f7" StaticText
+2026-10-18 10:31:24.313627+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (858.0, 259.5, 248.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    69.70s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jxQAAAAAAAAA=)
+    t =    69.79s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    69.94s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jxQAAAAAAAAA=
+    t =    69.97s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    70.12s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jxQAAAAAAAAA=
+    t =    70.12s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    70.12s Using snapshot previously cached by application
+    t =    70.13s Added attachment named 'Accessibility issue - dark'
+    t =    70.13s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jxQAAAAAAAAA=)
+    t =    70.20s Checking existence of `"e4c638632af72c483ddfcf614463aeff636787f7" StaticText`
+    t =    70.26s Find the "e4c638632af72c483ddfcf614463aeff636787f7" StaticText
+2026-10-18 10:31:24.957013+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (858.0, 259.5, 248.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    70.34s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jvAAAAAAAAAA=)
+    t =    70.42s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    70.55s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jvAAAAAAAAAA=
+    t =    70.58s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    70.70s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jvAAAAAAAAAA=
+    t =    70.71s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    70.71s Using snapshot previously cached by application
+    t =    70.71s Added attachment named 'Accessibility issue - dark'
+    t =    70.71s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jvAAAAAAAAAA=)
+    t =    70.81s Checking existence of `"history-operations" MenuButton`
+    t =    70.89s Find the "history-operations" MenuButton
+2026-10-18 10:31:25.591063+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1169.0, 254.0, 73.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    70.98s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyAAAAAAAAAA=)
+    t =    71.05s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    71.16s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyAAAAAAAAAA=
+    t =    71.19s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    71.32s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyAAAAAAAAAA=
+    t =    71.32s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    71.32s Using snapshot previously cached by application
+    t =    71.33s Added attachment named 'Accessibility issue - dark'
+    t =    71.33s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyAAAAAAAAAA=)
+    t =    71.40s Checking existence of `"commit-file:file.swift" StaticText`
+    t =    71.48s Find the "commit-file:file.swift" StaticText
+2026-10-18 10:31:26.187967+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (886.0, 339.5, 42.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    71.57s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyQAAAAAAAAA=)
+    t =    71.67s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    71.79s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyQAAAAAAAAA=
+    t =    71.82s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    71.93s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyQAAAAAAAAA=
+    t =    71.93s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    71.93s Using snapshot previously cached by application
+    t =    71.93s Added attachment named 'Accessibility issue - dark'
+    t =    71.93s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jyQAAAAAAAAA=)
+    t =    72.00s Checking existence of `"commit-file:file.swift" StaticText`
+    t =    72.06s Find the "commit-file:file.swift" StaticText
+2026-10-18 10:31:26.740266+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1200.0, 339.5, 27.0, 13.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    72.13s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jwAAAAAAAAAA=)
+    t =    72.19s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    72.30s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jwAAAAAAAAAA=
+    t =    72.32s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    72.44s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jwAAAAAAAAAA=
+    t =    72.45s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    72.45s Using snapshot previously cached by application
+    t =    72.45s Added attachment named 'Accessibility issue - dark'
+    t =    72.45s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jwAAAAAAAAAA=)
+    t =    72.51s Checking existence of `"阅读选项" MenuButton`
+    t =    72.57s Find the "阅读选项" MenuButton
+2026-10-18 10:31:27.258011+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (972.0, 375.0, 100.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    72.64s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29j1AAAAAAAAAA=)
+    t =    72.71s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    72.82s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29j1AAAAAAAAAA=
+    t =    72.85s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    72.96s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29j1AAAAAAAAAA=
+    t =    72.96s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    72.96s Using snapshot previously cached by application
+    t =    72.96s Added attachment named 'Accessibility issue - dark'
+    t =    72.97s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29j1AAAAAAAAAA=)
+    t =    73.03s Checking existence of `"+" StaticText`
+    t =    73.09s Find the "+" StaticText
+2026-10-18 10:31:27.775548+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (937.5, 486.0, 9.0, 16.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Contrast failed
+    t =    73.16s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRgAAAAAAAAA=)
+    t =    73.23s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    73.34s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRgAAAAAAAAA=
+    t =    73.35s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    73.46s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRgAAAAAAAAA=
+    t =    73.47s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    73.47s Using snapshot previously cached by application
+    t =    73.47s Added attachment named 'Accessibility issue - dark'
+    t =    73.47s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRgAAAAAAAAA=)
+    t =    73.53s Checking existence of `"current-branch" MenuButton`
+    t =    73.60s Find the "current-branch" MenuButton
+2026-10-18 10:31:28.281668+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (856.0, 95.0, 115.0, 17.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    73.66s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jSQAAAAAAAAA=)
+    t =    73.72s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    73.82s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jSQAAAAAAAAA=
+    t =    73.84s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    73.94s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jSQAAAAAAAAA=
+    t =    73.94s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    73.94s Using snapshot previously cached by application
+    t =    73.95s Added attachment named 'Accessibility issue - dark'
+    t =    73.95s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jSQAAAAAAAAA=)
+    t =    74.01s Checking existence of `"toolbar-sync" MenuButton`
+    t =    74.07s Find the "toolbar-sync" MenuButton
+2026-10-18 10:31:28.755838+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (997.0, 94.0, 67.0, 18.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    74.14s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRQAAAAAAAAA=)
+    t =    74.20s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    74.31s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRQAAAAAAAAA=
+    t =    74.32s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    74.44s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRQAAAAAAAAA=
+    t =    74.44s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    74.45s Using snapshot previously cached by application
+    t =    74.45s Added attachment named 'Accessibility issue - dark'
+    t =    74.45s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRQAAAAAAAAA=)
+    t =    74.51s Checking existence of `"toolbar-more" MenuButton`
+    t =    74.57s Find the "toolbar-more" MenuButton
+2026-10-18 10:31:29.254972+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (1223.0, 95.0, 22.0, 16.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Action is missing
+    t =    74.64s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLAAAAAAAAAA=)
+    t =    74.71s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    74.83s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLAAAAAAAAAA=
+    t =    74.84s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    74.95s Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLAAAAAAAAAA=
+    t =    74.95s Requesting snapshot of accessibility hierarchy for app with pid 10867
+    t =    74.95s Using snapshot previously cached by application
+    t =    74.96s Added attachment named 'Accessibility issue - dark'
+    t =    74.96s Find the Any (Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLAAAAAAAAAA=)
+    t =    75.03s Checking existence of `TouchBar`
+    t =    75.08s Find the TouchBar
+2026-10-18 10:31:29.777692+0000 WeGitUITests-Runner[9428:30529] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/runner/work/WeGit/WeGit/WeGitUITests/LayoutTests.swift:208: error: -[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes] : Element has no description
+    t =    75.17s Terminate com.willxue.wegit.development:10867
+    t =    76.26s Tear Down
+Test Case '-[WeGitUITests.LayoutTests testAccessibilityAuditInBothThemes]' failed (76.336 seconds).
+Test Suite 'LayoutTests' failed at 2026-10-18 10:31:30.965.
+	 Executed 1 test, with 59 failures (0 unexpected) in 76.336 (76.338) seconds
+Test Suite 'WeGitUITests.xctest' failed at 2026-10-18 10:31:30.966.
+	 Executed 1 test, with 59 failures (0 unexpected) in 76.336 (76.339) seconds
+Test Suite 'Selected tests' failed at 2026-10-18 10:31:30.967.
+	 Executed 1 test, with 59 failures (0 unexpected) in 76.336 (76.341) seconds
+2026-10-18 10:31:34.662 xcodebuild[9422:30419] [MT] IDETestOperationsObserverDebug: 80.857 elapsed -- Testing started completed.
+2026-10-18 10:31:34.662 xcodebuild[9422:30419] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-18 10:31:34.662 xcodebuild[9422:30419] [MT] IDETestOperationsObserverDebug: 80.857 sec, +80.857 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/runner/work/WeGit/WeGit/.build/ci/ui/accessibility.xcresult
+
+Failing tests:
+	LayoutTests.testAccessibilityAuditInBothThemes()
+	LayoutTests.testAccessibilityAuditInBothThemes()
+	LayoutTests.testAccessibilityAuditInBothThemes()
+	LayoutTests.testAccessibilityAuditInBothThemes()
+
+** TEST EXECUTE FAILED **
+
+Testing started

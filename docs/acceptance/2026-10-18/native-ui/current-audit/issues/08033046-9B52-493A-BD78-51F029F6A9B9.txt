@@ -1,0 +1,16 @@
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x75a1b248c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x75a1b248c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x75a2469400, pid: 10867, title: 'WeGit', Disabled
+  ↳TouchBar, 0x75a1b248c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a1b25f40, pid: 10867, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jLAAAAAAAAAA=
+    Output: {
+      TouchBar, 0x75a2a87e80, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+    }

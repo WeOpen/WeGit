@@ -39,7 +39,8 @@ struct ChangesView: View {
                             identifier: "changes-filter")
                         Picker(L10n.text("改动状态"), selection: $app.workspace.changeFilter) {
                             ForEach(ChangeKindFilter.allCases, id: \.self) { Text($0.title).tag($0) }
-                        }.labelsHidden().frame(width: 110).accessibilityIdentifier("changes-state-filter")
+                        }.labelsHidden().frame(width: 110).tint(colors.accentText)
+                            .accessibilityIdentifier("changes-state-filter")
                     }.padding(.horizontal, 12).padding(.bottom, 10).background(colors.chrome)
                     Divider()
                     if let error = session.refreshError, !session.hasLoaded {
@@ -439,7 +440,8 @@ struct DiffView: View {
                     HStack(spacing: 16) {
                         Picker(L10n.text("上下文"), selection: $app.workspace.diffOptions.contextLines) {
                             ForEach([3, 20, 80, 200], id: \.self) { Text(L10n.count("%lld 行", $0)).tag($0) }
-                        }.pickerStyle(.menu).fixedSize().accessibilityIdentifier("diff-context")
+                        }.pickerStyle(.menu).fixedSize().tint(colors.accentText)
+                            .accessibilityIdentifier("diff-context")
                         Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
                             .toggleStyle(.checkbox).accessibilityIdentifier("diff-ignore-whitespace")
                         Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)
