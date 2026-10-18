@@ -1,0 +1,8 @@
+Run 39117710312; actual candidate b3adc17666ee4ed67a617eec04f4c3b5961c500d
+The grouped Form renders labels as sibling StaticText; the three PopUpButtons have no label.
+This is outside the minimum-history audit scope.
+StaticText, 0x7a8b5b9b80, {{640.0, 361.2}, {26.0, 16.0}}, value: 主题 <AX element pid: 4181, token: VRAAAAAAAABvY29j3AAAAAAAAAA=>
+PopUpButton, 0x7a8b5b9cc0, {{1181.0, 358.0}, {99.0, 24.0}}, value: 跟随系统 <AX element pid: 4181, token: VRAAAAAAAABvY29j3QAAAAAAAAA=>
+StaticText, 0x7a8b5b9e00, {{640.0, 399.8}, {52.0, 16.0}}, value: 列表密度 <AX element pid: 4181, token: VRAAAAAAAABvY29j3gAAAAAAAAA=>
+PopUpButton, 0x7a8b5b9f40, {{1207.0, 396.0}, {73.0, 24.0}}, value: 舒适 <AX element pid: 4181, token: VRAAAAAAAABvY29j3wAAAAAAAAA=>
+PopUpButton, 0x7a8b5bb340, {{1155.0, 775.0}, {125.0, 24.0}}, identifier: 'settings-code-font', value: 系统等宽字体 <AX element pid: 4181, token: VRAAAAAAAABvY29j6gAAAAAAAAA=>

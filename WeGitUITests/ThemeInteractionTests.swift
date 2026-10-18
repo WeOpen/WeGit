@@ -64,10 +64,10 @@ final class ThemeInteractionTests: XCTestCase {
         let settings = app.windows["com_apple_SwiftUI_Settings_window"]
         XCTAssertTrue(settings.waitForExistence(timeout: 5))
         settings.radioButtons["外观"].coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
-        let theme = settings.popUpButtons.matching(
-            NSPredicate(format: "value IN %@", ["跟随系统", "浅色", "深色", "自定义"])
-        ).firstMatch
+        let theme = settings.popUpButtons["settings-appearance"]
         XCTAssertTrue(theme.waitForExistence(timeout: 5))
+        XCTAssertEqual(theme.label, "主题")
+        XCTAssertEqual(settings.popUpButtons["settings-density"].label, "列表密度")
         let systemSettingsLuminance = try luminance(
             at: CGPoint(x: settings.frame.midX, y: settings.frame.maxY - 18))
         for (title, dark) in [("浅色", false), ("深色", true), ("浅色", false), ("深色", true)] {
