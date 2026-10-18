@@ -26,7 +26,7 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=functional
 gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=accessibility
 ```
 
-每种模式都先执行 Welcome/Clone 最小用例；失败后立即停止，不运行大套件。最小用例总上限 240 秒，并保留 XCTest 失败；功能/辅助访问整体执行上限各 90 分钟，workflow 仍为 120 分钟，给失败归档留出时间。功能模式运行全部功能和阅读矩阵，辅助访问审查独立执行；不把排除该审查的功能结果冒充辅助访问通过。
+每种模式都先执行 Welcome/Clone 最小用例；失败后立即停止，不运行大套件。最小用例总上限 240 秒，并保留 XCTest 失败；功能/辅助访问整体执行上限各 90 分钟，workflow 仍为 120 分钟，给失败归档留出时间。功能模式运行全部功能和阅读矩阵，辅助访问审查独立执行。与 `Full acceptance` 一致，功能模式排除必须显式启用的 `ManualAccessibilitySession`；该人工工作区不进入自动套件的计数，所选自动用例仍必须全部执行、通过且无跳过。自动审查与人工旁白验收各自保留，功能通过不代替辅助访问通过。
 
 脚本的进程组截止行为经过实际成功/超时/子进程停止断言；还解析 xcresult 实际数量，拒绝 0 项、跳过、失败及不完整的计数，最小范围必须恰好执行并通过 1 项。超时只负责结束当前测试命令，不重试、不提高产品性能预算。日志、环境与 xcresult 限定归档到对应 Actions artifact。
 
@@ -63,3 +63,5 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=smoke -f c
 ## 启动参数顺序修正后的实际 smoke
 
 [39010563892](https://github.com/WeOpen/WeGit/actions/runs/39010563892) 在候选 `4609baf` 实际执行并通过 1 项，0 失败/跳过，首次窗口、原生菜单和 Clone 表单正常。公共测试启动器把带值参数放在无值测试标记之前；应用和核心不改。独立场景的原序失败、重排通过，Foundation 探针不能证明更底层解析机制。完整结果见 [修正证据](acceptance/2026-10-17/native-ui/launch-order-fix/README.md)。可继续主分支完整功能回归，但此单项不关闭辅助访问或发布门槛。
+
+2026-10-18 最终 head smoke 与独立回归均通过 1/1、零跳过，CI 全绿后 PR #19 已合入 main `4a9f475`。原始回执与修正前后测试范围证据见 [收尾记录](acceptance/2026-10-18/native-ui/README.md)。功能入口现与 Full acceptance 一致排除人工旁白工作区，零跳过门禁保持；完整功能等待新的主分支运行。
