@@ -834,7 +834,7 @@ final class WeGitUITests: XCTestCase {
         XCTAssertTrue(app.buttons["stage:untracked:replacement.swift"].isEnabled)
     }
 
-    @MainActor func testWelcomeAndCloneForm() {
+    @MainActor func testWelcomeAndCloneForm() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
@@ -851,6 +851,13 @@ final class WeGitUITests: XCTestCase {
         XCTAssertEqual(app.textFields["clone-folder"].value as? String, "repository")
         app.buttons["clone-cancel"].click()
         XCTAssertTrue(app.buttons["open-repository"].exists)
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "Welcome after Clone cancellation"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+        let fixture = try UITestGit(prefix: "WeGitSmokeGit")
+        defer { fixture.remove() }
+        XCTAssertTrue(try fixture.git(["--version"]).hasPrefix("git version "))
     }
     @MainActor func testStageCommitAndHistory() throws {
         continueAfterFailure = false

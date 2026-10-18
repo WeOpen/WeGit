@@ -101,7 +101,11 @@ struct UITestGit {
         else {
             throw NSError(
                 domain: "WeGitUITests.Toolchain", code: 1,
-                userInfo: [NSLocalizedDescriptionKey: "Could not resolve Git from the selected Xcode."])
+                userInfo: [
+                    NSLocalizedDescriptionKey: "Could not resolve Git from the selected Xcode.",
+                    NSLocalizedFailureReasonErrorKey:
+                        "xcrun exit=\(resolver.terminationStatus), executable=\(FileManager.default.isExecutableFile(atPath: path)), output=\(path)",
+                ])
         }
         return URL(fileURLWithPath: path)
     }
