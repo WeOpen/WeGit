@@ -1,0 +1,29 @@
+{
+  "runId": 39137541735,
+  "sourceCommit": "5a38d6b565174cb79331cae8680386a9384fe99b",
+  "independentControls": {
+    "reordered": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native": {
+      "total": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "callbackReports": 4
+    },
+    "hosted": {
+      "total": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "callbackReports": 10
+    }
+  },
+  "unchangedWeGitAppInputsComparedToMain2c2533c": 120,
+  "ignoredReports": 0,
+  "localXCTestExecuted": false
+}

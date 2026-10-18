@@ -1,0 +1,281 @@
+{
+  "date": "2026-10-18T14:47:28.682853+00:00",
+  "kind": "isolated-scene-controls",
+  "environment": {
+    "date": "2026-10-18T14:47:28.701849+00:00",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "sourceCommit": "5a38d6b565174cb79331cae8680386a9384fe99b",
+    "workspaceDirty": false,
+    "imageVersion": "20261012.0260.1",
+    "runId": "39137541735",
+    "manager": {
+      "exitCode": 0,
+      "output": "Aqua"
+    },
+    "consoleUIDMatches": true,
+    "developerTools": {
+      "exitCode": 0,
+      "output": "Developer mode is currently enabled."
+    },
+    "interactivePrerequisites": true,
+    "sip": {
+      "exitCode": 0,
+      "output": "System Integrity Protection status: disabled."
+    },
+    "gatekeeper": {
+      "exitCode": 0,
+      "output": "assessments enabled"
+    },
+    "xcode": {
+      "exitCode": 0,
+      "output": "Xcode 27.0\nBuild version 27A266a"
+    },
+    "firstLaunch": {
+      "exitCode": 0,
+      "output": ""
+    },
+    "selectedGit": {
+      "exitCode": 0,
+      "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+    },
+    "osPermissionsChanged": false
+  },
+  "controls": [
+    {
+      "scheme": "ReorderedControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 22.912,
+        "log": "ReorderedControl-build.log"
+      },
+      "signatureMetadata": {
+        "application": {
+          "readSucceeded": true,
+          "sandboxed": false
+        },
+        "runner": {
+          "readSucceeded": true,
+          "sandboxed": true
+        }
+      },
+      "test": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 9.551,
+        "log": "ReorderedControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "72943fdb483a65295ee2b9d9fbfe60ea7fcd41a7",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "ReorderedControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792334882.573,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792334874.586,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - ReorderedControl",
+        "topInsights": [],
+        "totalTestCount": 1
+      },
+      "passed": true
+    },
+    {
+      "scheme": "AuditNativeControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 4.082,
+        "log": "AuditNativeControl-build.log"
+      },
+      "signatureMetadata": {
+        "application": {
+          "readSucceeded": true,
+          "sandboxed": false
+        },
+        "runner": {
+          "readSucceeded": true,
+          "sandboxed": true
+        }
+      },
+      "test": {
+        "exitCode": 65,
+        "timedOut": false,
+        "seconds": 21.26,
+        "log": "AuditNativeControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "72943fdb483a65295ee2b9d9fbfe60ea7fcd41a7",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 1,
+            "passedTests": 0,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "AuditNativeControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "finishTime": 1792334907.551,
+        "passedTests": 0,
+        "result": "Failed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792334888.403,
+        "statistics": [],
+        "testFailures": [
+          {
+            "failureText": "Contrast failed",
+            "targetName": "AuditNativeTests",
+            "testIdentifier": 1,
+            "testIdentifierString": "AccessibilityControlUITests/testNativeControlsAndAuditInBothAppearances()",
+            "testIdentifierURL": "test://com.apple.xcode/SceneLaunchControl/AuditNativeTests/AccessibilityControlUITests/testNativeControlsAndAuditInBothAppearances",
+            "testName": "testNativeControlsAndAuditInBothAppearances()"
+          }
+        ],
+        "title": "Test - AuditNativeControl",
+        "topInsights": [
+          {
+            "category": "Common Failures",
+            "impact": "100% of failures",
+            "text": "2 runs of 1 test failed with Element has no description"
+          },
+          {
+            "category": "Common Failures",
+            "impact": "100% of failures",
+            "text": "2 runs of 1 test failed with Contrast failed"
+          }
+        ],
+        "totalTestCount": 1
+      },
+      "passed": false
+    },
+    {
+      "scheme": "AuditHostedControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 6.407,
+        "log": "AuditHostedControl-build.log"
+      },
+      "signatureMetadata": {
+        "application": {
+          "readSucceeded": true,
+          "sandboxed": false
+        },
+        "runner": {
+          "readSucceeded": true,
+          "sandboxed": true
+        }
+      },
+      "test": {
+        "exitCode": 65,
+        "timedOut": false,
+        "seconds": 22.119,
+        "log": "AuditHostedControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "72943fdb483a65295ee2b9d9fbfe60ea7fcd41a7",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 1,
+            "passedTests": 0,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "AuditHostedControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "finishTime": 1792334936.192,
+        "passedTests": 0,
+        "result": "Failed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792334916.474,
+        "statistics": [],
+        "testFailures": [
+          {
+            "failureText": "Element has no description",
+            "targetName": "AuditHostedTests",
+            "testIdentifier": 1,
+            "testIdentifierString": "AccessibilityControlUITests/testNativeControlsAndAuditInBothAppearances()",
+            "testIdentifierURL": "test://com.apple.xcode/SceneLaunchControl/AuditHostedTests/AccessibilityControlUITests/testNativeControlsAndAuditInBothAppearances",
+            "testName": "testNativeControlsAndAuditInBothAppearances()"
+          }
+        ],
+        "title": "Test - AuditHostedControl",
+        "topInsights": [
+          {
+            "category": "Common Failures",
+            "impact": "100% of failures",
+            "text": "4 runs of 1 test failed with Element has no description"
+          },
+          {
+            "category": "Common Failures",
+            "impact": "100% of failures",
+            "text": "4 runs of 1 test failed with Action is missing"
+          },
+          {
+            "category": "Common Failures",
+            "impact": "100% of failures",
+            "text": "2 runs of 1 test failed with Contrast failed"
+          }
+        ],
+        "totalTestCount": 1
+      },
+      "passed": false
+    }
+  ],
+  "releaseReady": false,
+  "result": "failed"
+}

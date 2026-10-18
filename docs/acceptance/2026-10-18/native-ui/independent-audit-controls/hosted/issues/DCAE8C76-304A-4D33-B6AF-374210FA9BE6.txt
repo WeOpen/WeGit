@@ -1,0 +1,23 @@
+This element is missing useful accessibility information.
+Attributes: Group, 0x795a8d1040, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+Element subtree:
+ →Group, 0x795a8d1040, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+    StaticText, 0x795a8d1180, {{730.0, 238.0}, {170.0, 14.0}}, identifier: 'control-ready', value: Native SDK control...
+    StaticText, 0x795a8d12c0, {{730.0, 272.0}, {272.0, 14.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+    StaticText, 0x795a8d1400, {{730.0, 306.0}, {62.0, 14.0}}, identifier: 'control-status', value: Activated
+    PopUpButton, 0x795a8d1540, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch
+    MenuButton, 0x795a8d1680, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'
+    Button, 0x795a8d17c0, {{730.0, 384.0}, {74.0, 24.0}}, identifier: 'control-button', label: 'Activate'
+Path to element:
+ →Application, 0x795a8d0c80, pid: 77471, title: 'AuditHostedApp', Disabled
+  ↳Window (Main), 0x795a8d0f00, {{700.0, 176.0}, {520.0, 392.0}}, title: 'Independent accessibility control', Keyboard Focused, Disabled
+   ↳Group, 0x795a8d1040, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.hosted'
+  Output: {
+    Application, 0x795a8ab200, pid: 77471, title: 'AuditHostedApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      Group, 0x795a8abe80, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+    }
