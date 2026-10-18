@@ -215,7 +215,7 @@ final class WeGitUITests: XCTestCase {
 
     @MainActor private func pushUntilReplyIsLost(_ app: XCUIApplication) throws {
         XCTAssertTrue(app.staticTexts["工作区干净"].waitForExistence(timeout: 10))
-        app.buttons["toolbar-push"].click()
+        app.toolbarSyncAction("toolbar-push").click()
         let check = app.buttons["sync-check-target"]
         XCTAssertTrue(check.waitForExistence(timeout: 5))
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: check)
@@ -505,7 +505,7 @@ final class WeGitUITests: XCTestCase {
         app.launchWeGit()
         defer { app.terminate() }
         XCTAssertTrue(app.staticTexts["工作区干净"].waitForExistence(timeout: 10))
-        app.buttons["toolbar-push"].click()
+        app.toolbarSyncAction("toolbar-push").click()
         let check = app.buttons["sync-check-target"]
         XCTAssertTrue(check.waitForExistence(timeout: 5))
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: check)
@@ -530,7 +530,7 @@ final class WeGitUITests: XCTestCase {
         try fixture.git(["-C", peer.path, "push", "origin", "main"])
         // Exercise the application's action without a desktop-wide hotkey handler
         // intercepting this remote workflow (keyboard paths have separate coverage).
-        app.buttons["toolbar-pull"].click()
+        app.toolbarSyncAction("toolbar-pull").click()
         let pull = app.buttons["sync-pull-confirm"]
         XCTAssertTrue(pull.waitForExistence(timeout: 5))
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: pull)
@@ -1035,7 +1035,8 @@ final class WeGitUITests: XCTestCase {
                 .waitForExistence(timeout: 5))
         XCTAssertEqual(app.descendants(matching: .any).matching(identifier: "split-diff-row").count, 14)
         let headers = app.descendants(matching: .any).matching(identifier: "diff-column-headers").firstMatch
-        XCTAssertTrue(headers.label.contains("原始内容") && headers.label.contains("修改后"))
+        XCTAssertTrue(headers.staticTexts["原始内容"].exists)
+        XCTAssertTrue(headers.staticTexts["修改后"].exists)
         app.radioButtons["统一"].click()
         XCTAssertTrue(app.buttons.matching(identifier: "暂存此块").firstMatch.waitForExistence(timeout: 5))
         XCTAssertFalse(
@@ -1207,7 +1208,8 @@ final class WeGitUITests: XCTestCase {
         app.radioButtons["分栏"].click()
         waitForProgress(399, total: 1_200)
         let headers = app.descendants(matching: .any).matching(identifier: "diff-column-headers").firstMatch
-        XCTAssertTrue(headers.label.contains("原始内容") && headers.label.contains("修改后"))
+        XCTAssertTrue(headers.staticTexts["原始内容"].exists)
+        XCTAssertTrue(headers.staticTexts["修改后"].exists)
         app.staticTexts["small.swift"].firstMatch.click()
         XCTAssertTrue(app.buttons["暂存此块"].firstMatch.waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["diff-load-more"].exists)

@@ -2,6 +2,20 @@ import AppKit
 import XCTest
 
 extension XCUIApplication {
+    @MainActor func toolbarSyncAction(_ identifier: String) -> XCUIElement {
+        let direct = windows["main"].buttons[identifier]
+        if direct.exists { return direct }
+        let sync = windows["main"].descendants(matching: .any)
+            .matching(identifier: "toolbar-sync").firstMatch
+        XCTAssertTrue(sync.waitForExistence(timeout: 3))
+        XCTAssertTrue(sync.isHittable)
+        sync.click()
+        let titles = identifier == "toolbar-push" ? ["推送", "Push"] : ["拉取", "Pull"]
+        let action = windows["main"].menuItems.matching(NSPredicate(format: "title IN %@", titles)).firstMatch
+        XCTAssertTrue(action.waitForExistence(timeout: 3))
+        return action
+    }
+
     @MainActor func launchWeGit() {
         var arguments = launchArguments
         if !arguments.contains("-language") { arguments = ["-language", "zh-Hans"] + arguments }

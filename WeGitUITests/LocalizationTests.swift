@@ -60,12 +60,12 @@ final class LocalizationUITests: XCTestCase {
             app.menuItems[choice].click()
             XCTAssertFalse(app.buttons["settings-language-restart"].exists)
             let fileMenu = app.menuBars.menuBarItems["native-menu-file"]
-            XCTAssertEqual(fileMenu.label, choice == "English" ? "File" : "文件")
+            XCTAssertEqual(fileMenu.title, choice == "English" ? "File" : "文件")
             fileMenu.click()
-            XCTAssertEqual(app.menuItems["native-command-close"].label, choice == "English" ? "Close" : "关闭")
+            XCTAssertEqual(app.menuItems["native-command-close"].title, choice == "English" ? "Close" : "关闭")
             app.typeKey(.escape, modifierFlags: [])
             app.menuBars.menuBarItems["native-menu-edit"].click()
-            XCTAssertEqual(app.menuItems["native-command-copy"].label, choice == "English" ? "Copy" : "拷贝")
+            XCTAssertEqual(app.menuItems["native-command-copy"].title, choice == "English" ? "Copy" : "拷贝")
             app.typeKey(.escape, modifierFlags: [])
             XCTAssertEqual(
                 NSRunningApplication.runningApplications(
