@@ -30,7 +30,7 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=accessibil
 
 脚本的进程组截止行为经过实际成功/超时/子进程停止断言；还解析 xcresult 实际数量，拒绝 0 项、跳过、失败及不完整的计数，最小范围必须恰好执行并通过 1 项。超时只负责结束当前测试命令，不重试、不提高产品性能预算。日志、环境与 xcresult 限定归档到对应 Actions artifact。
 
-Swift 夹具执行器与 C 延迟/回执辅助均通过 `xcrun --find git` 使用当前选中 Xcode 的 Git，避免 `/Applications/Xcode.app` 固定路径与预览工具链不一致；所有仓库命令仍先执行原有隔离探针，配置写入约束不变。
+构建阶段通过 `xcrun --find git` 记录当前选中 Xcode 的 Git，Swift 夹具执行器与 C 延迟/回执辅助在运行时读取同一随包回执，避免 `/Applications/Xcode.app` 固定路径与预览工具链不一致；所有仓库命令仍先执行原有隔离探针，配置写入约束不变。
 
 ## 发布边界
 
@@ -65,3 +65,9 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=smoke -f c
 [39010563892](https://github.com/WeOpen/WeGit/actions/runs/39010563892) 在候选 `4609baf` 实际执行并通过 1 项，0 失败/跳过，首次窗口、原生菜单和 Clone 表单正常。公共测试启动器把带值参数放在无值测试标记之前；应用和核心不改。独立场景的原序失败、重排通过，Foundation 探针不能证明更底层解析机制。完整结果见 [修正证据](acceptance/2026-10-17/native-ui/launch-order-fix/README.md)。可继续主分支完整功能回归，但此单项不关闭辅助访问或发布门槛。
 
 2026-10-18 最终 head smoke 与独立回归均通过 1/1、零跳过，CI 全绿后 PR #19 已合入 main `4a9f475`。原始回执与修正前后测试范围证据见 [收尾记录](acceptance/2026-10-18/native-ui/README.md)。功能入口现与 Full acceptance 一致排除人工旁白工作区，零跳过门禁保持；完整功能等待新的主分支运行。
+
+## 2026-10-18 Git 夹具的 sandbox 前置条件
+
+主分支辅助访问尝试的 UI-only smoke 通过后，用例仍在仓库夹具初始化时失败，未执行界面审查。强化 smoke 捕获原始错误 `xcrun: error: cannot be used within an App Sandbox.`（exit 1）。修正把选中 Git 的查找移到构建阶段，让 Swift 夹具与 C 辅助程序直接读取同一绝对路径回执；缺失或无效回执不回退到系统 shim。测试 runner 的 sandbox 和签名配置未变。
+
+候选 `e7f3216` 的 [强化 smoke 39088573828](https://github.com/WeOpen/WeGit/actions/runs/39088573828) 实际执行并通过 1 项，零失败/跳过，17.677 秒；包括欢迎页/Clone、Git 配置隔离与直接/嵌入 Git 版本相同。成功截图和 xcodebuild 生成的 sandbox entitlement 已归档。全部 120 项当前构建输入匹配；相对首窗修正只改变测试目标配置的两项工程输入，其余 118 项应用/核心/资源未变。详见 [夹具工具链记录](acceptance/2026-10-18/native-ui/fixture-toolchain/README.md)。完整功能与自动辅助访问审查继续分别执行，VoiceOver 和发布门槛不因此签收。
