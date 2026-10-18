@@ -2,6 +2,8 @@
 
 更新：2026-10-16。适用仓库：[WeOpen/WeGit](https://github.com/WeOpen/WeGit)。仓库已获用户授权设为 public；项目网站采用 [GitHub Pages](https://weopen.github.io/WeGit/)。本方案不需要 Apple Developer Program 账号，不上架商店、不用 TestFlight。
 
+2026-10-19 v1.0.0 单次例外：维护者明确授权暂缓辅助功能并直接发布。本次在受保护 PR、同提交 main CI 和正式制品校验后人工创建并发布草稿；不声称 Full acceptance 通过，也不改变下述默认稳定版 workflow。范围、未完成项与制品来源见 [1.0.0 版本说明](releases/v1.0.0.md)。
+
 ## 1. 需求的唯一入口：Issues
 
 需求、缺陷、工程验收和发布工作均通过 Issue 记录；长文档继续保存产品规范、架构和证据，Issue 保存优先级、负责人、依赖和当前验收状态。

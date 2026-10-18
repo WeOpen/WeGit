@@ -109,9 +109,9 @@ scripts/verify.sh
 scripts/verify.sh --ui
 ```
 
-The latest core verification passed **183 tests in 32 suites** with both **Apple Git 2.54.0** and an isolated **Git 2.46.0** build. Recent targeted checks cover **34 theme behaviors**, **18 appearance/icon behaviors**, **27 native menu behaviors**, and **6 restored-startup combinations**. These are scoped results, not a V1.0 release sign-off.
+The latest core verification passed **183 tests in 32 suites** with both **Apple Git 2.54.0** and an isolated **Git 2.46.0** build. Recent targeted checks cover **278 theme checks** (including 216 role/background contrast pairs), **18 appearance/icon behaviors**, **27 native menu behaviors**, and **6 restored-startup combinations**. These are scoped results, not a V1.0 release sign-off.
 
-⚠️ Full native UI execution is currently blocked by the recorded XCTest initialization issue. An earlier full run finished 36/37 functional tests, with a long Clone-path input failure; its 144 reading combinations passed on that earlier source. The final UI suite, accessibility review, and final-source Release performance measurements remain open. The current application was merged through [PR #15](https://github.com/WeOpen/WeGit/pull/15), closing Issue #12; [its hosted CI](https://github.com/WeOpen/WeGit/actions/runs/38924928448) passed both 183-test core runs and native feature/build checks; the dedicated full-acceptance runner remains unconfigured. See the [current V1.0 checklist](docs/V1_RELEASE_CHECKLIST.md) for the remaining work.
+Hosted smoke **1/1**, the full native functional suite **45/45** (zero failures/skips), and the reading matrix **144/144** passed at `2c2533c` in [run 39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756). This is functional evidence on the recorded source, not same-commit full acceptance of the release. Accessibility acceptance is deferred; final-source performance, protected-Mac installation and real Beta feedback remain incomplete. See the [release notes](docs/releases/v1.0.0.md) and [current checklist](docs/V1_RELEASE_CHECKLIST.md) for the retained limits.
 
 Tests use isolated configuration files, temporary repositories, and separate preferences. Never run write tests against a repository you cannot afford to change.
 
@@ -119,7 +119,7 @@ Tests use isolated configuration files, temporary repositories, and separate pre
 
 V1.0 focuses on daily Git workflows and readable diffs. **Stash and Tag management, an integrated conflict editor, interactive rebase, Blame, linked worktree/submodule management, and hosting-provider integrations** remain outside the first release. Linked worktree and bare-repository layouts are not currently supported for opening.
 
-The app can hand conflicts to an external editor and continue or abort supported operations. It does not yet include an integrated three-way merge editor. GitLab, Homebrew Git/GPG, additional credential-helper setups, and other untested environments remain explicitly pending in the [compatibility matrix](docs/COMPATIBILITY.md).
+The app can hand conflicts to an external editor and continue or abort supported operations. It does not yet include an integrated three-way merge editor. Homebrew Git core and isolated noninteractive OpenPGP checks have passed. GitLab, interactive Pinentry/hardware keys, additional credential-helper setups, and other untested environments remain explicitly pending in the [compatibility matrix](docs/COMPATIBILITY.md).
 
 ## 📚 Explore the project
 

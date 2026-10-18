@@ -109,9 +109,9 @@ scripts/verify.sh
 scripts/verify.sh --ui
 ```
 
-最新核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 2.46.0** 下分别通过 **183 项测试 / 32 个套件**。近期专项包含 **34 项主题行为、18 项图标行为、27 项原生菜单行为，以及 6 种恢复启动组合**。这些结果有各自验证范围，不代表 V1.0 已完成验收。
+最新核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 2.46.0** 下分别通过 **183 项测试 / 32 个套件**。近期专项包含 **278 项主题检查（含 216 个角色/背景对比度色对）、18 项图标行为、27 项原生菜单行为，以及 6 种恢复启动组合**。这些结果有各自验证范围，不代表 V1.0 已完成验收。
 
-⚠️ 完整原生 UI 执行仍受已记录的 XCTest 初始化问题阻塞。较早的完整回合为 36/37 项功能通过，剩余一项是 Clone 长路径输入失败；144 个阅读组合在该轮旧源码下通过。最终完整 UI、辅助访问和最终源码 Release 性能仍待验。最新应用已通过 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 合并并关闭 Issue #12，[对应托管 CI](https://github.com/WeOpen/WeGit/actions/runs/38924928448) 已通过两套 Git 各 183 项及原生专项/构建检查，专用完整验收 Runner 仍待配置。剩余事项见 [V1.0 当前发布清单](docs/V1_RELEASE_CHECKLIST.md)。
+托管 smoke **1/1**、完整原生功能 **45/45**（零失败/跳过）和阅读矩阵 **144/144** 已在固定源码 `2c2533c` 的[运行 39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756) 通过。这是所记录源码的功能证据，不是发行提交的同提交完整验收。辅助功能暂缓验收；最终源码性能、受保护 Mac 安装与真实 Beta 反馈继续未完成。保留范围见[版本说明](docs/releases/v1.0.0.md)及[当前清单](docs/V1_RELEASE_CHECKLIST.md)。
 
 测试采用隔离配置、临时仓库与独立偏好。请勿把写入测试指向不能承受改动的仓库。
 
@@ -119,7 +119,7 @@ scripts/verify.sh --ui
 
 V1.0 聚焦日常 Git 流程和差异阅读。**Stash / Tag 管理、内置冲突编辑器、Interactive Rebase、Blame、linked worktree / submodule 管理及 Hosting Provider 集成**保留在后续版本。当前不支持打开 linked worktree 和 Bare 仓库布局。
 
-冲突可以在外部编辑器中处理，再回到应用继续或中止支持的操作；当前没有内置三方合并编辑器。GitLab、Homebrew Git/GPG、其他 Helper 组合及未覆盖环境，在[兼容性矩阵](docs/COMPATIBILITY.md)中明确保留待验状态。
+冲突可以在外部编辑器中处理，再回到应用继续或中止支持的操作；当前没有内置三方合并编辑器。Homebrew Git 核心与隔离非交互 OpenPGP 已通过；GitLab、交互式 Pinentry/硬件密钥、其他 Helper 组合及未覆盖环境继续在[兼容性矩阵](docs/COMPATIBILITY.md)中保留待验状态。
 
 ## 📚 项目结构与文档
 
