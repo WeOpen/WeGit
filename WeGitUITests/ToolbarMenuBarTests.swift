@@ -80,6 +80,8 @@ final class ToolbarMenuBarTests: XCTestCase {
         let activity = app.windows["main"].menuItems["活动记录"]
         XCTAssertTrue(activity.waitForExistence(timeout: 3))
         activity.click()
-        XCTAssertTrue(app.staticTexts["活动记录"].firstMatch.waitForExistence(timeout: 5))
+        let activitySheet = window.sheets.firstMatch
+        XCTAssertTrue(activitySheet.staticTexts["Git 活动"].waitForExistence(timeout: 5))
+        XCTAssertTrue(activitySheet.buttons["关闭"].isHittable)
     }
 }
