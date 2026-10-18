@@ -16,6 +16,11 @@ on:
         type: choice
         options: [none, minimum-layout, compact-toolbar, menu-localization, text-settings, theme-interaction, window-restoration, inspector-boundary, sync-recovery, diff-options, large-diff, rebase-conflicts]
         default: none
+      display:
+        description: Temporary hosted-VM display; restore the original mode after the command
+        type: choice
+        options: [large, original]
+        default: large
 permissions:
   contents: read
 defaults:
@@ -51,6 +56,7 @@ jobs:
         run: |
           python3 scripts/ci/ui_source.py --candidate "$UI_CANDIDATE" --scope "$UI_SCOPE" >> "$GITHUB_OUTPUT"
           cp scripts/ci/ui_probe.py "$RUNNER_TEMP/wegit-trusted-ui-probe.py"
+          cp scripts/ci/DisplaySession.swift "$RUNNER_TEMP/wegit-trusted-display-session.swift"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ steps.source.outputs.sha }}
@@ -71,9 +77,20 @@ jobs:
         env:
           UI_SCOPE: ${{ inputs.scope }}
           UI_FOCUS: ${{ inputs.focus }}
+          UI_DISPLAY: ${{ inputs.display }}
         run: |
           case "$UI_SCOPE" in smoke|functional|accessibility) ;; *) exit 2 ;; esac
-          python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE" --focus "$UI_FOCUS"
+          case "$UI_DISPLAY" in
+            large)
+              xcrun swiftc -parse-as-library "$RUNNER_TEMP/wegit-trusted-display-session.swift" -o "$RUNNER_TEMP/wegit-display-session"
+              "$RUNNER_TEMP/wegit-display-session" --report .build/ci/ui/display-session.json -- \
+                python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE" --focus "$UI_FOCUS"
+              ;;
+            original)
+              python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE" --focus "$UI_FOCUS"
+              ;;
+            *) exit 2 ;;
+          esac
       - name: Retain actual environment, failures and results
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

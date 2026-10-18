@@ -1,0 +1,11 @@
+{
+  "swiftCompilationExitCode": 0,
+  "strictFormatPassed": true,
+  "localReadOnlyInspectionPassed": true,
+  "localMutationRefusedBeforeDisplayChange": true,
+  "inspectWithChildCommandRejected": true,
+  "childCommandNotExecutedForInvalidInvocation": true,
+  "localDisplayChanged": false,
+  "hostedModeSwitchAndRestore": "passed-run-39091547236",
+  "releaseReady": false
+}

@@ -84,3 +84,7 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main \
 ```
 
 可选项由 `scripts/ci/ui_probe.py` 的 FOCUSED_TESTS 明确映射到单个测试，不包含完整阅读循环或人工辅助访问工作区。独立 SceneLaunchControl 同时保留只读的当前/可用显示模式及屏幕可见区域回执，不修改显示设置；用于区分 1024×768 VM 条件与宽窗口断言。
+
+## 托管测试显示会话
+
+只读 VM 回执确认原 1024×768 的可见区域仅 1024×674，支持临时 1920×1080。原生 UI 与独立控制使用受信任的 DisplaySession 父进程，在 GitHub-hosted VM 内持有该模式并在子命令结束后恢复原模式；不能在本机调用修改。display=original 保留历史显示条件复现入口，模式缺失或恢复失败明确失败。开始/生效/恢复与子命令状态写入 display-session.json；实际 hosted 验证状态见 [显示会话记录](acceptance/2026-10-18/native-ui/display-session/README.md)。不调整 SIP、Gatekeeper、辅助访问或开发工具授权。
