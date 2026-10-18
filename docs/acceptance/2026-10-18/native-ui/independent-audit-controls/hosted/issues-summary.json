@@ -1,0 +1,72 @@
+[
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: TouchBar, 0x795ae135c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled",
+    "evidence": "E237D027-7C3C-4F19-9C68-61229A076C75.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x795a8d3ac0, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'",
+    "evidence": "4596A242-A944-4C59-8642-00D4229FB718.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: PopUpButton, 0x795a8d1f40, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch",
+    "evidence": "10A4EFFF-FD51-48F5-AC1B-83CEFC702A00.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x795a8a9900, {{700.0, 208.0}, {520.0, 360.0}}, Disabled",
+    "evidence": "EA38B730-5231-4877-B5CF-187E751B2206.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: TouchBar, 0x795a8d1540, {{80.0, 0.0}, {685.0, 30.0}}, Disabled",
+    "evidence": "8413A45D-03E7-4F1A-9D2A-77EFD83F503A.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x795ae11cc0, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'",
+    "evidence": "15477291-2B3E-474E-8109-61F34B39D193.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: PopUpButton, 0x795a8cde00, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch",
+    "evidence": "17B488B7-4E37-4977-8464-4897B2BC9144.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd",
+    "attributes": "Attributes: StaticText, 0x795ae13d40, {{730.0, 272.0}, {272.0, 14.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...",
+    "evidence": "941188F3-3AE8-4EDC-9951-68F354748FD8.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for Native SDK controls ready",
+    "attributes": "Attributes: StaticText, 0x795a8cd7c0, {{730.0, 238.0}, {170.0, 14.0}}, identifier: 'control-ready', value: Native SDK control...",
+    "evidence": "3A5A0133-D62B-42E6-9449-0672F7D5A64C.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x795a8d1040, {{700.0, 208.0}, {520.0, 360.0}}, Disabled",
+    "evidence": "DCAE8C76-304A-4D33-B6AF-374210FA9BE6.txt"
+  }
+]

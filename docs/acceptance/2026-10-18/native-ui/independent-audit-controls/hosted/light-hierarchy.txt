@@ -1,0 +1,71 @@
+Attributes: Application, 0x795ae12a80, pid: 77471, title: 'AuditHostedApp', Disabled
+Element subtree:
+ →Application, 0x795ae12a80, pid: 77471, title: 'AuditHostedApp', Disabled
+    Window (Main), 0x795ae135c0, {{700.0, 176.0}, {520.0, 392.0}}, title: 'Independent accessibility control', Keyboard Focused, Disabled
+      Group, 0x795ae12800, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+        StaticText, 0x795ae12580, {{730.0, 238.0}, {170.0, 14.0}}, identifier: 'control-ready', value: Native SDK control...
+        StaticText, 0x795ae126c0, {{730.0, 272.0}, {272.0, 14.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+        StaticText, 0x795ae12d00, {{730.0, 306.0}, {62.0, 14.0}}, identifier: 'control-status', value: Activated
+        PopUpButton, 0x795ae11040, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch
+        MenuButton, 0x795ae12bc0, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'
+        Button, 0x795ae12940, {{730.0, 384.0}, {74.0, 24.0}}, identifier: 'control-button', label: 'Activate'
+      Button, 0x795ae13980, {{708.0, 184.0}, {16.0, 16.0}}, identifier: '_XCUI:CloseWindow'
+      Button, 0x795ae11400, {{754.0, 184.0}, {16.0, 16.0}}, identifier: '_XCUI:ZoomWindow', Disabled
+        Group, 0x795ae11cc0, {{755.0, 185.0}, {14.0, 14.0}}, Disabled
+          Group, 0x795ae11e00, {{755.0, 185.0}, {14.0, 14.0}}, Disabled
+      Button, 0x795ae12f80, {{731.0, 184.0}, {16.0, 16.0}}, identifier: '_XCUI:MinimizeWindow'
+      StaticText, 0x795ae12080, {{782.0, 184.0}, {220.0, 16.0}}, value: Independent access...
+    MenuBar, 0x795ae121c0, {{0.0, 0.0}, {1920.0, 30.0}}
+      MenuBarItem, 0x795ae12440, {{10.0, 0.0}, {34.0, 30.0}}, title: 'Apple'
+        Menu, 0x795ae11540, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x795ae13ac0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_aboutThisMacRequested:', title: 'About This Mac'
+          MenuItem, 0x795ae13c00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_systemInformationRequested:', title: 'System Information'
+          MenuItem, 0x795ae13d40, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x795ae13e80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_systemSettingsRequested:', title: 'System Settings…'
+          MenuItem, 0x795a8a8000, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_appStoreRequested:', title: 'App Store'
+          MenuItem, 0x795a8a8140, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x795a8a8280, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentsRequested:', title: 'Recent Items'
+            Menu, 0x795a8a83c0, {{0.0, 1080.0}, {0.0, 0.0}}
+              MenuItem, 0x795a8a8500, {{0.0, 1080.0}, {0.0, 0.0}}, title: 'Applications', Disabled
+              MenuItem, 0x795a8a8640, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AuditHostedApp'
+              MenuItem, 0x795a8a8780, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AuditHostedApp” in Finder'
+              MenuItem, 0x795a8a88c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AuditNativeApp'
+              MenuItem, 0x795a8a8a00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AuditNativeApp” in Finder'
+              MenuItem, 0x795a8a8b40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Installer'
+              MenuItem, 0x795a8a8c80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Installer” in Finder'
+              MenuItem, 0x795a8a8dc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'ReorderedApp'
+              MenuItem, 0x795a8a8f00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “ReorderedApp” in Finder'
+              MenuItem, 0x795a8a9040, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'System Settings'
+              MenuItem, 0x795a8a9180, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “System Settings” in Finder'
+              MenuItem, 0x795a8a92c0, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x795a8a9400, {{0.0, 1080.0}, {0.0, 0.0}}, title: 'Documents', Disabled
+              MenuItem, 0x795a8a9540, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AnkaGuestAddons.pkg'
+              MenuItem, 0x795a8a9680, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AnkaGuestAddons.pkg” in Finder'
+              MenuItem, 0x795a8a97c0, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x795a8a9900, {{0.0, 1080.0}, {0.0, 0.0}}, title: 'Servers', Disabled
+              MenuItem, 0x795a8a9a40, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x795a8a9b80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_clearRecentItemsRequested:', title: 'Clear Menu'
+          MenuItem, 0x795a8a9cc0, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x795a8a9e00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_forceQuitPanelRequested:', title: 'Force Quit…'
+          MenuItem, 0x795a8a9f40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_forceQuitRequested:', title: 'Force Quit AuditHostedApp'
+          MenuItem, 0x795a8aa080, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x795a8aa1c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_sleepRequested:', title: 'Sleep'
+          MenuItem, 0x795a8aa300, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_restartRequested:', title: 'Restart…'
+          MenuItem, 0x795a8aa440, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_restartNowRequested:', title: 'Restart'
+          MenuItem, 0x795a8aa580, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_shutDownRequested:', title: 'Shut Down…'
+          MenuItem, 0x795a8aa6c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_shutDownNowRequested:', title: 'Shut Down'
+          MenuItem, 0x795a8aa800, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x795a8aa940, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_lockScreenRequested:', title: 'Lock Screen'
+          MenuItem, 0x795a8aaa80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_logOutRequested:', title: 'Log Out Anka…'
+          MenuItem, 0x795a8aabc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_logOutNowRequested:', title: 'Log Out Anka'
+          MenuItem, 0x795a8aad00, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+      MenuBarItem, 0x795a8aae40, {{43.0, 0.0}, {128.0, 30.0}}, title: 'AuditHostedApp'
+        Menu, 0x795a8aaf80, {{0.0, 1080.0}, {0.0, 0.0}}
+    TouchBar, 0x795a8ab0c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x795ae12a80, pid: 77471, title: 'AuditHostedApp', Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.hosted'
+  Output: {
+    Application, 0x795a8ab200, pid: 77471, title: 'AuditHostedApp', Disabled
+  }

@@ -1,0 +1,16 @@
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x795ae135c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x795ae135c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x795a8aa800, pid: 77682, title: 'AuditHostedApp', Disabled
+  ↳TouchBar, 0x795ae135c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.hosted'
+  Output: {
+    Application, 0x795ae12080, pid: 77682, title: 'AuditHostedApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLAAAAAAAAAA=
+    Output: {
+      TouchBar, 0x795a8d0dc0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+    }

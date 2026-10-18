@@ -1,0 +1,30 @@
+Contrast failed for +1 −0
+Attributes: StaticText, 0x7c40a95900, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0
+Element subtree:
+ →StaticText, 0x7c40a95900, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0
+Path to element:
+ →Application, 0x7c40433980, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c404308c0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c40430c80, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c40431040, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c40431540, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c40420140, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40420000, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c40437e80, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c40435900, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c40be8dc0, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x7c40be8780, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳ScrollView, 0x7c40a96d00, {{840.0, 321.0}, {420.0, 41.0}}, Disabled
+             ↳Outline, 0x7c40a95cc0, {{839.0, 320.0}, {422.0, 43.0}}, identifier: 'commit-files', label: '本次提交的文件变化'
+              ↳OutlineRow, 0x7c40a97c00, {{840.0, 331.0}, {403.0, 30.0}}, Selected, Disabled
+               ↳Cell, 0x7c40a97980, {{850.0, 331.0}, {383.0, 30.0}}, Keyboard Focused, Selected
+                ↳StaticText, 0x7c40a95900, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c401fca00, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29j1QAAAAAAAAA=
+    Output: {
+      StaticText, 0x7c40be2e40, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0
+    }

@@ -1,0 +1,19 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x7c40be8280, {{997.0, 94.0}, {67.0, 18.0}}, identifier: 'toolbar-sync', title: '同步', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'
+Element subtree:
+ →MenuButton, 0x7c40be8280, {{997.0, 94.0}, {67.0, 18.0}}, identifier: 'toolbar-sync', title: '同步', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'
+Path to element:
+ →Application, 0x7c401fde00, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c401fc280, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Toolbar, 0x7c405d4000, {{280.0, 77.0}, {980.0, 52.0}}, Disabled
+    ↳Group, 0x7c40be8500, {{984.0, 77.0}, {93.0, 52.0}}, Disabled
+     ↳MenuButton, 0x7c40be8280, {{997.0, 94.0}, {67.0, 18.0}}, identifier: 'toolbar-sync', title: '同步', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c40bd7c00, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29jhQAAAAAAAAA=
+    Output: {
+      MenuButton, 0x7c405d4500, {{997.0, 94.0}, {67.0, 18.0}}, identifier: 'toolbar-sync', title: '同步', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'
+    }

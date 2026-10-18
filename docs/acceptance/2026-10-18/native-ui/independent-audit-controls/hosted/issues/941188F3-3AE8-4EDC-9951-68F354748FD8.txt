@@ -1,0 +1,18 @@
+Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd
+Attributes: StaticText, 0x795ae13d40, {{730.0, 272.0}, {272.0, 14.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+Element subtree:
+ →StaticText, 0x795ae13d40, {{730.0, 272.0}, {272.0, 14.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+Path to element:
+ →Application, 0x795ae121c0, pid: 77471, title: 'AuditHostedApp', Disabled
+  ↳Window (Main), 0x795ae11540, {{700.0, 176.0}, {520.0, 392.0}}, title: 'Independent accessibility control', Keyboard Focused, Disabled
+   ↳Group, 0x795ae12440, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+    ↳StaticText, 0x795ae13d40, {{730.0, 272.0}, {272.0, 14.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.hosted'
+  Output: {
+    Application, 0x795a8a9400, pid: 77471, title: 'AuditHostedApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMwAAAAAAAAA=
+    Output: {
+      StaticText, 0x795a8a9900, {{730.0, 272.0}, {272.0, 14.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+    }

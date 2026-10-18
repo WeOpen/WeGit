@@ -185,3 +185,11 @@ main `bcca7f3` 的 [39119367892](https://github.com/WeOpen/WeGit/actions/runs/39
 ## 配色与设置名称的候选验证 · 2026-10-18
 
 PR #27 已合入 `734b8e1`；用户允许的内置语义色明度调整和三个设置选择器名称已落地。最终候选主题/字号单项实际均 1/1 通过，零失败/跳过；120 项应用输入与 Git 内容逐文件匹配，实际截图测得菜单文字浅色 4.8733:1、深色 7.5935:1，作者次要文字 4.7417:1 / 8.9032:1。完整证据、采样方法和限制见 [配色 UI 记录](acceptance/2026-10-18/native-ui/contrast-ui-results/README.md)。59 条旧报告尚未在修正后重新审查，报告数不提前扣减；VoiceOver、完整键盘和系统显示选项门槛继续保留。
+
+## 配色后的独立审查 · 2026-10-18
+
+[39135768752](https://github.com/WeOpen/WeGit/actions/runs/39135768752) 在 main 734b8e1 实际完成两主题审查，仍失败：55 条回调（浅 31、深 24），其中说明 22、动作 14、对比度 19。旧 59 条保留，差额不能换算独立缺陷关闭。全部原文与截图见 [本轮审查](acceptance/2026-10-18/native-ui/after-contrast-audit/README.md)。PR #28 的两处功能单项已通过，仍不抵扣这些报告或代替 VoiceOver 验收。
+
+## 独立 SDK 对照 · 2026-10-18
+
+[39137541735](https://github.com/WeOpen/WeGit/actions/runs/39137541735) 的 AppKit 与 SwiftUI 标准控件各执行 1 项、各失败 1 项、零跳过，均完成两主题操作与审查。独立黑白 11pt 标签被报告反差失败，原图主体/背景实测 21:1；SwiftUI 标准 Picker/Menu 动作报告以及框架 Group/Disabled TouchBar 说明也复现。详见 [全部原文与图像](acceptance/2026-10-18/native-ui/independent-audit-controls/README.md)。这为部分 SDK 报告提供独立证据，不统一豁免 WeGit 的 55 条，不代替 VoiceOver、完整键盘或系统辅助访问选项验收。

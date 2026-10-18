@@ -1,0 +1,26 @@
+Contrast is not high enough for 提交者：UI Test <ui@example.invalid> · 2026年10月18日 14:29 unless font size is larger.
+Attributes: StaticText, 0x7c40be8000, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...
+Element subtree:
+ →StaticText, 0x7c40be8000, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...
+Path to element:
+ →Application, 0x7c40432f80, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c40433d40, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c40433340, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c40432080, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c40431180, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c40420140, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40420280, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c40bff700, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c40436440, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c40be8a00, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x7c40be8500, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳StaticText, 0x7c40be8000, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c401fc500, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29jxAAAAAAAAAA=
+    Output: {
+      StaticText, 0x7c404326c0, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...
+    }
