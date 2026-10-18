@@ -35,6 +35,24 @@ struct ThemeChecks {
                 && abs(a.greenComponent - b.greenComponent) < 0.0001
                 && abs(a.blueComponent - b.blueComponent) < 0.0001
         }
+        func level(_ color: NSColor) -> CGFloat {
+            (color.usingColorSpace(.sRGB) ?? color).redComponent
+        }
+        /// Native semantic backgrounds collapse onto one value, so the built-in theme
+        /// derives its own ladder. Assert the shape of that ladder rather than fixed
+        /// numbers, so retuning the steps cannot silently flatten it again.
+        func requireLadder(_ colors: AppColors, _ appearance: String) throws {
+            let levels = [
+                level(colors.resolvedNSColor(.sidebar)), level(colors.resolvedNSColor(.canvas)),
+                level(colors.resolvedNSColor(.chrome)), level(colors.resolvedNSColor(.surface)),
+            ]
+            try require(
+                Set(levels.map { ($0 * 10_000).rounded() }).count == levels.count,
+                "Built-in \(appearance) keeps sidebar, canvas, chrome and surface distinct")
+            try require(
+                levels[0] == levels.min()! && levels[3] == levels.max()!,
+                "Built-in \(appearance) runs from the recessed sidebar up to the raised surface")
+        }
 
         let starter = try CustomTheme.starter.validated()
         try require(
@@ -83,16 +101,12 @@ struct ThemeChecks {
         let nativeDark = preferences.themeColors
         try require(
             nativeDark.custom == nil && nativeDark.dark, "Built-in Dark has no custom color overrides")
-        try require(
-            equal(nativeDark.resolvedNSColor(.canvas), nativeDark.resolvedNSColor(.chrome)),
-            "Built-in Dark header and content share one native background")
+        try requireLadder(nativeDark, "Dark")
         preferences.appearance = "light"
         let nativeLight = preferences.themeColors
         try require(
             nativeLight.custom == nil && !nativeLight.dark, "Built-in Light has no custom color overrides")
-        try require(
-            equal(nativeLight.resolvedNSColor(.canvas), nativeLight.resolvedNSColor(.chrome)),
-            "Built-in Light header and content share one native background")
+        try requireLadder(nativeLight, "Light")
 
         preferences.appearance = "dark"
         let beforePreview = defaults.persistentDomain(forName: suite)!
@@ -165,7 +179,7 @@ struct ThemeChecks {
         probe.colors = nativeDark
         probe.apply()
         try require(
-            equal(window.backgroundColor, nativeDark.resolvedNSColor(.canvas)),
+            equal(window.backgroundColor, nativeDark.resolvedNSColor(.chrome)),
             "Returning from custom restores the native dark window surface")
         let host = NSHostingView(
             rootView: Color.clear.frame(width: 400, height: 300).workbenchAppearance(restored))
@@ -180,7 +194,7 @@ struct ThemeChecks {
         host.layoutSubtreeIfNeeded()
         RunLoop.main.run(until: Date().addingTimeInterval(0.1))
         try require(
-            equal(window.backgroundColor, nativeDark.resolvedNSColor(.canvas)),
+            equal(window.backgroundColor, nativeDark.resolvedNSColor(.chrome)),
             "A mounted SwiftUI window returns from custom preview to built-in Dark")
         var unreadable = theme
         unreadable[.text] = unreadable[.canvas]

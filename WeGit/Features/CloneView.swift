@@ -16,7 +16,7 @@ struct CloneView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            SheetTitle(title: L10n.text("克隆仓库"), symbol: "arrow.down.to.line")
+            SheetTitle(title: L10n.text("克隆仓库"), symbol: "square.on.square")
             Text(L10n.text("优先复用系统 Git 凭证或 SSH Agent；需要输入时会打开独立认证窗口。"))
                 .font(.callout).foregroundStyle(colors.secondaryText)
             Form {

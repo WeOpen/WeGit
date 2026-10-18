@@ -36,34 +36,44 @@ struct DiffContentView: View {
             } else {
                 ScrollViewReader { proxy in
                     GeometryReader { geometry in
-                        let contentWidth = max(split ? 360 : 520, geometry.size.width)
+                        let showsMap = diff.hunks.count > 1
+                        let contentWidth = max(
+                            split ? 360 : 520, geometry.size.width - (showsMap ? 14 : 0))
                         let columnWidth = (contentWidth - 1) / 2
-                        ScrollView([.horizontal, .vertical]) {
-                            Group {
-                                if display.rows.count <= DiffReadBudget.pageRows {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        contentRows(
-                                            split: split, columnWidth: columnWidth,
-                                            controlsWidth: geometry.size.width)
+                        HStack(spacing: 0) {
+                            ScrollView([.horizontal, .vertical]) {
+                                Group {
+                                    if display.rows.count <= DiffReadBudget.pageRows {
+                                        VStack(alignment: .leading, spacing: 0) {
+                                            contentRows(
+                                                split: split, columnWidth: columnWidth,
+                                                controlsWidth: contentWidth)
+                                        }
+                                    } else {
+                                        LazyVStack(alignment: .leading, spacing: 0) {
+                                            contentRows(
+                                                split: split, columnWidth: columnWidth,
+                                                controlsWidth: contentWidth)
+                                        }
                                     }
-                                } else {
-                                    LazyVStack(alignment: .leading, spacing: 0) {
-                                        contentRows(
-                                            split: split, columnWidth: columnWidth,
-                                            controlsWidth: geometry.size.width)
-                                    }
-                                }
-                            }.frame(minWidth: contentWidth, alignment: .leading)
-                                .accessibilityElement(children: .contain).accessibilityLabel(
-                                    L10n.text("文本差异内容"))
-                        }.defaultScrollAnchor(.topLeading).scrollPosition($scrollPosition).contentMargins(
-                            .all, 0, for: .scrollContent
-                        )
-                        .accessibilityIdentifier("diff-content").accessibilityLabel(L10n.text("文本差异"))
-                        .onScrollGeometryChange(for: DiffScrollGeometry.self) {
-                            DiffScrollGeometry($0)
-                        } action: { _, geometry in
-                            scrollGeometry = geometry
+                                }.frame(minWidth: contentWidth, alignment: .leading)
+                                    .accessibilityElement(children: .contain).accessibilityLabel(
+                                        L10n.text("文本差异内容"))
+                            }.defaultScrollAnchor(.topLeading).scrollPosition($scrollPosition).contentMargins(
+                                .all, 0, for: .scrollContent
+                            )
+                            .accessibilityIdentifier("diff-content").accessibilityLabel(L10n.text("文本差异"))
+                            .onScrollGeometryChange(for: DiffScrollGeometry.self) {
+                                DiffScrollGeometry($0)
+                            } action: { _, geometry in
+                                scrollGeometry = geometry
+                            }
+                            if showsMap {
+                                DiffChangeMap(
+                                    hunks: diff.hunks, current: display.currentHunk,
+                                    navigate: display.navigate
+                                ).background(colors.chrome)
+                            }
                         }
                     }
                     .onChange(of: display.navigationID) { _, _ in

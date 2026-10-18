@@ -288,33 +288,35 @@ struct ChangesView: View {
 
     private var composer: some View {
         let stagedCount = session.status.files.lazy.filter(\.staged).count
-        return VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top, spacing: 12) {
-                CommitReadiness(count: stagedCount)
+        return VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .bottom, spacing: 12) {
                 WorkbenchMessageField(message: $session.message)
-                Button {
-                    app.commitCurrent()
-                } label: {
-                    Text(session.amend ? L10n.text("修改提交") : L10n.count("提交（%lld 个文件）", stagedCount))
-                        .frame(minWidth: 110)
-                }.workbenchPrimaryAction()
-                    .tint(colors.primaryAction).controlSize(.large).disabled(
-                        !session.canCommit
-                    )
-                    .accessibilityIdentifier("commit-button")
-                    .help(session.canCommit ? L10n.text("提交已暂存内容 ⌘↩") : session.commitReason)
-                Button {
-                    app.presentSync(.commitAndPush)
-                } label: {
-                    Text(L10n.text("提交并推送…")).frame(minWidth: 110)
-                }.workbenchPrimaryAction().tint(colors.primaryAction).controlSize(.large)
-                    .disabled(!session.canCommitAndPush).accessibilityIdentifier("commit-push-button")
-                    .help(
-                        session.canCommitAndPush
-                            ? L10n.text("先提交本地改动，再推送到指定远端")
-                            : session.canCommit ? session.syncReason : session.commitReason)
+                VStack(spacing: 6) {
+                    Button {
+                        app.commitCurrent()
+                    } label: {
+                        Text(session.amend ? L10n.text("修改提交") : L10n.count("提交（%lld 个文件）", stagedCount))
+                            .frame(maxWidth: .infinity)
+                    }.workbenchPrimaryAction()
+                        .tint(colors.primaryAction).disabled(
+                            !session.canCommit
+                        )
+                        .accessibilityIdentifier("commit-button")
+                        .help(session.canCommit ? L10n.text("提交已暂存内容 ⌘↩") : session.commitReason)
+                    Button {
+                        app.presentSync(.commitAndPush)
+                    } label: {
+                        Text(L10n.text("提交并推送…")).frame(maxWidth: .infinity)
+                    }.workbenchPrimaryAction().tint(colors.primaryAction)
+                        .disabled(!session.canCommitAndPush).accessibilityIdentifier("commit-push-button")
+                        .help(
+                            session.canCommitAndPush
+                                ? L10n.text("先提交本地改动，再推送到指定远端")
+                                : session.canCommit ? session.syncReason : session.commitReason)
+                }.frame(width: 168)
             }
-            HStack {
+            HStack(spacing: 10) {
+                CommitReadiness(count: stagedCount)
                 Toggle(L10n.text("修改上次提交（Amend）"), isOn: $session.amend).toggleStyle(.checkbox).disabled(
                     session.status.head == nil || session.isBusy
                 )

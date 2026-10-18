@@ -7,6 +7,10 @@ enum AppStyle {
     static let surfaceRadius: CGFloat = 14
     static let panelInset: CGFloat = 14
     static let controlHeight: CGFloat = 30
+    /// Frame height for controls living in the unified toolbar. Measured against
+    /// the system sidebar toggle: a 36pt cell draws a 34.5pt surface, and an
+    /// unconstrained glass button in a toolbar cell lands on the same 36/34.5.
+    static let toolbarControlHeight: CGFloat = 36
 }
 
 enum AppMotion {
@@ -152,7 +156,7 @@ struct WorkbenchGlyph: View {
     var body: some View {
         Image(systemName: symbol)
             .font(.system(size: 13, weight: selected ? .semibold : .medium))
-            .foregroundStyle(selected ? colors.selectionText : colors.text)
+            .foregroundStyle(selected ? colors.accent : colors.secondaryText)
             .frame(width: size, height: size)
             .accessibilityHidden(true)
     }
