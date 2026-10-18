@@ -190,7 +190,7 @@ final class LayoutTests: XCTestCase {
                     NSPredicate(format: "value BEGINSWITH %@", "let longValue")
                 ).firstMatch
                 let beforeScroll = code.frame.minX
-                app.scrollViews["diff-content"].scroll(byDeltaX: 400, deltaY: 0)
+                app.scrollViews["diff-content"].scroll(byDeltaX: -400, deltaY: 0)
                 XCTAssertLessThan(code.frame.minX, beforeScroll - 50)
                 visible(app.buttons["暂存此块"].firstMatch)
                 visible(app.buttons["丢弃此块…"].firstMatch)
