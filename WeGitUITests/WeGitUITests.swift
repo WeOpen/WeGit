@@ -857,7 +857,23 @@ final class WeGitUITests: XCTestCase {
         add(screenshot)
         let fixture = try UITestGit(prefix: "WeGitSmokeGit")
         defer { fixture.remove() }
-        XCTAssertTrue(try fixture.git(["--version"]).hasPrefix("git version "))
+        let version = try fixture.git(["--version"])
+        XCTAssertTrue(version.hasPrefix("git version "))
+        let helper = Process()
+        helper.executableURL = try XCTUnwrap(
+            Bundle(for: Self.self).url(forResource: "WeGitTestGit", withExtension: nil))
+        helper.arguments = ["--version"]
+        helper.environment = [
+            "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_SYSTEM": "/dev/null", "LC_ALL": "C",
+        ]
+        let output = Pipe()
+        helper.standardOutput = output
+        helper.standardError = output
+        try helper.run()
+        let actual = output.fileHandleForReading.readDataToEndOfFile()
+        helper.waitUntilExit()
+        XCTAssertEqual(helper.terminationStatus, 0, String(decoding: actual, as: UTF8.self))
+        XCTAssertEqual(String(decoding: actual, as: UTF8.self), version)
     }
     @MainActor func testStageCommitAndHistory() throws {
         continueAfterFailure = false
