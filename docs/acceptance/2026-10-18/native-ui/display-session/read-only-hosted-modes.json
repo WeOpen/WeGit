@@ -1,0 +1,89 @@
+{
+  "availableModes" : [
+    {
+      "height" : 600,
+      "pixelHeight" : 600,
+      "pixelWidth" : 800,
+      "width" : 800
+    },
+    {
+      "height" : 540,
+      "pixelHeight" : 540,
+      "pixelWidth" : 960,
+      "width" : 960
+    },
+    {
+      "height" : 576,
+      "pixelHeight" : 576,
+      "pixelWidth" : 1024,
+      "width" : 1024
+    },
+    {
+      "height" : 768,
+      "pixelHeight" : 768,
+      "pixelWidth" : 1024,
+      "width" : 1024
+    },
+    {
+      "height" : 720,
+      "pixelHeight" : 720,
+      "pixelWidth" : 1280,
+      "width" : 1280
+    },
+    {
+      "height" : 960,
+      "pixelHeight" : 960,
+      "pixelWidth" : 1280,
+      "width" : 1280
+    },
+    {
+      "height" : 756,
+      "pixelHeight" : 756,
+      "pixelWidth" : 1344,
+      "width" : 1344
+    },
+    {
+      "height" : 1008,
+      "pixelHeight" : 1008,
+      "pixelWidth" : 1344,
+      "width" : 1344
+    },
+    {
+      "height" : 900,
+      "pixelHeight" : 900,
+      "pixelWidth" : 1600,
+      "width" : 1600
+    },
+    {
+      "height" : 1200,
+      "pixelHeight" : 1200,
+      "pixelWidth" : 1600,
+      "width" : 1600
+    },
+    {
+      "height" : 1080,
+      "pixelHeight" : 1080,
+      "pixelWidth" : 1920,
+      "width" : 1920
+    },
+    {
+      "height" : 480,
+      "pixelHeight" : 480,
+      "pixelWidth" : 640,
+      "width" : 640
+    }
+  ],
+  "currentMode" : {
+    "height" : 768,
+    "pixelHeight" : 768,
+    "pixelWidth" : 1024,
+    "width" : 1024
+  },
+  "readOnly" : true,
+  "screens" : [
+    {
+      "frame" : "{{0, 0}, {1024, 768}}",
+      "visibleFrame" : "{{0, 63}, {1024, 674}}"
+    }
+  ]
+}
