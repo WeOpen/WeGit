@@ -1,0 +1,29 @@
+Contrast failed for +
+Attributes: StaticText, 0x75a2410280, {{937.5, 486.0}, {9.0, 16.0}}, value: +
+Element subtree:
+ →StaticText, 0x75a2410280, {{937.5, 486.0}, {9.0, 16.0}}, value: +
+Path to element:
+ →Application, 0x75a241de00, pid: 9441, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a241fe80, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Group, 0x75a241e300, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x75a241d680, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x75a241e580, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x75a24b6580, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x75a24b6080, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x75a24b52c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x75a24b4280, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x75a2412d00, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x75a2411400, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳ScrollView, 0x75a2411e00, {{840.0, 445.0}, {420.0, 324.0}}, identifier: 'diff-content', label: '文本差异', Disabled
+             ↳Group, 0x75a2410c80, {{840.0, 445.0}, {520.0, 60.0}}, label: '文本差异内容'
+              ↳Group, 0x75a2413340, {{840.0, 483.0}, {520.0, 22.0}}, identifier: 'unified-diff-row', label: '新增行'
+               ↳StaticText, 0x75a2410280, {{937.5, 486.0}, {9.0, 16.0}}, value: +
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a2460500, pid: 9441, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j5wAAAAAAAAA=
+    Output: {
+      StaticText, 0x75a246be80, {{937.5, 486.0}, {9.0, 16.0}}, value: +
+    }

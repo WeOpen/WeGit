@@ -1,0 +1,26 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x75a2412580, {{972.0, 375.0}, {100.0, 24.0}}, title: '阅读选项'
+Element subtree:
+ →MenuButton, 0x75a2412580, {{972.0, 375.0}, {100.0, 24.0}}, title: '阅读选项'
+Path to element:
+ →Application, 0x75a241e6c0, pid: 9441, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a241d040, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Group, 0x75a241e080, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x75a241da40, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x75a241c640, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x75a24b4000, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x75a24b7d40, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x75a24b75c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x75a24b4640, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x75a2410c80, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x75a24121c0, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳MenuButton, 0x75a2412580, {{972.0, 375.0}, {100.0, 24.0}}, title: '阅读选项'
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a2460140, pid: 9441, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29j0wAAAAAAAAA=
+    Output: {
+      MenuButton, 0x75a2468640, {{972.0, 375.0}, {100.0, 24.0}}, title: '阅读选项'
+    }

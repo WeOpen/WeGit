@@ -1,0 +1,415 @@
+[
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: TouchBar, 0x75a1b248c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled",
+    "evidence": "08033046-9B52-493A-BD78-51F029F6A9B9.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a24b75c0, {{1223.0, 95.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'",
+    "evidence": "BD59C0AA-E6C3-4D12-AB20-5FB5CC440820.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a2458640, {{997.0, 94.0}, {67.0, 18.0}}, identifier: 'toolbar-sync', title: '同步', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'",
+    "evidence": "5580E71E-B02A-4DB9-97C5-3A1D4F183E8B.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a2417c00, {{856.0, 95.0}, {115.0, 17.0}}, identifier: 'current-branch', title: 'main · 无上游', label: 'Triangle-headed arrow branching into two paths', value: 同步状态：无上游",
+    "evidence": "FCE647F9-8DC7-49EC-A8C3-901D0643516E.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for +",
+    "attributes": "Attributes: StaticText, 0x75a2415b80, {{937.5, 486.0}, {9.0, 16.0}}, value: +",
+    "evidence": "4AB84540-1945-4484-9175-7F47E409ED53.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a263a940, {{972.0, 375.0}, {100.0, 24.0}}, title: '阅读选项'",
+    "evidence": "5A25B8EF-2C1A-4D5A-90DE-066660A05B09.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for +1 −0",
+    "attributes": "Attributes: StaticText, 0x75a245bac0, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0",
+    "evidence": "D6F09A67-8BD5-47CE-8886-7FD1396BF41C.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for file.swift",
+    "attributes": "Attributes: StaticText, 0x75a2639900, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift",
+    "evidence": "E0EDC1E8-8360-4184-8818-CFC07E1376E1.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a2459040, {{1169.0, 254.0}, {73.0, 24.0}}, identifier: 'history-operations', title: '所选提交的操作'",
+    "evidence": "253D57A5-B0DD-4D52-B7BF-78F0F3BCD70E.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "attributes": "Attributes: StaticText, 0x75a24b7980, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d...",
+    "evidence": "449A199B-C08F-431B-BAB2-48402C454B6B.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "attributes": "Attributes: StaticText, 0x75a245a800, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d..., Disabled",
+    "evidence": "84741C4B-115F-4197-B059-E7A087AA282C.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for 2026年10月18日 10:30",
+    "attributes": "Attributes: StaticText, 0x75a24b7c00, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 10:30",
+    "evidence": "D12C7DE9-8570-466D-99D2-9D896A62DDC4.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a245b480, {{840.0, 77.0}, {420.0, 692.0}}, Disabled",
+    "evidence": "9DDFFBC4-D798-44F7-B156-62293CF5E0DD.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for 提交 e4c638632af7，作者 UI Test，0 个父提交",
+    "attributes": "Attributes: StaticText, 0x75a2a87700, {{559.0, 291.0}, {143.0, 52.0}}, label: 'Layout fixture', value: 提交 e4c638632af7，作者...",
+    "evidence": "7FA8D50C-D3BA-40FA-A3B6-6AA33C21565D.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a2458140, {{559.0, 283.0}, {264.0, 68.0}}, Disabled",
+    "evidence": "9EB0B7A5-7024-49A0-A2C6-28F1968D1831.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a2a85a40, {{506.0, 283.0}, {36.0, 68.0}}, Disabled",
+    "evidence": "9B4076FB-2D13-411E-A554-3A6BB4461EFC.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: PopUpButton, 0x75a2458640, {{610.0, 177.0}, {74.0, 24.0}}, identifier: 'history-search-field', label: '搜索字段', value: 消息",
+    "evidence": "9AA59E95-C31C-4716-A791-98990CD75FA1.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: PopUpButton, 0x75a24643c0, {{502.0, 177.0}, {100.0, 24.0}}, identifier: 'history-scope', label: '浏览范围', value: 全部引用",
+    "evidence": "32BD2B70-F3E2-4FB3-BE53-5760CCEB1252.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a24583c0, {{280.0, 77.0}, {559.0, 692.0}}, Disabled",
+    "evidence": "FB081C41-A8CA-4B59-BD15-7E70780DBFCA.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a24643c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled",
+    "evidence": "2D77C628-5C24-4646-BEBA-DEA382FE0CE1.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a246a580, {{280.0, 77.0}, {980.0, 692.0}}, Disabled",
+    "evidence": "F245827F-F60C-45E9-AA52-AE83F2D9BCC2.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a24b7700, {{294.0, 311.0}, {194.0, 19.0}}, Disabled",
+    "evidence": "E70B9F8F-E0CC-4DC5-86D9-366C25B32058.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast is not high enough for 提交历史 unless font size is larger.",
+    "attributes": "Attributes: StaticText, 0x75a2639b80, {{296.0, 202.0}, {178.0, 42.0}}, identifier: 'route-提交历史', value: 提交历史",
+    "evidence": "3C8EBD23-9B25-4C0E-A2E7-D21948118E4C.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a2426440, {{294.0, 129.0}, {194.0, 19.0}}, Disabled",
+    "evidence": "761F8E76-C09E-4D59-A3CD-D75546E83CF7.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a2638280, {{280.0, 77.0}, {210.0, 692.0}}, Disabled",
+    "evidence": "826E4E53-1580-46AA-A504-D366B0CDBAA2.txt"
+  },
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a24135c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled",
+    "evidence": "2D867AA2-36FF-406C-88AF-363694D30B33.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: TouchBar, 0x75a2a86940, {{80.0, 0.0}, {685.0, 30.0}}, Disabled",
+    "evidence": "EC5D1AAC-32D6-4637-9C75-400DF984F43F.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a2416080, {{1223.0, 95.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'",
+    "evidence": "F5C3C3D4-ADED-46C6-AEC0-DCE7D5D45A6D.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a2413700, {{997.0, 94.0}, {67.0, 18.0}}, identifier: 'toolbar-sync', title: '同步', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'",
+    "evidence": "AD03B3A4-4FE3-4682-8149-FF2234D2E0FB.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a2415680, {{856.0, 95.0}, {115.0, 17.0}}, identifier: 'current-branch', title: '当前分支：main', label: 'Triangle-headed arrow branching into two paths', value: 同步状态：无上游",
+    "evidence": "1CCA2FD3-628C-46C3-900C-F5547F672091.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for +",
+    "attributes": "Attributes: StaticText, 0x75a2410280, {{937.5, 486.0}, {9.0, 16.0}}, value: +",
+    "evidence": "503A7B3D-53D0-4378-8FF8-2BE145C1A9B3.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast is not high enough for 1 unless font size is larger.",
+    "attributes": "Attributes: StaticText, 0x75a2414dc0, {{919.0, 486.0}, {9.0, 16.0}}, value: 1",
+    "evidence": "89E492F8-1FEC-4628-88AA-B0ECBC85F1FE.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for @@ -0,0 +1 @@",
+    "attributes": "Attributes: StaticText, 0x75a24121c0, {{852.0, 457.0}, {89.0, 14.0}}, value: @@ -0,0 +1 @@",
+    "evidence": "BD2A6443-96CB-44F9-8437-392D987871B3.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 差异块 1 / 1",
+    "attributes": "Attributes: StaticText, 0x75a24152c0, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1",
+    "evidence": "9FB419D4-35A4-4A40-8C51-B737A6F89AD8.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a2412580, {{972.0, 375.0}, {100.0, 24.0}}, title: '阅读选项'",
+    "evidence": "1177B51F-C45E-4817-96B9-864E3421461C.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for +1 −0",
+    "attributes": "Attributes: StaticText, 0x75a24175c0, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0",
+    "evidence": "69F3B7A1-4818-4653-A4F8-F928268A9BD0.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for file.swift",
+    "attributes": "Attributes: StaticText, 0x75a2457480, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift",
+    "evidence": "A521EEEB-EBB7-4111-A370-D7E1D4CE84A4.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast is not high enough for 根提交 · 相对于空树 unless font size is larger.",
+    "attributes": "Attributes: StaticText, 0x75a2419cc0, {{858.0, 289.0}, {89.0, 13.0}}, value: 根提交 · 相对于空树",
+    "evidence": "56A35401-A1B6-4619-8BEA-BCD7A9DB83CA.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: MenuButton, 0x75a24130c0, {{1169.0, 254.0}, {73.0, 24.0}}, identifier: 'history-operations', title: '所选提交的操作'",
+    "evidence": "DC21BFBF-2D07-4D46-847C-425BA1B83562.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "attributes": "Attributes: StaticText, 0x75a2419b80, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d...",
+    "evidence": "1285EB2C-0A8D-4A36-96AE-F952B3E86C7E.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "attributes": "Attributes: StaticText, 0x75a2413c00, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d..., Disabled",
+    "evidence": "C9DD51DB-A30A-4111-B7F4-8FFF1A1013AD.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 提交者：UI Test <ui@example.invalid> · 2026年10月18日 10:30",
+    "attributes": "Attributes: StaticText, 0x75a2419180, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...",
+    "evidence": "7A959A8D-61EA-4B60-A4BF-FA7B40668D84.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 2026年10月18日 10:30",
+    "attributes": "Attributes: StaticText, 0x75a2413840, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 10:30",
+    "evidence": "3A0EFAEF-EB43-4A08-8FA0-49E521FD4C65.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 作者：UI Test <ui@example.invalid>",
+    "attributes": "Attributes: StaticText, 0x75a24b6300, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...",
+    "evidence": "6F06AABB-6485-4A34-8AC0-0E5CEB33768D.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a246b200, {{840.0, 77.0}, {420.0, 692.0}}, Disabled",
+    "evidence": "9D532FD9-8E05-48D2-9B1E-135E6C641151.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a24b4140, {{559.0, 283.0}, {264.0, 68.0}}, Disabled",
+    "evidence": "8929708E-CB38-4E26-A5E0-E324C9F59DC5.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a246bac0, {{506.0, 283.0}, {36.0, 68.0}}, Disabled",
+    "evidence": "05869BD7-4DFF-42C4-9278-564692989811.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: PopUpButton, 0x75a2418500, {{610.0, 177.0}, {74.0, 24.0}}, identifier: 'history-search-field', label: '搜索字段', value: 消息",
+    "evidence": "626A1082-2BA9-4595-9E70-4FC1890D47A3.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "action",
+    "summary": "This element is missing accessibility action support equivalent to click/tap inputs.",
+    "attributes": "Attributes: PopUpButton, 0x75a2466580, {{502.0, 177.0}, {100.0, 24.0}}, identifier: 'history-scope', label: '浏览范围', value: 全部引用",
+    "evidence": "F0CE529B-938C-4542-85DC-2C4573E6A7E8.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a2419400, {{280.0, 77.0}, {559.0, 692.0}}, Disabled",
+    "evidence": "8A505E72-11F4-4901-961A-B299A11840AC.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a246b5c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled",
+    "evidence": "BD3ACE01-808C-442E-B212-F1D24D5872BA.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a24575c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled",
+    "evidence": "95029591-9710-4C94-990D-62F3EF86B649.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a241ca00, {{294.0, 311.0}, {194.0, 19.0}}, Disabled",
+    "evidence": "64596FCD-0426-413C-8ED6-138ED99784AA.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast is not high enough for 提交历史 unless font size is larger.",
+    "attributes": "Attributes: StaticText, 0x75a2463e80, {{296.0, 202.0}, {178.0, 42.0}}, identifier: 'route-提交历史', value: 提交历史",
+    "evidence": "B6DD1E13-C213-487C-AEA9-FEE9EE531856.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 1",
+    "attributes": "Attributes: StaticText, 0x75a245bc00, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1",
+    "evidence": "B7ED61D0-4BBB-4075-8987-1FE6BBB82FF0.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 更改",
+    "attributes": "Attributes: StaticText, 0x75a2a86440, {{340.0, 165.0}, {26.0, 16.0}}, identifier: 'route-更改', value: 更改",
+    "evidence": "1CABBE64-1EF5-45FD-B3C3-F44DF0632952.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a245b840, {{294.0, 129.0}, {194.0, 19.0}}, Disabled",
+    "evidence": "8FF6BFB2-C1DD-4A22-BE0E-B5C6D446FF7F.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a24b7c00, {{280.0, 77.0}, {210.0, 692.0}}, Disabled",
+    "evidence": "E88BB12D-AB0F-4D45-AAE4-793E1DBDDBC1.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: Group, 0x75a2424500, {{280.0, 77.0}, {980.0, 692.0}}, Disabled",
+    "evidence": "25E02A56-69F3-4076-A281-95DF902AB96B.txt"
+  }
+]

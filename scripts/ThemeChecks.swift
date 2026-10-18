@@ -36,6 +36,35 @@ struct ThemeChecks {
                 && abs(a.blueComponent - b.blueComponent) < 0.0001
         }
 
+        func resolve(_ color: NSColor, using colors: AppColors) -> NSColor {
+            var result = color
+            colors.appearance.performAsCurrentDrawingAppearance {
+                result = color.usingColorSpace(.sRGB)!
+            }
+            return result
+        }
+        func painted(_ foreground: NSColor, over background: NSColor) -> NSColor {
+            let foreground = foreground.usingColorSpace(.sRGB)!
+            let background = background.usingColorSpace(.sRGB)!
+            let alpha = foreground.alphaComponent
+            return NSColor(
+                srgbRed: foreground.redComponent * alpha + background.redComponent * (1 - alpha),
+                green: foreground.greenComponent * alpha + background.greenComponent * (1 - alpha),
+                blue: foreground.blueComponent * alpha + background.blueComponent * (1 - alpha), alpha: 1)
+        }
+        func contrast(_ foreground: NSColor, against background: NSColor) -> Double {
+            func luminance(_ color: NSColor) -> Double {
+                let color = color.usingColorSpace(.sRGB)!
+                let components = [color.redComponent, color.greenComponent, color.blueComponent].map {
+                    Double($0) <= 0.04045 ? Double($0) / 12.92 : pow((Double($0) + 0.055) / 1.055, 2.4)
+                }
+                return components[0] * 0.2126 + components[1] * 0.7152 + components[2] * 0.0722
+            }
+            let a = luminance(painted(foreground, over: background))
+            let b = luminance(background)
+            return (max(a, b) + 0.05) / (min(a, b) + 0.05)
+        }
+
         let starter = try CustomTheme.starter.validated()
         try require(
             starter.colors.count == ThemeColorRole.allCases.count,
@@ -93,6 +122,85 @@ struct ThemeChecks {
         try require(
             equal(nativeLight.resolvedNSColor(.canvas), nativeLight.resolvedNSColor(.chrome)),
             "Built-in Light header and content share one native background")
+
+        for dark in [false, true] {
+            for increased in [false, true] {
+                let colors = AppColors(dark: dark, increasedContrast: increased)
+                let canvas = colors.resolvedNSColor(.canvas)
+                let backgrounds: [(String, NSColor)] = [
+                    ("canvas", canvas),
+                    ("added", painted(colors.resolvedNSColor(.diffAdded), over: canvas)),
+                    ("removed", painted(colors.resolvedNSColor(.diffRemoved), over: canvas)),
+                    (
+                        "added word highlight",
+                        painted(
+                            colors.resolvedNSColor(.positive).withAlphaComponent(0.24),
+                            over: painted(colors.resolvedNSColor(.diffAdded), over: canvas))
+                    ),
+                    (
+                        "removed word highlight",
+                        painted(
+                            colors.resolvedNSColor(.negative).withAlphaComponent(0.22),
+                            over: painted(colors.resolvedNSColor(.diffRemoved), over: canvas))
+                    ),
+                    (
+                        "unfocused selection",
+                        resolve(.unemphasizedSelectedContentBackgroundColor, using: colors)
+                    ),
+                ]
+                for role in [
+                    ThemeColorRole.text, .secondaryText, .comment, .positive, .negative, .modified,
+                    .keyword, .string, .number,
+                ] {
+                    // DiffCodeRow applies word backgrounds to text/syntax spans;
+                    // line numbers and status labels sit on the row/base surface.
+                    let syntax = [ThemeColorRole.text, .comment, .keyword, .string, .number].contains(role)
+                    for (name, background) in backgrounds where syntax || !name.contains("word") {
+                        let ratio = contrast(colors.resolvedNSColor(role), against: background)
+                        try require(
+                            ratio >= 4.5,
+                            "Native \(dark ? "Dark" : "Light") increased=\(increased) \(role.rawValue)/\(name) contrast \(ratio) meets 4.5:1"
+                        )
+                    }
+                }
+                for (name, fill) in [
+                    ("primary action", colors.primaryAction),
+                    ("destructive action", colors.destructiveAction),
+                    ("sidebar selection", colors.selectionBackground),
+                ] {
+                    let ratio = contrast(.white, against: resolve(NSColor(fill), using: colors))
+                    try require(
+                        ratio >= 4.5,
+                        "Native \(dark ? "Dark" : "Light") increased=\(increased) white/\(name) contrast \(ratio) meets 4.5:1"
+                    )
+                }
+                let badge = painted(
+                    resolve(NSColor.white.withAlphaComponent(0.09), using: colors),
+                    over: resolve(NSColor(colors.selectionBackground), using: colors))
+                let badgeRatio = contrast(.white, against: badge)
+                try require(
+                    badgeRatio >= 4.5,
+                    "Native selected sidebar count contrast \(badgeRatio) meets 4.5:1 over its translucent badge"
+                )
+                for (role, source) in [
+                    (ThemeColorRole.positive, NSColor.systemGreen), (.negative, .systemRed),
+                    (.modified, .systemOrange), (.keyword, .systemPurple), (.string, .systemBrown),
+                    (.number, .linkColor),
+                ] {
+                    let before = resolve(source, using: colors)
+                    let after = colors.resolvedNSColor(role)
+                    var beforeHue: CGFloat = 0
+                    var afterHue: CGFloat = 0
+                    before.getHue(&beforeHue, saturation: nil, brightness: nil, alpha: nil)
+                    after.getHue(&afterHue, saturation: nil, brightness: nil, alpha: nil)
+                    let difference = abs(beforeHue - afterHue)
+                    try require(
+                        min(difference, 1 - difference) < 0.001,
+                        "Native \(dark ? "Dark" : "Light") increased=\(increased) \(role.rawValue) keeps its source hue"
+                    )
+                }
+            }
+        }
 
         preferences.appearance = "dark"
         let beforePreview = defaults.persistentDomain(forName: suite)!
@@ -197,8 +305,11 @@ struct ThemeChecks {
 
         let report: [String: Any] = [
             "passed": true, "checks": checks, "starterContrastIssues": starter.contrastIssues.count,
+            "nativeContrastMinimum": 4.5,
+            "nativeContrastPairs": checks.filter { $0.hasPrefix("Native ") && $0.contains("contrast") }.count,
+            "nativeHueChecks": checks.filter { $0.contains("keeps its source hue") }.count,
             "scope":
-                "Independent custom colors, persistence, validation, preview rollback and native window surfaces",
+                "Custom colors/persistence/rollback, native surfaces, actual role/background contrast and source hue in four appearance variants",
         ]
         try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])
             .write(to: URL(fileURLWithPath: CommandLine.arguments[1]))

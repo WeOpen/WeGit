@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-18T11:18:15.492751+00:00",
+  "sourceFiles": {
+    "WeGit/DesignSystem/AppColors.swift": "d64d95aeaa427694d07a99af8024eca4c0d52daed64309da47acf1db2d23c89c",
+    "WeGit/DesignSystem/AppStyle.swift": "2c460c9eecd421030d0b5975d6a0ce4366b7b7a6a675aec42419e00c327d08df",
+    "WeGit/Features/SettingsView.swift": "763312715074b8c9663367e5978bcd31b8a90dc12f2175e3c38d247492a386f0",
+    "WeGit/Features/WorkspaceView.swift": "fafa75260eeb800fa4828e4e38d713733e791f2251037b8525a8d612a4086959",
+    "WeGitUITests/ThemeInteractionTests.swift": "eb24f3f5bb6dcac0c38e40368053f5a610875318d9a4f2636fd886615789cac3",
+    "WeGitUITests/SettingsReadingTests.swift": "5c74e2997917d9818ea22bb2b93197dbf88903db707a6eece96c461832b93b90",
+    "scripts/ThemeChecks.swift": "6f10b2577f4722ba366aef9f40598e9311aa6a6d2b9ef4a867f33dbd80e14809"
+  },
+  "themeChecks": 258,
+  "nativeContrastPairs": 200,
+  "nativeHueChecks": 24,
+  "buildForTesting": "succeeded",
+  "localXCTestExecuted": false,
+  "osPermissionsChanged": false
+}

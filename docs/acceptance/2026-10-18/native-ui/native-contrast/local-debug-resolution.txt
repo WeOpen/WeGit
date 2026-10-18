@@ -1,0 +1,1 @@
+1000 native color resolutions (Debug): 0.003728032112121582

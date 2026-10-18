@@ -1,0 +1,26 @@
+Contrast failed for 作者：UI Test <ui@example.invalid>
+Attributes: StaticText, 0x75a24b6300, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...
+Element subtree:
+ →StaticText, 0x75a24b6300, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...
+Path to element:
+ →Application, 0x75a2465400, pid: 9441, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a2465f40, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Group, 0x75a2466080, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x75a2465a40, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x75a2424000, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x75a2461680, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x75a24617c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x75a2461900, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x75a2463e80, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x75a24b6800, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x75a24b4f00, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳StaticText, 0x75a24b6300, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a1b24140, pid: 9441, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jyQAAAAAAAAA=
+    Output: {
+      StaticText, 0x75a2464500, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...
+    }

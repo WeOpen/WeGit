@@ -1,0 +1,531 @@
+[
+  {
+    "index": 5,
+    "theme": "dark",
+    "text": "Contrast failed for +",
+    "bounds": "Attributes: StaticText, 0x75a2415b80, {{937.5, 486.0}, {9.0, 16.0}}, value: +",
+    "crop": "61B691A0-BEB1-4CA3-9691-C503F2A99DD4.png",
+    "size": [
+      10,
+      16
+    ],
+    "background": [
+      32,
+      47,
+      36
+    ],
+    "highestContrastRepeatedPixel": [
+      43,
+      153,
+      70
+    ],
+    "highestContrastPixelCount": 8,
+    "highestRepeatedPixelContrast": 3.848
+  },
+  {
+    "index": 7,
+    "theme": "dark",
+    "text": "Contrast failed for +1 −0",
+    "bounds": "Attributes: StaticText, 0x75a245bac0, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0",
+    "crop": "90566970-CBCC-449B-9B81-19CD8AD7DE61.png",
+    "size": [
+      27,
+      14
+    ],
+    "background": [
+      70,
+      70,
+      70
+    ],
+    "highestContrastRepeatedPixel": [
+      172,
+      172,
+      172
+    ],
+    "highestContrastPixelCount": 4,
+    "highestRepeatedPixelContrast": 4.158
+  },
+  {
+    "index": 8,
+    "theme": "dark",
+    "text": "Contrast failed for file.swift",
+    "bounds": "Attributes: StaticText, 0x75a2639900, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift",
+    "crop": "2DC31B75-54C4-4A63-A954-A38DA1AC2991.png",
+    "size": [
+      42,
+      14
+    ],
+    "background": [
+      70,
+      70,
+      70
+    ],
+    "highestContrastRepeatedPixel": [
+      227,
+      227,
+      227
+    ],
+    "highestContrastPixelCount": 17,
+    "highestRepeatedPixelContrast": 7.354
+  },
+  {
+    "index": 10,
+    "theme": "dark",
+    "text": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "bounds": "Attributes: StaticText, 0x75a24b7980, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d...",
+    "crop": "D553EDF6-CE15-422F-83BD-65A45B6083A8.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      30,
+      30,
+      30
+    ],
+    "highestContrastRepeatedPixel": [
+      221,
+      221,
+      221
+    ],
+    "highestContrastPixelCount": 79,
+    "highestRepeatedPixelContrast": 12.274
+  },
+  {
+    "index": 11,
+    "theme": "dark",
+    "text": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "bounds": "Attributes: StaticText, 0x75a245a800, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d..., Disabled",
+    "crop": "3E401F73-38A5-4C5A-B81E-88027999FBF8.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      30,
+      30,
+      30
+    ],
+    "highestContrastRepeatedPixel": [
+      221,
+      221,
+      221
+    ],
+    "highestContrastPixelCount": 79,
+    "highestRepeatedPixelContrast": 12.274
+  },
+  {
+    "index": 12,
+    "theme": "dark",
+    "text": "Contrast failed for 2026年10月18日 10:30",
+    "bounds": "Attributes: StaticText, 0x75a24b7c00, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 10:30",
+    "crop": "C4BAC019-E741-441B-9C2B-593521EF8E75.png",
+    "size": [
+      108,
+      13
+    ],
+    "background": [
+      30,
+      30,
+      30
+    ],
+    "highestContrastRepeatedPixel": [
+      154,
+      154,
+      154
+    ],
+    "highestContrastPixelCount": 28,
+    "highestRepeatedPixelContrast": 5.925
+  },
+  {
+    "index": 14,
+    "theme": "dark",
+    "text": "Contrast failed for 提交 e4c638632af7，作者 UI Test，0 个父提交",
+    "bounds": "Attributes: StaticText, 0x75a2a87700, {{559.0, 291.0}, {143.0, 52.0}}, label: 'Layout fixture', value: 提交 e4c638632af7，作者...",
+    "crop": "A50D434A-084F-4063-9EDE-DA8AA183F4D1.png",
+    "size": [
+      142,
+      52
+    ],
+    "background": [
+      70,
+      70,
+      70
+    ],
+    "highestContrastRepeatedPixel": [
+      228,
+      228,
+      228
+    ],
+    "highestContrastPixelCount": 15,
+    "highestRepeatedPixelContrast": 7.423
+  },
+  {
+    "index": 23,
+    "theme": "dark",
+    "text": "Contrast is not high enough for 提交历史 unless font size is larger.",
+    "bounds": "Attributes: StaticText, 0x75a2639b80, {{296.0, 202.0}, {178.0, 42.0}}, identifier: 'route-提交历史', value: 提交历史",
+    "crop": "0E06A982-E7D4-4CBD-917E-E26E5FA23831.png",
+    "size": [
+      178,
+      42
+    ],
+    "background": [
+      0,
+      145,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      30,
+      30,
+      30
+    ],
+    "highestContrastPixelCount": 32,
+    "highestRepeatedPixelContrast": 5.155
+  },
+  {
+    "index": 31,
+    "theme": "light",
+    "text": "Contrast failed for +",
+    "bounds": "Attributes: StaticText, 0x75a2410280, {{937.5, 486.0}, {9.0, 16.0}}, value: +",
+    "crop": "F3F1D980-DB9E-4AFF-977A-3E7FD0A03EE1.png",
+    "size": [
+      10,
+      16
+    ],
+    "background": [
+      235,
+      249,
+      238
+    ],
+    "highestContrastRepeatedPixel": [
+      115,
+      216,
+      140
+    ],
+    "highestContrastPixelCount": 8,
+    "highestRepeatedPixelContrast": 1.619
+  },
+  {
+    "index": 32,
+    "theme": "light",
+    "text": "Contrast is not high enough for 1 unless font size is larger.",
+    "bounds": "Attributes: StaticText, 0x75a2414dc0, {{919.0, 486.0}, {9.0, 16.0}}, value: 1",
+    "crop": "FB92C5E5-55F1-40DD-AF9F-698A1CF2B915.png",
+    "size": [
+      9,
+      16
+    ],
+    "background": [
+      235,
+      249,
+      238
+    ],
+    "highestContrastRepeatedPixel": [
+      118,
+      125,
+      119
+    ],
+    "highestContrastPixelCount": 5,
+    "highestRepeatedPixelContrast": 3.887
+  },
+  {
+    "index": 33,
+    "theme": "light",
+    "text": "Contrast failed for @@ -0,0 +1 @@",
+    "bounds": "Attributes: StaticText, 0x75a24121c0, {{852.0, 457.0}, {89.0, 14.0}}, value: @@ -0,0 +1 @@",
+    "crop": "1E188DA2-9A2D-4144-AA7E-483A2E35367E.png",
+    "size": [
+      89,
+      14
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      128,
+      128,
+      128
+    ],
+    "highestContrastPixelCount": 8,
+    "highestRepeatedPixelContrast": 3.949
+  },
+  {
+    "index": 34,
+    "theme": "light",
+    "text": "Contrast failed for 差异块 1 / 1",
+    "bounds": "Attributes: StaticText, 0x75a24152c0, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1",
+    "crop": "D3398FC3-CBC2-401C-A462-E465CA3EFC5B.png",
+    "size": [
+      55,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      39,
+      39,
+      39
+    ],
+    "highestContrastPixelCount": 6,
+    "highestRepeatedPixelContrast": 14.938
+  },
+  {
+    "index": 36,
+    "theme": "light",
+    "text": "Contrast failed for +1 −0",
+    "bounds": "Attributes: StaticText, 0x75a24175c0, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0",
+    "crop": "62D6BE27-A317-4FD2-8EC3-981F9BD54BB2.png",
+    "size": [
+      27,
+      14
+    ],
+    "background": [
+      220,
+      220,
+      220
+    ],
+    "highestContrastRepeatedPixel": [
+      123,
+      123,
+      123
+    ],
+    "highestContrastPixelCount": 3,
+    "highestRepeatedPixelContrast": 3.087
+  },
+  {
+    "index": 37,
+    "theme": "light",
+    "text": "Contrast failed for file.swift",
+    "bounds": "Attributes: StaticText, 0x75a2457480, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift",
+    "crop": "270669F1-90A4-4630-937D-83F6F51CE632.png",
+    "size": [
+      42,
+      14
+    ],
+    "background": [
+      220,
+      220,
+      220
+    ],
+    "highestContrastRepeatedPixel": [
+      39,
+      39,
+      39
+    ],
+    "highestContrastPixelCount": 6,
+    "highestRepeatedPixelContrast": 10.894
+  },
+  {
+    "index": 38,
+    "theme": "light",
+    "text": "Contrast is not high enough for 根提交 · 相对于空树 unless font size is larger.",
+    "bounds": "Attributes: StaticText, 0x75a2419cc0, {{858.0, 289.0}, {89.0, 13.0}}, value: 根提交 · 相对于空树",
+    "crop": "D7C23B5C-CD1B-4F6C-A964-205E2F982345.png",
+    "size": [
+      89,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      129,
+      129,
+      129
+    ],
+    "highestContrastPixelCount": 3,
+    "highestRepeatedPixelContrast": 3.896
+  },
+  {
+    "index": 40,
+    "theme": "light",
+    "text": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "bounds": "Attributes: StaticText, 0x75a2419b80, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d...",
+    "crop": "FAD76A46-2221-4ED4-B4C1-802243E8D783.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      39,
+      39,
+      39
+    ],
+    "highestContrastPixelCount": 4,
+    "highestRepeatedPixelContrast": 14.938
+  },
+  {
+    "index": 41,
+    "theme": "light",
+    "text": "Contrast failed for e4c638632af72c483ddfcf614463aeff636787f7",
+    "bounds": "Attributes: StaticText, 0x75a2413c00, {{858.0, 259.5}, {248.0, 13.0}}, value: e4c638632af72c483d..., Disabled",
+    "crop": "3DCFA17F-B52B-4539-B11C-973536E13EFA.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      39,
+      39,
+      39
+    ],
+    "highestContrastPixelCount": 4,
+    "highestRepeatedPixelContrast": 14.938
+  },
+  {
+    "index": 42,
+    "theme": "light",
+    "text": "Contrast failed for 提交者：UI Test <ui@example.invalid> · 2026年10月18日 10:30",
+    "bounds": "Attributes: StaticText, 0x75a2419180, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...",
+    "crop": "AE3F96AE-915B-4C32-A7C8-1BC138C852DE.png",
+    "size": [
+      298,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      128,
+      128,
+      128
+    ],
+    "highestContrastPixelCount": 3,
+    "highestRepeatedPixelContrast": 3.949
+  },
+  {
+    "index": 43,
+    "theme": "light",
+    "text": "Contrast failed for 2026年10月18日 10:30",
+    "bounds": "Attributes: StaticText, 0x75a2413840, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 10:30",
+    "crop": "16C6A63E-4F7C-4B6D-9AAA-4E4BBCA039A2.png",
+    "size": [
+      108,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      134,
+      134,
+      134
+    ],
+    "highestContrastPixelCount": 3,
+    "highestRepeatedPixelContrast": 3.641
+  },
+  {
+    "index": 44,
+    "theme": "light",
+    "text": "Contrast failed for 作者：UI Test <ui@example.invalid>",
+    "bounds": "Attributes: StaticText, 0x75a24b6300, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...",
+    "crop": "8C1E603C-6081-483D-8E1C-641EB2602730.png",
+    "size": [
+      172,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      129,
+      129,
+      129
+    ],
+    "highestContrastPixelCount": 6,
+    "highestRepeatedPixelContrast": 3.896
+  },
+  {
+    "index": 54,
+    "theme": "light",
+    "text": "Contrast is not high enough for 提交历史 unless font size is larger.",
+    "bounds": "Attributes: StaticText, 0x75a2463e80, {{296.0, 202.0}, {178.0, 42.0}}, identifier: 'route-提交历史', value: 提交历史",
+    "crop": "FD9179ED-101F-4D3F-B101-54FD4BC1DD6D.png",
+    "size": [
+      178,
+      42
+    ],
+    "background": [
+      0,
+      136,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastPixelCount": 163,
+    "highestRepeatedPixelContrast": 3.52
+  },
+  {
+    "index": 55,
+    "theme": "light",
+    "text": "Contrast failed for 1",
+    "bounds": "Attributes: StaticText, 0x75a245bc00, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1",
+    "crop": "1092262C-00A7-4FA8-A1CD-4007C8F234D0.png",
+    "size": [
+      8,
+      14
+    ],
+    "background": [
+      244,
+      244,
+      244
+    ],
+    "highestContrastRepeatedPixel": [
+      9,
+      9,
+      9
+    ],
+    "highestContrastPixelCount": 7,
+    "highestRepeatedPixelContrast": 18.104
+  },
+  {
+    "index": 56,
+    "theme": "light",
+    "text": "Contrast failed for 更改",
+    "bounds": "Attributes: StaticText, 0x75a2a86440, {{340.0, 165.0}, {26.0, 16.0}}, identifier: 'route-更改', value: 更改",
+    "crop": "C46084FE-31A7-421D-8D28-4E7A21D36F82.png",
+    "size": [
+      26,
+      16
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "highestContrastRepeatedPixel": [
+      0,
+      0,
+      0
+    ],
+    "highestContrastPixelCount": 21,
+    "highestRepeatedPixelContrast": 21.0
+  }
+]

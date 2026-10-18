@@ -1,0 +1,19 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x75a2416080, {{1223.0, 95.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'
+Element subtree:
+ →MenuButton, 0x75a2416080, {{1223.0, 95.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'
+Path to element:
+ →Application, 0x75a2a87d40, pid: 9441, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a2a86d00, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Toolbar, 0x75a2415a40, {{280.0, 77.0}, {980.0, 52.0}}, Disabled
+    ↳Group, 0x75a2416a80, {{1212.0, 77.0}, {44.0, 52.0}}, Disabled
+     ↳MenuButton, 0x75a2416080, {{1223.0, 95.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a245bc00, pid: 9441, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jQwAAAAAAAAA=
+    Output: {
+      MenuButton, 0x75a241af80, {{1223.0, 95.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'
+    }

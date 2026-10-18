@@ -1,6 +1,6 @@
 # WeGit 辅助访问验收记录
 
-更新：2026-10-11。**自动辅助访问审查尚未通过，VoiceOver 手动验收尚未完成。** 功能用例、窗口布局和辅助访问审查分别记录，不能用鼠标操作成功代替读屏与键盘验收。
+更新：2026-10-18。**自动辅助访问审查尚未通过，VoiceOver 手动验收尚未完成。** 功能用例、窗口布局和辅助访问审查分别记录，不能用鼠标操作成功代替读屏与键盘验收。
 
 ## 1. 环境与范围
 
@@ -32,9 +32,9 @@ xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
 
 这些改进已经接入源码；只有实际通过的用例才计入对应验证结果。
 
-## 3. 尚待判定的原生报告
+## 3. 历史原生报告（2026-10-11）
 
-最新审查结果保留在 `.build-app/v1-native-anchor-audit.xcresult`，原始报告及截图导出至 `.build-app/qa/v1-accessibility-audit/`。辅助访问用例在浅色/深色下共报告 44 项，未通过；同一文字的普通与可选择文本节点可能各产生一条报告，不能把报告条数等同于独立缺陷数。
+2026-10-11 的历史审查结果保留在 `.build-app/v1-native-anchor-audit.xcresult`，原始报告及截图导出至 `.build-app/qa/v1-accessibility-audit/`。辅助访问用例在浅色/深色下共报告 44 项，未通过；同一文字的普通与可选择文本节点可能各产生一条报告，不能把报告条数等同于独立缺陷数。
 
 | 类别 | 浅色 | 深色 |
 | --- | ---: | ---: |
@@ -175,3 +175,9 @@ VoiceOver 初次引导已退出，但本轮自动控制未取得可核对的朗�
 ## 2026-10-18 执行恢复后的自动审查前置失败
 
 Git 夹具与启动前置已修正，强化 smoke 通过。[独立审查 39089168828](https://github.com/WeOpen/WeGit/actions/runs/39089168828) 在 main `6087cf7` 先通过 smoke 1/1，再执行审查用例 1、失败 1、零跳过。失败在旧侧栏 Outline 查询，尚未调用 performAccessibilityAudit，因此没有新系统报告，旧 44 条与 VoiceOver/完整键盘/系统显示选项验收仍未关闭。保留 [原始基线](acceptance/2026-10-18/native-ui/full-baseline/README.md)，后续先用有界单项诊断核对当前语义树。
+
+## 当前实际自动审查 · 2026-10-18
+
+main `bcca7f3` 的 [39119367892](https://github.com/WeOpen/WeGit/actions/runs/39119367892) 实际完成两主题系统审查；强化 smoke 1/1 通过，审查执行 1、失败 1、跳过 0。回调共 59 条：说明 22、动作 14、对比度 23（浅色 33、深色 26）。[完整索引](acceptance/2026-10-18/native-ui/current-audit/README.md) 保留全部原始文本和元素 PNG。旧 44 条保留旧源码与范围，新数量不等于独立缺陷数。没有统一忽略或把原生/Disabled 元素直接豁免。
+
+用户已允许内置语义色只调整明度来满足 4.5:1，并保持色相和布局。[修正记录](acceptance/2026-10-18/native-ui/native-contrast/README.md) 保留实际颜色复核与回归失败/通过证据。设置三个选择器的明确名称独立于该历史页审查；这些修正仍需候选原生 UI 与稳定源码重新审查，不能提前关闭 59 条或 VoiceOver/完整键盘门槛。

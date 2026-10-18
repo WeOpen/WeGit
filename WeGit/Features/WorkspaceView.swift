@@ -242,7 +242,7 @@ struct WorkspaceView: View {
                         .frame(height: app.preferences.density == "compact" ? 34 : 42)
                         .foregroundStyle(app.workspace.route == route ? colors.selectionText : colors.text)
                         .background(
-                            app.workspace.route == route ? colors.brandBlue : Color.clear,
+                            app.workspace.route == route ? colors.selectionBackground : Color.clear,
                             in: .rect(cornerRadius: AppStyle.controlRadius)
                         )
                         .tag(route).accessibilityIdentifier("route-\(route.id)")

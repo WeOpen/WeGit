@@ -1,0 +1,19 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x75a2417c00, {{856.0, 95.0}, {115.0, 17.0}}, identifier: 'current-branch', title: 'main · 无上游', label: 'Triangle-headed arrow branching into two paths', value: 同步状态：无上游
+Element subtree:
+ →MenuButton, 0x75a2417c00, {{856.0, 95.0}, {115.0, 17.0}}, identifier: 'current-branch', title: 'main · 无上游', label: 'Triangle-headed arrow branching into two paths', value: 同步状态：无上游
+Path to element:
+ →Application, 0x75a1b27ac0, pid: 10867, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a1b275c0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Toolbar, 0x75a2414000, {{280.0, 77.0}, {980.0, 52.0}}, Disabled
+    ↳Group, 0x75a2415180, {{843.0, 77.0}, {141.0, 52.0}}, Disabled
+     ↳MenuButton, 0x75a2417c00, {{856.0, 95.0}, {115.0, 17.0}}, identifier: 'current-branch', title: 'main · 无上游', label: 'Triangle-headed arrow branching into two paths', value: 同步状态：无上游
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a2427d40, pid: 10867, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 10867, token: cyoAAAAAAABvY29jRgAAAAAAAAA=
+    Output: {
+      MenuButton, 0x75a241b480, {{856.0, 95.0}, {115.0, 17.0}}, identifier: 'current-branch', title: 'main · 无上游', label: 'Triangle-headed arrow branching into two paths', value: 同步状态：无上游
+    }

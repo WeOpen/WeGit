@@ -84,6 +84,10 @@ final class ThemeInteractionTests: XCTestCase {
                 XCTAssertGreaterThan(main, 0.75)
                 XCTAssertGreaterThan(panel, 0.75)
             }
+            let selectedRoute = app.staticTexts.matching(
+                NSPredicate(format: "identifier == %@ AND value == %@", "route-更改", "更改")
+            ).firstMatch
+            XCTAssertGreaterThanOrEqual(try textContrast(in: selectedRoute.frame), 4.5)
             theme.click()
             app.menuItems["跟随系统"].click()
             XCTAssertEqual(try luminance(at: backgroundPoint(code.frame)), systemLuminance, accuracy: 0.08)
@@ -118,6 +122,26 @@ final class ThemeInteractionTests: XCTestCase {
                     at: CGPoint(x: pane.frame.minX - 0.5, y: pane.frame.minY + pane.frame.height * fraction)),
                 0.5)
         }
+        app.typeKey("2", modifierFlags: .command)
+        let commit = app.outlines["history-list"].staticTexts["Theme fixture"].firstMatch
+        XCTAssertTrue(commit.waitForExistence(timeout: 5))
+        commit.click()
+        for title in ["浅色", "深色"] {
+            app.typeKey(",", modifierFlags: .command)
+            theme.click()
+            app.menuItems[title].click()
+            settings.buttons[XCUIIdentifierCloseWindow].click()
+            let author = app.staticTexts.matching(
+                NSPredicate(format: "value BEGINSWITH %@", "作者：")
+            ).firstMatch
+            XCTAssertTrue(author.waitForExistence(timeout: 5))
+            XCTAssertTrue(app.windows["main"].frame.contains(author.frame))
+            XCTAssertGreaterThanOrEqual(try textContrast(in: author.frame), 4.5)
+            let screenshot = XCTAttachment(screenshot: app.screenshot())
+            screenshot.name = "Readable native colors - " + title
+            screenshot.lifetime = .keepAlways
+            self.add(screenshot)
+        }
         XCTAssertEqual(try fixture.git(["rev-parse", "HEAD"]), head)
         XCTAssertEqual(try fixture.git(["status", "--porcelain=v1"]), status)
     }
@@ -140,6 +164,51 @@ final class ThemeInteractionTests: XCTestCase {
         let color = try XCTUnwrap(
             bitmap.colorAt(x: Int(point.x * sx), y: Int(point.y * sy))?.usingColorSpace(.sRGB))
         return color.redComponent * 0.2126 + color.greenComponent * 0.7152 + color.blueComponent * 0.0722
+    }
+
+    @MainActor private func textContrast(in frame: CGRect) throws -> Double {
+        let (bitmap, sx, sy) = try capture()
+        // A selected SwiftUI row can expose its full rounded background as the
+        // text frame. Exclude its corners, which belong to the surrounding view.
+        let rect = frame.width > 80 && frame.height > 30 ? frame.insetBy(dx: 5, dy: 5) : frame
+        let xStart = max(0, Int(rect.minX * sx))
+        let xEnd = min(bitmap.pixelsWide, Int(rect.maxX * sx))
+        let yStart = max(0, Int(rect.minY * sy))
+        let yEnd = min(bitmap.pixelsHigh, Int(rect.maxY * sy))
+        guard xStart < xEnd, yStart < yEnd else {
+            XCTFail("Text frame is outside the screen: \(frame)")
+            return 0
+        }
+        var pixels: [UInt32: Int] = [:]
+        for y in yStart..<yEnd {
+            for x in xStart..<xEnd {
+                guard let color = bitmap.colorAt(x: x, y: y)?.usingColorSpace(.sRGB) else { continue }
+                let red = UInt32((color.redComponent * 255).rounded())
+                let green = UInt32((color.greenComponent * 255).rounded())
+                let blue = UInt32((color.blueComponent * 255).rounded())
+                pixels[red << 16 | green << 8 | blue, default: 0] += 1
+            }
+        }
+        func luminance(_ rgb: UInt32) -> Double {
+            let values = [rgb >> 16 & 255, rgb >> 8 & 255, rgb & 255].map { value in
+                let channel = Double(value) / 255
+                return channel <= 0.04045 ? channel / 12.92 : pow((channel + 0.055) / 1.055, 2.4)
+            }
+            return values[0] * 0.2126 + values[1] * 0.7152 + values[2] * 0.0722
+        }
+        let background = try XCTUnwrap(pixels.max(by: { $0.value < $1.value })?.key)
+        let back = luminance(background)
+        let ink = pixels.filter { $0.value >= 3 }.map { luminance($0.key) }
+        let front = try XCTUnwrap(back < 0.5 ? ink.max() : ink.min())
+        let ratio = (max(front, back) + 0.05) / (min(front, back) + 0.05)
+        let measurement = XCTAttachment(
+            string:
+                "frame=\(frame) backgroundRGB=\(String(background, radix: 16)) inkLuminance=\(front) contrast=\(ratio)"
+        )
+        measurement.name = "Rendered native text contrast"
+        measurement.lifetime = .keepAlways
+        add(measurement)
+        return ratio
     }
 
     @MainActor private func bluePixelCount(in rect: CGRect) throws -> Int {
