@@ -1,11 +1,15 @@
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import ui_probe
 from ui_probe import run_logged, verify_summary
 from ui_source import choose_source
 
@@ -42,6 +46,30 @@ class NativeProcessDeadlineTests(unittest.TestCase):
             # A terminated child may briefly be a zombie until its init parent reaps it.
             status = subprocess.run(["ps", "-o", "stat=", "-p", str(child_pid)], capture_output=True, text=True)
             self.assertTrue(status.returncode != 0 or status.stdout.strip().startswith("Z"), status.stdout)
+
+
+class NativeScopeSelectionTests(unittest.TestCase):
+    def test_automatic_scopes_keep_opt_in_manual_session_out_of_zero_skip_acceptance(self):
+        summary = {"totalTestCount": 1, "passedTests": 1, "failedTests": 0, "skippedTests": 0}
+        for mode in ("functional", "accessibility"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as folder:
+                with patch.object(sys, "argv", ["ui_probe.py", "--mode", mode, "--output", folder]), \
+                     patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                     patch.object(ui_probe, "run_logged", return_value={"exitCode": 0, "timedOut": False}) as runner, \
+                     patch.object(ui_probe, "result_summary", return_value=summary), \
+                     redirect_stdout(StringIO()):
+                    ui_probe.main()
+                self.assertEqual(runner.call_count, 2)
+                smoke, selected = (call.args[0] for call in runner.call_args_list)
+                self.assertIn("-only-testing:WeGitUITests/WeGitUITests/testWelcomeAndCloneForm", smoke)
+                audit = "WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes"
+                if mode == "functional":
+                    self.assertIn("-skip-testing:WeGitUITests/ManualAccessibilitySession", selected)
+                    self.assertIn("-skip-testing:" + audit, selected)
+                    self.assertFalse(any(value.startswith("-only-testing:") for value in selected))
+                else:
+                    self.assertIn("-only-testing:" + audit, selected)
+                    self.assertFalse(any(value.startswith("-skip-testing:") for value in selected))
 
 
 class NativeCandidateSourceTests(unittest.TestCase):

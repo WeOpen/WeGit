@@ -124,9 +124,12 @@ def main():
     verify_summary(summary, smoke=True)
     print("One minimal native UI test actually executed and passed.", flush=True)
     if args.mode != "smoke":
-        selection = ("-only-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes"
-                     if args.mode == "accessibility" else "-skip-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes")
-        result = run_logged(base + [selection, "-resultBundlePath", str(args.output / (args.mode + ".xcresult"))],
+        selection = (["-only-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes"]
+                     if args.mode == "accessibility" else [
+                         "-skip-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes",
+                         "-skip-testing:WeGitUITests/ManualAccessibilitySession",
+                     ])
+        result = run_logged(base + selection + ["-resultBundlePath", str(args.output / (args.mode + ".xcresult"))],
                             args.output / (args.mode + ".log"), 5400)
         summary = result_summary(args.output / (args.mode + ".xcresult"), args.output / (args.mode + "-summary.json"))
         report["tests"].append({"scope": args.mode, **result, "summary": summary})

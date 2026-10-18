@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-17T06:48:18.458003+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "sourceCommit": "84df3ed49635fa0e8bc35c8d723e821816954b81",
+  "workspaceDirty": false,
+  "imageVersion": "20261012.0260.1",
+  "runId": "39011174351",
+  "manager": {
+    "exitCode": 0,
+    "output": "Aqua"
+  },
+  "consoleUIDMatches": true,
+  "developerTools": {
+    "exitCode": 0,
+    "output": "Developer mode is currently enabled."
+  },
+  "interactivePrerequisites": true,
+  "sip": {
+    "exitCode": 0,
+    "output": "System Integrity Protection status: disabled."
+  },
+  "gatekeeper": {
+    "exitCode": 0,
+    "output": "assessments enabled"
+  },
+  "xcode": {
+    "exitCode": 0,
+    "output": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "firstLaunch": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "selectedGit": {
+    "exitCode": 0,
+    "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+  },
+  "osPermissionsChanged": false,
+  "mode": "smoke",
+  "tests": [
+    {
+      "scope": "smoke",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 20.182,
+      "log": "smoke.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "80a8de15da3585af3f09dccd07a68d4fdd4ed8c9",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792219719.077,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792219701.488,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - WeGit",
+        "topInsights": [],
+        "totalTestCount": 1
+      }
+    }
+  ],
+  "releaseReady": false
+}
