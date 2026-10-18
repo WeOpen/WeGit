@@ -6,6 +6,6 @@
   "inspectWithChildCommandRejected": true,
   "childCommandNotExecutedForInvalidInvocation": true,
   "localDisplayChanged": false,
-  "hostedModeSwitchAndRestore": "pending",
+  "hostedModeSwitchAndRestore": "passed-run-39091547236",
   "releaseReady": false
 }

@@ -9,3 +9,5 @@
 原生 UI 与独立控制 workflow 默认选择 large；display=original 可显式复现历史默认显示条件。候选的 helper 源码和 Python 驱动均先由受信任 main 复制，再签出固定候选。readonly token、宿主机约束、测试 runner sandbox 与系统安全/辅助访问权限没有改变。
 
 本机仅编译 helper、执行只读 inspection 和拒绝本机修改/拒绝 inspect 搭配 child 命令的检查，没有改变本机显示设置。实际 hosted 切换、1920 子测试与恢复原模式的回执仍待新场景控制运行，不能提前宣称成功。
+
+[实际切换与恢复 39091547236](https://github.com/WeOpen/WeGit/actions/runs/39091547236) 在候选 `53e2ff8` 证实：原 1024×768 → 生效 1920×1080 → 恢复原 1024×768，setError=0、restoreError=0、restored=true、childExitCode=0，见 hosted-session.json。子独立控制实际执行 1、通过 1、失败 0、跳过 0。系统权限未改；此证据只证明显示会话与独立窗口，不证明产品阅读矩阵或完整功能通过。
