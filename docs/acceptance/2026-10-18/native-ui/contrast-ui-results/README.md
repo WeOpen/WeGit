@@ -20,3 +20,5 @@
 [必需 CI 39134793090](https://github.com/WeOpen/WeGit/actions/runs/39134793090) 通过 Native macOS / Repository policy，PR policy 和独立场景控制亦通过。CI 合成提交为 `bba0a6a0b759a4c7210d4050acd6cd660c167273`；归档 Release 的全部 120 项应用输入匹配候选源文件。VM 主题 checker 实际通过 278 项（216 色对、28 色相及既有 34 项），结果在 `vm-theme-checks.json`。本机仅编译和独立 checker，没有 XCTest。
 
 这两项候选回归不等于最终主分支 45 项完整功能或独立审查通过。bcca7f3 的 43/45、144 组合成功是此前基线；新的两处失败诊断与最终统一回归单独记录。VM 原始 SIP disabled / Gatekeeper enabled，因此不能替代受保护机器的安装或发布签收。无报告忽略规则，无系统授权或全局 Git 配置变更。
+
+补充逐字区域复核排除菜单箭头：四个菜单 Light 均为 6.3230:1、Dark 均为 8.0529:1，ROI 与原始采样见 menu-title-pixel-probes.json。前述 4.8733 / 7.5935 是包含箭头的整个内部区域，两个范围分别保留，不改写原测试回执。

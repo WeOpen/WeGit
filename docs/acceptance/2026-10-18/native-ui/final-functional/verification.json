@@ -1,0 +1,19 @@
+{
+  "runId": 39137123756,
+  "sourceCommit": "2c2533c1f0ef7e084f57eae3144f616416e4d608",
+  "actualCounts": {
+    "total": 45,
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0
+  },
+  "applicationInputCount": 120,
+  "sourceInputsVerifiedAgainstGitAndCurrentTree": true,
+  "readingCombinations": 144,
+  "readingCasePassed": true,
+  "readingSeconds": 1778.596,
+  "functionalCommandSeconds": 3234.532,
+  "runtimeWarningNodes": 9,
+  "all144ImagesRetainedInArtifactAndLocalResult": true,
+  "releaseReady": false
+}

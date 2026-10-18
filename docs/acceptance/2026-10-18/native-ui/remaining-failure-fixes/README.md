@@ -15,4 +15,4 @@
 
 独立临时 Git 探针也确认：相同的空 porcelain 输出，默认 status 可刷新 index 字节/mtime，而 --no-optional-locks status 不写索引。只操作 mkdtemp 夹具，用户 HOME、全局 Git/GPG 配置均未写入。该探针支持测试同步原因，不替代实际 UI 结果。
 
-main 2c2533c 的完整功能已独立派发 [39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756)，仍待实际结果；单项通过不等于 45 项统一通过。因一次网络中断提前误派发到 734b8e1 的 39137078001 已取消，不计作验证。
+main 2c2533c 的完整功能已独立派发 [39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756)，已实际通过 45/45、144 个精确阅读组合通过，零失败/跳过；[完整证据](../final-functional/README.md) 保留全部计数与来源。因一次网络中断提前误派发到 734b8e1 的 39137078001 已取消，不计作验证。
