@@ -66,7 +66,15 @@ final class InterfacePolishTests: XCTestCase {
             XCTAssertTrue(unified.isHittable)
             unified.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
             XCTAssertEqual(String(describing: unified.value ?? ""), "1")
+            let beforeArrow = XCTAttachment(string: app.debugDescription)
+            beforeArrow.name = "Diff tabs focus before arrow - " + appearance
+            beforeArrow.lifetime = .keepAlways
+            add(beforeArrow)
             app.typeKey(XCUIKeyboardKey.rightArrow, modifierFlags: [])
+            let afterArrow = XCTAttachment(string: app.debugDescription)
+            afterArrow.name = "Diff tabs focus after arrow - " + appearance
+            afterArrow.lifetime = .keepAlways
+            add(afterArrow)
             XCTAssertEqual(String(describing: split.value ?? ""), "1")
             XCTAssertTrue(app.descendants(matching: .any)["diff-column-headers"].exists)
             app.typeKey(XCUIKeyboardKey.leftArrow, modifierFlags: [])

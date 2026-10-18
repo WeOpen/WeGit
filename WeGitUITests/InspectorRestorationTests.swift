@@ -191,7 +191,16 @@ final class InspectorRestorationTests: XCTestCase {
                 forDuration: 0.2,
                 thenDragTo: corner.withOffset(CGVector(dx: 980 - initial.width, dy: 693 - initial.height)))
             XCTAssertGreaterThanOrEqual(window.frame.width, 1292)
-            XCTAssertTrue(window.frame.contains(mainContent.frame))
+            let viewport = app.scrollViews.containing(
+                .outline, identifier: route == "提交历史" ? "history-list" : "changes-list"
+            ).firstMatch
+            let bounds =
+                "window=\(window.frame) outline=\(mainContent.frame) viewport=\(viewport.frame) inspector=\(inspector.frame)"
+            let geometry = XCTAttachment(string: bounds)
+            geometry.name = "Restored inspector geometry - " + route
+            geometry.lifetime = .keepAlways
+            add(geometry)
+            XCTAssertTrue(window.frame.contains(mainContent.frame), bounds)
             XCTAssertTrue(window.frame.contains(inspector.frame))
             XCTAssertLessThanOrEqual(mainContent.frame.maxX, inspector.frame.minX)
             let attachment = XCTAttachment(screenshot: app.screenshot())

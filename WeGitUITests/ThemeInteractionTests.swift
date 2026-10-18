@@ -137,6 +137,21 @@ final class ThemeInteractionTests: XCTestCase {
             XCTAssertTrue(author.waitForExistence(timeout: 5))
             XCTAssertTrue(app.windows["main"].frame.contains(author.frame))
             XCTAssertGreaterThanOrEqual(try textContrast(in: author.frame), 4.5)
+            for identifier in ["history-scope", "history-search-field", "history-operations"] {
+                let menu = app.windows["main"].descendants(matching: .any)
+                    .matching(identifier: identifier).firstMatch
+                XCTAssertTrue(menu.exists)
+                let ready = XCTNSPredicateExpectation(
+                    predicate: NSPredicate(format: "enabled == true"), object: menu)
+                XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 5), .completed)
+                XCTAssertGreaterThanOrEqual(
+                    try textContrast(in: menu.frame.insetBy(dx: 8, dy: 6)), 4.5)
+            }
+            let reading = app.windows["main"].descendants(matching: .menuButton).matching(
+                NSPredicate(format: "title == %@", "阅读选项")
+            ).firstMatch
+            XCTAssertTrue(reading.exists)
+            XCTAssertGreaterThanOrEqual(try textContrast(in: reading.frame.insetBy(dx: 8, dy: 6)), 4.5)
             let screenshot = XCTAttachment(screenshot: app.screenshot())
             screenshot.name = "Readable native colors - " + title
             screenshot.lifetime = .keepAlways

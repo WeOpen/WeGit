@@ -59,7 +59,8 @@ struct DiskDiffView: View {
                 HStack(spacing: 16) {
                     Picker(L10n.text("上下文"), selection: $app.workspace.diffOptions.contextLines) {
                         ForEach([3, 20, 80, 200], id: \.self) { Text(L10n.count("%lld 行", $0)).tag($0) }
-                    }.pickerStyle(.menu).fixedSize().accessibilityIdentifier("diff-context")
+                    }.pickerStyle(.menu).fixedSize().tint(colors.accentText)
+                        .accessibilityIdentifier("diff-context")
                     Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
                         .toggleStyle(.checkbox).accessibilityIdentifier("diff-ignore-whitespace")
                     Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)

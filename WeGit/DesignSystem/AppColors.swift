@@ -39,6 +39,7 @@ struct AppColors: Equatable, Sendable {
         return Color(nsColor: nsColor(role))
     }
     var accent: Color { color(.accent) }
+    var accentText: Color { custom == nil ? Color(nsColor: NativeReadableColors.accent) : accent }
     var primaryAction: Color { custom == nil ? Color(nsColor: NativeReadableColors.primaryFill) : accent }
     var destructiveAction: Color {
         custom == nil ? Color(nsColor: NativeReadableColors.destructiveFill) : negative
@@ -94,6 +95,7 @@ struct AppColors: Equatable, Sendable {
 /// insufficient pair. Custom theme values and native surfaces remain untouched.
 private enum NativeReadableColors {
     private static let cache = Mutex<[Key: RGB]>([:])
+    static let accent = foreground(.controlAccentColor)
     static let secondary = foreground(.secondaryLabelColor)
     static let comment = foreground(.secondaryLabelColor, wordHighlights: true)
     static let positive = foreground(.systemGreen)

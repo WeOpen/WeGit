@@ -1,0 +1,227 @@
+[
+  {
+    "test": "DiffReaderTests/testHunkNavigationAndNativeSelectionCopyOriginalText",
+    "result": "passed",
+    "seconds": 52.6
+  },
+  {
+    "test": "GitConfigurationInterfaceTests/testGlobalAndLocalEditsUseOnlyTheirExplicitScope",
+    "result": "passed",
+    "seconds": 35.111
+  },
+  {
+    "test": "HistoryActionsTests/testCopyCheckoutAndBranchUseTheSelectedHistoricalCommit",
+    "result": "passed",
+    "seconds": 30.253
+  },
+  {
+    "test": "InspectorRestorationTests/testBranchesStayInsideWorkspaceWithSidebarAndInspectorChanges",
+    "result": "passed",
+    "seconds": 29.642
+  },
+  {
+    "test": "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets",
+    "result": "passed",
+    "seconds": 66.024
+  },
+  {
+    "test": "InspectorRestorationTests/testOpenInspectorRestoresAcrossBothSplitWorkspaces",
+    "result": "failed",
+    "seconds": 21.409
+  },
+  {
+    "test": "InterfacePolishTests/testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes",
+    "result": "failed",
+    "seconds": 17.396
+  },
+  {
+    "test": "LayoutTests/testContextControlsStayVisibleInMinimumWindow",
+    "result": "passed",
+    "seconds": 310.789
+  },
+  {
+    "test": "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls",
+    "result": "passed",
+    "seconds": 33.402
+  },
+  {
+    "test": "LocalizationUITests/testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch",
+    "result": "passed",
+    "seconds": 47.324
+  },
+  {
+    "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes",
+    "result": "passed",
+    "seconds": 1982.344
+  },
+  {
+    "test": "RepositoryPickerTests/testKeyboardSelectionSearchAndCloneHandoff",
+    "result": "passed",
+    "seconds": 36.135
+  },
+  {
+    "test": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue",
+    "result": "passed",
+    "seconds": 28.896
+  },
+  {
+    "test": "SettingsReadingTests/testSixSettingsTabsAndLiveTextMeasurementChanges",
+    "result": "passed",
+    "seconds": 41.116
+  },
+  {
+    "test": "SpecialFileReadingTests/testBinarySymlinkUnknownLanguageAndDeletedFileReading",
+    "result": "passed",
+    "seconds": 18.624
+  },
+  {
+    "test": "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus",
+    "result": "passed",
+    "seconds": 63.08
+  },
+  {
+    "test": "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable",
+    "result": "passed",
+    "seconds": 17.885
+  },
+  {
+    "test": "ToolbarMenuBarTests/testMenuBarReopensClosedWindowWithoutLosingDraftAndRefreshesExternalChanges",
+    "result": "passed",
+    "seconds": 16.802
+  },
+  {
+    "test": "WeGitUITests/testBranchRenameDeleteAndTrackingCreation",
+    "result": "passed",
+    "seconds": 33.716
+  },
+  {
+    "test": "WeGitUITests/testCloneRejectsExistingDirectoryThenRetriesSuccessfully",
+    "result": "passed",
+    "seconds": 30.141
+  },
+  {
+    "test": "WeGitUITests/testCommandPaletteCanSwitchAFilteredLocalBranch",
+    "result": "passed",
+    "seconds": 12.585
+  },
+  {
+    "test": "WeGitUITests/testCommitAndPushFailureRetriesWithoutAnotherCommit",
+    "result": "passed",
+    "seconds": 18.865
+  },
+  {
+    "test": "WeGitUITests/testCommitAndPushLostReplyOnlyVerifiesTheDeliveredCommit",
+    "result": "passed",
+    "seconds": 17.226
+  },
+  {
+    "test": "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState",
+    "result": "passed",
+    "seconds": 30.973
+  },
+  {
+    "test": "WeGitUITests/testDiskBackedDiffPagesAndLayoutSwitch",
+    "result": "passed",
+    "seconds": 42.92
+  },
+  {
+    "test": "WeGitUITests/testDraftAndRepositoryPageRestoreAcrossRelaunch",
+    "result": "passed",
+    "seconds": 15.938
+  },
+  {
+    "test": "WeGitUITests/testEncryptedCommitAuthenticationCanBeCancelledAndRetried",
+    "result": "passed",
+    "seconds": 17.419
+  },
+  {
+    "test": "WeGitUITests/testFirstPushAndFastForwardPullUseTheSelectedRemote",
+    "result": "passed",
+    "seconds": 20.067
+  },
+  {
+    "test": "WeGitUITests/testHistoryFirstReadRecoversWhenRefreshCancelsIt",
+    "result": "passed",
+    "seconds": 8.713
+  },
+  {
+    "test": "WeGitUITests/testHistoryPaginationParentComparisonAndStaleReferences",
+    "result": "passed",
+    "seconds": 44.99
+  },
+  {
+    "test": "WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset",
+    "result": "passed",
+    "seconds": 25.551
+  },
+  {
+    "test": "WeGitUITests/testLostPushReplyRestoresVerificationAfterLocalHeadMoves",
+    "result": "passed",
+    "seconds": 25.264
+  },
+  {
+    "test": "WeGitUITests/testReopeningAReplacedRepositoryCreatesANewSession",
+    "result": "passed",
+    "seconds": 8.911
+  },
+  {
+    "test": "WeGitUITests/testRepositorySearchOpensTheExactCommitAndPaletteSupportsKeyboard",
+    "result": "passed",
+    "seconds": 14.972
+  },
+  {
+    "test": "WeGitUITests/testRestoredUnknownPushRefusesAChangedDestination",
+    "result": "passed",
+    "seconds": 27.606
+  },
+  {
+    "test": "WeGitUITests/testStageCommitAndHistory",
+    "result": "passed",
+    "seconds": 14.389
+  },
+  {
+    "test": "WeGitUITests/testStatusFilterPreservesStageAllScopeAndDeletedFileOpenIsDisabled",
+    "result": "passed",
+    "seconds": 16.375
+  },
+  {
+    "test": "WeGitUITests/testUnknownPushRequiresNewConfirmationWhenTargetDoesNotMatch",
+    "result": "passed",
+    "seconds": 24.739
+  },
+  {
+    "test": "WeGitUITests/testUntrackedTrashConfirmationCanBeCancelled",
+    "result": "passed",
+    "seconds": 11.159
+  },
+  {
+    "test": "WeGitUITests/testWelcomeAndCloneForm",
+    "result": "passed",
+    "seconds": 9.972
+  },
+  {
+    "test": "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen",
+    "result": "passed",
+    "seconds": 17.966
+  },
+  {
+    "test": "WorkflowRecoveryTests/testActualTrashReceiptAndFeedbackIdentifyOnlyTheFixtureFile",
+    "result": "passed",
+    "seconds": 13.823
+  },
+  {
+    "test": "WorkflowRecoveryTests/testExternalGitChangesUpdateVisibleStatusWithoutManualRefresh",
+    "result": "passed",
+    "seconds": 11.898
+  },
+  {
+    "test": "WorkflowRecoveryTests/testMergeConflictCanContinueOrAbort",
+    "result": "passed",
+    "seconds": 35.063
+  },
+  {
+    "test": "WorkflowRecoveryTests/testPullRebaseHandlesTwoConflictRoundsAndAbort",
+    "result": "passed",
+    "seconds": 41.725
+  }
+]

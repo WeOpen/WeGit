@@ -36,7 +36,7 @@ private struct WorkbenchAppearance: ViewModifier {
                     ? L10n.locale : Locale(identifier: preferences.language.rawValue)
             )
             .foregroundStyle(palette.text)
-            .tint(palette.primaryAction)
+            .tint(palette.accent)
             .toolbarBackground(.hidden, for: .windowToolbar)
             .background(
                 ThemeWindowBridge(colors: palette).frame(width: 0, height: 0).accessibilityHidden(true)

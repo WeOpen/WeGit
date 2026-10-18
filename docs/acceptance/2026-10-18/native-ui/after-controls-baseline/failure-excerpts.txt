@@ -1,0 +1,42 @@
+    t =    17.92s Find the "toolbar-inspector" Button
+    t =    18.03s Find the "在 Finder 中显示" Button
+    t =    18.16s Find the "main" Window
+    t =    18.29s Click and drag from "main" Window[1.00, 1.00] -> (-1.0, -1.0) to "main" Window[1.00, 1.00] -> (-1.0, -1.0) -> (-380.0, -187.0) with velocity of 500.00 pixels per second, and then hold for 0.0 seconds
+    t =    18.29s     Wait for com.willxue.wegit.development to idle
+    t =    18.29s     Find the "main" Window
+    t =    18.42s     Check for interrupting elements affecting "main" Window
+    t =    18.44s     Synthesize event
+2026-10-18 10:38:19.831895+0000 WeGitUITests-Runner[20548:55649] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    18.44s         Find the "main" Window
+    t =    18.57s         Find the "main" Window
+    t =    18.72s         Find the "main" Window
+    t =    18.82s         Find the "main" Window
+    t =    20.41s     Wait for com.willxue.wegit.development to idle
+    t =    20.43s Find the "main" Window
+    t =    20.58s Find the "main" Window
+    t =    20.70s Find the "history-list" Outline
+/Users/runner/work/WeGit/WeGit/WeGitUITests/InspectorRestorationTests.swift:194: error: -[WeGitUITests.InspectorRestorationTests testOpenInspectorRestoresAcrossBothSplitWorkspaces] : XCTAssertTrue failed
+    t =    21.36s Tear Down
+Test Case '-[WeGitUITests.InspectorRestorationTests testOpenInspectorRestoresAcrossBothSplitWorkspaces]' failed (21.409 seconds).
+
+    t =    15.23s     Find the "统一" RadioButton
+    t =    15.36s     Check for interrupting elements affecting "统一" RadioButton
+    t =    15.40s     Synthesize event
+2026-10-18 10:38:38.202103+0000 WeGitUITests-Runner[20548:55649] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    15.40s         Find the "统一" RadioButton
+    t =    15.55s         Find the "统一" RadioButton
+    t =    16.26s     Wait for com.willxue.wegit.development to idle
+    t =    16.27s Find the "统一" RadioButton
+    t =    16.70s Type '→' key (XCUIKeyboardKeyRightArrow) with no modifiers
+    t =    16.70s     Wait for com.willxue.wegit.development to idle
+    t =    16.70s     Find the Target Application 'com.willxue.wegit.development'
+    t =    16.92s     Check for interrupting elements affecting "WeGit" Application
+    t =    16.92s     Synthesize event
+2026-10-18 10:38:39.748054+0000 WeGitUITests-Runner[20548:55649] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+2026-10-18 10:38:39.751358+0000 WeGitUITests-Runner[20548:55649] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    17.02s     Wait for com.willxue.wegit.development to idle
+    t =    17.03s Find the "分栏" RadioButton
+/Users/runner/work/WeGit/WeGit/WeGitUITests/InterfacePolishTests.swift:70: error: -[WeGitUITests.InterfacePolishTests testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes] : XCTAssertEqual failed: ("0") is not equal to ("1")
+    t =    17.30s Tear Down
+Test Case '-[WeGitUITests.InterfacePolishTests testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes]' failed (17.396 seconds).
+

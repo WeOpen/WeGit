@@ -1,17 +1,22 @@
 {
-  "checkedAt": "2026-10-18T11:18:15.492751+00:00",
+  "checkedAt": "2026-10-18T14:09:43.860312+00:00",
   "sourceFiles": {
-    "WeGit/DesignSystem/AppColors.swift": "d64d95aeaa427694d07a99af8024eca4c0d52daed64309da47acf1db2d23c89c",
-    "WeGit/DesignSystem/AppStyle.swift": "2c460c9eecd421030d0b5975d6a0ce4366b7b7a6a675aec42419e00c327d08df",
+    "WeGit/DesignSystem/AppColors.swift": "22dc57ec0b1f0f4a5cdf2c3f88a79b4529f92ec0c1a548f96d3359f13b8d709c",
+    "WeGit/DesignSystem/AppStyle.swift": "595bd8dd0ce31a475885f2bea512516961a132ac6ac98530c67862acac5e8629",
     "WeGit/Features/SettingsView.swift": "763312715074b8c9663367e5978bcd31b8a90dc12f2175e3c38d247492a386f0",
     "WeGit/Features/WorkspaceView.swift": "fafa75260eeb800fa4828e4e38d713733e791f2251037b8525a8d612a4086959",
-    "WeGitUITests/ThemeInteractionTests.swift": "eb24f3f5bb6dcac0c38e40368053f5a610875318d9a4f2636fd886615789cac3",
+    "WeGitUITests/ThemeInteractionTests.swift": "64f9426343d3cab479f95dd80c3b2a962116f809c1ea7956aeed1f798540703a",
     "WeGitUITests/SettingsReadingTests.swift": "5c74e2997917d9818ea22bb2b93197dbf88903db707a6eece96c461832b93b90",
-    "scripts/ThemeChecks.swift": "6f10b2577f4722ba366aef9f40598e9311aa6a6d2b9ef4a867f33dbd80e14809"
+    "scripts/ThemeChecks.swift": "ab71293f821c55de30fdccf9975f07c55a57320b95397891539bd2d923735bb0",
+    "WeGit/Features/ChangesView.swift": "834a5496ee788161d9fac4f51a2a23ca4e9867871ae738810cdfed9410ee9c3c",
+    "WeGit/Features/CommitFilesView.swift": "5210f34ed3e3c2943e1eac677366ff684c660bf000d10b8a3b7f1b21f9591919",
+    "WeGit/Features/DiskDiffView.swift": "ef5bdddc2c02fdd69d18d91cebea08d87ab70abec817270bfc9c1d50fe58b895",
+    "WeGit/Features/HistoryView.swift": "39eb8fc507068b48b87c8b3d9f00a310ef74ac2223f90d4fa1925c9b677e35fc",
+    "WeGit/Features/ThemeEditor.swift": "28b7a0158ddfc3823adb26b9ea3bf798d738ff6d7392e1a74de4b51fd1c7ae42"
   },
-  "themeChecks": 258,
-  "nativeContrastPairs": 200,
-  "nativeHueChecks": 24,
+  "themeChecks": 278,
+  "nativeContrastPairs": 216,
+  "nativeHueChecks": 28,
   "buildForTesting": "succeeded",
   "localXCTestExecuted": false,
   "osPermissionsChanged": false

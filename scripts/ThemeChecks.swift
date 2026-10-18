@@ -163,6 +163,13 @@ struct ThemeChecks {
                         )
                     }
                 }
+                for (name, background) in backgrounds where !name.contains("word") {
+                    let ratio = contrast(
+                        resolve(NSColor(colors.accentText), using: colors), against: background)
+                    try require(
+                        ratio >= 4.5,
+                        "Native accent text/\(name) contrast \(ratio) meets 4.5:1")
+                }
                 for (name, fill) in [
                     ("primary action", colors.primaryAction),
                     ("destructive action", colors.destructiveAction),
@@ -186,9 +193,12 @@ struct ThemeChecks {
                     (ThemeColorRole.positive, NSColor.systemGreen), (.negative, .systemRed),
                     (.modified, .systemOrange), (.keyword, .systemPurple), (.string, .systemBrown),
                     (.number, .linkColor),
+                    (.accent, .controlAccentColor),
                 ] {
                     let before = resolve(source, using: colors)
-                    let after = colors.resolvedNSColor(role)
+                    let after =
+                        role == .accent
+                        ? resolve(NSColor(colors.accentText), using: colors) : colors.resolvedNSColor(role)
                     var beforeHue: CGFloat = 0
                     var afterHue: CGFloat = 0
                     before.getHue(&beforeHue, saturation: nil, brightness: nil, alpha: nil)
