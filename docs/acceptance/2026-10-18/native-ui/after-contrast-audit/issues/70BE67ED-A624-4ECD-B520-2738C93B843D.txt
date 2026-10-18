@@ -1,0 +1,26 @@
+Contrast failed for 差异块 1 / 1
+Attributes: StaticText, 0x7c40a97840, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1
+Element subtree:
+ →StaticText, 0x7c40a97840, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1
+Path to element:
+ →Application, 0x7c40432a80, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c40431b80, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c40433480, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c40431680, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c40432940, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c40420140, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40420280, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c40437480, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c40436bc0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c40be9540, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x7c40be8140, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳StaticText, 0x7c40a97840, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c401fc500, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29j2QAAAAAAAAA=
+    Output: {
+      StaticText, 0x7c40be3480, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1
+    }

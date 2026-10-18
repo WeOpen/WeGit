@@ -1,0 +1,26 @@
+Contrast failed for 2026年10月18日 14:29
+Attributes: StaticText, 0x7c40be0dc0, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 14:29
+Element subtree:
+ →StaticText, 0x7c40be0dc0, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 14:29
+Path to element:
+ →Application, 0x7c4042aa80, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c4042abc0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c4042bc00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c4042bac0, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c404297c0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c40bcd040, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40bccb40, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c40bce940, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c40bced00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c40be0280, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x7c40be0780, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳StaticText, 0x7c40be0dc0, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 14:29
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c40420500, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29jwwAAAAAAAAA=
+    Output: {
+      StaticText, 0x7c40428dc0, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 14:29
+    }

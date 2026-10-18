@@ -1,0 +1,31 @@
+This element is missing useful accessibility information.
+Attributes: Group, 0x7c405d7e80, {{559.0, 283.0}, {264.0, 68.0}}, Disabled
+Element subtree:
+ →Group, 0x7c405d7e80, {{559.0, 283.0}, {264.0, 68.0}}, Disabled
+    StaticText, 0x7c405d7840, {{559.0, 291.0}, {142.0, 52.0}}, label: 'Layout fixture', value: 提交 97b9c7429bbe，作者...
+Path to element:
+ →Application, 0x7c4042aa80, pid: 10697, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c404292c0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c4042b200, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c4042b5c0, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c4042b840, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c40423e80, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40422800, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c40422940, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c40422d00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c40423700, {{280.0, 77.0}, {559.0, 692.0}}, Disabled
+           ↳Group, 0x7c40423840, {{280.0, 77.0}, {559.0, 672.0}}, label: '历史浏览与筛选'
+            ↳ScrollView, 0x7c40423d40, {{490.0, 250.0}, {349.0, 499.0}}, Disabled
+             ↳Outline, 0x7c40421cc0, {{279.0, 249.0}, {561.0, 501.0}}, identifier: 'history-list', label: '提交历史列表'
+              ↳OutlineRow, 0x7c40421b80, {{490.0, 283.0}, {349.0, 68.0}}, Selected, Disabled
+               ↳Cell, 0x7c405d7480, {{559.0, 283.0}, {264.0, 68.0}}, Keyboard Focused, Selected
+                ↳Group, 0x7c405d7e80, {{559.0, 283.0}, {264.0, 68.0}}, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c40434b40, pid: 10697, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 10697, token: ySkAAAAAAABvY29jswAAAAAAAAD//////////7UAAAAAAAAAAAAAAAAAAAA=
+    Output: {
+      Group, 0x7c40420c80, {{559.0, 283.0}, {264.0, 68.0}}, Disabled
+    }

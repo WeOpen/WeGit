@@ -18,6 +18,7 @@ def main():
     schemes = {"bare": "BareControl", "single": "SingleControl", "group": "GroupControl",
                "async": "AsyncControl", "workspace": "WorkspaceControl",
                "appkit": "AppKitControl", "hosting": "HostingControl",
+               "audit-native": "AuditNativeControl", "audit-hosted": "AuditHostedControl",
                "defaultargs": "DefaultArgumentsControl", "marker": "MarkerControl",
                "language": "LanguageControl", "combined": "CombinedControl",
                "reordered": "ReorderedControl", "applelanguage": "AppleLanguageControl"}
@@ -26,6 +27,8 @@ def main():
                 "group": ("GroupControl", "GroupControlTests"),
                 "async": ("AsyncBareApp", "AsyncLaunchTests"),
                 "workspace": ("WorkspaceBareApp", "WorkspaceLaunchTests"),
+                "audit-native": ("AuditNativeApp", "AuditNativeTests"),
+                "audit-hosted": ("AuditHostedApp", "AuditHostedTests"),
                 "appkit": ("AppKitBareApp", "AppKitLaunchTests"),
                 "hosting": ("HostingBareApp", "HostingLaunchTests"),
                 "defaultargs": ("DefaultArgumentsApp", "DefaultArgumentsTests"),

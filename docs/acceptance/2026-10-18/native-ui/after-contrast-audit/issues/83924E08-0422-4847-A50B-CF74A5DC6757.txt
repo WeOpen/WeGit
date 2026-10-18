@@ -1,0 +1,26 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: PopUpButton, 0x7c405d75c0, {{610.0, 177.0}, {74.0, 24.0}}, identifier: 'history-search-field', label: '搜索字段', value: 消息
+Element subtree:
+ →PopUpButton, 0x7c405d75c0, {{610.0, 177.0}, {74.0, 24.0}}, identifier: 'history-search-field', label: '搜索字段', value: 消息
+Path to element:
+ →Application, 0x7c40429540, pid: 10697, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c40428280, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c4042a580, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c40429b80, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c40429680, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c4042b480, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40428640, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c405d7d40, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c405d7c00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c405d7980, {{280.0, 77.0}, {559.0, 692.0}}, Disabled
+           ↳Group, 0x7c405d7340, {{280.0, 77.0}, {559.0, 672.0}}, label: '历史浏览与筛选'
+            ↳PopUpButton, 0x7c405d75c0, {{610.0, 177.0}, {74.0, 24.0}}, identifier: 'history-search-field', label: '搜索字段', value: 消息
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c40434640, pid: 10697, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 10697, token: ySkAAAAAAABvY29jrgAAAAAAAAA=
+    Output: {
+      PopUpButton, 0x7c40437ac0, {{610.0, 177.0}, {74.0, 24.0}}, identifier: 'history-search-field', label: '搜索字段', value: 消息
+    }

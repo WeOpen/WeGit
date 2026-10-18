@@ -17,15 +17,18 @@
 		38BCF473ACA966C04D1C7B8D /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		6325BCF28CF7404F2ACB5EEC /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		6647FF9AC4610B7F0CB4DB48 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		684835A304A201EA952EFE4E /* AccessibilityControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E6F27ABF11CD9F20B9F526 /* AccessibilityControl.swift */; };
 		787F023F8131A133BA428733 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		8CF596B2E099A0FD16488611 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		8E913381DE82E3D75B6E23AC /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		92944288E985F985BA21D466 /* AccessibilityControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F9D9E1E873204AFB15F57F /* AccessibilityControlUITests.swift */; };
 		9F8F8EC094FB1DBAECA67F07 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		A04C0FA921B674EDD8589278 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		AAC7CADF04C39B2D597A102B /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		AEA231130F58B8BE61C99CF6 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
 		B72DE883FFE492519C95E6E0 /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		BDCC4E620D96BAA2B3FF7FCE /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
+		C4121E62A597EAD9FEB9196B /* AccessibilityControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E6F27ABF11CD9F20B9F526 /* AccessibilityControl.swift */; };
 		D0452F54B02C122B5C0E765C /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		D57F2F3E038ECCE019000A48 /* AsyncSceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */; };
 		DB7810A164ECB69739F31105 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
@@ -33,6 +36,7 @@
 		EBD826B1B5C0A694F74CEECA /* SceneControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D198F78DBC6BBB580154BB /* SceneControl.swift */; };
 		F08023C8AEB0BC8D3E3196FA /* AppKitControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2256171CDF698B2BBFAFA778 /* AppKitControl.swift */; };
 		F5ECB5D5A00ED2B34BD831E0 /* SceneControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170914509D6304DEDF3EDEF8 /* SceneControlUITests.swift */; };
+		FD7F79EC9631B837E47C7A36 /* AccessibilityControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F9D9E1E873204AFB15F57F /* AccessibilityControlUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,12 +68,26 @@
 			remoteGlobalIDString = 1FACD2C867C4AACE9390F695;
 			remoteInfo = HostingBareApp;
 		};
+		5F374C5242CB2045C319DE9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7EA0A6F11E8B35CF08B57222;
+			remoteInfo = AuditHostedApp;
+		};
 		6CC4309FCEF2E91B7D4AB7B9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = BCAD8261787F2C3884B78FC6;
 			remoteInfo = AppKitBareApp;
+		};
+		6F4964EC5755F42868CB577E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F13AA1A37E84419C5E800E5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2DFCFB33236DC4C973DF2D8E;
+			remoteInfo = AuditNativeApp;
 		};
 		86BFDC6FA3A23B91E01DF520 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -140,6 +158,7 @@
 		28F313300C0873E05D207791 /* DefaultArgumentsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DefaultArgumentsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31FBDBBCE7F2D3D591877C60 /* MarkerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarkerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncSceneControlUITests.swift; sourceTree = "<group>"; };
+		44661363D0E536C965EAAF21 /* AuditHostedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuditHostedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFCFDC3E93012757C4B31A0 /* SingleControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SingleControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FCE46119CDCA04EAD4C9132 /* AppleLanguageApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleLanguageApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		576F2E55DDAF3DB73B543BDC /* CombinedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CombinedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,10 +167,13 @@
 		65D198F78DBC6BBB580154BB /* SceneControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneControl.swift; sourceTree = "<group>"; };
 		6B0F27FDABF41D01246DB2A3 /* AppleLanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleLanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77ED94824EE728BDA7A10BA3 /* DefaultArgumentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DefaultArgumentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		92114C5248FFAB701E1A5757 /* AuditNativeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuditNativeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F9D9E1E873204AFB15F57F /* AccessibilityControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityControlUITests.swift; sourceTree = "<group>"; };
 		9BE397411FD9A7BE2AEA27C8 /* LanguageApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LanguageApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE877A63418144B5F0A956F /* WorkspaceLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkspaceLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BareControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61ADA2668DF0A0068F3E831 /* AsyncBareApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsyncBareApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0CDC9CC42C04C04289F4ED4 /* AuditNativeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuditNativeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9393D04B715A437B1801ECE /* SingleControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingleControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE1FB72514AD9CD734A9E28 /* HostingLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostingLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +181,8 @@
 		E6EB3DE6E2C8DFF2D963CAA8 /* AppKitLaunchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppKitLaunchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC43642D51D7630814189C06 /* ReorderedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReorderedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1C5437A17991335232D41EE /* GroupControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GroupControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F546E98A398F81F5F3725DC9 /* AuditHostedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuditHostedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6E6F27ABF11CD9F20B9F526 /* AccessibilityControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityControl.swift; sourceTree = "<group>"; };
 		FF1A0F9F53FEBC6D7E7B67AA /* BareControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BareControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -172,6 +196,10 @@
 				6B0F27FDABF41D01246DB2A3 /* AppleLanguageTests.xctest */,
 				A61ADA2668DF0A0068F3E831 /* AsyncBareApp.app */,
 				1CBA24C8B655EB1DFA03C29F /* AsyncLaunchTests.xctest */,
+				44661363D0E536C965EAAF21 /* AuditHostedApp.app */,
+				F546E98A398F81F5F3725DC9 /* AuditHostedTests.xctest */,
+				B0CDC9CC42C04C04289F4ED4 /* AuditNativeApp.app */,
+				92114C5248FFAB701E1A5757 /* AuditNativeTests.xctest */,
 				FF1A0F9F53FEBC6D7E7B67AA /* BareControl.app */,
 				A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */,
 				D57FC5E9A2E1AA1DE78EBB38 /* CombinedApp.app */,
@@ -199,6 +227,8 @@
 		F7DC155111A67C0091085F9C = {
 			isa = PBXGroup;
 			children = (
+				F6E6F27ABF11CD9F20B9F526 /* AccessibilityControl.swift */,
+				95F9D9E1E873204AFB15F57F /* AccessibilityControlUITests.swift */,
 				2256171CDF698B2BBFAFA778 /* AppKitControl.swift */,
 				3783EAB115CE8EC7C79CA7AD /* AsyncSceneControlUITests.swift */,
 				65D198F78DBC6BBB580154BB /* SceneControl.swift */,
@@ -297,6 +327,23 @@
 			productName = AppKitLaunchTests;
 			productReference = E6EB3DE6E2C8DFF2D963CAA8 /* AppKitLaunchTests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		2DFCFB33236DC4C973DF2D8E /* AuditNativeApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C31756DBDA999DF1320189E3 /* Build configuration list for PBXNativeTarget "AuditNativeApp" */;
+			buildPhases = (
+				4C4E498BA7CBA471757A149E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuditNativeApp;
+			packageProductDependencies = (
+			);
+			productName = AuditNativeApp;
+			productReference = B0CDC9CC42C04C04289F4ED4 /* AuditNativeApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 		2E0B6E4104F8660B12590040 /* AsyncLaunchTests */ = {
 			isa = PBXNativeTarget;
@@ -439,6 +486,24 @@
 			productReference = A0EA9D1DF40B1E9D2E64F885 /* BareControlTests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		7673F5B66944E879E9184742 /* AuditHostedTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DBB82BBB9315D92B5993622B /* Build configuration list for PBXNativeTarget "AuditHostedTests" */;
+			buildPhases = (
+				18EEA8575034AE8180EF5236 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				71057D406016E2A47ACACE55 /* PBXTargetDependency */,
+			);
+			name = AuditHostedTests;
+			packageProductDependencies = (
+			);
+			productName = AuditHostedTests;
+			productReference = F546E98A398F81F5F3725DC9 /* AuditHostedTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		78A20550BB140335D413A330 /* MarkerTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89B7118F93D45760B8076135 /* Build configuration list for PBXNativeTarget "MarkerTests" */;
@@ -475,6 +540,23 @@
 			productReference = C007A0C11BCDD04539C28F8F /* LanguageTests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		7EA0A6F11E8B35CF08B57222 /* AuditHostedApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67F85380482EF62A79FD87CB /* Build configuration list for PBXNativeTarget "AuditHostedApp" */;
+			buildPhases = (
+				D96DA6ADD86A960B0674E36F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuditHostedApp;
+			packageProductDependencies = (
+			);
+			productName = AuditHostedApp;
+			productReference = 44661363D0E536C965EAAF21 /* AuditHostedApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		8AC9E527B1D5D045864D790F /* MarkerApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F314CBC320233AAE004107F /* Build configuration list for PBXNativeTarget "MarkerApp" */;
@@ -491,6 +573,24 @@
 			productName = MarkerApp;
 			productReference = 5E3A8D5DF26B870255CB3E08 /* MarkerApp.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A18252106E4F33E936BAE7F4 /* AuditNativeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6E60095C479C87E5D04AF01 /* Build configuration list for PBXNativeTarget "AuditNativeTests" */;
+			buildPhases = (
+				7DA214ABE5E5124E2AF1D186 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C6D1D4EC590B61A091BADD5 /* PBXTargetDependency */,
+			);
+			name = AuditNativeTests;
+			packageProductDependencies = (
+			);
+			productName = AuditNativeTests;
+			productReference = 92114C5248FFAB701E1A5757 /* AuditNativeTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		A436CB501636C16851FBAF87 /* LanguageApp */ = {
 			isa = PBXNativeTarget;
@@ -697,6 +797,10 @@
 						ProvisioningStyle = Manual;
 						TestTargetID = BCAD8261787F2C3884B78FC6;
 					};
+					2DFCFB33236DC4C973DF2D8E = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
 					2E0B6E4104F8660B12590040 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
@@ -734,6 +838,11 @@
 						ProvisioningStyle = Manual;
 						TestTargetID = 3BFCDF19C58FE5750A212F83;
 					};
+					7673F5B66944E879E9184742 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 7EA0A6F11E8B35CF08B57222;
+					};
 					78A20550BB140335D413A330 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
@@ -744,9 +853,18 @@
 						ProvisioningStyle = Manual;
 						TestTargetID = A436CB501636C16851FBAF87;
 					};
+					7EA0A6F11E8B35CF08B57222 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
 					8AC9E527B1D5D045864D790F = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
+					};
+					A18252106E4F33E936BAE7F4 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 2DFCFB33236DC4C973DF2D8E;
 					};
 					A436CB501636C16851FBAF87 = {
 						DevelopmentTeam = "";
@@ -813,6 +931,10 @@
 				E0981244F2240117F32E2FDA /* AppleLanguageTests */,
 				CAC69DCA760E9D938A3A3EDD /* AsyncBareApp */,
 				2E0B6E4104F8660B12590040 /* AsyncLaunchTests */,
+				7EA0A6F11E8B35CF08B57222 /* AuditHostedApp */,
+				7673F5B66944E879E9184742 /* AuditHostedTests */,
+				2DFCFB33236DC4C973DF2D8E /* AuditNativeApp */,
+				A18252106E4F33E936BAE7F4 /* AuditNativeTests */,
 				3BFCDF19C58FE5750A212F83 /* BareControl */,
 				708CD8AE6AC3A2C6C72DE1B5 /* BareControlTests */,
 				CD93EEF5C5C10FC1CA3AB5D6 /* CombinedApp */,
@@ -838,6 +960,14 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		18EEA8575034AE8180EF5236 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92944288E985F985BA21D466 /* AccessibilityControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		241E294E0D41625BE53836FF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -886,6 +1016,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C4E498BA7CBA471757A149E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				684835A304A201EA952EFE4E /* AccessibilityControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5B40178986EDD9BA5D744306 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -923,6 +1061,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5ECB5D5A00ED2B34BD831E0 /* SceneControlUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DA214ABE5E5124E2AF1D186 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD7F79EC9631B837E47C7A36 /* AccessibilityControlUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1022,6 +1168,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D96DA6ADD86A960B0674E36F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4121E62A597EAD9FEB9196B /* AccessibilityControl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1E03AA796AC83C2A5329417 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1064,6 +1218,11 @@
 			target = 18CD3594410F378B17764C4A /* DefaultArgumentsApp */;
 			targetProxy = C2090C28BE24D807BB37120F /* PBXContainerItemProxy */;
 		};
+		4C6D1D4EC590B61A091BADD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2DFCFB33236DC4C973DF2D8E /* AuditNativeApp */;
+			targetProxy = 6F4964EC5755F42868CB577E /* PBXContainerItemProxy */;
+		};
 		57FC4768C3C4849AA7E84CD8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 42D24ED19D3F3A265A9B1A62 /* ReorderedApp */;
@@ -1088,6 +1247,11 @@
 			isa = PBXTargetDependency;
 			target = 1FACD2C867C4AACE9390F695 /* HostingBareApp */;
 			targetProxy = 52E98B19D602046D9C92A5D5 /* PBXContainerItemProxy */;
+		};
+		71057D406016E2A47ACACE55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7EA0A6F11E8B35CF08B57222 /* AuditHostedApp */;
+			targetProxy = 5F374C5242CB2045C319DE9D /* PBXContainerItemProxy */;
 		};
 		7AAE9C2A2BE9447907D7455F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1152,6 +1316,28 @@
 				TEST_TARGET_NAME = GroupControl;
 			};
 			name = Debug;
+		};
+		0537B60483BE7DCB68E83F76 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.hosted;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AuditHostedApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.hosted.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AuditHostedApp;
+			};
+			name = Release;
 		};
 		096D5F3D90F3049B60EAE416 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1599,6 +1785,21 @@
 			};
 			name = Release;
 		};
+		68ECFC3DCE83B1E4236221CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.hosted;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) AUDIT_HOSTED_SWIFTUI";
+			};
+			name = Debug;
+		};
 		716A93533A5ADA8DA3251E25 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1742,6 +1943,28 @@
 				TEST_TARGET_NAME = DefaultArgumentsApp;
 			};
 			name = Release;
+		};
+		8602CAD9E31178CD052095B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.hosted;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AuditHostedApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.hosted.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AuditHostedApp;
+			};
+			name = Debug;
 		};
 		8897DF13B630C01E149A9C64 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1946,6 +2169,34 @@
 			};
 			name = Debug;
 		};
+		A76F665A0338FD3964405DC5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.native;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A8892B2BB70764033A2149B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.native;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
 		A889BD3F3DFB30751CBF33DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1967,6 +2218,28 @@
 				TEST_TARGET_NAME = AppKitBareApp;
 			};
 			name = Release;
+		};
+		A9062988417E7343B0B74004 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.native;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AuditNativeApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.native.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AuditNativeApp;
+			};
+			name = Debug;
 		};
 		AFDCCD420F02C09A7360D315 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2192,6 +2465,28 @@
 			};
 			name = Release;
 		};
+		F53A338FB6F60542EA433B7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = SceneControlUITests.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONTROL_APP_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.native;
+				CONTROL_APP_PRODUCT_URL = "$(BUILT_PRODUCTS_DIR)/AuditNativeApp.app";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "ControlTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.native.tests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = AuditNativeApp;
+			};
+			name = Release;
+		};
 		F8331AFEB4DCF156C8075543 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2204,6 +2499,21 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.scenecontrol.bare;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BARE_WINDOW_GROUP";
+			};
+			name = Release;
+		};
+		F8843BACB51372636F0C1311 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.auditcontrol.hosted;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) AUDIT_HOSTED_SWIFTUI";
 			};
 			name = Release;
 		};
@@ -2275,6 +2585,15 @@
 			buildConfigurations = (
 				3F272A626528519A36F6384F /* Debug */,
 				716A93533A5ADA8DA3251E25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		67F85380482EF62A79FD87CB /* Build configuration list for PBXNativeTarget "AuditHostedApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68ECFC3DCE83B1E4236221CD /* Debug */,
+				F8843BACB51372636F0C1311 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2396,6 +2715,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		C31756DBDA999DF1320189E3 /* Build configuration list for PBXNativeTarget "AuditNativeApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8892B2BB70764033A2149B5 /* Debug */,
+				A76F665A0338FD3964405DC5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		C6B711F1359F3FDAF2B11A3D /* Build configuration list for PBXNativeTarget "WorkspaceLaunchTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2423,11 +2751,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		D6E60095C479C87E5D04AF01 /* Build configuration list for PBXNativeTarget "AuditNativeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9062988417E7343B0B74004 /* Debug */,
+				F53A338FB6F60542EA433B7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		D8D3744372DB483ADBCA7D16 /* Build configuration list for PBXNativeTarget "WorkspaceBareApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B60C3A59F725F4BEAF43E51E /* Debug */,
 				7DC321C3D79D3E321E0BC130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DBB82BBB9315D92B5993622B /* Build configuration list for PBXNativeTarget "AuditHostedTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8602CAD9E31178CD052095B6 /* Debug */,
+				0537B60483BE7DCB68E83F76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
