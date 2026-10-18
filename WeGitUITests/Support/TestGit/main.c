@@ -8,6 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <mach-o/dyld.h>
 
 static void record_command(const char *marker, char command) {
     char *path = NULL;
@@ -18,11 +19,21 @@ static void record_command(const char *marker, char command) {
 }
 
 static bool selected_git(char path[PATH_MAX]) {
-    FILE *resolver = popen("/usr/bin/xcrun --find git", "r");
-    if (!resolver) return false;
-    bool received = fgets(path, PATH_MAX, resolver) != NULL;
-    int status = pclose(resolver);
-    if (!received || status != 0) return false;
+    // xcrun cannot run in an App Sandbox. Use the same build-time receipt as
+    // UITestGit, kept adjacent to both the standalone and embedded helper.
+    char executable[PATH_MAX], resolved[PATH_MAX], receipt[PATH_MAX];
+    uint32_t size = sizeof(executable);
+    if (_NSGetExecutablePath(executable, &size) != 0 || !realpath(executable, resolved)) return false;
+    char *separator = strrchr(resolved, '/');
+    if (!separator) return false;
+    *separator = '\0';
+    int length = snprintf(receipt, sizeof(receipt), "%s/WeGitTestGitPath.txt", resolved);
+    if (length < 0 || length >= sizeof(receipt)) return false;
+    FILE *record = fopen(receipt, "r");
+    if (!record) return false;
+    bool received = fgets(path, PATH_MAX, record) != NULL;
+    fclose(record);
+    if (!received) return false;
     path[strcspn(path, "\r\n")] = '\0';
     return path[0] == '/' && access(path, X_OK) == 0;
 }
@@ -32,7 +43,7 @@ static bool selected_git(char path[PATH_MAX]) {
 int main(int argc, char *argv[]) {
     char git[PATH_MAX];
     if (!selected_git(git)) {
-        fputs("Cannot resolve Git from the selected Xcode.\n", stderr);
+        fputs("Build-time selected Xcode Git is missing or unavailable.\n", stderr);
         return 127;
     }
     const char *marker = getenv("WEGIT_HISTORY_DELAY_MARKER");

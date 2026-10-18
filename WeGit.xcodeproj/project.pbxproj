@@ -504,6 +504,7 @@
 			buildConfigurationList = 4D904330B4D95A7AA5A977A2 /* Build configuration list for PBXNativeTarget "WeGitTestGit" */;
 			buildPhases = (
 				414B6AAC47FC39BDCD030CFF /* Sources */,
+				BDACC8E4A49EC02A884CEE6E /* Record selected Xcode Git before sandboxed execution */,
 			);
 			buildRules = (
 			);
@@ -662,16 +663,38 @@
 			);
 			inputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/WeGitTestGit",
+				"$(BUILT_PRODUCTS_DIR)/WeGitTestGitPath.txt",
 			);
 			name = "Embed test Git wrapper";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/WeGitTestGit",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/WeGitTestGitPath.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitTestGit\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitTestGit\"\n";
+			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitTestGit\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitTestGit\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitTestGitPath.txt\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitTestGitPath.txt\"\n";
+		};
+		BDACC8E4A49EC02A884CEE6E /* Record selected Xcode Git before sandboxed execution */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Record selected Xcode Git before sandboxed execution";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/WeGitTestGitPath.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -eu\ntest_git=\"$(/usr/bin/xcrun --find git)\"\ncase \"$test_git\" in /*) ;; *) exit 1 ;; esac\ntest -x \"$test_git\"\nprintf '%s\\n' \"$test_git\" > \"${BUILT_PRODUCTS_DIR}/WeGitTestGitPath.txt\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

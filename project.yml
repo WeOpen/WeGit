@@ -88,8 +88,9 @@ targets:
         script: |
           mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
           ditto "${BUILT_PRODUCTS_DIR}/WeGitTestGit" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitTestGit"
-        inputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitTestGit"]
-        outputFiles: ["$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/WeGitTestGit"]
+          ditto "${BUILT_PRODUCTS_DIR}/WeGitTestGitPath.txt" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitTestGitPath.txt"
+        inputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitTestGit", "$(BUILT_PRODUCTS_DIR)/WeGitTestGitPath.txt"]
+        outputFiles: ["$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/WeGitTestGit", "$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/WeGitTestGitPath.txt"]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.UITests
@@ -100,6 +101,16 @@ targets:
     type: tool
     platform: macOS
     sources: [WeGitUITests/Support/TestGit]
+    postCompileScripts:
+      - name: Record selected Xcode Git before sandboxed execution
+        basedOnDependencyAnalysis: false
+        script: |
+          set -eu
+          test_git="$(/usr/bin/xcrun --find git)"
+          case "$test_git" in /*) ;; *) exit 1 ;; esac
+          test -x "$test_git"
+          printf '%s\n' "$test_git" > "${BUILT_PRODUCTS_DIR}/WeGitTestGitPath.txt"
+        outputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitTestGitPath.txt"]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.TestGit
