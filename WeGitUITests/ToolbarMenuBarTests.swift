@@ -69,16 +69,19 @@ final class ToolbarMenuBarTests: XCTestCase {
         let sync = app.descendants(matching: .any).matching(identifier: "toolbar-sync").firstMatch
         XCTAssertTrue(sync.waitForExistence(timeout: 5))
         XCTAssertTrue(sync.isHittable)
-        sync.click()
-        XCTAssertTrue(app.menuItems["拉取"].waitForExistence(timeout: 3))
-        XCTAssertFalse(app.menuItems["拉取"].isEnabled)
+        let pull = app.toolbarSyncAction("toolbar-pull")
+        XCTAssertTrue(pull.waitForExistence(timeout: 3))
+        XCTAssertFalse(pull.isEnabled)
         XCTAssertFalse(app.menuItems["推送"].isEnabled)
         app.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
         let more = app.descendants(matching: .any).matching(identifier: "toolbar-more").firstMatch
         XCTAssertTrue(more.isHittable)
         more.click()
-        XCTAssertTrue(app.menuItems["活动记录"].waitForExistence(timeout: 3))
-        app.menuItems["活动记录"].click()
-        XCTAssertTrue(app.staticTexts["活动记录"].firstMatch.waitForExistence(timeout: 5))
+        let activity = app.windows["main"].menuItems["活动记录"]
+        XCTAssertTrue(activity.waitForExistence(timeout: 3))
+        activity.click()
+        let activitySheet = window.sheets.firstMatch
+        XCTAssertTrue(activitySheet.staticTexts["Git 活动"].waitForExistence(timeout: 5))
+        XCTAssertTrue(activitySheet.buttons["关闭"].isHittable)
     }
 }

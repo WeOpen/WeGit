@@ -155,7 +155,7 @@ final class WorkflowRecoveryTests: XCTestCase {
                 in: .whitespacesAndNewlines)
             let app = application(fixture)
             defer { app.terminate() }
-            let pull = app.buttons["toolbar-pull"]
+            let pull = app.toolbarSyncAction("toolbar-pull")
             XCTAssertTrue(pull.waitForExistence(timeout: 10))
             let available = XCTNSPredicateExpectation(
                 predicate: NSPredicate(format: "enabled == true"), object: pull)

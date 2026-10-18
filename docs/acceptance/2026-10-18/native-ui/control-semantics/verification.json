@@ -1,0 +1,84 @@
+[
+  {
+    "focus": "sync-recovery",
+    "runId": 39092250879,
+    "sourceCommit": "2f19cdb86067f7333ff5d4e217c02903d255a740",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 30.032,
+    "applicationInputsMatchCurrent": true
+  },
+  {
+    "focus": "menu-localization",
+    "runId": 39092639702,
+    "sourceCommit": "2f19cdb86067f7333ff5d4e217c02903d255a740",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 46.968,
+    "applicationInputsMatchCurrent": true
+  },
+  {
+    "focus": "text-settings",
+    "runId": 39093592271,
+    "sourceCommit": "c8071e510d3b74ed35793997fb75732f5c7595c5",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 44.66,
+    "applicationInputsMatchCurrent": true,
+    "applicationInputCount": 120
+  },
+  {
+    "focus": "minimum-layout",
+    "runId": 39117712731,
+    "sourceCommit": "2401a72ac59bbd1e02edc6fa7b846e095c82c6a7",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 35.506,
+    "applicationInputsMatchCurrent": true,
+    "applicationInputCount": 120
+  },
+  {
+    "focus": "compact-toolbar",
+    "runId": 39117973905,
+    "sourceCommit": "286d5a6b22759f86fdc4aff42e9ecd5d63249bb9",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 19.215,
+    "applicationInputsMatchCurrent": true,
+    "applicationInputCount": 120
+  },
+  {
+    "focus": "theme-interaction",
+    "runId": 39118124413,
+    "sourceCommit": "286d5a6b22759f86fdc4aff42e9ecd5d63249bb9",
+    "counts": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "seconds": 58.404,
+    "applicationInputsMatchCurrent": true,
+    "applicationInputCount": 120
+  }
+]

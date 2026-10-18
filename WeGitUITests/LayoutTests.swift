@@ -175,8 +175,12 @@ final class LayoutTests: XCTestCase {
             XCTAssertEqual(window.frame.height, 692, accuracy: 4)
             visible(navigation)
             visible(app.buttons["commit-button"])
+            let sidebar = app.windows["main"].outlines.containing(
+                .staticText, identifier: "route-更改"
+            ).firstMatch
+            XCTAssertTrue(sidebar.waitForExistence(timeout: 3))
             XCTAssertGreaterThanOrEqual(
-                app.textFields["changes-filter"].frame.minX, app.outlines["Sidebar"].frame.maxX - 2)
+                app.textFields["changes-filter"].frame.minX, sidebar.frame.maxX - 2)
             app.staticTexts["file.swift"].firstMatch.click()
             XCTAssertTrue(app.buttons["暂存此块"].firstMatch.waitForExistence(timeout: 5))
             visible(app.buttons["暂存此块"].firstMatch)
@@ -186,7 +190,7 @@ final class LayoutTests: XCTestCase {
                     NSPredicate(format: "value BEGINSWITH %@", "let longValue")
                 ).firstMatch
                 let beforeScroll = code.frame.minX
-                app.scrollViews["diff-content"].scroll(byDeltaX: 400, deltaY: 0)
+                app.scrollViews["diff-content"].scroll(byDeltaX: -400, deltaY: 0)
                 XCTAssertLessThan(code.frame.minX, beforeScroll - 50)
                 visible(app.buttons["暂存此块"].firstMatch)
                 visible(app.buttons["丢弃此块…"].firstMatch)

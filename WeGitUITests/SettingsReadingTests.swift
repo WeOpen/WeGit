@@ -30,9 +30,10 @@ final class SettingsReadingTests: XCTestCase {
         XCTAssertEqual(initialHeight, 11 * 1.2, accuracy: 4)
         app.menuBars.menuBarItems["WeGit"].click()
         app.menuItems["native-command-settings"].click()
+        let settings = app.windows["com_apple_SwiftUI_Settings_window"]
+        XCTAssertTrue(settings.waitForExistence(timeout: 5))
         func tab(_ title: String) {
-            let window = app.windows["com_apple_SwiftUI_Settings_window"]
-            let button = window.radioButtons[title].firstMatch
+            let button = settings.radioButtons[title].firstMatch
             XCTAssertTrue(button.waitForExistence(timeout: 5))
             button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
         }
@@ -56,16 +57,29 @@ final class SettingsReadingTests: XCTestCase {
         tab("外观")
         let slider = app.sliders["settings-code-size"]
         XCTAssertTrue(slider.exists)
+        for _ in 0..<6 {
+            if slider.isHittable && settings.frame.contains(slider.frame) { break }
+            settings.scrollViews.firstMatch.scroll(byDeltaX: 0, deltaY: -240)
+        }
+        XCTAssertTrue(settings.frame.contains(slider.frame))
+        XCTAssertTrue(slider.isHittable)
         slider.adjust(toNormalizedSliderPosition: 1)
+        let sizeState = XCTAttachment(
+            string: "value=\(String(describing: slider.value)) label=\(slider.label) frame=\(slider.frame)")
+        sizeState.name = "Visible code size slider after adjustment"
+        sizeState.lifetime = .keepAlways
+        add(sizeState)
         let font = app.popUpButtons["settings-code-font"]
         font.click()
         app.menuItems["Menlo"].click()
-        app.windows.matching(NSPredicate(format: "identifier != %@", "main")).firstMatch.buttons[
-            XCUIIdentifierCloseWindow
-        ].click()
+        settings.buttons[XCUIIdentifierCloseWindow].click()
         let changed = app.textViews.matching(NSPredicate(format: "value == %@", "let·after·=·2")).firstMatch
         XCTAssertTrue(changed.waitForExistence(timeout: 5))
         XCTAssertGreaterThan(changed.frame.height, initialHeight + 8)
         XCTAssertEqual(changed.frame.height, 24 * 1.2, accuracy: 5)
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "Live code size after Settings change"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
     }
 }
