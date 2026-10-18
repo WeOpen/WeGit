@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "8c9d4c16a9dbe1903215907ee04b3dee77cd413f",
+        "deviceName": "My Mac",
+        "modelName": "Virtual Machine",
+        "osBuildNumber": "26A434",
+        "osVersion": "27.0.1",
+        "platform": "macOS"
+      },
+      "expectedFailures": 0,
+      "failedTests": 1,
+      "passedTests": 0,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+  "expectedFailures": 0,
+  "failedTests": 1,
+  "finishTime": 1792317954.201,
+  "passedTests": 0,
+  "result": "Failed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1792317916.317,
+  "statistics": [],
+  "testFailures": [
+    {
+      "failureText": "Failed to click \"\u4e3b\u9898\" PopUpButton: No matches found for Descendants matching type PopUpButton from input {(\n    Window, identifier: 'com_apple_SwiftUI_Settings_window', title: 'WeGit \u8bbe\u7f6e'\n)}",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus",
+      "testName": "testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus()"
+    }
+  ],
+  "title": "Test - WeGit",
+  "topInsights": [],
+  "totalTestCount": 1
+}

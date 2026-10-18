@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-18T10:12:00.862838+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "sourceCommit": "286d5a6b22759f86fdc4aff42e9ecd5d63249bb9",
+  "workspaceDirty": false,
+  "imageVersion": "20261012.0260.1",
+  "runId": "39118124413",
+  "manager": {
+    "exitCode": 0,
+    "output": "Aqua"
+  },
+  "consoleUIDMatches": true,
+  "developerTools": {
+    "exitCode": 0,
+    "output": "Developer mode is currently enabled."
+  },
+  "interactivePrerequisites": true,
+  "sip": {
+    "exitCode": 0,
+    "output": "System Integrity Protection status: disabled."
+  },
+  "gatekeeper": {
+    "exitCode": 0,
+    "output": "assessments enabled"
+  },
+  "xcode": {
+    "exitCode": 0,
+    "output": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "firstLaunch": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "selectedGit": {
+    "exitCode": 0,
+    "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+  },
+  "osPermissionsChanged": false,
+  "mode": "smoke",
+  "focus": "theme-interaction",
+  "tests": [
+    {
+      "scope": "smoke",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 18.614,
+      "log": "smoke.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "2861427f811d8705e9ae0643ed72a14bf91ed036",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792318340.039,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792318323.717,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - WeGit",
+        "topInsights": [],
+        "totalTestCount": 1
+      }
+    },
+    {
+      "scope": "focused-theme-interaction",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 58.404,
+      "log": "focused-theme-interaction.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "2861427f811d8705e9ae0643ed72a14bf91ed036",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792318399.357,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792318342.469,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - WeGit",
+        "topInsights": [],
+        "totalTestCount": 1
+      }
+    }
+  ],
+  "releaseReady": false
+}
