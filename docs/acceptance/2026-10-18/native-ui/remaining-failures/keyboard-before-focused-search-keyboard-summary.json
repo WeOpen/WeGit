@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "7f049b060b7f075e8d0743b822a6fffef7d378ff",
+        "deviceName": "My Mac",
+        "modelName": "Virtual Machine",
+        "osBuildNumber": "26A434",
+        "osVersion": "27.0.1",
+        "platform": "macOS"
+      },
+      "expectedFailures": 0,
+      "failedTests": 1,
+      "passedTests": 0,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+  "expectedFailures": 0,
+  "failedTests": 1,
+  "finishTime": 1792333577.891,
+  "passedTests": 0,
+  "result": "Failed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1792333551.551,
+  "statistics": [],
+  "testFailures": [
+    {
+      "failureText": "XCTAssertEqual failed: (\"0\") is not equal to (\"1\")",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "InterfacePolishTests/testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/InterfacePolishTests/testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes",
+      "testName": "testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes()"
+    }
+  ],
+  "title": "Test - WeGit",
+  "topInsights": [],
+  "totalTestCount": 1
+}

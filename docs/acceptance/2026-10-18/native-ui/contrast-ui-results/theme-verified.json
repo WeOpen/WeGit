@@ -1,0 +1,22 @@
+{
+  "sourceCommit": "aa2bcca1d76d60ba4bec85cafdc037342604465a",
+  "sourceFilesVerifiedAgainstGit": 120,
+  "tests": [
+    {
+      "scope": "smoke",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 23.026
+    },
+    {
+      "scope": "focused-theme-interaction",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 95.576
+    }
+  ]
+}

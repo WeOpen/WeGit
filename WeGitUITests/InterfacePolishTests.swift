@@ -60,7 +60,10 @@ final class InterfacePolishTests: XCTestCase {
             row.click()
             XCTAssertTrue(app.scrollViews["diff-content"].waitForExistence(timeout: 5))
             let headBeforeReading = try fixture.git(["rev-parse", "HEAD"])
-            let statusBeforeReading = try fixture.git(["status", "--porcelain=v1"])
+            let statusBeforeReading = try fixture.git(["--no-optional-locks", "status", "--porcelain=v1"])
+            // git status must not refresh the index and trigger the app's watcher
+            // while XCTest is moving the pointer to the diff header.
+            XCTAssertTrue(app.staticTexts["正在核对差异…"].waitForNonExistence(timeout: 5))
             let unified = app.radioButtons["统一"]
             let split = app.radioButtons["分栏"]
             XCTAssertTrue(unified.isHittable)
@@ -81,7 +84,8 @@ final class InterfacePolishTests: XCTestCase {
             XCTAssertEqual(String(describing: unified.value ?? ""), "1")
             XCTAssertFalse(app.descendants(matching: .any)["diff-column-headers"].exists)
             XCTAssertEqual(try fixture.git(["rev-parse", "HEAD"]), headBeforeReading)
-            XCTAssertEqual(try fixture.git(["status", "--porcelain=v1"]), statusBeforeReading)
+            XCTAssertEqual(
+                try fixture.git(["--no-optional-locks", "status", "--porcelain=v1"]), statusBeforeReading)
             let screenshot = XCTAttachment(screenshot: app.screenshot())
             screenshot.name = "Polished workspace - \(appearance)"
             screenshot.lifetime = .keepAlways

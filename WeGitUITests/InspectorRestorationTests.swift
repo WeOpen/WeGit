@@ -191,7 +191,7 @@ final class InspectorRestorationTests: XCTestCase {
                 forDuration: 0.2,
                 thenDragTo: corner.withOffset(CGVector(dx: 980 - initial.width, dy: 693 - initial.height)))
             XCTAssertGreaterThanOrEqual(window.frame.width, 1292)
-            let viewport = app.scrollViews.containing(
+            let viewport = window.scrollViews.containing(
                 .outline, identifier: route == "提交历史" ? "history-list" : "changes-list"
             ).firstMatch
             let bounds =
@@ -200,9 +200,15 @@ final class InspectorRestorationTests: XCTestCase {
             geometry.name = "Restored inspector geometry - " + route
             geometry.lifetime = .keepAlways
             add(geometry)
-            XCTAssertTrue(window.frame.contains(mainContent.frame), bounds)
-            XCTAssertTrue(window.frame.contains(inspector.frame))
-            XCTAssertLessThanOrEqual(mainContent.frame.maxX, inspector.frame.minX)
+            // AX exposes the outline's scrollable content beyond its clip view.
+            // The native ScrollView is the visible boundary restored by the split workspace.
+            XCTAssertTrue(viewport.exists)
+            XCTAssertGreaterThan(viewport.frame.width, 0)
+            XCTAssertGreaterThan(viewport.frame.height, 0)
+            XCTAssertTrue(window.frame.contains(viewport.frame), bounds)
+            XCTAssertTrue(window.frame.contains(inspector.frame), bounds)
+            XCTAssertLessThanOrEqual(viewport.frame.maxX, inspector.frame.minX)
+            XCTAssertTrue(mainContent.isHittable)
             let attachment = XCTAttachment(screenshot: app.screenshot())
             attachment.name = "Restored inspector - \(route)"
             attachment.lifetime = .keepAlways

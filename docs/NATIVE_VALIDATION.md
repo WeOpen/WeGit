@@ -91,6 +91,8 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main \
 
 ## 当前同源审查与颜色修正
 
-PR #26 已合入 main `bcca7f3`，七项实际单项通过且原断言保留。[独立审查 39119367892](https://github.com/WeOpen/WeGit/actions/runs/39119367892) 真正进入系统 API，执行 1、失败 1、零跳过，产生 59 条待判定报告；[逐条原始记录](acceptance/2026-10-18/native-ui/current-audit/README.md) 区分报告数和缺陷数。同 SHA 的完整功能 39119370087 仍在运行。
+PR #26 已合入 main `bcca7f3`，七项实际单项通过且原断言保留。[独立审查 39119367892](https://github.com/WeOpen/WeGit/actions/runs/39119367892) 真正进入系统 API，执行 1、失败 1、零跳过，产生 59 条待判定报告；[逐条原始记录](acceptance/2026-10-18/native-ui/current-audit/README.md) 区分报告数和缺陷数。同 SHA 的完整功能 39119370087 已完成 45 项：43 通过、2 失败、零跳过；ReadingMatrix 的 144 个组合全部通过，详见 [完整基线](acceptance/2026-10-18/native-ui/after-controls-baseline/README.md)。
 
 新的 [设置名称/语义色候选](acceptance/2026-10-18/native-ui/native-contrast/README.md) 按用户确认的 4.5:1 目标修正内置角色，不改变色相和布局；源色对、原生控件、实际截图、完整功能与系统审查分别验证，不能以本机主题检查替代其余范围。
+
+PR #27 已合入 main `734b8e1`。最终候选主题与字号两个运行均 smoke 1/1 加 focused 1/1、零失败/跳过，实际菜单/次要文字与选中行反差断言通过，详见 [配色 UI 证据](acceptance/2026-10-18/native-ui/contrast-ui-results/README.md)。原有功能基线中的恢复检查器 Outline 边界和 Diff RightArrow 两处失败先用有界诊断记录，不重复无变化完整失败。
