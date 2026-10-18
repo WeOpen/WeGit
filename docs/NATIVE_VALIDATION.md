@@ -71,3 +71,16 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=smoke -f c
 主分支辅助访问尝试的 UI-only smoke 通过后，用例仍在仓库夹具初始化时失败，未执行界面审查。强化 smoke 捕获原始错误 `xcrun: error: cannot be used within an App Sandbox.`（exit 1）。修正把选中 Git 的查找移到构建阶段，让 Swift 夹具与 C 辅助程序直接读取同一绝对路径回执；缺失或无效回执不回退到系统 shim。测试 runner 的 sandbox 和签名配置未变。
 
 候选 `e7f3216` 的 [强化 smoke 39088573828](https://github.com/WeOpen/WeGit/actions/runs/39088573828) 实际执行并通过 1 项，零失败/跳过，17.677 秒；包括欢迎页/Clone、Git 配置隔离与直接/嵌入 Git 版本相同。成功截图和 xcodebuild 生成的 sandbox entitlement 已归档。全部 120 项当前构建输入匹配；相对首窗修正只改变测试目标配置的两项工程输入，其余 118 项应用/核心/资源未变。详见 [夹具工具链记录](acceptance/2026-10-18/native-ui/fixture-toolchain/README.md)。完整功能与自动辅助访问审查继续分别执行，VoiceOver 和发布门槛不因此签收。
+
+## 完整功能基线与有界单项诊断（2026-10-18）
+
+同一 main `6087cf7` 的完整功能实际执行 45、通过 28、失败 17、跳过 0；历史 Clone 长路径/已有目录重试用例通过，阅读矩阵提前失败。独立辅助访问执行 1、失败 1、零跳过，旧 Sidebar Outline 查询在系统审查前失败。完整摘要与两张已完成阅读检查的截图见 [基线记录](acceptance/2026-10-18/native-ui/full-baseline/README.md)，旧 44 条审查没有被新的报告替代。
+
+受信任 main 驱动提供固定 allowlist 的单项候选诊断；始终先通过恰好 1 项强化 smoke，再执行恰好 1 项指定检查，每项必须无失败/跳过。单项测试的 XCTest 上限 180 秒、进程组总上限 300 秒。任意路径与 `functional/accessibility` 搭配 focus 均拒绝，候选仍只接受开放同仓库 main PR 的固定 SHA。此入口不改变完整验收或发布门禁。
+
+```bash
+gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main \
+  -f scope=smoke -f candidate_pr=123 -f focus=minimum-layout
+```
+
+可选项由 `scripts/ci/ui_probe.py` 的 FOCUSED_TESTS 明确映射到单个测试，不包含完整阅读循环或人工辅助访问工作区。独立 SceneLaunchControl 同时保留只读的当前/可用显示模式及屏幕可见区域回执，不修改显示设置；用于区分 1024×768 VM 条件与宽窗口断言。

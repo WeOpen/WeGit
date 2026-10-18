@@ -1,0 +1,2 @@
+Test Case '-[WeGitUITests.WeGitUITests testCloneRejectsExistingDirectoryThenRetriesSuccessfully]' started.
+Test Case '-[WeGitUITests.WeGitUITests testCloneRejectsExistingDirectoryThenRetriesSuccessfully]' passed (27.848 seconds).

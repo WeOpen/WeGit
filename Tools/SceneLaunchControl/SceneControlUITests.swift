@@ -4,6 +4,32 @@ import XCTest
 final class SceneControlUITests: XCTestCase {
     @MainActor func testFirstWindowIsPresented() throws {
         continueAfterFailure = false
+        let display = CGMainDisplayID()
+        let modes =
+            CGDisplayCopyAllDisplayModes(
+                display, [kCGDisplayShowDuplicateLowResolutionModes as String: true] as CFDictionary)
+            as? [CGDisplayMode] ?? []
+        func mode(_ value: CGDisplayMode) -> [String: Int] {
+            [
+                "width": value.width, "height": value.height,
+                "pixelWidth": value.pixelWidth, "pixelHeight": value.pixelHeight,
+            ]
+        }
+        let displayReport: [String: Any] = [
+            "readOnly": true,
+            "currentMode": CGDisplayCopyDisplayMode(display).map(mode) ?? [:],
+            "availableModes": modes.map(mode),
+            "screens": NSScreen.screens.map {
+                ["frame": NSStringFromRect($0.frame), "visibleFrame": NSStringFromRect($0.visibleFrame)]
+            },
+        ]
+        let receipt = XCTAttachment(
+            data: try JSONSerialization.data(
+                withJSONObject: displayReport, options: [.prettyPrinted, .sortedKeys]),
+            uniformTypeIdentifier: "public.json")
+        receipt.name = "Read-only display modes"
+        receipt.lifetime = .keepAlways
+        add(receipt)
         let app = XCUIApplication()
         defer { app.terminate() }
         #if DEFAULT_CONTROL_ARGUMENTS

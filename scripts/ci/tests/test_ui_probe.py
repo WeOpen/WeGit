@@ -1,4 +1,4 @@
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
 from pathlib import Path
 import subprocess
@@ -49,6 +49,44 @@ class NativeProcessDeadlineTests(unittest.TestCase):
 
 
 class NativeScopeSelectionTests(unittest.TestCase):
+    def test_candidate_focus_runs_one_bounded_allowlisted_test_after_smoke(self):
+        summary = {"totalTestCount": 1, "passedTests": 1, "failedTests": 0, "skippedTests": 0}
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(sys, "argv", ["ui_probe.py", "--mode", "smoke", "--focus", "minimum-layout", "--output", folder]), \
+                 patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                 patch.object(ui_probe, "run_logged", return_value={"exitCode": 0, "timedOut": False}) as runner, \
+                 patch.object(ui_probe, "result_summary", return_value=summary), \
+                 redirect_stdout(StringIO()):
+                ui_probe.main()
+            self.assertEqual(runner.call_count, 2)
+            first, focused = (call.args[0] for call in runner.call_args_list)
+            self.assertIn("-only-testing:WeGitUITests/WeGitUITests/testWelcomeAndCloneForm", first)
+            self.assertIn("-only-testing:WeGitUITests/LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls", focused)
+            self.assertIn("-maximum-test-execution-time-allowance", focused)
+            self.assertLessEqual(runner.call_args_list[1].args[2], 300)
+
+    def test_focus_refuses_arbitrary_tests_and_larger_candidate_scopes(self):
+        for values in (["--mode", "functional", "--focus", "minimum-layout"],
+                       ["--mode", "smoke", "--focus", "WeGitUITests/ManualAccessibilitySession"]):
+            with self.subTest(values=values), patch.object(sys, "argv", ["ui_probe.py", *values]), \
+                 patch.object(ui_probe, "inspect_environment") as inspect, \
+                 redirect_stdout(StringIO()), redirect_stderr(StringIO()):
+                with self.assertRaises(SystemExit):
+                    ui_probe.main()
+                inspect.assert_not_called()
+
+    def test_focused_diagnostic_never_starts_after_a_failed_smoke(self):
+        summary = {"totalTestCount": 1, "passedTests": 0, "failedTests": 1, "skippedTests": 0}
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(sys, "argv", ["ui_probe.py", "--mode", "smoke", "--focus", "minimum-layout", "--output", folder]), \
+                 patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                 patch.object(ui_probe, "run_logged", return_value={"exitCode": 65, "timedOut": False}) as runner, \
+                 patch.object(ui_probe, "result_summary", return_value=summary), \
+                 redirect_stdout(StringIO()):
+                with self.assertRaises(SystemExit):
+                    ui_probe.main()
+            self.assertEqual(runner.call_count, 1)
+
     def test_automatic_scopes_keep_opt_in_manual_session_out_of_zero_skip_acceptance(self):
         summary = {"totalTestCount": 1, "passedTests": 1, "failedTests": 0, "skippedTests": 0}
         for mode in ("functional", "accessibility"):

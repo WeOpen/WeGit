@@ -150,6 +150,10 @@ final class LayoutTests: XCTestCase {
             defer { app.terminate() }
             XCTAssertTrue(app.staticTexts["file.swift"].firstMatch.waitForExistence(timeout: 10))
             let window = app.windows["main"]
+            let hierarchy = XCTAttachment(string: app.debugDescription)
+            hierarchy.name = "Minimum workspace hierarchy - " + appearance
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
             let navigation = app.staticTexts.matching(
                 NSPredicate(format: "identifier == %@ AND value == %@", "route-更改", "更改")
             ).firstMatch

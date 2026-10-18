@@ -11,6 +11,11 @@ on:
         description: Optional open same-repository PR number; smoke diagnostics only, not release acceptance
         type: string
         default: ''
+      focus:
+        description: Optional single allowlisted diagnostic after smoke; not release acceptance
+        type: choice
+        options: [none, minimum-layout, compact-toolbar, menu-localization, text-settings, theme-interaction, window-restoration, inspector-boundary, sync-recovery, diff-options, large-diff, rebase-conflicts]
+        default: none
 permissions:
   contents: read
 defaults:
@@ -65,14 +70,15 @@ jobs:
       - name: Run bounded native scope
         env:
           UI_SCOPE: ${{ inputs.scope }}
+          UI_FOCUS: ${{ inputs.focus }}
         run: |
           case "$UI_SCOPE" in smoke|functional|accessibility) ;; *) exit 2 ;; esac
-          python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE"
+          python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE" --focus "$UI_FOCUS"
       - name: Retain actual environment, failures and results
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: native-ui-${{ inputs.scope }}-${{ steps.source.outputs.sha }}
+          name: native-ui-${{ inputs.scope }}-${{ inputs.focus }}-${{ steps.source.outputs.sha }}
           path: .build/ci/ui/
           include-hidden-files: true
           retention-days: 14

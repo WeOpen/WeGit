@@ -10,6 +10,20 @@ import signal
 import subprocess
 import time
 
+FOCUSED_TESTS = {
+    "minimum-layout": "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls",
+    "compact-toolbar": "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable",
+    "menu-localization": "LocalizationUITests/testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch",
+    "text-settings": "SettingsReadingTests/testSixSettingsTabsAndLiveTextMeasurementChanges",
+    "theme-interaction": "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus",
+    "window-restoration": "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen",
+    "inspector-boundary": "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets",
+    "sync-recovery": "WeGitUITests/testLostPushReplyRestoresVerificationAfterLocalHeadMoves",
+    "diff-options": "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState",
+    "large-diff": "WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset",
+    "rebase-conflicts": "WorkflowRecoveryTests/testPullRebaseHandlesTwoConflictRoundsAndAbort",
+}
+
 
 def run_logged(command, output, timeout):
     start = time.monotonic()
@@ -92,12 +106,15 @@ def result_summary(bundle, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=("environment", "smoke", "functional", "accessibility"), default="environment")
+    parser.add_argument("--focus", choices=("none", *FOCUSED_TESTS), default="none")
     parser.add_argument("--require-interactive", action="store_true")
     parser.add_argument("--output", type=Path, default=Path(".build/ci/ui"))
     args = parser.parse_args()
+    if args.focus != "none" and args.mode != "smoke":
+        parser.error("A focused diagnostic is only available after the minimal smoke, not in larger scopes.")
     args.output.mkdir(parents=True, exist_ok=True)
     report = inspect_environment()
-    report.update(mode=args.mode, tests=[], releaseReady=False)
+    report.update(mode=args.mode, focus=args.focus, tests=[], releaseReady=False)
 
     def save():
         (args.output / (args.mode + ".json")).write_text(json.dumps(report, indent=2) + "\n")
@@ -123,7 +140,21 @@ def main():
         raise SystemExit("Minimal XCTest failed. Retain this result; do not run a larger suite in this environment.")
     verify_summary(summary, smoke=True)
     print("One minimal native UI test actually executed and passed.", flush=True)
-    if args.mode != "smoke":
+    if args.focus != "none":
+        name = "focused-" + args.focus
+        result = run_logged(base + ["-only-testing:WeGitUITests/" + FOCUSED_TESTS[args.focus],
+                                   "-test-timeouts-enabled", "YES", "-default-test-execution-time-allowance", "120",
+                                   "-maximum-test-execution-time-allowance", "180",
+                                   "-resultBundlePath", str(args.output / (name + ".xcresult"))],
+                            args.output / (name + ".log"), 300)
+        summary = result_summary(args.output / (name + ".xcresult"), args.output / (name + "-summary.json"))
+        report["tests"].append({"scope": name, **result, "summary": summary})
+        save()
+        if result["timedOut"] or result["exitCode"]:
+            raise SystemExit("Focused native diagnostic failed; retain its log and xcresult.")
+        verify_summary(summary, smoke=True)
+        print("One allowlisted native diagnostic actually executed and passed:", args.focus, flush=True)
+    elif args.mode != "smoke":
         selection = (["-only-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes"]
                      if args.mode == "accessibility" else [
                          "-skip-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes",
