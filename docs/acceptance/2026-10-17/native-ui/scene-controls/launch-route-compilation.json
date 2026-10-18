@@ -1,0 +1,20 @@
+{
+  "executedXCTestLocally": false,
+  "controls": [
+    {
+      "target": "AsyncLaunchTests",
+      "productURLExpanded": true,
+      "bundleIdentifierExpanded": true,
+      "runnerSandboxed": true,
+      "buildPassed": true
+    },
+    {
+      "target": "WorkspaceLaunchTests",
+      "productURLExpanded": true,
+      "bundleIdentifierExpanded": true,
+      "runnerSandboxed": true,
+      "buildPassed": true
+    }
+  ],
+  "note": "Xcode-injected runner sandbox remains enabled. NSWorkspace may ignore isolation arguments, so the control explicitly checks their receipt and cannot be treated as a usable WeGit launcher without it."
+}

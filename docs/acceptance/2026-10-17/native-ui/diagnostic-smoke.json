@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-17T01:25:30.619516+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "sourceCommit": "73905434917c03c24647e9589060e21384e74523",
+  "workspaceDirty": false,
+  "imageVersion": "20261012.0260.1",
+  "runId": "38990703801",
+  "manager": {
+    "exitCode": 0,
+    "output": "Aqua"
+  },
+  "consoleUIDMatches": true,
+  "developerTools": {
+    "exitCode": 0,
+    "output": "Developer mode is currently enabled."
+  },
+  "interactivePrerequisites": true,
+  "sip": {
+    "exitCode": 0,
+    "output": "System Integrity Protection status: disabled."
+  },
+  "gatekeeper": {
+    "exitCode": 0,
+    "output": "assessments enabled"
+  },
+  "xcode": {
+    "exitCode": 0,
+    "output": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "firstLaunch": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "selectedGit": {
+    "exitCode": 0,
+    "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+  },
+  "osPermissionsChanged": false,
+  "mode": "smoke",
+  "tests": [
+    {
+      "scope": "smoke",
+      "exitCode": 65,
+      "timedOut": false,
+      "seconds": 19.666,
+      "log": "smoke.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "854a70380091471ce78c65d8419a43efb2ce2582",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 1,
+            "passedTests": 0,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "finishTime": 1792200349.419,
+        "passedTests": 0,
+        "result": "Failed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792200333.733,
+        "statistics": [],
+        "testFailures": [
+          {
+            "failureText": "XCTAssertTrue failed",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 1,
+            "testIdentifierString": "WeGitUITests/testWelcomeAndCloneForm()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testWelcomeAndCloneForm",
+            "testName": "testWelcomeAndCloneForm()"
+          }
+        ],
+        "title": "Test - WeGit",
+        "topInsights": [],
+        "totalTestCount": 1
+      }
+    }
+  ],
+  "releaseReady": false
+}

@@ -1,0 +1,14 @@
+{
+  "executedXCTestLocally": false,
+  "controls": [
+    {
+      "scheme": "AppKitControl",
+      "buildExitCode": 0
+    },
+    {
+      "scheme": "HostingControl",
+      "buildExitCode": 0
+    }
+  ],
+  "weGitApplicationSourceChanged": false
+}

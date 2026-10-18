@@ -1,0 +1,28 @@
+{
+  "scope": "Local startup wrapper diagnostics only; changed executable entry makes these non-equivalent to XCTest, so no product reproduction or hypothesis result is claimed.",
+  "controls": [
+    {
+      "id": "42b73e6c",
+      "startupStages": [
+        "WeGit startup: state-init-start",
+        "WeGit startup: state-init-finished",
+        "WeGit startup: scene-body",
+        "WeGit startup: application-did-finish",
+        "WeGit startup: windows-after-launch total=0 visible=0"
+      ],
+      "processStopped": true
+    },
+    {
+      "id": "5e74d426",
+      "startupStages": [
+        "WeGit startup: state-init-start app-exists=true",
+        "WeGit startup: state-init-finished app-exists=true",
+        "WeGit startup: scene-body",
+        "WeGit startup: application-did-finish",
+        "WeGit startup: windows-after-launch total=0 visible=0"
+      ],
+      "processStopped": true
+    }
+  ],
+  "userApplicationTouched": false
+}

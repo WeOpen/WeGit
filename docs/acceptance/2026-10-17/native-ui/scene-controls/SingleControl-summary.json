@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "326dd511444d6a0cbbb4382cf1caeb8650e9269c",
+        "deviceName": "My Mac",
+        "modelName": "Virtual Machine",
+        "osBuildNumber": "26A434",
+        "osVersion": "27.0.1",
+        "platform": "macOS"
+      },
+      "expectedFailures": 0,
+      "failedTests": 1,
+      "passedTests": 0,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "SingleControl \u00b7 Built with macOS 27.0.1",
+  "expectedFailures": 0,
+  "failedTests": 1,
+  "finishTime": 1792202830.135,
+  "passedTests": 0,
+  "result": "Failed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1792202814.373,
+  "statistics": [],
+  "testFailures": [
+    {
+      "failureText": "XCTAssertTrue failed - The plain SwiftUI scene must present its content after launch.",
+      "targetName": "SingleControlTests",
+      "testIdentifier": 1,
+      "testIdentifierString": "SceneControlUITests/testFirstWindowIsPresented()",
+      "testIdentifierURL": "test://com.apple.xcode/SceneLaunchControl/SingleControlTests/SceneControlUITests/testFirstWindowIsPresented",
+      "testName": "testFirstWindowIsPresented()"
+    }
+  ],
+  "title": "Test - SingleControl",
+  "topInsights": [],
+  "totalTestCount": 1
+}

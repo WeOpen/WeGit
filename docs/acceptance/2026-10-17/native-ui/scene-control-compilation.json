@@ -1,0 +1,18 @@
+{
+  "executedXCTest": false,
+  "osPermissionsChanged": false,
+  "builds": [
+    {
+      "scheme": "BareControl",
+      "exitCode": 0
+    },
+    {
+      "scheme": "SingleControl",
+      "exitCode": 0
+    },
+    {
+      "scheme": "GroupControl",
+      "exitCode": 0
+    }
+  ]
+}

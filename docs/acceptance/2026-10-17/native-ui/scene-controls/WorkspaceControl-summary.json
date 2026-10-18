@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "72cccc65c45d7a13f2f3bac5c3579e0a457c4124",
+        "deviceName": "My Mac",
+        "modelName": "Virtual Machine",
+        "osBuildNumber": "26A434",
+        "osVersion": "27.0.1",
+        "platform": "macOS"
+      },
+      "expectedFailures": 0,
+      "failedTests": 1,
+      "passedTests": 0,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "WorkspaceControl \u00b7 Built with macOS 27.0.1",
+  "expectedFailures": 0,
+  "failedTests": 1,
+  "finishTime": 1792204164.904,
+  "passedTests": 0,
+  "result": "Failed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1792204149.276,
+  "statistics": [],
+  "testFailures": [
+    {
+      "failureText": "XCTAssertTrue failed - The plain scene must appear after the selected launch route.",
+      "targetName": "WorkspaceLaunchTests",
+      "testIdentifier": 1,
+      "testIdentifierString": "AsyncSceneControlUITests/testFirstWindowIsPresented()",
+      "testIdentifierURL": "test://com.apple.xcode/SceneLaunchControl/WorkspaceLaunchTests/AsyncSceneControlUITests/testFirstWindowIsPresented",
+      "testName": "testFirstWindowIsPresented()"
+    }
+  ],
+  "title": "Test - WorkspaceControl",
+  "topInsights": [],
+  "totalTestCount": 1
+}

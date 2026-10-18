@@ -1,0 +1,33 @@
+{
+  "baselineApplicationSourceSHA256": "6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda",
+  "experiments": [
+    {
+      "commit": "b0d4eef4d31601d8294c3b29661a9da25e490bba",
+      "run": 38991238224,
+      "change": "Debug stage logging only",
+      "result": "state and scene finish; no workspace or window"
+    },
+    {
+      "commit": "c8dd1a30e4aa4672f6083d9b16efed3e804447b5",
+      "run": 38991716173,
+      "change": "Scene restoration disabled",
+      "result": "one failed test; zero app windows"
+    },
+    {
+      "commit": "bdaa7ab8513c3677f9673167d891f0cda8e7a475",
+      "run": 38991983778,
+      "change": "Primary scene command suppression removed",
+      "result": "content closure evaluated; no workspace; zero app windows"
+    },
+    {
+      "commit": "81effd12dcd1371d962cc0ef51bf126fa7e18f3e",
+      "run": 38992731839,
+      "change": "WindowGroup replacing Window with original command suppression restored",
+      "result": "one failed test; no workspace; zero app windows"
+    }
+  ],
+  "allExperimentalProductChangesReverted": true,
+  "rootCauseConfirmed": false,
+  "largerProductUITestsExecuted": false,
+  "nextStep": "Independent plain SwiftUI/XCTest reduction authorized by user"
+}

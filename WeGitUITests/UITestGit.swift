@@ -3,7 +3,14 @@ import XCTest
 
 extension XCUIApplication {
     @MainActor func launchWeGit() {
-        if !launchArguments.contains("-language") { launchArguments += ["-language", "zh-Hans"] }
+        var arguments = launchArguments
+        if !arguments.contains("-language") { arguments = ["-language", "zh-Hans"] + arguments }
+        // The isolated SwiftUI/XCTest control only presents its first window when
+        // value-bearing defaults precede our valueless test switches.
+        let switches = ["--uitesting", "--uitesting-menu-bar", "--uitesting-keep-preferences"]
+        launchArguments =
+            arguments.filter { !switches.contains($0) }
+            + arguments.filter { switches.contains($0) }
         launch()
         activate()
         let menuReady = menuBars.menuBarItems["native-menu-app"].waitForExistence(timeout: 5)
