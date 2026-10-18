@@ -834,7 +834,7 @@ final class WeGitUITests: XCTestCase {
         XCTAssertTrue(app.buttons["stage:untracked:replacement.swift"].isEnabled)
     }
 
-    @MainActor func testWelcomeAndCloneForm() {
+    @MainActor func testWelcomeAndCloneForm() throws {
         continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
@@ -851,6 +851,29 @@ final class WeGitUITests: XCTestCase {
         XCTAssertEqual(app.textFields["clone-folder"].value as? String, "repository")
         app.buttons["clone-cancel"].click()
         XCTAssertTrue(app.buttons["open-repository"].exists)
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "Welcome after Clone cancellation"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+        let fixture = try UITestGit(prefix: "WeGitSmokeGit")
+        defer { fixture.remove() }
+        let version = try fixture.git(["--version"])
+        XCTAssertTrue(version.hasPrefix("git version "))
+        let helper = Process()
+        helper.executableURL = try XCTUnwrap(
+            Bundle(for: Self.self).url(forResource: "WeGitTestGit", withExtension: nil))
+        helper.arguments = ["--version"]
+        helper.environment = [
+            "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_SYSTEM": "/dev/null", "LC_ALL": "C",
+        ]
+        let output = Pipe()
+        helper.standardOutput = output
+        helper.standardError = output
+        try helper.run()
+        let actual = output.fileHandleForReading.readDataToEndOfFile()
+        helper.waitUntilExit()
+        XCTAssertEqual(helper.terminationStatus, 0, String(decoding: actual, as: UTF8.self))
+        XCTAssertEqual(String(decoding: actual, as: UTF8.self), version)
     }
     @MainActor func testStageCommitAndHistory() throws {
         continueAfterFailure = false

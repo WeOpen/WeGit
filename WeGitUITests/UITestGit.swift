@@ -66,6 +66,8 @@ extension XCUIApplication {
     }
 }
 
+private final class UITestGitBundle: NSObject {}
+
 struct UITestGit {
     @MainActor static func preservingClipboard(_ action: (NSPasteboard) -> Void) {
         let clipboard = NSPasteboard.general
@@ -86,22 +88,18 @@ struct UITestGit {
     }
 
     private static let executable: Result<URL, any Error> = Result {
-        let resolver = Process()
-        let output = Pipe()
-        resolver.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
-        resolver.arguments = ["--find", "git"]
-        resolver.standardOutput = output
-        resolver.standardError = output
-        try resolver.run()
-        let data = output.fileHandleForReading.readDataToEndOfFile()
-        resolver.waitUntilExit()
-        let path = String(decoding: data, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
-        guard resolver.terminationStatus == 0, path.hasPrefix("/"),
-            FileManager.default.isExecutableFile(atPath: path)
-        else {
+        // xcrun explicitly refuses App Sandbox execution. The build records its
+        // selected Git once, alongside the helper, before the UI runner starts.
+        let receipt = Bundle(for: UITestGitBundle.self).url(
+            forResource: "WeGitTestGitPath", withExtension: "txt")
+        let path = try receipt.map { try String(contentsOf: $0, encoding: .utf8) }?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let path, path.hasPrefix("/"), FileManager.default.isExecutableFile(atPath: path) else {
             throw NSError(
                 domain: "WeGitUITests.Toolchain", code: 1,
-                userInfo: [NSLocalizedDescriptionKey: "Could not resolve Git from the selected Xcode."])
+                userInfo: [
+                    NSLocalizedDescriptionKey: "The build-time selected Xcode Git is missing or unavailable."
+                ])
         }
         return URL(fileURLWithPath: path)
     }
@@ -115,7 +113,7 @@ struct UITestGit {
         return value
     }()
 
-    // XCUITest uses the actual Xcode binary, avoiding /usr/bin/git's xcrun shim.
+    // XCUITest uses the recorded Xcode binary, avoiding sandboxed xcrun lookup.
     // Verify its isolation support before any fixture command, without changing HOME.
     private static let isolation: Result<Void, any Error> = Result {
         let root = FileManager.default.temporaryDirectory.appending(path: "WeGitUIProbe-" + UUID().uuidString)
