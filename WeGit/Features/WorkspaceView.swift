@@ -235,15 +235,17 @@ struct WorkspaceView: View {
                             .system(size: 13, weight: app.workspace.route == route ? .semibold : .regular))
                         Spacer()
                         if route == .changes {
-                            CountBadge(value: "\(session.status.files.count)", tint: colors.secondaryText)
+                            CountBadge(
+                                value: "\(session.status.files.count)",
+                                tint: app.workspace.route == route
+                                    ? colors.selectionText : colors.secondaryText)
                         }
                     }.padding(.horizontal, 8)
                         .frame(height: app.preferences.density == "compact" ? 34 : 42)
-                        .foregroundStyle(app.workspace.route == route ? colors.text : colors.secondaryText)
+                        .foregroundStyle(app.workspace.route == route ? colors.selectionText : colors.text)
                         .background(
-                            app.workspace.route == route
-                                ? colors.accent.opacity(colors.dark ? 0.22 : 0.14) : Color.clear,
-                            in: .rect(cornerRadius: 6)
+                            app.workspace.route == route ? colors.brandBlue : Color.clear,
+                            in: .rect(cornerRadius: AppStyle.controlRadius)
                         )
                         .tag(route).accessibilityIdentifier("route-\(route.id)")
                 }
@@ -495,7 +497,7 @@ struct WelcomeView: View {
                     .workbenchPrimaryAction()
                     .tint(colors.primaryAction)
                     .controlSize(.large).accessibilityIdentifier("open-repository")
-                Button(L10n.text("克隆仓库…"), systemImage: "square.on.square", action: app.presentClone)
+                Button(L10n.text("克隆仓库…"), systemImage: "arrow.down.to.line", action: app.presentClone)
                     .workbenchControlFamily().controlSize(.large)
             }
             if app.isOpening { ProgressView(L10n.text("正在打开仓库…")) }
@@ -505,13 +507,12 @@ struct WelcomeView: View {
                         .foregroundStyle(colors.secondaryText)
                     ForEach(
                         [
-                            ("folder.badge.gearshape", L10n.text("打开本地仓库，或从远端克隆一份")),
-                            ("tray", L10n.text("逐文件暂存，提交前看清每一处改动")),
-                            ("command", L10n.text("⌘K 切换仓库，⌘⇧F 搜索当前仓库")),
-                        ], id: \.1
-                    ) { symbol, text in
+                            L10n.text("打开本地仓库，或从远端克隆一份"),
+                            L10n.text("逐文件暂存，提交前看清每一处改动"),
+                            L10n.text("⌘K 切换仓库，⌘⇧F 搜索当前仓库"),
+                        ], id: \.self
+                    ) { text in
                         HStack(spacing: 10) {
-                            Image(systemName: symbol).frame(width: 18).foregroundStyle(colors.accent)
                             Text(text).foregroundStyle(colors.text)
                             Spacer(minLength: 0)
                         }

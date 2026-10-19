@@ -41,7 +41,7 @@ struct MenuBarPanel: View {
                 Label(L10n.text("正在保存 Git 配置…"), systemImage: "gearshape")
                     .font(.caption).foregroundStyle(colors.modified)
             } else if app.clone.isBusy {
-                Label(L10n.text("正在克隆仓库…"), systemImage: "square.on.square")
+                Label(L10n.text("正在克隆仓库…"), systemImage: "arrow.down.to.line")
                     .font(.caption).foregroundStyle(colors.modified)
             }
             if let session = app.session {
@@ -74,12 +74,12 @@ struct MenuBarPanel: View {
                         )
                         .accessibilityIdentifier("menu-bar-refresh")
                         Spacer()
-                        Button(L10n.text("拉取…"), systemImage: "arrow.down.to.line") {
+                        Button(L10n.text("拉取…"), systemImage: "arrow.down") {
                             inMainWindow { app.presentSync(.pull) }
                         }
                         .disabled(!session.canSync).help(session.syncReason)
                         .accessibilityIdentifier("menu-bar-pull")
-                        Button(L10n.text("推送…"), systemImage: "arrow.up.to.line") {
+                        Button(L10n.text("推送…"), systemImage: "arrow.up") {
                             inMainWindow { app.presentSync(.push) }
                         }
                         .disabled(!session.canSync).help(session.syncReason)
@@ -113,7 +113,7 @@ struct MenuBarPanel: View {
                 Button(L10n.text("打开…"), systemImage: "folder.badge.plus") {
                     inMainWindow { app.openPanel() }
                 }
-                Button(L10n.text("克隆…"), systemImage: "square.on.square") {
+                Button(L10n.text("克隆…"), systemImage: "arrow.down.to.line") {
                     inMainWindow { app.presentClone() }
                 }
                 Spacer()

@@ -156,7 +156,7 @@ struct WorkbenchGlyph: View {
     var body: some View {
         Image(systemName: symbol)
             .font(.system(size: 13, weight: selected ? .semibold : .medium))
-            .foregroundStyle(selected ? colors.accent : colors.secondaryText)
+            .foregroundStyle(selected ? colors.selectionText : colors.text)
             .frame(width: size, height: size)
             .accessibilityHidden(true)
     }

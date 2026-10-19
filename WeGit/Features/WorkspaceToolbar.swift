@@ -45,7 +45,7 @@ struct RepositoryFetchMenu: View {
                 }
             }
         } label: {
-            Label(L10n.text("获取"), systemImage: "arrow.down.circle.dotted")
+            Label(L10n.text("获取"), systemImage: "arrow.clockwise")
         }.workbenchGlassMenu(toolbar: inToolbar).disabled(!session.canWrite || session.remotes.isEmpty)
             .help(session.remotes.isEmpty ? L10n.text("尚未配置 Remote") : L10n.text("选择要获取的远端"))
             .accessibilityIdentifier("toolbar-fetch")
@@ -59,13 +59,11 @@ struct RepositorySyncButtons: View {
     var inToolbar = false
 
     var body: some View {
-        Button(L10n.text("拉取"), systemImage: "arrow.down.to.line") { app.presentSync(.pull) }
+        Button(L10n.text("拉取"), systemImage: "arrow.down") { app.presentSync(.pull) }
             .workbenchControlFamily(toolbar: inToolbar)
-            .tint(colors.accent)
             .help(session.syncReason).disabled(!session.canSync).accessibilityIdentifier("toolbar-pull")
-        Button(L10n.text("推送"), systemImage: "arrow.up.to.line") { app.presentSync(.push) }
+        Button(L10n.text("推送"), systemImage: "arrow.up") { app.presentSync(.push) }
             .workbenchControlFamily(toolbar: inToolbar)
-            .tint(colors.accent)
             .help(session.syncReason).disabled(!session.canSync).accessibilityIdentifier("toolbar-push")
     }
 }

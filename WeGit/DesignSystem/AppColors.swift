@@ -86,7 +86,7 @@ struct AppColors: Equatable, Sendable {
     var accent: Color { color(.accent) }
     var primaryAction: Color { accent }
     var destructiveAction: Color { negative }
-    var brandBlue: Color { accent }
+    var brandBlue: Color { custom == nil ? Color(nsColor: .systemBlue) : accent }
     var canvas: Color { color(.canvas) }
     var chrome: Color { color(.chrome) }
     var sidebar: Color { color(.sidebar) }

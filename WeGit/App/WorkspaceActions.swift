@@ -174,7 +174,7 @@ extension AppState {
         var commands: [WorkspaceCommand] = [
             .init(id: "open", title: L10n.text("打开仓库…"), symbol: "folder", shortcut: "⌘O", action: openPanel),
             .init(
-                id: "clone", title: L10n.text("克隆仓库…"), symbol: "square.on.square", shortcut: "⌘⇧O",
+                id: "clone", title: L10n.text("克隆仓库…"), symbol: "arrow.down.to.line", shortcut: "⌘⇧O",
                 action: presentClone),
             .init(
                 id: "switch", title: L10n.text("切换仓库…"), symbol: "folder.badge.gearshape", shortcut: "⌘K",
@@ -208,10 +208,10 @@ extension AppState {
                 enabled: session?.canCommit == true,
                 reason: session?.commitReason ?? reason, shortcut: "⌘↩", action: commitCurrent),
             .init(
-                id: "pull", title: L10n.text("拉取…"), symbol: "arrow.down.to.line", enabled: session?.canSync == true,
+                id: "pull", title: L10n.text("拉取…"), symbol: "arrow.down", enabled: session?.canSync == true,
                 reason: reason, shortcut: "⌘⇧L", action: { self.presentSync(.pull) }),
             .init(
-                id: "push", title: L10n.text("推送…"), symbol: "arrow.up.to.line", enabled: session?.canSync == true,
+                id: "push", title: L10n.text("推送…"), symbol: "arrow.up", enabled: session?.canSync == true,
                 reason: reason, shortcut: "⌘⇧U", action: { self.presentSync(.push) }),
             .init(
                 id: "terminal", title: L10n.text("在 Terminal 中打开仓库"), symbol: "terminal", enabled: available,

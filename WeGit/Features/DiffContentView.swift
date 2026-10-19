@@ -37,8 +37,8 @@ struct DiffContentView: View {
                 ScrollViewReader { proxy in
                     GeometryReader { geometry in
                         let showsMap = diff.hunks.count > 1
-                        let contentWidth = max(
-                            split ? 360 : 520, geometry.size.width - (showsMap ? 14 : 0))
+                        let viewportWidth = max(0, geometry.size.width - (showsMap ? 14 : 0))
+                        let contentWidth = max(split ? 360 : 520, viewportWidth)
                         let columnWidth = (contentWidth - 1) / 2
                         HStack(spacing: 0) {
                             ScrollView([.horizontal, .vertical]) {
@@ -47,13 +47,13 @@ struct DiffContentView: View {
                                         VStack(alignment: .leading, spacing: 0) {
                                             contentRows(
                                                 split: split, columnWidth: columnWidth,
-                                                controlsWidth: contentWidth)
+                                                controlsWidth: viewportWidth)
                                         }
                                     } else {
                                         LazyVStack(alignment: .leading, spacing: 0) {
                                             contentRows(
                                                 split: split, columnWidth: columnWidth,
-                                                controlsWidth: contentWidth)
+                                                controlsWidth: viewportWidth)
                                         }
                                     }
                                 }.frame(minWidth: contentWidth, alignment: .leading)

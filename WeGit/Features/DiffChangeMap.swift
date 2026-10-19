@@ -9,10 +9,28 @@ struct DiffChangeMap: View {
     let current: Int?
     let navigate: (Int) -> Void
 
-    private struct Tick {
+    struct Tick {
         let id: Int
         let offset: CGFloat
         let extent: CGFloat
+
+        func range(height: CGFloat) -> ClosedRange<CGFloat> {
+            let start = offset * height
+            return start...(start + max(extent * height, 2))
+        }
+    }
+
+    static func target(at position: CGFloat, height: CGFloat, ticks: [Tick]) -> Int? {
+        guard height > 0 else { return nil }
+        // Canvas draws later ticks on top. Match that order when marks overlap.
+        if let hit = ticks.last(where: { $0.range(height: height).contains(position) }) {
+            return hit.id
+        }
+        func distance(_ tick: Tick) -> CGFloat {
+            let range = tick.range(height: height)
+            return max(range.lowerBound - position, position - range.upperBound)
+        }
+        return ticks.min { distance($0) < distance($1) }?.id
     }
 
     private var ticks: [Tick] {
@@ -42,9 +60,10 @@ struct DiffChangeMap: View {
         GeometryReader { geometry in
             Canvas { context, size in
                 for tick in ticks {
+                    let range = tick.range(height: size.height)
                     let rect = CGRect(
-                        x: (size.width - 5) / 2, y: tick.offset * size.height,
-                        width: 5, height: max(tick.extent * size.height, 2))
+                        x: (size.width - 5) / 2, y: range.lowerBound,
+                        width: 5, height: range.upperBound - range.lowerBound)
                     context.fill(
                         Path(roundedRect: rect, cornerRadius: 2),
                         with: .color(colors.accent.opacity(tick.id == current ? 1 : 0.45)))
@@ -52,10 +71,11 @@ struct DiffChangeMap: View {
             }.contentShape(.rect)
                 .gesture(
                     SpatialTapGesture().onEnded { value in
-                        guard geometry.size.height > 0, !ticks.isEmpty else { return }
-                        let fraction = value.location.y / geometry.size.height
-                        let target = ticks.min { abs($0.offset - fraction) < abs($1.offset - fraction) }
-                        if let target { navigate(target.id) }
+                        if let target = Self.target(
+                            at: value.location.y, height: geometry.size.height, ticks: ticks)
+                        {
+                            navigate(target)
+                        }
                     }
                 )
         }

@@ -25,7 +25,7 @@ struct SyncSheet: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            SheetTitle(title: title, symbol: state.kind == .pull ? "arrow.down.to.line" : "arrow.up.to.line")
+            SheetTitle(title: title, symbol: state.kind == .pull ? "arrow.down" : "arrow.up")
             VStack(alignment: .leading, spacing: 4) {
                 Text("\(state.session.location.name) · \(state.localBranch)").font(.headline)
                 Text(state.session.location.root.path).font(.caption).foregroundStyle(colors.secondaryText)
