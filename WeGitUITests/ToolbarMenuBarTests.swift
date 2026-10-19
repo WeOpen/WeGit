@@ -1,6 +1,70 @@
+import AppKit
 import XCTest
 
 final class ToolbarMenuBarTests: XCTestCase {
+    @MainActor func testSidebarButtonRetainsItsSurfaceAfterRepeatedToggles() throws {
+        continueAfterFailure = false
+        let fixture = try UITestGit(prefix: "WeGitSidebarSurfaceUI")
+        defer { fixture.remove() }
+        try fixture.git(["init", "-b", "main"])
+        let app = XCUIApplication()
+        app.launchArguments = ["--uitesting", "-appearance", "dark"]
+        app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = fixture.root.path
+        app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
+        app.launchWeGit()
+        app.activate()
+        defer { app.terminate() }
+        XCTAssertTrue(app.staticTexts["工作区干净"].firstMatch.waitForExistence(timeout: 10))
+        let window = app.windows["main"]
+        for closed in [true, false, true, false] {
+            let toggle = app.buttons["toolbar-sidebar"]
+            XCTAssertTrue(toggle.waitForExistence(timeout: 5))
+            toggle.click()
+            let value = closed ? "已关闭" : "已打开"
+            let state = XCTNSPredicateExpectation(
+                predicate: NSPredicate(format: "value == %@", value), object: toggle)
+            XCTAssertEqual(XCTWaiter.wait(for: [state], timeout: 5), .completed)
+            let surface = XCTNSPredicateExpectation(
+                predicate: NSPredicate { _, _ in
+                    self.sidebarSurfaceDifference(window: window, button: toggle) > 0.025
+                }, object: nil)
+            let rendered = XCTWaiter.wait(for: [surface], timeout: 5)
+            let image = XCTAttachment(screenshot: window.screenshot())
+            image.name = "Sidebar surface - " + value
+            image.lifetime = .keepAlways
+            add(image)
+            XCTAssertEqual(rendered, .completed, "Sidebar button lost its circular background")
+        }
+    }
+
+    /// Compare an icon-free annulus of the 36pt control with its outside corners.
+    /// A bare sidebar glyph has no material in this annulus.
+    @MainActor private func sidebarSurfaceDifference(window: XCUIElement, button: XCUIElement) -> Double {
+        guard let image = NSBitmapImageRep(data: window.screenshot().pngRepresentation),
+            window.frame.width > 0, window.frame.height > 0
+        else { return 0 }
+        let xScale = CGFloat(image.pixelsWide) / window.frame.width
+        let yScale = CGFloat(image.pixelsHigh) / window.frame.height
+        let center = CGPoint(
+            x: button.frame.midX - window.frame.minX, y: button.frame.midY - window.frame.minY)
+        func tone(_ dx: CGFloat, _ dy: CGFloat) -> Double {
+            let x = Int((center.x + dx) * xScale)
+            let y = Int((center.y + dy) * yScale)
+            guard x >= 0, y >= 0, x < image.pixelsWide, y < image.pixelsHigh,
+                let color = image.colorAt(x: x, y: y)?.usingColorSpace(.sRGB)
+            else { return 0 }
+            return Double((color.redComponent + color.greenComponent + color.blueComponent) / 3)
+        }
+        let corners = [tone(-17, -17), tone(17, -17), tone(-17, 17), tone(17, 17)]
+        let outside = corners.reduce(0, +) / Double(corners.count)
+        let annulus = (0..<32).map { index in
+            let angle = CGFloat(index) * .pi / 16
+            return tone(cos(angle) * 14, sin(angle) * 14)
+        }
+        return abs(annulus.reduce(0, +) / Double(annulus.count) - outside)
+    }
+
     @MainActor func testMenuBarReopensClosedWindowWithoutLosingDraftAndRefreshesExternalChanges() throws {
         continueAfterFailure = false
         let fixture = try UITestGit(prefix: "WeGitMenuBarUI")
