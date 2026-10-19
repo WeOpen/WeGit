@@ -1,0 +1,65 @@
+[
+  {
+    "test": "DiffReaderTests/testHunkNavigationAndNativeSelectionCopyOriginalText",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "GitConfigurationInterfaceTests/testGlobalAndLocalEditsUseOnlyTheirExplicitScope",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "InspectorRestorationTests/testBranchesStayInsideWorkspaceWithSidebarAndInspectorChanges",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "RepositoryPickerTests/testKeyboardSelectionSearchAndCloneHandoff",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "WeGitUITests/testBranchRenameDeleteAndTrackingCreation",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "WeGitUITests/testCloneRejectsExistingDirectoryThenRetriesSuccessfully",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "WeGitUITests/testCommandPaletteCanSwitchAFilteredLocalBranch",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  },
+  {
+    "test": "WeGitUITests/testStatusFilterPreservesStageAllScopeAndDeletedFileOpenIsDisabled",
+    "warning": {
+      "name": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions",
+      "nodeType": "Runtime Warning"
+    }
+  }
+]

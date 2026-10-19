@@ -14,7 +14,7 @@ on:
       focus:
         description: Optional single allowlisted diagnostic after smoke; not release acceptance
         type: choice
-        options: [none, minimum-layout, compact-toolbar, menu-localization, text-settings, theme-interaction, window-restoration, inspector-boundary, sync-recovery, diff-options, large-diff, rebase-conflicts]
+        options: [none, minimum-layout, compact-toolbar, menu-localization, text-settings, theme-interaction, window-restoration, inspector-boundary, inspector-restoration, search-keyboard, sync-recovery, diff-options, large-diff, rebase-conflicts]
         default: none
       display:
         description: Temporary hosted-VM display; restore the original mode after the command

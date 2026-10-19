@@ -1,0 +1,12 @@
+[
+  "A tap near the bottom of a large mark selects that mark",
+  "The small later mark remains selectable",
+  "A gap tap uses the nearest painted interval rather than its start",
+  "A gap nearer the later interval selects it",
+  "Tiny marks retain the two-point drawn height",
+  "The entire two-point mark is hittable",
+  "Overlapping marks select the last painted mark",
+  "An empty map has no target",
+  "Zero-height maps have no target",
+  "Negative-height maps have no target"
+]

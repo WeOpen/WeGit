@@ -1,0 +1,26 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x75a24130c0, {{1169.0, 254.0}, {73.0, 24.0}}, identifier: 'history-operations', title: '所选提交的操作'
+Element subtree:
+ →MenuButton, 0x75a24130c0, {{1169.0, 254.0}, {73.0, 24.0}}, identifier: 'history-operations', title: '所选提交的操作'
+Path to element:
+ →Application, 0x75a241cc80, pid: 9441, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a241dcc0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Group, 0x75a241ca00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x75a241c780, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x75a241c280, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x75a2413480, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x75a2411a40, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x75a2413700, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x75a2410500, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x75a2412a80, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x75a2410dc0, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳MenuButton, 0x75a24130c0, {{1169.0, 254.0}, {73.0, 24.0}}, identifier: 'history-operations', title: '所选提交的操作'
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a2460140, pid: 9441, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jzwAAAAAAAAA=
+    Output: {
+      MenuButton, 0x75a241f480, {{1169.0, 254.0}, {73.0, 24.0}}, identifier: 'history-operations', title: '所选提交的操作'
+    }

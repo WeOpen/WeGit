@@ -1,0 +1,199 @@
+Command line invocation:
+    /Applications/Xcode_27.app/Contents/Developer/usr/bin/xcodebuild -project Tools/SceneLaunchControl/SceneLaunchControl.xcodeproj -scheme AuditNativeControl -configuration Debug -destination platform=macOS,arch=arm64 -derivedDataPath .build/scene-controls -parallel-testing-enabled NO test-without-building -test-timeouts-enabled YES -default-test-execution-time-allowance 60 -maximum-test-execution-time-allowance 90 -resultBundlePath .build/ci/scene-controls/AuditNativeControl.xcresult
+
+Writing result bundle at path:
+	/Users/runner/work/WeGit/WeGit/.build/ci/scene-controls/AuditNativeControl.xcresult
+
+2026-10-18 14:48:08.995263+0000 AuditNativeTests-Runner[76026:173266] [Default] Running tests...
+Test Suite 'All tests' started at 2026-10-18 14:48:09.075.
+Test Suite 'AuditNativeTests.xctest' started at 2026-10-18 14:48:09.075.
+Test Suite 'AccessibilityControlUITests' started at 2026-10-18 14:48:09.076.
+Test Case '-[AuditNativeTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances]' started.
+    t =     0.00s Start Test at 2026-10-18 14:48:09.077
+    t =     0.09s Set Up
+    t =     0.10s Open com.willxue.wegit.auditcontrol.native
+    t =     0.10s     Launch com.willxue.wegit.auditcontrol.native
+2026-10-18 14:48:09.298 xcodebuild[76022:173192] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-18 14:48:09.298 xcodebuild[76022:173192] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     0.74s         Wait for accessibility to load
+    t =     0.75s         Setting up automation session
+    t =     0.78s         Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     0.98s Open com.willxue.wegit.auditcontrol.native
+    t =     0.98s     Activate com.willxue.wegit.auditcontrol.native
+    t =     0.98s         Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     0.99s Waiting 10.0s for "control-ready" StaticText to exist
+    t =     2.01s     Checking `Expect predicate `existsNoRetry == 1` for object "control-ready" StaticText`
+    t =     2.01s         Checking existence of `"control-ready" StaticText`
+    t =     2.06s Get number of matches for: Descendants matching type Window
+    t =     2.07s Find the Window (First Match)
+    t =     2.09s Find the "control-scope" Any
+    t =     2.10s Click "control-scope" PopUpButton
+    t =     2.10s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     2.10s     Find the "control-scope" PopUpButton
+    t =     2.11s     Check for interrupting elements affecting "control-scope" PopUpButton
+    t =     2.13s     Synthesize event
+    t =     2.62s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     2.62s Waiting 5.0s for "Current branch" MenuItem to exist
+    t =     3.63s     Checking `Expect predicate `existsNoRetry == 1` for object "Current branch" MenuItem`
+    t =     3.63s         Checking existence of `"Current branch" MenuItem`
+    t =     3.65s Click "Current branch" MenuItem
+    t =     3.65s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     3.65s     Find the "Current branch" MenuItem
+    t =     3.67s     Check for interrupting elements affecting "_popUpItemAction:" MenuItem
+    t =     3.67s     Synthesize event
+    t =     3.67s         Checking existence of `"_popUpItemAction:" MenuItem`
+    t =     3.69s         Hover menu item 'Current branch'
+    t =     3.69s             Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     3.69s             Find the "_popUpItemAction:" MenuItem
+    t =     3.71s             Check for interrupting elements affecting "_popUpItemAction:" MenuItem
+    t =     3.71s             Synthesize event
+    t =     3.92s             Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     3.92s         Find the "_popUpItemAction:" MenuItem
+    t =     4.76s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     4.77s Click "control-button" Button
+    t =     4.77s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     4.77s     Find the "control-button" Button
+    t =     4.80s     Check for interrupting elements affecting "control-button" Button
+    t =     4.80s     Synthesize event
+    t =     5.27s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     5.27s Waiting 5.0s for "Activated" StaticText to exist
+    t =     6.29s     Checking `Expect predicate `existsNoRetry == 1` for object "Activated" StaticText`
+    t =     6.29s         Checking existence of `"Activated" StaticText`
+    t =     6.33s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     6.34s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     6.36s Added attachment named 'Independent control hierarchy - light'
+    t =     6.36s Find the Target Application 'com.willxue.wegit.auditcontrol.native'
+2026-10-18 14:48:15.445699+0000 AuditNativeTests-Runner[76026:173266] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =     6.41s Added attachment named 'Independent control screenshot - light'
+    t =     6.65s Find the Any (Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLQAAAAAAAAA=)
+    t =     6.67s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     6.68s Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLQAAAAAAAAA=
+    t =     6.69s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     6.70s Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLQAAAAAAAAA=
+    t =     6.70s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     6.70s Using snapshot previously cached by application
+    t =     6.71s Added attachment named 'Independent accessibility issue - light'
+    t =     6.71s Find the Any (Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLQAAAAAAAAA=)
+    t =     6.72s Checking existence of `"control-ready" StaticText`
+    t =     6.73s Find the "control-ready" StaticText
+2026-10-18 14:48:15.822656+0000 AuditNativeTests-Runner[76026:173266] [DisplayManager] Found 1 displays containing rect (731.0, 243.0, 458.0, 26.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditNativeTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Contrast failed
+    t =     6.97s Find the Any (Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLgAAAAAAAAA=)
+    t =     6.99s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     7.01s Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLgAAAAAAAAA=
+    t =     7.01s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     7.02s Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLgAAAAAAAAA=
+    t =     7.03s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     7.03s Using snapshot previously cached by application
+    t =     7.03s Added attachment named 'Independent accessibility issue - light'
+    t =     7.03s Find the Any (Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLgAAAAAAAAA=)
+    t =     7.05s Checking existence of `"control-sha" StaticText`
+    t =     7.06s Find the "control-sha" StaticText
+2026-10-18 14:48:16.147206+0000 AuditNativeTests-Runner[76026:173266] [DisplayManager] Found 1 displays containing rect (731.0, 279.0, 458.0, 26.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditNativeTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Contrast failed
+    t =     7.08s Find the Any (Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLAAAAAAAAAA=)
+    t =     7.10s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     7.11s Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLAAAAAAAAAA=
+    t =     7.12s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     7.13s Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLAAAAAAAAAA=
+    t =     7.13s Requesting snapshot of accessibility hierarchy for app with pid 76091
+    t =     7.13s Using snapshot previously cached by application
+    t =     7.14s Added attachment named 'Independent accessibility issue - light'
+    t =     7.14s Find the Any (Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLAAAAAAAAAA=)
+    t =     7.16s Checking existence of `TouchBar`
+    t =     7.17s Find the TouchBar
+2026-10-18 14:48:16.256425+0000 AuditNativeTests-Runner[76026:173266] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditNativeTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Element has no description
+    t =     7.19s Terminate com.willxue.wegit.auditcontrol.native:76091
+    t =     8.27s Terminate com.willxue.wegit.auditcontrol.native:0
+    t =     8.28s Open com.willxue.wegit.auditcontrol.native
+    t =     8.28s     Launch com.willxue.wegit.auditcontrol.native
+2026-10-18 14:48:17.359 xcodebuild[76022:173192] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-18 14:48:17.359 xcodebuild[76022:173192] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     8.60s         Wait for accessibility to load
+    t =     8.77s         Setting up automation session
+    t =     8.79s         Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     8.79s Open com.willxue.wegit.auditcontrol.native
+    t =     8.79s     Activate com.willxue.wegit.auditcontrol.native
+    t =     8.79s         Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     8.80s Waiting 10.0s for "control-ready" StaticText to exist
+    t =     9.80s     Checking `Expect predicate `existsNoRetry == 1` for object "control-ready" StaticText`
+    t =     9.80s         Checking existence of `"control-ready" StaticText`
+    t =     9.85s Get number of matches for: Descendants matching type Window
+    t =     9.87s Find the Window (First Match)
+    t =     9.87s Find the "control-scope" Any
+    t =     9.89s Click "control-scope" PopUpButton
+    t =     9.89s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =     9.89s     Find the "control-scope" PopUpButton
+    t =     9.90s     Check for interrupting elements affecting "control-scope" PopUpButton
+    t =     9.91s     Synthesize event
+    t =    10.33s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =    10.34s Waiting 5.0s for "Current branch" MenuItem to exist
+    t =    11.39s     Checking `Expect predicate `existsNoRetry == 1` for object "Current branch" MenuItem`
+    t =    11.39s         Checking existence of `"Current branch" MenuItem`
+    t =    11.42s Click "Current branch" MenuItem
+    t =    11.43s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =    11.43s     Find the "Current branch" MenuItem
+    t =    11.44s     Check for interrupting elements affecting "_popUpItemAction:" MenuItem
+    t =    11.45s     Synthesize event
+    t =    11.45s         Checking existence of `"_popUpItemAction:" MenuItem`
+    t =    11.46s         Hover menu item 'Current branch'
+    t =    11.46s             Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =    11.46s             Find the "_popUpItemAction:" MenuItem
+    t =    11.48s             Check for interrupting elements affecting "_popUpItemAction:" MenuItem
+    t =    11.48s             Synthesize event
+    t =    11.71s             Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =    11.71s         Find the "_popUpItemAction:" MenuItem
+    t =    12.49s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =    12.50s Click "control-button" Button
+    t =    12.50s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =    12.50s     Find the "control-button" Button
+    t =    12.53s     Check for interrupting elements affecting "control-button" Button
+    t =    12.53s     Synthesize event
+    t =    12.99s     Wait for com.willxue.wegit.auditcontrol.native to idle
+    t =    12.99s Waiting 5.0s for "Activated" StaticText to exist
+    t =    14.00s     Checking `Expect predicate `existsNoRetry == 1` for object "Activated" StaticText`
+    t =    14.00s         Checking existence of `"Activated" StaticText`
+    t =    14.04s Requesting snapshot of accessibility hierarchy for app with pid 76416
+    t =    14.05s Requesting snapshot of accessibility hierarchy for app with pid 76416
+    t =    14.07s Added attachment named 'Independent control hierarchy - dark'
+    t =    14.07s Find the Target Application 'com.willxue.wegit.auditcontrol.native'
+2026-10-18 14:48:23.152893+0000 AuditNativeTests-Runner[76026:173266] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    14.11s Added attachment named 'Independent control screenshot - dark'
+    t =    14.21s Find the Any (Descendant with identity binding to AX element pid: 76416, token: gCoBAAAAAABvY29jLAAAAAAAAAA=)
+    t =    14.23s Requesting snapshot of accessibility hierarchy for app with pid 76416
+    t =    14.24s Find: Descendant with identity binding to AX element pid: 76416, token: gCoBAAAAAABvY29jLAAAAAAAAAA=
+    t =    14.24s Requesting snapshot of accessibility hierarchy for app with pid 76416
+    t =    14.26s Find: Descendant with identity binding to AX element pid: 76416, token: gCoBAAAAAABvY29jLAAAAAAAAAA=
+    t =    14.26s Requesting snapshot of accessibility hierarchy for app with pid 76416
+    t =    14.26s Using snapshot previously cached by application
+    t =    14.26s Added attachment named 'Independent accessibility issue - dark'
+    t =    14.27s Find the Any (Descendant with identity binding to AX element pid: 76416, token: gCoBAAAAAABvY29jLAAAAAAAAAA=)
+    t =    14.28s Checking existence of `TouchBar`
+    t =    14.29s Find the TouchBar
+2026-10-18 14:48:23.379969+0000 AuditNativeTests-Runner[76026:173266] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditNativeTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Element has no description
+    t =    14.32s Terminate com.willxue.wegit.auditcontrol.native:76416
+    t =    15.34s Terminate com.willxue.wegit.auditcontrol.native:0
+    t =    15.34s Tear Down
+Test Case '-[AuditNativeTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances]' failed (15.385 seconds).
+Test Suite 'AccessibilityControlUITests' failed at 2026-10-18 14:48:24.462.
+	 Executed 1 test, with 4 failures (0 unexpected) in 15.385 (15.386) seconds
+Test Suite 'AuditNativeTests.xctest' failed at 2026-10-18 14:48:24.462.
+	 Executed 1 test, with 4 failures (0 unexpected) in 15.385 (15.387) seconds
+Test Suite 'All tests' failed at 2026-10-18 14:48:24.463.
+	 Executed 1 test, with 4 failures (0 unexpected) in 15.385 (15.388) seconds
+2026-10-18 14:48:27.537 xcodebuild[76022:173192] [MT] IDETestOperationsObserverDebug: 18.961 elapsed -- Testing started completed.
+2026-10-18 14:48:27.537 xcodebuild[76022:173192] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-18 14:48:27.537 xcodebuild[76022:173192] [MT] IDETestOperationsObserverDebug: 18.961 sec, +18.961 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/runner/work/WeGit/WeGit/.build/ci/scene-controls/AuditNativeControl.xcresult
+
+Failing tests:
+	AccessibilityControlUITests.testNativeControlsAndAuditInBothAppearances()
+	AccessibilityControlUITests.testNativeControlsAndAuditInBothAppearances()
+
+** TEST EXECUTE FAILED **
+
+Testing started

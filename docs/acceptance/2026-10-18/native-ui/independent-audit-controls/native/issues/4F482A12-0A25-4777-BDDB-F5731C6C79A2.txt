@@ -1,0 +1,17 @@
+Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd
+Attributes: StaticText, 0x776aa39e00, {{731.0, 279.0}, {458.0, 26.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+Element subtree:
+ →StaticText, 0x776aa39e00, {{731.0, 279.0}, {458.0, 26.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+Path to element:
+ →Application, 0x776aa3a080, pid: 76091, title: 'AuditNativeApp', Disabled
+  ↳Window (Main), 0x776aa3abc0, {{700.0, 176.0}, {520.0, 392.0}}, title: 'Independent accessibility control', Keyboard Focused, Disabled
+   ↳StaticText, 0x776aa39e00, {{731.0, 279.0}, {458.0, 26.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.native'
+  Output: {
+    Application, 0x776a9f48c0, pid: 76091, title: 'AuditNativeApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLgAAAAAAAAA=
+    Output: {
+      StaticText, 0x776a9f4c80, {{731.0, 279.0}, {458.0, 26.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...
+    }

@@ -1,0 +1,102 @@
+[
+  {
+    "name": "native-ready",
+    "screenshot": "native/light.png",
+    "roi": [
+      731,
+      243,
+      1189,
+      269
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "foregroundBody": [
+      0,
+      0,
+      0
+    ],
+    "foregroundBodyPixels": 13,
+    "contrast": 21.0,
+    "method": "dominant background and darkest ink repeated at least 3 pixels; antialias edges retained in PNG",
+    "artifactScreenshot": "native-attachments/BCB465AA-01AB-47D0-AFE1-DBEB8689CF31.png",
+    "sha256": "47acdf880fd55e8523d52cbf8f29eb390e037c490287046cf2f932e0cb5291f9"
+  },
+  {
+    "name": "native-sha",
+    "screenshot": "native/light.png",
+    "roi": [
+      731,
+      279,
+      1189,
+      305
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "foregroundBody": [
+      0,
+      0,
+      0
+    ],
+    "foregroundBodyPixels": 39,
+    "contrast": 21.0,
+    "method": "dominant background and darkest ink repeated at least 3 pixels; antialias edges retained in PNG",
+    "artifactScreenshot": "native-attachments/BCB465AA-01AB-47D0-AFE1-DBEB8689CF31.png",
+    "sha256": "47acdf880fd55e8523d52cbf8f29eb390e037c490287046cf2f932e0cb5291f9"
+  },
+  {
+    "name": "hosted-ready",
+    "screenshot": "hosted/light.png",
+    "roi": [
+      730,
+      238,
+      900,
+      252
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "foregroundBody": [
+      0,
+      0,
+      0
+    ],
+    "foregroundBodyPixels": 13,
+    "contrast": 21.0,
+    "method": "dominant background and darkest ink repeated at least 3 pixels; antialias edges retained in PNG",
+    "artifactScreenshot": "hosted-attachments/0FA18734-F956-45A0-838E-3409A3BB96D9.png",
+    "sha256": "1760ecc4d2ec4f6a01a87c9ff96e2550a782d3177dc0d40959b9782e53d9c3b0"
+  },
+  {
+    "name": "hosted-sha",
+    "screenshot": "hosted/light.png",
+    "roi": [
+      730,
+      272,
+      1002,
+      286
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "foregroundBody": [
+      0,
+      0,
+      0
+    ],
+    "foregroundBodyPixels": 39,
+    "contrast": 21.0,
+    "method": "dominant background and darkest ink repeated at least 3 pixels; antialias edges retained in PNG",
+    "artifactScreenshot": "hosted-attachments/0FA18734-F956-45A0-838E-3409A3BB96D9.png",
+    "sha256": "1760ecc4d2ec4f6a01a87c9ff96e2550a782d3177dc0d40959b9782e53d9c3b0"
+  }
+]

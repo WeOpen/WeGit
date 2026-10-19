@@ -1,0 +1,30 @@
+[
+  {
+    "theme": "dark",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: TouchBar, 0x776ae1b200, {{80.0, 0.0}, {685.0, 30.0}}, Disabled",
+    "evidence": "D194B6E9-A6CD-4C5A-9F35-106F94907EB5.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "description",
+    "summary": "This element is missing useful accessibility information.",
+    "attributes": "Attributes: TouchBar, 0x776aa44780, {{80.0, 0.0}, {685.0, 30.0}}, Disabled",
+    "evidence": "923F2EE6-2CF5-42F8-AD10-7188A609B220.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd",
+    "attributes": "Attributes: StaticText, 0x776aa39e00, {{731.0, 279.0}, {458.0, 26.0}}, identifier: 'control-sha', value: 97b9c7429bbeaa4d55...",
+    "evidence": "4F482A12-0A25-4777-BDDB-F5731C6C79A2.txt"
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for Native SDK controls ready",
+    "attributes": "Attributes: StaticText, 0x776a9f6440, {{731.0, 243.0}, {458.0, 26.0}}, identifier: 'control-ready', value: Native SDK control...",
+    "evidence": "CE0BAC27-03FA-416C-B0AD-7D2D1E16F113.txt"
+  }
+]

@@ -1,0 +1,18 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: MenuButton, 0x795a8d3ac0, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'
+Element subtree:
+ →MenuButton, 0x795a8d3ac0, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'
+Path to element:
+ →Application, 0x795a8d35c0, pid: 77682, title: 'AuditHostedApp', Disabled
+  ↳Window (Main), 0x795a8d2bc0, {{700.0, 176.0}, {520.0, 392.0}}, title: 'Independent accessibility control', Keyboard Focused, Disabled
+   ↳Group, 0x795a8d3d40, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+    ↳MenuButton, 0x795a8d3ac0, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.hosted'
+  Output: {
+    Application, 0x795a8ce6c0, pid: 77682, title: 'AuditHostedApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNgAAAAAAAAA=
+    Output: {
+      MenuButton, 0x795a8ced00, {{890.0, 340.0}, {93.0, 24.0}}, identifier: 'control-actions', title: 'Selection actions'
+    }

@@ -121,11 +121,11 @@ struct SettingsView: View {
                     Text(L10n.text("浅色")).tag("light")
                     Text(L10n.text("深色")).tag("dark")
                     Text(L10n.text("自定义")).tag("custom")
-                }
+                }.accessibilityLabel(L10n.text("主题")).accessibilityIdentifier("settings-appearance")
                 Picker(L10n.text("列表密度"), selection: $preferences.density) {
                     Text(L10n.text("舒适")).tag("comfortable")
                     Text(L10n.text("紧凑")).tag("compact")
-                }
+                }.accessibilityLabel(L10n.text("列表密度")).accessibilityIdentifier("settings-density")
                 Toggle(L10n.text("显示文件图标"), isOn: $preferences.showFileIcons)
                     .accessibilityLabel(L10n.text("显示文件图标"))
                 Toggle(L10n.text("界面动效"), isOn: $preferences.interfaceMotion)
@@ -150,7 +150,7 @@ struct SettingsView: View {
                     Text(L10n.text("系统等宽字体")).tag("system")
                     Text("Menlo").tag("Menlo")
                     Text("Monaco").tag("Monaco")
-                }.accessibilityIdentifier("settings-code-font")
+                }.accessibilityLabel(L10n.text("代码字体")).accessibilityIdentifier("settings-code-font")
                 Slider(value: $preferences.codeSize, in: 11...24, step: 1) {
                     Text(L10n.text("字号 \(Int(app.preferences.codeSize)) pt"))
                 }.accessibilityIdentifier("settings-code-size")

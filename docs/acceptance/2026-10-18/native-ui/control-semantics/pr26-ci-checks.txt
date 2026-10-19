@@ -1,0 +1,15 @@
+Run 39118473966; PR head d41eab9dd76d25522694fd9d4118aaf18ba4d1dc; squash main bcca7f3498d9019e2c0576fa081f82d9a17a800a
+Repository policy	Workflow lint, repository contracts and tooling tests	2026-10-18T10:15:42.1130201Z Ran 30 tests in 1.508s
+Native macOS	Formatting, core tests and Debug build	2026-10-18T10:16:20.3425740Z 15 preference migration behavior checks passed.
+Native macOS	Formatting, core tests and Debug build	2026-10-18T10:19:56.2695460Z ✔ Test run with 183 tests in 32 suites passed after 144.884 seconds.
+Native macOS	Formatting, core tests and Debug build	2026-10-18T10:21:00.2850880Z ** BUILD SUCCEEDED **
+Native macOS	Minimum Git 2.46 core regression	2026-10-18T10:23:32.7268000Z ✔ Test run with 183 tests in 32 suites passed after 85.724 seconds.
+Native macOS	Native feature behavior checks	2026-10-18T10:23:47.9916350Z 34 theme behavior checks passed.
+Native macOS	Native feature behavior checks	2026-10-18T10:23:55.4503380Z 18 native appearance icon checks passed.
+Native macOS	Native feature behavior checks	2026-10-18T10:24:03.2259730Z 27 native application menu checks passed.
+Native macOS	Apple and Homebrew Git with isolated OpenPGP signing	2026-10-18T10:24:11.8211280Z apple: passed, 7 behavior checks, phase restore-inheritance
+Native macOS	Apple and Homebrew Git with isolated OpenPGP signing	2026-10-18T10:24:12.7480470Z homebrew: passed, 7 behavior checks, phase restore-inheritance
+Native macOS	Complete core regression with actual Homebrew Git	2026-10-18T10:25:42.1833340Z ✔ Test run with 183 tests in 32 suites passed after 86.487 seconds.
+Native macOS	Compile native UI regressions	2026-10-18T10:25:56.6930260Z ** TEST BUILD SUCCEEDED **
+Native macOS	Compile native UI regressions	2026-10-18T10:25:57.0533080Z 4 native UI Git helper behavior checks passed.
+Native macOS	Ordinary Release and preview package	2026-10-18T10:27:18.9583660Z ** BUILD SUCCEEDED **

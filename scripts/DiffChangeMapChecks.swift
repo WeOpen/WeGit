@@ -41,9 +41,9 @@ import Foundation
             "A gap nearer the later interval selects it",
             DiffChangeMap.target(at: 65, height: 100, ticks: separated) == 9)
         let thin = Tick(id: 7, offset: 0.2, extent: 0.001)
-        try check("Tiny marks retain the two-pixel drawn height", thin.range(height: 100) == 20...22)
+        try check("Tiny marks retain the two-point drawn height", thin.range(height: 100) == 20...22)
         try check(
-            "The entire two-pixel mark is hittable",
+            "The entire two-point mark is hittable",
             DiffChangeMap.target(at: 21.5, height: 100, ticks: [thin]) == 7)
         let overlap = [Tick(id: 1, offset: 0.2, extent: 0.3), Tick(id: 2, offset: 0.3, extent: 0.1)]
         try check(

@@ -1,0 +1,35 @@
+[
+  {
+    "args": [
+      "status",
+      "--porcelain=v1"
+    ],
+    "output": "",
+    "indexChanged": true,
+    "before": {
+      "mtimeNs": 1792333913497972781,
+      "sha256": "efb1e3fa6c3d5b71b591794358eb29ec47e082f98f6b355af7da0d7c4a9f1981"
+    },
+    "after": {
+      "mtimeNs": 1792333913515997102,
+      "sha256": "4ec530e28bb5f459e605a8d3ba3344c844d841a9bdf8b8d6dbafd6795009d649"
+    }
+  },
+  {
+    "args": [
+      "--no-optional-locks",
+      "status",
+      "--porcelain=v1"
+    ],
+    "output": "",
+    "indexChanged": false,
+    "before": {
+      "mtimeNs": 1792333913515997102,
+      "sha256": "4ec530e28bb5f459e605a8d3ba3344c844d841a9bdf8b8d6dbafd6795009d649"
+    },
+    "after": {
+      "mtimeNs": 1792333913515997102,
+      "sha256": "4ec530e28bb5f459e605a8d3ba3344c844d841a9bdf8b8d6dbafd6795009d649"
+    }
+  }
+]

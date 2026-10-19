@@ -5,11 +5,11 @@
 | 目标平台 | macOS 27+，Phase 0 验证实际 Deployment Target 与工具链 |
 | 技术栈 | Swift / SwiftUI / Swift Concurrency / SwiftData / Git CLI |
 | 文档修订版 | v1.1 |
-| 更新日期 | 2026-10-16 |
+| 更新日期 | 2026-10-18 |
 | 状态 | 开发进行中；首个提交闭环已实现，完整阶段验收见开发记录 |
 | 关联文档 | [文档索引](README.md) · [PRD](WeGit_PRD.md) · [UI/UX](WeGit_UI_UX_Spec.md) · [架构](WeGit_Architecture.md) |
 
-> 当前实现与验证证据：[开发进度](DEVELOPMENT.md)。最新两套 Git 核心各 183 项 / 32 套件通过；普通启动恢复 Inspector 崩溃已修复，独立 6 种启动组合与实际 Debug/Release 恢复有证据。此前源码的原生联合回归为 36/37、144 阅读组合通过；最新界面与恢复行为回归仅确认编译，完整 XCTest 执行仍阻塞。[辅助访问审查](ACCESSIBILITY.md) 尚未通过；新界面源码的完整 [性能](PERFORMANCE.md)、Beta 与 [正式分发](RELEASE.md) 继续待验。已提交 main 的托管 CI 已实际通过，最新应用已通过 [PR #15](https://github.com/WeOpen/WeGit/pull/15) 合并并关闭 #12，远端两套 Git 各 183 项及原生专项/构建已通过；完整交互验收仍独立保留。已有 GitHub HTTPS/SSH 真实验收保留原来源，其他 Git/服务环境见 [兼容性](COMPATIBILITY.md)。MIT 有效；按 2026-10-16 用户更新，仅通过 GitHub＋项目网站、无商店/无开发者账号直接分发，Developer ID／公证改为未来可选。当前剩余工作以 [发布清单](V1_RELEASE_CHECKLIST.md) 为入口。已勾选代表该条已验证，不代表整阶段或 V1.0 完成。
+> 当前实现与验证证据：[开发进度](DEVELOPMENT.md)。三套 Git 各 183 项核心回归已通过；固定 main `2c2533c` 的完整自动功能实际 45/45、144 个阅读组合全部通过，零失败/跳过，见 [本轮完整记录](acceptance/2026-10-18/native-ui/final-functional/README.md)。后续独立诊断分支的全部 120 项应用输入及 21 项产品 UI 测试输入与该提交一致。自动辅助访问审查仍有 55 条待判定回调；独立 SDK 对照复现部分高反差文字/标准菜单报告，不能代替 VoiceOver、完整键盘或系统显示选项验收。[性能](PERFORMANCE.md)、真实认证/硬件密钥组合、受保护机器安装、Beta 与 [正式分发](RELEASE.md) 继续待验。现有 hosted VM 的原始保护状态不满足安装签收，自托管 Runner 仍为 0。按用户确认，仅通过 GitHub＋项目网站、无商店/无开发者账号直接分发，Developer ID／公证为未来可选。当前入口见 [发布清单](V1_RELEASE_CHECKLIST.md)；自动功能通过不表示 V1.0 完成。
 
 ## 1. 执行目标与规则
 
@@ -30,9 +30,9 @@
 
 | 剩余工作 | 当前已有证据 | 下一步与依赖 |
 | --- | --- | --- |
-| Git 与进程契约 | 参数数组、隔离探针、取消、队列、特殊路径和脱敏已有回归 | 明确当前具体 `GitEngine` 与设计中的 CLI 接口/命令类别契约；补齐 GPG、Homebrew 和完整 Helper 矩阵 |
+| Git 与进程契约 | 隔离、取消/队列、特殊路径、三套 Git 各 183 项与非交互 OpenPGP 已有实际回归 | 补真实 Pinentry/硬件密钥、其他 Helper 与服务组合，保留具体版本和限制 |
 | 工作流边界 | 主要提交、历史、分支、同步和恢复流程已有原生回归 | 补齐真实回收反馈、Merge/Pull Rebase 全套界面、关闭/切换中的活动任务与权限失效 |
-| 系统与辅助访问 | 默认字号的最小窗口、两种主题、长行和部分键盘流程通过 | Git 配置界面、窗口/分栏真实恢复、字号/密度、Inspector、完整键盘及 VoiceOver；自动审查仍未通过 |
+| 系统与辅助访问 | 完整自动 UI 45/45 与 144 个字号/密度/主题/窗口/布局组合通过；设置名称和菜单文字修正有实际证据 | 55 条审查报告仍待逐项判定；完成 VoiceOver、完整键盘和系统显示选项实际验收 |
 | 完整应用性能 | 普通/十万级后台和原生启动各有 30 次基线 | 测 Status/Diff/History 实际首屏、Watcher 可见更新延迟、滚动、内存和复杂图，再用 Instruments 定位 |
 | 真实服务与发布环境 | 本地 Bare Remote、GitHub HTTPS/SSH 完整传输和开发包来源验证通过 | 补其他 Git/认证/服务矩阵、合格 CI Runner、无账号正式制品、实际下载首启和公开可访问渠道 |
 | Beta 与发布 | MIT、GitHub＋网站直接分发和开发包已建立 | 无公证包的干净机器下载安装、网站上线、真实 Beta、阻塞问题关闭和正式制品；不要求商店或开发者账号 |

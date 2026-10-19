@@ -1,6 +1,6 @@
 # WeGit 开发进度与验证记录
 
-> 更新：2026-10-13。当前版本：0.1.0 开发预览。
+> 更新：2026-10-18。当前版本：0.1.0 开发预览。
 
 本次从空工程开始实现本地可运行应用，首个「打开仓库 → 查看差异 → 暂存 → 提交」闭环已通过真实 Git 和原生 UI 测试。**这不是 V1.0 完成报告**；PLAN 中只有已具备证据的任务标记完成，其余保持待办。
 
@@ -12,13 +12,13 @@
 | Xcode / SDK | Xcode 27.0，Build 27A266a；macOS SDK 27.0 |
 | Swift | Apple Swift 6.4；Package Tools 6.2；Swift 6 严格并发 |
 | 本机 | Apple Silicon Mac16,8，24 GiB 内存 |
-| Git | 最低 2.46；Apple Git 2.54.0 / 独立 Git 2.46.0 均通过 165 项核心测试；启动检测配置隔离与地址列表重置，详见兼容性记录 |
+| Git | 最低 2.46；Apple / 私有 2.46 / Homebrew 三套 Git 各 183 项核心回归通过；Apple / Homebrew 各 7 项非交互 OpenPGP 检查通过，真实 Pinentry/硬件密钥与其他服务组合仍待验 |
 | 工程 | XcodeGen 2.43.0；`project.yml` 与生成的 Xcode 工程均保留 |
 | 核心模块 | 本地 Swift Package `WeGitCore`，无第三方运行时依赖 |
 | 格式化 | 使用工具链内置 `swift format`，配置见根目录 `.swift-format` |
 | 开发 Bundle ID | `com.willxue.wegit.development`，正式标识 `com.willxue.wegit` |
-| 签名与分发 | 用户选择 Developer ID 签名、公证后直接分发；当前仍为本机 ad-hoc 开发签名，应用不启用 Sandbox，尚未公证或发布 |
-| CI | 已编写 macOS 27 自托管 Runner 工作流；尚未配置/验证远端 Runner |
+| 签名与分发 | 按用户 2026-10-16 更新，当前为 GitHub＋网站的 ad-hoc 直接分发路线，无商店/无开发者账号；Developer ID／公证为未来可选。正式制品、实际下载首启与 Beta 仍未签收 |
+| CI | 常规托管 xcode-27 CI 已实际通过；托管 VM 自动功能 45/45 与 144 阅读组合通过。专用受保护交互 Runner 仍为 0，不代替完整发布、性能或安装验收 |
 | 许可证 | 用户于 2026-10-09 选择 MIT，见根目录 `LICENSE`；无第三方运行时依赖 |
 
 使用真实 Git 的兼容性验证优先于假设。测试中发现 `/usr/bin/git` 在 Xcode UI 测试的 Sandbox 宿主内会通过 `xcrun` 被拒绝；测试夹具因此使用 Xcode 内实际 Git 可执行文件。应用自身未启用 Sandbox，系统 Git 可正常调用。这是后续评估 App Store 分发时需要继续验证的约束。
@@ -65,7 +65,7 @@ UI 测试宿主单独使用允许加载 ad-hoc 测试插件的测试权限，不
 
 ## 3. 验证
 
-首轮结果：19 项 Swift Testing 测试通过，2 项 XCUITest 通过，Debug/Release 构建通过，严格 Swift 格式检查通过。历史轮次见第 6～18 节，最新实现与结果见第 19 节。已验证的是本机开发环境，不代表远端 CI、公证、所有辅助技术或完整应用性能已验收。
+首轮结果：19 项 Swift Testing 测试通过，2 项 XCUITest 通过，Debug/Release 构建通过，严格 Swift 格式检查通过。历史轮次按各节日期保留，当前结果以 [发布清单](V1_RELEASE_CHECKLIST.md) 与本轮完整结果为入口。已验证的是本机开发环境，不代表远端 CI、公证、所有辅助技术或完整应用性能已验收。
 
 根目录命令：
 
@@ -815,3 +815,9 @@ PR #17/#18 合入受保护 main，新增独立 macOS VM、真实 Git 辅助程�
 ## 51. XCTest 首窗参数顺序修正（2026-10-17）
 
 独立 AppKit/Hosting 各通过，裸 SwiftUI 单参数均通过；同源原组合失败、重排组合通过，定位到 UI 测试启动参数顺序。公共启动器稳定把带值设置置于三个无值测试标记前；不改变产品源码。WeGit `4609baf` 的实际 smoke 39010563892 通过 1/1，0 失败/跳过，主窗/原生菜单和 Clone 表单正常，120 项应用回执与原开发包一致。Foundation 探针未证明参数被吞掉的底层机制，完整功能/辅助访问/发布仍待验，见 [证据](acceptance/2026-10-17/native-ui/launch-order-fix/README.md)。
+
+## 2026-10-18 完整自动原生功能与独立审查
+
+main `2c2533c` 的 [39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756) 实际先通过 smoke 1/1，再完成自动功能 45/45、零失败/跳过；144 个精确阅读组合全部保留 PNG，内存/磁盘各 72。此前 28/45、43/45 及各失败回合保留。检查器失败由原生 Outline 内容边界与可见 viewport 区别定位，键盘失败由只读 status 探针刷新索引引发的布局移动定位；修正保留原 Git/草稿/恢复/键盘提交断言，未改产品布局或键盘处理。完整回执、源码与全部结果见 [验收记录](acceptance/2026-10-18/native-ui/final-functional/README.md)。
+
+内置语义色按用户确认保持色相/布局，设置三个选择器补明确名称；278 项主题检查与实际主题/字号用例通过。系统审查仍有 55 条回调；独立 AppKit/SwiftUI 控件复现部分 21:1 黑白文字的对比度报告及标准菜单/框架节点报告，全部失败保留而不统一忽略。细笔画的像素和声明色对分别记录。VoiceOver、完整键盘、系统显示选项、真实认证/密钥组合、最终 Release 性能、干净受保护机器安装及 Beta/发布仍待验，没有修改本机权限或发布新版本。

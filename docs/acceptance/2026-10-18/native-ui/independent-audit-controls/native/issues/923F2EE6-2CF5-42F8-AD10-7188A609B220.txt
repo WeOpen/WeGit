@@ -1,0 +1,16 @@
+This element is missing useful accessibility information.
+Attributes: TouchBar, 0x776aa44780, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Element subtree:
+ →TouchBar, 0x776aa44780, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x776aa38280, pid: 76091, title: 'AuditNativeApp', Disabled
+  ↳TouchBar, 0x776aa44780, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.native'
+  Output: {
+    Application, 0x776aa448c0, pid: 76091, title: 'AuditNativeApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLAAAAAAAAAA=
+    Output: {
+      TouchBar, 0x776aa3ad00, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+    }

@@ -95,7 +95,8 @@ struct ThemeEditor: View {
                         try preferences.applyCustomTheme(draft)
                         dismiss()
                     } catch { self.error = error.localizedDescription }
-                }.workbenchPrimaryAction().disabled(validationError != nil).keyboardShortcut(.defaultAction)
+                }.workbenchPrimaryAction().tint(colors.primaryAction)
+                    .disabled(validationError != nil).keyboardShortcut(.defaultAction)
                     .accessibilityIdentifier("theme-apply")
             }.padding(16).background(colors.chrome)
         }.frame(width: 860, height: 680)

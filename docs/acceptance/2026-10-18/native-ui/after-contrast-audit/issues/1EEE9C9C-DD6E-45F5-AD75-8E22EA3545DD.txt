@@ -1,0 +1,46 @@
+This element is missing useful accessibility information.
+Attributes: Group, 0x7c4049c140, {{280.0, 77.0}, {210.0, 692.0}}, Disabled
+Element subtree:
+ →Group, 0x7c4049c140, {{280.0, 77.0}, {210.0, 692.0}}, Disabled
+    ScrollView, 0x7c4049dcc0, {{280.0, 129.0}, {210.0, 562.0}}, Disabled
+      Outline, 0x7c4049c640, {{279.0, 128.0}, {212.0, 564.0}}, label: '边栏'
+        OutlineRow, 0x7c4049f5c0, {{280.0, 129.0}, {210.0, 19.0}}, Disabled
+          Cell, 0x7c4049d900, {{290.0, 129.0}, {190.0, 19.0}}, Keyboard Focused
+            Group, 0x7c4049c000, {{294.0, 129.0}, {194.0, 19.0}}, Disabled
+              StaticText, 0x7c4049e300, {{294.0, 131.5}, {33.0, 14.0}}, label: '工作区'
+        OutlineRow, 0x7c4049e800, {{280.0, 148.0}, {210.0, 50.0}}, Disabled
+          Cell, 0x7c4049c500, {{290.0, 148.0}, {190.0, 50.0}}, Keyboard Focused
+            StaticText, 0x7c4049f480, {{340.0, 165.0}, {26.0, 16.0}}, identifier: 'route-更改', value: 更改
+            StaticText, 0x7c4049c280, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1
+        OutlineRow, 0x7c4049fe80, {{280.0, 198.0}, {210.0, 50.0}}, Selected, Disabled
+          Cell, 0x7c4049c3c0, {{290.0, 198.0}, {190.0, 50.0}}, Keyboard Focused, Selected
+            StaticText, 0x7c4049fd40, {{296.0, 202.0}, {178.0, 42.0}}, identifier: 'route-提交历史', value: 提交历史
+        OutlineRow, 0x7c4049e440, {{280.0, 248.0}, {210.0, 50.0}}, Disabled
+          Cell, 0x7c4049e580, {{290.0, 248.0}, {190.0, 50.0}}, Keyboard Focused
+            StaticText, 0x7c4049cc80, {{311.0, 265.0}, {55.0, 16.0}}, identifier: 'route-分支', value: 分支
+        OutlineRow, 0x7c4049cf00, {{280.0, 311.0}, {210.0, 19.0}}, Disabled
+          Cell, 0x7c4049f980, {{290.0, 311.0}, {190.0, 19.0}}, Keyboard Focused
+            Group, 0x7c4049e6c0, {{294.0, 311.0}, {194.0, 19.0}}, Disabled
+              StaticText, 0x7c40a957c0, {{294.0, 313.5}, {22.0, 14.0}}, label: '仓库'
+        OutlineRow, 0x7c40a95e00, {{280.0, 330.0}, {210.0, 56.0}}, Disabled
+          Cell, 0x7c40a96940, {{290.0, 330.0}, {190.0, 56.0}}, Keyboard Focused
+            Button, 0x7c40a961c0, {{296.0, 334.0}, {178.0, 48.0}}, identifier: 'sidebar-repository:/Users/runner/Library/Containers/com.willxue.wegit.UITests.xctrunner/Data/tmp/WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B', label: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B、main'
+        TableColumn, 0x7c40a95cc0, {{290.0, 129.0}, {190.0, 562.0}}, identifier: 'ListColumn', Disabled
+    StaticText, 0x7c40a96080, {{340.0, 719.5}, {40.0, 17.0}}, identifier: 'sidebar-brand', value: WeGit
+    Button, 0x7c40a95680, {{432.0, 711.0}, {34.0, 34.0}}, identifier: 'sidebar-add-repository', label: '打开仓库'
+Path to element:
+ →Application, 0x7c40bff700, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c40bffe80, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c4049fc00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c4049d2c0, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c4049e080, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c4049c140, {{280.0, 77.0}, {210.0, 692.0}}, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c40be3d40, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29jRAAAAAAAAAA=
+    Output: {
+      Group, 0x7c40bff980, {{280.0, 77.0}, {210.0, 692.0}}, Disabled
+    }

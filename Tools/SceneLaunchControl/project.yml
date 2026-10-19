@@ -44,6 +44,49 @@ targetTemplates:
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: ControlTests-Info.plist
 targets:
+  AuditNativeApp:
+    type: application
+    platform: macOS
+    sources: [AccessibilityControl.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.native
+  AuditHostedApp:
+    type: application
+    platform: macOS
+    sources: [AccessibilityControl.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.hosted
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) AUDIT_HOSTED_SWIFTUI'
+  AuditNativeTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [AccessibilityControlUITests.swift]
+    dependencies: [{target: AuditNativeApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.native.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.native
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AuditNativeApp.app'
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
+  AuditHostedTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [AccessibilityControlUITests.swift]
+    dependencies: [{target: AuditHostedApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.hosted.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.hosted
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AuditHostedApp.app'
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
   CombinedApp:
     templates: [ControlApplication]
     settings:
@@ -235,6 +278,20 @@ targets:
         CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare
         CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/BareControl.app'
 schemes:
+  AuditNativeControl:
+    build:
+      targets:
+        AuditNativeApp: all
+        AuditNativeTests: [test]
+    test:
+      targets: [AuditNativeTests]
+  AuditHostedControl:
+    build:
+      targets:
+        AuditHostedApp: all
+        AuditHostedTests: [test]
+    test:
+      targets: [AuditHostedTests]
   DefaultArgumentsControl:
     build:
       targets:

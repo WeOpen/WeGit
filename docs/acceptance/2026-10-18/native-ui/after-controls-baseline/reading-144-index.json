@@ -1,0 +1,1874 @@
+[
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "4C01719B-9E39-439E-BEEE-003612650A81.png",
+    "suggestedName": "disk-24-compact-dark-1460-分栏_0_A9C35184-B6C0-42EB-8C0F-52FC28A29D8D.png",
+    "sha256": "aaa3c4b8711bc023a4c8647bee2f6cda3803276e1890ff9509c4d440ff8ea18d"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "9AAA8134-D181-4561-88FD-C0FA8FD78FB8.png",
+    "suggestedName": "disk-24-compact-dark-1460-统一_0_0A620016-8EE4-46F0-B5E5-03312E066CDC.png",
+    "sha256": "78100fff3d793d91a1be38c004ed1b90521db3d6ab60166694bc824fcbec463a"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "9098CE86-A99B-4DC3-949B-2799C2F0BFFF.png",
+    "suggestedName": "disk-24-compact-dark-1360-分栏_0_A124A4A3-3232-428E-B3BB-8DEE012E82A8.png",
+    "sha256": "aab286edb25e0be03af289a54a94cd00f0e0e59bd503309cb31281ec0af2baef"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "CB1C549E-994D-44CD-8720-A1C9277E1D87.png",
+    "suggestedName": "disk-24-compact-dark-1360-统一_0_C6BA2933-5E82-44DD-865D-97B961EA8213.png",
+    "sha256": "0bc2d4e78afe6d5f5dbdb246a667616fca36b19b0a8812bf64abe7e65a40dc2c"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "DC287C3F-814E-4962-AB92-1FE281B8EDEF.png",
+    "suggestedName": "disk-24-compact-dark-980-分栏_0_E75E1E84-3421-41BD-877C-E230000DAE85.png",
+    "sha256": "d1fe16ab749c4da97cab115a0c14e8ba56249d88a3db51606368e27216336672"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "E4C03028-9C23-4F9E-8955-60B4F2D04F28.png",
+    "suggestedName": "disk-24-compact-dark-980-统一_0_9A07BF98-948E-4D98-9F2B-209282821EF2.png",
+    "sha256": "91f0fbf56cec05c39ac5d328d6b24c0484b77d27a768e12b302906d7cad2e269"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "A8FD88FA-1304-4FB4-B3DE-3CBFD6B8159E.png",
+    "suggestedName": "disk-24-compact-light-1460-分栏_0_EB49AC3D-D740-4BA4-929C-A71A1CDB6BB5.png",
+    "sha256": "a721d4da8d4fc91179e855a9c585fffbad6650f1ae59b3d98b11f36fca0615ef"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "8FA8F605-86C9-4398-8AA1-37D935CFE18F.png",
+    "suggestedName": "disk-24-compact-light-1460-统一_0_A7E2E631-E9F5-44D5-9D25-5E1DE6D972C0.png",
+    "sha256": "d1f8d4414b5372aa8900332e955b3bd53821666e5274da7eba99983358c3d8ee"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "A84FB135-E59C-4FA6-8E0E-D4F4ADB8E737.png",
+    "suggestedName": "disk-24-compact-light-1360-分栏_0_5B72ED76-AE64-4261-8971-4350FF5ACFDA.png",
+    "sha256": "d512d873bede1973e923c3e967906ff92aaa213fbdf8ef3ddaf017a63edba52a"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "8216272E-E04E-449A-A74A-D3716C7ABBCC.png",
+    "suggestedName": "disk-24-compact-light-1360-统一_0_7085EBC5-758C-45F1-A5C4-7DBAB7D94059.png",
+    "sha256": "ab5456e8d4d4b298ca79c51f967409541cfb2bc2165baace1a09249e8d1119f7"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "813F2129-0CC3-4C22-96B3-0BDE47AB4AFC.png",
+    "suggestedName": "disk-24-compact-light-980-分栏_0_514634AE-0A61-4719-9378-329D0D6D586B.png",
+    "sha256": "266cdd56033d1d5439097fe6bc669ab1fab5092be6a0cfaa5dbed308179b6728"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "compact",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "142ACB64-8E14-4271-98D7-A3ABA1F2277B.png",
+    "suggestedName": "disk-24-compact-light-980-统一_0_FA302E36-C70E-465F-9E8D-DC1BE0D1AEE1.png",
+    "sha256": "144028aa083abceecbc4cb4b4a2d5ec1ac66c1ae74fdcd629d1a11fb16aa284c"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "89CC3188-EFDF-4DAD-A8C4-549D0ACB1389.png",
+    "suggestedName": "disk-24-comfortable-dark-1460-分栏_0_633A463F-8646-4054-B028-709BB4D1E271.png",
+    "sha256": "23c157135cd71cd1ddfe6664f87e552c56bef8fe39e6db7da9c39dced860011f"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "11726A0B-3EB2-4C19-92AC-BB5A7ACBEBE6.png",
+    "suggestedName": "disk-24-comfortable-dark-1460-统一_0_CD29BC59-AEF6-44B7-BA58-6DD4903998A0.png",
+    "sha256": "481871320b3b4fa01ff103d0e6d8c3ec1188b57d2e5a46ca07e31522314e2e0a"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "DE9F4F43-F0CC-4DE0-AF88-D5A127A67CE9.png",
+    "suggestedName": "disk-24-comfortable-dark-1360-分栏_0_9572C3F0-319B-42B7-9DE0-CF0E4B9A7B26.png",
+    "sha256": "23bc6a9ffa8ea067a471eeec2ff9b0c0512c72b16792b7df88b405f6605fc515"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "16826A92-0AFE-468A-AA58-B6226D330575.png",
+    "suggestedName": "disk-24-comfortable-dark-1360-统一_0_7BDA1EF4-499A-4A78-AD38-031D0E1EB259.png",
+    "sha256": "3c308515f1d7169b8dbbeed2d2bbb77133b6a2ff39b24c2eb3e5e3739d576fd1"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "674AA9A0-FB6A-4CC3-94D5-39087648D798.png",
+    "suggestedName": "disk-24-comfortable-dark-980-分栏_0_B97D576D-6C50-4ACA-8F2B-03EC8B4189E6.png",
+    "sha256": "8b7c0b49684de6987fea40d113dc0bb807c9640fe304032e47e6b99c1b165349"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "A49E7717-317B-4C12-B735-6829A25CB52C.png",
+    "suggestedName": "disk-24-comfortable-dark-980-统一_0_8ECF4B29-39FB-458F-A5B6-D09E4AE89E01.png",
+    "sha256": "2d61890e7ffbbbaecb5ada3465bd6e784e63419c91e9175431a8c715b1ef0869"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "C408B334-19CB-4B17-BA89-959A4FD7A6D3.png",
+    "suggestedName": "disk-24-comfortable-light-1460-分栏_0_12AA093A-A5D8-4387-8289-A1451AE770D7.png",
+    "sha256": "bd43eb1277c934f664c7053c53309bca167c2511825a8c95fe4e489cd8856ef9"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "0FAA0E53-A873-4987-906F-1F7011EDF905.png",
+    "suggestedName": "disk-24-comfortable-light-1460-统一_0_AE9AF1AA-E8C9-465B-A78C-C0510EBF5D33.png",
+    "sha256": "1def84f5bf0d3814d4aa40e68863e221bad744e4af1f6908074361f22d473904"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "343C6B29-B716-45D1-839C-04734A86C214.png",
+    "suggestedName": "disk-24-comfortable-light-1360-分栏_0_A860A8C9-E712-4CE4-8DE9-48E8EA90DD87.png",
+    "sha256": "7ab9e18ba61646ae90a70db6baec50c2742aac376525b815bb5ddcefd4af5100"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "D48FE507-C16D-416F-AD2C-7A9E771F37C4.png",
+    "suggestedName": "disk-24-comfortable-light-1360-统一_0_1692D5C9-4F53-47F2-853A-0A17F7FDF82D.png",
+    "sha256": "02851019f48bf27220a11abf1783609a04e583154547adaa4d1a21ba97020b17"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "0BEEFB28-D9A0-4DE5-8C0A-54863B2FBDDB.png",
+    "suggestedName": "disk-24-comfortable-light-980-分栏_0_485B92EC-625D-404B-8B49-CED026CA0887.png",
+    "sha256": "a66af2f57a08ce3816697a629a9dda92ddfa98d5f1870c68b4df5282625eb49f"
+  },
+  {
+    "combination": [
+      "disk",
+      "24",
+      "comfortable",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "3EE4BECE-BE3C-43D1-87E5-C576347DF9E4.png",
+    "suggestedName": "disk-24-comfortable-light-980-统一_0_3E40087A-5D76-456D-BD47-C77C0BBE3A03.png",
+    "sha256": "f02fa891d4aa873267f5386bbf5b665bc1119a36b4291408dafcb6da564aa8f4"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "0B10E970-A842-4AAC-B25E-0C557168BF5C.png",
+    "suggestedName": "disk-17-compact-dark-1460-分栏_0_F2C5FC88-FC5B-4808-8846-A665C2F94254.png",
+    "sha256": "a387cb0b823f3c621b7ebd4ed3a76f3b191125ec5967cfeb991e5c25b42f5188"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "5E6D080A-CE07-4505-8C7F-08FDE3D7429D.png",
+    "suggestedName": "disk-17-compact-dark-1460-统一_0_E021CC1A-F17B-43C1-8CCF-BEF3BACE364D.png",
+    "sha256": "ef8cbdcbf84b5cd956a85dffd3cb05b819c7f13adc545ac1dc62cb93651f83e4"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "506FF943-553C-464C-AA22-DDE558A4AF81.png",
+    "suggestedName": "disk-17-compact-dark-1360-分栏_0_3FF5A96D-8B23-42A6-8866-69594C219B40.png",
+    "sha256": "5d2688d6e812ae7fa417bcc511547e91726b0034f692272a87493ede60b64f57"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "95133B10-27AD-44C2-A5C1-78035FCCF672.png",
+    "suggestedName": "disk-17-compact-dark-1360-统一_0_DE2725B4-1585-4CEE-9D23-B644F32D7947.png",
+    "sha256": "1b5ddae2674073c4f66ba67ad50d9d9853bb050f2b3bd126de84cb8bdc73a04a"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "A4BE958C-4DC3-402C-B265-656B445B2C64.png",
+    "suggestedName": "disk-17-compact-dark-980-分栏_0_2CE0753D-2245-4376-A358-0324C19BE7D1.png",
+    "sha256": "0a81f05e93676815ccd5ed653cc7af259f7c0a691d504a2f6646b1f6b7083936"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "80515717-4D2D-4756-A5D8-54CC8E5AACBC.png",
+    "suggestedName": "disk-17-compact-dark-980-统一_0_EF440811-1F88-4B4E-B208-59387DFE5722.png",
+    "sha256": "7325682798b7296164e41acbdd9490c1e6b2cc60eeb3044482cd0bab1d21922f"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "F0AE16D7-22B9-4168-80C1-5E4B9D164AAC.png",
+    "suggestedName": "disk-17-compact-light-1460-分栏_0_9E159865-E816-4C6A-AE01-DBDF5ADDB968.png",
+    "sha256": "7502e22bb583d7ecd0d90b831d703058a5804cea2c9536e04bda6990f72180bb"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "A28929CE-0696-47EE-B98D-BD169D94373F.png",
+    "suggestedName": "disk-17-compact-light-1460-统一_0_93B5B6A4-CD18-4040-96E4-E353F5A29F07.png",
+    "sha256": "6e83af1735cb7ac745da01c1fdba5e7f6033917fc5023bdbb0fce9a0a8afdf0b"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "6F103D81-8259-4B1F-9B03-F6D9EA16176B.png",
+    "suggestedName": "disk-17-compact-light-1360-分栏_0_A4C71817-11EF-47E3-8198-F096A92575A5.png",
+    "sha256": "8aab4c9e82f3ce19409c4a8d2bde6c3ae5426768a0f0025820c103d9884415ec"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "F2408F98-1B95-4E92-A1B1-3C462C1A176D.png",
+    "suggestedName": "disk-17-compact-light-1360-统一_0_29A2794D-E135-4A22-B816-23CB345EDA1E.png",
+    "sha256": "fbaa9670dfa61c39250f3976c2704ad0fe94101571acc49b1b6bf5d0efbcceb8"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "E4A4E8D5-2F52-431A-8C4B-9A4E5E1F31E8.png",
+    "suggestedName": "disk-17-compact-light-980-分栏_0_810F6D39-7ED0-4BAC-AEF8-E379F997DEAC.png",
+    "sha256": "6c4a9a55e6fa213f6df39b82d517ed1ce468249f9256f3f96a4df57b511b8426"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "compact",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "7D615692-3C8D-42C4-A093-5234A8EE6E7C.png",
+    "suggestedName": "disk-17-compact-light-980-统一_0_00EC22AA-006A-40BB-A3FE-87EAD224BA9C.png",
+    "sha256": "03ed1c890a74febfc0754bfc6bf1b9bebd998e70afd143f948334084396f7c4a"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "B0616B61-2432-434E-A374-58964F00C8C2.png",
+    "suggestedName": "disk-17-comfortable-dark-1460-分栏_0_674B7338-A842-41C9-9EBF-9F64A603C21F.png",
+    "sha256": "7e15b43e02c591b2d6c68943d971f006150954cd3bae22021cc51b478df75d3f"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "609352B8-9C76-442B-9391-476E335F808A.png",
+    "suggestedName": "disk-17-comfortable-dark-1460-统一_0_563D0DA9-51B3-447E-96B5-7D6D79EB1A17.png",
+    "sha256": "a4ba7c26fdc46b6839963fa4bb1c5efea795b2041123c580406aa3539ff79696"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "382F9806-3B1C-4A0B-B253-DFFA329F899A.png",
+    "suggestedName": "disk-17-comfortable-dark-1360-分栏_0_4FEED279-6E62-4FD5-B91F-6606553E08F8.png",
+    "sha256": "56c6382e445a965b7eade405dcc56b5d241c7a5e1460244531f09dc75dcfb119"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "33EAAAAC-3DFC-4A12-B84E-C4F36547211F.png",
+    "suggestedName": "disk-17-comfortable-dark-1360-统一_0_651211EB-255E-4FFB-8432-22F6EFAB24BE.png",
+    "sha256": "36df8d376126f129fb0b0605016033eac95db6d97c9b89b35094f154c1d9bf14"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "D23EDD37-AB3A-4D68-BC70-50CF1A7212EC.png",
+    "suggestedName": "disk-17-comfortable-dark-980-分栏_0_E775FE26-B8C6-4945-A6F0-9B52362BFF76.png",
+    "sha256": "cf783a7e6f5c1aa7313b65a99ae9a1f8ce726cba404a3a66fd0431f7bc30b207"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "264FC6A7-3AC4-4090-B603-77AACBED9E6B.png",
+    "suggestedName": "disk-17-comfortable-dark-980-统一_0_6AE0A735-9717-4FFE-81F8-DA722FB746B7.png",
+    "sha256": "57f82c262d5a78af3db6bd90080538992fe9d03e2fef768945d39bea71e5b6b6"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "BFB6BCA1-20D9-4FAC-8046-0BBBD93EB1C9.png",
+    "suggestedName": "disk-17-comfortable-light-1460-分栏_0_D74AEDEB-F902-4C54-97F8-14076C3F2A8A.png",
+    "sha256": "069c6d5ee160214268d7c2704e268656a5d5568e80ac72fb6327c6861209adbb"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "3F4B2620-B63E-4B6F-87B5-3C8D35DA0984.png",
+    "suggestedName": "disk-17-comfortable-light-1460-统一_0_90467C89-1405-49C7-9E09-DE5E7F836DAF.png",
+    "sha256": "76f897cc3317e8c0042ea34883d3395e7410245fb0edf28ae7fe5548032cf1a8"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "B2302E16-A7B1-4049-AAD8-0FCFDE2D8705.png",
+    "suggestedName": "disk-17-comfortable-light-1360-分栏_0_22D371B4-838B-497C-B69C-48C60E11AE16.png",
+    "sha256": "b075b53f2a27cddd5140fc7a9ca1a36b5910a7b5ce5dc601321bd7794515578e"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "FF28F027-E293-46A4-AB29-EB9152E16BB5.png",
+    "suggestedName": "disk-17-comfortable-light-1360-统一_0_21A79132-733D-46BD-A223-F26902A3B5BC.png",
+    "sha256": "0a18dacbd81017baf748e342a108da99fad86ffdd908e5faee403acdbd19de06"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "4ACF3DFB-95EA-4FD8-AE38-09C9F0597F64.png",
+    "suggestedName": "disk-17-comfortable-light-980-分栏_0_CCA4B256-9A9D-4E3B-AD6F-C33BB5383B8A.png",
+    "sha256": "071b77a31619c48a7da3f3fbd3eb718f74c5bbf75e8dd57d49b608d9c450b0c6"
+  },
+  {
+    "combination": [
+      "disk",
+      "17",
+      "comfortable",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "C5B2FC68-F95E-4336-9263-0CD59A424517.png",
+    "suggestedName": "disk-17-comfortable-light-980-统一_0_E5DE6036-4AB1-4C0B-AADD-A7F4D1585327.png",
+    "sha256": "6d6ff52068005b4f2000f1e699c2d103e9a25941000a8a43f891ead0028986f7"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "3F6C3CBC-8487-4F62-8806-A9013E454E74.png",
+    "suggestedName": "disk-11-compact-dark-1460-分栏_0_A7BA30D6-F3F1-4856-AEFF-AA435EA1A1D7.png",
+    "sha256": "dfb8f796c2d0c1d4a3421ec8156b82b623ef31ada981f2cefc59bf1069f2ddab"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "60194E23-DA94-495C-83D7-98BDBE0D45B9.png",
+    "suggestedName": "disk-11-compact-dark-1460-统一_0_4A3C51E6-AE44-4AEB-B8E5-0F793FBADC26.png",
+    "sha256": "1f0b402de6516ea9db4bb9276c1997877abcd491fd1d302e348e323a2e81b12c"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "34E45CE1-1D54-4C47-9146-306E813EA8FD.png",
+    "suggestedName": "disk-11-compact-dark-1360-分栏_0_1E430957-C53E-4D80-B2C2-9006B4BD8D95.png",
+    "sha256": "38fe8a4737426594e72ef557806724ad9168edae6908d137407102594797204a"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "E8444117-83F2-449D-A5EA-394B662D817B.png",
+    "suggestedName": "disk-11-compact-dark-1360-统一_0_61D4275C-08B4-4E73-8D54-CD5BFD9E4783.png",
+    "sha256": "224acb217b3bcf4ddea9e3b7de6f4ad0725959ed3b7310593e26cd84c7bbeadf"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "C15B77B9-551E-43E3-81A2-23EF3FBC71A3.png",
+    "suggestedName": "disk-11-compact-dark-980-分栏_0_1B149D5B-E08D-4A77-84C7-1CBD5D65E570.png",
+    "sha256": "de0157f4b64f3c621e9aa72817dcf72c0061d9e8a5f1034f361fac70fc3ed779"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "423A3E9C-ADD6-42E7-BFAD-7119C6D06F08.png",
+    "suggestedName": "disk-11-compact-dark-980-统一_0_709507DD-E6CD-48A0-9654-854195F6AC96.png",
+    "sha256": "72d5ecbde07d81263888ec65c4a3f176daa2ece6f0309dda3baac577ba7c0d96"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "14F246C3-5003-4219-A40E-2A9B683C0A33.png",
+    "suggestedName": "disk-11-compact-light-1460-分栏_0_5DB900B9-B9F5-43A8-8518-DEE35ADA15C4.png",
+    "sha256": "9c69192325a33f2de1045f1e87c27d1a4085dc578e427b918efdbcf8b7d4f24a"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "0430763F-25EA-4598-A42A-F4DF33E23FCE.png",
+    "suggestedName": "disk-11-compact-light-1460-统一_0_007501D6-80D5-4DA8-9944-3BFB75AF9770.png",
+    "sha256": "7370660e2f52300eba2f46e316936bd6d8007ece797c1febf5a41c70cd4c15ca"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "482EFF35-D976-4267-96A6-7067499B7493.png",
+    "suggestedName": "disk-11-compact-light-1360-分栏_0_9E4A0B84-D8CD-4E7C-AF2C-B965B4F63F50.png",
+    "sha256": "286fe01aeedc0682ddf4775325ef7b02ca7786f975f62a8111842a322f9b0075"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "32D69C10-025E-4622-ABD9-C34CEA120F9E.png",
+    "suggestedName": "disk-11-compact-light-1360-统一_0_9023D5F2-1CFA-4E90-83F7-61B097DF1847.png",
+    "sha256": "78eb4fef05660b4086e3adafe1f54d58d17f8e455a51aa0d30b57848bbb79b7e"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "D67E3D7E-572A-4F00-B2F6-11B2F667FF3F.png",
+    "suggestedName": "disk-11-compact-light-980-分栏_0_24137219-FCF4-46B2-9404-117362197D30.png",
+    "sha256": "7a29d3f8c11f75d423dc9728bcdcd18e412cc750359e685a3e6d87c328b72b60"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "compact",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "5EDBBB00-5871-47AA-AAD3-7FFE26A01ABA.png",
+    "suggestedName": "disk-11-compact-light-980-统一_0_7A9B3981-96F8-447A-9DDB-F87A19257FD5.png",
+    "sha256": "f8f9c2649f2548c52e8b96cf9297663491a1c1b44a9570cb3c7823a0128623e7"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "CEC9F753-3198-4FB9-B3DA-BA6F9D5A16DA.png",
+    "suggestedName": "disk-11-comfortable-dark-1460-分栏_0_BB649065-4DE6-4460-B7E5-6E1DA2C74FF9.png",
+    "sha256": "2d459f9f276e5f4779bdcfc8141ca9a234cce04f1bf6191a630bd1aacd553cb6"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "F17FFCFC-3626-412E-9992-F5C70C6E0F06.png",
+    "suggestedName": "disk-11-comfortable-dark-1460-统一_0_8FB7325E-DEE8-44E2-A1CE-D9BF13751990.png",
+    "sha256": "2dc5113d31fa724ed0e928906c61edf75e18687d05d0a747ee2ccbd7a5214c1e"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "78B2E952-2AF0-4A96-9FDC-DA82C233F1B3.png",
+    "suggestedName": "disk-11-comfortable-dark-1360-分栏_0_2B5C6AEB-FEDE-41D0-A639-34715949DB83.png",
+    "sha256": "b7b9fd7f9b25dfb716e79cc7a187c89f0a1c3d7afa8beeae79803347bb96e084"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "BA886374-E481-4381-83D0-259754402130.png",
+    "suggestedName": "disk-11-comfortable-dark-1360-统一_0_73754DA7-816D-4F5B-BDF8-AC1EA9B3413E.png",
+    "sha256": "20ed9c03a26086fa15a491bdd8514931b70a21dd558e886f71dd3d6c9adf2809"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "6DE2C9E8-5AD9-48F5-ACD3-EB1400E9F750.png",
+    "suggestedName": "disk-11-comfortable-dark-980-分栏_0_FF098495-2E39-48EC-BEFB-6872F89302E8.png",
+    "sha256": "ee9990366a4c25151287fc7faad8d8b0d6ec302e8eeea110b41d922d01d2f1cd"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "18CB50B2-67E9-457F-A3D8-24748B970080.png",
+    "suggestedName": "disk-11-comfortable-dark-980-统一_0_0B4E555A-6C9F-460A-B62C-467B0F354FD3.png",
+    "sha256": "77f5927dee1d3cd35cab8e8168b51ff98299ce33229ba35e1e8dfdef05d804b9"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "24E46C1E-DB51-4A43-A2C6-48CC3D15C9AB.png",
+    "suggestedName": "disk-11-comfortable-light-1460-分栏_0_F2CD3D58-A07A-4524-A03B-D9BCDDCFF5CB.png",
+    "sha256": "9cf4933794b79f82f2c35f65109746b31686327d6e803b0e467507da9c618cbd"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "FFA8C7C0-2E48-46D0-AF8E-965ACE57DE53.png",
+    "suggestedName": "disk-11-comfortable-light-1460-统一_0_CF3E8A2A-A58E-4562-97D5-553338D21C78.png",
+    "sha256": "6a41a0269e67efc44b84fd3e9fb4403ff6d9f2b57635dffd0d78cb049761328a"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "CFB9EC4B-77B0-44DB-8B44-AA5013E99980.png",
+    "suggestedName": "disk-11-comfortable-light-1360-分栏_0_75BBEDB0-3BA9-4F75-8C23-08FBBD563E11.png",
+    "sha256": "f5c73112dd2742e2d117c55efebf508e32d49f12bd4be78c86318a2fe66b1af9"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "826E6568-E8DC-45C6-8475-9B317B588F6E.png",
+    "suggestedName": "disk-11-comfortable-light-1360-统一_0_BCFF1D1C-1269-42A6-9C16-BFDB9DEA78C2.png",
+    "sha256": "02504a76e3c00eeac81cf1de5ed95cff28405981257ba3d4457518071292a4c4"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "FA39FE44-A758-48ED-AB02-0EF0281C0002.png",
+    "suggestedName": "disk-11-comfortable-light-980-分栏_0_ABDCC93F-A284-44EB-8435-1D260AC6B233.png",
+    "sha256": "347531b5fb31a49f6a103800d63b80309138c46c63473470659848d3e1c16ff5"
+  },
+  {
+    "combination": [
+      "disk",
+      "11",
+      "comfortable",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "3DE64C8D-D468-4551-B1EF-07DC8F62F46C.png",
+    "suggestedName": "disk-11-comfortable-light-980-统一_0_D1D75A33-EDA8-4807-927C-583878EE90D1.png",
+    "sha256": "9fbe06b21d0342981aa49cdef944754a7b2e60b4a3c1b52b94a80c7129ecee00"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "D5BDE877-8549-4D59-AE81-05E45F20DB0A.png",
+    "suggestedName": "memory-24-compact-dark-1460-分栏_0_47360BB9-A076-4261-A9F5-E1CA73F32210.png",
+    "sha256": "22c6a58b5f4fb7211c543e50f549abd88025392ecffd3678f9de6049b2dc94c6"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "4336D2AA-A4B5-4183-B95B-11F8BD15C217.png",
+    "suggestedName": "memory-24-compact-dark-1460-统一_0_2CFF695D-5501-4983-8391-E8A3D645F49B.png",
+    "sha256": "acfff010676ea233c8098a952b2b6b49cfd4edf4035c3807079c47beea13d330"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "855068AC-6C93-4EE7-BD2E-E2AF0BDD1E0D.png",
+    "suggestedName": "memory-24-compact-dark-1360-分栏_0_2C560BE7-579F-45CC-83D8-048B57E0C8AA.png",
+    "sha256": "e5c46b871bab7e8b8dc874ca7bc48549908fc67c6672341e2076e38c9478666a"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "7C245704-9F0B-4752-9E4E-725BF86612BA.png",
+    "suggestedName": "memory-24-compact-dark-1360-统一_0_CED7AB3B-D075-422B-B7BA-0DB9FEE0CF1D.png",
+    "sha256": "e68e06440ddd789d948ea9a32095f110323be0cb97bf2bd512cf20313dee8967"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "DE71200B-B5E6-4C26-A628-3A00072C59F7.png",
+    "suggestedName": "memory-24-compact-dark-980-分栏_0_3E59FC27-BCA1-4316-B0E5-DF473AFF0F8F.png",
+    "sha256": "19b5001b17b854ca677115029823114f4d7cc019181605716a862dd788c37cc6"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "559F6926-F88F-40B4-9512-D2DD16E3F77F.png",
+    "suggestedName": "memory-24-compact-dark-980-统一_0_54E7C3DD-35A1-43D1-B896-D367699D9A8A.png",
+    "sha256": "d3aeadf60652199a9e5f2091217c1094280051aaf0de0edddf8147936d265643"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "1125389C-F2A8-4B90-AB03-01B0581B62D9.png",
+    "suggestedName": "memory-24-compact-light-1460-分栏_0_8D79380D-753B-4534-A4BA-4C4719B56965.png",
+    "sha256": "e88eb4c13e91bd2dfb08deaf8e4e3a39162d0f2446b555dacc6963a8e4e98fed"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "895075D9-590A-42A9-A572-0980D2D55211.png",
+    "suggestedName": "memory-24-compact-light-1460-统一_0_D4FBF840-28A5-4681-B392-C120814BA8D3.png",
+    "sha256": "5c032ee860a3a5fa5a8285fc876ab7d094308b3eedbbe4b0a1a754aedc7a2172"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "4962938D-ED44-43F7-83C2-18BD3BB073CD.png",
+    "suggestedName": "memory-24-compact-light-1360-分栏_0_3DA455CC-34AB-4FF3-B45D-280699DAB673.png",
+    "sha256": "fd9a0486d321eaaa8adcab865edcb4158480b4a3ff1b06059640fd6969cc12cd"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "A58D3E03-A954-48EC-92D7-8606AE5BD0FF.png",
+    "suggestedName": "memory-24-compact-light-1360-统一_0_A22200AE-1947-4082-9FC1-3C5D71CE3A3F.png",
+    "sha256": "e3d156a3810b39082e26ff661422f1ec4d9d322424f16b3872b8016b1c741118"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "302BC1A8-A881-443C-BE89-EF77485A3674.png",
+    "suggestedName": "memory-24-compact-light-980-分栏_0_BCD46924-0094-423A-97B6-78E538DD90A3.png",
+    "sha256": "3184314fa0fb6b73ffaf3b5caed02dc38abd132baf42cb75d7f839e29a3fd4a7"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "compact",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "AAEB15CE-0DF3-4136-BE53-C4DC76B6E7B1.png",
+    "suggestedName": "memory-24-compact-light-980-统一_0_BFA439EE-114E-4DAD-BB2D-F3E737E9F0B1.png",
+    "sha256": "2c8ed9ba2cb2f1c1b9515858abc822a4073cdbec1c6a9ae76ad8058248d9550a"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "D6894B28-D888-4821-BD52-4AB69B4D726D.png",
+    "suggestedName": "memory-24-comfortable-dark-1460-分栏_0_2D0B6AF9-B87A-41BF-97BA-2745F7615860.png",
+    "sha256": "58b081bf850523be3da729dbdedc603e6b2e78ef1e7d20f12cef2d8f9099ee62"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "2E644270-6E5A-4706-BD32-091550A5B33E.png",
+    "suggestedName": "memory-24-comfortable-dark-1460-统一_0_E77D1F00-4A5F-4D1C-A525-43DF1423E5E9.png",
+    "sha256": "3d89542ad3014069b92f330d1a2961d8ff09d6a32bab47a8abb2710c0fc1d16e"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "981AE0D7-BD2F-4C45-BAD5-B7B0E9251F0C.png",
+    "suggestedName": "memory-24-comfortable-dark-1360-分栏_0_62FDE48B-AE4F-4E22-B023-871CC089BD27.png",
+    "sha256": "069fa45b678ff3182b3e5a01071af9eb93b82eef2728625e695eb66e8073116c"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "F453FB25-A7FD-4CEE-B5D9-B4BDCF997A5F.png",
+    "suggestedName": "memory-24-comfortable-dark-1360-统一_0_1FF9A7A1-504E-45CD-953A-E749FEDD25B2.png",
+    "sha256": "51c893d0024aa6a7b7b29fa4d5ac6057a5d2af735e10486136e0febf2757f8cd"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "FADF699C-61E5-49B5-B912-2EB9349DED55.png",
+    "suggestedName": "memory-24-comfortable-dark-980-分栏_0_F0282AC8-CB15-4B93-8436-30ABA88AFA1C.png",
+    "sha256": "516bca75a84dc1be0da236fee0d0eb788c652804d910ba9da3fbb7a180065d7b"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "65866A72-81D1-4152-A628-7FFABDB29231.png",
+    "suggestedName": "memory-24-comfortable-dark-980-统一_0_682F947E-5EFD-4909-90E4-B937ECBADDBB.png",
+    "sha256": "62bb36791d63d0023f30577a2df4c2b09fd6401a44b795b2aa41c663a772eddd"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "6120088D-F3D6-44D8-9666-9C48B07F89B9.png",
+    "suggestedName": "memory-24-comfortable-light-1460-分栏_0_17855303-8433-435F-84FB-455799418C4A.png",
+    "sha256": "aca3b811c1e86617b2c5fc0a3495a070fae93c6ce853edcc6b1697b571c818f4"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "C13E84A4-481C-4D08-A8A4-3A9BE03E00B5.png",
+    "suggestedName": "memory-24-comfortable-light-1460-统一_0_C9F45BC0-39B0-45C6-81AC-806AC28A248D.png",
+    "sha256": "d9c6393b565f6e1a8b7976b66ec027f2eba4e3e36d62a5191ca899215ab7db81"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "469C77D4-86F1-4D2D-8C26-CF1B20180597.png",
+    "suggestedName": "memory-24-comfortable-light-1360-分栏_0_B061EC67-3DBB-4CF1-8588-04D2024C5ED6.png",
+    "sha256": "e00405cf027d67c92a05fef5f907fea680611d77ed7047715ed8a7d688700502"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "DC0317E1-9E3D-4A72-BB8B-797BEA3BF755.png",
+    "suggestedName": "memory-24-comfortable-light-1360-统一_0_F1FE08BC-7B1F-44D5-AE1C-C972CADC9721.png",
+    "sha256": "26c5bf942a55719c142788683ca40dba96f501fcfac789dc0eed4590ec67c8d8"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "EB75F3C3-8B97-4132-935B-9F6996EB4855.png",
+    "suggestedName": "memory-24-comfortable-light-980-分栏_0_618B846A-9BED-48D1-A23C-C7413B31853B.png",
+    "sha256": "b56e9909b2b132b59b0a54687d4bedb2862b962e2596cd3323477fc2f8018de7"
+  },
+  {
+    "combination": [
+      "memory",
+      "24",
+      "comfortable",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "C3D478D6-A5AA-4CF8-8BE7-3046C5B3BD76.png",
+    "suggestedName": "memory-24-comfortable-light-980-统一_0_A37FCFC6-D826-4107-94AD-B8F80162E3D2.png",
+    "sha256": "8fe694f0abcea74b8019a04afd01797ae4ff5010d8086d9bcd1bbfded4c5971c"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "9BED07D8-2619-410F-A2A5-C8FDD4970DD6.png",
+    "suggestedName": "memory-17-compact-dark-1460-分栏_0_81768E1B-8EA4-4288-96F4-1F6FD87DE46A.png",
+    "sha256": "e0a44a5e3d015b946332cca7f7afed789f4e26ef0c53991c134a29849ae04a01"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "B3079778-BBBC-466E-83A6-064B5B944883.png",
+    "suggestedName": "memory-17-compact-dark-1460-统一_0_5E341C66-3F75-43D3-95C1-27F35219BA74.png",
+    "sha256": "e88cea532d049b815721b9f2d96635a4785c6efebdd74a51c436075e5a508a82"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "5F1DABB7-0310-4492-A4AB-957916702DD7.png",
+    "suggestedName": "memory-17-compact-dark-1360-分栏_0_FE5E2895-DD31-4808-A0CD-72FFF04DE4E1.png",
+    "sha256": "66b8b59d69f38b09c26f9ba4debabd36d66769c3a2cedde14b40257f5e11b727"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "D5C9935D-1545-4B6A-ABCE-ED19B56CF5F5.png",
+    "suggestedName": "memory-17-compact-dark-1360-统一_0_75412F97-1A36-4717-9D74-8542A0F1A879.png",
+    "sha256": "36de92653769fa00be4e607595e7e9731b6e80bb42fb73931a8243227a4c0478"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "A1DDA0B4-7283-4512-A9DB-3EC70C18DDD3.png",
+    "suggestedName": "memory-17-compact-dark-980-分栏_0_B0083A7C-420D-421E-B634-6F3BBD064B60.png",
+    "sha256": "94458beaf4e7e6911223feeb0dc465c66c2138b0fc8565658ea4e764d451c13c"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "C10DEEED-3DCC-46FC-8BE4-FE37D9505116.png",
+    "suggestedName": "memory-17-compact-dark-980-统一_0_65CB30D8-CB44-451C-B44F-937FA0651286.png",
+    "sha256": "b63a3507b710a13e0039bd0a777cc6529913352f9b70b95347de53eee1e79132"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "EF790480-7108-45CF-8407-7FEC726BAE85.png",
+    "suggestedName": "memory-17-compact-light-1460-分栏_0_0B3DEB91-B4C5-419F-B9AE-47523BF5EF4D.png",
+    "sha256": "09c04c6c9b6c59ce036ad0eb32b786e1f2c55ded95732265fdea1b0dbfce6eef"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "B249B615-1C8E-4438-9DC0-DBA2AD254FA6.png",
+    "suggestedName": "memory-17-compact-light-1460-统一_0_CC1CCA56-8681-462B-9259-5FBA7D1A58D4.png",
+    "sha256": "c5b54ec43675b70cbd459ccc61a26415ea5c9565859faadf4a7ae8488ba38c06"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "3D9CFE43-F73F-455E-99CC-9B753092559A.png",
+    "suggestedName": "memory-17-compact-light-1360-分栏_0_A5A392DA-F9E2-4A9A-B1ED-D260FC415536.png",
+    "sha256": "b06bdd63a2ab93e2a82742e84004c3852920cd086b67f3097f00ad2188917854"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "D93EFF86-61C7-47D7-8CC4-1D3A560B413E.png",
+    "suggestedName": "memory-17-compact-light-1360-统一_0_3C3DF718-B1F3-4917-B41D-C7612E489CDF.png",
+    "sha256": "534bd6fcf3b3dc6ddccb56c484af5ccba04bee9e223e96ee1983f74e8cd3c310"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "CFFE14C0-6182-4DEC-8C45-7DF29D3E8709.png",
+    "suggestedName": "memory-17-compact-light-980-分栏_0_39EC39DC-4423-4F76-BC97-E2C0299CCC42.png",
+    "sha256": "d15279f35302ede54509a5c3c762884c039f3e56ea4cd4b66ba2ed0960171489"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "compact",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "5A62F471-3BC5-4420-9C70-9419F4415F54.png",
+    "suggestedName": "memory-17-compact-light-980-统一_0_0A8A8958-9821-42C3-9654-A75E726ACE47.png",
+    "sha256": "02e616db6d7910f855f62ad6f4add92d1d0093e79b5615740470fd9cc2ad0882"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "D335ED08-0C51-423A-B3B8-4A42C50AEB7E.png",
+    "suggestedName": "memory-17-comfortable-dark-1460-分栏_0_FC6C194B-5FB5-4042-AB1F-8BE5BBEEA9AE.png",
+    "sha256": "d2b0d5e8e6455979511df77eeab05d3f0250bcd47032bce37cc4412a0829dd34"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "463510E8-8A6D-41CD-87AE-2B4E9DA9F735.png",
+    "suggestedName": "memory-17-comfortable-dark-1460-统一_0_9664D3F0-09F5-4153-9A0C-1A0FA0AF1993.png",
+    "sha256": "eeb2f6ba698ffe2f2a9cd2b279e05257a2a47438bd46f0c6e40a8b5e4da0401f"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "BABAE295-1C00-42C8-B323-B76F251CDEE4.png",
+    "suggestedName": "memory-17-comfortable-dark-1360-分栏_0_6A714193-5E6E-4215-9A27-D4A7A404E4AA.png",
+    "sha256": "f1abe0b83d27cf2a0c69ded13d53b6bcbd8e06bb228392864ec3b54d72492e91"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "F89B5DA0-AE3F-492B-B18B-CD9D0D5ECFFE.png",
+    "suggestedName": "memory-17-comfortable-dark-1360-统一_0_3D102043-F11B-4518-9DCF-07E83A2B23EC.png",
+    "sha256": "e6ffef66f68fa102dd3d0d4bc9f459e091696504a4e151c5064821c4070a932d"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "FD37945E-695F-48D2-9341-DB674A50AAD5.png",
+    "suggestedName": "memory-17-comfortable-dark-980-分栏_0_DADCA64F-DBC7-4BB7-ACEC-7B54C53D9669.png",
+    "sha256": "1f4915e7687b8b8ac2f524aaaff1fbc2401eb1749a21ec182b5f368e5fefdf25"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "21F81DA7-9791-4648-B424-2CB1FFED4D26.png",
+    "suggestedName": "memory-17-comfortable-dark-980-统一_0_48814E83-599E-4E4A-9BAB-E115B841A2F9.png",
+    "sha256": "526017ad7f6aa14272a4d7bf69df62bdc2db1076637f068c6b3d0799e8ad1f6d"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "5FA801D2-7971-4CC3-979F-BA1363AD9251.png",
+    "suggestedName": "memory-17-comfortable-light-1460-分栏_0_447CB6D9-B590-4215-9C97-4393C27A205F.png",
+    "sha256": "d61342df3c83e393d420272652c56d290fe64703a92e24184100ba031ed0abd5"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "5B52DE57-1644-46ED-9F33-AFEE8185F1A2.png",
+    "suggestedName": "memory-17-comfortable-light-1460-统一_0_0F149C0D-54D8-457B-A104-CF633212525E.png",
+    "sha256": "e694454c286682076ad2201b305a2a6b8cf8d6f7425da256324755b7140c9672"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "DF7EED4C-9CB4-4E8E-9357-4E304C5601C1.png",
+    "suggestedName": "memory-17-comfortable-light-1360-分栏_0_B420BD9F-D23F-4CF0-893F-7687E2389DEC.png",
+    "sha256": "d270ee10912a4060f563194a8d08f3cce4d5a1d10ce1a0139ae98bb5b154c755"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "ECEC0BC4-3FB8-421C-8CCA-97B9AAA26431.png",
+    "suggestedName": "memory-17-comfortable-light-1360-统一_0_9197EBE8-C6F7-4443-B373-1AAAC303A229.png",
+    "sha256": "c6aa19fcbcb64492c71cdc57ea72d190711794f70c30efc3dff5fdfe672a56ac"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "0168771F-B870-4FC2-8E51-806A30F2FF83.png",
+    "suggestedName": "memory-17-comfortable-light-980-分栏_0_5AD57071-C731-47DD-B1F3-1EDA66C2AF03.png",
+    "sha256": "af7173434206efe5bef0b9d1b264250d5a35bbad03f643740b94cd87e87e357d"
+  },
+  {
+    "combination": [
+      "memory",
+      "17",
+      "comfortable",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "E2DB7808-04EF-4093-B3DF-829523AF81CE.png",
+    "suggestedName": "memory-17-comfortable-light-980-统一_0_6EB6D2A3-900D-497C-A4D5-FFD03CA24F7B.png",
+    "sha256": "eeedd41ee669c93a05b6e177233a7da743055dc74d275509324b25f7c8d3e170"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "1015A4F2-9AF4-4F04-8CA2-99DC86CC3DC8.png",
+    "suggestedName": "memory-11-compact-dark-1460-分栏_0_24E762A6-DA15-4501-8ED6-CEB227610ED3.png",
+    "sha256": "05044d19c385052510cef911b704c11d1d8c3b029d891e61f992940395970754"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "134E5EAE-463B-4CFD-ABD4-48ACCADC0A8D.png",
+    "suggestedName": "memory-11-compact-dark-1460-统一_0_A67BBA8A-B472-4EC8-A08A-7703E0525437.png",
+    "sha256": "658a93f51f1d91a7518be1532bf3da9ddaba7a8bc6eca4e9d6a2e805151cb32a"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "49678CDC-1836-4B24-907F-0AF63DAB5569.png",
+    "suggestedName": "memory-11-compact-dark-1360-分栏_0_A981F8A4-346D-45CD-B142-DBEB63ACF5B5.png",
+    "sha256": "0a545f54d18acf597692a5560c461dd0fb642b110ad63deca8b866178b35d8ec"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "ADDBAAB1-3DB4-4357-B2B2-5B6DB1B58492.png",
+    "suggestedName": "memory-11-compact-dark-1360-统一_0_5687AEC1-0431-4B9D-8D7B-3B5ACDA32BB8.png",
+    "sha256": "1a6f7ce770dca254e2ffb5e377881ce679f8ba5b8faea94becabb807aae914ed"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "F8E36662-33AD-4134-9BF6-6EF3872A8821.png",
+    "suggestedName": "memory-11-compact-dark-980-分栏_0_976566AD-6AE0-45AC-8439-66BD852C911C.png",
+    "sha256": "f6784db922ffbbfec47c8b4273b36a702ba571c479ed55b64c0a28d6fea82b8d"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "713A2466-84AF-4AB2-84CB-4C860D5211DF.png",
+    "suggestedName": "memory-11-compact-dark-980-统一_0_3D8132CF-A3C0-42DE-9AF1-92ACD828F729.png",
+    "sha256": "84514fd052d5f6ddee8e57f78b3a4b201625f11680562699199d9ccec17a70f5"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "2A7C2816-8583-4146-9CB7-CC704DF0046F.png",
+    "suggestedName": "memory-11-compact-light-1460-分栏_0_0BBA6A31-ABF2-4FE3-BF6F-1F67EAA70F82.png",
+    "sha256": "36f6bf7fb7a6ff02f7c1fce184ce1da3db5ca05c473979eb166ebd48f05250ca"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "59E2A91D-26D8-4893-86AD-6520137352F3.png",
+    "suggestedName": "memory-11-compact-light-1460-统一_0_5F30F295-4CC7-4683-B7AD-963FFF73B63E.png",
+    "sha256": "3d4f78f482af98c200dd5688342f7cb0f559f5a6e90c0011692a7f5e91162e85"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "5FF61E78-AB66-49AF-8E44-6BC816162B0D.png",
+    "suggestedName": "memory-11-compact-light-1360-分栏_0_B2442438-4432-41AD-9998-BFFF6F45F901.png",
+    "sha256": "a0cd76b008be3d1008d5cb9ace21b74c6d8d89f1d24fdc9fa11c15eb7abd331d"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "1DB1E73B-5977-4527-9BB3-BBA8D43CB6C1.png",
+    "suggestedName": "memory-11-compact-light-1360-统一_0_B89AFAE1-AD2F-4AD0-A058-A278CB6C2C62.png",
+    "sha256": "4b30d41ae9ba837da977141b00255137b0998bbd64d0e8090550cf4bf04d7220"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "0C39C5D4-FBD2-4041-A898-E0AB0608892A.png",
+    "suggestedName": "memory-11-compact-light-980-分栏_0_36F55A10-99DC-4100-B773-4915E3A7EFB2.png",
+    "sha256": "88edfd1f55f736db506191b076f2ed461e5c6f0157e37a030ffcf1f6ddd8de79"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "compact",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "A958760D-64F8-4875-B7F9-25EF0F6AC28D.png",
+    "suggestedName": "memory-11-compact-light-980-统一_0_5AA33884-BDDD-4D38-AF31-612623CA19EE.png",
+    "sha256": "8ff2d84f84139545ed0ebbd817bd363ee54f1b4bb6a605f9d31e4195023b1c2d"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "dark",
+      "1460",
+      "分栏"
+    ],
+    "file": "75A6FBEB-C83F-4CF2-A479-EAE8D060ACF6.png",
+    "suggestedName": "memory-11-comfortable-dark-1460-分栏_0_93FFAF40-E583-46CD-A884-69C2700A7766.png",
+    "sha256": "9d11ae8952e142d3670452821b3f3a896049cf8fdd2132782795b611b708f9e5"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "dark",
+      "1460",
+      "统一"
+    ],
+    "file": "D2401994-FB2A-4A03-9028-A259F5A7ABEB.png",
+    "suggestedName": "memory-11-comfortable-dark-1460-统一_0_04E2CEEC-CE8D-492B-BDF3-92403B3336DC.png",
+    "sha256": "9b3a8b931ff2aa2fec57522dd657b734a34891a581d08d942280e38bb89704a5"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "dark",
+      "1360",
+      "分栏"
+    ],
+    "file": "067996FC-690F-4B68-94DF-DC4BCC181E7A.png",
+    "suggestedName": "memory-11-comfortable-dark-1360-分栏_0_B3DA2ABB-945D-4653-9497-3B744340B27A.png",
+    "sha256": "c42ffe21fea9d5b33e3f976464ef93ad1819a2caa561764993d6fd811e7e9638"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "dark",
+      "1360",
+      "统一"
+    ],
+    "file": "77AC0EE9-12A9-4A2F-B0E5-F903D741EADF.png",
+    "suggestedName": "memory-11-comfortable-dark-1360-统一_0_11EEE859-FA9C-4EB4-87B2-D72DE1ADF26A.png",
+    "sha256": "995f2de6572f16b4d345d305c09c16b3c97d3934442dadccd3629804242ff242"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "dark",
+      "980",
+      "分栏"
+    ],
+    "file": "AF61A124-AE70-4891-A9C3-03FABCA07172.png",
+    "suggestedName": "memory-11-comfortable-dark-980-分栏_0_B97FA2AE-A3BC-490A-AD3E-1C60BBF5DC2E.png",
+    "sha256": "4dcd9313dbca716f0af2dbb47349ec2bc177e58335c65a21291d04330a9a4385"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "dark",
+      "980",
+      "统一"
+    ],
+    "file": "AA25C3BB-FF2A-4798-86BB-824000201B02.png",
+    "suggestedName": "memory-11-comfortable-dark-980-统一_0_57260D5A-45F6-49F4-9FDF-EBA2CE750403.png",
+    "sha256": "dc02d96f107a3d81eee700d96acb1f69ed8ac12e5ba592e25cf14c033d001518"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "light",
+      "1460",
+      "分栏"
+    ],
+    "file": "C256DB17-8371-4192-846D-C8C6212FEFF2.png",
+    "suggestedName": "memory-11-comfortable-light-1460-分栏_0_D323DDAC-BBE1-4D78-A154-3983694A0874.png",
+    "sha256": "96e8af7a9e3d98e7efee11e9940a0e0b71de618db95953171c7c6e77ca8da58e"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "light",
+      "1460",
+      "统一"
+    ],
+    "file": "7FE5D031-EA21-4D07-8D91-C985474A10D9.png",
+    "suggestedName": "memory-11-comfortable-light-1460-统一_0_3C0D3E40-48B8-4641-BB70-262A54395B9E.png",
+    "sha256": "d47edde8b1ba54d314a7436606227f5fb5c59936d5fed8a1e9336f3342a61813"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "light",
+      "1360",
+      "分栏"
+    ],
+    "file": "149B1A58-FDDD-4D28-954A-8D60335EA91D.png",
+    "suggestedName": "memory-11-comfortable-light-1360-分栏_0_E5B2CF8A-AD0C-49AE-8EC0-EC390F7CA3E5.png",
+    "sha256": "86c6988acb0a874e60edeb01176e9db6fc10fd4d496cb86d2273344d034702f4"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "light",
+      "1360",
+      "统一"
+    ],
+    "file": "F41146B5-39DC-401A-B355-0BEDEF726BC5.png",
+    "suggestedName": "memory-11-comfortable-light-1360-统一_0_EAA690C0-32B7-4274-A5B5-021849C2D0F0.png",
+    "sha256": "c2c9f65690c4696d5fdf06bddfce0cbbac01735b196fe41467934d8058dbc11e"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "light",
+      "980",
+      "分栏"
+    ],
+    "file": "90C9B1FD-3B68-4FE7-A38A-55D7FDF8F55B.png",
+    "suggestedName": "memory-11-comfortable-light-980-分栏_0_51A0E2F2-EA7F-4E73-AEDC-591DB8BFE637.png",
+    "sha256": "43d659f60d66cb8082f4ae6a657e0a29d9bfed3ace78eea1c4ec45b7678c2c50"
+  },
+  {
+    "combination": [
+      "memory",
+      "11",
+      "comfortable",
+      "light",
+      "980",
+      "统一"
+    ],
+    "file": "AEF4BB1F-A009-4CA7-BC5C-F041E97690DF.png",
+    "suggestedName": "memory-11-comfortable-light-980-统一_0_D65F316F-6345-470B-8112-5993F75A3D94.png",
+    "sha256": "0d081718ef24dc494e363e7d768eeb52f4e8a853ab4ccb946c1d8443c03741c2"
+  }
+]

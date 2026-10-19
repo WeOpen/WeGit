@@ -1,0 +1,17 @@
+Contrast failed for Native SDK controls ready
+Attributes: StaticText, 0x776a9f6440, {{731.0, 243.0}, {458.0, 26.0}}, identifier: 'control-ready', value: Native SDK control...
+Element subtree:
+ →StaticText, 0x776a9f6440, {{731.0, 243.0}, {458.0, 26.0}}, identifier: 'control-ready', value: Native SDK control...
+Path to element:
+ →Application, 0x776a9f6940, pid: 76091, title: 'AuditNativeApp', Disabled
+  ↳Window (Main), 0x776a9f6580, {{700.0, 176.0}, {520.0, 392.0}}, title: 'Independent accessibility control', Keyboard Focused, Disabled
+   ↳StaticText, 0x776a9f6440, {{731.0, 243.0}, {458.0, 26.0}}, identifier: 'control-ready', value: Native SDK control...
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.native'
+  Output: {
+    Application, 0x776aa443c0, pid: 76091, title: 'AuditNativeApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 76091, token: OykBAAAAAABvY29jLQAAAAAAAAA=
+    Output: {
+      StaticText, 0x776aa44640, {{731.0, 243.0}, {458.0, 26.0}}, identifier: 'control-ready', value: Native SDK control...
+    }

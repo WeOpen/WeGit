@@ -1,0 +1,10 @@
+Run 39117710312; source b3adc17666ee4ed67a617eec04f4c3b5961c500d
+Smoke 1/1 passed; focus 1/1 failed before theme selection.
+Theme picker native value exists; label is absent. The test will select the actual value; this does not establish accessible description acceptance.
+      ScrollView, 0x7a8b5b97c0, {{610.0, 305.0}, {700.0, 508.0}}, Disabled <AX element pid: 4181, token: VRAAAAAAAABvY29j1AAAAAAAAAA=>
+        StaticText, 0x7a8b5b9900, {{640.0, 325.2}, {26.0, 16.0}}, label: '界面' <AX element pid: 4181, token: VRAAAAAAAABvY29j1QAAAAAAAAA=>
+        Group, 0x7a8b5b9a40, {{630.0, 351.0}, {660.0, 187.0}} <AX element pid: 4181, token: VRAAAAAAAABvY29j1gAAAAAAAAA=>
+          StaticText, 0x7a8b5b9b80, {{640.0, 361.2}, {26.0, 16.0}}, value: 主题 <AX element pid: 4181, token: VRAAAAAAAABvY29j3AAAAAAAAAA=>
+          PopUpButton, 0x7a8b5b9cc0, {{1181.0, 358.0}, {99.0, 24.0}}, value: 跟随系统 <AX element pid: 4181, token: VRAAAAAAAABvY29j3QAAAAAAAAA=>
+          StaticText, 0x7a8b5b9e00, {{640.0, 399.8}, {52.0, 16.0}}, value: 列表密度 <AX element pid: 4181, token: VRAAAAAAAABvY29j3gAAAAAAAAA=>
+          PopUpButton, 0x7a8b5b9f40, {{1207.0, 396.0}, {73.0, 24.0}}, value: 舒适 <AX element pid: 4181, token: VRAAAAAAAABvY29j3wAAAAAAAAA=>

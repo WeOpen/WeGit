@@ -42,7 +42,7 @@ jobs:
           SCENE_CONTROLS: ${{ inputs.controls || 'reordered' }}
           SCENE_DISPLAY: ${{ inputs.display || 'large' }}
         run: |
-          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/AppKitControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift Tools/SceneLaunchControl/AsyncSceneControlUITests.swift
+          xcrun swift-format lint --strict Tools/SceneLaunchControl/SceneControl.swift Tools/SceneLaunchControl/AppKitControl.swift Tools/SceneLaunchControl/SceneControlUITests.swift Tools/SceneLaunchControl/AsyncSceneControlUITests.swift Tools/SceneLaunchControl/AccessibilityControl.swift Tools/SceneLaunchControl/AccessibilityControlUITests.swift
           xcrun swift-format lint --strict scripts/ci/DisplaySession.swift
           case "$SCENE_DISPLAY" in
             large)

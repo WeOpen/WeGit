@@ -1,0 +1,72 @@
+This element is missing useful accessibility information.
+Attributes: Group, 0x7c40429900, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+Element subtree:
+ →Group, 0x7c40429900, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+    Group, 0x7c4042bc00, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+      StaticText, 0x7c4042ad00, {{858.0, 147.0}, {99.0, 19.0}}, value: Layout fixture
+      StaticText, 0x7c4042a080, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...
+      StaticText, 0x7c4042bd40, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 14:29
+      StaticText, 0x7c4042abc0, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...
+      DisclosureTriangle, 0x7c4042be80, {{836.0, 226.0}, {93.5, 13.0}}, label: '完整提交消息', value: 0
+      StaticText, 0x7c4042b0c0, {{858.0, 259.5}, {248.0, 13.0}}, value: 97b9c7429bbeaa4d55..., Disabled
+        StaticText, 0x7c4042b700, {{858.0, 259.5}, {248.0, 13.0}}, value: 97b9c7429bbeaa4d55...
+      Button, 0x7c4042a940, {{1114.0, 253.0}, {41.0, 26.0}}, identifier: 'history-copy-sha', label: '复制 SHA'
+      MenuButton, 0x7c40428b40, {{1169.0, 254.0}, {73.0, 24.0}}, identifier: 'history-operations', title: '所选提交的操作'
+      StaticText, 0x7c4042a800, {{858.0, 289.0}, {89.0, 13.0}}, value: 根提交 · 相对于空树
+      ScrollView, 0x7c40428640, {{840.0, 321.0}, {420.0, 41.0}}, Disabled
+        Outline, 0x7c40bff700, {{839.0, 320.0}, {422.0, 43.0}}, identifier: 'commit-files', label: '本次提交的文件变化'
+          OutlineRow, 0x7c40437700, {{840.0, 331.0}, {403.0, 30.0}}, Selected, Disabled
+            Cell, 0x7c40437340, {{850.0, 331.0}, {383.0, 30.0}}, Keyboard Focused, Selected
+              StaticText, 0x7c40436a80, {{856.0, 335.0}, {22.0, 22.0}}, identifier: 'commit-file:file.swift', value: 状态：新增
+              StaticText, 0x7c40437e80, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift
+              StaticText, 0x7c40436bc0, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0
+          TableColumn, 0x7c40436d00, {{850.0, 321.0}, {383.0, 50.0}}, identifier: 'ListColumn', Disabled
+        ScrollBar, 0x7c40437980, {{1242.0, 320.0}, {19.0, 43.0}}, value: 0
+          ValueIndicator, 0x7c40436580, {{1246.0, 324.0}, {11.0, 28.0}}, value: 0, Disabled
+          IncrementArrow, 0x7c40437ac0, {{1243.0, 321.0}, {0.0, 0.0}}, Disabled
+          DecrementArrow, 0x7c40437840, {{1243.0, 321.0}, {0.0, 0.0}}, Disabled
+          Button, 0x7c40436f80, {{1246.0, 353.0}, {11.0, 6.0}}, Disabled
+          Button, 0x7c40436300, {{1246.0, 324.0}, {11.0, 0.0}}, Disabled
+      RadioGroup, 0x7c404375c0, {{849.0, 371.0}, {112.0, 32.0}}, identifier: 'diff-layout', label: '布局'
+        RadioButton, 0x7c40437480, {{854.0, 375.0}, {51.0, 24.0}}, label: '统一', value: 1
+        RadioButton, 0x7c40437200, {{905.0, 375.0}, {51.0, 24.0}}, label: '分栏', value: 0
+      MenuButton, 0x7c40435a40, {{972.0, 375.0}, {100.0, 24.0}}, title: '阅读选项'
+      Button, 0x7c40435680, {{1174.0, 375.0}, {76.0, 24.0}}, label: '复制补丁'
+      Button, 0x7c40436e40, {{855.5, 420.0}, {17.0, 17.0}}, identifier: 'diff-hunk-previous', label: '上一差异块', Disabled
+      Button, 0x7c40435900, {{891.5, 420.0}, {17.0, 17.0}}, identifier: 'diff-hunk-next', label: '下一差异块', Disabled
+      StaticText, 0x7c404370c0, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1
+      ScrollView, 0x7c40436440, {{840.0, 445.0}, {420.0, 324.0}}, identifier: 'diff-content', label: '文本差异', Disabled
+        Group, 0x7c40435b80, {{840.0, 445.0}, {520.0, 60.0}}, label: '文本差异内容'
+          Group, 0x7c4049e580, {{840.0, 445.0}, {420.0, 38.0}}, label: '差异块：@@ -0,0 +1 @@'
+            StaticText, 0x7c4049cf00, {{852.0, 457.0}, {89.0, 14.0}}, value: @@ -0,0 +1 @@
+            Button, 0x7c4049c000, {{1162.0, 454.0}, {86.0, 20.0}}, identifier: 'diff-hunk-copy:0', label: '复制此块补丁'
+          Group, 0x7c4049c140, {{840.0, 483.0}, {520.0, 22.0}}, identifier: 'unified-diff-row', label: '新增行'
+            StaticText, 0x7c4049f480, {{919.0, 486.0}, {9.0, 16.0}}, value: 1
+            StaticText, 0x7c4049e440, {{937.5, 486.0}, {9.0, 16.0}}, value: +
+            TextView, 0x7c4049e300, {{956.0, 486.0}, {105.0, 16.0}}, identifier: 'diff-code:0', label: '新增代码，第 1 行', value: let value = 1, Disabled
+        ScrollBar, 0x7c4049c280, {{839.0, 751.0}, {414.5, 19.0}}, value: 0
+          ValueIndicator, 0x7c4049fe80, {{843.0, 755.0}, {328.0, 11.0}}, value: 0, Disabled
+          IncrementArrow, 0x7c4049d2c0, {{840.0, 752.0}, {0.0, 0.0}}, Disabled
+          DecrementArrow, 0x7c4049c3c0, {{840.0, 752.0}, {0.0, 0.0}}, Disabled
+          Button, 0x7c4049c500, {{1172.0, 755.0}, {78.0, 11.0}}, Disabled
+          Button, 0x7c4049cc80, {{843.0, 755.0}, {0.0, 11.0}}, Disabled
+Path to element:
+ →Application, 0x7c40bcc000, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c40bcf980, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c40bcf200, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c40bcde00, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c40bcdcc0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c40bce6c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40bcd900, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c40bcd7c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c40be08c0, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c40429900, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c40420280, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29jrwAAAAAAAAA=
+    Output: {
+      Group, 0x7c40428c80, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+    }

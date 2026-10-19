@@ -70,6 +70,7 @@ final class SettingsReadingTests: XCTestCase {
         sizeState.lifetime = .keepAlways
         add(sizeState)
         let font = app.popUpButtons["settings-code-font"]
+        XCTAssertEqual(font.label, "代码字体")
         font.click()
         app.menuItems["Menlo"].click()
         settings.buttons[XCUIIdentifierCloseWindow].click()

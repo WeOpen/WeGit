@@ -1,6 +1,6 @@
 # 原生 UI 环境与受控验收
 
-更新：2026-10-17。对应 Issue #2 / #3 / #6。常规 CI 的 UI 编译通过不等于 XCTest 已执行。
+更新：2026-10-18。对应 Issue #2 / #3 / #6。常规 CI 的 UI 编译通过不等于 XCTest 已执行。
 
 ## 只读诊断
 
@@ -88,3 +88,15 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main \
 ## 托管测试显示会话
 
 只读 VM 回执确认原 1024×768 的可见区域仅 1024×674，支持临时 1920×1080。原生 UI 与独立控制使用受信任的 DisplaySession 父进程，在 GitHub-hosted VM 内持有该模式并在子命令结束后恢复原模式；不能在本机调用修改。display=original 保留历史显示条件复现入口，模式缺失或恢复失败明确失败。开始/生效/恢复与子命令状态写入 display-session.json；实际 hosted 验证状态见 [显示会话记录](acceptance/2026-10-18/native-ui/display-session/README.md)。不调整 SIP、Gatekeeper、辅助访问或开发工具授权。
+
+## 当前同源审查与颜色修正
+
+PR #26 已合入 main `bcca7f3`，七项实际单项通过且原断言保留。[独立审查 39119367892](https://github.com/WeOpen/WeGit/actions/runs/39119367892) 真正进入系统 API，执行 1、失败 1、零跳过，产生 59 条待判定报告；[逐条原始记录](acceptance/2026-10-18/native-ui/current-audit/README.md) 区分报告数和缺陷数。同 SHA 的完整功能 39119370087 已完成 45 项：43 通过、2 失败、零跳过；ReadingMatrix 的 144 个组合全部通过，详见 [完整基线](acceptance/2026-10-18/native-ui/after-controls-baseline/README.md)。
+
+新的 [设置名称/语义色候选](acceptance/2026-10-18/native-ui/native-contrast/README.md) 按用户确认的 4.5:1 目标修正内置角色，不改变色相和布局；源色对、原生控件、实际截图、完整功能与系统审查分别验证，不能以本机主题检查替代其余范围。
+
+PR #27 已合入 main `734b8e1`。最终候选主题与字号两个运行均 smoke 1/1 加 focused 1/1、零失败/跳过，实际菜单/次要文字与选中行反差断言通过，详见 [配色 UI 证据](acceptance/2026-10-18/native-ui/contrast-ui-results/README.md)。原有功能基线中的恢复检查器 Outline 边界和 Diff RightArrow 两处失败先用有界诊断记录，不重复无变化完整失败。
+
+## 最新完整自动功能 · 2026-10-18
+
+固定 main `2c2533c` 的 [39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756) 完成 smoke 1/1 与功能 45/45，零失败/跳过；144 个精确阅读组合全部有图，无缺失/重复。源码、全部用例、运行期提示及显示恢复见 [本轮完整记录](acceptance/2026-10-18/native-ui/final-functional/README.md)。后续工具/文档分支未改 120 项应用输入和 21 项产品 UI 测试输入；该等价校核不替代正式发布的精确提交 Full acceptance。55 条辅助访问报告及专用环境、性能和安装门槛继续开放。

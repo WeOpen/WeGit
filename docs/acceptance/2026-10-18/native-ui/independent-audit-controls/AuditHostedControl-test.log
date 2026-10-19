@@ -1,0 +1,278 @@
+Command line invocation:
+    /Applications/Xcode_27.app/Contents/Developer/usr/bin/xcodebuild -project Tools/SceneLaunchControl/SceneLaunchControl.xcodeproj -scheme AuditHostedControl -configuration Debug -destination platform=macOS,arch=arm64 -derivedDataPath .build/scene-controls -parallel-testing-enabled NO test-without-building -test-timeouts-enabled YES -default-test-execution-time-allowance 60 -maximum-test-execution-time-allowance 90 -resultBundlePath .build/ci/scene-controls/AuditHostedControl.xcresult
+
+Writing result bundle at path:
+	/Users/runner/work/WeGit/WeGit/.build/ci/scene-controls/AuditHostedControl.xcresult
+
+2026-10-18 14:48:37.154063+0000 AuditHostedTests-Runner[77468:177248] [Default] Running tests...
+Test Suite 'All tests' started at 2026-10-18 14:48:37.241.
+Test Suite 'AuditHostedTests.xctest' started at 2026-10-18 14:48:37.241.
+Test Suite 'AccessibilityControlUITests' started at 2026-10-18 14:48:37.242.
+Test Case '-[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances]' started.
+    t =     0.00s Start Test at 2026-10-18 14:48:37.243
+    t =     0.09s Set Up
+    t =     0.10s Open com.willxue.wegit.auditcontrol.hosted
+    t =     0.10s     Launch com.willxue.wegit.auditcontrol.hosted
+2026-10-18 14:48:37.449 xcodebuild[77464:177152] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-18 14:48:37.449 xcodebuild[77464:177152] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     0.68s         Wait for accessibility to load
+    t =     0.98s         Setting up automation session
+    t =     1.00s         Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     1.01s Open com.willxue.wegit.auditcontrol.hosted
+    t =     1.01s     Activate com.willxue.wegit.auditcontrol.hosted
+    t =     1.01s         Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     1.01s Waiting 10.0s for "control-ready" StaticText to exist
+    t =     2.03s     Checking `Expect predicate `existsNoRetry == 1` for object "control-ready" StaticText`
+    t =     2.03s         Checking existence of `"control-ready" StaticText`
+    t =     2.09s Get number of matches for: Descendants matching type Window
+    t =     2.10s Find the Window (First Match)
+    t =     2.11s Find the "control-scope" Any
+    t =     2.13s Click "control-scope" PopUpButton
+    t =     2.13s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     2.13s     Find the "control-scope" PopUpButton
+    t =     2.14s     Check for interrupting elements affecting "control-scope" PopUpButton
+    t =     2.16s     Synthesize event
+    t =     2.64s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     2.64s Waiting 5.0s for "Current branch" MenuItem to exist
+    t =     3.65s     Checking `Expect predicate `existsNoRetry == 1` for object "Current branch" MenuItem`
+    t =     3.65s         Checking existence of `"Current branch" MenuItem`
+    t =     3.67s Click "Current branch" MenuItem
+    t =     3.67s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     3.68s     Find the "Current branch" MenuItem
+    t =     3.70s     Check for interrupting elements affecting "menuAction:" MenuItem
+    t =     3.70s     Synthesize event
+    t =     3.70s         Checking existence of `"menuAction:" MenuItem`
+    t =     3.71s         Hover menu item 'Current branch'
+    t =     3.71s             Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     3.71s             Find the "menuAction:" MenuItem
+    t =     3.73s             Check for interrupting elements affecting "menuAction:" MenuItem
+    t =     3.74s             Synthesize event
+    t =     3.95s             Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     3.95s         Find the "menuAction:" MenuItem
+    t =     4.82s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     4.82s Click "control-button" Button
+    t =     4.82s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     4.82s     Find the "control-button" Button
+    t =     4.85s     Check for interrupting elements affecting "control-button" Button
+    t =     4.86s     Synthesize event
+    t =     5.31s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     5.31s Waiting 5.0s for "Activated" StaticText to exist
+    t =     6.33s     Checking `Expect predicate `existsNoRetry == 1` for object "Activated" StaticText`
+    t =     6.33s         Checking existence of `"Activated" StaticText`
+    t =     6.35s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.37s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.39s Added attachment named 'Independent control hierarchy - light'
+    t =     6.39s Find the Target Application 'com.willxue.wegit.auditcontrol.hosted'
+2026-10-18 14:48:43.643040+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =     6.43s Added attachment named 'Independent control screenshot - light'
+    t =     6.54s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLQAAAAAAAAA=)
+    t =     6.56s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.57s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLQAAAAAAAAA=
+    t =     6.58s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.60s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLQAAAAAAAAA=
+    t =     6.60s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.60s Using snapshot previously cached by application
+    t =     6.60s Added attachment named 'Independent accessibility issue - light'
+    t =     6.60s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLQAAAAAAAAA=)
+    t =     6.62s Checking existence of `Group`
+    t =     6.64s Find the Group
+2026-10-18 14:48:43.893955+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (700.0, 208.0, 520.0, 360.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Element has no description
+    t =     6.78s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMgAAAAAAAAA=)
+    t =     6.80s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.82s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMgAAAAAAAAA=
+    t =     6.82s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.84s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMgAAAAAAAAA=
+    t =     6.84s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.84s Using snapshot previously cached by application
+    t =     6.85s Added attachment named 'Independent accessibility issue - light'
+    t =     6.85s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMgAAAAAAAAA=)
+    t =     6.87s Checking existence of `"control-ready" StaticText`
+    t =     6.88s Find the "control-ready" StaticText
+2026-10-18 14:48:44.135424+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (730.0, 238.0, 170.0, 14.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Contrast failed
+    t =     6.91s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMwAAAAAAAAA=)
+    t =     6.93s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.94s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMwAAAAAAAAA=
+    t =     6.95s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.97s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMwAAAAAAAAA=
+    t =     6.97s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     6.97s Using snapshot previously cached by application
+    t =     6.97s Added attachment named 'Independent accessibility issue - light'
+    t =     6.97s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jMwAAAAAAAAA=)
+    t =     6.99s Checking existence of `"control-sha" StaticText`
+    t =     7.01s Find the "control-sha" StaticText
+2026-10-18 14:48:44.261554+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (730.0, 272.0, 272.0, 14.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Contrast failed
+    t =     7.03s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNQAAAAAAAAA=)
+    t =     7.05s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.06s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNQAAAAAAAAA=
+    t =     7.07s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.09s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNQAAAAAAAAA=
+    t =     7.09s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.09s Using snapshot previously cached by application
+    t =     7.09s Added attachment named 'Independent accessibility issue - light'
+    t =     7.09s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNQAAAAAAAAA=)
+    t =     7.11s Checking existence of `"control-scope" PopUpButton`
+    t =     7.13s Find the "control-scope" PopUpButton
+2026-10-18 14:48:44.381346+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (730.0, 340.0, 140.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Action is missing
+    t =     7.15s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNgAAAAAAAAA=)
+    t =     7.17s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.19s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNgAAAAAAAAA=
+    t =     7.19s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.21s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNgAAAAAAAAA=
+    t =     7.21s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.21s Using snapshot previously cached by application
+    t =     7.22s Added attachment named 'Independent accessibility issue - light'
+    t =     7.22s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jNgAAAAAAAAA=)
+    t =     7.23s Checking existence of `"control-actions" MenuButton`
+    t =     7.24s Find the "control-actions" MenuButton
+2026-10-18 14:48:44.500087+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (890.0, 340.0, 93.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Action is missing
+    t =     7.27s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLAAAAAAAAAA=)
+    t =     7.29s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.30s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLAAAAAAAAAA=
+    t =     7.31s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.32s Find: Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLAAAAAAAAAA=
+    t =     7.33s Requesting snapshot of accessibility hierarchy for app with pid 77471
+    t =     7.33s Using snapshot previously cached by application
+    t =     7.33s Added attachment named 'Independent accessibility issue - light'
+    t =     7.33s Find the Any (Descendant with identity binding to AX element pid: 77471, token: ny4BAAAAAABvY29jLAAAAAAAAAA=)
+    t =     7.35s Checking existence of `TouchBar`
+    t =     7.36s Find the TouchBar
+2026-10-18 14:48:44.618230+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Element has no description
+    t =     7.39s Terminate com.willxue.wegit.auditcontrol.hosted:77471
+    t =     8.40s Terminate com.willxue.wegit.auditcontrol.hosted:0
+    t =     8.41s Open com.willxue.wegit.auditcontrol.hosted
+    t =     8.41s     Launch com.willxue.wegit.auditcontrol.hosted
+2026-10-18 14:48:45.650 xcodebuild[77464:177152] [MT] IDELaunchParametersSnapshot: debugger version lookup failed for path '<nil>': noURL
+2026-10-18 14:48:45.650 xcodebuild[77464:177152] [MT] IDELaunchParametersSnapshot: no debugger version
+    t =     8.79s         Wait for accessibility to load
+    t =     9.03s         Setting up automation session
+    t =     9.06s         Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     9.06s Open com.willxue.wegit.auditcontrol.hosted
+    t =     9.06s     Activate com.willxue.wegit.auditcontrol.hosted
+    t =     9.06s         Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =     9.06s Waiting 10.0s for "control-ready" StaticText to exist
+    t =    10.06s     Checking `Expect predicate `existsNoRetry == 1` for object "control-ready" StaticText`
+    t =    10.07s         Checking existence of `"control-ready" StaticText`
+    t =    10.12s Get number of matches for: Descendants matching type Window
+    t =    10.13s Find the Window (First Match)
+    t =    10.14s Find the "control-scope" Any
+    t =    10.16s Click "control-scope" PopUpButton
+    t =    10.16s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    10.16s     Find the "control-scope" PopUpButton
+    t =    10.17s     Check for interrupting elements affecting "control-scope" PopUpButton
+    t =    10.19s     Synthesize event
+    t =    10.61s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    10.61s Waiting 5.0s for "Current branch" MenuItem to exist
+    t =    11.62s     Checking `Expect predicate `existsNoRetry == 1` for object "Current branch" MenuItem`
+    t =    11.62s         Checking existence of `"Current branch" MenuItem`
+    t =    11.65s Click "Current branch" MenuItem
+    t =    11.65s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    11.65s     Find the "Current branch" MenuItem
+    t =    11.67s     Check for interrupting elements affecting "menuAction:" MenuItem
+    t =    11.67s     Synthesize event
+    t =    11.67s         Checking existence of `"menuAction:" MenuItem`
+    t =    11.69s         Hover menu item 'Current branch'
+    t =    11.69s             Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    11.69s             Find the "menuAction:" MenuItem
+    t =    11.71s             Check for interrupting elements affecting "menuAction:" MenuItem
+    t =    11.71s             Synthesize event
+    t =    11.94s             Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    11.94s         Find the "menuAction:" MenuItem
+    t =    12.77s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    12.78s Click "control-button" Button
+    t =    12.78s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    12.78s     Find the "control-button" Button
+    t =    12.81s     Check for interrupting elements affecting "control-button" Button
+    t =    12.82s     Synthesize event
+    t =    13.26s     Wait for com.willxue.wegit.auditcontrol.hosted to idle
+    t =    13.27s Waiting 5.0s for "Activated" StaticText to exist
+    t =    14.31s     Checking `Expect predicate `existsNoRetry == 1` for object "Activated" StaticText`
+    t =    14.31s         Checking existence of `"Activated" StaticText`
+    t =    14.33s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.35s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.37s Added attachment named 'Independent control hierarchy - dark'
+    t =    14.37s Find the Target Application 'com.willxue.wegit.auditcontrol.hosted'
+2026-10-18 14:48:51.619571+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Could not find any displays containing rect (inf, inf, 0.0, 0.0)
+    t =    14.45s Added attachment named 'Independent control screenshot - dark'
+    t =    14.58s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLQAAAAAAAAA=)
+    t =    14.60s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.62s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLQAAAAAAAAA=
+    t =    14.62s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.64s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLQAAAAAAAAA=
+    t =    14.64s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.64s Using snapshot previously cached by application
+    t =    14.65s Added attachment named 'Independent accessibility issue - dark'
+    t =    14.65s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLQAAAAAAAAA=)
+    t =    14.67s Checking existence of `Group`
+    t =    14.68s Find the Group
+2026-10-18 14:48:51.936178+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (700.0, 208.0, 520.0, 360.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Element has no description
+    t =    14.71s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNQAAAAAAAAA=)
+    t =    14.73s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.74s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNQAAAAAAAAA=
+    t =    14.75s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.77s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNQAAAAAAAAA=
+    t =    14.77s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.77s Using snapshot previously cached by application
+    t =    14.77s Added attachment named 'Independent accessibility issue - dark'
+    t =    14.77s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNQAAAAAAAAA=)
+    t =    14.79s Checking existence of `"control-scope" PopUpButton`
+    t =    14.80s Find the "control-scope" PopUpButton
+2026-10-18 14:48:52.059818+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (730.0, 340.0, 140.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Action is missing
+    t =    14.83s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNgAAAAAAAAA=)
+    t =    14.85s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.87s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNgAAAAAAAAA=
+    t =    14.87s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.89s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNgAAAAAAAAA=
+    t =    14.89s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.89s Using snapshot previously cached by application
+    t =    14.89s Added attachment named 'Independent accessibility issue - dark'
+    t =    14.90s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNgAAAAAAAAA=)
+    t =    14.91s Checking existence of `"control-actions" MenuButton`
+    t =    14.93s Find the "control-actions" MenuButton
+2026-10-18 14:48:52.179969+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (890.0, 340.0, 93.0, 24.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Action is missing
+    t =    14.95s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLAAAAAAAAAA=)
+    t =    14.97s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    14.98s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLAAAAAAAAAA=
+    t =    14.99s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    15.01s Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLAAAAAAAAAA=
+    t =    15.01s Requesting snapshot of accessibility hierarchy for app with pid 77682
+    t =    15.01s Using snapshot previously cached by application
+    t =    15.01s Added attachment named 'Independent accessibility issue - dark'
+    t =    15.01s Find the Any (Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jLAAAAAAAAAA=)
+    t =    15.03s Checking existence of `TouchBar`
+    t =    15.04s Find the TouchBar
+2026-10-18 14:48:52.296593+0000 AuditHostedTests-Runner[77468:177248] [DisplayManager] Found 1 displays containing rect (80.0, 0.0, 685.0, 30.0): [1]
+/Users/runner/work/WeGit/WeGit/Tools/SceneLaunchControl/AccessibilityControlUITests.swift:34: error: -[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances] : Element has no description
+    t =    15.07s Terminate com.willxue.wegit.auditcontrol.hosted:77682
+    t =    16.11s Terminate com.willxue.wegit.auditcontrol.hosted:0
+    t =    16.11s Tear Down
+Test Case '-[AuditHostedTests.AccessibilityControlUITests testNativeControlsAndAuditInBothAppearances]' failed (16.133 seconds).
+Test Suite 'AccessibilityControlUITests' failed at 2026-10-18 14:48:53.376.
+	 Executed 1 test, with 10 failures (0 unexpected) in 16.133 (16.134) seconds
+Test Suite 'AuditHostedTests.xctest' failed at 2026-10-18 14:48:53.376.
+	 Executed 1 test, with 10 failures (0 unexpected) in 16.133 (16.135) seconds
+Test Suite 'All tests' failed at 2026-10-18 14:48:53.377.
+	 Executed 1 test, with 10 failures (0 unexpected) in 16.133 (16.136) seconds
+2026-10-18 14:48:56.183 xcodebuild[77464:177152] [MT] IDETestOperationsObserverDebug: 19.507 elapsed -- Testing started completed.
+2026-10-18 14:48:56.183 xcodebuild[77464:177152] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-18 14:48:56.183 xcodebuild[77464:177152] [MT] IDETestOperationsObserverDebug: 19.507 sec, +19.507 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/runner/work/WeGit/WeGit/.build/ci/scene-controls/AuditHostedControl.xcresult
+
+Failing tests:
+	AccessibilityControlUITests.testNativeControlsAndAuditInBothAppearances()
+	AccessibilityControlUITests.testNativeControlsAndAuditInBothAppearances()
+	AccessibilityControlUITests.testNativeControlsAndAuditInBothAppearances()
+
+** TEST EXECUTE FAILED **
+
+Testing started
