@@ -54,6 +54,9 @@ final class WorkspaceState {
     var inspector = false
     var filter = ""
     var changeFilter = ChangeKindFilter.all
+    var changesByFolder = false
+    var collapsedChangeGroups: Set<String> = []
+    var collapsedChangeFolders: Set<String> = []
     var fileFilter: ChangeFilter { ChangeFilter(query: filter, kind: changeFilter) }
     var branchFilter = ""
     var splitDiff = false
@@ -68,7 +71,7 @@ final class WorkspaceState {
             route: route.rawValue, selectedFile: selectedFile, inspector: inspector,
             filter: filter, branchFilter: branchFilter, splitDiff: splitDiff, wordDiff: wordDiff,
             contextLines: diffOptions.contextLines, ignoreWhitespace: diffOptions.ignoreWhitespace,
-            changeFilter: changeFilter.rawValue)
+            changeFilter: changeFilter.rawValue, changesByFolder: changesByFolder)
     }
 }
 
@@ -933,6 +936,7 @@ final class AppState {
         workspace.inspector = saved.inspector
         workspace.filter = saved.filter
         workspace.changeFilter = ChangeKindFilter(rawValue: saved.changeFilter ?? "") ?? .all
+        workspace.changesByFolder = saved.changesByFolder ?? false
         workspace.branchFilter = saved.branchFilter
         workspace.splitDiff = saved.splitDiff
         workspace.wordDiff = saved.wordDiff
@@ -946,6 +950,9 @@ final class AppState {
         workspace.inspector = false
         workspace.filter = ""
         workspace.changeFilter = .all
+        workspace.changesByFolder = false
+        workspace.collapsedChangeGroups = []
+        workspace.collapsedChangeFolders = []
         workspace.branchFilter = ""
         workspace.route = .changes
         if !Self.isUITesting {

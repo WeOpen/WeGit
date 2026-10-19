@@ -1,0 +1,60 @@
+Window: "WeGit Changes List Preview", App: ChangeListPreview.
+0 standard window WeGit Changes List Preview, Secondary Actions: Raise
+	1 container
+		2 text 更改列表 · 私有夹具
+		3 显示方式
+			4 radio button Description: 文件列表, Value: 0
+			5 radio button Description: 按文件夹显示, Value: 1
+		6 text field (settable) 筛选文件路径
+		7 scroll area
+			8 list changes-list
+				9 row (selectable) Value: 已展开, Description: 取消暂存所显示的文件 已暂存, 取消暂存所显示的文件 已暂存
+已暂存（1）
+					10 checkbox Description: 取消暂存所显示的文件 已暂存, 取消暂存所显示的文件 已暂存, Help: 取消暂存所显示的文件 已暂存, Value: 1, ID: stage-group:staged
+				11 row (selectable) Value: 已展开, Description: 取消暂存所显示的文件 docs, 取消暂存所显示的文件 docs
+docs（1）
+					12 checkbox Description: 取消暂存所显示的文件 docs, 取消暂存所显示的文件 docs, Help: 取消暂存所显示的文件 docs, Value: 1, ID: stage-folder:staged|docs
+				13 row (selectable) Description: 取消暂存 docs/readme.md, 取消暂存 docs/readme.md, Value: readme.md
+状态：修改
+					14 checkbox Description: 取消暂存 docs/readme.md, 取消暂存 docs/readme.md, Help: 取消暂存 docs/readme.md, Value: 1, ID: stage:staged:docs/readme.md
+				15 row (selectable) Value: 已展开, Description: 暂存所显示的文件 未暂存, 暂存所显示的文件 未暂存
+未暂存（3）
+					16 checkbox Description: 暂存所显示的文件 未暂存, 暂存所显示的文件 未暂存, Help: 暂存所显示的文件 未暂存, Value: 0, ID: stage-group:unstaged
+				17 row (selectable) Value: 已展开, Description: 暂存所显示的文件 src, 暂存所显示的文件 src
+src（2）
+					18 checkbox Description: 暂存所显示的文件 src, 暂存所显示的文件 src, Help: 暂存所显示的文件 src, Value: 0, ID: stage-folder:unstaged|src
+				19 row (selectable) Value: 已折叠, Description: 暂存所显示的文件 api, 暂存所显示的文件 api
+api（2）
+					20 checkbox Description: 暂存所显示的文件 api, 暂存所显示的文件 api, Help: 暂存所显示的文件 api, Value: 0, ID: stage-folder:unstaged|src/api
+				21 row (selectable) Description: 暂存 root.txt, 暂存 root.txt, Value: root.txt
+状态：修改
+					22 checkbox Description: 暂存 root.txt, 暂存 root.txt, Help: 暂存 root.txt, Value: 0, ID: stage:unstaged:root.txt
+				23 row (selectable) Value: 已展开, Description: 暂存所显示的文件 未跟踪, 暂存所显示的文件 未跟踪
+未跟踪（3）
+					24 checkbox Description: 暂存所显示的文件 未跟踪, 暂存所显示的文件 未跟踪, Help: 暂存所显示的文件 未跟踪, Value: 0, ID: stage-group:untracked
+				25 row (selectable) Value: 已展开, Description: 暂存所显示的文件 assets, 暂存所显示的文件 assets
+assets（1）
+					26 checkbox Description: 暂存所显示的文件 assets, 暂存所显示的文件 assets, Help: 暂存所显示的文件 assets, Value: 0, ID: stage-folder:untracked|assets
+				27 row (selectable) Description: 暂存 assets/theme.json, 暂存 assets/theme.json, Value: theme.json
+状态：未跟踪
+					28 checkbox Description: 暂存 assets/theme.json, 暂存 assets/theme.json, Help: 暂存 assets/theme.json, Value: 0, ID: stage:untracked:assets/theme.json
+				29 row (selectable) Value: 已展开, Description: 暂存所显示的文件 src, 暂存所显示的文件 src
+src（2）
+					30 checkbox Description: 暂存所显示的文件 src, 暂存所显示的文件 src, Help: 暂存所显示的文件 src, Value: 0, ID: stage-folder:untracked|src
+				31 row (selectable) Value: 已展开, Description: 暂存所显示的文件 components, 暂存所显示的文件 components
+components（2）
+					32 checkbox Description: 暂存所显示的文件 components, 暂存所显示的文件 components, Help: 暂存所显示的文件 components, Value: 0, ID: stage-folder:untracked|src/components
+				33 row (selectable) Description: 暂存 src/components/Button.swift, 暂存 src/components/Button.swift, Value: Button.swift
+状态：未跟踪
+					34 checkbox Description: 暂存 src/components/Button.swift, 暂存 src/components/Button.swift, Help: 暂存 src/components/Button.swift, Value: 0, ID: stage:untracked:src/components/Button.swift
+				35 row (selectable) Description: 暂存 src/components/View.swift, 暂存 src/components/View.swift, Value: View.swift
+状态：未跟踪
+					36 checkbox Description: 暂存 src/components/View.swift, 暂存 src/components/View.swift, Help: 暂存 src/components/View.swift, Value: 0, ID: stage:untracked:src/components/View.swift
+		37 text Value: No selected file Updated: src/api/client.swift, src/api/session.swift, ID: preview-selection
+	38 close button
+	39 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	40 text WeGit Changes List Preview
+41 menu bar
+	42 ChangeListPreview
+
+The focused UI element is 0 standard window WeGit Changes List Preview, Secondary Actions: Raise

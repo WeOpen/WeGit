@@ -90,8 +90,8 @@ final class InterfacePolishTests: XCTestCase {
             screenshot.name = "Polished workspace - \(appearance)"
             screenshot.lifetime = .keepAlways
             add(screenshot)
-            app.buttons["stage:unstaged:Interface.swift"].click()
-            XCTAssertTrue(app.buttons["stage:staged:Interface.swift"].waitForExistence(timeout: 5))
+            app.checkBoxes["stage:unstaged:Interface.swift"].click()
+            XCTAssertTrue(app.checkBoxes["stage:staged:Interface.swift"].waitForExistence(timeout: 5))
             XCTAssertEqual(stagedCount.label, "已暂存 1 个文件")
             let message = app.textFields["commit-message"]
             message.click()

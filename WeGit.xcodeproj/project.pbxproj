@@ -63,6 +63,7 @@
 		8F4F1D37B4D173A30AB15BED /* ManualAccessibilitySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */; };
 		8FAF54D46F1AA2BF46169857 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 82EEFAE49C6A81275649EAA8 /* AppIcon.icon */; };
 		9017CDA22623788871707B7E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20398CEF1936E2C0FB64C613 /* HistoryView.swift */; };
+		912482B2DB0CA8509E9FFE16 /* ChangesListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA763BCB4493EC8B7C35D44 /* ChangesListTests.swift */; };
 		925318E482D036372631F21B /* ThemeWindowBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE13077D673F37C54948783 /* ThemeWindowBridge.swift */; };
 		959FD19237483478F5FC8310 /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EB883F4D016DC370F2DBC8 /* LaunchPerformanceTests.swift */; };
 		997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A8CC78668A40CFC111A86F /* SettingsView.swift */; };
@@ -74,6 +75,7 @@
 		A9168015B95F2AFB24DFB6DB /* WindowStateBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294B154B492B77C3F4D7B39 /* WindowStateBridge.swift */; };
 		AF7AF4952BB47022C8F704DD /* UITestGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124F18C7E3AEADB6E5E789F /* UITestGit.swift */; };
 		B473F54890DFA2DCFB038F84 /* ChangesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029D5F7DBFB1C4F806AEBD78 /* ChangesView.swift */; };
+		B7B8BCF9C3D61F7DCBF68742 /* ChangesFileList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2509E985E43763206AA5C85 /* ChangesFileList.swift */; };
 		C1AD725D2D40C1CDBE32B1EC /* PreferenceMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9C335F65C59CCA9AF75647 /* PreferenceMigration.swift */; };
 		C4D041197B01466496C8BAE2 /* WeGitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE224312D030E65115351A57 /* WeGitUITests.swift */; };
 		C57B239F0DC7AEF20E5E74BA /* CommitFilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE6C5522DB85CB59E6C5C6C /* CommitFilesView.swift */; };
@@ -189,6 +191,7 @@
 		AC8AB00BDC343AF3E5B3958A /* ToolbarMenuBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarMenuBarTests.swift; sourceTree = "<group>"; };
 		ADEDFC588FBF73378C4A8D2F /* GlassControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassControls.swift; sourceTree = "<group>"; };
 		B7406090F3F3D453C8C2A796 /* ViewPerformanceJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPerformanceJournal.swift; sourceTree = "<group>"; };
+		BBA763BCB4493EC8B7C35D44 /* ChangesListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesListTests.swift; sourceTree = "<group>"; };
 		BDC147DBB2A084BF6E1530AD /* WeGitTestGit */ = {isa = PBXFileReference; includeInIndex = 0; path = WeGitTestGit; sourceTree = BUILT_PRODUCTS_DIR; };
 		C124F18C7E3AEADB6E5E789F /* UITestGit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestGit.swift; sourceTree = "<group>"; };
 		C2E7A4A0F3C5A7CE4D52ED96 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -215,6 +218,7 @@
 		EEEBBEC752F134B78D33F291 /* WeGitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitApp.swift; sourceTree = "<group>"; };
 		F1202E2B641C73BAB9FF1CF7 /* GitSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSettingsView.swift; sourceTree = "<group>"; };
 		F1995C02EE0A1C7A741764DC /* WeGitLight.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = WeGitLight.icns; sourceTree = "<group>"; };
+		F2509E985E43763206AA5C85 /* ChangesFileList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesFileList.swift; sourceTree = "<group>"; };
 		F25E0849046CCD6295265331 /* CloneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloneView.swift; sourceTree = "<group>"; };
 		F30CE0A1FB0F7D3A1CC25A07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F3A8CC78668A40CFC111A86F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 		07BE59A938A1D6A3F01C1D9F /* WeGitUITests */ = {
 			isa = PBXGroup;
 			children = (
+				BBA763BCB4493EC8B7C35D44 /* ChangesListTests.swift */,
 				ABBD62AD5BEEA0F025C5A11B /* DiffReaderTests.swift */,
 				5C9E903CDDF3740DD68FD87C /* GitConfigurationInterfaceTests.swift */,
 				1EC0DAA7117702BBDFD66833 /* HistoryActionsTests.swift */,
@@ -385,6 +390,7 @@
 				82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */,
 				7183C67E493C4FB81DECA942 /* BranchSheets.swift */,
 				C89ADEB8CDD4AF507D2E9489 /* BranchSwitcherView.swift */,
+				F2509E985E43763206AA5C85 /* ChangesFileList.swift */,
 				029D5F7DBFB1C4F806AEBD78 /* ChangesView.swift */,
 				F25E0849046CCD6295265331 /* CloneView.swift */,
 				1B068FD8FA547E5DD7CBDAB2 /* CloneViewModel.swift */,
@@ -732,6 +738,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				912482B2DB0CA8509E9FFE16 /* ChangesListTests.swift in Sources */,
 				5D93C609116608C0234463F2 /* DiffReaderTests.swift in Sources */,
 				A2B254D2EC7B9CABFE5E7D19 /* GitConfigurationInterfaceTests.swift in Sources */,
 				E70C5DC0FF9653568D38EEA4 /* HistoryActionsTests.swift in Sources */,
@@ -770,6 +777,7 @@
 				D943793F42D7C463F8D8545E /* BranchSheets.swift in Sources */,
 				284E95746BEE7431EE17E8A8 /* BranchSwitcherView.swift in Sources */,
 				461DEA46B43F53AC35E72678 /* BrandGeometry.swift in Sources */,
+				B7B8BCF9C3D61F7DCBF68742 /* ChangesFileList.swift in Sources */,
 				B473F54890DFA2DCFB038F84 /* ChangesView.swift in Sources */,
 				561BE4CF3B8506D6719D18B7 /* CloneView.swift in Sources */,
 				4C4E2302E50E982C6B5B1561 /* CloneViewModel.swift in Sources */,

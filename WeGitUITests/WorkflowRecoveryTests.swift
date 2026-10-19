@@ -104,9 +104,9 @@ final class WorkflowRecoveryTests: XCTestCase {
         defer { app.terminate() }
         XCTAssertTrue(app.staticTexts["工作区干净"].firstMatch.waitForExistence(timeout: 10))
         try write("external\n", fixture: fixture)
-        XCTAssertTrue(app.buttons["stage:unstaged:file.txt"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.checkBoxes["stage:unstaged:file.txt"].waitForExistence(timeout: 5))
         try fixture.git(["add", "file.txt"])
-        XCTAssertTrue(app.buttons["stage:staged:file.txt"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.checkBoxes["stage:staged:file.txt"].waitForExistence(timeout: 5))
         try fixture.git(["commit", "-m", "External commit"])
         XCTAssertTrue(app.staticTexts["工作区干净"].firstMatch.waitForExistence(timeout: 5))
         try fixture.git(["switch", "feature"])
@@ -114,7 +114,7 @@ final class WorkflowRecoveryTests: XCTestCase {
         XCTAssertTrue(switched.waitForExistence(timeout: 5))
         XCTAssertEqual(switched.identifier, "current-branch")
         try fixture.git(["reset", "--soft", "main"])
-        XCTAssertTrue(app.buttons["stage:staged:file.txt"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.checkBoxes["stage:staged:file.txt"].waitForExistence(timeout: 5))
         XCTAssertEqual(
             try String(contentsOf: fixture.root.appending(path: "file.txt"), encoding: .utf8), "base\n")
     }

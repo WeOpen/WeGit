@@ -1004,3 +1004,11 @@
 "⌘K 切换仓库，⌘⇧F 搜索当前仓库" = "⌘K switches repositories; ⌘⇧F searches the current repository";
 "点击跳转到差异块" = "Click to jump to a diff hunk";
 "差异变更地图" = "Diff change map";
+"显示方式" = "Display mode";
+"文件列表" = "File list";
+"按文件夹显示" = "Group by folder";
+"切换文件列表或按文件夹显示" = "Switch between a file list and folder view";
+"已折叠" = "Collapsed";
+"已展开" = "Expanded";
+"取消暂存所显示的文件" = "Unstage displayed files";
+"暂存所显示的文件" = "Stage displayed files";

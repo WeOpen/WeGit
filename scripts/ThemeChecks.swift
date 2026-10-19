@@ -35,6 +35,26 @@ struct ThemeChecks {
                 && abs(a.greenComponent - b.greenComponent) < 0.0001
                 && abs(a.blueComponent - b.blueComponent) < 0.0001
         }
+        let oldWorkspace: [String: Any] = [
+            "route": "更改", "selectedFile": "unstaged|src/a.swift", "inspector": false,
+            "filter": "src", "branchFilter": "", "splitDiff": false, "wordDiff": true,
+            "contextLines": 3, "ignoreWhitespace": false,
+        ]
+        let legacyView = try JSONDecoder().decode(
+            RepositoryViewPreferences.self, from: JSONSerialization.data(withJSONObject: oldWorkspace))
+        try require(
+            legacyView.changesByFolder == nil && legacyView.selectedFile == "unstaged|src/a.swift"
+                && legacyView.filter == "src",
+            "Old workspace records preserve their view and default to the file list")
+        var folderWorkspace = oldWorkspace
+        folderWorkspace["changesByFolder"] = true
+        let folderView = try JSONDecoder().decode(
+            RepositoryViewPreferences.self, from: JSONSerialization.data(withJSONObject: folderWorkspace))
+        let roundTripView = try JSONDecoder().decode(
+            RepositoryViewPreferences.self, from: JSONEncoder().encode(folderView))
+        try require(
+            roundTripView.changesByFolder == true && roundTripView == folderView,
+            "Folder display preference round-trips with the repository workspace")
         func level(_ color: NSColor) -> CGFloat {
             (color.usingColorSpace(.sRGB) ?? color).redComponent
         }
