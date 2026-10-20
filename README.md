@@ -44,6 +44,8 @@ It uses your existing Git installation, configuration, credential helpers, and S
 
 See the [product specification](docs/WeGit_PRD.md), [interface notes](docs/INTERFACE_POLISH.md), and [compatibility record](docs/COMPATIBILITY.md) for scope and evidence. Product capabilities and completed release acceptance are tracked separately.
 
+**Development branch, 2026-10-20:** the v1.1 M0 baseline adds collapsible change groups, staging checkboxes, a folder display mode, a clickable change map for multi-hunk in-memory diffs, paired pane surfaces, and upstream commit counts on Pull/Push. These additions are pending PR/CI integration and are not part of the published 1.0.0 download. See the [usage and verification notes](docs/INTERFACE_POLISH.md#v11-m0-baseline--2026-10-20).
+
 ## 🖥️ Requirements
 
 - **macOS 27 or later**. Current builds and acceptance evidence cover **Apple Silicon / arm64**.
@@ -109,7 +111,9 @@ scripts/verify.sh
 scripts/verify.sh --ui
 ```
 
-The latest core verification passed **183 tests in 32 suites** with both **Apple Git 2.54.0** and an isolated **Git 2.46.0** build. Recent targeted checks cover **278 theme checks** (including 216 role/background contrast pairs), **18 appearance/icon behaviors**, **27 native menu behaviors**, and **6 restored-startup combinations**. These are scoped results, not a V1.0 release sign-off.
+Historical verification before M0 passed **183 tests in 32 suites** with both **Apple Git 2.54.0** and an isolated **Git 2.46.0** build. The 2026-10-18 record includes **278 theme checks** (including 216 role/background contrast pairs), alongside earlier **18 appearance/icon behaviors**, **27 native menu behaviors**, and **6 restored-startup combinations**. Dates and source boundaries remain in the [development record](docs/DEVELOPMENT.md); these results do not establish acceptance of the current development source.
+
+The [2026-10-20 M0 checks](docs/acceptance/2026-10-20/v1-1-baseline/README.md) passed **14 sync-count, 30 file-tree/staging, 13 map, 290 theme, 18 icon, and 27 menu checks**, plus **30 Python policy tests**. Localization covered **1015 string keys, 7 plural keys, and 1325 source literals**. Core tests were compiled with `swift build --build-tests`; Debug and native UI tests were compiled with `xcodebuild build-for-testing`. No local XCTest ran, and the new `SelectionScopeTests` still needs hosted execution.
 
 Hosted smoke **1/1**, the full native functional suite **45/45** (zero failures/skips), and the reading matrix **144/144** passed at `2c2533c` in [run 39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756). This is functional evidence on the recorded source, not same-commit full acceptance of the release. Accessibility acceptance is deferred; final-source performance, protected-Mac installation and real Beta feedback remain incomplete. See the [release notes](docs/releases/v1.0.0.md) and [current checklist](docs/V1_RELEASE_CHECKLIST.md) for the retained limits.
 
@@ -118,6 +122,8 @@ Tests use isolated configuration files, temporary repositories, and separate pre
 ## 🗺️ Scope & roadmap
 
 V1.0 focuses on daily Git workflows and readable diffs. **Stash and Tag management, an integrated conflict editor, interactive rebase, Blame, linked worktree/submodule management, and hosting-provider integrations** remain outside the first release. Linked worktree and bare-repository layouts are not currently supported for opening.
+
+The accepted [v1.1 plan](docs/V1_1_PLAN.md) requires Stash, Remote and Tag management, plus file history with targeted search. Single-commit Cherry-pick/Revert is conditional on completing those workflows and their recovery checks. M0 is baseline integration; M1–M5 remain future work, including Beta, versioning and release validation.
 
 The app can hand conflicts to an external editor and continue or abort supported operations. It does not yet include an integrated three-way merge editor. Homebrew Git core and isolated noninteractive OpenPGP checks have passed. GitLab, interactive Pinentry/hardware keys, additional credential-helper setups, and other untested environments remain explicitly pending in the [compatibility matrix](docs/COMPATIBILITY.md).
 

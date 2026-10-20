@@ -10,8 +10,7 @@ extension XCUIApplication {
         XCTAssertTrue(sync.waitForExistence(timeout: 3))
         XCTAssertTrue(sync.isHittable)
         sync.click()
-        let titles = identifier == "toolbar-push" ? ["推送", "Push"] : ["拉取", "Pull"]
-        let action = windows["main"].menuItems.matching(NSPredicate(format: "title IN %@", titles)).firstMatch
+        let action = windows["main"].menuItems.matching(identifier: identifier).firstMatch
         XCTAssertTrue(action.waitForExistence(timeout: 3))
         return action
     }

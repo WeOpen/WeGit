@@ -1,0 +1,154 @@
+{
+  "after-light": {
+    "columnsRGB": [
+      [
+        240,
+        240,
+        240
+      ],
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        240,
+        240,
+        240
+      ]
+    ],
+    "controlsAt2x": {
+      "sidebar": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "repository": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "branch": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "fetch": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "pull": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "push": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "refresh": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "search": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "inspector": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "more": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      }
+    }
+  },
+  "after-dark": {
+    "columnsRGB": [
+      [
+        25,
+        25,
+        25
+      ],
+      [
+        30,
+        30,
+        30
+      ],
+      [
+        30,
+        30,
+        30
+      ],
+      [
+        25,
+        25,
+        25
+      ]
+    ],
+    "controlsAt2x": {
+      "sidebar": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "repository": {
+        "top": 7.5,
+        "bottom": 44.0,
+        "paintedHeight": 37.0
+      },
+      "branch": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "fetch": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "pull": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "push": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "refresh": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "search": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "inspector": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      },
+      "more": {
+        "top": 8.0,
+        "bottom": 43.5,
+        "paintedHeight": 36.0
+      }
+    }
+  }
+}

@@ -297,7 +297,7 @@ Phase 编号是计划标识，不是工期单位。可以在已满足依赖时�
 
 | 阶段 | 计划范围 | 必须同步补齐 |
 | --- | --- | --- |
-| Phase 15 / V1.1 | Stash、Tag、Remote 编辑、Cherry-pick、Revert、Reset、文件历史、图片 Diff、显式签名、消息历史、增强搜索 | 冲突/继续/中止、风险确认、模型、集成测试、空/失败状态 |
+| Phase 15 / V1.1 | 必选 Stash、Tag、Remote 编辑、文件历史与定向搜索；单提交 Cherry-pick/Revert 为条件候选，详见 [v1.1 执行计划](V1_1_PLAN.md) | 冲突/继续/中止、风险确认、模型、集成测试、空/失败状态 |
 | Phase 16 / V1.2 | 内置冲突编辑器、独立与 Interactive Rebase、选中行暂存、Blame、Worktree、Submodule、LFS 状态 | 原始补丁正确性、共享引用互斥、工具缺失、编辑保存与恢复 |
 | Phase 17 / V2.0 候选 | GitHub/GitLab 账户、PR/MR/Review、元数据、可选 AI | 认证权限、数据发送范围、独立 Provider/AI 服务、用户控制 |
 

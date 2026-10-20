@@ -996,3 +996,24 @@
 "，仅显示开头" = ", showing only the start";
 "，第 %1$@ 行" = ", line %1$@";
 "；合并时使用 " = "; merges use ";
+
+// Diff map and first-run guidance.
+"从这里开始" = "Start here";
+"打开本地仓库，或从远端克隆一份" = "Open a local repository or clone a remote one";
+"逐文件暂存，提交前看清每一处改动" = "Stage files individually and review every change before committing";
+"⌘K 切换仓库，⌘⇧F 搜索当前仓库" = "⌘K switches repositories; ⌘⇧F searches the current repository";
+"点击跳转到差异块" = "Click to jump to a diff hunk";
+"差异变更地图" = "Diff change map";
+"显示方式" = "Display mode";
+"文件列表" = "File list";
+"按文件夹显示" = "Group by folder";
+"切换文件列表或按文件夹显示" = "Switch between a file list and folder view";
+"已折叠" = "Collapsed";
+"已展开" = "Expanded";
+"取消暂存所显示的文件" = "Unstage displayed files";
+"暂存所显示的文件" = "Stage displayed files";
+
+"相对上游 %1$@：领先 %2$@ 个提交，落后 %3$@ 个提交。" = "Compared with upstream %1$@: ahead by %2$@ commits, behind by %3$@ commits.";
+"数量基于最近一次获取，请先获取以核对远端。" = "Counts reflect the last fetch. Fetch first to check the remote.";
+
+"文件与目录替换包含未选中的子路径，请分别处理差异或同时选择这些路径。" = "This file/directory replacement includes unselected child paths. Handle the diffs separately or select those paths together.";

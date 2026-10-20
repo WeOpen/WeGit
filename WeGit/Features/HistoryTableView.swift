@@ -117,14 +117,14 @@ private struct HistoryGraphCell: View {
     let shallow: Bool
     var body: some View {
         Canvas { context, size in
-            let colors: [Color] = [
+            let laneColors: [Color] = [
                 colors.link, colors.keyword, colors.positive, colors.modified, colors.negative,
             ]
             for column in row.incomingColumns {
                 var path = Path()
                 path.move(to: CGPoint(x: CGFloat(column) * 12 + 6, y: 0))
                 path.addLine(to: CGPoint(x: CGFloat(column) * 12 + 6, y: size.height / 2))
-                context.stroke(path, with: .color(colors[column % colors.count]), lineWidth: 1.5)
+                context.stroke(path, with: .color(laneColors[column % laneColors.count]), lineWidth: 1.5)
             }
             for (from, to) in row.connections {
                 var path = Path()
@@ -134,20 +134,21 @@ private struct HistoryGraphCell: View {
                     control1: CGPoint(x: CGFloat(from) * 12 + 6, y: size.height * 0.8),
                     control2: CGPoint(x: CGFloat(to) * 12 + 6, y: size.height * 0.8))
                 context.stroke(
-                    path, with: .color(colors[from % colors.count]),
+                    path, with: .color(laneColors[from % laneColors.count]),
                     style: StrokeStyle(lineWidth: 1.5, lineCap: .round))
             }
             context.fill(
                 Path(
                     ellipseIn: CGRect(
                         x: CGFloat(row.column) * 12 + 2, y: size.height / 2 - 4, width: 8, height: 8)),
-                with: .color(colors[row.column % colors.count]))
+                with: .color(laneColors[row.column % laneColors.count]))
             if head || shallow {
+                let ring = Path(
+                    ellipseIn: CGRect(
+                        x: CGFloat(row.column) * 12, y: size.height / 2 - 6, width: 12, height: 12))
                 context.stroke(
-                    Path(
-                        ellipseIn: CGRect(
-                            x: CGFloat(row.column) * 12, y: size.height / 2 - 6, width: 12, height: 12)),
-                    with: .color(.primary), style: StrokeStyle(lineWidth: 1, dash: shallow ? [2, 2] : []))
+                    ring, with: .color(head ? colors.accent : Color.primary),
+                    style: StrokeStyle(lineWidth: head ? 1.5 : 1, dash: shallow ? [2, 2] : []))
             }
         }.accessibilityAddTraits(.isImage).accessibilityLabel(
             shallow

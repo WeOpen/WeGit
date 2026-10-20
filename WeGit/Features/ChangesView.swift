@@ -26,6 +26,17 @@ struct ChangesView: View {
                         if preparingDiscard { ProgressView().controlSize(.small).help(L10n.text("检查未暂存改动…")) }
                         Spacer()
                         Menu {
+                            Picker(L10n.text("显示方式"), selection: $app.workspace.changesByFolder) {
+                                Text(L10n.text("文件列表")).tag(false)
+                                Text(L10n.text("按文件夹显示")).tag(true)
+                            }
+                        } label: {
+                            Label(
+                                L10n.text("显示方式"),
+                                systemImage: app.workspace.changesByFolder ? "folder" : "list.bullet")
+                        }.workbenchGlassMenu(icon: true).accessibilityIdentifier("changes-display-mode")
+                            .help(L10n.text("切换文件列表或按文件夹显示"))
+                        Menu {
                             Button(L10n.text("暂存全部"), action: app.stageAll).disabled(!app.canStageAll)
                                 .help(L10n.text("暂存当前仓库全部适用文件，不受筛选影响，不自动标记冲突解决"))
                             Button(L10n.text("取消全部暂存"), action: app.unstageAll).disabled(!app.canUnstageAll)
@@ -65,19 +76,16 @@ struct ChangesView: View {
                             }.padding(.bottom, 18)
                         }
                     } else {
-                        List(selection: $app.workspace.selectedFile) {
-                            group(L10n.text("冲突"), layer: .conflict, files: session.status.conflicts)
-                            group(
-                                L10n.text("已暂存"), layer: .staged, files: session.status.files.filter(\.staged)
-                            )
-                            group(
-                                L10n.text("未暂存"), layer: .unstaged,
-                                files: session.status.files.filter(\.unstaged))
-                            group(
-                                L10n.text("未跟踪"), layer: .untracked,
-                                files: session.status.files.filter(\.untracked))
-                        }.listStyle(.inset).scrollContentBackground(.hidden)
-                            .background(colors.surface).accessibilityIdentifier("changes-list")
+                        ChangesFileList(
+                            files: session.status.files, filter: app.workspace.fileFilter,
+                            byFolder: app.workspace.changesByFolder,
+                            showFileIcons: app.preferences.showFileIcons,
+                            compact: app.preferences.density == "compact", canWrite: session.canWrite,
+                            writeReason: session.writeReason, selection: $app.workspace.selectedFile,
+                            collapsedGroups: $app.workspace.collapsedChangeGroups,
+                            collapsedFolders: $app.workspace.collapsedChangeFolders,
+                            stage: stageFiles
+                        ) { file, layer in fileMenu(file, layer: layer) }
                     }
                 }.frame(minWidth: 260, idealWidth: 320, maxWidth: 380)
                 DiffView(app: app, session: session)
@@ -99,6 +107,7 @@ struct ChangesView: View {
         }
         .onChange(of: app.workspace.filter) { _, _ in clearHiddenSelection() }
         .onChange(of: app.workspace.changeFilter) { _, _ in clearHiddenSelection() }
+        .onChange(of: app.workspace.changesByFolder) { _, _ in app.saveCurrentWorkspace() }
         .onDisappear {
             app.workspace.diffDisplay?.cancelAll()
             app.workspace.diskDisplay?.cancelAll()
@@ -107,79 +116,45 @@ struct ChangesView: View {
         }
     }
 
-    @ViewBuilder private func group(_ title: String, layer: DiffLayer, files: [FileChange]) -> some View {
-        let filtered = files.filter { app.workspace.fileFilter.matches($0, layer: layer) }
-        if !filtered.isEmpty {
-            Group {
-                Text(L10n.text("\(title)（\(filtered.count)）")).font(.caption.weight(.semibold))
-                    .foregroundStyle(colors.secondaryText)
-                    .padding(.vertical, 4).accessibilityAddTraits(.isHeader)
-                    .listRowBackground(colors.surface).listRowSeparator(.hidden)
-                ForEach(filtered) { file in
-                    HStack(spacing: 8) {
-                        if app.preferences.showFileIcons {
-                            FileTypeIcon(path: file.path)
-                        }
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text(file.filename).font(.system(size: 12, weight: .medium)).lineLimit(1)
-                            if file.path != file.filename {
-                                Text((file.path as NSString).deletingLastPathComponent).font(.caption2)
-                                    .foregroundStyle(colors.secondaryText).lineLimit(1).truncationMode(
-                                        .middle)
-                            }
-                        }
-                        Spacer(minLength: 4)
-                        StatusBadge(symbol: file.symbol(for: layer))
-                        Button {
-                            stageAction(file, layer: layer)
-                        } label: {
-                            Image(
-                                systemName: layer == .staged
-                                    ? "minus.circle" : layer == .conflict ? "checkmark.circle" : "plus.circle"
-                            )
-                        }
-                        .workbenchIconButton().controlSize(.small).frame(width: 26, height: 26).disabled(
-                            !session.canWrite
-                        )
-                        .help(
-                            layer == .staged
-                                ? L10n.text("取消暂存")
-                                : layer == .conflict ? L10n.text("标记已解决") : L10n.text("暂存文件")
-                        )
-                        .accessibilityLabel(
-                            "\(layer == .staged ? L10n.text("取消暂存") : layer == .conflict ? L10n.text("标记已解决") : L10n.text("暂存")) \(file.filename)"
-                        )
-                        .accessibilityIdentifier("stage:\(layer.rawValue):\(file.path)")
-                    }
-                    .padding(.vertical, app.preferences.density == "compact" ? 1 : 4)
-                    .accessibilityElement(children: .contain)
-                    .tag(layer.rawValue + "|" + file.path)
-                    .help(file.oldPath.map { "\($0) → \(file.path)" } ?? file.path)
-                    .contextMenu {
-                        Button(
-                            layer == .staged
-                                ? L10n.text("取消暂存")
-                                : layer == .conflict ? L10n.text("标记已解决…") : L10n.text("暂存文件")
-                        ) {
-                            stageAction(file, layer: layer)
-                        }.disabled(!session.canWrite)
-                        Divider()
-                        FileContextMenu(app: app, session: session, path: file.path)
-                        if layer == .unstaged {
-                            Divider()
-                            Button(L10n.text("丢弃未暂存改动…"), role: .destructive) { discardFile(file) }
-                                .disabled(!session.canWrite || preparingDiscard || preparingRemoval)
-                                .accessibilityIdentifier("discard-file:" + file.path)
-                        }
-                        if layer == .untracked {
-                            Divider()
-                            Button(L10n.text("移到废纸篓…"), role: .destructive) { removeUntracked(file) }
-                                .disabled(!session.canWrite || preparingRemoval || preparingDiscard)
-                                .accessibilityIdentifier("trash-untracked:" + file.path)
-                        }
-                    }
-                }
-            }
+    @ViewBuilder private func fileMenu(_ file: FileChange, layer: DiffLayer) -> some View {
+        Button(
+            layer == .staged
+                ? L10n.text("取消暂存")
+                : layer == .conflict ? L10n.text("标记已解决…") : L10n.text("暂存文件")
+        ) { stageAction(file, layer: layer) }.disabled(!session.canWrite)
+        Divider()
+        FileContextMenu(app: app, session: session, path: file.path)
+        if layer == .unstaged {
+            Divider()
+            Button(L10n.text("丢弃未暂存改动…"), role: .destructive) { discardFile(file) }
+                .disabled(!session.canWrite || preparingDiscard || preparingRemoval)
+                .accessibilityIdentifier("discard-file:" + file.path)
+        }
+        if layer == .untracked {
+            Divider()
+            Button(L10n.text("移到废纸篓…"), role: .destructive) { removeUntracked(file) }
+                .disabled(!session.canWrite || preparingRemoval || preparingDiscard)
+                .accessibilityIdentifier("trash-untracked:" + file.path)
+        }
+    }
+
+    private func stageFiles(_ files: [FileChange], layer: DiffLayer) {
+        guard app.session === session, session.canWrite, !files.isEmpty else { return }
+        if files.count == 1 {
+            stageAction(files[0], layer: layer)
+            return
+        }
+        // Batch operations retain the visible files, never a folder path or conflict.
+        let current = Set(session.status.files)
+        guard layer != .conflict,
+            files.allSatisfy({ current.contains($0) && $0.layers.contains(layer) && !$0.conflict })
+        else { return }
+        let head = session.status.head
+        let paths = files.map(\.path)
+        if layer == .staged {
+            session.perform(L10n.text("取消暂存")) { try await $0.unstage(paths: paths, expectedHead: head) }
+        } else {
+            session.perform(L10n.text("暂存文件")) { try await $0.stage(paths: paths, expectedHead: head) }
         }
     }
 
@@ -289,33 +264,35 @@ struct ChangesView: View {
 
     private var composer: some View {
         let stagedCount = session.status.files.lazy.filter(\.staged).count
-        return VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top, spacing: 12) {
-                CommitReadiness(count: stagedCount)
+        return VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .bottom, spacing: 12) {
                 WorkbenchMessageField(message: $session.message)
-                Button {
-                    app.commitCurrent()
-                } label: {
-                    Text(session.amend ? L10n.text("修改提交") : L10n.count("提交（%lld 个文件）", stagedCount))
-                        .frame(minWidth: 110)
-                }.workbenchPrimaryAction()
-                    .tint(colors.primaryAction).controlSize(.large).disabled(
-                        !session.canCommit
-                    )
-                    .accessibilityIdentifier("commit-button")
-                    .help(session.canCommit ? L10n.text("提交已暂存内容 ⌘↩") : session.commitReason)
-                Button {
-                    app.presentSync(.commitAndPush)
-                } label: {
-                    Text(L10n.text("提交并推送…")).frame(minWidth: 110)
-                }.workbenchPrimaryAction().tint(colors.primaryAction).controlSize(.large)
-                    .disabled(!session.canCommitAndPush).accessibilityIdentifier("commit-push-button")
-                    .help(
-                        session.canCommitAndPush
-                            ? L10n.text("先提交本地改动，再推送到指定远端")
-                            : session.canCommit ? session.syncReason : session.commitReason)
+                VStack(spacing: 6) {
+                    Button {
+                        app.commitCurrent()
+                    } label: {
+                        Text(session.amend ? L10n.text("修改提交") : L10n.count("提交（%lld 个文件）", stagedCount))
+                            .frame(maxWidth: .infinity)
+                    }.workbenchPrimaryAction()
+                        .tint(colors.primaryAction).disabled(
+                            !session.canCommit
+                        )
+                        .accessibilityIdentifier("commit-button")
+                        .help(session.canCommit ? L10n.text("提交已暂存内容 ⌘↩") : session.commitReason)
+                    Button {
+                        app.presentSync(.commitAndPush)
+                    } label: {
+                        Text(L10n.text("提交并推送…")).frame(maxWidth: .infinity)
+                    }.workbenchPrimaryAction().tint(colors.primaryAction)
+                        .disabled(!session.canCommitAndPush).accessibilityIdentifier("commit-push-button")
+                        .help(
+                            session.canCommitAndPush
+                                ? L10n.text("先提交本地改动，再推送到指定远端")
+                                : session.canCommit ? session.syncReason : session.commitReason)
+                }.frame(width: 168)
             }
-            HStack {
+            HStack(spacing: 10) {
+                CommitReadiness(count: stagedCount)
                 Toggle(L10n.text("修改上次提交（Amend）"), isOn: $session.amend).toggleStyle(.checkbox).disabled(
                     session.status.head == nil || session.isBusy
                 )

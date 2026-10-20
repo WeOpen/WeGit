@@ -224,4 +224,5 @@ struct RepositoryViewPreferences: Codable, Equatable {
     let contextLines: Int
     let ignoreWhitespace: Bool
     let changeFilter: String?
+    let changesByFolder: Bool?
 }

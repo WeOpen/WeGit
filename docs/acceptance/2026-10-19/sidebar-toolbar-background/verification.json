@@ -1,0 +1,32 @@
+{
+  "branch": "codex/visual-hierarchy-polish",
+  "base": "4c51493",
+  "issue": 33,
+  "reproduction": "NavigationSplitView with actual WindowStateBridge and isolated AppState/preferences; no repository",
+  "before": "System background visible while sidebar open, absent after column hides and toolbar item is recreated",
+  "fix": "Custom hosted button owns its circular material and solid fallback in both states; 36pt label and host; full circle content shape",
+  "validation": {
+    "actualNativeProbe": "reproduced before, fixed after",
+    "repeatedFinalToggles": 3,
+    "earlierFixedSurfaceToggles": 5,
+    "stateAndHelpLabels": "correct open/closed labels",
+    "pixelThreshold": 0.025,
+    "pixelChecks": {
+      "after-closed": 0.09655209972212714,
+      "after-open": 0.1520701597134273,
+      "swiftui-before-closed": 0.00015988480299711227,
+      "swiftui-before-open": 0.0908338526884715
+    },
+    "debugBuild": "passed",
+    "UIRegressionCompilation": "passed",
+    "localXCTest": "not run",
+    "localization": "1012 strings / 7 plurals / 1321 source literals passed",
+    "repositoryPolicy": "passed",
+    "strictSwiftFormat": "passed"
+  },
+  "scopeLimit": "isolated minimal native scene, not a full product UI acceptance run",
+  "changedSwiftSHA256": {
+    "WeGit/App/WindowStateBridge.swift": "f2b233521727d87508b6238873c11d1ff83bb06d3488c092b47c23545db0ca8f",
+    "WeGitUITests/ToolbarMenuBarTests.swift": "b73dcbf814f74b8dd05bf975295fbebaf2b538a5eff3c8892783d6b618849ef3"
+  }
+}

@@ -80,7 +80,8 @@ final class WindowStateProbe: NSView {
                 toggle: { [weak self] in self?.toggleSidebar() })
             if sidebarItem !== item {
                 let host = NSHostingView(rootView: control)
-                host.frame.size = NSSize(width: 34, height: 34)
+                host.frame.size = NSSize(
+                    width: AppStyle.toolbarControlHeight, height: AppStyle.toolbarControlHeight)
                 host.setContentHuggingPriority(.required, for: .horizontal)
                 host.setContentHuggingPriority(.required, for: .vertical)
                 item.view = host
@@ -133,14 +134,37 @@ private struct SidebarToolbarControl: View {
     let toggle: @MainActor () -> Void
 
     var body: some View {
-        Button(L10n.text("侧栏"), systemImage: "sidebar.left", action: toggle)
-            // The toolbar supplies its native glass background; a second button
-            // material would draw a smaller circle inside the toolbar circle.
-            .buttonStyle(.plain).labelStyle(.iconOnly).font(.system(size: 14))
-            .accessibilityIdentifier("toolbar-sidebar")
-            .accessibilityValue(visible ? L10n.text("已打开") : L10n.text("已关闭"))
-            .help(visible ? L10n.text("隐藏侧栏") : L10n.text("显示侧栏"))
-            .frame(width: 34, height: 34)
-            .workbenchAppearance(preferences)
+        Button(action: toggle) {
+            Label(L10n.text("侧栏"), systemImage: "sidebar.left")
+                .labelStyle(.iconOnly).font(.system(size: AppStyle.toolbarSymbolSize))
+                .frame(width: AppStyle.toolbarControlHeight, height: AppStyle.toolbarControlHeight)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("toolbar-sidebar")
+        .accessibilityValue(visible ? L10n.text("已打开") : L10n.text("已关闭"))
+        .help(visible ? L10n.text("隐藏侧栏") : L10n.text("显示侧栏"))
+        // SwiftUI can recreate the native sidebar item when its column hides.
+        // A custom hosting view must own its background across that transition.
+        .modifier(SidebarToolbarSurface())
+        .workbenchAppearance(preferences)
+    }
+}
+
+private struct SidebarToolbarSurface: ViewModifier {
+    @Environment(\.themeColors) private var colors
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.colorSchemeContrast) private var contrast
+
+    func body(content: Content) -> some View {
+        if reduceTransparency || contrast == .increased {
+            content.background(colors.surface, in: Circle())
+                .overlay {
+                    Circle().strokeBorder(colors.border, lineWidth: contrast == .increased ? 2 : 1)
+                        .allowsHitTesting(false)
+                }
+        } else {
+            content.glassEffect(.regular.interactive(), in: Circle())
+        }
     }
 }

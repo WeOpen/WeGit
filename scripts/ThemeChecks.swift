@@ -35,6 +35,40 @@ struct ThemeChecks {
                 && abs(a.greenComponent - b.greenComponent) < 0.0001
                 && abs(a.blueComponent - b.blueComponent) < 0.0001
         }
+        let oldWorkspace: [String: Any] = [
+            "route": "更改", "selectedFile": "unstaged|src/a.swift", "inspector": false,
+            "filter": "src", "branchFilter": "", "splitDiff": false, "wordDiff": true,
+            "contextLines": 3, "ignoreWhitespace": false,
+        ]
+        let legacyView = try JSONDecoder().decode(
+            RepositoryViewPreferences.self, from: JSONSerialization.data(withJSONObject: oldWorkspace))
+        try require(
+            legacyView.changesByFolder == nil && legacyView.selectedFile == "unstaged|src/a.swift"
+                && legacyView.filter == "src",
+            "Old workspace records preserve their view and default to the file list")
+        var folderWorkspace = oldWorkspace
+        folderWorkspace["changesByFolder"] = true
+        let folderView = try JSONDecoder().decode(
+            RepositoryViewPreferences.self, from: JSONSerialization.data(withJSONObject: folderWorkspace))
+        let roundTripView = try JSONDecoder().decode(
+            RepositoryViewPreferences.self, from: JSONEncoder().encode(folderView))
+        try require(
+            roundTripView.changesByFolder == true && roundTripView == folderView,
+            "Folder display preference round-trips with the repository workspace")
+        func level(_ color: NSColor) -> CGFloat {
+            (color.usingColorSpace(.sRGB) ?? color).redComponent
+        }
+        func requireLadder(_ colors: AppColors, _ appearance: String) throws {
+            let sidebar = level(colors.resolvedNSColor(.sidebar))
+            let canvas = level(colors.resolvedNSColor(.canvas))
+            try require(
+                equal(colors.resolvedNSColor(.canvas), colors.resolvedNSColor(.surface))
+                    && equal(colors.resolvedNSColor(.canvas), colors.resolvedNSColor(.chrome)),
+                "Built-in \(appearance) central panes and headers share one surface")
+            try require(
+                sidebar < canvas && (colors.dark || abs(canvas - 1) < 0.0001),
+                "Built-in \(appearance) sidebars are recessed; light work panes are pure white")
+        }
 
         func resolve(_ color: NSColor, using colors: AppColors) -> NSColor {
             var result = color
@@ -112,20 +146,17 @@ struct ThemeChecks {
         let nativeDark = preferences.themeColors
         try require(
             nativeDark.custom == nil && nativeDark.dark, "Built-in Dark has no custom color overrides")
-        try require(
-            equal(nativeDark.resolvedNSColor(.canvas), nativeDark.resolvedNSColor(.chrome)),
-            "Built-in Dark header and content share one native background")
+        try requireLadder(nativeDark, "Dark")
         preferences.appearance = "light"
         let nativeLight = preferences.themeColors
         try require(
             nativeLight.custom == nil && !nativeLight.dark, "Built-in Light has no custom color overrides")
-        try require(
-            equal(nativeLight.resolvedNSColor(.canvas), nativeLight.resolvedNSColor(.chrome)),
-            "Built-in Light header and content share one native background")
+        try requireLadder(nativeLight, "Light")
 
         for dark in [false, true] {
             for increased in [false, true] {
                 let colors = AppColors(dark: dark, increasedContrast: increased)
+                try requireLadder(colors, "dark=\(dark), increased=\(increased)")
                 let canvas = colors.resolvedNSColor(.canvas)
                 let backgrounds: [(String, NSColor)] = [
                     ("canvas", canvas),
@@ -195,7 +226,7 @@ struct ThemeChecks {
                     (.number, .linkColor),
                     (.accent, .controlAccentColor),
                 ] {
-                    let before = resolve(source, using: colors)
+                    let before = resolve(colors.syntaxPalette[role] ?? source, using: colors)
                     let after =
                         role == .accent
                         ? resolve(NSColor(colors.accentText), using: colors) : colors.resolvedNSColor(role)
@@ -283,7 +314,7 @@ struct ThemeChecks {
         probe.colors = nativeDark
         probe.apply()
         try require(
-            equal(window.backgroundColor, nativeDark.resolvedNSColor(.canvas)),
+            equal(window.backgroundColor, nativeDark.resolvedNSColor(.chrome)),
             "Returning from custom restores the native dark window surface")
         let host = NSHostingView(
             rootView: Color.clear.frame(width: 400, height: 300).workbenchAppearance(restored))
@@ -298,7 +329,7 @@ struct ThemeChecks {
         host.layoutSubtreeIfNeeded()
         RunLoop.main.run(until: Date().addingTimeInterval(0.1))
         try require(
-            equal(window.backgroundColor, nativeDark.resolvedNSColor(.canvas)),
+            equal(window.backgroundColor, nativeDark.resolvedNSColor(.chrome)),
             "A mounted SwiftUI window returns from custom preview to built-in Dark")
         var unreadable = theme
         unreadable[.text] = unreadable[.canvas]

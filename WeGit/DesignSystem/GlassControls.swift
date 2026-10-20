@@ -6,23 +6,70 @@ private struct GlassControlFamily: ViewModifier {
     @Environment(\.themeColors) private var colors
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.colorSchemeContrast) private var contrast
+    var toolbar = false
 
     func body(content: Content) -> some View {
-        content.buttonStyle(NeutralGlassButton(solid: reduceTransparency || contrast == .increased))
+        content.buttonStyle(
+            NeutralGlassButton(solid: reduceTransparency || contrast == .increased, inToolbar: toolbar))
     }
+}
+
+/// The glass style sizes its background from the label, so the label has to be
+/// the one that reserves the height. A frame outside the button style only pads
+/// the layout cell and leaves the capsule drawn at the text height. Glass also
+/// insets the label by a size-dependent amount, so ask for the label height that
+/// lands the whole control on the shared target instead of the target itself.
+///
+/// Unified toolbar controls own a shared 36pt surface. Using a native glass
+/// button alongside a custom glass menu otherwise sizes each from a different
+/// label, and adding a counter changes the native capsule's height.
+private struct GlassMetrics {
+    let controlSize: ControlSize?
+
+    /// Outer heights the rest of the interface already uses: 30pt toolbar
+    /// controls, the 26pt inline action and the 24pt compact icon button.
+    private var outerHeight: CGFloat {
+        switch controlSize {
+        case .mini: 24
+        case .small: 26
+        case .large: 34
+        default: AppStyle.controlHeight
+        }
+    }
+
+    /// Measured padding the system glass style adds around the label.
+    private var inset: CGFloat {
+        switch controlSize {
+        case .mini: 2
+        case .small: 6
+        case .large: 12
+        default: 8
+        }
+    }
+
+    var labelHeight: CGFloat { outerHeight - inset }
 }
 
 /// Keep secondary buttons neutral without clearing the accent of switches and primary actions.
 private struct NeutralGlassButton: PrimitiveButtonStyle {
     let solid: Bool
+    var inToolbar = false
+    @Environment(\.controlSize) private var controlSize
 
     func makeBody(configuration: Configuration) -> some View {
-        Group {
-            if solid {
-                Button(role: configuration.role, action: configuration.trigger) { configuration.label }
+        let label = configuration.label.frame(minHeight: GlassMetrics(controlSize: controlSize).labelHeight)
+        return Group {
+            if inToolbar {
+                Button(role: configuration.role, action: configuration.trigger) {
+                    configuration.label.font(.system(size: AppStyle.toolbarSymbolSize))
+                        .padding(.horizontal, 12).frame(height: AppStyle.toolbarControlHeight)
+                        .contentShape(Capsule())
+                }.buttonStyle(.plain).modifier(GlassCapsuleSurface(solid: solid))
+            } else if solid {
+                Button(role: configuration.role, action: configuration.trigger) { label }
                     .buttonStyle(.bordered)
             } else {
-                Button(role: configuration.role, action: configuration.trigger) { configuration.label }
+                Button(role: configuration.role, action: configuration.trigger) { label }
                     .buttonStyle(.glass)
             }
         }.buttonBorderShape(.capsule).tint(nil)
@@ -50,40 +97,68 @@ private struct GlassPrimaryAction: ViewModifier {
     }
 }
 
-private struct GlassIconAction: ViewModifier {
-    @Environment(\.themeColors) private var colors
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
-    @Environment(\.colorSchemeContrast) private var contrast
+/// Circular actions hit the same trap as the capsule buttons: a frame outside the
+/// button style pads the cell while the glass circle stays at the glyph's size.
+private struct GlassIconButton: PrimitiveButtonStyle {
+    let solid: Bool
+    var inToolbar = false
+    @Environment(\.controlSize) private var controlSize
 
-    func body(content: Content) -> some View {
-        Group {
-            if reduceTransparency || contrast == .increased {
-                content.buttonStyle(.bordered)
+    func makeBody(configuration: Configuration) -> some View {
+        let side = GlassMetrics(controlSize: controlSize).labelHeight
+        let label = configuration.label.labelStyle(.iconOnly).frame(width: side, height: side)
+        return Group {
+            if inToolbar {
+                Button(role: configuration.role, action: configuration.trigger) {
+                    configuration.label.labelStyle(.iconOnly).font(.system(size: AppStyle.toolbarSymbolSize))
+                        .frame(width: AppStyle.toolbarControlHeight, height: AppStyle.toolbarControlHeight)
+                        .contentShape(Circle())
+                }.buttonStyle(.plain).modifier(GlassCapsuleSurface(solid: solid))
+            } else if solid {
+                Button(role: configuration.role, action: configuration.trigger) { label }
+                    .buttonStyle(.bordered)
             } else {
-                content.buttonStyle(.glass)
+                Button(role: configuration.role, action: configuration.trigger) { label }
+                    .buttonStyle(.glass)
             }
-        }.buttonBorderShape(.circle).labelStyle(.iconOnly).tint(nil)
+        }.buttonBorderShape(.circle).tint(nil)
     }
 }
 
 private struct GlassMenuSurface: ViewModifier {
     @Environment(\.themeColors) private var colors
     let icon: Bool
+    var toolbar = false
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.colorSchemeContrast) private var contrast
 
     func body(content: Content) -> some View {
-        Group {
+        // Match the same owned surface used by toolbar buttons and the sidebar toggle.
+        let height = toolbar ? AppStyle.toolbarControlHeight : AppStyle.controlHeight
+        return Group {
             if icon {
                 content.menuIndicator(.hidden).labelStyle(.iconOnly)
-                    .frame(width: AppStyle.controlHeight, height: AppStyle.controlHeight)
+                    .frame(width: height, height: height)
             } else {
-                content.padding(.horizontal, 10).frame(minHeight: AppStyle.controlHeight)
+                content.padding(.horizontal, 10).frame(minHeight: height)
             }
         }
         .menuStyle(.borderlessButton)
+        .modifier(ToolbarLabelFont(enabled: toolbar))
         .tint(nil)
         .modifier(GlassCapsuleSurface(solid: reduceTransparency || contrast == .increased))
+    }
+}
+
+private struct ToolbarLabelFont: ViewModifier {
+    let enabled: Bool
+
+    @ViewBuilder func body(content: Content) -> some View {
+        if enabled {
+            content.font(.system(size: AppStyle.toolbarSymbolSize))
+        } else {
+            content
+        }
     }
 }
 
@@ -105,11 +180,28 @@ private struct GlassCapsuleSurface: ViewModifier {
     }
 }
 
+private struct GlassIconFamily: ViewModifier {
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.colorSchemeContrast) private var contrast
+    var toolbar = false
+
+    func body(content: Content) -> some View {
+        content.buttonStyle(
+            GlassIconButton(solid: reduceTransparency || contrast == .increased, inToolbar: toolbar))
+    }
+}
+
 extension View {
-    func workbenchControlFamily() -> some View { modifier(GlassControlFamily()) }
+    func workbenchControlFamily(toolbar: Bool = false) -> some View {
+        modifier(GlassControlFamily(toolbar: toolbar))
+    }
     func workbenchPrimaryAction() -> some View { modifier(GlassPrimaryAction()) }
-    func workbenchIconButton() -> some View { modifier(GlassIconAction()) }
-    func workbenchGlassMenu(icon: Bool = false) -> some View { modifier(GlassMenuSurface(icon: icon)) }
+    func workbenchIconButton(toolbar: Bool = false) -> some View {
+        modifier(GlassIconFamily(toolbar: toolbar))
+    }
+    func workbenchGlassMenu(icon: Bool = false, toolbar: Bool = false) -> some View {
+        modifier(GlassMenuSurface(icon: icon, toolbar: toolbar))
+    }
 }
 
 struct GlassTab<Value: Hashable>: Identifiable {

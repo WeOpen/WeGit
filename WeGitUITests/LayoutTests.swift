@@ -91,6 +91,22 @@ final class LayoutTests: XCTestCase {
                             "Context control \(control.frame) outside viewport \(viewport): \(control)")
                         XCTAssertTrue(control.isHittable)
                     }
+                    if !diskBacked {
+                        let map = app.descendants(matching: .any).matching(
+                            identifier: "diff-change-map"
+                        ).firstMatch
+                        XCTAssertTrue(map.waitForExistence(timeout: 5))
+                        let hunkControls = [
+                            app.buttons["diff-hunk-copy:0"],
+                            app.buttons["暂存此块"].firstMatch,
+                            app.buttons["丢弃此块…"].firstMatch,
+                        ]
+                        for control in hunkControls { visible(control) }
+                        if layout == "统一" {
+                            content.scroll(byDeltaX: 400, deltaY: 0)
+                            for control in hunkControls { visible(control) }
+                        }
+                    }
                     let expand = app.buttons["diff-context-expand-0"]
                     XCTAssertTrue(expand.waitForExistence(timeout: 5))
                     visible(expand)

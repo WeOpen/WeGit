@@ -10,15 +10,65 @@ struct AppColors: Equatable, Sendable {
 
     var isCustom: Bool { custom != nil }
 
+    /// The two outer sidebars share a recessed surface. Both central panes and
+    /// their chrome share one uninterrupted work surface in each appearance.
+    /// Explicit imported custom roles still take precedence in nsColor(_:).
+    private struct SurfaceLadder {
+        let sidebar: CGFloat
+        let canvas: CGFloat
+        let chrome: CGFloat
+        let surface: CGFloat
+
+        init(dark: Bool, increasedContrast: Bool) {
+            switch (dark, increasedContrast) {
+            case (false, false): (sidebar, canvas, chrome, surface) = (0.94, 1, 1, 1)
+            case (false, true): (sidebar, canvas, chrome, surface) = (0.9, 1, 1, 1)
+            case (true, false): (sidebar, canvas, chrome, surface) = (0.1, 0.118, 0.118, 0.118)
+            case (true, true): (sidebar, canvas, chrome, surface) = (0.06, 0.118, 0.118, 0.118)
+            }
+        }
+
+        func level(_ role: ThemeColorRole) -> CGFloat? {
+            switch role {
+            case .sidebar: sidebar
+            case .canvas: canvas
+            case .chrome: chrome
+            case .surface: surface
+            default: nil
+            }
+        }
+    }
+
+    /// Calibrated per appearance so keywords, strings and numbers share one lightness
+    /// instead of the louder system purple/brown/link defaults.
+    var syntaxPalette: [ThemeColorRole: NSColor] {
+        if dark {
+            return [
+                .keyword: NSColor(srgbRed: 0.72, green: 0.63, blue: 0.88, alpha: 1),
+                .string: NSColor(srgbRed: 0.62, green: 0.8, blue: 0.71, alpha: 1),
+                .number: NSColor(srgbRed: 0.6, green: 0.75, blue: 0.92, alpha: 1),
+            ]
+        }
+        return [
+            .keyword: NSColor(srgbRed: 0.45, green: 0.36, blue: 0.62, alpha: 1),
+            .string: NSColor(srgbRed: 0.29, green: 0.49, blue: 0.42, alpha: 1),
+            .number: NSColor(srgbRed: 0.28, green: 0.44, blue: 0.65, alpha: 1),
+        ]
+    }
+
     func nsColor(_ role: ThemeColorRole) -> NSColor {
         if let hex = custom?[role], let rgb = ThemeRGB(hex: hex) {
             return NSColor(srgbRed: rgb.red, green: rgb.green, blue: rgb.blue, alpha: 1)
         }
+        if let level = SurfaceLadder(dark: dark, increasedContrast: increasedContrast).level(role) {
+            return NSColor(srgbRed: level, green: level, blue: level, alpha: 1)
+        }
+        if let syntax = syntaxPalette[role] {
+            return NativeReadableColors.foreground(syntax, wordHighlights: true)
+        }
         switch role {
         case .accent: return .controlAccentColor
-        case .canvas, .chrome: return .controlBackgroundColor
-        case .sidebar: return .windowBackgroundColor
-        case .surface: return .controlBackgroundColor
+        case .canvas, .chrome, .sidebar, .surface: return .controlBackgroundColor
         case .border: return .separatorColor
         case .text: return .labelColor
         case .secondaryText: return NativeReadableColors.secondary
@@ -108,7 +158,7 @@ private enum NativeReadableColors {
     static let destructiveFill = adjusted(.systemRed, fill: true)
     static let selectionFill = adjusted(.systemBlue, fill: true)
 
-    private static func foreground(_ source: NSColor, wordHighlights: Bool = false) -> NSColor {
+    static func foreground(_ source: NSColor, wordHighlights: Bool = false) -> NSColor {
         adjusted(source, fill: false, wordHighlights: wordHighlights)
     }
 

@@ -3,6 +3,7 @@ import SwiftUI
 /// Native grouped forms for built-ins; explicit application surfaces for the custom palette.
 struct ThemedForm<Content: View>: View {
     @Environment(\.themeColors) private var colors
+    var backgroundRole: ThemeColorRole = .canvas
     @ViewBuilder var content: Content
 
     var body: some View {
@@ -28,9 +29,11 @@ struct ThemedForm<Content: View>: View {
                         }
                     }
                 }.padding(20)
-            }.background(colors.canvas).toggleStyle(.switch).labeledContentStyle(TrailingThemeValue())
+            }.background(colors.color(backgroundRole)).toggleStyle(.switch).labeledContentStyle(
+                TrailingThemeValue())
         } else {
-            Form { content }.formStyle(.grouped).scrollContentBackground(.hidden).background(colors.canvas)
+            Form { content }.formStyle(.grouped).scrollContentBackground(.hidden).background(
+                colors.color(backgroundRole))
         }
     }
 }

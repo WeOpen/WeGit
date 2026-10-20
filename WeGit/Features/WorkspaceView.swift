@@ -55,7 +55,7 @@ struct WorkspaceView: View {
                         .background(colors.canvas)
                         if app.workspace.inspector {
                             inspector(session)
-                                .background(colors.canvas)
+                                .background(colors.sidebar)
                                 .frame(minWidth: 240, idealWidth: 260, maxWidth: 320)
                                 .accessibilityElement(children: .contain)
                                 .accessibilityLabel(L10n.text("检查器"))
@@ -99,7 +99,7 @@ struct WorkspaceView: View {
                         app.session?.location.name ?? L10n.text("打开仓库"), systemImage: "folder.badge.gearshape"
                     )
                 }
-                .workbenchIconButton().accessibilityIdentifier("toolbar-repository")
+                .workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-repository")
                 .help(L10n.text("\(app.session?.location.root.path ?? L10n.text("打开仓库"))\n切换仓库 ⌘K"))
             }.sharedBackgroundVisibility(.hidden)
             if let session = app.session {
@@ -114,14 +114,15 @@ struct WorkspaceView: View {
                             RepositorySyncButtons(app: app, session: session)
                         } label: {
                             Label(L10n.text("同步"), systemImage: "arrow.triangle.2.circlepath")
-                        }.workbenchGlassMenu().labelStyle(.titleAndIcon)
+                        }.workbenchGlassMenu(toolbar: true).labelStyle(.titleAndIcon)
                             .accessibilityLabel(L10n.text("同步")).accessibilityIdentifier("toolbar-sync")
                             .help(L10n.text("获取、拉取与推送"))
                     }.sharedBackgroundVisibility(.hidden)
                 } else {
                     ToolbarItemGroup(placement: .primaryAction) {
-                        RepositoryFetchMenu(session: session).labelStyle(.titleAndIcon)
-                        RepositorySyncButtons(app: app, session: session).labelStyle(.titleAndIcon)
+                        RepositoryFetchMenu(session: session, inToolbar: true).labelStyle(.titleAndIcon)
+                        RepositorySyncButtons(app: app, session: session, inToolbar: true).labelStyle(
+                            .titleAndIcon)
                     }.sharedBackgroundVisibility(.hidden)
                 }
                 ToolbarSpacer(.fixed, placement: .primaryAction)
@@ -129,7 +130,7 @@ struct WorkspaceView: View {
                     if session.isBusy {
                         ProgressView().controlSize(.small).help(session.activityLabel)
                         Button(L10n.text("取消"), systemImage: "stop.circle") { session.cancel() }
-                            .workbenchIconButton()
+                            .workbenchIconButton(toolbar: true)
                     }
                     Button {
                         Task { await session.refresh() }
@@ -143,14 +144,15 @@ struct WorkspaceView: View {
                                     isActive: session.isRefreshing && !reduceMotion
                                         && app.preferences.interfaceMotion)
                         }
-                    }.workbenchIconButton().help(L10n.text("刷新 ⌘R")).accessibilityLabel(L10n.text("刷新"))
+                    }.workbenchIconButton(toolbar: true).help(L10n.text("刷新 ⌘R")).accessibilityLabel(
+                        L10n.text("刷新"))
                     Button(L10n.text("搜索仓库"), systemImage: "magnifyingglass", action: app.presentSearch).help(
                         L10n.text("搜索当前仓库 ⌘⇧F")
-                    ).workbenchIconButton().accessibilityIdentifier("toolbar-search")
+                    ).workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-search")
                     Button(L10n.text("检查器"), systemImage: "sidebar.right") {
                         app.workspace.inspector.toggle()
                     }
-                    .workbenchIconButton()
+                    .workbenchIconButton(toolbar: true)
                     .accessibilityValue(app.workspace.inspector ? L10n.text("已打开") : L10n.text("已关闭"))
                     .foregroundStyle(colors.text)
                     .help(app.workspace.inspector ? L10n.text("隐藏检查器") : L10n.text("显示检查器"))
@@ -174,8 +176,8 @@ struct WorkspaceView: View {
                         Button(L10n.text("设置…"), systemImage: "gearshape") { app.settingsRequestID = UUID() }
                     } label: {
                         Label(L10n.text("更多操作"), systemImage: "ellipsis")
-                    }.workbenchGlassMenu(icon: true).accessibilityIdentifier("toolbar-more").help(
-                        L10n.text("活动记录、命令面板与更多操作"))
+                    }.workbenchGlassMenu(icon: true, toolbar: true).accessibilityIdentifier("toolbar-more")
+                        .help(L10n.text("活动记录、命令面板与更多操作"))
                 }.sharedBackgroundVisibility(.hidden)
             }
         }
@@ -398,7 +400,7 @@ struct WorkspaceView: View {
                     .lineLimit(1).truncationMode(.middle).frame(maxWidth: workspaceWidth < 1180 ? 176 : 238)
             }
         }
-        .workbenchGlassMenu()
+        .workbenchGlassMenu(toolbar: true)
         .disabled(!session.canWrite)
         .accessibilityIdentifier("current-branch")
         .accessibilityLabel(
@@ -409,7 +411,7 @@ struct WorkspaceView: View {
     }
 
     private func inspector(_ session: RepositorySession) -> some View {
-        ThemedForm {
+        ThemedForm(backgroundRole: .sidebar) {
             Section(L10n.text("仓库")) {
                 LabeledContent(L10n.text("名称"), value: session.location.name)
                 Text(session.location.root.path).font(.caption).textSelection(.enabled)
@@ -438,7 +440,7 @@ struct WorkspaceView: View {
             }
         }.formStyle(.grouped)
             .scrollContentBackground(.hidden)
-            .background(colors.canvas)
+            .background(colors.sidebar)
     }
 }
 
@@ -499,6 +501,25 @@ struct WelcomeView: View {
                     .workbenchControlFamily().controlSize(.large)
             }
             if app.isOpening { ProgressView(L10n.text("正在打开仓库…")) }
+            if app.recents.isEmpty {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(L10n.text("从这里开始")).font(.caption.weight(.medium))
+                        .foregroundStyle(colors.secondaryText)
+                    ForEach(
+                        [
+                            L10n.text("打开本地仓库，或从远端克隆一份"),
+                            L10n.text("逐文件暂存，提交前看清每一处改动"),
+                            L10n.text("⌘K 切换仓库，⌘⇧F 搜索当前仓库"),
+                        ], id: \.self
+                    ) { text in
+                        HStack(spacing: 10) {
+                            Text(text).foregroundStyle(colors.text)
+                            Spacer(minLength: 0)
+                        }
+                    }
+                }.frame(width: 520).padding(12).workbenchSurface(radius: AppStyle.controlRadius + 12)
+                    .accessibilityIdentifier("welcome-first-run")
+            }
             if !app.recents.isEmpty {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {

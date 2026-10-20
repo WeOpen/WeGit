@@ -1,0 +1,21 @@
+{
+  "component": "actual ChangesFileList",
+  "fixture": "private temporary Git repository",
+  "fileBodyDoesNotStage": true,
+  "groupCollapsePreservesSelection": true,
+  "folderModePreservesSelection": true,
+  "checkboxDoesNotChangeAnotherSelectedFile": true,
+  "individualStageAndUnstage": true,
+  "filteredGroupStageVerifiedInGitIndex": [
+    "src/api/client.swift"
+  ],
+  "folderCollapse": true,
+  "collapsedFolderStageVerifiedInGitIndex": [
+    "src/api/client.swift",
+    "src/api/session.swift"
+  ],
+  "unrelatedStagedFilePreserved": "docs/readme.md",
+  "localXCTestRun": false,
+  "fullProductIntegrationRun": false,
+  "folderUnstagePreservesOtherStagedFiles": true
+}

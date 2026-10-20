@@ -7,6 +7,9 @@ enum AppStyle {
     static let surfaceRadius: CGFloat = 14
     static let panelInset: CGFloat = 14
     static let controlHeight: CGFloat = 30
+    /// One owned surface height for toolbar buttons, menus and the sidebar toggle.
+    static let toolbarControlHeight: CGFloat = 36
+    static let toolbarSymbolSize: CGFloat = 14
 }
 
 enum AppMotion {

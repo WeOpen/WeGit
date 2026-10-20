@@ -831,7 +831,7 @@ final class WeGitUITests: XCTestCase {
         reopen.click()
         XCTAssertTrue(app.staticTexts["replacement.swift"].firstMatch.waitForExistence(timeout: 10))
         XCTAssertFalse(app.staticTexts["original.swift"].firstMatch.exists)
-        XCTAssertTrue(app.buttons["stage:untracked:replacement.swift"].isEnabled)
+        XCTAssertTrue(app.checkBoxes["stage:untracked:replacement.swift"].isEnabled)
     }
 
     @MainActor func testWelcomeAndCloneForm() throws {
@@ -896,11 +896,11 @@ final class WeGitUITests: XCTestCase {
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launchWeGit()
         defer { app.terminate() }
-        let stage = app.buttons["stage:untracked:sample.swift"]
+        let stage = app.checkBoxes["stage:untracked:sample.swift"]
         XCTAssertTrue(stage.waitForExistence(timeout: 10), app.windows.debugDescription)
         app.staticTexts["sample.swift"].firstMatch.click()
         stage.click()
-        let unstage = app.buttons["stage:staged:sample.swift"]
+        let unstage = app.checkBoxes["stage:staged:sample.swift"]
         XCTAssertTrue(unstage.waitForExistence(timeout: 5))
         XCTAssertTrue(app.checkBoxes["diff-ignore-whitespace"].waitForExistence(timeout: 5))
         let message = app.descendants(matching: .any).matching(identifier: "commit-message").firstMatch
