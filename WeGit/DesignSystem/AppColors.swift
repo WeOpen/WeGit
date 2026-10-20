@@ -10,10 +10,9 @@ struct AppColors: Equatable, Sendable {
 
     var isCustom: Bool { custom != nil }
 
-    /// Native semantic backgrounds collapse onto the same value in both appearances
-    /// (`windowBackgroundColor` and `controlBackgroundColor` both resolve to pure white
-    /// in light and 0.118 gray in dark), so the built-in theme derives an explicit
-    /// recessed-to-raised ladder instead of borrowing role names.
+    /// The two outer sidebars share a recessed surface. Both central panes and
+    /// their chrome share one uninterrupted work surface in each appearance.
+    /// Explicit imported custom roles still take precedence in nsColor(_:).
     private struct SurfaceLadder {
         let sidebar: CGFloat
         let canvas: CGFloat
@@ -22,10 +21,10 @@ struct AppColors: Equatable, Sendable {
 
         init(dark: Bool, increasedContrast: Bool) {
             switch (dark, increasedContrast) {
-            case (false, false): (sidebar, canvas, chrome, surface) = (0.929, 0.964, 0.941, 1)
-            case (false, true): (sidebar, canvas, chrome, surface) = (0.9, 0.95, 0.92, 1)
-            case (true, false): (sidebar, canvas, chrome, surface) = (0.1, 0.118, 0.135, 0.185)
-            case (true, true): (sidebar, canvas, chrome, surface) = (0.08, 0.098, 0.114, 0.21)
+            case (false, false): (sidebar, canvas, chrome, surface) = (0.94, 1, 1, 1)
+            case (false, true): (sidebar, canvas, chrome, surface) = (0.9, 1, 1, 1)
+            case (true, false): (sidebar, canvas, chrome, surface) = (0.1, 0.118, 0.118, 0.118)
+            case (true, true): (sidebar, canvas, chrome, surface) = (0.06, 0.118, 0.118, 0.118)
             }
         }
 

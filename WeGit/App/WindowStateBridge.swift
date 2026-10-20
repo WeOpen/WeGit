@@ -136,7 +136,7 @@ private struct SidebarToolbarControl: View {
     var body: some View {
         Button(action: toggle) {
             Label(L10n.text("侧栏"), systemImage: "sidebar.left")
-                .labelStyle(.iconOnly).font(.system(size: 14))
+                .labelStyle(.iconOnly).font(.system(size: AppStyle.toolbarSymbolSize))
                 .frame(width: AppStyle.toolbarControlHeight, height: AppStyle.toolbarControlHeight)
                 .contentShape(Circle())
         }

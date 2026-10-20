@@ -55,7 +55,7 @@ struct WorkspaceView: View {
                         .background(colors.canvas)
                         if app.workspace.inspector {
                             inspector(session)
-                                .background(colors.canvas)
+                                .background(colors.sidebar)
                                 .frame(minWidth: 240, idealWidth: 260, maxWidth: 320)
                                 .accessibilityElement(children: .contain)
                                 .accessibilityLabel(L10n.text("检查器"))
@@ -411,7 +411,7 @@ struct WorkspaceView: View {
     }
 
     private func inspector(_ session: RepositorySession) -> some View {
-        ThemedForm {
+        ThemedForm(backgroundRole: .sidebar) {
             Section(L10n.text("仓库")) {
                 LabeledContent(L10n.text("名称"), value: session.location.name)
                 Text(session.location.root.path).font(.caption).textSelection(.enabled)
@@ -440,7 +440,7 @@ struct WorkspaceView: View {
             }
         }.formStyle(.grouped)
             .scrollContentBackground(.hidden)
-            .background(colors.canvas)
+            .background(colors.sidebar)
     }
 }
 

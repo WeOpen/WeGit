@@ -25,6 +25,7 @@
 		2ACD82F9B02CCECABEB73492 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE707A5CE21DB67044026ECF /* AppColors.swift */; };
 		2D6F31E66308DA2DE27ED9E3 /* SpecialFileReadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90B25A1D5B3C8B9965F208F /* SpecialFileReadingTests.swift */; };
 		3266592D34D8C239041C1889 /* DiffDisplayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F4A74A44FD79FF73E2093D /* DiffDisplayState.swift */; };
+		33D8289BE2D3E18E5E1439F4 /* RepositorySyncCounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E81CBD8CE053ADDDEC25C /* RepositorySyncCounts.swift */; };
 		3957BF841AEF404DF87DB17B /* LargeReadingPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E42B9D00684E6E207453FF8 /* LargeReadingPerformanceTests.swift */; };
 		3C1F88DB3DCA9041C08F459E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465095E3E7AE6B70D37D9F9 /* AppState.swift */; };
 		3DACABF897D18942ED59656C /* HistoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2C912DA4AA66B4AA2C948F /* HistoryTableView.swift */; };
@@ -180,6 +181,7 @@
 		7DE785C1633B52AB944B1A7B /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		82EEFAE49C6A81275649EAA8 /* AppIcon.icon */ = {isa = PBXFileReference; path = AppIcon.icon; sourceTree = "<group>"; };
+		8B6E81CBD8CE053ADDDEC25C /* RepositorySyncCounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositorySyncCounts.swift; sourceTree = "<group>"; };
 		8D27256E0799DF46A4E82712 /* NativeApplicationMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeApplicationMenu.swift; sourceTree = "<group>"; };
 		9C19B279458D6ADB439FB3B7 /* BrandGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandGeometry.swift; sourceTree = "<group>"; };
 		9CA57D9AB3E86BE4A2FB5E6C /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				4DC5C5722614FEA016E25B0B /* MenuBarPanel.swift */,
 				3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */,
 				506EA8B0AC419E9437CB3682 /* RepositorySearchView.swift */,
+				8B6E81CBD8CE053ADDDEC25C /* RepositorySyncCounts.swift */,
 				F3A8CC78668A40CFC111A86F /* SettingsView.swift */,
 				1D73B06EA47A30EF556BB101 /* Sheets.swift */,
 				48B64C6AE5A196C899E210E3 /* SyncSheet.swift */,
@@ -809,6 +812,7 @@
 				C1AD725D2D40C1CDBE32B1EC /* PreferenceMigration.swift in Sources */,
 				4351FAB1F2126A7161D87F41 /* RepositoryContextMenu.swift in Sources */,
 				06514071541003C7462D2826 /* RepositorySearchView.swift in Sources */,
+				33D8289BE2D3E18E5E1439F4 /* RepositorySyncCounts.swift in Sources */,
 				997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */,
 				13E276DCB1333E635B092E4B /* Sheets.swift in Sources */,
 				CFFAE1DB6F5D266C35021FDF /* SyncSheet.swift in Sources */,

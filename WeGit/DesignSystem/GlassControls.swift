@@ -20,10 +20,9 @@ private struct GlassControlFamily: ViewModifier {
 /// insets the label by a size-dependent amount, so ask for the label height that
 /// lands the whole control on the shared target instead of the target itself.
 ///
-/// The unified toolbar is the exception: its cell already matches the system
-/// sidebar toggle (36pt cell, 34.5pt drawn surface), so pinning a label there
-/// makes the cell grow to 42pt instead. Toolbar callers skip the pin and let the
-/// toolbar hand the control the right size.
+/// Unified toolbar controls own a shared 36pt surface. Using a native glass
+/// button alongside a custom glass menu otherwise sizes each from a different
+/// label, and adding a counter changes the native capsule's height.
 private struct GlassMetrics {
     let controlSize: ControlSize?
 
@@ -58,10 +57,15 @@ private struct NeutralGlassButton: PrimitiveButtonStyle {
     @Environment(\.controlSize) private var controlSize
 
     func makeBody(configuration: Configuration) -> some View {
-        let height: CGFloat? = inToolbar ? nil : GlassMetrics(controlSize: controlSize).labelHeight
-        let label = configuration.label.frame(minHeight: height)
+        let label = configuration.label.frame(minHeight: GlassMetrics(controlSize: controlSize).labelHeight)
         return Group {
-            if solid {
+            if inToolbar {
+                Button(role: configuration.role, action: configuration.trigger) {
+                    configuration.label.font(.system(size: AppStyle.toolbarSymbolSize))
+                        .padding(.horizontal, 12).frame(height: AppStyle.toolbarControlHeight)
+                        .contentShape(Capsule())
+                }.buttonStyle(.plain).modifier(GlassCapsuleSurface(solid: solid))
+            } else if solid {
                 Button(role: configuration.role, action: configuration.trigger) { label }
                     .buttonStyle(.bordered)
             } else {
@@ -101,10 +105,16 @@ private struct GlassIconButton: PrimitiveButtonStyle {
     @Environment(\.controlSize) private var controlSize
 
     func makeBody(configuration: Configuration) -> some View {
-        let side: CGFloat? = inToolbar ? nil : GlassMetrics(controlSize: controlSize).labelHeight
+        let side = GlassMetrics(controlSize: controlSize).labelHeight
         let label = configuration.label.labelStyle(.iconOnly).frame(width: side, height: side)
         return Group {
-            if solid {
+            if inToolbar {
+                Button(role: configuration.role, action: configuration.trigger) {
+                    configuration.label.labelStyle(.iconOnly).font(.system(size: AppStyle.toolbarSymbolSize))
+                        .frame(width: AppStyle.toolbarControlHeight, height: AppStyle.toolbarControlHeight)
+                        .contentShape(Circle())
+                }.buttonStyle(.plain).modifier(GlassCapsuleSurface(solid: solid))
+            } else if solid {
                 Button(role: configuration.role, action: configuration.trigger) { label }
                     .buttonStyle(.bordered)
             } else {
@@ -123,8 +133,7 @@ private struct GlassMenuSurface: ViewModifier {
     @Environment(\.colorSchemeContrast) private var contrast
 
     func body(content: Content) -> some View {
-        // The capsule is drawn 1.5pt shorter than the frame it is given, so the
-        // toolbar frame is 36pt to land the same 34.5pt surface as the toggle.
+        // Match the same owned surface used by toolbar buttons and the sidebar toggle.
         let height = toolbar ? AppStyle.toolbarControlHeight : AppStyle.controlHeight
         return Group {
             if icon {
@@ -135,8 +144,21 @@ private struct GlassMenuSurface: ViewModifier {
             }
         }
         .menuStyle(.borderlessButton)
+        .modifier(ToolbarLabelFont(enabled: toolbar))
         .tint(nil)
         .modifier(GlassCapsuleSurface(solid: reduceTransparency || contrast == .increased))
+    }
+}
+
+private struct ToolbarLabelFont: ViewModifier {
+    let enabled: Bool
+
+    @ViewBuilder func body(content: Content) -> some View {
+        if enabled {
+            content.font(.system(size: AppStyle.toolbarSymbolSize))
+        } else {
+            content
+        }
     }
 }
 

@@ -2,6 +2,70 @@ import AppKit
 import XCTest
 
 final class ToolbarMenuBarTests: XCTestCase {
+    @MainActor func testToolbarHeightsAndUpstreamCountsRefreshTogether() throws {
+        continueAfterFailure = false
+        let fixture = try UITestGit(prefix: "WeGitSyncCountsUI")
+        defer { fixture.remove() }
+        try fixture.git(["init", "-b", "main"])
+        try fixture.git(["config", "user.name", "UI Fixture"])
+        try fixture.git(["config", "user.email", "ui@example.invalid"])
+        try fixture.git(["config", "commit.gpgsign", "false"])
+        try fixture.git(["commit", "--allow-empty", "-m", "Base"])
+        let base = try fixture.git(["rev-parse", "HEAD"]).trimmingCharacters(in: .whitespacesAndNewlines)
+        try fixture.git(["remote", "add", "origin", fixture.root.path])
+        for index in 1...3 {
+            try fixture.git(["commit", "--allow-empty", "-m", "Remote \(index)"])
+        }
+        try fixture.git(["update-ref", "refs/remotes/origin/main", "HEAD"])
+        try fixture.git(["branch", "--set-upstream-to=origin/main", "main"])
+        try fixture.git(["reset", "--hard", base])
+        for index in 1...2 {
+            try fixture.git(["commit", "--allow-empty", "-m", "Local \(index)"])
+        }
+        let app = XCUIApplication()
+        app.launchArguments = ["--uitesting"]
+        app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = fixture.root.path
+        app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
+        app.launchWeGit()
+        defer { app.terminate() }
+        XCTAssertTrue(app.staticTexts["工作区干净"].firstMatch.waitForExistence(timeout: 10))
+        let window = app.windows["main"]
+        let corner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+            .withOffset(CGVector(dx: -1, dy: -1))
+        corner.click(
+            forDuration: 0.2,
+            thenDragTo: corner.withOffset(
+                CGVector(dx: 1400 - window.frame.width, dy: 760 - window.frame.height)))
+        let pull = app.buttons["toolbar-pull"]
+        let push = app.buttons["toolbar-push"]
+        XCTAssertTrue(pull.waitForExistence(timeout: 5))
+        XCTAssertEqual(pull.value as? String, "3")
+        XCTAssertEqual(push.value as? String, "2")
+        let sidebar = app.buttons["toolbar-sidebar"]
+        for identifier in [
+            "toolbar-repository", "toolbar-fetch", "toolbar-pull", "toolbar-push", "toolbar-search",
+            "toolbar-inspector", "toolbar-more",
+        ] {
+            let control = app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+            XCTAssertTrue(control.isHittable, identifier)
+            XCTAssertEqual(control.frame.height, sidebar.frame.height, accuracy: 1, identifier)
+            XCTAssertEqual(control.frame.midY, sidebar.frame.midY, accuracy: 1, identifier)
+        }
+        try fixture.git(["update-ref", "refs/remotes/origin/main", "HEAD"])
+        app.buttons["刷新"].click()
+        let synchronized = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "value == %@", "0"), object: push)
+        XCTAssertEqual(XCTWaiter.wait(for: [synchronized], timeout: 10), .completed)
+        XCTAssertEqual(pull.value as? String, "0")
+        try fixture.git(["branch", "--unset-upstream"])
+        app.buttons["刷新"].click()
+        let unknown = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "value == %@", "待核对"), object: push)
+        XCTAssertEqual(XCTWaiter.wait(for: [unknown], timeout: 10), .completed)
+        XCTAssertEqual(pull.value as? String, "待核对")
+    }
+
     @MainActor func testSidebarButtonRetainsItsSurfaceAfterRepeatedToggles() throws {
         continueAfterFailure = false
         let fixture = try UITestGit(prefix: "WeGitSidebarSurfaceUI")

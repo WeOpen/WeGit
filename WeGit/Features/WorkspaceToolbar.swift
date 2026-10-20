@@ -58,12 +58,56 @@ struct RepositorySyncButtons: View {
     let session: RepositorySession
     var inToolbar = false
 
+    private var counts: RepositorySyncCounts {
+        RepositorySyncCounts(status: session.status, hasLoaded: session.hasLoaded, isStale: session.isStale)
+    }
+
+    private var syncHelp: String {
+        guard let upstream = session.status.upstream, let ahead = counts.ahead, let behind = counts.behind
+        else {
+            return session.syncReason
+        }
+        return session.syncReason + "\n"
+            + L10n.text("相对上游 \(upstream)：领先 \(ahead) 个提交，落后 \(behind) 个提交。") + "\n"
+            + L10n.text("数量基于最近一次获取，请先获取以核对远端。")
+    }
+
     var body: some View {
-        Button(L10n.text("拉取"), systemImage: "arrow.down") { app.presentSync(.pull) }
-            .workbenchControlFamily(toolbar: inToolbar)
-            .help(session.syncReason).disabled(!session.canSync).accessibilityIdentifier("toolbar-pull")
-        Button(L10n.text("推送"), systemImage: "arrow.up") { app.presentSync(.push) }
-            .workbenchControlFamily(toolbar: inToolbar)
-            .help(session.syncReason).disabled(!session.canSync).accessibilityIdentifier("toolbar-push")
+        syncButton(L10n.text("拉取"), symbol: "arrow.down", count: counts.behind, identifier: "toolbar-pull") {
+            app.presentSync(.pull)
+        }
+        syncButton(L10n.text("推送"), symbol: "arrow.up", count: counts.ahead, identifier: "toolbar-push") {
+            app.presentSync(.push)
+        }
+    }
+
+    private func syncButton(
+        _ title: String, symbol: String, count: Int?, identifier: String, action: @escaping () -> Void
+    ) -> some View {
+        let menuTitle = count.map { title + " " + String($0) } ?? title
+        return Button(action: action) {
+            if inToolbar {
+                Label {
+                    HStack(spacing: 6) {
+                        Text(title)
+                        if let count {
+                            Text(String(count)).font(.system(size: 11, weight: .semibold, design: .rounded))
+                                .monospacedDigit().padding(.horizontal, 4).frame(minWidth: 16).frame(
+                                    height: 16
+                                )
+                                .background(colors.text.opacity(0.08), in: .capsule)
+                        }
+                    }.fixedSize()
+                } icon: {
+                    Image(systemName: symbol)
+                }
+            } else {
+                Label(menuTitle, systemImage: symbol)
+            }
+        }
+        .workbenchControlFamily(toolbar: inToolbar)
+        .accessibilityLabel(inToolbar ? title : menuTitle)
+        .accessibilityValue(count.map(String.init) ?? L10n.text("待核对"))
+        .help(syncHelp).disabled(!session.canSync).accessibilityIdentifier(identifier)
     }
 }

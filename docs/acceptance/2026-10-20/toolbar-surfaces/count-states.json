@@ -1,0 +1,27 @@
+[
+  {
+    "title": "未知计数",
+    "pull": "41 button Description: 拉取, Help: 选择远端、目标分支和同步方式, Value: 待核对, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar",
+    "push": "42 button Description: 推送, Help: 选择远端、目标分支和同步方式, Value: 待核对, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar"
+  },
+  {
+    "title": "已同步",
+    "pull": "41 button Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: 选择远端、目标分支和同步方式",
+    "push": "42 button Description: 推送, Value: 0, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: 选择远端、目标分支和同步方式"
+  },
+  {
+    "title": "领先 / 落后",
+    "pull": "41 button Description: 拉取, Value: 3, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: 选择远端、目标分支和同步方式",
+    "push": "42 button Description: 推送, Value: 12, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: 选择远端、目标分支和同步方式"
+  },
+  {
+    "title": "状态过期",
+    "pull": "41 button Description: 拉取, Help: 选择远端、目标分支和同步方式, Value: 待核对, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar",
+    "push": "42 button Description: 推送, Help: 选择远端、目标分支和同步方式, Value: 待核对, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar"
+  },
+  {
+    "title": "领先 / 落后",
+    "pull": "41 button Description: 拉取, Value: 3, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: 选择远端、目标分支和同步方式",
+    "push": "42 button Description: 推送, Value: 12, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: 选择远端、目标分支和同步方式"
+  }
+]

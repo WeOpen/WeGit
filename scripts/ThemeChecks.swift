@@ -58,20 +58,16 @@ struct ThemeChecks {
         func level(_ color: NSColor) -> CGFloat {
             (color.usingColorSpace(.sRGB) ?? color).redComponent
         }
-        /// Native semantic backgrounds collapse onto one value, so the built-in theme
-        /// derives its own ladder. Assert the shape of that ladder rather than fixed
-        /// numbers, so retuning the steps cannot silently flatten it again.
         func requireLadder(_ colors: AppColors, _ appearance: String) throws {
-            let levels = [
-                level(colors.resolvedNSColor(.sidebar)), level(colors.resolvedNSColor(.canvas)),
-                level(colors.resolvedNSColor(.chrome)), level(colors.resolvedNSColor(.surface)),
-            ]
+            let sidebar = level(colors.resolvedNSColor(.sidebar))
+            let canvas = level(colors.resolvedNSColor(.canvas))
             try require(
-                Set(levels.map { ($0 * 10_000).rounded() }).count == levels.count,
-                "Built-in \(appearance) keeps sidebar, canvas, chrome and surface distinct")
+                equal(colors.resolvedNSColor(.canvas), colors.resolvedNSColor(.surface))
+                    && equal(colors.resolvedNSColor(.canvas), colors.resolvedNSColor(.chrome)),
+                "Built-in \(appearance) central panes and headers share one surface")
             try require(
-                levels[0] == levels.min()! && levels[3] == levels.max()!,
-                "Built-in \(appearance) runs from the recessed sidebar up to the raised surface")
+                sidebar < canvas && (colors.dark || abs(canvas - 1) < 0.0001),
+                "Built-in \(appearance) sidebars are recessed; light work panes are pure white")
         }
 
         func resolve(_ color: NSColor, using colors: AppColors) -> NSColor {
@@ -160,6 +156,7 @@ struct ThemeChecks {
         for dark in [false, true] {
             for increased in [false, true] {
                 let colors = AppColors(dark: dark, increasedContrast: increased)
+                try requireLadder(colors, "dark=\(dark), increased=\(increased)")
                 let canvas = colors.resolvedNSColor(.canvas)
                 let backgrounds: [(String, NSColor)] = [
                     ("canvas", canvas),

@@ -7,10 +7,9 @@ enum AppStyle {
     static let surfaceRadius: CGFloat = 14
     static let panelInset: CGFloat = 14
     static let controlHeight: CGFloat = 30
-    /// Frame height for controls living in the unified toolbar. Measured against
-    /// the system sidebar toggle: a 36pt cell draws a 34.5pt surface, and an
-    /// unconstrained glass button in a toolbar cell lands on the same 36/34.5.
+    /// One owned surface height for toolbar buttons, menus and the sidebar toggle.
     static let toolbarControlHeight: CGFloat = 36
+    static let toolbarSymbolSize: CGFloat = 14
 }
 
 enum AppMotion {

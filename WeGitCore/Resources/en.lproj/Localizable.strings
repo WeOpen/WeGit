@@ -1012,3 +1012,6 @@
 "已展开" = "Expanded";
 "取消暂存所显示的文件" = "Unstage displayed files";
 "暂存所显示的文件" = "Stage displayed files";
+
+"相对上游 %1$@：领先 %2$@ 个提交，落后 %3$@ 个提交。" = "Compared with upstream %1$@: ahead by %2$@ commits, behind by %3$@ commits.";
+"数量基于最近一次获取，请先获取以核对远端。" = "Counts reflect the last fetch. Fetch first to check the remote.";
