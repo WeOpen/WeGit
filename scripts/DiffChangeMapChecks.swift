@@ -1,4 +1,5 @@
 import Foundation
+import WeGitCore
 
 @main struct DiffChangeMapChecks {
     static func main() {
@@ -55,6 +56,32 @@ import Foundation
         try check(
             "Negative-height maps have no target",
             DiffChangeMap.target(at: 1, height: -1, ticks: unequal) == nil)
+        let deletionPatch = """
+            diff --git a/file.txt b/file.txt
+            --- a/file.txt
+            +++ b/file.txt
+            @@ -1 +0,0 @@
+            -first
+            @@ -10 +9 @@
+            -before
+            +after
+
+            """
+        let parsed = try DiffParser.parse(
+            Data(deletionPatch.utf8), path: "file.txt", layer: .unstaged, head: nil,
+            options: DiffReadOptions(contextLines: 0))
+        let projected = DiffChangeMap.ticks(for: parsed.hunks)
+        try check("Zero-context beginning deletion retains a map mark", projected.count == 2)
+        try check(
+            "The beginning deletion is navigable",
+            DiffChangeMap.target(at: 0, height: 400, ticks: projected) == parsed.hunks.first?.id)
+        let fullDeletion = try DiffParser.parse(
+            Data("--- a/file.txt\n+++ /dev/null\n@@ -1 +0,0 @@\n-first\n".utf8),
+            path: "file.txt", layer: .unstaged, head: nil)
+        let deletionMarks = DiffChangeMap.ticks(for: fullDeletion.hunks)
+        try check(
+            "A fully deleted file has finite map geometry",
+            deletionMarks.count == 1 && deletionMarks.allSatisfy { $0.offset.isFinite && $0.extent.isFinite })
         let output = URL(fileURLWithPath: CommandLine.arguments[1])
         try JSONSerialization.data(withJSONObject: passed, options: [.prettyPrinted, .sortedKeys]).write(
             to: output)

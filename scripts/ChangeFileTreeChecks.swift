@@ -6,6 +6,9 @@ import WeGitCore
         do { try await run() } catch {
             FileHandle.standardError.write(
                 Data("Change list check failed: \(error.localizedDescription)\n".utf8))
+            if let failure = error as? GitFailure {
+                FileHandle.standardError.write(Data((failure.details + "\n").utf8))
+            }
             exit(1)
         }
     }
@@ -65,7 +68,7 @@ import WeGitCore
         try FileManager.default.createDirectory(
             at: root, withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
         defer { try? FileManager.default.removeItem(at: root) }
-        var environment = ProcessInfo.processInfo.environment
+        var environment = ProcessInfo.processInfo.environment.filter { !$0.key.hasPrefix("GIT_") }
         environment["GIT_CONFIG_GLOBAL"] = "/dev/null"
         environment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         environment["GIT_CONFIG_NOSYSTEM"] = "1"
@@ -151,6 +154,53 @@ import WeGitCore
             "Unstage preserves the working file bytes",
             try Data(contentsOf: root.appending(path: "src/one.swift")) == Data("third\n".utf8))
         try check("Operations do not move HEAD", state.head == head)
+        for path in ["replacement", "second"] {
+            try Data("tracked\n".utf8).write(to: root.appending(path: path))
+        }
+        _ = try git(["add", "--", "replacement", "second"])
+        _ = try git([
+            "-c", "user.name=UI Fixture", "-c", "user.email=fixture@example.invalid", "-c",
+            "commit.gpgSign=false", "commit", "-m", "Replacement fixture",
+        ])
+        let collisionHead = try await service.head()
+        try FileManager.default.removeItem(at: root.appending(path: "replacement"))
+        try FileManager.default.createDirectory(
+            at: root.appending(path: "replacement"), withIntermediateDirectories: true)
+        try Data("untracked\n".utf8).write(to: root.appending(path: "replacement/hidden"))
+        try Data("modified\n".utf8).write(to: root.appending(path: "second"))
+        let indexBefore = try git(["diff", "--cached", "--raw", "-z"])
+        var stageRejected = false
+        do {
+            try await service.stage(paths: ["replacement", "second"], expectedHead: collisionHead)
+        } catch ModelFailure.unsupported { stageRejected = true }
+        try check("A tracked selection cannot recursively stage an unselected untracked child", stageRejected)
+        try check(
+            "Rejected ancestor staging preserves the index",
+            try git(["diff", "--cached", "--raw", "-z"]) == indexBefore)
+        _ = try git(["add", "-A", "--", "replacement", "second"])
+        let stagedBefore = try git(["diff", "--cached", "--raw", "-z"])
+        var unstageRejected = false
+        do {
+            try await service.unstage(paths: ["replacement", "second"], expectedHead: collisionHead)
+        } catch ModelFailure.unsupported { unstageRejected = true }
+        try check(
+            "A filtered staged selection cannot recursively unstage an unselected child", unstageRejected)
+        try check(
+            "Rejected ancestor unstaging preserves the index",
+            try git(["diff", "--cached", "--raw", "-z"]) == stagedBefore)
+        try await service.unstage(
+            paths: ["replacement", "replacement/hidden", "second"], expectedHead: collisionHead)
+        try check(
+            "An explicitly selected parent and child can be unstaged together",
+            try git(["diff", "--cached", "--raw", "-z"]).isEmpty)
+        _ = try git(["add", "-u", "--", "replacement"])
+        try await service.unstage(paths: ["replacement"], expectedHead: collisionHead)
+        try check(
+            "Unstaging a deletion does not reject an already untracked child",
+            try git(["diff", "--cached", "--raw", "-z"]).isEmpty)
+        try check(
+            "Ancestor operations preserve untracked child bytes",
+            try Data(contentsOf: root.appending(path: "replacement/hidden")) == Data("untracked\n".utf8))
         let output = URL(fileURLWithPath: CommandLine.arguments[1])
         try JSONSerialization.data(withJSONObject: passed, options: [.prettyPrinted]).write(to: output)
         print("\(passed.count) change file tree and isolated staging checks passed.")

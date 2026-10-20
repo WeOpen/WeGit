@@ -33,25 +33,30 @@ struct DiffChangeMap: View {
         return ticks.min { distance($0) < distance($1) }?.id
     }
 
-    private var ticks: [Tick] {
+    private var ticks: [Tick] { Self.ticks(for: hunks) }
+
+    static func ticks(for hunks: [DiffHunk]) -> [Tick] {
         let placed = hunks.compactMap { hunk -> (id: Int, start: Int, count: Int)? in
             guard let range = newFileRange(hunk) else { return nil }
             return (hunk.id, range.start, range.count)
         }
-        let total = CGFloat(placed.map { $0.start + $0.count }.max() ?? 1)
+        let total = CGFloat(max(placed.map { $0.start + $0.count }.max() ?? 1, 1))
         return placed.map { tick in
             Tick(
                 id: tick.id,
-                offset: CGFloat(max(tick.start - 1, 0)) / total,
+                offset: CGFloat(max(tick.count == 0 ? tick.start : tick.start - 1, 0)) / total,
                 extent: max(CGFloat(tick.count) / total, 0.015))
         }
     }
 
-    private func newFileRange(_ hunk: DiffHunk) -> (start: Int, count: Int)? {
+    private static func newFileRange(_ hunk: DiffHunk) -> (start: Int, count: Int)? {
         for token in hunk.header.split(separator: " ") where token.hasPrefix("+") {
             let parts = token.dropFirst().split(separator: ",")
-            guard let start = Int(parts.first ?? ""), start > 0 else { return nil }
-            return (start, parts.count > 1 ? Int(parts[1]) ?? 1 : 1)
+            guard let start = Int(parts.first ?? ""), start >= 0, parts.count <= 2,
+                let count = parts.count > 1 ? Int(parts[1]) : 1,
+                count >= 0, start > 0 || count == 0
+            else { return nil }
+            return (start, count)
         }
         return nil
     }

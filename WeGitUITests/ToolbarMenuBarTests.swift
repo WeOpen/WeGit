@@ -52,6 +52,21 @@ final class ToolbarMenuBarTests: XCTestCase {
             XCTAssertEqual(control.frame.height, sidebar.frame.height, accuracy: 1, identifier)
             XCTAssertEqual(control.frame.midY, sidebar.frame.midY, accuracy: 1, identifier)
         }
+        let compactCorner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+            .withOffset(CGVector(dx: -1, dy: -1))
+        compactCorner.click(
+            forDuration: 0.2,
+            thenDragTo: compactCorner.withOffset(CGVector(dx: 980 - window.frame.width, dy: 0)))
+        let compactPull = app.toolbarSyncAction("toolbar-pull")
+        XCTAssertTrue(compactPull.label.contains("拉取 3"))
+        XCTAssertTrue(window.menuItems.matching(identifier: "toolbar-push").firstMatch.label.contains("推送 2"))
+        app.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
+        let expandCorner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+            .withOffset(CGVector(dx: -1, dy: -1))
+        expandCorner.click(
+            forDuration: 0.2,
+            thenDragTo: expandCorner.withOffset(CGVector(dx: 1400 - window.frame.width, dy: 0)))
+        XCTAssertTrue(push.waitForExistence(timeout: 5))
         try fixture.git(["update-ref", "refs/remotes/origin/main", "HEAD"])
         app.buttons["刷新"].click()
         let synchronized = XCTNSPredicateExpectation(

@@ -1,10 +1,10 @@
-# WeGit v1.1 功能与交付计划（建议稿）
+# WeGit v1.1 功能与交付计划
 
-更新：2026-10-20。目标：补齐日常 Git 工作流中仍需切换 Terminal 的高频操作。本文是供评审的产品 v1.1 建议，不表示功能已实现或范围已经批准；范围确认后同步 [PRD](WeGit_PRD.md) 与 [总计划](PLAN.md)，再建立对应功能 Issue。
+更新：2026-10-20。目标：补齐日常 Git 工作流中仍需切换 Terminal 的高频操作。用户已授权开始执行四项必选及条件候选的分阶段计划；功能实现、PR/CI 和发布验收分别记录。范围已同步到 [PRD](WeGit_PRD.md) 与 [总计划](PLAN.md)。当前执行 M0 基线收尾，随后进入 M1 Stash。
 
 ## 1. 当前基线与取舍
 
-- v1.0.0 已公开发布；本地 main 对应发布提交 `2d1cb2a`。当前开发分支为 `codex/visual-hierarchy-polish`，已核对 HEAD `3b960d1`。
+- 计划制定时的基线：v1.0.0 已公开发布，本地 main 对应发布提交 `2d1cb2a`。当前开发分支为 `codex/visual-hierarchy-polish`，已核对 HEAD `3b960d1`。
 - 已有打开/克隆、文件与差异块暂存、提交/Amend、分页历史和提交图、消息/SHA/作者搜索、分支与上游操作、Fetch/Pull/Push、基础冲突继续/中止。它们作为回归基线，不重复列为新功能。
 - 当前 polish 分支已有文件分组折叠、暂存复选框、文件夹树、变更地图、统一工具栏/面板配色和推拉数量；属于已实现待集成内容，先经 PR 与 CI 收尾。
 - GitHub 的 V1.1 milestone 已存在，本次读取时尚无关联 Issue。开放的 V1.0 验证事项与 #31～#34 保留各自状态，不能当成未实现功能或新版本已完成的验收。
@@ -118,6 +118,14 @@ M0 → M1 → M2 → M3 为主线；M4 是有退出条件的候选，M5 覆盖�
 - v1.0 的一次性发布例外不自动覆盖 v1.1；发布前单独核对仓库既有 workflow 的要求、当时的环境与实际证据。计划文档不修改发布门禁，也不把构建或局部预览当作完整验收。
 - 最终先形成 v1.1 Beta，固定源码和制品来源，针对实际反馈修复后再发布 v1.1.0。不自动向用户发送邀请。
 
-## 8. 最直接的下一步
+## 8. 执行跟踪
+
+- 总任务：[#35](https://github.com/WeOpen/WeGit/issues/35)。
+- M1 Stash：[#36](https://github.com/WeOpen/WeGit/issues/36)。
+- M2 Remote：[#37](https://github.com/WeOpen/WeGit/issues/37)；Tag：[#38](https://github.com/WeOpen/WeGit/issues/38)。
+- M3 文件历史：[#39](https://github.com/WeOpen/WeGit/issues/39)。
+- M4 条件候选尚未进入实施；M5 发布验收按最终范围单独记录。
+
+## 9. 最直接的下一步
 
 先完成 M0 的基线集成；随后从 **Stash 管理** 开始，只交付一个保存→查看→恢复的完整闭环。首轮先实现 Apply，再补 Pop/删除与冲突回归，随后进入 Remote 与 Tag。若要压缩范围，保留四项必选，优先移出 Cherry-pick/Revert 与追加项。

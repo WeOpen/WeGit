@@ -147,8 +147,10 @@ public struct RepositoryService: Sendable {
             guard !paths.contains(where: { path in state.conflicts.contains { $0.path == path } }) else {
                 throw ModelFailure.unsupported(L10n.text("冲突文件必须通过“标记已解决”单独确认。"))
             }
+            let expanded = expandingRenames(paths, in: state)
+            try validateExactEntryScope(expanded, in: state)
             try await verifyHead(expectedHead)
-            try await add(expandingRenames(paths, in: state))
+            try await add(expanded)
         }
     }
 
@@ -179,12 +181,16 @@ public struct RepositoryService: Sendable {
             }
             let expanded = expandingRenames(paths, in: state)
             try expanded.forEach(validate)
+            try validateExactEntryScope(expanded, in: state, stagedOnly: true)
             let args =
                 expectedHead == nil
                 ? ["rm", "--cached", "-f", "--pathspec-from-file=-", "--pathspec-file-nul"]
                 : ["restore", "--staged", "--pathspec-from-file=-", "--pathspec-file-nul"]
             try await verifyHead(expectedHead)
-            _ = try await engine.run(args, in: location.root, input: nulPaths(expanded))
+            // Git restore rejects a child path that is absent from HEAD even
+            // when its selected parent already covers the whole replacement.
+            let specifications = minimalPathspecs(expanded)
+            _ = try await engine.run(args, in: location.root, input: nulPaths(specifications))
         }
     }
 
@@ -265,6 +271,38 @@ public struct RepositoryService: Sendable {
                 actual == "refs/heads/" + expectedBranch || (actual.isEmpty && expectedBranch == "(detached)")
             else { throw ModelFailure.changed }
         }
+    }
+
+    /// Literal pathspecs still recurse into directories. A deleted file can share
+    /// a name with a new directory, so reject a selection that would also touch
+    /// changed descendants the user did not select.
+    private func validateExactEntryScope(
+        _ paths: [String], in state: RepositoryStatus, stagedOnly: Bool = false
+    ) throws {
+        let selected = Set(paths)
+        for file in state.files
+        where !selected.contains(file.path) && (!stagedOnly || file.staged || file.conflict) {
+            var ancestor = (file.path as NSString).deletingLastPathComponent
+            while !ancestor.isEmpty && ancestor != "." {
+                guard !selected.contains(ancestor) else {
+                    throw ModelFailure.unsupported(
+                        L10n.text("文件与目录替换包含未选中的子路径，请分别处理差异或同时选择这些路径。"))
+                }
+                ancestor = (ancestor as NSString).deletingLastPathComponent
+            }
+        }
+    }
+
+    private func minimalPathspecs(_ paths: [String]) -> [String] {
+        let selected = Set(paths)
+        return selected.filter { path in
+            var ancestor = (path as NSString).deletingLastPathComponent
+            while !ancestor.isEmpty && ancestor != "." {
+                if selected.contains(ancestor) { return false }
+                ancestor = (ancestor as NSString).deletingLastPathComponent
+            }
+            return true
+        }.sorted()
     }
 
     private func expandingRenames(_ paths: [String], in state: RepositoryStatus) -> [String] {
