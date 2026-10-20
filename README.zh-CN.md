@@ -44,6 +44,8 @@ WeGit 使用 SwiftUI 构建，围绕日常开发流程组织界面：阅读差�
 
 范围与证据见 [产品需求](docs/WeGit_PRD.md)、[界面记录](docs/INTERFACE_POLISH.md)及[兼容性记录](docs/COMPATIBILITY.md)。功能已实现与发布验收已完成分别记录。
 
+**开发分支 · 2026-10-20：** v1.1 M0 基线新增可折叠更改分组、暂存复选框、文件夹显示方式、多差异块内存阅读器的可点击变更地图、成对面板底色与 Pull/Push 上游提交数。这些改动仍待 PR/CI 集成，未包含在已发布的 1.0.0 下载包中；使用方法和验证范围见[界面记录](docs/INTERFACE_POLISH.md#v11-m0-baseline--2026-10-20)。
+
 ## 🖥️ 环境要求
 
 - **macOS 27 或更新版本**。当前构建与验收覆盖 **Apple Silicon / arm64**。
@@ -109,7 +111,9 @@ scripts/verify.sh
 scripts/verify.sh --ui
 ```
 
-最新核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 2.46.0** 下分别通过 **183 项测试 / 32 个套件**。近期专项包含 **278 项主题检查（含 216 个角色/背景对比度色对）、18 项图标行为、27 项原生菜单行为，以及 6 种恢复启动组合**。这些结果有各自验证范围，不代表 V1.0 已完成验收。
+M0 之前的历史核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 2.46.0** 下分别通过 **183 项测试 / 32 个套件**。2026-10-18 记录包含 **278 项主题检查（含 216 个角色/背景对比度色对）**，此前另有 **18 项图标行为、27 项原生菜单行为和 6 种恢复启动组合**。各自日期与源码边界见[开发记录](docs/DEVELOPMENT.md)，不作为当前开发源码的验收结论。
+
+[2026-10-20 M0 检查](docs/acceptance/2026-10-20/v1-1-baseline/README.md)通过 **14 项推拉数量、30 项文件树/暂存、13 项地图、290 项主题、18 项图标、27 项菜单检查**，以及 **30 项 Python 策略测试**。本地化覆盖 **1015 个字符串键、7 个复数键和 1325 个源字面量**。核心测试通过 `swift build --build-tests` 编译，Debug 与原生 UI 测试通过 `xcodebuild build-for-testing` 编译；本机未执行 XCTest，新增 `SelectionScopeTests` 仍待托管执行。
 
 托管 smoke **1/1**、完整原生功能 **45/45**（零失败/跳过）和阅读矩阵 **144/144** 已在固定源码 `2c2533c` 的[运行 39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756) 通过。这是所记录源码的功能证据，不是发行提交的同提交完整验收。辅助功能暂缓验收；最终源码性能、受保护 Mac 安装与真实 Beta 反馈继续未完成。保留范围见[版本说明](docs/releases/v1.0.0.md)及[当前清单](docs/V1_RELEASE_CHECKLIST.md)。
 
@@ -118,6 +122,8 @@ scripts/verify.sh --ui
 ## 🗺️ 范围与路线图
 
 V1.0 聚焦日常 Git 流程和差异阅读。**Stash / Tag 管理、内置冲突编辑器、Interactive Rebase、Blame、linked worktree / submodule 管理及 Hosting Provider 集成**保留在后续版本。当前不支持打开 linked worktree 和 Bare 仓库布局。
+
+已授权的 [v1.1 计划](docs/V1_1_PLAN.md)以 Stash、Remote、Tag 管理，以及文件历史与定向搜索为四项必选。单提交 Cherry-pick/Revert 在必选闭环及恢复验收完成后评估。当前 M0 负责基线集成；M1–M5 仍待实施，Beta、版本号与发布验收属于后续交付。
 
 冲突可以在外部编辑器中处理，再回到应用继续或中止支持的操作；当前没有内置三方合并编辑器。Homebrew Git 核心与隔离非交互 OpenPGP 已通过；GitLab、交互式 Pinentry/硬件密钥、其他 Helper 组合及未覆盖环境继续在[兼容性矩阵](docs/COMPATIBILITY.md)中保留待验状态。
 

@@ -7,6 +7,7 @@
 - 计划制定时的基线：v1.0.0 已公开发布，本地 main 对应发布提交 `2d1cb2a`。当前开发分支为 `codex/visual-hierarchy-polish`，已核对 HEAD `3b960d1`。
 - 已有打开/克隆、文件与差异块暂存、提交/Amend、分页历史和提交图、消息/SHA/作者搜索、分支与上游操作、Fetch/Pull/Push、基础冲突继续/中止。它们作为回归基线，不重复列为新功能。
 - 当前 polish 分支已有文件分组折叠、暂存复选框、文件夹树、变更地图、统一工具栏/面板配色和推拉数量；属于已实现待集成内容，先经 PR 与 CI 收尾。
+- M0 当前源码基线为 `f3c563a`；[使用说明](INTERFACE_POLISH.md#v11-m0-baseline--2026-10-20)已同步，[本轮记录](acceptance/2026-10-20/v1-1-baseline/README.md)保留精确选择范围修复及独立检查通过结果。核心测试通过 `swift build --build-tests` 编译，Debug/UI 通过 `xcodebuild build-for-testing` 编译，本机未执行 XCTest，新增 `SelectionScopeTests` 待托管执行；PR/CI/main 集成仍按其实际结果记录。
 - GitHub 的 V1.1 milestone 已存在，本次读取时尚无关联 Issue。开放的 V1.0 验证事项与 #31～#34 保留各自状态，不能当成未实现功能或新版本已完成的验收。
 - 原总计划将 Stash、Tag、Remote 编辑、Cherry-pick、Revert、Reset、文件历史、图片 Diff、签名管理、消息历史、增强搜索共 11 项放入 V1.1。建议缩为 **4 项必选功能 + 1 组条件候选**，让每项都具备完整错误与恢复路径。
 
@@ -125,6 +126,7 @@ M0 → M1 → M2 → M3 为主线；M4 是有退出条件的候选，M5 覆盖�
 - M2 Remote：[#37](https://github.com/WeOpen/WeGit/issues/37)；Tag：[#38](https://github.com/WeOpen/WeGit/issues/38)。
 - M3 文件历史：[#39](https://github.com/WeOpen/WeGit/issues/39)。
 - M4 条件候选尚未进入实施；M5 发布验收按最终范围单独记录。
+- 当前仅执行 M0；M1–M5 尚未实施。M0 不更改产品版本或生成发布包，版本号、Beta 与公开发布在 M5 按实际门禁和证据处理。
 
 ## 9. 最直接的下一步
 
