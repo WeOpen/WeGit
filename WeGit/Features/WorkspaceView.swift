@@ -165,6 +165,10 @@ struct WorkspaceView: View {
                             }
                             Divider()
                         }
+                        Button(L10n.text("远端管理…"), systemImage: "network") {
+                            app.remoteManagementPresented = true
+                        }
+                        .accessibilityIdentifier("remote-management")
                         Button(L10n.text("活动记录"), systemImage: "clock") { app.activityPresented = true }
                         Button(L10n.text("命令面板…"), systemImage: "command") { app.palettePresented = true }
                         Button(L10n.text("切换仓库…"), systemImage: "folder") {
@@ -183,6 +187,9 @@ struct WorkspaceView: View {
             }
         }
         .sheet(isPresented: $app.clonePresented) { CloneView(app: app) }
+        .sheet(isPresented: $app.remoteManagementPresented) {
+            if let session = app.session { RemoteManagementSheet(app: app, session: session).id(session.id) }
+        }
         .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app) }
         .sheet(item: $app.branchSwitchRequest) { BranchSwitcherView(app: app, request: $0) }
         .sheet(isPresented: $app.activityPresented) { ActivityView(app: app) }

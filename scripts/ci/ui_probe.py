@@ -11,6 +11,7 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "remote-workflow": "RemoteManagementWorkflowTests/testAddEditCancelAndRemoveRepositoryRemote",
     "stash-workflow": "StashWorkflowTests/testSaveInspectApplyAndDeletePreserveWorkingAndStagingState",
     "stash-recovery": "StashWorkflowTests/testPopCancelSuccessConflictAndExternalListRefresh",
     "changes-groups": "ChangesListTests/testCollapsibleGroupsAndFilteredStageCheckboxes",

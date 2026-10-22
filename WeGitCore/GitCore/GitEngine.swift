@@ -62,7 +62,9 @@ public actor ActivityStore {
 public enum Redaction {
     public static func text(_ value: String) -> String {
         var output = value
-        for pattern in [#"(?i)(https?://)[^\s/@]+:[^\s/@]+@"#, #"(?i)(https?://)[^\s/@]+@"#] {
+        for pattern in [
+            #"(?i)(\b[a-z][a-z0-9+.-]{0,63}://)[^\s/@:]+:[^\s/@]+@"#, #"(?i)(https?://)[^\s/@]+@"#,
+        ] {
             output = output.replacingOccurrences(
                 of: pattern, with: "$1[redacted]@", options: .regularExpression)
         }
@@ -75,6 +77,11 @@ public enum Redaction {
             of:
                 #"(?i)((?:access_token|private_token|client_secret|token|password)["']?\s*[:=]\s*)("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\S+)"#,
             with: "$1[redacted]", options: .regularExpression)
+        // Signed remote URLs may use provider-specific query names such as sig
+        // rather than token/password. Keep the endpoint, never the opaque query.
+        output = output.replacingOccurrences(
+            of: #"(?i)(\b[a-z][a-z0-9+.-]{0,63}://[^\s?#]*)([?#])[^\s]*"#,
+            with: "$1$2[redacted]", options: .regularExpression)
         return output
     }
 }

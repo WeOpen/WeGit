@@ -172,7 +172,7 @@ final class RepositorySession {
         if isBusy { return L10n.text("正在执行 \(activityLabel)") }
         if isStale { return L10n.text("仓库状态已过期，请先刷新") }
         if !hasLoaded { return L10n.text("请先读取仓库状态") }
-        if remotes.isEmpty { return L10n.text("尚未配置远端，请先在 Git 中添加 Remote") }
+        if remotes.isEmpty { return L10n.text("尚未配置远端，请先添加 Remote") }
         if status.head == nil { return L10n.text("请先创建本地提交") }
         if status.isDetached { return L10n.text("请先切换到本地分支") }
         if status.sequencer != .none || !status.conflicts.isEmpty { return L10n.text("请先完成当前 Git 操作") }
@@ -425,6 +425,7 @@ final class AppState {
     var pendingPaletteSession: RepositorySession?
     var pendingPaletteBranch: String?
     var branchPresented = false
+    var remoteManagementPresented = false
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?
     var searchRequest: RepositorySearchRequest?
