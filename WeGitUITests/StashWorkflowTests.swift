@@ -104,10 +104,13 @@ final class StashWorkflowTests: XCTestCase {
         let confirm = app.buttons["stash-confirm-action"]
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
         app.windows["main"].sheets.firstMatch.buttons["取消"].click()
+        let closed = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "exists == false"), object: app.windows["main"].sheets.firstMatch)
+        XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 5), .completed)
         XCTAssertEqual(try fixture.git(["rev-parse", "refs/stash"]), saved)
         XCTAssertEqual(try fixture.git(["status", "--porcelain=v1"]), "")
         pop.click()
-        XCTAssertTrue(confirm.waitForExistence(timeout: 5))
+        XCTAssertTrue(confirm.waitForExistence(timeout: 5), app.windows["main"].debugDescription)
         confirm.click()
         let empty = app.descendants(matching: .any).matching(identifier: "stash-empty").firstMatch
         XCTAssertTrue(empty.waitForExistence(timeout: 10))
