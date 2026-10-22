@@ -15,3 +15,7 @@ Implemented file context entry points and manual path lookup, literal author/mes
 Fixtures have isolated Git global/system config, synthetic identities and private paths. Path metadata is NUL parsed; full commit contents are read only for each page. The snapshot has byte/record limits, supports cancellation, and releases when the sheet closes. Merge diff uses the first real parent, not path-rewritten ancestry.
 
 Pending: hosted core/UI execution, final-source whole-app regression and Release performance, installation and Beta/release gates. No version bump or release is claimed. Git rename detection limitations, shallow-history boundaries and unusually large histories are not described as complete cross-file ancestry.
+
+## Single-file guard follow-up
+
+Code review added an exact initial-path check so a directory with one changed child cannot masquerade as a single file. The expanded standalone run passes 20 checks (`directory-guard-checks.json`). The earlier 19-check/545-lane evidence above remains its original snapshot; this guard is independently compiled and rechecked for the updated PR source.

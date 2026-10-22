@@ -42,6 +42,11 @@ extension RepositoryService {
         ]
         let result = try await engine.run(args, in: location.root, timeout: 60, outputLimit: 8 * 1024 * 1024)
         var records = try FileHistoryParser.parse(result.stdout)
+        if let first = records.first {
+            guard first.path == query.path || first.oldPath == query.path else {
+                throw ModelFailure.unsupported(L10n.text("请输入单个文件的仓库相对路径。"))
+            }
+        }
         guard records.count <= 100_000 else {
             throw ModelFailure.unsupported(L10n.text("文件历史超过读取上限，请从较近的提交开始查询。"))
         }

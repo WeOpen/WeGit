@@ -156,6 +156,15 @@ private enum Failed: Error { case check(String) }
         try check(
             "Binary history uses the existing binary diff state", binaryComparison.files.first?.binary == true
         )
+        try FileManager.default.createDirectory(
+            at: root.appending(path: "folder"), withIntermediateDirectories: false)
+        try write("folder/one.txt", "one child\n")
+        _ = try await commit("Directory fixture", date: "2025-01-10T12:00:00Z")
+        var directoryRejected = false
+        do { _ = try await service.fileHistoryAnchor(FileHistoryQuery(path: "folder")) } catch {
+            directoryRejected = true
+        }
+        try check("A directory with one changed child is not treated as a single file", directoryRejected)
         var stream = ""
         for index in 1...5000 {
             let body = "Scale \(index)"
