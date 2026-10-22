@@ -1,0 +1,124 @@
+{
+  "checks" : [
+    "Restored Dark selects the graphite Dock icon",
+    "Dark Dock artwork has the macOS static canvas inset",
+    "Light switches the running Dock icon to cobalt",
+    "Light Dock artwork has the macOS static canvas inset",
+    "Dark switches the running Dock icon without rebuilding a window",
+    "Theme updates work with no application windows",
+    "Dark native panels use the same graphite artwork",
+    "Light native panels use the cobalt artwork",
+    "Returning to System follows the current Light appearance",
+    "System appearance observation reaches Dark",
+    "System Dark updates the Dock icon through the existing observer",
+    "System appearance observation reaches Light",
+    "System Light restores cobalt in the same process",
+    "Explicit Dark wins over a Light system appearance",
+    "System appearance observation reaches Dark",
+    "Explicit Light wins over a Dark system appearance",
+    "Reset returns the icon policy to System",
+    "Reset immediately selects the current system artwork"
+  ],
+  "passed" : true,
+  "samples" : [
+    {
+      "label" : "restored-dark",
+      "rgb" : [
+        0.12265000492334366,
+        0.15699502825737,
+        0.22624048590660095
+      ]
+    },
+    {
+      "horizontalExtent" : 0.8046875,
+      "label" : "Dark-canvas",
+      "verticalExtent" : 0.8046875
+    },
+    {
+      "label" : "explicit-light",
+      "rgb" : [
+        0.15086221694946289,
+        0.35266017913818359,
+        0.92217862606048584
+      ]
+    },
+    {
+      "horizontalExtent" : 0.8046875,
+      "label" : "Light-canvas",
+      "verticalExtent" : 0.8046875
+    },
+    {
+      "label" : "explicit-dark",
+      "rgb" : [
+        0.12265000492334366,
+        0.15699502825737,
+        0.22624048590660095
+      ]
+    },
+    {
+      "label" : "dark-alert",
+      "rgb" : [
+        0.11178909987211227,
+        0.15926989912986755,
+        0.23248934745788574
+      ]
+    },
+    {
+      "label" : "light-alert",
+      "rgb" : [
+        0.056424431502819061,
+        0.35853785276412964,
+        0.95123142004013062
+      ]
+    },
+    {
+      "label" : "system-light",
+      "rgb" : [
+        0.15086221694946289,
+        0.35266017913818359,
+        0.92217862606048584
+      ]
+    },
+    {
+      "label" : "system-dark",
+      "rgb" : [
+        0.12265000492334366,
+        0.15699502825737,
+        0.22624048590660095
+      ]
+    },
+    {
+      "label" : "system-light-again",
+      "rgb" : [
+        0.15086221694946289,
+        0.35266017913818359,
+        0.92217862606048584
+      ]
+    },
+    {
+      "label" : "dark-over-light-system",
+      "rgb" : [
+        0.12265000492334366,
+        0.15699502825737,
+        0.22624048590660095
+      ]
+    },
+    {
+      "label" : "light-over-dark-system",
+      "rgb" : [
+        0.15086221694946289,
+        0.35266017913818359,
+        0.92217862606048584
+      ]
+    },
+    {
+      "label" : "reset-to-system-dark",
+      "rgb" : [
+        0.12265000492334366,
+        0.15699502825737,
+        0.22624048590660095
+      ]
+    }
+  ],
+  "scope" : "Actual AppKit applicationIconImage pixels and preference lifecycle; system appearance changes are process-local"
+}

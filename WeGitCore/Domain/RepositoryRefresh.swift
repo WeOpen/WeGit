@@ -27,6 +27,12 @@ public struct RepositoryRefreshScope: OptionSet, Sendable {
             if path == location.root.path || metadata.contains(path) { return .all }
             if let base = metadata.first(where: { path.hasPrefix($0 + "/") }) {
                 let relative = String(path.dropFirst(base.count + 1))
+                // Removing a non-top stash may change only the reflog, leaving
+                // refs/stash at the same object. The Stash browser reloads with status.
+                if relative == "logs/refs/stash" {
+                    result.formUnion(.status)
+                    continue
+                }
                 if relative.hasPrefix("objects/") || relative.hasPrefix("logs/")
                     || relative.hasPrefix("refs/wegit/") || relative.hasSuffix(".lock")
                 {

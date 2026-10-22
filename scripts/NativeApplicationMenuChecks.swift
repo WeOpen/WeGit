@@ -33,11 +33,12 @@ import WeGitCore
         let second = Validator()
         var target: Validator? = first
         var enabled = false
+        var selectedCommand: ApplicationMenuCommand = .history
         var performed: [ApplicationMenuCommand] = []
         var dispatched: [(Selector, AnyObject)] = []
         let controller = NativeApplicationMenu(
             perform: { performed.append($0) }, enabled: { _ in enabled },
-            selected: { $0 == .history },
+            selected: { $0 == selectedCommand },
             target: { _, _ in target },
             send: { selector, object, _ in
                 dispatched.append((selector, object))
@@ -81,6 +82,14 @@ import WeGitCore
             commit.keyEquivalent == "\r" && commit.keyEquivalentModifierMask == .command)
         _ = controller.validateMenuItem(item(.history, in: "workspace"))
         try check("Current route has native checkmark", item(.history, in: "workspace").state == .on)
+        let stashes = item(.stashes, in: "workspace")
+        try check(
+            "Stash route has a native Command-4 shortcut",
+            stashes.keyEquivalent == "4" && stashes.keyEquivalentModifierMask == .command)
+        try check("Stash native label follows live English language", stashes.title == "Stashes")
+        selectedCommand = .stashes
+        _ = controller.validateMenuItem(stashes)
+        try check("Stash native item reflects the active route", stashes.state == .on)
         try check(
             "Responder receives the original action for validation",
             controller.validateMenuItem(copy) && first.actions.last! == NSSelectorFromString("copy:"))

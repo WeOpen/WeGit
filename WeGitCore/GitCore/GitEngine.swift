@@ -119,7 +119,7 @@ public struct GitEngine: Sendable {
         accepted: Set<Int32> = [0], timeout: TimeInterval = 30,
         outputLimit: Int = 8 * 1024 * 1024, onStderr: (@Sendable (Data) -> Void)? = nil,
         stdoutFile: URL? = nil, configuration: [(key: String, value: String)] = [],
-        activityRepository: URL? = nil
+        activityRepository: URL? = nil, literalPathspecs: Bool = true
     ) async throws -> ProcessResult {
         let safeCommands: Set<String> = [
             "status", "for-each-ref", "remote", "rev-parse", "symbolic-ref", "diff", "config", "log",
@@ -158,7 +158,8 @@ public struct GitEngine: Sendable {
             result = try await runner.run(
                 ProcessRequest(
                     executable: executable,
-                    arguments: ["--no-pager", "--literal-pathspecs", "--no-optional-locks"] + arguments,
+                    arguments: ["--no-pager"] + (literalPathspecs ? ["--literal-pathspecs"] : [])
+                        + ["--no-optional-locks"] + arguments,
                     directory: directory, environment: commandEnvironment, input: input, timeout: timeout,
                     outputLimit: outputLimit, onStderr: onStderr, stdoutFile: stdoutFile))
         } catch {

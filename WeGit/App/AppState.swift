@@ -22,6 +22,7 @@ enum WorkspaceRoute: String, CaseIterable, Identifiable {
     case changes = "更改"
     case history = "提交历史"
     case branches = "分支"
+    case stashes = "暂存记录"
     var id: String { rawValue }
     var title: String { L10n.key(rawValue) }
     var icon: String {
@@ -29,6 +30,7 @@ enum WorkspaceRoute: String, CaseIterable, Identifiable {
         case .changes: "square.and.pencil"
         case .history: "clock.arrow.circlepath"
         case .branches: "arrow.triangle.branch"
+        case .stashes: "archivebox"
         }
     }
 }

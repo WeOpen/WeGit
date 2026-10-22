@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-22",
+  "requirement": 36,
+  "applicationInputDigest": "a5e4248bd184b9f72cb6a3403d17e38e07cb47db2d448c6cdf8562f1a6a954c2",
+  "applicationSourcesMatchDebugReceipt": true,
+  "standaloneChecks": {
+    "stash": 55,
+    "syncCounts": 14,
+    "fileTreeStaging": 30,
+    "diffMap": 13,
+    "themes": 290,
+    "icons": 18,
+    "nativeMenu": 30
+  },
+  "pythonPolicyTests": 30,
+  "localization": {
+    "keys": 1088,
+    "plurals": 7,
+    "literals": 1408
+  },
+  "coreTests": "compiled only; no local XCTest",
+  "nativeUITests": "build-for-testing succeeded; no local XCTest",
+  "previewScope": "Exact production StashBrowser.swift and StashService with a private adapter and simple text diff; does not execute the complete application, session orchestration or existing DiffContentView",
+  "previewSourceBoundary": "Native interactions used unchanged StashBrowser and StashService source. The final reflog refresh routing fix is checked by the standalone behavior lane, not this adapter which has no watcher.",
+  "previousHostedM0": {
+    "sha": "29904b3af4a2faee0c00c9b42b197de541efc44e",
+    "runId": 39385290549,
+    "total": 48,
+    "passed": 45,
+    "failed": 3,
+    "skipped": 0,
+    "followupIssue": 41
+  },
+  "pending": [
+    "Hosted core execution at the final PR revision",
+    "Full app StashWorkflowTests execution",
+    "Whole-app Pop/conflict/navigation, cancel and external-reflog interaction coverage",
+    "M0 UI failures #41",
+    "Final-source full functional/reading/performance/installation/Beta acceptance"
+  ],
+  "systemProtectionsChanged": false,
+  "personalRepositoriesOrGlobalGitConfigWritten": false,
+  "productVersionChanged": false,
+  "releaseCreated": false
+}

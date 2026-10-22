@@ -7,24 +7,28 @@ struct CommitFilesView: View {
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
     @Bindable var detail: CommitDetailState
+    var stashContext = false
 
     var body: some View {
         VStack(spacing: 0) {
             if detail.loading {
                 VStack(spacing: 12) {
-                    ProgressView(L10n.text("读取提交文件…"))
+                    ProgressView(stashContext ? L10n.text("读取记录文件…") : L10n.text("读取提交文件…"))
                     Button(L10n.text("取消读取")) { detail.cancel(userInitiated: true) }
                 }.frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let error = detail.error {
                 VStack {
                     EmptyPanel(
-                        title: L10n.text("无法读取提交文件"), symbol: "exclamationmark.triangle", message: error)
+                        title: stashContext ? L10n.text("无法读取记录文件") : L10n.text("无法读取提交文件"),
+                        symbol: "exclamationmark.triangle", message: error)
                     Button(L10n.text("重试")) { detail.retry() }.padding(.bottom, 14)
                 }
             } else if let comparison = detail.comparison {
                 if comparison.files.isEmpty {
                     EmptyPanel(
-                        title: L10n.text("没有文件变化"), symbol: "doc", message: L10n.text("这次提交相对于所选父提交没有文件变化。"))
+                        title: L10n.text("没有文件变化"), symbol: "doc",
+                        message: stashContext
+                            ? L10n.text("此部分没有保存的文件变化，可切换查看其他内容。") : L10n.text("这次提交相对于所选父提交没有文件变化。"))
                 } else {
                     List(selection: $detail.selectedPath) {
                         ForEach(comparison.files) { file in
@@ -43,7 +47,8 @@ struct CommitFilesView: View {
                         }
                     }.listStyle(.inset).scrollContentBackground(.hidden).background(colors.canvas)
                         .frame(height: CGFloat(min(4, comparison.files.count)) * 29 + 12)
-                        .accessibilityIdentifier("commit-files").accessibilityLabel(L10n.text("本次提交的文件变化"))
+                        .accessibilityIdentifier("commit-files").accessibilityLabel(
+                            stashContext ? L10n.text("暂存记录的文件变化") : L10n.text("本次提交的文件变化"))
                     if detail.diskDisplay == nil {
                         HStack(spacing: 12) {
                             WorkbenchGlassTabs(
@@ -100,7 +105,8 @@ struct CommitFilesView: View {
                         if display.diff.binary {
                             EmptyPanel(
                                 title: L10n.text("二进制文件变化"), symbol: "doc.zipper",
-                                message: L10n.text("此提交中的文件不支持文本差异。"))
+                                message: stashContext
+                                    ? L10n.text("此记录中的文件不支持文本差异。") : L10n.text("此提交中的文件不支持文本差异。"))
                         } else if display.diff.hunks.isEmpty && display.diff.preview == nil {
                             EmptyPanel(
                                 title: L10n.text("没有文本变化"), symbol: "doc",

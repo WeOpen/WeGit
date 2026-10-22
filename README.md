@@ -44,7 +44,7 @@ It uses your existing Git installation, configuration, credential helpers, and S
 
 See the [product specification](docs/WeGit_PRD.md), [interface notes](docs/INTERFACE_POLISH.md), and [compatibility record](docs/COMPATIBILITY.md) for scope and evidence. Product capabilities and completed release acceptance are tracked separately.
 
-**Development branch, 2026-10-20:** the v1.1 M0 baseline adds collapsible change groups, staging checkboxes, a folder display mode, a clickable change map for multi-hunk in-memory diffs, paired pane surfaces, and upstream commit counts on Pull/Push. These additions are pending PR/CI integration and are not part of the published 1.0.0 download. See the [usage and verification notes](docs/INTERFACE_POLISH.md#v11-m0-baseline--2026-10-20).
+**Development branch, 2026-10-20:** the v1.1 M0 baseline adds collapsible change groups, staging checkboxes, a folder display mode, a clickable change map for multi-hunk in-memory diffs, paired pane surfaces, and upstream commit counts on Pull/Push. These additions have been integrated into main and are not part of the published 1.0.0 download. See the [usage and verification notes](docs/INTERFACE_POLISH.md#v11-m0-baseline--2026-10-20).
 
 ## 🖥️ Requirements
 
@@ -123,7 +123,7 @@ Tests use isolated configuration files, temporary repositories, and separate pre
 
 V1.0 focuses on daily Git workflows and readable diffs. **Stash and Tag management, an integrated conflict editor, interactive rebase, Blame, linked worktree/submodule management, and hosting-provider integrations** remain outside the first release. Linked worktree and bare-repository layouts are not currently supported for opening.
 
-The accepted [v1.1 plan](docs/V1_1_PLAN.md) requires Stash, Remote and Tag management, plus file history with targeted search. Single-commit Cherry-pick/Revert is conditional on completing those workflows and their recovery checks. M0 is baseline integration; M1–M5 remain future work, including Beta, versioning and release validation.
+The accepted [v1.1 plan](docs/V1_1_PLAN.md) requires Stash, Remote and Tag management, plus file history with targeted search. Single-commit Cherry-pick/Revert is conditional on completing those workflows and their recovery checks. M0 is integrated; [M1 Stash management](docs/STASH.md) is implemented on its feature branch, with hosted verification pending. Remote, Tag, file history, Beta, versioning and release validation remain future work. The M0 hosted functional regression passed 45/48 with three failures and zero skips; [#41](https://github.com/WeOpen/WeGit/issues/41) tracks the unresolved failures.
 
 The app can hand conflicts to an external editor and continue or abort supported operations. It does not yet include an integrated three-way merge editor. Homebrew Git core and isolated noninteractive OpenPGP checks have passed. GitLab, interactive Pinentry/hardware keys, additional credential-helper setups, and other untested environments remain explicitly pending in the [compatibility matrix](docs/COMPATIBILITY.md).
 
