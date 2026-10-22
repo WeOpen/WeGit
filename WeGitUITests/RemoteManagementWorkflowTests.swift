@@ -62,7 +62,7 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         XCTAssertEqual(try fixture.git(["config", "--get", "remote.origin.pushurl"]), a.path + "\n")
         let displayed = app.staticTexts["remote-fetch-value"]
         let updated = XCTNSPredicateExpectation(
-            predicate: NSPredicate(format: "label == %@", b.path), object: displayed)
+            predicate: NSPredicate(format: "value == %@", b.path), object: displayed)
         XCTAssertEqual(XCTWaiter.wait(for: [updated], timeout: 10), .completed)
         app.buttons["remote-delete"].click()
         let confirm = app.buttons["remote-delete-confirm"]
