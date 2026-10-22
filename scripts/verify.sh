@@ -10,6 +10,7 @@ swift format lint --strict scripts/ThemeChecks.swift
 swift format lint --strict scripts/DiffChangeMapChecks.swift
 swift format lint --strict scripts/ChangeFileTreeChecks.swift
 swift format lint --strict scripts/SyncCountsChecks.swift
+swift format lint --strict scripts/StashChecks.swift
 swift format lint --strict scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift
 scripts/verify-preference-migration.sh
 python3 scripts/verify-localization.py

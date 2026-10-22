@@ -32,6 +32,7 @@ struct WorkspaceView: View {
                                             leadingInset: leadingInset)
                                     case .history: HistoryView(app: app, session: session)
                                     case .branches: BranchesView(app: app, session: session)
+                                    case .stashes: StashView(app: app, session: session)
                                     }
                                 }
                                 // The native split already owns the horizontal edges.
@@ -431,7 +432,7 @@ struct WorkspaceView: View {
                         "\(session.status.ahead.map(String.init) ?? "—") / \(session.status.behind.map(String.init) ?? "—")"
                 )
             }
-            if let diff = app.workspace.diff {
+            if app.workspace.route != .stashes, let diff = app.workspace.diff {
                 Section(L10n.text("文件")) {
                     Text(diff.path).textSelection(.enabled)
                     LabeledContent(L10n.text("新增"), value: "\(diff.additions)")

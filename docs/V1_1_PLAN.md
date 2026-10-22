@@ -126,8 +126,10 @@ M0 → M1 → M2 → M3 为主线；M4 是有退出条件的候选，M5 覆盖�
 - M2 Remote：[#37](https://github.com/WeOpen/WeGit/issues/37)；Tag：[#38](https://github.com/WeOpen/WeGit/issues/38)。
 - M3 文件历史：[#39](https://github.com/WeOpen/WeGit/issues/39)。
 - M4 条件候选尚未进入实施；M5 发布验收按最终范围单独记录。
-- 当前仅执行 M0；M1–M5 尚未实施。M0 不更改产品版本或生成发布包，版本号、Beta 与公开发布在 M5 按实际门禁和证据处理。
+- M0 已合入 main（`29904b3`）；其后托管功能回归 48 项中通过 45、失败 3、跳过 0，另由 [#41](https://github.com/WeOpen/WeGit/issues/41) 跟踪，不视为完整回归通过。
+- M1 Stash 已实现保存、分层差异、Apply/Pop/单条删除及保护路径；隔离检查和原生组件预览见 [2026-10-22 记录](acceptance/2026-10-22/stash-management/README.md)。完整应用 UI 用例本地仅编译，托管执行仍待完成，M1 尚未关闭。
+- M2–M5 尚未实施。当前不更改产品版本或生成发布包，版本号、Beta 与公开发布在 M5 按实际门禁和证据处理。
 
 ## 9. 最直接的下一步
 
-先完成 M0 的基线集成；随后从 **Stash 管理** 开始，只交付一个保存→查看→恢复的完整闭环。首轮先实现 Apply，再补 Pop/删除与冲突回归，随后进入 Remote 与 Tag。若要压缩范围，保留四项必选，优先移出 Cherry-pick/Revert 与追加项。
+完成 **Stash 管理** 的 PR/托管验收，保留 M0 三项失败的独立修复记录；随后进入 Remote 与 Tag。若要压缩范围，保留四项必选，优先移出 Cherry-pick/Revert 与追加项。

@@ -1,0 +1,12 @@
+{
+  "cancel_keeps_working_bytes": true,
+  "cancel_keeps_index_bytes": true,
+  "cancel_keeps_untracked": true,
+  "cancel_creates_no_record": true,
+  "pop_conflict_preserves_stash": true,
+  "pop_conflict_has_unmerged_index": true,
+  "pop_conflict_has_no_merge_head": true,
+  "pop_conflict_restores_untracked_bytes": true,
+  "manual_conflict_resolution_commits_normally": true,
+  "preview_fixture_removed": true
+}
