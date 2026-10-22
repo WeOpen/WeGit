@@ -1,0 +1,11 @@
+{
+  "isolatedTagChecks": 34,
+  "nativeBehaviorChecks": 526,
+  "pythonTests": 31,
+  "coreTestsAdded": 4,
+  "uiTestsAdded": 2,
+  "coreTestCompilation": "passed",
+  "localXCTestExecuted": false,
+  "realTagSigning": "pending hosted execution; local required tools absent, exit 78",
+  "releaseReady": false
+}

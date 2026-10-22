@@ -36,6 +36,7 @@
 		4117E4AB6E6833898ABA77F9 /* WeGitDark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1C7B58689ADDF9FC83E28F07 /* WeGitDark.icns */; };
 		4351FAB1F2126A7161D87F41 /* RepositoryContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */; };
 		461DEA46B43F53AC35E72678 /* BrandGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C19B279458D6ADB439FB3B7 /* BrandGeometry.swift */; };
+		47C755A1171E4D24EA69B438 /* TagSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B4A120BF9CADFE64A68BF /* TagSheets.swift */; };
 		4C4E2302E50E982C6B5B1561 /* CloneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B068FD8FA547E5DD7CBDAB2 /* CloneViewModel.swift */; };
 		5068264D82A0586CCB565E25 /* AppPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D51D1CF2C9585589177216 /* AppPresentation.swift */; };
 		510F2F6F84699A83FFEDF337 /* StashWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABF9BDC6250640F1FEE61EF /* StashWorkflowTests.swift */; };
@@ -95,9 +96,11 @@
 		E1D7362D88A467F79DA85F71 /* ThemeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BE024BA525CDB830547DF0 /* ThemeEditor.swift */; };
 		E459B118F08928B17F505892 /* WeGitLight.icns in Resources */ = {isa = PBXBuildFile; fileRef = F1995C02EE0A1C7A741764DC /* WeGitLight.icns */; };
 		E526685588F82245FEC09F05 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = AA65280343026C6B41C79970 /* LICENSE */; };
+		E608787D83550A7F25C96ACF /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D398DEA1043DACA3D64F74FC /* TagsView.swift */; };
 		E70C5DC0FF9653568D38EEA4 /* HistoryActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC0DAA7117702BBDFD66833 /* HistoryActionsTests.swift */; };
 		EA29F02709BB021144D39700 /* ToolbarMenuBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8AB00BDC343AF3E5B3958A /* ToolbarMenuBarTests.swift */; };
 		EBABAC95D00321F1DED09DF9 /* DiffTextSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8973FD129834FD70547A32 /* DiffTextSelection.swift */; };
+		F075F3497C4E6DEF1FEA1E26 /* TagWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5DFEF17F1F72DD8EDC9BF2 /* TagWorkflowTests.swift */; };
 		F4B9F12EDD2A63233960F1BE /* ThemedForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFF3B430742D6259E968FC5 /* ThemedForm.swift */; };
 		F4F75F67027B96DFF5A17D8A /* DiskDiffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5878555F78A010CB4C9FB754 /* DiskDiffView.swift */; };
 		F92B258CAE4444F3CDA9A5ED /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE785C1633B52AB944B1A7B /* Components.swift */; };
@@ -158,6 +161,7 @@
 		20AC571FAE93EE55A0C1CC83 /* StashBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StashBrowser.swift; sourceTree = "<group>"; };
 		2474B45C92EBA9AECC2B494E /* AppStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStyle.swift; sourceTree = "<group>"; };
 		28006F84E2ABEFA3D101BBCD /* RemoteManagementWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteManagementWorkflowTests.swift; sourceTree = "<group>"; };
+		2B5DFEF17F1F72DD8EDC9BF2 /* TagWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagWorkflowTests.swift; sourceTree = "<group>"; };
 		2BF720B7D33FB8C39517EFF3 /* WorkspaceToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceToolbar.swift; sourceTree = "<group>"; };
 		3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryContextMenu.swift; sourceTree = "<group>"; };
 		3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 		5878555F78A010CB4C9FB754 /* DiskDiffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDiffView.swift; sourceTree = "<group>"; };
 		5879B4111C8EBEFD88E3998D /* DiffSelectableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffSelectableText.swift; sourceTree = "<group>"; };
 		5C9E903CDDF3740DD68FD87C /* GitConfigurationInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitConfigurationInterfaceTests.swift; sourceTree = "<group>"; };
+		5E9B4A120BF9CADFE64A68BF /* TagSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSheets.swift; sourceTree = "<group>"; };
 		5F86E0F2812C99C625C68E6B /* CustomTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTheme.swift; sourceTree = "<group>"; };
 		69851F96AE048E02B867508A /* WeGit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeGit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB7DCA8173B212F363D34B9 /* CommitDetailState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitDetailState.swift; sourceTree = "<group>"; };
@@ -215,6 +220,7 @@
 		D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkflowRecoveryTests.swift; sourceTree = "<group>"; };
 		D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualAccessibilitySession.swift; sourceTree = "<group>"; };
 		D35ED6F3020AE96FCB957830 /* LayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTests.swift; sourceTree = "<group>"; };
+		D398DEA1043DACA3D64F74FC /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
 		D4C08C85BA8E89B65DAB0E3C /* CommandPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPalette.swift; sourceTree = "<group>"; };
 		D62410513A08411AAD45D335 /* DiffChangeMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffChangeMap.swift; sourceTree = "<group>"; };
 		D90B25A1D5B3C8B9965F208F /* SpecialFileReadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialFileReadingTests.swift; sourceTree = "<group>"; };
@@ -289,6 +295,7 @@
 				0674C9E8D60771CC8F639A14 /* SettingsReadingTests.swift */,
 				D90B25A1D5B3C8B9965F208F /* SpecialFileReadingTests.swift */,
 				FABF9BDC6250640F1FEE61EF /* StashWorkflowTests.swift */,
+				2B5DFEF17F1F72DD8EDC9BF2 /* TagWorkflowTests.swift */,
 				CA99F5206327D9D9A6157E9A /* ThemeInteractionTests.swift */,
 				AC8AB00BDC343AF3E5B3958A /* ToolbarMenuBarTests.swift */,
 				C124F18C7E3AEADB6E5E789F /* UITestGit.swift */,
@@ -431,6 +438,8 @@
 				20AC571FAE93EE55A0C1CC83 /* StashBrowser.swift */,
 				01E44BC7A4D6B018D185CC84 /* StashView.swift */,
 				48B64C6AE5A196C899E210E3 /* SyncSheet.swift */,
+				5E9B4A120BF9CADFE64A68BF /* TagSheets.swift */,
+				D398DEA1043DACA3D64F74FC /* TagsView.swift */,
 				78BE024BA525CDB830547DF0 /* ThemeEditor.swift */,
 				2BF720B7D33FB8C39517EFF3 /* WorkspaceToolbar.swift */,
 				CDB2AD0382813F7677E12A4B /* WorkspaceView.swift */,
@@ -772,6 +781,7 @@
 				9F4DAE2FBDD1039426B386E1 /* SettingsReadingTests.swift in Sources */,
 				2D6F31E66308DA2DE27ED9E3 /* SpecialFileReadingTests.swift in Sources */,
 				510F2F6F84699A83FFEDF337 /* StashWorkflowTests.swift in Sources */,
+				F075F3497C4E6DEF1FEA1E26 /* TagWorkflowTests.swift in Sources */,
 				65230F7EB49E603D14A73C3F /* ThemeInteractionTests.swift in Sources */,
 				EA29F02709BB021144D39700 /* ToolbarMenuBarTests.swift in Sources */,
 				AF7AF4952BB47022C8F704DD /* UITestGit.swift in Sources */,
@@ -837,6 +847,8 @@
 				25E74BC8C0606966859D685C /* StashView.swift in Sources */,
 				CFFAE1DB6F5D266C35021FDF /* SyncSheet.swift in Sources */,
 				5A0CDDE27F12F0E73E871C22 /* SyncState.swift in Sources */,
+				47C755A1171E4D24EA69B438 /* TagSheets.swift in Sources */,
+				E608787D83550A7F25C96ACF /* TagsView.swift in Sources */,
 				E1D7362D88A467F79DA85F71 /* ThemeEditor.swift in Sources */,
 				925318E482D036372631F21B /* ThemeWindowBridge.swift in Sources */,
 				F4B9F12EDD2A63233960F1BE /* ThemedForm.swift in Sources */,

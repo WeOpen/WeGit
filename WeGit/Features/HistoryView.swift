@@ -118,6 +118,10 @@ struct HistoryView: View {
                             }.labelStyle(.iconOnly).accessibilityIdentifier("history-copy-sha")
                             Spacer()
                             Menu(L10n.text("操作")) {
+                                Button(L10n.text("从此提交创建标签…")) {
+                                    app.tagCreationRequest = TagCreationRequest(
+                                        session: session, target: commit.id)
+                                }
                                 Button(L10n.text("从此提交新建分支…")) {
                                     branchStart = commit.id
                                     createBranch = true

@@ -164,6 +164,22 @@ struct GPGCompatibilityChecks {
             let resigned = try await service.commit(
                 message: "Global signing restored", amend: false, expectedHead: restored.head)
             try require(try await verifySignature(resigned), "Removing local values restores signed commits")
+            report.phase = "signed-tag"
+            _ = try await engine.run(["config", "tag.gpgSign", "true"], in: repository)
+            let tagPlan = try await service.prepareTagCreation(
+                name: "signed-v1", target: resigned, kind: .annotated,
+                message: "Signed tag\n# preserve heading\n", expectedHead: resigned)
+            let signedTag = try await service.createTag(tagPlan)
+            let verifiedTag = try await engine.run(
+                ["verify-tag", "--raw", signedTag.reference], in: repository)
+            try require(
+                tagPlan.signingRequired && signedTag.targetCommit == resigned
+                    && String(decoding: verifiedTag.stderr, as: UTF8.self).contains(
+                        "[GNUPG:] VALIDSIG " + fingerprint + " "),
+                "Annotated tag inherits tag.gpgSign and verifies with the configured key")
+            try require(
+                try await service.tagMessage(signedTag)?.contains("# preserve heading") == true,
+                "Signed tag preserves explicit annotation headings")
             try require(
                 try Data(contentsOf: global) == globalBytes, "Global configuration bytes remain unchanged")
             report.result = "passed"

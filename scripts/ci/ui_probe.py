@@ -11,6 +11,8 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "tags-workflow": "TagWorkflowTests/testCreateCancelInspectAndDeleteLocalTagPreservesBranch",
+    "tags-push": "TagWorkflowTests/testSingleTagPushRequiresEndpointConfirmationAndPreservesOtherTags",
     "remote-workflow": "RemoteManagementWorkflowTests/testAddEditCancelAndRemoveRepositoryRemote",
     "stash-workflow": "StashWorkflowTests/testSaveInspectApplyAndDeletePreserveWorkingAndStagingState",
     "stash-recovery": "StashWorkflowTests/testPopCancelSuccessConflictAndExternalListRefresh",

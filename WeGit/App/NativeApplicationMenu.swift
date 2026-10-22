@@ -10,7 +10,7 @@ enum ApplicationMenuCommand: String {
         bringAllToFront, help
     case switchBranch, refresh, newBranch, stageAll, unstageAll, commit, commitAndPush
     case pull, push, closeRepository, activity, terminal, xcode, copyPath, search, palette
-    case changes, history, branches, stashes, quickAccess
+    case changes, history, branches, stashes, tags, quickAccess
     #if DEBUG
         case recoverTrashFixture
     #endif
@@ -313,6 +313,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         add(.history, to: workspace, key: "2") { L10n.text("提交历史") }
         add(.branches, to: workspace, key: "3") { L10n.text("分支") }
         add(.stashes, to: workspace, key: "4") { L10n.text("暂存记录") }
+        add(.tags, to: workspace, key: "5") { L10n.text("标签") }
         workspace.addItem(.separator())
         add(.quickAccess, to: workspace, key: "m", modifiers: [.command, .shift]) { L10n.text("菜单栏快捷面板") }
 

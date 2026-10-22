@@ -33,6 +33,7 @@ extension NativeApplicationMenu {
                 case .history: app.workspace.route = .history
                 case .branches: app.workspace.route = .branches
                 case .stashes: app.workspace.route = .stashes
+                case .tags: app.workspace.route = .tags
                 case .quickAccess: app.menuBarRequestID = UUID()
                 #if DEBUG
                     case .recoverTrashFixture: app.recoverTrashFixture()
@@ -43,7 +44,8 @@ extension NativeApplicationMenu {
             enabled: { [weak app] command in
                 guard let app else { return false }
                 switch command {
-                case .sidebar, .inspector, .changes, .history, .branches, .stashes, .refresh, .terminal,
+                case .sidebar, .inspector, .changes, .history, .branches, .stashes, .tags, .refresh,
+                    .terminal,
                     .copyPath,
                     .search:
                     return app.session != nil
@@ -72,6 +74,7 @@ extension NativeApplicationMenu {
                 case .history: return app.workspace.route == .history
                 case .branches: return app.workspace.route == .branches
                 case .stashes: return app.workspace.route == .stashes
+                case .tags: return app.workspace.route == .tags
                 default: return false
                 }
             },

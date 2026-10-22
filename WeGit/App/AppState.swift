@@ -23,6 +23,7 @@ enum WorkspaceRoute: String, CaseIterable, Identifiable {
     case history = "提交历史"
     case branches = "分支"
     case stashes = "暂存记录"
+    case tags = "标签"
     var id: String { rawValue }
     var title: String { L10n.key(rawValue) }
     var icon: String {
@@ -31,6 +32,7 @@ enum WorkspaceRoute: String, CaseIterable, Identifiable {
         case .history: "clock.arrow.circlepath"
         case .branches: "arrow.triangle.branch"
         case .stashes: "archivebox"
+        case .tags: "tag"
         }
     }
 }
@@ -87,6 +89,8 @@ final class RepositorySession {
     let historyState: HistoryState
     var history: [GitCommit] { historyState.commits }
     var remotes: [String] = []
+    var pendingTagPush: TagPushPlan?
+    var tagPushVerification: String?
     var statusRenderID = UUID()
     var watcherRenderID: UUID?
     #if WEGIT_PERFORMANCE
@@ -426,6 +430,7 @@ final class AppState {
     var pendingPaletteBranch: String?
     var branchPresented = false
     var remoteManagementPresented = false
+    var tagCreationRequest: TagCreationRequest?
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?
     var searchRequest: RepositorySearchRequest?
