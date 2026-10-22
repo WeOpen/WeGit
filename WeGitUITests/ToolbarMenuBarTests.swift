@@ -82,13 +82,12 @@ final class ToolbarMenuBarTests: XCTestCase {
             forDuration: 0.2,
             thenDragTo: compactCorner.withOffset(CGVector(dx: 980 - window.frame.width, dy: 0)))
         let compactPull = app.toolbarSyncAction("toolbar-pull")
-        print("Compact pull: \(compactPull.debugDescription); window: \(window.debugDescription)")
         let compactScreenshot = XCTAttachment(screenshot: window.screenshot())
         compactScreenshot.name = "Compact sync menu and counts"
         compactScreenshot.lifetime = .keepAlways
         add(compactScreenshot)
-        XCTAssertTrue(compactPull.label.contains("拉取 3"), compactPull.debugDescription)
-        XCTAssertTrue(window.menuItems.matching(identifier: "toolbar-push").firstMatch.label.contains("推送 2"))
+        XCTAssertEqual(compactPull.title, "拉取 3")
+        XCTAssertEqual(window.menuItems.matching(identifier: "toolbar-push").firstMatch.title, "推送 2")
         app.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
         let expandCorner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
             .withOffset(CGVector(dx: -1, dy: -1))

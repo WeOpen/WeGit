@@ -17,8 +17,9 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launchWeGit()
         defer { app.terminate() }
-        XCTAssertTrue(app.buttons["toolbar-more"].waitForExistence(timeout: 10))
-        app.buttons["toolbar-more"].click()
+        let more = app.descendants(matching: .any).matching(identifier: "toolbar-more").firstMatch
+        XCTAssertTrue(more.waitForExistence(timeout: 10))
+        more.click()
         app.menuItems["remote-management"].click()
         let addRemote = app.buttons["remote-add"]
         XCTAssertTrue(addRemote.waitForExistence(timeout: 5))
@@ -68,6 +69,7 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
         app.windows["main"].sheets.firstMatch.buttons["取消"].click()
         XCTAssertEqual(try fixture.git(["remote"]), "origin\n")
+        XCTAssertTrue(confirm.waitForNonExistence(timeout: 5))
         app.buttons["remote-delete"].click()
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
         confirm.click()
