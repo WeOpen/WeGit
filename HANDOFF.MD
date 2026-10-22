@@ -38,6 +38,8 @@
 - Remote 配置按最后一个点分隔 Git subsection/变量。`origin.child` 必须独立于 `origin`，不能用字符串前缀归组；新回归最初失败，修复后通过。
 - 配置写入使用私有候选文件、`config.lock` 和锚定 Git 目录描述符的 `renameat`。失败不能留下半次 URL 修改；继承、include 来源、多地址与凭据地址不交给简单编辑器覆盖。
 
+- 托管环境的 Touch Bar 也会暴露“取消”按钮。`app.buttons["取消"]` 会命中多个元素；取消 sheet/alert 时应限定到 `app.windows["main"].sheets.firstMatch`。Stash 恢复专项的第一次失败即由此引起，未证明产品恢复失败。
+
 ## 当前入口
 
 - 总计划：`docs/V1_1_PLAN.md`；总任务 #35。

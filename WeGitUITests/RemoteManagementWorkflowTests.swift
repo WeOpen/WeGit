@@ -42,7 +42,7 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         fetch.click()
         fetch.typeKey("a", modifierFlags: .command)
         fetch.typeText(b.path)
-        app.buttons["取消"].click()
+        app.windows["main"].sheets.firstMatch.buttons["取消"].click()
         XCTAssertTrue(save.waitForNonExistence(timeout: 5))
         XCTAssertEqual(try fixture.git(["config", "--get", "remote.origin.url"]), a.path + "\n")
         edit.click()
@@ -66,7 +66,7 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         app.buttons["remote-delete"].click()
         let confirm = app.buttons["remote-delete-confirm"]
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
-        app.buttons["取消"].click()
+        app.windows["main"].sheets.firstMatch.buttons["取消"].click()
         XCTAssertEqual(try fixture.git(["remote"]), "origin\n")
         app.buttons["remote-delete"].click()
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
