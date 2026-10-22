@@ -11,6 +11,11 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "stash-workflow": "StashWorkflowTests/testSaveInspectApplyAndDeletePreserveWorkingAndStagingState",
+    "stash-recovery": "StashWorkflowTests/testPopCancelSuccessConflictAndExternalListRefresh",
+    "changes-groups": "ChangesListTests/testCollapsibleGroupsAndFilteredStageCheckboxes",
+    "toolbar-heights": "ToolbarMenuBarTests/testToolbarHeightsAndUpstreamCountsRefreshTogether",
+    "sidebar-surface": "ToolbarMenuBarTests/testSidebarButtonRetainsItsSurfaceAfterRepeatedToggles",
     "minimum-layout": "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls",
     "compact-toolbar": "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable",
     "menu-localization": "LocalizationUITests/testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch",

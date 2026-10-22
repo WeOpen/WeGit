@@ -49,6 +49,14 @@ class NativeProcessDeadlineTests(unittest.TestCase):
 
 
 class NativeScopeSelectionTests(unittest.TestCase):
+    def test_v1_1_focused_diagnostics_resolve_real_bounded_test_methods(self):
+        root = Path(__file__).resolve().parents[3]
+        for focus in ("stash-workflow", "stash-recovery", "changes-groups", "toolbar-heights", "sidebar-surface"):
+            target = ui_probe.FOCUSED_TESTS[focus]
+            suite, method = target.split("/")
+            source = (root / "WeGitUITests" / (suite + ".swift")).read_text()
+            self.assertIn("func " + method + "(", source)
+
     def test_candidate_focus_runs_one_bounded_allowlisted_test_after_smoke(self):
         summary = {"totalTestCount": 1, "passedTests": 1, "failedTests": 0, "skippedTests": 0}
         with tempfile.TemporaryDirectory() as folder:

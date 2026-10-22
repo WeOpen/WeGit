@@ -121,7 +121,9 @@ struct StashBrowser<Detail: View>: View {
                     ProgressView(L10n.text("读取暂存记录…")).frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     EmptyPanel(
-                        title: L10n.text("没有暂存记录"), symbol: "archivebox", message: L10n.text("保存当前改动，稍后再恢复。"))
+                        title: L10n.text("没有暂存记录"), symbol: "archivebox", message: L10n.text("保存当前改动，稍后再恢复。")
+                    )
+                    .accessibilityIdentifier("stash-empty")
                 }
                 if loading && list != nil { ProgressView().controlSize(.small).padding(8) }
             }.frame(minWidth: 260, idealWidth: 320, maxWidth: 380)
