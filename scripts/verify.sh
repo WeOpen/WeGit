@@ -13,6 +13,7 @@ swift format lint --strict scripts/SyncCountsChecks.swift
 swift format lint --strict scripts/StashChecks.swift
 swift format lint --strict scripts/RemoteManagementChecks.swift
 swift format lint --strict scripts/TagChecks.swift
+swift format lint --strict scripts/FileHistoryChecks.swift
 swift format lint --strict scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift
 scripts/verify-preference-migration.sh
 python3 scripts/verify-localization.py

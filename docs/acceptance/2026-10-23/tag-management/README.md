@@ -15,3 +15,7 @@ Executed locally, without XCTest:
 Real OpenPGP annotation signing was added to the existing private-GNUPGHOME compatibility checker, including `verify-tag --raw` against its ephemeral fingerprint and unchanged global-config bytes. The checker compiled locally but returned 78 because required Homebrew tools were absent; no fallback or installation occurred. Actual signing execution is pending hosted CI.
 
 Pending: hosted core/UI/signing execution, final-source whole-app regression, Release performance, installation and Beta/release gates. No version or release is claimed. All write fixtures use private repositories, synthetic identity, isolated configuration and local bare remotes; no user credentials or personal repositories are used.
+
+## Hosted follow-up
+
+[CI run 39869222219](https://github.com/WeOpen/WeGit/actions/runs/39869222219) passed on PR #45 and was integrated as `db4dd0f`. Homebrew core execution passed 200 tests in 36 suites. The retained `hosted-gpg/` reports each contain 9 passing real-signing checks for Apple and Homebrew Git, including a valid signed annotation and preserved heading. Both private GPG services and fixtures were cleaned. Their core/checker source digests were verified against merged main. Interactive Pinentry and hardware keys remain outside this scope. Native UI and final-source release gates are still pending.

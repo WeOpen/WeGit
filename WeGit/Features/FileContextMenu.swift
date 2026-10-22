@@ -6,6 +6,10 @@ struct FileContextMenu: View {
     let session: RepositorySession
     let path: String
     var body: some View {
+        Button(L10n.text("查看文件历史…")) {
+            guard app.session === session else { return }
+            app.fileHistoryRequest = FileHistoryRequest(session: session, path: path)
+        }.accessibilityIdentifier("file-history:" + path)
         Button(L10n.text("在文本编辑器中打开")) { app.openFile(path, in: session) }
             .disabled(!app.canOpenFile(path, in: session))
         if app.xcodeURL != nil {

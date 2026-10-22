@@ -1,12 +1,17 @@
 import Foundation
 
 extension RepositoryService {
-    @concurrent public func commitComparison(id: String, parent: String? = nil) async throws
+    @concurrent public func commitComparison(id: String, parent: String? = nil, paths: [String]? = nil)
+        async throws
         -> CommitComparison
     {
         try location.validateIdentity()
         guard GitObjectID.valid(id), parent.map(GitObjectID.valid) ?? true else {
             throw ModelFailure.invalidPath
+        }
+        if let paths {
+            guard (1...2).contains(paths.count) else { throw ModelFailure.invalidPath }
+            for path in paths { try validate(path) }
         }
         let commit = try await readCommit(id)
         let selected = parent ?? commit.parents.first
@@ -17,10 +22,10 @@ extension RepositoryService {
         let revisions = [selected, id].compactMap { $0 }
         let flags = ["--find-renames", "--no-ext-diff", "--no-textconv", "--no-color"]
         let names = try await engine.run(
-            base + flags + ["--name-status", "-z"] + revisions + ["--"], in: location.root
+            base + flags + ["--name-status", "-z"] + revisions + ["--"] + (paths ?? []), in: location.root
         ).stdout
         let statistics = try await engine.run(
-            base + flags + ["--numstat", "-z"] + revisions + ["--"], in: location.root
+            base + flags + ["--numstat", "-z"] + revisions + ["--"] + (paths ?? []), in: location.root
         ).stdout
         let files = try CommitFilesParser.parse(names: names, statistics: statistics)
         try location.validateIdentity()

@@ -8,6 +8,7 @@ struct CommitFilesView: View {
     @Bindable var session: RepositorySession
     @Bindable var detail: CommitDetailState
     var stashContext = false
+    var allowsFileHistory = true
 
     var body: some View {
         VStack(spacing: 0) {
@@ -44,6 +45,15 @@ struct CommitFilesView: View {
                                 .foregroundStyle(colors.secondaryText)
                             }.font(.caption).tag(file.path).help(file.path)
                                 .accessibilityIdentifier("commit-file:" + file.path)
+                                .contextMenu {
+                                    if allowsFileHistory && !stashContext {
+                                        Button(L10n.text("查看文件历史…")) {
+                                            guard app.session === session else { return }
+                                            app.fileHistoryRequest = FileHistoryRequest(
+                                                session: session, path: file.path, tip: comparison.commit.id)
+                                        }.accessibilityIdentifier("commit-file-history:" + file.path)
+                                    }
+                                }
                         }
                     }.listStyle(.inset).scrollContentBackground(.hidden).background(colors.canvas)
                         .frame(height: CGFloat(min(4, comparison.files.count)) * 29 + 12)
