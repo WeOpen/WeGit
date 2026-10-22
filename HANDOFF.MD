@@ -9,7 +9,7 @@
 - 本地不执行 XCTest。独立行为检查可运行；核心/UI 测试可以编译；实际 XCTest 放在托管环境。
 - 所有 Git 写入验收使用私有临时仓库和本地 bare remote，隔离 global/system Git 配置。不能修改个人仓库、真实凭据或系统安全/辅助访问状态。
 - Beta/发布需固定源码与制品来源，包含性能预算和实际测量。外部 Beta 反馈、受保护 Mac 安装与完整发布门禁不能用构建结果替代。
-- UI 少用次级标签和重复解释；复杂阶段报告以 HTML 呈现。`answer-me-with-html` 已安装于 `/Users/willxue/.agents/skills/answer-me-with-html`；2026-10-23 验证 CLI 0.5.7，并成功生成 TCP 三次握手页面。
+- UI 少用次级标签和重复解释；复杂阶段报告以 HTML 呈现。`answer-me-with-html` 已安装于 `/Users/willxue/.agents/skills/answer-me-with-html`；2026-10-23 验证 CLI 0.5.7，并成功生成 TCP 三次握手页面。搜索符号链接目录需用 `rg --files -L`，报告由其 `scripts/am.mjs` 生成。
 
 ## 已确认的陷阱
 
@@ -65,3 +65,10 @@
 - Stash：#36 / PR #42；验收快照 `docs/acceptance/2026-10-22/stash-management/`，更新结果看 PR 与 Actions。
 - Remote #37，Tag #38，文件历史 #39，M0 回归 #41。
 - 原始 CI 和本机中间产物在 `.build/`，不整体提交；仅保存必要、脱敏、可复核的结构化证据。
+
+## 2026-10-23 托管 UI 定位补充
+
+- run 39810342148 的分组专项通过，run 39810816133 的侧栏专项通过；各自先执行并通过 smoke。待最终源码完整回归。
+- run 39808983520 确认 `toolbar-repository` 的实际 AX Button 仍报告 44×52 pt。原始视频实测各表面高度为 34–36 pt，AX 容器高度不能当作可见材质尺寸。新断言用截图的可见边缘比较高度，并保留点击与垂直对齐检查。
+- 像素采样须排除 window 外部。否则标题栏上方的黑色桌面会被误判为控件边缘。保留原图、诊断失败和采样结果，不通过放宽 AX 高度容差接受 52 pt。
+- run 39809921471 的 Stash 恢复专项首先失败在“取消”按钮匹配：Touch Bar 和 alert 各有一个。将点击限定到 main window 的 sheet；该失败未证明产品 Pop/冲突失败，后续恢复步骤尚需执行。

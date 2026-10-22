@@ -43,12 +43,22 @@ final class ToolbarMenuBarTests: XCTestCase {
         XCTAssertEqual(pull.value as? String, "3")
         XCTAssertEqual(push.value as? String, "2")
         let sidebar = app.buttons["toolbar-sidebar"]
+        let screenshot = window.screenshot()
+        let bitmap = try XCTUnwrap(NSBitmapImageRep(data: screenshot.pngRepresentation))
+        let reference = toolbarSurface(bitmap, window: window.frame, control: sidebar.frame)
+        XCTAssertGreaterThan(reference.contrast, 0.025)
+        XCTAssertEqual(reference.height, 36, accuracy: 3)
+        let attachment = XCTAttachment(screenshot: screenshot)
+        attachment.name = "Visible toolbar surfaces before compact layout"
+        attachment.lifetime = .keepAlways
+        add(attachment)
         for identifier in [
             "toolbar-repository", "toolbar-fetch", "toolbar-pull", "toolbar-push", "toolbar-search",
             "toolbar-inspector", "toolbar-more",
         ] {
-            // SwiftUI exposes a toolbar cell and its actual control with the
-            // same identifier. Measure the actionable control, not the padded cell.
+            // Native toolbar AX buttons can span the entire 52pt titlebar even
+            // when their material is 36pt. Compare rendered edges, retaining AX
+            // hit testing and vertical alignment as separate assertions.
             let buttons = app.buttons.matching(identifier: identifier)
             let popups = app.popUpButtons.matching(identifier: identifier)
             let control =
@@ -57,11 +67,13 @@ final class ToolbarMenuBarTests: XCTestCase {
                 : popups.firstMatch.exists
                     ? popups.firstMatch
                     : app.descendants(matching: .any).matching(identifier: identifier).firstMatch
-            print(
-                "Toolbar measurement \(identifier): \(control.elementType) \(control.frame), matches: \(app.descendants(matching: .any).matching(identifier: identifier).debugDescription)"
-            )
             XCTAssertTrue(control.isHittable, identifier)
-            XCTAssertEqual(control.frame.height, sidebar.frame.height, accuracy: 1, identifier)
+            let surface = toolbarSurface(bitmap, window: window.frame, control: control.frame)
+            print(
+                "Toolbar \(identifier): AX \(control.frame), visible height \(surface.height), edge contrast \(surface.contrast)"
+            )
+            XCTAssertGreaterThan(surface.contrast, 0.025, identifier)
+            XCTAssertEqual(surface.height, reference.height, accuracy: 2, identifier)
             XCTAssertEqual(control.frame.midY, sidebar.frame.midY, accuracy: 1, identifier)
         }
         let compactCorner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
@@ -91,6 +103,37 @@ final class ToolbarMenuBarTests: XCTestCase {
             predicate: NSPredicate(format: "value == %@", "待核对"), object: push)
         XCTAssertEqual(XCTWaiter.wait(for: [unknown], timeout: 10), .completed)
         XCTAssertEqual(pull.value as? String, "待核对")
+    }
+
+    @MainActor private func toolbarSurface(_ image: NSBitmapImageRep, window: CGRect, control: CGRect)
+        -> (height: CGFloat, contrast: Double)
+    {
+        let center = CGPoint(x: control.midX - window.minX, y: control.midY - window.minY)
+        let scaleX = CGFloat(image.pixelsWide) / window.width
+        let scaleY = CGFloat(image.pixelsHigh) / window.height
+        func tone(_ dx: CGFloat, _ dy: CGFloat) -> Double? {
+            let point = CGPoint(x: center.x + dx, y: center.y + dy)
+            // Do not mistake the black desktop above a full-height AX cell for
+            // a material edge. PNG rows use the screenshot's top-left origin.
+            guard point.x >= 3, point.y >= 3, point.x < window.width - 3, point.y < window.height - 3,
+                let color = image.colorAt(x: Int(point.x * scaleX), y: Int(point.y * scaleY))?
+                    .usingColorSpace(.sRGB)
+            else { return nil }
+            return Double((color.redComponent + color.greenComponent + color.blueComponent) / 3)
+        }
+        let corners = [tone(-20, -20), tone(20, -20), tone(-20, 20), tone(20, 20)].compactMap { $0 }
+        guard corners.count == 4 else { return (0, 0) }
+        let background = corners.reduce(0, +) / 4
+        var best: (height: CGFloat, contrast: Double) = (0, 0)
+        for radius in stride(from: CGFloat(12), through: min(30, max(20, control.height / 2 + 2)), by: 0.5) {
+            for sign in [CGFloat(-1), 1] {
+                let row = (-2...2).compactMap { tone(CGFloat($0), sign * radius) }
+                guard row.count == 5 else { continue }
+                let contrast = abs(row.reduce(0, +) / 5 - background)
+                if contrast > best.contrast { best = (radius * 2, contrast) }
+            }
+        }
+        return best
     }
 
     @MainActor func testSidebarButtonRetainsItsSurfaceAfterRepeatedToggles() throws {

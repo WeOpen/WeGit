@@ -103,7 +103,7 @@ final class StashWorkflowTests: XCTestCase {
         pop.click()
         let confirm = app.buttons["stash-confirm-action"]
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
-        app.buttons["取消"].click()
+        app.windows["main"].sheets.firstMatch.buttons["取消"].click()
         XCTAssertEqual(try fixture.git(["rev-parse", "refs/stash"]), saved)
         XCTAssertEqual(try fixture.git(["status", "--porcelain=v1"]), "")
         pop.click()
