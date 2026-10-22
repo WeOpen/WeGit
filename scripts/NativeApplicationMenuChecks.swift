@@ -90,6 +90,13 @@ import WeGitCore
         selectedCommand = .stashes
         _ = controller.validateMenuItem(stashes)
         try check("Stash native item reflects the active route", stashes.state == .on)
+        let tags = item(.tags, in: "workspace")
+        try check(
+            "Tag route has native Command-5 and live English label",
+            tags.keyEquivalent == "5" && tags.keyEquivalentModifierMask == .command && tags.title == "Tags")
+        selectedCommand = .tags
+        _ = controller.validateMenuItem(tags)
+        try check("Tag native item reflects the active route", tags.state == .on)
         try check(
             "Responder receives the original action for validation",
             controller.validateMenuItem(copy) && first.actions.last! == NSSelectorFromString("copy:"))

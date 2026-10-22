@@ -33,6 +33,7 @@ struct WorkspaceView: View {
                                     case .history: HistoryView(app: app, session: session)
                                     case .branches: BranchesView(app: app, session: session)
                                     case .stashes: StashView(app: app, session: session)
+                                    case .tags: TagsView(app: app, session: session).id(session.id)
                                     }
                                 }
                                 // The native split already owns the horizontal edges.
@@ -191,6 +192,7 @@ struct WorkspaceView: View {
             if let session = app.session { RemoteManagementSheet(app: app, session: session).id(session.id) }
         }
         .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app) }
+        .sheet(item: $app.tagCreationRequest) { TagCreationSheet(app: app, request: $0) }
         .sheet(item: $app.branchSwitchRequest) { BranchSwitcherView(app: app, request: $0) }
         .sheet(isPresented: $app.activityPresented) { ActivityView(app: app) }
         .sheet(isPresented: $app.repositoryPickerPresented, onDismiss: app.repositoryPickerDidDismiss) {
@@ -439,7 +441,7 @@ struct WorkspaceView: View {
                         "\(session.status.ahead.map(String.init) ?? "—") / \(session.status.behind.map(String.init) ?? "—")"
                 )
             }
-            if app.workspace.route != .stashes, let diff = app.workspace.diff {
+            if app.workspace.route != .stashes, app.workspace.route != .tags, let diff = app.workspace.diff {
                 Section(L10n.text("文件")) {
                     Text(diff.path).textSelection(.enabled)
                     LabeledContent(L10n.text("新增"), value: "\(diff.additions)")

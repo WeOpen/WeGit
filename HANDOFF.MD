@@ -40,6 +40,13 @@
 
 - 托管环境的 Touch Bar 也会暴露“取消”按钮。`app.buttons["取消"]` 会命中多个元素；取消 sheet/alert 时应限定到 `app.windows["main"].sheets.firstMatch`。Stash 恢复专项的第一次失败即由此引起，未证明产品恢复失败。
 
+### Tag
+
+- Git 的默认标签附注清理会删除 `#` 开头的正文；创建附注需显式 `--cleanup=verbatim`，保留最初失败与修复后的检查。
+- 推送必须比较原始标签对象，不能只比较剥离后的提交：同一提交的不同附注仍是不同已发布标签。显式单对象 refspec，并关闭 followTags/mirror，避免附带其他标签。
+- SwiftUI 相邻 Text 可能合并为一个 AX 元素；目标 SHA 需在明确的语义容器上标识，避免假设每个 Text 都是独立 StaticText。
+- 本机 GPG 脚本编译通过，但缺少要求的 Homebrew 工具，行为检查以 78 退出；不回退、不安装。真实附注签名由托管 CI 的私有临时密钥检查。
+
 ## 当前入口
 
 - 总计划：`docs/V1_1_PLAN.md`；总任务 #35。
