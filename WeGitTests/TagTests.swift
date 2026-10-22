@@ -94,6 +94,7 @@ struct TagTests {
             ["for-each-ref", "--format=%(objectname)", "refs/tags/"], in: bare
         ).text
         #expect(remoteTags == selected.objectID + "\n")
+        _ = try await f.engine.run(["fetch", "--no-tags", "--", f.root.path, other.reference], in: bare)
         _ = try await f.engine.run(["update-ref", selected.reference, other.objectID], in: bare)
         do {
             _ = try await f.service.prepareTagPush(selected, remote: "origin", expectedHead: head)
