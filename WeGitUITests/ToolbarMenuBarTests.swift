@@ -47,7 +47,19 @@ final class ToolbarMenuBarTests: XCTestCase {
             "toolbar-repository", "toolbar-fetch", "toolbar-pull", "toolbar-push", "toolbar-search",
             "toolbar-inspector", "toolbar-more",
         ] {
-            let control = app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+            // SwiftUI exposes a toolbar cell and its actual control with the
+            // same identifier. Measure the actionable control, not the padded cell.
+            let buttons = app.buttons.matching(identifier: identifier)
+            let popups = app.popUpButtons.matching(identifier: identifier)
+            let control =
+                buttons.firstMatch.exists
+                ? buttons.firstMatch
+                : popups.firstMatch.exists
+                    ? popups.firstMatch
+                    : app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+            print(
+                "Toolbar measurement \(identifier): \(control.elementType) \(control.frame), matches: \(app.descendants(matching: .any).matching(identifier: identifier).debugDescription)"
+            )
             XCTAssertTrue(control.isHittable, identifier)
             XCTAssertEqual(control.frame.height, sidebar.frame.height, accuracy: 1, identifier)
             XCTAssertEqual(control.frame.midY, sidebar.frame.midY, accuracy: 1, identifier)
@@ -117,8 +129,8 @@ final class ToolbarMenuBarTests: XCTestCase {
         }
     }
 
-    /// Compare an icon-free annulus of the 36pt control with its outside corners.
-    /// A bare sidebar glyph has no material in this annulus.
+    /// Include the material's edge: a native glass interior can be completely
+    /// transparent on a uniform toolbar while the circular rim remains visible.
     @MainActor private func sidebarSurfaceDifference(window: XCUIElement, button: XCUIElement) -> Double {
         guard let image = NSBitmapImageRep(data: window.screenshot().pngRepresentation),
             window.frame.width > 0, window.frame.height > 0
@@ -137,11 +149,13 @@ final class ToolbarMenuBarTests: XCTestCase {
         }
         let corners = [tone(-17, -17), tone(17, -17), tone(-17, 17), tone(17, 17)]
         let outside = corners.reduce(0, +) / Double(corners.count)
-        let annulus = (0..<32).map { index in
-            let angle = CGFloat(index) * .pi / 16
-            return tone(cos(angle) * 14, sin(angle) * 14)
-        }
-        return abs(annulus.reduce(0, +) / Double(annulus.count) - outside)
+        return [CGFloat(14), 16.5, 17, 17.5].map { radius in
+            let annulus = (0..<32).map { index in
+                let angle = CGFloat(index) * .pi / 16
+                return tone(cos(angle) * radius, sin(angle) * radius)
+            }
+            return abs(annulus.reduce(0, +) / Double(annulus.count) - outside)
+        }.max() ?? 0
     }
 
     @MainActor func testMenuBarReopensClosedWindowWithoutLosingDraftAndRefreshesExternalChanges() throws {
