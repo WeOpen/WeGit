@@ -12,11 +12,11 @@ struct FileHistoryTests {
         try f.write(old, "one\ntwo\nthree\nfour\n")
         let initial = try await f.commit("Initial [literal]")
         _ = try await f.engine.run(["mv", "--", old, new], in: f.root)
-        let rename = try await f.commit("Rename")
+        let rename = try await f.service.commit(message: "Rename", amend: false, expectedHead: initial)
         try f.write(new, "one\ntwo\nthree\nfour\nfive\n")
         let changed = try await f.commit("Change")
         _ = try await f.engine.run(["rm", "--", new], in: f.root)
-        let deleted = try await f.commit("Delete")
+        let deleted = try await f.service.commit(message: "Delete", amend: false, expectedHead: changed)
         let anchor = try await f.service.fileHistoryAnchor(FileHistoryQuery(path: new))
         var cursor: FileHistoryCursor?
         var rows: [FileHistoryEntry] = []
