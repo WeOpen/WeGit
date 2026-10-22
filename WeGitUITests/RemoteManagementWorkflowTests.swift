@@ -66,7 +66,7 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         let updated = XCTNSPredicateExpectation(
             predicate: NSPredicate { _, _ in
                 guard displayed.exists, let value = displayed.value as? String else { return false }
-                return value.replacingOccurrences(of: "\n", with: "") == b.path
+                return value == b.path
             }, object: nil)
         let displayedResult = XCTWaiter.wait(for: [updated], timeout: 10)
         print(
