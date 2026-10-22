@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-23",
+  "issue": 37,
+  "applicationInputsSHA256": "1cb3ed7d59126ba64b60bf59ce5de2f544d39bb9ee09f70d8baea0965a4e7c19",
+  "debugSourceMatches": true,
+  "standalone": {
+    "remoteManagement": 40,
+    "stash": 55,
+    "syncCounts": 14,
+    "fileTree": 30,
+    "diffMap": 13,
+    "themes": 290,
+    "icons": 18,
+    "menus": 30
+  },
+  "pythonTests": 31,
+  "localization": {
+    "keys": 1104,
+    "plurals": 7
+  },
+  "coreRemoteTests": {
+    "count": 6,
+    "localStatus": "compiled only"
+  },
+  "nativeRemoteTests": {
+    "count": 1,
+    "localStatus": "compiled only"
+  },
+  "pending": [
+    "Hosted core execution",
+    "Hosted remote workflow",
+    "Final-source full regression and performance",
+    "Installation and Beta feedback"
+  ],
+  "globalConfigOrPersonalRepositoriesWritten": false,
+  "productVersionChanged": false
+}

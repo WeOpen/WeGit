@@ -9,7 +9,7 @@
 - 本地不执行 XCTest。独立行为检查可运行；核心/UI 测试可以编译；实际 XCTest 放在托管环境。
 - 所有 Git 写入验收使用私有临时仓库和本地 bare remote，隔离 global/system Git 配置。不能修改个人仓库、真实凭据或系统安全/辅助访问状态。
 - Beta/发布需固定源码与制品来源，包含性能预算和实际测量。外部 Beta 反馈、受保护 Mac 安装与完整发布门禁不能用构建结果替代。
-- UI 少用次级标签和重复解释；复杂阶段报告以 HTML 呈现。当前没有找到 `answer-me-with-html/SKILL.md`，可先生成自包含 HTML 报告，不因此停止独立开发工作。
+- UI 少用次级标签和重复解释；复杂阶段报告以 HTML 呈现。`answer-me-with-html` 已安装于 `/Users/willxue/.agents/skills/answer-me-with-html`；2026-10-23 验证 CLI 0.5.7，并成功生成 TCP 三次握手页面。
 
 ## 已确认的陷阱
 
@@ -29,6 +29,16 @@
 - M0 侧栏失败截图中圆形材质边缘存在。旧像素断言只采样半径 14 pt 的透明内部；实测半径 17–18 pt 有可见差异。修复断言后仍需托管重验。
 - Changes 分组含独立复选框与折叠 Button。测试不应点击不可命中的整条 OutlineRow；需定位实际折叠按钮并保留文件选择/草稿断言。
 - 工具栏 AX 容器和实际按钮可能有不同尺寸。52 vs 36 pt 的失败仍需活动/截图与控件诊断确认，不能直接放宽尺寸断言。
+
+### 工具与托管队列
+
+- `npx skills add` 直连 GitHub 也可能长时间停在克隆阶段。本次安装通过当前子进程的 `HTTPS_PROXY` / `HTTP_PROXY` 使用 `scutil --proxy` 已确认的系统代理后成功；不要因此修改全局配置。
+- Git CLI 直连 GitHub 可能超时，而系统已配置 HTTPS 代理。只为当前子进程读取并使用 `scutil --proxy` 的代理，不改全局 Git 配置或系统网络设置。可复用本轮 `.build/with-system-proxy.py`。
+- GitHub concurrency 即使 `cancel-in-progress: false` 也只保留一个 pending。连续 dispatch 多个原生诊断会取消较早的 pending，不能当成多个测试已排队成功。等当前运行和 pending 都结束后逐个 dispatch；取消的 run 保留原结论，重新调度尚未执行的范围。当前 `.build/queue-native-diagnostics.py` 串行处理恢复、分组与侧栏诊断。
+- Remote 配置按最后一个点分隔 Git subsection/变量。`origin.child` 必须独立于 `origin`，不能用字符串前缀归组；新回归最初失败，修复后通过。
+- 配置写入使用私有候选文件、`config.lock` 和锚定 Git 目录描述符的 `renameat`。失败不能留下半次 URL 修改；继承、include 来源、多地址与凭据地址不交给简单编辑器覆盖。
+
+- 托管环境的 Touch Bar 也会暴露“取消”按钮。`app.buttons["取消"]` 会命中多个元素；取消 sheet/alert 时应限定到 `app.windows["main"].sheets.firstMatch`。Stash 恢复专项的第一次失败即由此引起，未证明产品恢复失败。
 
 ## 当前入口
 
