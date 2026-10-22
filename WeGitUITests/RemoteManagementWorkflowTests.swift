@@ -60,10 +60,23 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         XCTAssertTrue(save.waitForNonExistence(timeout: 10))
         XCTAssertEqual(try fixture.git(["config", "--get", "remote.origin.url"]), b.path + "\n")
         XCTAssertEqual(try fixture.git(["config", "--get", "remote.origin.pushurl"]), a.path + "\n")
-        let displayed = app.staticTexts["remote-fetch-value"]
+        let displayed = app.windows["main"].sheets.firstMatch.staticTexts
+            .matching(identifier: "remote-fetch-value").firstMatch
+        XCTAssertFalse(b.path.contains("\n"))
         let updated = XCTNSPredicateExpectation(
-            predicate: NSPredicate(format: "value == %@", b.path), object: displayed)
-        XCTAssertEqual(XCTWaiter.wait(for: [updated], timeout: 10), .completed)
+            predicate: NSPredicate { _, _ in
+                guard displayed.exists, let value = displayed.value as? String else { return false }
+                return value.replacingOccurrences(of: "\n", with: "") == b.path
+            }, object: nil)
+        let displayedResult = XCTWaiter.wait(for: [updated], timeout: 10)
+        print(
+            "Remote display value: \(String(reflecting: displayed.value)); title: \(displayed.title); label: \(displayed.label)"
+        )
+        let addressShot = XCTAttachment(screenshot: app.windows["main"].screenshot())
+        addressShot.name = "Edited fetch and push addresses"
+        addressShot.lifetime = .keepAlways
+        add(addressShot)
+        XCTAssertEqual(displayedResult, .completed)
         app.buttons["remote-delete"].click()
         let confirm = app.buttons["remote-delete-confirm"]
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))

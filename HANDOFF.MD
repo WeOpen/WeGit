@@ -61,6 +61,8 @@
 
 ## 当前入口
 
+- Remote 39869429918 的 Git 双地址编辑断言通过，失败录像清楚显示获取地址为 `ui-remote-b.git`、推送为 `ui-remote-a.git`；原生可选择文本会按行显示长地址。地址核对限定当前 Sheet 的第一个精确 ID，并保留 value/title/label 原文与截图；只对不含换行的已知夹具去除展示换行，仍逐字比较整个地址，不仅比较末尾文件名。
+
 - 可选择的 macOS StaticText 通过 `value` 暴露内容，不能统一读取 `label`。Remote 39868575930 已完成新增/取消/双地址编辑，Git 配置断言通过；随后 UI 地址断言因读取空 label 失败，AX 树明确有 `remote-fetch-value` 的内容。下一轮改为等待 value 与目标 URL 一致，仍保留实际 UI 与配置双重核对。
 
 - macOS 原生 MenuItem 的可见文字在 XCTest `title`，`label` 可以为空。39867675289 的完整 AX 树显示 `title: 拉取 3 / 推送 2`，不能用空 label 推断数量丢失；改为核对实际 title。Remote 39866914102 的 `toolbar-more` 是 MenuButton，查询需按稳定 ID 取对应元素，不能限定 Button 类型。
