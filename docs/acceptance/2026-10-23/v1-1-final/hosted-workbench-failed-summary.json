@@ -1,0 +1,17 @@
+{
+  "totalTestCount": 1,
+  "passedTests": 0,
+  "failedTests": 1,
+  "skippedTests": 0,
+  "testFailures": [
+    {
+      "failureText": "XCTAssertLessThan failed: (\"805.895708\") is not less than (\"150.0\") - P95 diff is 805.895708 ms",
+      "targetName": "WeGitPerformanceTests",
+      "testIdentifier": 1,
+      "testIdentifierString": "WorkbenchPerformanceTests/testActualWorkspaceFirstScreens()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitPerformanceTests/WorkbenchPerformanceTests/testActualWorkspaceFirstScreens",
+      "testName": "testActualWorkspaceFirstScreens()"
+    }
+  ],
+  "runtimeWarnings": []
+}

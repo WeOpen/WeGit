@@ -5,7 +5,7 @@ cd "$project_root"
 fixture_root="${1:?Pass the retained large fixture directory}"
 mkdir -p .build/ui-benchmarks
 benchmark_run="$(mktemp -d "$project_root/.build/ui-benchmarks/large-scroll-XXXXXX")"
-if command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
+if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
 benchmark_status=0
 TEST_RUNNER_WEGIT_PERFORMANCE_GIT="$(xcrun --find git)" TEST_RUNNER_WEGIT_PERFORMANCE_FIXTURE="$fixture_root" \
   xcodebuild -project WeGit.xcodeproj -scheme WeGitPerformance -configuration ReleasePerformance \
