@@ -123,7 +123,9 @@ struct ChangesView: View {
                 : layer == .conflict ? L10n.text("标记已解决…") : L10n.text("暂存文件")
         ) { stageAction(file, layer: layer) }.disabled(!session.canWrite)
         Divider()
-        FileContextMenu(app: app, session: session, path: file.path)
+        FileContextMenu(
+            app: app, session: session, path: file.path,
+            historyPath: file.index == "R" || file.worktree == "R" ? file.oldPath : nil)
         if layer == .unstaged {
             Divider()
             Button(L10n.text("丢弃未暂存改动…"), role: .destructive) { discardFile(file) }
