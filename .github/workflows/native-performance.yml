@@ -77,11 +77,52 @@ jobs:
       - name: Rebuild ordinary Release after XCTest instrumentation
         if: (success() || failure()) && steps.environment.outcome == 'success'
         run: scripts/build.sh Release > .build/ci/performance/ordinary-release-build.log 2>&1
+      - name: Preserve measurements in logs before artifact networking
+        if: always()
+        env:
+          EXPECTED_SAMPLES: ${{ inputs.samples }}
+        run: python3 scripts/ci/retain_performance.py --samples "$EXPECTED_SAMPLES"
+      - name: Retain lightweight essential reports
+        id: essential
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-essential-${{ github.sha }}-${{ inputs.samples }}
+          path: .build/ci/performance/essential/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retry essential report upload after a service failure
+        if: always() && steps.essential.outcome == 'failure'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-essential-retry-${{ github.sha }}-${{ inputs.samples }}
+          path: .build/ci/performance/essential/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
       - name: Retain raw samples, failures, environment and source receipts
+        id: raw
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: native-performance-${{ github.sha }}-${{ inputs.samples }}
+          path: |
+            .build/ci/performance/
+            .build/ci/ui/
+            .build/benchmarks/native/normal.json
+            .build/benchmarks/native/large.json
+            .build/ui-benchmarks/
+            .build/performance-baseline/.build/ci/performance/
+            .build/performance-baseline/.build/ui-benchmarks/
+            .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json
+          include-hidden-files: true
+          retention-days: 30
+      - name: Retry raw evidence upload after a service failure
+        if: always() && steps.raw.outcome == 'failure'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-raw-retry-${{ github.sha }}-${{ inputs.samples }}
           path: |
             .build/ci/performance/
             .build/ci/ui/
