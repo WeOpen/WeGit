@@ -77,7 +77,8 @@ final class TagWorkflowTests: XCTestCase {
         let ready = XCTNSPredicateExpectation(
             predicate: NSPredicate(format: "label == %@", "推送"), object: next)
         XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed)
-        XCTAssertTrue(app.staticTexts[bare.path].exists)
+        XCTAssertTrue(
+            app.staticTexts.matching(NSPredicate(format: "value == %@", bare.path)).firstMatch.exists)
         retain(app, "One explicit tag and endpoint before push")
         next.click()
         XCTAssertTrue(next.waitForNonExistence(timeout: 15))

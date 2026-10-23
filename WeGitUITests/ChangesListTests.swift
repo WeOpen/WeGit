@@ -36,7 +36,8 @@ final class ChangesListTests: XCTestCase {
         let message = app.descendants(matching: .any).matching(identifier: "commit-message").firstMatch
         message.click()
         message.typeText("Preserve this draft")
-        let group = list.outlineRows.containing(.checkBox, identifier: "stage-group:unstaged").firstMatch
+        let group = list.buttons["changes-collapse:unstaged"]
+        XCTAssertTrue(group.isHittable)
         group.click()
         XCTAssertFalse(list.staticTexts["client.swift"].exists)
         XCTAssertEqual(message.value as? String, "Preserve this draft")
@@ -57,8 +58,7 @@ final class ChangesListTests: XCTestCase {
         filter.typeKey(XCUIKeyboardKey.delete, modifierFlags: [])
         app.descendants(matching: .any).matching(identifier: "changes-display-mode").firstMatch.click()
         app.menuItems["按文件夹显示"].click()
-        let folder = list.outlineRows.containing(.checkBox, identifier: "stage-folder:unstaged|src")
-            .firstMatch
+        let folder = list.buttons["changes-collapse:unstaged|src"]
         XCTAssertTrue(folder.waitForExistence(timeout: 5))
         folder.click()
         XCTAssertFalse(app.checkBoxes["stage:unstaged:src/api/session.swift"].exists)

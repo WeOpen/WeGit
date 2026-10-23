@@ -17,8 +17,9 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launchWeGit()
         defer { app.terminate() }
-        XCTAssertTrue(app.buttons["toolbar-more"].waitForExistence(timeout: 10))
-        app.buttons["toolbar-more"].click()
+        let more = app.descendants(matching: .any).matching(identifier: "toolbar-more").firstMatch
+        XCTAssertTrue(more.waitForExistence(timeout: 10))
+        more.click()
         app.menuItems["remote-management"].click()
         let addRemote = app.buttons["remote-add"]
         XCTAssertTrue(addRemote.waitForExistence(timeout: 5))
@@ -59,15 +60,29 @@ final class RemoteManagementWorkflowTests: XCTestCase {
         XCTAssertTrue(save.waitForNonExistence(timeout: 10))
         XCTAssertEqual(try fixture.git(["config", "--get", "remote.origin.url"]), b.path + "\n")
         XCTAssertEqual(try fixture.git(["config", "--get", "remote.origin.pushurl"]), a.path + "\n")
-        let displayed = app.staticTexts["remote-fetch-value"]
+        let displayed = app.windows["main"].sheets.firstMatch.staticTexts
+            .matching(identifier: "remote-fetch-value").firstMatch
+        XCTAssertFalse(b.path.contains("\n"))
         let updated = XCTNSPredicateExpectation(
-            predicate: NSPredicate(format: "label == %@", b.path), object: displayed)
-        XCTAssertEqual(XCTWaiter.wait(for: [updated], timeout: 10), .completed)
+            predicate: NSPredicate { _, _ in
+                guard displayed.exists, let value = displayed.value as? String else { return false }
+                return value == b.path
+            }, object: nil)
+        let displayedResult = XCTWaiter.wait(for: [updated], timeout: 10)
+        print(
+            "Remote display value: \(String(reflecting: displayed.value)); title: \(displayed.title); label: \(displayed.label)"
+        )
+        let addressShot = XCTAttachment(screenshot: app.windows["main"].screenshot())
+        addressShot.name = "Edited fetch and push addresses"
+        addressShot.lifetime = .keepAlways
+        add(addressShot)
+        XCTAssertEqual(displayedResult, .completed)
         app.buttons["remote-delete"].click()
         let confirm = app.buttons["remote-delete-confirm"]
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
         app.windows["main"].sheets.firstMatch.buttons["取消"].click()
         XCTAssertEqual(try fixture.git(["remote"]), "origin\n")
+        XCTAssertTrue(confirm.waitForNonExistence(timeout: 5))
         app.buttons["remote-delete"].click()
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
         confirm.click()

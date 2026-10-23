@@ -40,10 +40,12 @@ struct RemoteManagementSheet: View {
                             Text(remote.name).font(.headline)
                             LabeledContent(L10n.text("获取地址")) {
                                 Text(remote.displayFetchURLs.joined(separator: "\n")).textSelection(.enabled)
+                                    .accessibilityValue(remote.displayFetchURLs.joined(separator: "\n"))
                                     .accessibilityIdentifier("remote-fetch-value")
                             }
                             LabeledContent(L10n.text("推送地址")) {
                                 Text(remote.displayPushURLs.joined(separator: "\n")).textSelection(.enabled)
+                                    .accessibilityValue(remote.displayPushURLs.joined(separator: "\n"))
                                     .accessibilityIdentifier("remote-push-value")
                             }
                             if !remote.upstreamBranches.isEmpty {

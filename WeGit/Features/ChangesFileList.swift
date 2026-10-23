@@ -88,6 +88,7 @@ struct ChangesFileList<Context: View>: View {
             .buttonStyle(.plain)
             .accessibilityLabel(L10n.text("\(title)（\(files.count)）"))
             .accessibilityValue(collapsed ? L10n.text("已折叠") : L10n.text("已展开"))
+            .accessibilityIdentifier("changes-collapse:" + key)
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier((folder ? "changes-folder:" : "changes-group:") + key)
