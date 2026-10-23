@@ -1194,12 +1194,23 @@ final class WeGitUITests: XCTestCase {
         let progress = app.staticTexts["diff-page-progress"]
         func waitForProgress(_ shown: Int, total: Int) {
             let predicate = NSPredicate { object, _ in
-                guard let element = object as? XCUIElement else { return false }
+                guard let element = object as? XCUIElement, element.exists else { return false }
                 let text = (element.value as? String) ?? element.label
                 return text.filter(\.isNumber) == "\(shown)\(total)"
             }
-            expectation(for: predicate, evaluatedWith: progress)
-            waitForExpectations(timeout: 5)
+            let ready = XCTWaiter.wait(
+                for: [XCTNSPredicateExpectation(predicate: predicate, object: progress)], timeout: 5)
+            if ready != .completed {
+                let screenshot = XCTAttachment(screenshot: app.screenshot())
+                screenshot.name = "Paging did not reach \(shown) of \(total)"
+                screenshot.lifetime = .keepAlways
+                add(screenshot)
+                let state = XCTAttachment(string: app.debugDescription)
+                state.name = "Paging accessibility state"
+                state.lifetime = .keepAlways
+                add(state)
+            }
+            XCTAssertEqual(ready, .completed, "Expected \(shown) of \(total) within five seconds")
         }
         waitForProgress(399, total: 2_400)
         XCTAssertFalse(app.buttons["暂存此块"].exists)
