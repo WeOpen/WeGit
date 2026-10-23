@@ -1,0 +1,34 @@
+{
+  "sourceCommit": "c7f6fd2d5a9e27d5edf8047614e94aab206a3d5d",
+  "application": {
+    "version": "1.1.0",
+    "buildVersion": "3"
+  },
+  "localXCTestExecuted": false,
+  "artifacts": [
+    {
+      "runId": 39918956387,
+      "artifactId": 12486788161,
+      "scope": "required CI",
+      "sha256": "1a96c7c4f5c51162e667aab7ffbf15920260f3836670b8ff647429751749fe3a"
+    },
+    {
+      "runId": 39916980533,
+      "artifactId": 12485805598,
+      "scope": "extended file history focus",
+      "sha256": "b2cff467da6fd3c3209ad194757100c86c9515c0b8e70026b7ef0a9df4e6add2"
+    },
+    {
+      "runId": 39919364578,
+      "artifactId": 12485838971,
+      "scope": "Release backend30 and native smoke1",
+      "sha256": "9582a32cd26d13c61a295a8cd3d37fc72b794f251a6dff749dd74f385348b7c8"
+    },
+    {
+      "runId": 39920576080,
+      "artifactId": 12488401285,
+      "scope": "failed normal workspace UI30; other scopes not executed",
+      "sha256": "f2d03493ee4785fd2fecca0ca8f07b3b1f16083c12d4d4831db1ecde401bfe98"
+    }
+  ]
+}

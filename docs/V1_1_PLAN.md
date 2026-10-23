@@ -126,10 +126,12 @@ M0 → M1 → M2 → M3 为主线；M4 是有退出条件的候选，M5 覆盖�
 - M2 Remote：[#37](https://github.com/WeOpen/WeGit/issues/37)；Tag：[#38](https://github.com/WeOpen/WeGit/issues/38)。
 - M3 文件历史：[#39](https://github.com/WeOpen/WeGit/issues/39)。
 - M4 条件候选尚未进入实施；M5 发布验收按最终范围单独记录。
-- M0 已合入 main（`29904b3`）；其后托管功能回归 48 项中通过 45、失败 3、跳过 0，另由 [#41](https://github.com/WeOpen/WeGit/issues/41) 跟踪，不视为完整回归通过。
-- M1 Stash 已经由 #42 合入 main（`951e506`），保存 UI 专项通过；恢复 UI 专项失败并继续修复。已实现保存、分层差异、Apply/Pop/单条删除及保护路径；隔离检查和原生组件预览见 [2026-10-22 记录](acceptance/2026-10-22/stash-management/README.md)。原始快照与更新后的托管结果分别保留，M1 尚未关闭。
-- M2 Remote 已实现仓库级配置读写、来源/多地址保护和旧同步计划失效，见 [用法](REMOTE_MANAGEMENT.md) 与 [验收记录](acceptance/2026-10-23/remote-management/README.md)。Remote 已由 #44 合入 main（`53163cc`），应用专项首次运行在工具栏菜单定位失败，继续修复。Tag 核心与界面已实现，34 项隔离检查通过，见 [Tag 用法](TAG_MANAGEMENT.md)；4 项核心与 2 项 UI 测试已加入托管范围。Tag 已由 #45 合入 main（`db4dd0f`），必需 CI 和真实附注签名检查通过，原生专项执行中。M3 文件历史已实现，见 [用法](FILE_HISTORY.md)，核心/UI 编译和 19 项隔离检查通过；M4 条件候选尚未开放，M5 等最终源码闭环。当前不更改产品版本或生成发布包，版本号、Beta 与公开发布在 M5 按实际门禁和证据处理。
+- M0 已合入 main（`29904b3`）；初始托管功能回归为 48 项中 45 通过、3 失败、0 跳过，由 [#41](https://github.com/WeOpen/WeGit/issues/41) 跟踪。三项已分别修复并通过托管专项，最终源码完整回归单独执行。
+- M1 Stash 经 #42 合入 main（`951e506`）；保存与恢复专项通过，包含取消、成功 Pop、冲突保留和外部列表刷新。历史失败和修复记录见 [2026-10-22 记录](acceptance/2026-10-22/stash-management/README.md)。
+- M2 Remote 经 #44 合入（`53163cc`），Tag 经 #45 合入（`db4dd0f`）。Remote 增改/取消/删除、Tag 基础操作/明确单标签推送均通过托管专项；可选择文本的原生辅助访问值缓存修复经 #43 合入（`29794f3`）。用法见 [Remote](REMOTE_MANAGEMENT.md)、[Tag](TAG_MANAGEMENT.md)。
+- M3 文件历史经 #46 合入（`351d348`）；20 项隔离检查、204 项核心回归和原生专项通过。#47 补齐已暂存重命名的旧路径入口，扩展专项通过。用法见 [文件历史](FILE_HISTORY.md)。
+- M4 Cherry-pick/Revert 整体后移。M5 准备经 #47 合入最终源码 `c7f6fd2`，版本 `1.1.0` / build `3`；最终 main CI 已通过，完整功能回归、Release 性能与 Beta 制品按[最终记录](acceptance/2026-10-23/v1-1-final/README.md)更新。功能专项不代替版本发布验收。
 
-## 9. 最直接的下一步
+## 9. 当前收尾
 
-完成 **Stash 管理** 的 PR/托管验收，保留 M0 三项失败的独立修复记录；随后进入 Remote 与 Tag。若要压缩范围，保留四项必选，优先移出 Cherry-pick/Revert 与追加项。
+固定最终源码，完成完整功能回归、30 次 Release 性能采样与 Beta 草稿制品核对。受保护 Mac 的实际安装/迁移/回退、真实 Beta 反馈、稳定版 Full acceptance 保持各自实际状态。具体证据见[最终记录](acceptance/2026-10-23/v1-1-final/README.md)。

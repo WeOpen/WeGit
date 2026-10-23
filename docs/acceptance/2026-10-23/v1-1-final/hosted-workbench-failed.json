@@ -1,0 +1,1493 @@
+{
+  "format": 1,
+  "sourceSHA256": "59ae45d856cf54224fcb4c1891da2b8c60243c00c9654493faf3748a137d0a87",
+  "buildReceipt": {
+    "format": 1,
+    "builtAt": "2026-10-23T08:03:08.631726+00:00",
+    "configuration": "ReleasePerformance",
+    "bundleIdentifier": "com.willxue.wegit.performanceHarness",
+    "version": "1.1.0",
+    "buildVersion": "3",
+    "architectures": [
+      "arm64"
+    ],
+    "xcodeBuild": "27A266a",
+    "swiftOptimization": "-O",
+    "swiftConditions": "WEGIT_PERFORMANCE",
+    "sourceFiles": {
+      "LICENSE": "6da031e4d5bb7e45d085ce419dc63111dff2c019ba10508275deb9446e246784",
+      "Package.swift": "4bc9cd8c0424369e6607b0d3c0222f67062c3f88038a8fd08e1e06ef03c98055",
+      "WeGit/App/AppPreferences.swift": "3172eb27c8b6637434c6893dcf957b4a94463e5fe29cdd823fcd1fe7817c095a",
+      "WeGit/App/AppState.swift": "b8e52fbc9897531d4a8dbe762cc1d2b63f6e35649fcbeb36a28f5c7364061be2",
+      "WeGit/App/ApplicationDelegate.swift": "7f189fc78886f153e8798d1071cc4c64ec0daafa3407e1fa9281b340781bd65d",
+      "WeGit/App/ApplicationMenuActions.swift": "ab126e8adcb338a2319371e812b687779d7c82c32d174fe1490e54c68aca6c30",
+      "WeGit/App/AuthenticationController.swift": "d5d6a3c9b9e632baf18df6e231997d0255d78a39c65a4767aaed507ae11f127b",
+      "WeGit/App/CommitDetailState.swift": "61f60a921f1a6acc21821df0bfd59a0f2f1579c13bf2fc6a3934316bccc4bf41",
+      "WeGit/App/DiffDisplayState.swift": "85c040163a24c33340a6103df037701009d108b443272fb47372961f6d74ab6d",
+      "WeGit/App/DiffTextSelection.swift": "3779e5f19e54e76ea4c716cf7246bb8fabc5af1510a738f7bbcc83277a506983",
+      "WeGit/App/DiskDiffDisplayState.swift": "7ced4f1d2a92d0affe2f7494c40eead770996439087db9c799c0f4f1e3777c32",
+      "WeGit/App/ExternalOpenActions.swift": "5ce91955b396b6c5af5b30e496c855114f4c0516985c2c2cc165e0df61c2ef0b",
+      "WeGit/App/FileHistoryState.swift": "ad84be7cf608693cc053e114062031798942753b7cdaf6fb5e85d68bd1d57812",
+      "WeGit/App/HistoryState.swift": "d880fd8127898eb6a2ed5ad417238e3ca5909c13078f8923421ae1c10a02c84c",
+      "WeGit/App/MenuBarController.swift": "f0651403b4fd8b86d7ae52787d7d4d13807b068468edd9d31b8d1c6887d67dbc",
+      "WeGit/App/NativeApplicationMenu.swift": "5374887b978cb6b26b4e02d593c30b24480b85340af18718195683dace380d4b",
+      "WeGit/App/PreferenceMigration.swift": "6fdfe205685a13ad1dabba0a8c226acc330e7d5a713fb57a681bd1fda9ad9014",
+      "WeGit/App/SyncState.swift": "444f9564be0ca728cc0f3a14b1df7249d91e9d73c9f7359a60fcf0b49112cac7",
+      "WeGit/App/ViewPerformanceJournal.swift": "ba0fb775355b8e718d28bc12ae5ebe4f9fc17248e29a2a3f640c32dc98ee275a",
+      "WeGit/App/WeGitApp.swift": "113f7f42de9e4ffca896786970d47e683d6b578f3b499eb00910d0e8684ae061",
+      "WeGit/App/WindowStateBridge.swift": "27823a2ca17f643773cfd435d1257f2612eb086ae82fb00c71f6e131c49a1b15",
+      "WeGit/App/WorkspaceActions.swift": "982086628121c46bf155bf15cf449d7509b4fde3099b015c0db3894f5805b1fd",
+      "WeGit/DesignSystem/AppColors.swift": "bc3913e04519fbf68177202370e0d40bb1fd3602525d28c9dc8c4f4281431110",
+      "WeGit/DesignSystem/AppPresentation.swift": "c63c8ba61de600e2bf4ac380c8f27356a09486c73df26d40bca91fddebe717aa",
+      "WeGit/DesignSystem/AppStyle.swift": "7ec886d2b2d600e6e7bd1797c6e857c112eaace992c4e713ad5faf0a811a2d65",
+      "WeGit/DesignSystem/BrandGeometry.swift": "c6fe741c8e134cd3284bcbcb006580b6fc5c6fa5be6ff2032af25a9f33360c67",
+      "WeGit/DesignSystem/Components.swift": "3b9f953d6acadb08f8d947d6904aa9d39b278c2d7a7a39668588c9274ae1db74",
+      "WeGit/DesignSystem/CustomTheme.swift": "c71c01b1caff8cbd4afd3b55019bc969db2fa029bb43325ead9b8ab5e7b7485f",
+      "WeGit/DesignSystem/GlassControls.swift": "2d0eb4750cf8bb8d1a2eb36512718069f24ca0427199ebd9d55ebc6ae7950ab3",
+      "WeGit/DesignSystem/ThemeWindowBridge.swift": "10093fd71ab2aa0de0e1cd2a90f137e611f5fee1cd1ad4db8736fb9b18bff89e",
+      "WeGit/DesignSystem/ThemedForm.swift": "3829bbcf815f299caf202535a3b204f0bf33e85299ec57120a215322ff9d7fbc",
+      "WeGit/Features/AuthenticationView.swift": "9ab4da0c2d4c6643d05a77ebfb10a2b551b62adf4f34803e9999dfd1c2f96f0f",
+      "WeGit/Features/BranchSheets.swift": "960f5f31b612ab584e794245b1a0be5925111a2622c40d09bdfad22b3ba582e3",
+      "WeGit/Features/BranchSwitcherView.swift": "4a585516a0e8da6152b80193b469b14e38b0122fd545e9aa8024a9eff02eda7c",
+      "WeGit/Features/ChangesFileList.swift": "3200b4b00167f521feedf12aa1e9628d0b6b09f493239a26e659f072b1828fff",
+      "WeGit/Features/ChangesView.swift": "b7a4c324598d7df7cfc49d54e4cd9ec591d774f001e94eca052e7b0cfd8701c6",
+      "WeGit/Features/CloneView.swift": "9160ecf04a1dcf529526779dfb9fbe857d30d8529ad87d4d9fac0640bee1c255",
+      "WeGit/Features/CloneViewModel.swift": "6ebdae946b35524aada9c9cb308b08e714543015b2e14bd9981a46beb8f1edf0",
+      "WeGit/Features/CommandPalette.swift": "d6433898d2c1c23c154a7369a5f534cc50e4b992870bac02d4bc7b52e2f4b4c8",
+      "WeGit/Features/CommitFilesView.swift": "c3b1e4662b51198fa128955c54f37165727146f44b63e4b44b68e338a4c57783",
+      "WeGit/Features/DiffChangeMap.swift": "99c8b081b85ffa282af15264368f004f519d3e581dee93b7cf783b204d254a04",
+      "WeGit/Features/DiffCodeRow.swift": "d63b575ea5e9923ebf6829b35f7e59a817639599bb4f8458df4f8469dfc7d878",
+      "WeGit/Features/DiffContentView.swift": "07fbf092ea0589370edc7c8f4dd9f4f0c4b434016b40f15265868f14f032c5fb",
+      "WeGit/Features/DiffContextControls.swift": "d2b8a64c6b60e8fc4105582cc04751ee7778d1587540169664ba9dfeddf8dd42",
+      "WeGit/Features/DiffNavigationControls.swift": "2bb43a939a33d190e1840587a996e0f909e0430093ae9115cd1c904f0ad87fc1",
+      "WeGit/Features/DiffSelectableText.swift": "1c9463cdbbde71100ade0981d9887563a16a2a04d9498f3734b28ea643b665a7",
+      "WeGit/Features/DiskDiffView.swift": "ef5bdddc2c02fdd69d18d91cebea08d87ab70abec817270bfc9c1d50fe58b895",
+      "WeGit/Features/FileContextMenu.swift": "60aca0fefc1eb802f2d9e5d5f635be4435fd3d43c634408385ff563fd76bd34c",
+      "WeGit/Features/FileHistorySheet.swift": "5ca34f7027cba04a159761a97eaad4c4006695fb93dda9fa9bb15d5d8eab0d9b",
+      "WeGit/Features/GitSettingsView.swift": "f0124055a0c12d5c960e5fe11162850be5a67e48a7f2d197e6509725ecf56743",
+      "WeGit/Features/HistoryTableView.swift": "e36e4f3d9d2392d9a2fb6f65cc768662f810551b075f1447bc2b54c561d7bc9d",
+      "WeGit/Features/HistoryView.swift": "c7120f00a816cebb027625ff5dfafc660b5e895e97e2efe3f314a0ee2db94c5c",
+      "WeGit/Features/MenuBarPanel.swift": "a6b80885e76c6165f5336e8b3031c81201f5acbefb1e5918ee6aaa06c2638fbe",
+      "WeGit/Features/RemoteManagementSheet.swift": "a2e3b01a96bce30112fd1bda7345195a8e3f8dde388e68614fe10ab9a475b866",
+      "WeGit/Features/RepositoryContextMenu.swift": "e4041bc5ecc4e7e7868809daeb783963c749ca1b045aa1cfaaa72ac76382b973",
+      "WeGit/Features/RepositorySearchView.swift": "653c8a69d4567707b6bf33e224578174409cde3e659a70d876964ff0e28f190e",
+      "WeGit/Features/RepositorySyncCounts.swift": "59217e265b593a4c962b346cd1b6d179d378ce6c6a8eea060b58d556f36b7613",
+      "WeGit/Features/SettingsView.swift": "763312715074b8c9663367e5978bcd31b8a90dc12f2175e3c38d247492a386f0",
+      "WeGit/Features/Sheets.swift": "9b89a623fec597c86081b745f22a53a289e322e915c746495b0ae70b7bb7d65e",
+      "WeGit/Features/StashBrowser.swift": "c62205203769f5824cb1b51c7ac48a3376190d654e4657e2338ca4d33fe571f1",
+      "WeGit/Features/StashView.swift": "f86179f66d63f69d228403d4eabf85e9d7a15e6aa19149c4550f82d45d2ff64e",
+      "WeGit/Features/SyncSheet.swift": "6d9f99d94bec0e3ae97443c76dfa1e58a87334741a7f76bcd2b81686169797fc",
+      "WeGit/Features/TagSheets.swift": "d7ec51f75aaa353c378ed08aa9a44be0df18ba2a4a4c8c739d3029274f48f5b1",
+      "WeGit/Features/TagsView.swift": "d088110da05b125ca93baa7c19494fde00827160a74b89eeaba754ebea30198f",
+      "WeGit/Features/ThemeEditor.swift": "28b7a0158ddfc3823adb26b9ea3bf798d738ff6d7392e1a74de4b51fd1c7ae42",
+      "WeGit/Features/WorkspaceToolbar.swift": "b1104f08d801ab24a6d8e62a353e3e3146b52ffcc648a2423899ab5a9b4bf6d6",
+      "WeGit/Features/WorkspaceView.swift": "9a605622b978a8858f2184caa9877d308d391238aab556d9d088773340d743fa",
+      "WeGit/Resources/AppIcon.icon/Assets/mark.svg": "a4c1b9ba9a1e9aaadb046f7b845d75436bf6214d84433d35e4ac7c336e84c996",
+      "WeGit/Resources/AppIcon.icon/icon.json": "0bd07052773758e4ada7b33a23928c6e9b5d6df5e363a4f72ddb5f756dafd9cd",
+      "WeGit/Resources/AppearanceIcons/WeGitDark.icns": "2f68f218d94aed7acdab5dff2a88ad60e03b5fb01d3401fceafd9c3a151f85a3",
+      "WeGit/Resources/AppearanceIcons/WeGitLight.icns": "bdaa524dbeee5a78146bc361935593904602b9c3a6ec7a28dc841a1e0d1aa5b4",
+      "WeGit/Resources/en.lproj/InfoPlist.strings": "a9cb06c0ae29750503baf96be23cd756d7352df6ce4114531e5572c9e6d6e724",
+      "WeGit/Resources/zh-Hans.lproj/InfoPlist.strings": "a9cb06c0ae29750503baf96be23cd756d7352df6ce4114531e5572c9e6d6e724",
+      "WeGit.xcodeproj/project.pbxproj": "d34ce7f0a769907ac36c374c0efcb0ee27dd58feb4c8b03e2acdb80ac2234090",
+      "WeGitAskPass/WeGitAskPass.swift": "5a0d494943327817eeadc3ba905188949d7956ba995af904002df8dfe4d08375",
+      "WeGitCore/Domain/Authentication.swift": "dfe9fe0e62b893b8aa60eedd4a5d8348b2e8d8e44baf707410802698a5e43230",
+      "WeGitCore/Domain/BranchParser.swift": "2414a668a2f518d0b9d51e1270a8e7f54cb58323f3497e221fb0ae6283cf0025",
+      "WeGitCore/Domain/ChangeFileTree.swift": "71c013aee227f72e6eb2931b9cc4122582fcd039362ffd595051756f54335c24",
+      "WeGitCore/Domain/ChangeFilter.swift": "2f53231296c13acf10ca5d150aabc1e6ec2c9e629c57b272504b0374491c5cdc",
+      "WeGitCore/Domain/CodeSelection.swift": "7adc275ba3ebfbb71f8c1c3ce6f642c14f2c63fd0b782635b938b423b7de822c",
+      "WeGitCore/Domain/CodeTextPresentation.swift": "bda9b4b7b2a23bed13eec07a34a8b38337b1c4681d37d41c4c5b8b9a7f405fab",
+      "WeGitCore/Domain/CommitComparison.swift": "81543d45ff22b4c0b424b57cc5d5424b9565683c1125bfd2df71560c1b7b981e",
+      "WeGitCore/Domain/CommitParser.swift": "140806bff936b911205d2ff73a8b42dfe887513d7df991317c7ade7cd805cdcf",
+      "WeGitCore/Domain/DiffContext.swift": "ef9ce376506e141a890ffd86e909cfdc5369c79bd9452ac40cb222c2ccc84c91",
+      "WeGitCore/Domain/DiffDisplayDocument.swift": "c2ef545235d39b39e54c6a316676caf8924a7cb1cdc783d362ebbe016ada7db2",
+      "WeGitCore/Domain/DiffLoading.swift": "160cfd488c89d5447135214fcce328dc5eb04d9528fbc9cb47c1fb88a74b5adb",
+      "WeGitCore/Domain/DiffParser.swift": "ed1a283720ba8b6119da07dfa8449b82153225b843519e8d90e0865f365db9aa",
+      "WeGitCore/Domain/DiffPresentation.swift": "6cbdd348dcff0adb851eab93be58150cb90260b20682ba421299772f0625ed48",
+      "WeGitCore/Domain/DiskContextSource.swift": "655a162fb9d8f27d0f57626cfc713865920512390fac3973c09962f639ca8173",
+      "WeGitCore/Domain/DiskDiffPage.swift": "9600419b714e2c088454a3e9db65e6b174a976cf743fe915d6c3af97222ec40b",
+      "WeGitCore/Domain/DiskDiffSnapshot.swift": "55fb93b768c591f238fa289e020b7959009ebdd5bedec33d8018207bd89446dd",
+      "WeGitCore/Domain/FileHistoryModels.swift": "f996eb548a644bf765795aff0c30f881bbdc9c1c27c2faca0bbc0fa5cc0ea8e7",
+      "WeGitCore/Domain/HistoryModels.swift": "e4d88ee501aa0c19a50d9a2eed1377e74c9e6f8d4044324aaa188f4f74ddc679",
+      "WeGitCore/Domain/Localization.swift": "c2091dad3ee1b6a5b4c79223d628ba6142e0985f7307dcfffbf35934e7cae015",
+      "WeGitCore/Domain/Models.swift": "81fc8898b31f357e41e9c57ea707abe807307e52259c1754eafd1c352b09294d",
+      "WeGitCore/Domain/RemoteManagementModels.swift": "408679d3543817fea252b17625e17a0b96e3912cb73f71ebade42e8f56ebc28b",
+      "WeGitCore/Domain/RemoteModels.swift": "e5b9178e6b6dd1cc13cd250aed410e41cf981f75fbb19eb5bfdcbe3b54aab1d7",
+      "WeGitCore/Domain/RepositoryRefresh.swift": "05d51bcc539243b96d8cc8e0db4792dcb5d66ff82c4e2f72f949197b416a4e7f",
+      "WeGitCore/Domain/StashModels.swift": "d5986c99cddbb41839f06e5b3f52e21c6172103c772f5d558de77dc1caf1107a",
+      "WeGitCore/Domain/TagModels.swift": "6dc7a46de4205b6098e45eb39aba56f2ba179d8e1bf213c13c8f02a2b3773c8b",
+      "WeGitCore/Domain/UTF8DisplayPrefix.swift": "8044792e34cb487d2ce4a2a2463b10f30b2d04c3646961c638ea6d6bb29402ab",
+      "WeGitCore/Domain/WordDiff.swift": "07f2377c419abf7593e5af8a51114ab6e33c005818930cef3bcb2839f314cd8c",
+      "WeGitCore/GitCore/BranchManagementService.swift": "8c7401d22aaaa40278fd07ab86e5856e6df025f2107129de6edad5d4e711732a",
+      "WeGitCore/GitCore/CommitComparisonService.swift": "d898960ea31740af64fae1714d3419b1b776ce86d481388cc6797cb873cc418d",
+      "WeGitCore/GitCore/DiskDiffService.swift": "be497775bae81eacecf879e4691125647acb8830d998707fba0299809120fdc6",
+      "WeGitCore/GitCore/FileHistoryService.swift": "3dc2a552e856af4a182e7be242ca32346b90216b791a492b3175ab6331d5f83b",
+      "WeGitCore/GitCore/GitBranchService.swift": "01f25a00de1fb12d19b31a65ea479a9ad0364be5f21d86681c376996df7559ed",
+      "WeGitCore/GitCore/GitConfigurationService.swift": "e97b495de74775112b56f0114b86fae4fa9a4721cee202b27670a77eedcf6ed9",
+      "WeGitCore/GitCore/GitEngine.swift": "0ad65493aa640455a2ee9ba8b2424c5eb89707f369336a202b0b27123094a5f3",
+      "WeGitCore/GitCore/GitHistoryService.swift": "3677cc1b42724a1f6ce414f7959883bbb292d96356cfd39f1a3d7f2f0a4b395d",
+      "WeGitCore/GitCore/GitInstallation.swift": "4e155852912d3b296a296fc50e24acc662b026ccf8b9b4a050053cc18690aa5a",
+      "WeGitCore/GitCore/GitRemoteService.swift": "a6ee3ec717f9f64c158cdf8ab28d0fb227444f8796c94d953ac29aa0b1289932",
+      "WeGitCore/GitCore/HistoryPager.swift": "60c7a57f70508a782ae50104783784afc85603ad36cb46c527280ac36053204a",
+      "WeGitCore/GitCore/PlannedRemoteService.swift": "930c69e12253433684c5e3f09297b5a290440fd966536b37ca86d3e2a07e5fe2",
+      "WeGitCore/GitCore/RemoteConfiguration.swift": "8b2fefa81fe19a38d4af04ba6b8f6ec47c17373a91281f1788a2b2e2259763d1",
+      "WeGitCore/GitCore/RemoteManagementService.swift": "2b6700616be2343cdf03067f1435fa01a08babd6791b02f7277f795ff0c8ddbe",
+      "WeGitCore/GitCore/RepositoryService.swift": "cfebb952962dfe703e4b6b6f5caf95a51aaa0667a09e84f4602a99b71054155d",
+      "WeGitCore/GitCore/RepositorySnapshotService.swift": "bcba6a374b6dc1f6b92fcebe6e2d61a7a9f3d6c3927158182ce8dc1859cc9af1",
+      "WeGitCore/GitCore/StashService.swift": "a7926d573b1444e87fb395080d2c763c49bc2dbea6ba0d8b4f8e967600acb188",
+      "WeGitCore/GitCore/TagService.swift": "c21ea619d77be3d4a39e15d583591dd94d9f6cc4fbf478dab0a5b56741ca701f",
+      "WeGitCore/GitCore/UntrackedTrashService.swift": "37b7a65cb3517285e5a08d20ae8e415d8abfd9f869170628f9a0d424ee111c52",
+      "WeGitCore/Infrastructure/AskPassBridge.swift": "54ebc55952f0402bb8bc4cb9c5084ad7bd1a04aad557833adb272d7a2e5f2cba",
+      "WeGitCore/Infrastructure/AskPassTransport.swift": "64d7f5cdbd26c2821186b332a6b624cf0e6f608ff413f9b8287c0debb188803c",
+      "WeGitCore/Infrastructure/ProcessRunner.swift": "d84bb580162ce3fb5894902225014cb19a2cf399b988e6ee2e456e771a526cb3",
+      "WeGitCore/Infrastructure/RepositoryFileReader.swift": "978433d4d7d3d4c6d527471be19386afa8b27d429250af3719cba1ab90e21e31",
+      "WeGitCore/Infrastructure/RepositoryIdentity.swift": "f7a9b489b9fabeb7a7eeedad397da0e0e1b9f9dc775adf169b521aa33b77381b",
+      "WeGitCore/Infrastructure/SnapshotCopy.swift": "8c785d58c584f51479df92df6dcd095311cb652ecb0ba58589309546124aa7c9",
+      "WeGitCore/Infrastructure/SnapshotFile.swift": "41b2ed204962c25c1c0628cb5adaa3efdc3c8cf04e92f119a44af5dc19f7236e",
+      "WeGitCore/Infrastructure/StashWorktreeGuard.swift": "209dd085b6c2dda292cf1e2a40130b745958b19210817bb15175ba8c4f2b91bd",
+      "WeGitCore/Repository/CloneCoordinator.swift": "bdcd8d99e5994011170c9fec8f6efe903a7120a8824ff00d48d0e3bbfb391d59",
+      "WeGitCore/Repository/OperationQueue.swift": "3df56b5317458007ca6d8f62719cc6b9170c61345bc36c1854b0f64c3d4fe5ef",
+      "WeGitCore/Repository/RepositoryWatcher.swift": "b2b5d3243671318f6b19138857ad0cc1475402694f3cc21d58ee7c5755c35536",
+      "WeGitCore/Resources/en.lproj/Localizable.strings": "87683f363a0d0d924f8c9408ae15ea19393b3e56d1abef6daeaa23d1e4d4bf32",
+      "WeGitCore/Resources/en.lproj/Localizable.stringsdict": "d732453ddc1dc672a357e268ba8f85ff4f024d2629e56165237d292e2518bc8f",
+      "WeGitCore/Resources/en.lproj/MenuTitles.strings": "c9628a55d64b7b58de0c3c09a80f820245f76cbfc485f4fc0e96545a30fbaa49",
+      "WeGitCore/Resources/zh-Hans.lproj/Localizable.strings": "b02e653be5ec1249c9a8245a1edd8e223d5391f4cdc47e1948df570dcbd8bb0a",
+      "WeGitCore/Resources/zh-Hans.lproj/Localizable.stringsdict": "ffc3a20bddb6a059be9869e5167c537afaaa2755840cf52e408d2f89878ef1db",
+      "WeGitCore/Resources/zh-Hans.lproj/MenuTitles.strings": "e1a26196359f3b65ac4317378f1f7b5b7bae85a7272f496b1e1a0a394342d445",
+      "project.yml": "fc265b55d8c172655f54b488e0af7cea29579907b7d40d151e14c2755b2a8f61",
+      "scripts/build_provenance.py": "c91713dd9e950d4efccaff356073503e60777989cbd7440790c77c1ab7e6fef0"
+    }
+  },
+  "testSources": {
+    "WeGitPerformanceTests/LargeReadingPerformanceTests.swift": "1adca7f0f3cd0b499fb832fbbc0d078e7618f4a793d5b4e3b71df324aeb73622",
+    "WeGitPerformanceTests/LaunchPerformanceTests.swift": "421a1fd48885ece4eea2c16efb28d0617fc20af88f89b8deaca7e5c3cfde8734",
+    "WeGitPerformanceTests/WorkbenchPerformanceTests.swift": "c23653bba200733e9bf172e87e3a5cd0cc524b89647606bdf7b584f751c31a12"
+  },
+  "hardwareModel": "VirtualMac2,1",
+  "memoryBytes": 7516192768,
+  "system": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434",
+  "toolchain": "Xcode 27.0\nBuild version 27A266a",
+  "git": "git version 2.54.0 (Apple Git-157)",
+  "fixture": {
+    "format": 1,
+    "generator": "WeGit benchmark fixture",
+    "label": "normal",
+    "trackedFiles": 1000,
+    "commits": 1000,
+    "branches": 21,
+    "modifiedFiles": 20,
+    "diffPath": "sources/group-000/file-000000.swift",
+    "largeDiffPath": null,
+    "ordinaryFileLines": 80,
+    "largeFileLines": null,
+    "historyShape": "linear history; 20 refs point to older commits; deterministic timestamps"
+  },
+  "conditions": "Serial fresh application processes; filesystem caches warm; fixture copied once into runner-private directory; update-index --refresh before timing; no concurrent builds.",
+  "boundaries": "Shell/status/history end after native view drawing; diff ends after native code drawing; external-update starts before atomic write and ends after authoritative snapshot drawing.",
+  "metrics": {
+    "diff": {
+      "count": 30,
+      "medianMs": 554.6388334999999,
+      "p95Ms": 805.895708,
+      "budgetMs": 150,
+      "passed": false
+    },
+    "external-update": {
+      "count": 30,
+      "medianMs": 675.7108125,
+      "p95Ms": 979.378333,
+      "budgetMs": 1000,
+      "passed": true
+    },
+    "history": {
+      "count": 30,
+      "medianMs": 1419.402937,
+      "p95Ms": 2043.735167,
+      "budgetMs": 300,
+      "passed": false
+    },
+    "shell": {
+      "count": 30,
+      "medianMs": 1506.104437,
+      "p95Ms": 1907.560834,
+      "budgetMs": 500,
+      "passed": false
+    },
+    "status": {
+      "count": 30,
+      "medianMs": 775.9896665,
+      "p95Ms": 1707.92975,
+      "budgetMs": 300,
+      "passed": false
+    },
+    "status-read": {
+      "count": 30,
+      "medianMs": 245.3654585,
+      "p95Ms": 1087.969292,
+      "budgetMs": null,
+      "passed": null
+    }
+  },
+  "peakRSSBytes": 336134144,
+  "samples": [
+    {
+      "id": "38C97277-3855-4D4A-A784-761406D40455",
+      "peakRSSBytes": 160956416,
+      "endedAtNanoseconds": 1112859914625,
+      "milliseconds": 1907.560834,
+      "name": "shell"
+    },
+    {
+      "id": "AD739845-BAA5-402D-8E76-03D6E56B8117",
+      "peakRSSBytes": 174637056,
+      "endedAtNanoseconds": 1113396601583,
+      "milliseconds": 1929.360083,
+      "name": "status"
+    },
+    {
+      "id": "E594C25C-940A-42CF-B25D-E0A317601769",
+      "peakRSSBytes": 195346432,
+      "endedAtNanoseconds": 1115811470916,
+      "milliseconds": 765.849916,
+      "name": "diff"
+    },
+    {
+      "id": "A575C775-9D6B-4214-94B8-5CEC74031C37",
+      "peakRSSBytes": 212123648,
+      "endedAtNanoseconds": 1119449317083,
+      "milliseconds": 2364.467958,
+      "name": "history"
+    },
+    {
+      "id": "AD739845-BAA5-402D-8E76-03D6E56B8117",
+      "peakRSSBytes": 160940032,
+      "endedAtNanoseconds": 1112856349666,
+      "milliseconds": 1389.095625,
+      "name": "status-read"
+    },
+    {
+      "id": "277B9624-C595-4A6C-A026-167B1FE8B5F8",
+      "peakRSSBytes": 333185024,
+      "endedAtNanoseconds": 1126800187291,
+      "milliseconds": 692.905375,
+      "name": "external-update"
+    },
+    {
+      "id": "D231D333-4423-4DDC-9202-FB2292690CD9",
+      "peakRSSBytes": 154697728,
+      "endedAtNanoseconds": 1132930700291,
+      "milliseconds": 1445.716416,
+      "name": "shell"
+    },
+    {
+      "id": "B7C6A86D-88DC-4FF0-AB42-9EC442C623EF",
+      "peakRSSBytes": 169721856,
+      "endedAtNanoseconds": 1133693914291,
+      "milliseconds": 807.200583,
+      "name": "status"
+    },
+    {
+      "id": "C856A78C-4DB7-47B6-83F2-226251AB2800",
+      "peakRSSBytes": 195248128,
+      "endedAtNanoseconds": 1135899934166,
+      "milliseconds": 645.703166,
+      "name": "diff"
+    },
+    {
+      "id": "E1113C0F-C490-43E7-A709-28870B89C69A",
+      "peakRSSBytes": 212090880,
+      "endedAtNanoseconds": 1139113482875,
+      "milliseconds": 2043.735167,
+      "name": "history"
+    },
+    {
+      "id": "B7C6A86D-88DC-4FF0-AB42-9EC442C623EF",
+      "peakRSSBytes": 156581888,
+      "endedAtNanoseconds": 1133147254750,
+      "milliseconds": 260.513584,
+      "name": "status-read"
+    },
+    {
+      "id": "E738BCA2-4311-48A1-BA3D-554D56C9E3E7",
+      "peakRSSBytes": 331022336,
+      "endedAtNanoseconds": 1146773243416,
+      "milliseconds": 897.561625,
+      "name": "external-update"
+    },
+    {
+      "id": "3C40DE04-C045-4B58-9CA5-B06C2C8CC78A",
+      "peakRSSBytes": 153157632,
+      "endedAtNanoseconds": 1151814080416,
+      "milliseconds": 921.645708,
+      "name": "shell"
+    },
+    {
+      "id": "D8C51152-0736-4F37-98F7-168F21F2FC16",
+      "peakRSSBytes": 174948352,
+      "endedAtNanoseconds": 1152944594666,
+      "milliseconds": 1707.92975,
+      "name": "status"
+    },
+    {
+      "id": "A47A8519-14B7-4381-9DFC-32531353FDE9",
+      "peakRSSBytes": 195231744,
+      "endedAtNanoseconds": 1156042678750,
+      "milliseconds": 836.575584,
+      "name": "diff"
+    },
+    {
+      "id": "D02B705B-C0C2-41FE-8B97-1EDD96E95A55",
+      "peakRSSBytes": 211861504,
+      "endedAtNanoseconds": 1158836831916,
+      "milliseconds": 1727.253541,
+      "name": "history"
+    },
+    {
+      "id": "D8C51152-0736-4F37-98F7-168F21F2FC16",
+      "peakRSSBytes": 153157632,
+      "endedAtNanoseconds": 1151810401083,
+      "milliseconds": 573.720542,
+      "name": "status-read"
+    },
+    {
+      "id": "AF474529-35B7-4FB8-9D76-CAD137337530",
+      "peakRSSBytes": 330629120,
+      "endedAtNanoseconds": 1169154025500,
+      "milliseconds": 907.889417,
+      "name": "external-update"
+    },
+    {
+      "id": "ED39338C-3F6A-4874-B58A-FBC154792EFA",
+      "peakRSSBytes": 154697728,
+      "endedAtNanoseconds": 1175678611333,
+      "milliseconds": 1676.375417,
+      "name": "shell"
+    },
+    {
+      "id": "A3093BD5-F2BE-4BD7-A037-9CBF9C9F7A7E",
+      "peakRSSBytes": 169672704,
+      "endedAtNanoseconds": 1176527085375,
+      "milliseconds": 922.371834,
+      "name": "status"
+    },
+    {
+      "id": "634EAB7E-8C44-45E7-8D78-9CEAC8135686",
+      "peakRSSBytes": 195444736,
+      "endedAtNanoseconds": 1178542816041,
+      "milliseconds": 573.168333,
+      "name": "diff"
+    },
+    {
+      "id": "26C34B94-BCEB-4283-BFC6-5C4FB40E593D",
+      "peakRSSBytes": 211714048,
+      "endedAtNanoseconds": 1181527646583,
+      "milliseconds": 1692.712292,
+      "name": "history"
+    },
+    {
+      "id": "A3093BD5-F2BE-4BD7-A037-9CBF9C9F7A7E",
+      "peakRSSBytes": 156811264,
+      "endedAtNanoseconds": 1175831763583,
+      "milliseconds": 227.03625,
+      "name": "status-read"
+    },
+    {
+      "id": "F8401B83-3056-4406-99BC-DAD806C65669",
+      "peakRSSBytes": 330350592,
+      "endedAtNanoseconds": 1189992341875,
+      "milliseconds": 726.476709,
+      "name": "external-update"
+    },
+    {
+      "id": "139989DA-E1BC-4A74-877A-6523D90BF170",
+      "peakRSSBytes": 154746880,
+      "endedAtNanoseconds": 1195724329625,
+      "milliseconds": 1552.151,
+      "name": "shell"
+    },
+    {
+      "id": "EFE92E5A-18A1-4FD5-A7D6-A4738C20A17D",
+      "peakRSSBytes": 169967616,
+      "endedAtNanoseconds": 1196296326416,
+      "milliseconds": 627.690916,
+      "name": "status"
+    },
+    {
+      "id": "5794B627-F444-4969-A738-A25B05CF25E7",
+      "peakRSSBytes": 195674112,
+      "endedAtNanoseconds": 1198341485958,
+      "milliseconds": 488.60825,
+      "name": "diff"
+    },
+    {
+      "id": "0367406C-B74C-4F3E-B854-D51D91058E02",
+      "peakRSSBytes": 212254720,
+      "endedAtNanoseconds": 1201597139666,
+      "milliseconds": 1988.915833,
+      "name": "history"
+    },
+    {
+      "id": "EFE92E5A-18A1-4FD5-A7D6-A4738C20A17D",
+      "peakRSSBytes": 157073408,
+      "endedAtNanoseconds": 1195862636916,
+      "milliseconds": 193.985916,
+      "name": "status-read"
+    },
+    {
+      "id": "60903A01-604C-4E7C-94CC-8D0C034C4F63",
+      "peakRSSBytes": 330727424,
+      "endedAtNanoseconds": 1211072668958,
+      "milliseconds": 698.389167,
+      "name": "external-update"
+    },
+    {
+      "id": "DB0C0153-4573-4F98-B92B-81658B6F41A3",
+      "peakRSSBytes": 154763264,
+      "endedAtNanoseconds": 1217227094791,
+      "milliseconds": 1717.070958,
+      "name": "shell"
+    },
+    {
+      "id": "70B48F6E-8970-4053-9EA9-B16E909567C8",
+      "peakRSSBytes": 169754624,
+      "endedAtNanoseconds": 1217908232000,
+      "milliseconds": 721.586667,
+      "name": "status"
+    },
+    {
+      "id": "D605F382-82AF-41EA-AFD8-E05511EE8039",
+      "peakRSSBytes": 195330048,
+      "endedAtNanoseconds": 1219903899000,
+      "milliseconds": 556.453667,
+      "name": "diff"
+    },
+    {
+      "id": "61BF36DD-DE5D-4EB2-9055-062308BC745C",
+      "peakRSSBytes": 212287488,
+      "endedAtNanoseconds": 1222991975083,
+      "milliseconds": 1828.266583,
+      "name": "history"
+    },
+    {
+      "id": "70B48F6E-8970-4053-9EA9-B16E909567C8",
+      "peakRSSBytes": 156745728,
+      "endedAtNanoseconds": 1217405144500,
+      "milliseconds": 218.490459,
+      "name": "status-read"
+    },
+    {
+      "id": "14A0A0EB-ABC7-45A8-9D50-A9820EEE3832",
+      "peakRSSBytes": 331464704,
+      "endedAtNanoseconds": 1231700781125,
+      "milliseconds": 669.574292,
+      "name": "external-update"
+    },
+    {
+      "id": "BEDF7F5C-0E0E-45FB-B84B-4795F161712E",
+      "peakRSSBytes": 154730496,
+      "endedAtNanoseconds": 1237607525125,
+      "milliseconds": 1401.27375,
+      "name": "shell"
+    },
+    {
+      "id": "81977475-4926-4353-9CDF-EB9CE70955CE",
+      "peakRSSBytes": 169607168,
+      "endedAtNanoseconds": 1238267491375,
+      "milliseconds": 725.219542,
+      "name": "status"
+    },
+    {
+      "id": "BB5189BF-3B7C-4AD4-B6A0-6BDDD6EDC778",
+      "peakRSSBytes": 195428352,
+      "endedAtNanoseconds": 1240500940000,
+      "milliseconds": 647.780334,
+      "name": "diff"
+    },
+    {
+      "id": "57A4B378-C983-494A-97DD-85643E376BA1",
+      "peakRSSBytes": 211828736,
+      "endedAtNanoseconds": 1243467471833,
+      "milliseconds": 1768.045,
+      "name": "history"
+    },
+    {
+      "id": "81977475-4926-4353-9CDF-EB9CE70955CE",
+      "peakRSSBytes": 156762112,
+      "endedAtNanoseconds": 1237787249416,
+      "milliseconds": 244.92175,
+      "name": "status-read"
+    },
+    {
+      "id": "129AC0CD-C7D4-4493-8680-174E53C53EB3",
+      "peakRSSBytes": 330219520,
+      "endedAtNanoseconds": 1253211338833,
+      "milliseconds": 956.921083,
+      "name": "external-update"
+    },
+    {
+      "id": "B339A07D-40B2-4E88-BA2C-ADA00446E914",
+      "peakRSSBytes": 154959872,
+      "endedAtNanoseconds": 1259160199250,
+      "milliseconds": 1562.100459,
+      "name": "shell"
+    },
+    {
+      "id": "79AE4C2F-04DE-407E-A850-5E308EE13D4D",
+      "peakRSSBytes": 170049536,
+      "endedAtNanoseconds": 1259999977083,
+      "milliseconds": 898.147542,
+      "name": "status"
+    },
+    {
+      "id": "C9FE51C7-9210-46D2-8EEC-E5D7928F36D7",
+      "peakRSSBytes": 195395584,
+      "endedAtNanoseconds": 1262098696083,
+      "milliseconds": 590.997083,
+      "name": "diff"
+    },
+    {
+      "id": "C097E265-A41D-4E9E-A992-19B30A103A96",
+      "peakRSSBytes": 211664896,
+      "endedAtNanoseconds": 1265007991083,
+      "milliseconds": 1774.133583,
+      "name": "history"
+    },
+    {
+      "id": "79AE4C2F-04DE-407E-A850-5E308EE13D4D",
+      "peakRSSBytes": 157106176,
+      "endedAtNanoseconds": 1259341969208,
+      "milliseconds": 240.066125,
+      "name": "status-read"
+    },
+    {
+      "id": "40AB8A05-1AEC-4792-A9A0-F09E5D5BB885",
+      "peakRSSBytes": 335282176,
+      "endedAtNanoseconds": 1272613093458,
+      "milliseconds": 663.375958,
+      "name": "external-update"
+    },
+    {
+      "id": "62E494F8-7219-4CD2-A2E2-89AB1765A8AB",
+      "peakRSSBytes": 152272896,
+      "endedAtNanoseconds": 1277629992291,
+      "milliseconds": 889.806208,
+      "name": "shell"
+    },
+    {
+      "id": "0E3FDDAC-C7A9-483F-8699-FEA798D41022",
+      "peakRSSBytes": 174047232,
+      "endedAtNanoseconds": 1278534391666,
+      "milliseconds": 960.840166,
+      "name": "status"
+    },
+    {
+      "id": "F0BBA359-6F77-4F5E-8FCB-0A160BF1CF86",
+      "peakRSSBytes": 194510848,
+      "endedAtNanoseconds": 1280819303791,
+      "milliseconds": 557.55075,
+      "name": "diff"
+    },
+    {
+      "id": "13A00BA2-C00B-4BE1-BF8B-93BD72BF3741",
+      "peakRSSBytes": 211304448,
+      "endedAtNanoseconds": 1283433374541,
+      "milliseconds": 1252.39275,
+      "name": "history"
+    },
+    {
+      "id": "0E3FDDAC-C7A9-483F-8699-FEA798D41022",
+      "peakRSSBytes": 160612352,
+      "endedAtNanoseconds": 1278151502333,
+      "milliseconds": 577.925625,
+      "name": "status-read"
+    },
+    {
+      "id": "E96BEB10-6BF0-4BE8-A799-600F549BFA30",
+      "peakRSSBytes": 335036416,
+      "endedAtNanoseconds": 1294439276416,
+      "milliseconds": 2530.658458,
+      "name": "external-update"
+    },
+    {
+      "id": "1ADD0221-39C5-48D4-BF70-7B0BD6D92F1D",
+      "peakRSSBytes": 152535040,
+      "endedAtNanoseconds": 1299650271666,
+      "milliseconds": 995.916,
+      "name": "shell"
+    },
+    {
+      "id": "4DA184E1-20A0-4932-BE71-5F3D8046D15D",
+      "peakRSSBytes": 174145536,
+      "endedAtNanoseconds": 1300796925041,
+      "milliseconds": 1207.59575,
+      "name": "status"
+    },
+    {
+      "id": "8F5D72E0-BAFA-4FC8-AC67-0CDF45BBA5EF",
+      "peakRSSBytes": 194969600,
+      "endedAtNanoseconds": 1302835399833,
+      "milliseconds": 618.056458,
+      "name": "diff"
+    },
+    {
+      "id": "FD2D998B-4813-42B2-A9E6-7FF4808E39F6",
+      "peakRSSBytes": 211550208,
+      "endedAtNanoseconds": 1305921861625,
+      "milliseconds": 1845.146209,
+      "name": "history"
+    },
+    {
+      "id": "4DA184E1-20A0-4932-BE71-5F3D8046D15D",
+      "peakRSSBytes": 161054720,
+      "endedAtNanoseconds": 1300176180750,
+      "milliseconds": 586.816,
+      "name": "status-read"
+    },
+    {
+      "id": "9DF3B6EA-454A-4FA8-85EC-02512C96E5EE",
+      "peakRSSBytes": 335675392,
+      "endedAtNanoseconds": 1315424658875,
+      "milliseconds": 779.224625,
+      "name": "external-update"
+    },
+    {
+      "id": "C3002EB8-1159-4E4C-9F00-27745A8C2A7A",
+      "peakRSSBytes": 154009600,
+      "endedAtNanoseconds": 1320952800375,
+      "milliseconds": 1534.465375,
+      "name": "shell"
+    },
+    {
+      "id": "B826DDBB-3761-4F6C-80AE-56811BB3B720",
+      "peakRSSBytes": 169181184,
+      "endedAtNanoseconds": 1321761693166,
+      "milliseconds": 881.696791,
+      "name": "status"
+    },
+    {
+      "id": "70C9F95F-1D9E-475C-A868-2067009EFDF8",
+      "peakRSSBytes": 194871296,
+      "endedAtNanoseconds": 1323904101583,
+      "milliseconds": 737.882333,
+      "name": "diff"
+    },
+    {
+      "id": "7874E505-0DAD-4CAF-BC1D-2F9E0723DCBF",
+      "peakRSSBytes": 211599360,
+      "endedAtNanoseconds": 1326350177666,
+      "milliseconds": 1322.263875,
+      "name": "history"
+    },
+    {
+      "id": "B826DDBB-3761-4F6C-80AE-56811BB3B720",
+      "peakRSSBytes": 156073984,
+      "endedAtNanoseconds": 1321156660083,
+      "milliseconds": 276.629833,
+      "name": "status-read"
+    },
+    {
+      "id": "BCB29381-BF6D-4DCD-89A5-D6E34184DC4E",
+      "peakRSSBytes": 335790080,
+      "endedAtNanoseconds": 1333702485000,
+      "milliseconds": 512.063709,
+      "name": "external-update"
+    },
+    {
+      "id": "C41C4224-392D-4032-8705-944E2903F765",
+      "peakRSSBytes": 154796032,
+      "endedAtNanoseconds": 1339964784916,
+      "milliseconds": 1477.795916,
+      "name": "shell"
+    },
+    {
+      "id": "98CD0E95-A58F-40AD-BF6D-CAE888C5317B",
+      "peakRSSBytes": 169705472,
+      "endedAtNanoseconds": 1340631372958,
+      "milliseconds": 726.853917,
+      "name": "status"
+    },
+    {
+      "id": "043A0837-01EA-4ED0-9A57-C96534B1D443",
+      "peakRSSBytes": 195215360,
+      "endedAtNanoseconds": 1342893876416,
+      "milliseconds": 566.61975,
+      "name": "diff"
+    },
+    {
+      "id": "AEB90E91-11D5-4EF8-85A2-A5A38AF31CA9",
+      "peakRSSBytes": 211648512,
+      "endedAtNanoseconds": 1345172292833,
+      "milliseconds": 1241.96725,
+      "name": "history"
+    },
+    {
+      "id": "98CD0E95-A58F-40AD-BF6D-CAE888C5317B",
+      "peakRSSBytes": 156811264,
+      "endedAtNanoseconds": 1340144477000,
+      "milliseconds": 239.917792,
+      "name": "status-read"
+    },
+    {
+      "id": "838F86C5-4F43-46F8-BFEE-31D4154B4361",
+      "peakRSSBytes": 336052224,
+      "endedAtNanoseconds": 1352494822250,
+      "milliseconds": 409.38325,
+      "name": "external-update"
+    },
+    {
+      "id": "9CCF17B2-1C28-4FF2-8435-37A0F1293156",
+      "peakRSSBytes": 154615808,
+      "endedAtNanoseconds": 1358482365708,
+      "milliseconds": 1463.055958,
+      "name": "shell"
+    },
+    {
+      "id": "0E16C5AB-4AD2-4568-AB2F-670600C55ED2",
+      "peakRSSBytes": 169672704,
+      "endedAtNanoseconds": 1359108701416,
+      "milliseconds": 709.414625,
+      "name": "status"
+    },
+    {
+      "id": "3E994888-F175-416A-B66B-0CCD8364274F",
+      "peakRSSBytes": 195346432,
+      "endedAtNanoseconds": 1361047701500,
+      "milliseconds": 449.938042,
+      "name": "diff"
+    },
+    {
+      "id": "C207ABFA-AB20-477E-831F-458D5504C29C",
+      "peakRSSBytes": 211763200,
+      "endedAtNanoseconds": 1363874773708,
+      "milliseconds": 1702.946167,
+      "name": "history"
+    },
+    {
+      "id": "0E16C5AB-4AD2-4568-AB2F-670600C55ED2",
+      "peakRSSBytes": 156811264,
+      "endedAtNanoseconds": 1358663410125,
+      "milliseconds": 264.105084,
+      "name": "status-read"
+    },
+    {
+      "id": "0B77DF52-BF1C-4387-BED4-D00D84EFA1D2",
+      "peakRSSBytes": 336019456,
+      "endedAtNanoseconds": 1370133683500,
+      "milliseconds": 659.184792,
+      "name": "external-update"
+    },
+    {
+      "id": "E99B5E1A-4E16-46FD-BB1D-83879BFEB9B8",
+      "peakRSSBytes": 154451968,
+      "endedAtNanoseconds": 1375715946625,
+      "milliseconds": 1518.672917,
+      "name": "shell"
+    },
+    {
+      "id": "E120CB29-6491-4332-BCD3-0CA92BADB1E6",
+      "peakRSSBytes": 169459712,
+      "endedAtNanoseconds": 1376244518916,
+      "milliseconds": 605.475541,
+      "name": "status"
+    },
+    {
+      "id": "19A8D94A-1CAC-42E7-BBA2-6A327F5C8ED6",
+      "peakRSSBytes": 195117056,
+      "endedAtNanoseconds": 1378237675083,
+      "milliseconds": 454.968125,
+      "name": "diff"
+    },
+    {
+      "id": "A774B305-1ADC-4CD2-95C9-85761FA9224D",
+      "peakRSSBytes": 211877888,
+      "endedAtNanoseconds": 1380408352666,
+      "milliseconds": 979.380333,
+      "name": "history"
+    },
+    {
+      "id": "E120CB29-6491-4332-BCD3-0CA92BADB1E6",
+      "peakRSSBytes": 156581888,
+      "endedAtNanoseconds": 1375819422333,
+      "milliseconds": 180.365958,
+      "name": "status-read"
+    },
+    {
+      "id": "392F9CE9-22B3-4BF3-A430-01164ECB2790",
+      "peakRSSBytes": 335396864,
+      "endedAtNanoseconds": 1387652506833,
+      "milliseconds": 620.989042,
+      "name": "external-update"
+    },
+    {
+      "id": "D47C7C21-7A14-4AD7-A01E-6C2EBFC6D2ED",
+      "peakRSSBytes": 154501120,
+      "endedAtNanoseconds": 1393570425625,
+      "milliseconds": 1638.649125,
+      "name": "shell"
+    },
+    {
+      "id": "D40841A7-4E2C-4CBE-8236-2368A83E7351",
+      "peakRSSBytes": 169623552,
+      "endedAtNanoseconds": 1394229225375,
+      "milliseconds": 726.404084,
+      "name": "status"
+    },
+    {
+      "id": "BAECC1CB-69BB-4488-BC5F-C7F88EE6E5BA",
+      "peakRSSBytes": 195674112,
+      "endedAtNanoseconds": 1396467890291,
+      "milliseconds": 547.984541,
+      "name": "diff"
+    },
+    {
+      "id": "D5AB466D-307B-407C-A7AB-4E10ABCBF2A6",
+      "peakRSSBytes": 212008960,
+      "endedAtNanoseconds": 1398700146916,
+      "milliseconds": 1175.440583,
+      "name": "history"
+    },
+    {
+      "id": "D40841A7-4E2C-4CBE-8236-2368A83E7351",
+      "peakRSSBytes": 156729344,
+      "endedAtNanoseconds": 1393748662708,
+      "milliseconds": 245.809167,
+      "name": "status-read"
+    },
+    {
+      "id": "95E8687E-D246-4854-8165-92862E9D7F45",
+      "peakRSSBytes": 335560704,
+      "endedAtNanoseconds": 1405230524541,
+      "milliseconds": 458.87625,
+      "name": "external-update"
+    },
+    {
+      "id": "FECCA07A-31C3-4CDE-9848-BC6FFB5E6DC7",
+      "peakRSSBytes": 153436160,
+      "endedAtNanoseconds": 1410293895166,
+      "milliseconds": 836.083,
+      "name": "shell"
+    },
+    {
+      "id": "D1783DF1-DE15-407E-B869-EA7AA77F8DAA",
+      "peakRSSBytes": 175276032,
+      "endedAtNanoseconds": 1411182127291,
+      "milliseconds": 1381.976708,
+      "name": "status"
+    },
+    {
+      "id": "DECC3999-B347-4F9F-95C9-B98DEEFE7E20",
+      "peakRSSBytes": 195739648,
+      "endedAtNanoseconds": 1413830544291,
+      "milliseconds": 564.027791,
+      "name": "diff"
+    },
+    {
+      "id": "5235988A-8492-458E-83B6-EAA9D163DF4E",
+      "peakRSSBytes": 212303872,
+      "endedAtNanoseconds": 1416993528708,
+      "milliseconds": 1940.536333,
+      "name": "history"
+    },
+    {
+      "id": "D1783DF1-DE15-407E-B869-EA7AA77F8DAA",
+      "peakRSSBytes": 153436160,
+      "endedAtNanoseconds": 1410289693708,
+      "milliseconds": 489.533917,
+      "name": "status-read"
+    },
+    {
+      "id": "21013F5F-825B-4EF1-8491-DA90B7731DD1",
+      "peakRSSBytes": 335593472,
+      "endedAtNanoseconds": 1423566805666,
+      "milliseconds": 701.875083,
+      "name": "external-update"
+    },
+    {
+      "id": "A0954C28-F59A-4B53-8D14-D7256524194A",
+      "peakRSSBytes": 154419200,
+      "endedAtNanoseconds": 1429616434375,
+      "milliseconds": 1565.202792,
+      "name": "shell"
+    },
+    {
+      "id": "4123B9B4-C590-4ADD-B5EC-B6FBAB41E251",
+      "peakRSSBytes": 169328640,
+      "endedAtNanoseconds": 1430163751916,
+      "milliseconds": 618.746041,
+      "name": "status"
+    },
+    {
+      "id": "D07C8677-632B-4F7E-81C8-4D2CA6AEC20D",
+      "peakRSSBytes": 194805760,
+      "endedAtNanoseconds": 1432254708666,
+      "milliseconds": 478.823583,
+      "name": "diff"
+    },
+    {
+      "id": "53DA72BF-2DC4-42EC-80E7-183CF70323AA",
+      "peakRSSBytes": 211582976,
+      "endedAtNanoseconds": 1434400078208,
+      "milliseconds": 1130.024417,
+      "name": "history"
+    },
+    {
+      "id": "4123B9B4-C590-4ADD-B5EC-B6FBAB41E251",
+      "peakRSSBytes": 156516352,
+      "endedAtNanoseconds": 1429754337833,
+      "milliseconds": 209.29625,
+      "name": "status-read"
+    },
+    {
+      "id": "4B3398AB-BA00-4EEE-A6AB-A9C13F73925C",
+      "peakRSSBytes": 336019456,
+      "endedAtNanoseconds": 1442697689333,
+      "milliseconds": 548.87,
+      "name": "external-update"
+    },
+    {
+      "id": "58391DE3-9265-4CD3-9799-F1AB53B124F5",
+      "peakRSSBytes": 154419200,
+      "endedAtNanoseconds": 1448507949125,
+      "milliseconds": 1355.277292,
+      "name": "shell"
+    },
+    {
+      "id": "512C393F-F5D8-4581-BD88-484D3470FB06",
+      "peakRSSBytes": 169328640,
+      "endedAtNanoseconds": 1449072334666,
+      "milliseconds": 623.928,
+      "name": "status"
+    },
+    {
+      "id": "2FFD367F-9E37-48F4-888D-445FCCFDD85A",
+      "peakRSSBytes": 194969600,
+      "endedAtNanoseconds": 1451265215208,
+      "milliseconds": 455.102542,
+      "name": "diff"
+    },
+    {
+      "id": "EA856DE9-FADB-4E47-A221-FECFFBC28ECB",
+      "peakRSSBytes": 211533824,
+      "endedAtNanoseconds": 1453492650791,
+      "milliseconds": 1126.482583,
+      "name": "history"
+    },
+    {
+      "id": "512C393F-F5D8-4581-BD88-484D3470FB06",
+      "peakRSSBytes": 156434432,
+      "endedAtNanoseconds": 1448679312916,
+      "milliseconds": 230.872,
+      "name": "status-read"
+    },
+    {
+      "id": "9375AC30-A9E3-41DB-9357-0BE2520A418E",
+      "peakRSSBytes": 335446016,
+      "endedAtNanoseconds": 1459713706916,
+      "milliseconds": 654.445875,
+      "name": "external-update"
+    },
+    {
+      "id": "EE597F80-F775-4958-B5EC-38FBF6F3B1D1",
+      "peakRSSBytes": 154763264,
+      "endedAtNanoseconds": 1465505749541,
+      "milliseconds": 1517.77375,
+      "name": "shell"
+    },
+    {
+      "id": "0D5A6F43-ABD6-4ACE-A2CD-719E96D0A607",
+      "peakRSSBytes": 169836544,
+      "endedAtNanoseconds": 1466056357541,
+      "milliseconds": 631.374333,
+      "name": "status"
+    },
+    {
+      "id": "3990A1AD-72B3-4013-BE8C-0D577514FB6E",
+      "peakRSSBytes": 195346432,
+      "endedAtNanoseconds": 1468123454208,
+      "milliseconds": 506.920625,
+      "name": "diff"
+    },
+    {
+      "id": "0FE304C3-80C6-4164-91C5-33325CA808D8",
+      "peakRSSBytes": 211779584,
+      "endedAtNanoseconds": 1470365374583,
+      "milliseconds": 1110.324917,
+      "name": "history"
+    },
+    {
+      "id": "0D5A6F43-ABD6-4ACE-A2CD-719E96D0A607",
+      "peakRSSBytes": 156827648,
+      "endedAtNanoseconds": 1465662718125,
+      "milliseconds": 237.708375,
+      "name": "status-read"
+    },
+    {
+      "id": "30BBF35B-D5FB-4C14-B99E-393E126AE959",
+      "peakRSSBytes": 336134144,
+      "endedAtNanoseconds": 1477475069333,
+      "milliseconds": 615.717708,
+      "name": "external-update"
+    },
+    {
+      "id": "544C95E1-1AE2-4075-85F1-FF52F96C46B1",
+      "peakRSSBytes": 154386432,
+      "endedAtNanoseconds": 1483293726583,
+      "milliseconds": 1359.995208,
+      "name": "shell"
+    },
+    {
+      "id": "96CDAEBB-4D92-4488-BA59-9925291AEE31",
+      "peakRSSBytes": 169099264,
+      "endedAtNanoseconds": 1483719256208,
+      "milliseconds": 482.367125,
+      "name": "status"
+    },
+    {
+      "id": "5264E1C8-ECAC-4163-8AE4-D3417B272210",
+      "peakRSSBytes": 194772992,
+      "endedAtNanoseconds": 1485851596041,
+      "milliseconds": 410.057375,
+      "name": "diff"
+    },
+    {
+      "id": "47A384D2-7303-46A4-A6B7-5972EBD4FD60",
+      "peakRSSBytes": 211468288,
+      "endedAtNanoseconds": 1488235151041,
+      "milliseconds": 1043.176583,
+      "name": "history"
+    },
+    {
+      "id": "96CDAEBB-4D92-4488-BA59-9925291AEE31",
+      "peakRSSBytes": 156450816,
+      "endedAtNanoseconds": 1483415556208,
+      "milliseconds": 178.653958,
+      "name": "status-read"
+    },
+    {
+      "id": "45CD103E-ED83-4962-B7B9-B762FFF64CF5",
+      "peakRSSBytes": 334970880,
+      "endedAtNanoseconds": 1496340605125,
+      "milliseconds": 660.945709,
+      "name": "external-update"
+    },
+    {
+      "id": "54F0A485-09C5-41BD-9045-E8F219104822",
+      "peakRSSBytes": 154533888,
+      "endedAtNanoseconds": 1501954200583,
+      "milliseconds": 1531.120667,
+      "name": "shell"
+    },
+    {
+      "id": "B7784EFB-EA52-4D93-A70E-315A5DDF19E3",
+      "peakRSSBytes": 169623552,
+      "endedAtNanoseconds": 1502478525958,
+      "milliseconds": 592.869917,
+      "name": "status"
+    },
+    {
+      "id": "766D2B37-0420-493B-9A69-07C9A54A3F5C",
+      "peakRSSBytes": 195231744,
+      "endedAtNanoseconds": 1504703451208,
+      "milliseconds": 570.593708,
+      "name": "diff"
+    },
+    {
+      "id": "B70F2239-6827-4494-8CC2-587F83D0079D",
+      "peakRSSBytes": 211927040,
+      "endedAtNanoseconds": 1507802364458,
+      "milliseconds": 1909.031125,
+      "name": "history"
+    },
+    {
+      "id": "B7784EFB-EA52-4D93-A70E-315A5DDF19E3",
+      "peakRSSBytes": 156696576,
+      "endedAtNanoseconds": 1502089415291,
+      "milliseconds": 203.750833,
+      "name": "status-read"
+    },
+    {
+      "id": "794C0F71-6811-4ED6-8DB5-86B216079DA5",
+      "peakRSSBytes": 335626240,
+      "endedAtNanoseconds": 1514867969166,
+      "milliseconds": 734.757708,
+      "name": "external-update"
+    },
+    {
+      "id": "BA4A7D40-49DA-4811-B9A1-687A66FCBDAD",
+      "peakRSSBytes": 154468352,
+      "endedAtNanoseconds": 1521271168333,
+      "milliseconds": 1725.91175,
+      "name": "shell"
+    },
+    {
+      "id": "C1EE2E00-107C-4AD3-B4A9-5EED8455E9C9",
+      "peakRSSBytes": 169410560,
+      "endedAtNanoseconds": 1521964796333,
+      "milliseconds": 783.831375,
+      "name": "status"
+    },
+    {
+      "id": "AD12902E-D183-4431-9455-BFA1879E835E",
+      "peakRSSBytes": 195117056,
+      "endedAtNanoseconds": 1523810171208,
+      "milliseconds": 448.488792,
+      "name": "diff"
+    },
+    {
+      "id": "506884C9-87B1-4AE4-BE5A-021C53EC6806",
+      "peakRSSBytes": 211566592,
+      "endedAtNanoseconds": 1525962041083,
+      "milliseconds": 1014.238125,
+      "name": "history"
+    },
+    {
+      "id": "C1EE2E00-107C-4AD3-B4A9-5EED8455E9C9",
+      "peakRSSBytes": 156532736,
+      "endedAtNanoseconds": 1521469539708,
+      "milliseconds": 288.545792,
+      "name": "status-read"
+    },
+    {
+      "id": "BF264704-BF51-4134-A235-F2A5E72D6D11",
+      "peakRSSBytes": 335495168,
+      "endedAtNanoseconds": 1533439626208,
+      "milliseconds": 710.854292,
+      "name": "external-update"
+    },
+    {
+      "id": "EA09356A-27FA-45C9-AF5E-8235233025CF",
+      "peakRSSBytes": 162185216,
+      "endedAtNanoseconds": 1539312220625,
+      "milliseconds": 1481.166375,
+      "name": "shell"
+    },
+    {
+      "id": "F2210655-F804-4EA0-8822-FC709138C0E3",
+      "peakRSSBytes": 175882240,
+      "endedAtNanoseconds": 1539666418750,
+      "milliseconds": 1446.024167,
+      "name": "status"
+    },
+    {
+      "id": "02B6B0E0-7D8C-4740-B9F9-D3AB0B14E653",
+      "peakRSSBytes": 195575808,
+      "endedAtNanoseconds": 1541708034458,
+      "milliseconds": 426.166125,
+      "name": "diff"
+    },
+    {
+      "id": "4D4CC301-6A28-4FA4-B6E0-42407F5876EE",
+      "peakRSSBytes": 212254720,
+      "endedAtNanoseconds": 1544813745541,
+      "milliseconds": 1744.645166,
+      "name": "history"
+    },
+    {
+      "id": "F2210655-F804-4EA0-8822-FC709138C0E3",
+      "peakRSSBytes": 162168832,
+      "endedAtNanoseconds": 1539308416625,
+      "milliseconds": 1087.969292,
+      "name": "status-read"
+    },
+    {
+      "id": "8EB60486-B3F9-464D-B9EB-C6F7AC7B06DC",
+      "peakRSSBytes": 336084992,
+      "endedAtNanoseconds": 1551907206333,
+      "milliseconds": 708.888583,
+      "name": "external-update"
+    },
+    {
+      "id": "E8AA5268-27DA-454F-8050-5413152953A4",
+      "peakRSSBytes": 154648576,
+      "endedAtNanoseconds": 1557486632041,
+      "milliseconds": 1500.140166,
+      "name": "shell"
+    },
+    {
+      "id": "D32644A1-4D76-4CA2-B025-F54B389D10F7",
+      "peakRSSBytes": 169951232,
+      "endedAtNanoseconds": 1558219546916,
+      "milliseconds": 820.897416,
+      "name": "status"
+    },
+    {
+      "id": "530A0F61-0D78-4D6F-9606-B3F71D373B78",
+      "peakRSSBytes": 195330048,
+      "endedAtNanoseconds": 1560086012375,
+      "milliseconds": 492.553792,
+      "name": "diff"
+    },
+    {
+      "id": "505E0D00-AC07-4059-9B1C-B08E04EA1472",
+      "peakRSSBytes": 211746816,
+      "endedAtNanoseconds": 1562848480041,
+      "milliseconds": 1522.338208,
+      "name": "history"
+    },
+    {
+      "id": "D32644A1-4D76-4CA2-B025-F54B389D10F7",
+      "peakRSSBytes": 156893184,
+      "endedAtNanoseconds": 1557660080333,
+      "milliseconds": 261.412208,
+      "name": "status-read"
+    },
+    {
+      "id": "010B7748-DBDA-4174-BEEF-A093A6619AD5",
+      "peakRSSBytes": 263847936,
+      "endedAtNanoseconds": 1568010252750,
+      "milliseconds": 656.46275,
+      "name": "external-update"
+    },
+    {
+      "id": "9C6C563D-6469-47F2-94C8-ED90F3204ABD",
+      "peakRSSBytes": 154304512,
+      "endedAtNanoseconds": 1573778909083,
+      "milliseconds": 1683.230583,
+      "name": "shell"
+    },
+    {
+      "id": "7C08DC59-9A0B-44AF-B78B-A44B2D0C30FB",
+      "peakRSSBytes": 169246720,
+      "endedAtNanoseconds": 1574358472750,
+      "milliseconds": 640.51,
+      "name": "status"
+    },
+    {
+      "id": "A2B71D84-AC4B-4E00-AB92-AFC00379B9B8",
+      "peakRSSBytes": 194953216,
+      "endedAtNanoseconds": 1576413144916,
+      "milliseconds": 582.906875,
+      "name": "diff"
+    },
+    {
+      "id": "88326DD9-E6A2-49D4-A797-A822F1FD7B44",
+      "peakRSSBytes": 211419136,
+      "endedAtNanoseconds": 1578897520666,
+      "milliseconds": 1329.562791,
+      "name": "history"
+    },
+    {
+      "id": "7C08DC59-9A0B-44AF-B78B-A44B2D0C30FB",
+      "peakRSSBytes": 156319744,
+      "endedAtNanoseconds": 1573937906791,
+      "milliseconds": 219.913916,
+      "name": "status-read"
+    },
+    {
+      "id": "EC20754B-9AF9-4C0F-9750-1ABC93B24E8B",
+      "peakRSSBytes": 335118336,
+      "endedAtNanoseconds": 1586775976166,
+      "milliseconds": 715.893208,
+      "name": "external-update"
+    },
+    {
+      "id": "C3E759E6-7335-4834-A233-61E1074D21A6",
+      "peakRSSBytes": 152322048,
+      "endedAtNanoseconds": 1591645381958,
+      "milliseconds": 870.174125,
+      "name": "shell"
+    },
+    {
+      "id": "52935E2B-E533-4A90-BB29-25981F7F45CD",
+      "peakRSSBytes": 174260224,
+      "endedAtNanoseconds": 1592588596208,
+      "milliseconds": 1009.649208,
+      "name": "status"
+    },
+    {
+      "id": "B23084F8-2FDD-4ADD-A1E2-DA8685581526",
+      "peakRSSBytes": 194592768,
+      "endedAtNanoseconds": 1594618593208,
+      "milliseconds": 439.544417,
+      "name": "diff"
+    },
+    {
+      "id": "5771FD40-6495-4320-B3BB-6C4E846228E0",
+      "peakRSSBytes": 211238912,
+      "endedAtNanoseconds": 1596930935958,
+      "milliseconds": 1020.558208,
+      "name": "history"
+    },
+    {
+      "id": "52935E2B-E533-4A90-BB29-25981F7F45CD",
+      "peakRSSBytes": 160727040,
+      "endedAtNanoseconds": 1592210964958,
+      "milliseconds": 631.943,
+      "name": "status-read"
+    },
+    {
+      "id": "FFC45FA2-4BF5-471C-9D24-C2E4CAC56359",
+      "peakRSSBytes": 335986688,
+      "endedAtNanoseconds": 1604506524458,
+      "milliseconds": 645.193333,
+      "name": "external-update"
+    },
+    {
+      "id": "034BC761-8189-43E1-9843-36D7C65B1696",
+      "peakRSSBytes": 152223744,
+      "endedAtNanoseconds": 1609745195333,
+      "milliseconds": 888.706792,
+      "name": "shell"
+    },
+    {
+      "id": "2E68B276-9B6C-499B-85DB-2081BD31DEA8",
+      "peakRSSBytes": 173932544,
+      "endedAtNanoseconds": 1610592524625,
+      "milliseconds": 907.66875,
+      "name": "status"
+    },
+    {
+      "id": "FDFAD623-77C0-408C-9CB6-D6A9CCE02732",
+      "peakRSSBytes": 194478080,
+      "endedAtNanoseconds": 1612755609166,
+      "milliseconds": 524.515333,
+      "name": "diff"
+    },
+    {
+      "id": "E5B4C19C-DF1E-469E-8FD4-241360F08D17",
+      "peakRSSBytes": 211173376,
+      "endedAtNanoseconds": 1615204701625,
+      "milliseconds": 1188.968792,
+      "name": "history"
+    },
+    {
+      "id": "2E68B276-9B6C-499B-85DB-2081BD31DEA8",
+      "peakRSSBytes": 160546816,
+      "endedAtNanoseconds": 1610223655833,
+      "milliseconds": 538.777458,
+      "name": "status-read"
+    },
+    {
+      "id": "2EF8F3C6-CD37-420B-995F-76748E66322D",
+      "peakRSSBytes": 334954496,
+      "endedAtNanoseconds": 1624710897541,
+      "milliseconds": 979.378333,
+      "name": "external-update"
+    },
+    {
+      "id": "67A1FB8D-471A-4ACA-967F-6CA0A2BD20DE",
+      "peakRSSBytes": 154320896,
+      "endedAtNanoseconds": 1630517607458,
+      "milliseconds": 1512.068708,
+      "name": "shell"
+    },
+    {
+      "id": "2333C3F8-A343-4DC1-A36A-B21FCF1A96AF",
+      "peakRSSBytes": 168951808,
+      "endedAtNanoseconds": 1631079886375,
+      "milliseconds": 628.435417,
+      "name": "status"
+    },
+    {
+      "id": "D50D309A-DF85-4445-A903-E0CCAFE532D4",
+      "peakRSSBytes": 194543616,
+      "endedAtNanoseconds": 1632930514208,
+      "milliseconds": 394.509417,
+      "name": "diff"
+    },
+    {
+      "id": "1D174206-2195-4289-AC7C-A88215FF2C72",
+      "peakRSSBytes": 211238912,
+      "endedAtNanoseconds": 1635287879458,
+      "milliseconds": 1192.497792,
+      "name": "history"
+    },
+    {
+      "id": "2333C3F8-A343-4DC1-A36A-B21FCF1A96AF",
+      "peakRSSBytes": 156172288,
+      "endedAtNanoseconds": 1630685169041,
+      "milliseconds": 233.697666,
+      "name": "status-read"
+    },
+    {
+      "id": "303EB858-8A08-4FD8-BC61-2DA92F6171A2",
+      "peakRSSBytes": 334823424,
+      "endedAtNanoseconds": 1642718495458,
+      "milliseconds": 681.847333,
+      "name": "external-update"
+    },
+    {
+      "id": "A1FF8B0C-D128-4802-B3AD-34F25F955450",
+      "peakRSSBytes": 154435584,
+      "endedAtNanoseconds": 1649059681333,
+      "milliseconds": 2102.002833,
+      "name": "shell"
+    },
+    {
+      "id": "6D8B639D-2C95-41FE-A6C6-7717A1429632",
+      "peakRSSBytes": 169607168,
+      "endedAtNanoseconds": 1649735232916,
+      "milliseconds": 768.147958,
+      "name": "status"
+    },
+    {
+      "id": "04F3BE41-3524-458C-8164-9A6408F9D38E",
+      "peakRSSBytes": 195411968,
+      "endedAtNanoseconds": 1652299432166,
+      "milliseconds": 805.895708,
+      "name": "diff"
+    },
+    {
+      "id": "C7583CEA-F79C-4354-ACDF-8FCA51E652D7",
+      "peakRSSBytes": 211877888,
+      "endedAtNanoseconds": 1654167227000,
+      "milliseconds": 948.147667,
+      "name": "history"
+    },
+    {
+      "id": "6D8B639D-2C95-41FE-A6C6-7717A1429632",
+      "peakRSSBytes": 156303360,
+      "endedAtNanoseconds": 1649280979083,
+      "milliseconds": 313.872958,
+      "name": "status-read"
+    },
+    {
+      "id": "94AA1688-B64A-4C76-BA66-37A298C7F322",
+      "peakRSSBytes": 335511552,
+      "endedAtNanoseconds": 1662071956416,
+      "milliseconds": 453.146458,
+      "name": "external-update"
+    },
+    {
+      "id": "49D465FD-3C09-4930-8461-3EBF2744DE7C",
+      "peakRSSBytes": 152485888,
+      "endedAtNanoseconds": 1667403744500,
+      "milliseconds": 877.149584,
+      "name": "shell"
+    },
+    {
+      "id": "6343D9D2-1A54-4CBC-B7EC-0A0801DC7F8E",
+      "peakRSSBytes": 175472640,
+      "endedAtNanoseconds": 1668472308958,
+      "milliseconds": 1111.47275,
+      "name": "status"
+    },
+    {
+      "id": "35482DF4-E455-4BF0-B3CB-D1B9DB9DB962",
+      "peakRSSBytes": 196100096,
+      "endedAtNanoseconds": 1671365258000,
+      "milliseconds": 552.824,
+      "name": "diff"
+    },
+    {
+      "id": "6E777B66-EA88-4B07-A5ED-0FFA40D391C3",
+      "peakRSSBytes": 212303872,
+      "endedAtNanoseconds": 1674080212291,
+      "milliseconds": 1509.243083,
+      "name": "history"
+    },
+    {
+      "id": "6343D9D2-1A54-4CBC-B7EC-0A0801DC7F8E",
+      "peakRSSBytes": 153501696,
+      "endedAtNanoseconds": 1667490666291,
+      "milliseconds": 129.7975,
+      "name": "status-read"
+    },
+    {
+      "id": "93EB258E-678A-43FF-89AD-B438EAA10115",
+      "peakRSSBytes": 264896512,
+      "endedAtNanoseconds": 1680166803708,
+      "milliseconds": 457.165542,
+      "name": "external-update"
+    }
+  ]
+}
