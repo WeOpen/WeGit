@@ -139,7 +139,7 @@ struct FileHistorySheet: View {
                     Text(L10n.text("起点提交") + " · " + tip.prefix(12)).font(.caption.monospaced())
                 }
                 Spacer()
-                Text(L10n.text("重命名由 Git 检测；未追踪复制关系。")).font(.caption).foregroundStyle(colors.secondaryText)
+                Text(L10n.text("历史路径由 Git 检测，复制关系不保证。")).font(.caption).foregroundStyle(colors.secondaryText)
             }
         }.textFieldStyle(.roundedBorder).padding(20).frame(width: 1080, height: 680).workbenchControlFamily()
             .task(id: FileHistoryReadKey(query: query, reload: reload)) {

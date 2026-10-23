@@ -10,6 +10,8 @@ benchmark_status=0
 TEST_RUNNER_WEGIT_PERFORMANCE_GIT="$(xcrun --find git)" TEST_RUNNER_WEGIT_PERFORMANCE_FIXTURE="$fixture_root" \
   xcodebuild -project WeGit.xcodeproj -scheme WeGitPerformance -configuration ReleasePerformance \
     -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+  -test-timeouts-enabled YES -default-test-execution-time-allowance 1800 \
+  -maximum-test-execution-time-allowance 2400 \
     -only-testing:WeGitPerformanceTests/LargeReadingPerformanceTests \
     -resultBundlePath "$benchmark_run/Scroll.xcresult" test || benchmark_status=$?
 xcrun xcresulttool export metrics --path "$benchmark_run/Scroll.xcresult" --output-path "$benchmark_run/metrics"

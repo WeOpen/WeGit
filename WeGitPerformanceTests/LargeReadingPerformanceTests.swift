@@ -30,18 +30,16 @@ final class LargeReadingPerformanceTests: XCTestCase {
         warmup.waitUntilExit()
         XCTAssertTrue([0, 1].contains(warmup.terminationStatus))
         let app = XCUIApplication()
-        app.launchArguments = ["--uitesting", "-appearance", "light", "-language", "zh-Hans"]
+        app.launchArguments = ["-appearance", "light", "-language", "zh-Hans", "--uitesting"]
         app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = root.path
         app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launch()
         app.activate()
         defer { app.terminate() }
-        if !app.windows["main"].waitForExistence(timeout: 2) {
-            app.menuBars.menuBarItems["Window"].click()
-            app.menuItems["显示 WeGit 主窗口"].click()
-        }
-        let file = app.outlines["changes-list"].staticTexts["large.swift"].firstMatch
+        XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10))
+        let file = app.descendants(matching: .any).matching(identifier: "changes-list").firstMatch
+            .staticTexts["large.swift"].firstMatch
         XCTAssertTrue(file.waitForExistence(timeout: 30))
         file.click()
         let load = app.buttons["diff-load-large"]

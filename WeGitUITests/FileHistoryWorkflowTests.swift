@@ -75,6 +75,26 @@ final class FileHistoryWorkflowTests: XCTestCase {
         XCTAssertEqual(try f.git(["status", "--porcelain=v1"]), "")
         XCTAssertEqual(
             try f.git(["rev-parse", "HEAD"]).trimmingCharacters(in: .whitespacesAndNewlines), deleted)
+        try Data("before stage\n".utf8).write(to: f.root.appending(path: "staged-old.txt"))
+        try f.git(["add", "staged-old.txt"])
+        try f.git(["commit", "-m", "Before staged rename"])
+        let renameHead = try f.git(["rev-parse", "HEAD"])
+        try f.git(["mv", "staged-old.txt", "staged-new.txt"])
+        let stagedStatus = try f.git(["status", "--porcelain=v1"])
+        app.typeKey("1", modifierFlags: .command)
+        let renamed = list.staticTexts["staged-new.txt"].firstMatch
+        XCTAssertTrue(renamed.waitForExistence(timeout: 10))
+        renamed.rightClick()
+        app.menuItems["file-history:staged-new.txt"].click()
+        XCTAssertTrue(path.waitForExistence(timeout: 5))
+        XCTAssertEqual(path.value as? String, "staged-old.txt")
+        XCTAssertTrue(
+            entry(renameHead.trimmingCharacters(in: .whitespacesAndNewlines), app).waitForExistence(
+                timeout: 10))
+        app.buttons["file-history-close"].click()
+        XCTAssertTrue(path.waitForNonExistence(timeout: 5))
+        XCTAssertEqual(try f.git(["status", "--porcelain=v1"]), stagedStatus)
+        XCTAssertEqual(try f.git(["rev-parse", "HEAD"]), renameHead)
     }
     @MainActor private func entry(_ oid: String, _ app: XCUIApplication) -> XCUIElement {
         app.descendants(matching: .any).matching(identifier: "file-history-commit:" + oid).firstMatch

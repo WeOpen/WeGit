@@ -1,0 +1,76 @@
+name: Native performance diagnostics
+on:
+  workflow_dispatch:
+    inputs:
+      samples:
+        description: One sample smoke, or 30 serial UI samples after smoke
+        type: choice
+        options: ['1', '30']
+        default: '1'
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: native-performance-diagnostics
+  cancel-in-progress: false
+env:
+  WEGIT_SKIP_PROJECT_GENERATION: '1'
+jobs:
+  performance:
+    name: Hosted Release performance diagnostics
+    if: github.ref == 'refs/heads/main'
+    runs-on: xcode-27
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Isolate Git configuration
+        run: scripts/ci/isolate-git.sh
+      - name: Check toolchain and actual interactive session
+        id: environment
+        run: |
+          mkdir -p .build/ci/performance
+          scripts/ci/check-toolchain.sh > .build/ci/performance/toolchain.txt
+          python3 scripts/ci/ui_probe.py --mode environment --require-interactive
+          xcrun swiftc -parse-as-library scripts/ci/DisplaySession.swift -o "$RUNNER_TEMP/wegit-performance-display"
+      - name: Minimal native smoke gate
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+            build-for-testing > .build/ci/performance/smoke-build.log 2>&1
+          python3 scripts/verify-ui-git-wrapper.py .build-app/Build/Products/Debug/WeGitTestGit --report .build/ci/ui/git-wrapper.json
+          cp .build-app/Build/Products/Debug/WeGit.app/Contents/Resources/build-source.json .build/ci/ui/build-source.json
+          "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/smoke-display.json -- \
+            python3 scripts/ci/ui_probe.py --mode smoke
+      - name: Thirty serial Release backend samples and private fixtures
+        run: scripts/benchmark.sh "$PWD/.build/benchmarks/native" > .build/ci/performance/backend.log 2>&1
+      - name: Release UI smoke on normal and large repositories
+        run: |
+          "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/ui-smoke-display.json -- \
+            bash scripts/ci/run-native-performance.sh 1 > .build/ci/performance/ui-smoke.log 2>&1
+      - name: Thirty UI samples, launch and fixed scrolling trajectory
+        if: inputs.samples == '30'
+        run: |
+          "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/ui-full-display.json -- \
+            bash scripts/ci/run-native-performance.sh 30 > .build/ci/performance/ui-full.log 2>&1
+      - name: Rebuild ordinary Release after XCTest instrumentation
+        if: (success() || failure()) && steps.environment.outcome == 'success'
+        run: scripts/build.sh Release > .build/ci/performance/ordinary-release-build.log 2>&1
+      - name: Retain raw samples, failures, environment and source receipts
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-${{ github.sha }}-${{ inputs.samples }}
+          path: |
+            .build/ci/performance/
+            .build/ci/ui/
+            .build/benchmarks/native/normal.json
+            .build/benchmarks/native/large.json
+            .build/ui-benchmarks/
+            .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json
+          include-hidden-files: true
+          retention-days: 30

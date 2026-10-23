@@ -53,6 +53,8 @@ def main() -> None:
     report["withinBudget"] = report["p95Ms"] < report["budgetP95Ms"]
     (args.run / "launch.json").write_text(json.dumps(report, indent=2) + "\n")
     print(f"Launch: median {report['medianMs']:.2f} ms; P95 {report['p95Ms']:.2f} ms; {len(samples)} samples.")
+    if not report["withinBudget"]:
+        raise SystemExit("Launch p95 exceeded the existing 1000 ms budget; retained all samples.")
 
 
 if __name__ == "__main__":
