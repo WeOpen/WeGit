@@ -61,7 +61,7 @@ final class WorkbenchPerformanceTests: XCTestCase {
             copiedIndex, try Data(contentsOf: root.appending(path: ".git/index")),
             "The copied index must actually be reconciled before measurement.")
         let app = XCUIApplication()
-        app.launchArguments = ["--uitesting", "-appearance", "light", "-language", "zh-Hans"]
+        app.launchArguments = ["-appearance", "light", "-language", "zh-Hans", "--uitesting"]
         app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = root.path
         app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
@@ -76,16 +76,16 @@ final class WorkbenchPerformanceTests: XCTestCase {
             app.launchEnvironment["WEGIT_PERFORMANCE_REPORT"] = report.path
             app.launch()
             app.activate()
-            if !app.windows["main"].waitForExistence(timeout: 2) {
-                app.menuBars.menuBarItems["Window"].click()
-                app.menuItems["显示 WeGit 主窗口"].click()
-            }
-            let file = app.outlines["changes-list"].staticTexts["file-000000.swift"].firstMatch
+            XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10))
+            let changes = app.descendants(matching: .any).matching(identifier: "changes-list").firstMatch
+            let file = changes.staticTexts["file-000000.swift"].firstMatch
             XCTAssertTrue(file.waitForExistence(timeout: 15))
             file.click()
             XCTAssertTrue(app.textViews.firstMatch.waitForExistence(timeout: 10))
-            app.staticTexts["route-提交历史"].firstMatch.click()
-            XCTAssertTrue(app.outlines["history-list"].waitForExistence(timeout: 10))
+            app.typeKey("2", modifierFlags: .command)
+            XCTAssertTrue(
+                app.descendants(matching: .any).matching(identifier: "history-list").firstMatch
+                    .waitForExistence(timeout: 10))
             func records() -> [Sample] {
                 (try? JSONDecoder().decode([Sample].self, from: Data(contentsOf: report))) ?? []
             }
