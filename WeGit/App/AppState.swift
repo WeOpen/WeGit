@@ -431,6 +431,7 @@ final class AppState {
     var branchPresented = false
     var remoteManagementPresented = false
     var tagCreationRequest: TagCreationRequest?
+    var fileHistoryRequest: FileHistoryRequest?
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?
     var searchRequest: RepositorySearchRequest?

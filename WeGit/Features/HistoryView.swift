@@ -22,6 +22,9 @@ struct HistoryView: View {
             VStack(spacing: 0) {
                 PanelHeader(title: L10n.text("提交历史"), symbol: "clock.arrow.circlepath") {
                     Spacer()
+                    Button(L10n.text("文件历史…"), systemImage: "doc.text.magnifyingglass") {
+                        app.fileHistoryRequest = FileHistoryRequest(session: session, path: "")
+                    }.accessibilityIdentifier("history-file-history")
                     CountBadge(value: L10n.count("%lld 个提交", history.commits.count))
                         .accessibilityIdentifier("history-count")
                 }

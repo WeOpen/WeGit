@@ -1,0 +1,5 @@
+Building for debugging...
+Build complete! (0.21秒)
+Observed file history: ["Delete file:\"新名\\n[1].txt\"", "Modify new:\"新名\\n[1].txt\"", "Rename only:\"新名\\n[1].txt\"", "Modify old:\"旧名\\n[1].txt\""]
+Swift/ErrorType.swift:254: Fatal error: Error raised at top level: checks.(unknown context at $1051bd14c).Failed.check("Pagination follows modify, rename and deletion without duplicates")
+scripts/verify-file-history.sh: line 11: 16662 Trace/BPT trap: 5       "$check_run/checks" "$check_run/result.json"

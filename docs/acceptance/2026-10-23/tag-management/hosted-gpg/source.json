@@ -1,0 +1,11 @@
+{
+  "commit": "f563095f731d232256b827f500921a6c6af35c74",
+  "workspaceDirty": false,
+  "coreSourceSHA256": "67bb0381bff2c6cdc677504e96b6beaec1ccde06d255dc69387d8a86d0a2a8d3",
+  "coreInputCount": 61,
+  "coreDigestMethod": "SHA256 of sorted relative path, NUL and file SHA256 bytes",
+  "checksSHA256": "1a93192e388f674b93933da43052d5eff2c123a5db7c094d90fcf1d2cbf49313",
+  "fixture": "Private mkdtemp directory, global Git file and GNUPGHOME; no original HOME changes",
+  "scope": "Noninteractive unprotected ephemeral OpenPGP signing only",
+  "releaseReady": false
+}

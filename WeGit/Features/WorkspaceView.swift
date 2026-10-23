@@ -193,6 +193,7 @@ struct WorkspaceView: View {
         }
         .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app) }
         .sheet(item: $app.tagCreationRequest) { TagCreationSheet(app: app, request: $0) }
+        .sheet(item: $app.fileHistoryRequest) { FileHistorySheet(app: app, request: $0).id($0.id) }
         .sheet(item: $app.branchSwitchRequest) { BranchSwitcherView(app: app, request: $0) }
         .sheet(isPresented: $app.activityPresented) { ActivityView(app: app) }
         .sheet(isPresented: $app.repositoryPickerPresented, onDismiss: app.repositoryPickerDidDismiss) {

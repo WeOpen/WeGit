@@ -22,13 +22,15 @@ final class CommitDetailState {
     private var fileTask: Task<Void, Never>?
     private var requestedCommit: GitCommit?
     private var requestedParent: String?
+    private var requestedPaths: [String]?
 
     init(service: RepositoryService) { self.service = service }
 
-    func select(_ commit: GitCommit?, parent: String?) async {
+    func select(_ commit: GitCommit?, parent: String?, paths: [String]? = nil) async {
         cancel()
         requestedCommit = commit
         requestedParent = parent
+        requestedPaths = paths
         comparison = nil
         selectedPath = nil
         display = nil
@@ -43,7 +45,7 @@ final class CommitDetailState {
         let work = Task {
             defer { if requestID == request { loading = false } }
             do {
-                let result = try await service.commitComparison(id: commit.id, parent: parent)
+                let result = try await service.commitComparison(id: commit.id, parent: parent, paths: paths)
                 guard requestID == request, !Task.isCancelled else { return }
                 comparison = result
                 selectedPath = result.files.first?.id
@@ -137,7 +139,7 @@ final class CommitDetailState {
         diskDisplay?.cancelAll()
     }
 
-    func retry() { Task { await select(requestedCommit, parent: requestedParent) } }
+    func retry() { Task { await select(requestedCommit, parent: requestedParent, paths: requestedPaths) } }
 
     func cancel(userInitiated: Bool = false) {
         requestID = UUID()
@@ -157,5 +159,6 @@ final class CommitDetailState {
         selectedPath = nil
         requestedCommit = nil
         requestedParent = nil
+        requestedPaths = nil
     }
 }
