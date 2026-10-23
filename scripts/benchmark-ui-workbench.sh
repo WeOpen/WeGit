@@ -12,6 +12,8 @@ benchmark_status=0
 TEST_RUNNER_WEGIT_PERFORMANCE_GIT="$(xcrun --find git)" TEST_RUNNER_WEGIT_PERFORMANCE_FIXTURE="$fixture_root" TEST_RUNNER_WEGIT_PERFORMANCE_RESULTS="$benchmark_run" TEST_RUNNER_WEGIT_PERFORMANCE_SAMPLES="$sample_count" \
   xcodebuild -project WeGit.xcodeproj -scheme WeGitPerformance -configuration ReleasePerformance \
     -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+  -test-timeouts-enabled YES -default-test-execution-time-allowance 1800 \
+  -maximum-test-execution-time-allowance 2400 \
     -only-testing:WeGitPerformanceTests/WorkbenchPerformanceTests \
     -resultBundlePath "$benchmark_run/Workbench.xcresult" test || benchmark_status=$?
 xcrun xcresulttool export attachments --path "$benchmark_run/Workbench.xcresult" --output-path "$benchmark_run/attachments"

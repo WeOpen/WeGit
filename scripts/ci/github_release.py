@@ -117,7 +117,7 @@ def prepare(directory, output, repo, tag, commit, ci_run, acceptance_run):
 - **Ad-hoc signed; no Developer ID; not notarized by Apple.** macOS may block first launch.
 - Download the ZIP and verify its `.sha256` file. See [Apple's safe-opening guidance](https://support.apple.com/102445).
 - Source: `{commit}`. [CI evidence](https://github.com/{repo}/actions/runs/{ci_run}).
-- Full acceptance: {('https://github.com/' + repo + '/actions/runs/' + acceptance_run) if acceptance_run else 'Not required for this prerelease; this is not V1.0 acceptance.'}
+- Full acceptance: {('https://github.com/' + repo + '/actions/runs/' + acceptance_run) if acceptance_run else 'Not required for this prerelease; full release acceptance remains separate.'}
 - `manifest.json` and `release.json` describe this exact artifact. The website must link to this same asset.
 
 ## ✅ Maintainer sign-off before publishing

@@ -262,6 +262,7 @@ struct WeGitBenchmarks {
                     throw ModelFailure.changed
                 }
             })
+        try FileManager.default.removeItem(at: root)
         return values
     }
 
