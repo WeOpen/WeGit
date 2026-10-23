@@ -42,20 +42,12 @@ struct DiffContentView: View {
                         let columnWidth = (contentWidth - 1) / 2
                         HStack(spacing: 0) {
                             ScrollView([.horizontal, .vertical]) {
-                                Group {
-                                    if display.rows.count <= DiffReadBudget.pageRows {
-                                        VStack(alignment: .leading, spacing: 0) {
-                                            contentRows(
-                                                split: split, columnWidth: columnWidth,
-                                                controlsWidth: viewportWidth)
-                                        }
-                                    } else {
-                                        LazyVStack(alignment: .leading, spacing: 0) {
-                                            contentRows(
-                                                split: split, columnWidth: columnWidth,
-                                                controlsWidth: viewportWidth)
-                                        }
-                                    }
+                                // The first page can contain 399 split rows (798 native
+                                // text cells). Keep offscreen cells lazy from that first page.
+                                LazyVStack(alignment: .leading, spacing: 0) {
+                                    contentRows(
+                                        split: split, columnWidth: columnWidth,
+                                        controlsWidth: viewportWidth)
                                 }.frame(minWidth: contentWidth, alignment: .leading)
                                     .accessibilityElement(children: .contain).accessibilityLabel(
                                         L10n.text("文本差异内容"))

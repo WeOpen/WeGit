@@ -29,6 +29,12 @@
       "artifactId": 12488401285,
       "scope": "failed normal workspace UI30; other scopes not executed",
       "sha256": "f2d03493ee4785fd2fecca0ca8f07b3b1f16083c12d4d4831db1ecde401bfe98"
+    },
+    {
+      "runId": 39918960583,
+      "artifactId": 12489438101,
+      "scope": "functional54,53 passed,1 failed,0 skipped",
+      "sha256": "7d7f412045235cc517613654eba65aa847d63a37519140d488258f13e259d7a0"
     }
   ]
 }
