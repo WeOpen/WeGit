@@ -14,6 +14,7 @@ TEST_RUNNER_WEGIT_PERFORMANCE_GIT="$(xcrun --find git)" TEST_RUNNER_WEGIT_PERFOR
   -maximum-test-execution-time-allowance 2400 \
     -only-testing:WeGitPerformanceTests/LargeReadingPerformanceTests \
     -resultBundlePath "$benchmark_run/Scroll.xcresult" test || benchmark_status=$?
+xcrun xcresulttool get test-results summary --path "$benchmark_run/Scroll.xcresult" > "$benchmark_run/summary.json"
 xcrun xcresulttool export metrics --path "$benchmark_run/Scroll.xcresult" --output-path "$benchmark_run/metrics"
 xcrun xcresulttool get test-results metrics --path "$benchmark_run/Scroll.xcresult" --format json > "$benchmark_run/metrics.json"
 cp .build-app/Build/Products/ReleasePerformance/WeGit.app/Contents/Resources/build-source.json "$benchmark_run/build-source.json"
