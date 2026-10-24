@@ -43,6 +43,7 @@
 
 - `npx skills add` 直连 GitHub 也可能长时间停在克隆阶段。本次安装通过当前子进程的 `HTTPS_PROXY` / `HTTP_PROXY` 使用 `scutil --proxy` 已确认的系统代理后成功；不要因此修改全局配置。
 - Git CLI 直连 GitHub 可能超时，而系统已配置 HTTPS 代理。只为当前子进程读取并使用 `scutil --proxy` 的代理，不改全局 Git 配置或系统网络设置。可复用本轮 `.build/with-system-proxy.py`。
+- GitHub 连接器的通用 fetch 不支持 milestones 集合时，使用已有 gh API 读取，不需要新增权限流程。fetch 返回可能嵌套 `structuredContent.content`；先解包并解析 API JSON，再输出选定字段，避免重复展开整套 Actions 结果。
 - GitHub concurrency 即使 `cancel-in-progress: false` 也只保留一个 pending。连续 dispatch 多个原生诊断会取消较早的 pending，不能当成多个测试已排队成功。等当前运行和 pending 都结束后逐个 dispatch；取消的 run 保留原结论，重新调度尚未执行的范围。当前 `.build/queue-native-diagnostics.py` 串行处理恢复、分组与侧栏诊断。
 - Remote 配置按最后一个点分隔 Git subsection/变量。`origin.child` 必须独立于 `origin`，不能用字符串前缀归组；新回归最初失败，修复后通过。
 - 配置写入使用私有候选文件、`config.lock` 和锚定 Git 目录描述符的 `renameat`。失败不能留下半次 URL 修改；继承、include 来源、多地址与凭据地址不交给简单编辑器覆盖。
@@ -140,3 +141,13 @@
 - Cua闭包需显式传app对象，不能只重绑全局变量后调用捕获旧对象的helper；同Bundle ID按完整路径选择。每次新进程先读AX再发键，避免“Computer Use is not active”。详细证据见docs/acceptance/2026-10-24/v1-1-beta/。
 - 分段诊断三次中位数：Diff读取29.10ms/准备0.43ms/总显示173.24ms，历史读取72.73ms/布局0.08ms/总显示370.56ms。根布局的savedView观察隔离实验三次总显示184.74/384.47ms，未见稳定改善，已撤回；不据此合入优化。采样/trace/临时插桩仅在.build保留，未修改Beta应用源码。
 - 单项启动/滚动补采必须明确标记diagnosticOnly，不替代完整性能。保留全量默认入口、原预算和缺样本失败；不为重复启动缺metric自动重试，也不跨失败伪造滚动通过。
+
+## 2026-10-24 代码提交与 v1.2 需求
+
+- 原检出的太极 Loading 已单独提交并对齐 main `a41095a`，由 #54 跟踪；分支 `codex/loading-and-v1-2-plan` 同时提交本轮需求整理。`xcodegen generate` 与已提交工程一致，Debug `build-for-testing` 通过，本地没有执行 XCTest。
+- 新应用输入包含 Loading，不能挪用 `835b8c4` 的 54/54 或 Beta 性能作为新源码验收；旧 Beta 标签和制品保留原样。
+- Loading 编译与 142 项应用输入核对记录见 `docs/acceptance/2026-10-24/loading-integration/`；原始日志和 DerivedData 保留在 `.build/`。
+- 滚动 run 40048716577 实际 1/1、0 失败/跳过，导出 30 次，但动画帧数/帧率/卡顿指标全为 0；scope-results 明确 `diagnosticOnly: true`。不能由 workflow success 宣称 60 fps 或完整性能通过。
+- v1.2 统一需求入口为 `docs/V1_2_PLAN.md`，规划任务 #55；PRD、PLAN 和索引已同步。先考虑已有 Worktree 可靠打开、单提交 Cherry-pick/Revert、Blame、选中行暂存，复杂编辑和仓库扩展按依赖拆分，推荐优先级不等于已批准全部实现。
+- 中英文 README 的一级标题使用 HTML `<h1>`，代码示例另含 `#` 开头的 Shell 注释；文档标题检查需先排除围栏代码块，再识别 Markdown/HTML 标题。此次最初的检查误把缺少 Markdown 标题、随后又把命令注释当成多余标题；修正解析口径后重验，不修改既有首页结构来迎合检查。
+- 性能、安装/迁移/回退、Beta 反馈、兼容性与 Full acceptance 继续作为既有质量工作跟进，不因整理 v1.2 自动关闭 #35 或重新承诺版本日期。

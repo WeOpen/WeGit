@@ -1,0 +1,23 @@
+{
+  "sourceCommit": "9a71b8d1b964b4a8c407b5390be78f357b70d79d",
+  "baseCommit": "a41095a170a675f52acc725e89dee96173ad019e",
+  "configuration": "Debug",
+  "version": "1.1.0",
+  "buildVersion": "3",
+  "bundleIdentifier": "com.willxue.wegit.development",
+  "xcodeBuild": "27A9275",
+  "validation": "xcodebuild build-for-testing",
+  "buildSucceeded": true,
+  "localXCTestExecuted": false,
+  "sourceInputCount": 142,
+  "sourceMismatches": [],
+  "sourceReceiptSHA256": "1c371615930896860b05d3eb61f8035147630f55aed676d9a0dd0fb456e2ff20",
+  "applicationChanges": {
+    "WeGit/DesignSystem/AppStyle.swift": "2414bea8ebe212ec3920b91b64b2ed15addf4071bc53663324f60a4131c12c56",
+    "WeGit/DesignSystem/YinYangLoadingGlyph.swift": "238da5f8b6dc725638e119ccb855529abd874b3e356a0865f8b1ee2f80d3fad4",
+    "WeGit/DesignSystem/YinYangLoadingStyle.swift": "7ef65dfa32794f64db959f291b0dbf263d9393a1b9646c9692eb27d9a3b8de3a",
+    "WeGit.xcodeproj/project.pbxproj": "8668b408c346e9e476e127b14b02e7300fc86eeca3ade5c18ff45d46e28faadf"
+  },
+  "projectRegeneration": "xcodegen generate produced no project diff",
+  "acceptanceScope": "Compilation and matching application inputs; hosted runtime, performance, installation and release acceptance remain pending."
+}
