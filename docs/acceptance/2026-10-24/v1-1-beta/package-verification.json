@@ -23,5 +23,5 @@
   "cleanMachineInstallation": "pending",
   "migrationRollback": "source reviewed; real installation pending",
   "fullAcceptance": "pending; interactive self-hosted runner count 0",
-  "draftURL": "https://github.com/WeOpen/WeGit/releases/tag/untagged-8298cb05d082dbda61ba"
+  "draftURL": "https://github.com/WeOpen/WeGit/releases/tag/untagged-9db93d5ca0a0525d748b"
 }

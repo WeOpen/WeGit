@@ -4,7 +4,7 @@
 
 ## 可复核的 Beta 草稿
 
-[构建 39984951536](https://github.com/WeOpen/WeGit/actions/runs/39984951536) 成功生成[预发布草稿](https://github.com/WeOpen/WeGit/releases/tag/untagged-8298cb05d082dbda61ba)，没有公开发布或更改稳定版网站下载。实际下载包核对结果见 [package-verification.json](package-verification.json)。
+[构建 39984951536](https://github.com/WeOpen/WeGit/actions/runs/39984951536) 成功生成[预发布草稿](https://github.com/WeOpen/WeGit/releases/tag/untagged-9db93d5ca0a0525d748b)，没有公开发布或更改稳定版网站下载。实际下载包核对结果见 [package-verification.json](package-verification.json)。
 
 - ZIP：`WeGit-1.1.0-beta.1-macos-arm64-adhoc.zip`，9,190,557 bytes。
 - SHA256：`13018dc037edf617adc41407427fa7b1f547fe8aa96ff5f664d3ec093b7a067f`，与下载的 `.sha256`、manifest 和 release.json 一致。
