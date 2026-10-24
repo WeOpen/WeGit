@@ -30,6 +30,15 @@
 - Changes 分组含独立复选框与折叠 Button。测试不应点击不可命中的整条 OutlineRow；需定位实际折叠按钮并保留文件选择/草稿断言。
 - 工具栏 AX 容器和实际按钮可能有不同尺寸。52 vs 36 pt 的失败仍需活动/截图与控件诊断确认，不能直接放宽尺寸断言。
 
+### Loading 动效
+
+- 2026-10-23 用户最终确认完整太极图匀速旋转，每圈 2.8 秒；已移除分离、靠拢和单条鱼扭转阶段。
+- 统一入口是 `WorkbenchAppearance` 中的 `YinYangLoadingStyle`。只替换不定进度；有 `fractionCompleted` 时显式转交 `.linear`，避免覆盖克隆百分比或递归套用自定义样式。
+- 自定义 Loading 的 Canvas 隐藏于辅助功能树后，无文字 HStack 即使设置名称也可能被移除。无 label 分支需显式 `.accessibilityElement(children: .ignore)`。2026-10-23 原生 NSHosting 预览确认小号控件恢复 busy indicator 与“读取中…”名称，确定进度仍暴露 `0.42`。
+- `ImageRenderer` 可检查 Canvas 鱼形和尺寸，但不能渲染 AppKit 线性进度条，会出现黄色占位。确定进度必须用真实 NSHosting 窗口检查；独立预览不能替代应用端到端或托管 XCTest 验收。
+- `accessibilityReduceMotion` 是只读环境值，不能用 `.environment(..., true)` 注入。此次实际验证应用关闭动效的静态分支；系统减少动态效果仅核对代码分支，未修改用户系统设置。
+- 不要移动已构建的 DerivedData 目录后继续增量构建，否则 Xcode 会报告旧绝对路径的 stale file 警告。为新目录重新建立缓存；不将该警告误报成 Swift 编译错误。
+
 ### 工具与托管队列
 
 - `npx skills add` 直连 GitHub 也可能长时间停在克隆阶段。本次安装通过当前子进程的 `HTTPS_PROXY` / `HTTP_PROXY` 使用 `scutil --proxy` 已确认的系统代理后成功；不要因此修改全局配置。

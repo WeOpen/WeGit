@@ -40,6 +40,8 @@ private struct WorkbenchAppearance: ViewModifier {
             )
             .foregroundStyle(palette.text)
             .tint(palette.accent)
+            .progressViewStyle(YinYangLoadingStyle())
+            .environment(\.loadingMotionEnabled, preferences.interfaceMotion)
             .toolbarBackground(.hidden, for: .windowToolbar)
             .background(
                 ThemeWindowBridge(colors: palette).frame(width: 0, height: 0).accessibilityHidden(true)
