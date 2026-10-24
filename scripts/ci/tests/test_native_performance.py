@@ -1,13 +1,41 @@
 import copy
+import json
 from pathlib import Path
 import sys
 import unittest
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from native_performance import budget_failure
+from native_performance import budget_failure, main
 
 
 class NativePerformanceTests(unittest.TestCase):
+    def test_independent_scroll_is_diagnostic_and_does_not_repeat_other_scopes(self):
+        with TemporaryDirectory() as directory:
+            with patch.object(sys, "argv", ["native_performance", "--root", directory, "--scope", "scroll"]), \
+                    patch("native_performance.run_scope", return_value={"exitCode": 0}) as run:
+                main()
+            self.assertEqual(run.call_count, 1)
+            self.assertEqual(run.call_args.args[1][0], "scripts/benchmark-ui-large-scroll.sh")
+            result = json.loads((Path(directory) / ".build/ci/performance/scope-results.json").read_text())
+            self.assertTrue(result["diagnosticOnly"])
+            self.assertEqual(result["requestedScope"], "scroll")
+
+    def test_full_collection_stops_on_incomplete_launch_and_preserves_prior_failure(self):
+        results = [{"exitCode": 65, "budgetOnlyFailure": True},
+                   {"exitCode": 0, "budgetOnlyFailure": False},
+                   {"exitCode": 1, "budgetOnlyFailure": False}]
+        with TemporaryDirectory() as directory:
+            with patch.object(sys, "argv", ["native_performance", "--root", directory]), \
+                    patch("native_performance.run_scope", side_effect=results) as run:
+                with self.assertRaisesRegex(SystemExit, "evidence is incomplete"):
+                    main()
+            self.assertEqual(run.call_count, 3)
+            result = json.loads((Path(directory) / ".build/ci/performance/scope-results.json").read_text())
+            self.assertFalse(result["diagnosticOnly"])
+            self.assertEqual(result["scopes"], results)
+
     def summary(self):
         return {"totalTestCount": 1, "failedTests": 1, "passedTests": 0, "skippedTests": 0,
                 "testFailures": [{"failureText": 'XCTAssertLessThan failed: ("151") is not less than ("150") - P95 diff is 151 ms',

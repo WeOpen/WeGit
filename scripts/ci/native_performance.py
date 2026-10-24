@@ -69,7 +69,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--normal-only", action="store_true", help="A diagnostic baseline, never acceptance")
+    parser.add_argument("--scope", choices=("full", "launch", "scroll"), default="full",
+                        help="Collect an independent diagnostic without repeating unrelated scopes")
     args = parser.parse_args()
+    if args.normal_only and args.scope != "full":
+        parser.error("The released control only supports the normal workbench scope.")
     root = args.root.resolve()
     fixture = root / ".build/benchmarks/native/fixtures"
     scopes = [("scripts/benchmark-ui-workbench.sh", [str(fixture / "normal"), "30"], "workbench", "workbench.json", "workbench")]
@@ -79,13 +83,16 @@ def main():
             ("scripts/benchmark-ui-launch.sh", [], "launch", "launch.json", "launch"),
             ("scripts/benchmark-ui-large-scroll.sh", [str(fixture / "large")], "large-scroll", None, None),
         ]
+    if args.scope != "full":
+        scopes = [scope for scope in scopes if scope[2] == {"launch": "launch", "scroll": "large-scroll"}[args.scope]]
     results = []
     destination = root / ".build/ci/performance/scope-results.json"
     destination.parent.mkdir(parents=True, exist_ok=True)
     for script, arguments, prefix, report_name, kind in scopes:
         result = run_scope(root, [script, *arguments], prefix, report_name, kind)
         results.append(result)
-        destination.write_text(json.dumps({"diagnosticOnly": args.normal_only, "scopes": results}, indent=2) + "\n")
+        destination.write_text(json.dumps({"diagnosticOnly": args.normal_only or args.scope != "full",
+                                           "requestedScope": args.scope, "scopes": results}, indent=2) + "\n")
         if result["exitCode"] and not result["budgetOnlyFailure"]:
             raise SystemExit("Interaction/infrastructure failed or evidence is incomplete; no larger scope started.")
     if any(result["exitCode"] for result in results):
