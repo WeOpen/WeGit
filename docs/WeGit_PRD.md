@@ -61,7 +61,7 @@ WeGit 面向需要频繁查看代码改动、整理提交、同步代码和管�
 | R07 | 分支 | 列表、切换、创建、重命名、删除、上游设置、Merge、领先/落后状态 | V1.2 独立 Rebase 与 Interactive Rebase |
 | R08 | 远程同步 | 读取已有 Remote、Fetch、Pull、Push、首次推送设置上游、Force Push With Lease | V1.1 Remote 新增、编辑和删除界面 |
 | R09 | 冲突与进行中操作 | 检测、列表、外部编辑入口、标记已解决、Merge/Pull Rebase 继续与中止 | V1.2 内置三方冲突编辑器 |
-| R10 | 高级 Git | 识别外部进行中的 Cherry-pick/Revert，提示完成路径 | V1.1 必选 Stash、Tag 管理；单提交 Cherry-pick/Revert 为条件候选；Reset、Reflog 待独立排期 |
+| R10 | 高级 Git | 识别外部进行中的 Cherry-pick/Revert，提示完成路径 | V1.1 Stash、Tag 已实现；单提交 Cherry-pick/Revert 已后移至 v1.2 需求池；Reset、Reflog 待独立排期 |
 | R11 | 搜索与命令 | 当前仓库内的提交消息/SHA/作者搜索、文件路径与分支筛选、命令面板 | V1.1 文件历史与路径/作者/时间/消息定向搜索；其他跨对象增强搜索、快捷键自定义待排期 |
 | R12 | 应用体验 | Settings、菜单、上下文菜单、窗口恢复、浅色/深色、可访问性、Activity Log | 后续扩展账户设置 |
 | R13 | 扩展生态 | 复用既有 Git 环境；识别未支持的仓库能力并解释限制 | V1.2 Submodule 管理、Git LFS 状态；V2.0 GitHub/GitLab、PR/MR、可选 AI |
@@ -69,6 +69,8 @@ WeGit 面向需要频繁查看代码改动、整理提交、同步代码和管�
 P0 可以显示历史中的 Tag 徽标，但不提供 Tag 管理。P0 识别 `.git` 文件形式及 linked worktree；其完整打开和管理支持在 V1.2 交付前必须通过专门验证，未通过时明确提示限制。Bare repository 在 P0 只识别并提示，不进入普通工作区流程。
 
 2026-10-20 范围执行决定：v1.1 采用四项必选与条件候选，用户已授权启动；交付依赖和验收边界见 [v1.1 执行计划](V1_1_PLAN.md)。
+
+2026-10-24 需求整理：v1.1 四项必选已完成，Cherry-pick/Revert 整体后移。v1.2 的九项开发需求、推荐优先级、最小范围、性能与恢复验收见 [v1.2 需求](V1_2_PLAN.md)；实施批次和日期仍需按各项 Issue 确定。
 
 ## 3. 核心用户场景与验收
 
@@ -168,11 +170,11 @@ P0 支持 Unified/Split、旧/新行号、增删标识、差异块、语法高�
 
 忽略空白和词级差异只影响阅读；用于 Stage/Discard 的补丁必须来自未经视觉转换的原始差异。必要时禁用块级操作并提示切回可操作模式。
 
-P0 对二进制显示类型、大小与可用的外部打开入口；V1.1 增加 PNG、JPEG、WebP 的 Before/After 对比。大差异先显示摘要并允许显式加载，操作需可取消且有内存上限。
+P0 对二进制显示类型、大小与可用的外部打开入口；PNG、JPEG、WebP 的 Before/After 对比保留为 v1.1.x / v1.2 候选，尚未作为 v1.1 必选交付。大差异先显示摘要并允许显式加载，操作需可取消且有内存上限。
 
 ## 8. 提交（R05）
 
-Commit Composer 提供标题、可选描述、Amend 和 Commit & Push。支持紧凑输入布局，输入草稿按仓库保留；消息历史属于 V1.1。
+Commit Composer 提供标题、可选描述、Amend 和 Commit & Push。支持紧凑输入布局，输入草稿按仓库保留；消息历史保留为 v1.1.x / v1.2 小项候选。
 
 | 情况 | 行为 |
 | --- | --- |
@@ -183,7 +185,7 @@ Commit Composer 提供标题、可选描述、Amend 和 Commit & Push。支持�
 | Hook 或签名失败 | 保留草稿，显示原因和详情；不自动跳过 Hook 或签名 |
 | Commit 成功、Push 失败 | 分别报告结果，允许只重试 Push，不重复创建提交 |
 
-Amend 会生成新的提交，需说明是否可能改写已发布历史。已有 Git GPG/SSH 签名配置在 P0 中被尊重；应用不能完成认证或签名交互时应清楚报错，不静默降级为未签名提交。专门的签名配置和按钮在 V1.1 提供。
+Amend 会生成新的提交，需说明是否可能改写已发布历史。已有 Git GPG/SSH 签名配置在 P0 中被尊重；应用不能完成认证或签名交互时应清楚报错，不静默降级为未签名提交。专门的签名配置和按钮为后续候选，先补真实交互及失败路径证据。
 
 提交成功后刷新状态、历史和分支引用。只提交部分内容时，工作区可以继续存在改动；Push 只改变同步状态，不会使工作区自动变干净。
 
@@ -231,7 +233,7 @@ P0 的基础冲突闭环是 Merge 和 Pull Rebase 的前置要求，不能延期
 4. 全部解决后按实际操作提供 Continue Merge 或 Continue Rebase；仍可能遇到下一轮冲突。
 5. 中止前说明会撤回哪些操作中改动；失败时保留现状和诊断，不强制 Reset。
 
-检测到外部 Cherry-pick/Revert 等未支持序列操作时，P0 保持状态可见，限制不兼容写入并引导在 Terminal 完成；V1.1 增加对应应用内控制。
+检测到外部 Cherry-pick/Revert 等未支持序列操作时，P0 保持状态可见，限制不兼容写入并引导在 Terminal 完成；应用内执行与继续/中止从 v1.1 后移至 v1.2 需求池，按完整恢复闭环验收。
 
 V1.2 的内置编辑器提供 OURS/THEIRS/RESULT、接受一侧、按块编辑和保存。标签必须说明实际来源；Rebase 中两侧语义不同，不能总把 OURS 解释为「我的分支」。Accept Both 只是文本组合，不代表业务逻辑正确。
 
@@ -239,17 +241,17 @@ V1.2 的内置编辑器提供 OURS/THEIRS/RESULT、接受一侧、按块编辑�
 
 | 版本 | 能力与要求 |
 | --- | --- |
-| V1.1 Stash | 创建、消息、包含未跟踪文件、Apply/Pop/Delete、从储藏创建分支、差异；Pop 冲突不能误报已删除储藏 |
+| V1.1 Stash | 已交付创建、消息、包含未跟踪文件、Apply/Pop/Delete 和差异；Pop 冲突保留条目。从储藏创建分支保留为后续候选 |
 | V1.1 Tag | 轻量/附注 Tag、创建、推送、删除；区分本地和远端影响 |
-| V1.1 Cherry-pick / Revert | 单提交起步，配套冲突、继续和中止；多提交批量操作另行验收 |
-| V1.1 Reset | Soft/Mixed/Hard 明确说明 HEAD、暂存区、工作区各自影响 |
+| V1.2 需求池 Cherry-pick / Revert | v1.1 后移；单提交起步，配套冲突、继续、中止、重开和不确定回执；多提交批量操作另行验收 |
+| 待排期 Reset / Reflog | Soft/Mixed/Hard 明确说明 HEAD、暂存区、工作区各自影响；恢复入口单独设计 |
 | V1.1 文件历史 | 提交、作者、时间和差异；明确重命名追踪范围 |
 | V1.2 Rebase | 普通 Rebase 与 Interactive Rebase，支持 pick/reword/edit/squash/fixup/drop 和顺序调整 |
 | V1.2 仓库扩展 | Blame、Worktree、Submodule、Git LFS 状态；单独验证共享引用和工具兼容性 |
 | V2.0 Provider | GitHub/GitLab 账户、仓库元数据、PR/MR、Review 和浏览器入口 |
 | V2.0 AI | 可选的消息生成、差异摘要、冲突解释和 PR 描述；明确数据发送范围，不直接执行 Git 写操作 |
 
-Reflog 浏览与恢复入口保留为待排期能力；在此之前，恢复说明应提供可核对的提交信息及 Terminal 路径。
+以上 v1.2 规划的开发拆分、Worktree 两步交付、Blame 与选中行暂存等验收规则统一见 [v1.2 需求](V1_2_PLAN.md)。Reflog 浏览与恢复入口保留为待排期能力；在此之前，恢复说明应提供可核对的提交信息及 Terminal 路径。
 
 Git CLI 能调用某项能力不等于 WeGit 已有完整界面支持。Hooks、LFS、签名工具和自定义 Merge Driver 的兼容性须在所选分发环境中实测。
 
@@ -269,7 +271,7 @@ P0 的搜索作用域是当前仓库。提交搜索覆盖消息、SHA、作者�
 | Git | 可执行文件、版本和能力、用户身份、默认分支、Pull/Merge 策略 |
 | Appearance | System/Light/Dark、紧凑/舒适密度、文件图标、差异字体与字号、可关闭的界面动效 |
 | Diff | Unified/Split、空白显示、上下文行数、词级差异、行号 |
-| Commit | Amend 确认和草稿行为；签名配置入口按 V1.1 开放 |
+| Commit | Amend 确认和草稿行为；显式签名配置入口按后续候选评估 |
 | Advanced | 活动日志保留、诊断、重置应用界面状态 |
 
 Git 配置编辑必须显示「全局」或「当前仓库」作用域和有效值来源。不可关闭丢弃、强制推送等关键风险确认。Accounts 在 Provider 功能上线时增加，不在 P0 显示空页面。

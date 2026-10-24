@@ -297,8 +297,8 @@ Phase 编号是计划标识，不是工期单位。可以在已满足依赖时�
 
 | 阶段 | 计划范围 | 必须同步补齐 |
 | --- | --- | --- |
-| Phase 15 / V1.1 | 必选 Stash、Tag、Remote 编辑、文件历史与定向搜索；单提交 Cherry-pick/Revert 为条件候选，详见 [v1.1 执行计划](V1_1_PLAN.md) | 冲突/继续/中止、风险确认、模型、集成测试、空/失败状态 |
-| Phase 16 / V1.2 | 内置冲突编辑器、独立与 Interactive Rebase、选中行暂存、Blame、Worktree、Submodule、LFS 状态 | 原始补丁正确性、共享引用互斥、工具缺失、编辑保存与恢复 |
+| Phase 15 / V1.1 | 必选 Stash、Tag、Remote 编辑、文件历史与定向搜索均已实现；Cherry-pick/Revert 整体后移，性能与交付继续跟进，详见 [v1.1 执行计划](V1_1_PLAN.md) | 固定源码回归、实际性能、安装/迁移、Beta 反馈与发布门禁 |
+| Phase 16 / V1.2 | 已有 Worktree 打开/管理、单提交 Cherry-pick/Revert、Blame、选中行暂存、内置冲突编辑器、独立与 Interactive Rebase、Submodule、LFS 状态；优先级与分批退出条件见 [v1.2 需求](V1_2_PLAN.md) | 原始补丁正确性、共享引用互斥、工具缺失、编辑保存、重开与序列恢复 |
 | Phase 17 / V2.0 候选 | GitHub/GitLab 账户、PR/MR/Review、元数据、可选 AI | 认证权限、数据发送范围、独立 Provider/AI 服务、用户控制 |
 
 选中行丢弃、图片滑杆、多窗口、自定义快捷键、Reflog 和更多批量操作尚未固定排期。后续阶段开始前复核用户需求，不把候选列表自动升级为承诺。

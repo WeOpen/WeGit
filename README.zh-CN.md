@@ -123,7 +123,9 @@ M0 之前的历史核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 
 
 V1.0 聚焦日常 Git 流程和差异阅读。**Stash / Tag 管理、内置冲突编辑器、Interactive Rebase、Blame、linked worktree / submodule 管理及 Hosting Provider 集成**保留在后续版本。当前不支持打开 linked worktree 和 Bare 仓库布局。
 
-已授权的 [v1.1 计划](docs/V1_1_PLAN.md)以 Stash、Remote、Tag 管理，以及文件历史与定向搜索为四项必选。单提交 Cherry-pick/Revert 在必选闭环及恢复验收完成后评估。M0 已集成；[M1 Stash 管理](docs/STASH.md)已在功能分支实现，仍待托管验收。Remote、Tag、文件历史、Beta、版本号与发布验收属于后续交付。M0 托管功能回归 48 项中通过 45、失败 3、跳过 0，未解决项由 [#41](https://github.com/WeOpen/WeGit/issues/41) 跟踪。
+已授权的 [v1.1 计划](docs/V1_1_PLAN.md)中的四项必选 Stash、Remote、Tag 管理，以及文件历史与定向搜索均已实现并集成。固定应用源码 `835b8c4` 完成功能回归 54/54、零失败/跳过及 144 张阅读矩阵截图，Beta 1 草稿包已核对；性能、受保护 Mac 安装、真实反馈与稳定版发布验收仍开放，见 [Beta 记录](docs/acceptance/2026-10-24/v1-1-beta/README.md)。
+
+[v1.2 需求](docs/V1_2_PLAN.md)整理了 Worktree 打开/管理、从 v1.1 后移的单提交 Cherry-pick/Revert、Blame、选中行暂存、冲突编辑器、独立/Interactive Rebase、Submodule 和 LFS 状态。优先级与交付批次为建议，实现范围和日期按各项需求确定。
 
 冲突可以在外部编辑器中处理，再回到应用继续或中止支持的操作；当前没有内置三方合并编辑器。Homebrew Git 核心与隔离非交互 OpenPGP 已通过；GitLab、交互式 Pinentry/硬件密钥、其他 Helper 组合及未覆盖环境继续在[兼容性矩阵](docs/COMPATIBILITY.md)中保留待验状态。
 
