@@ -11,6 +11,11 @@ on:
         description: Also measure fixed v1.0.0 on this VM before the 30-sample candidate
         type: boolean
         default: false
+      collection_scope:
+        description: Independent launch/scroll diagnostics require 30 samples; they never replace the full collection
+        type: choice
+        options: ['full', 'launch', 'scroll']
+        default: 'full'
 permissions:
   contents: read
 defaults:
@@ -36,7 +41,11 @@ jobs:
         run: scripts/ci/isolate-git.sh
       - name: Check toolchain and actual interactive session
         id: environment
+        env:
+          COLLECTION_SCOPE: ${{ inputs.collection_scope }}
+          SAMPLE_COUNT: ${{ inputs.samples }}
         run: |
+          if [[ "$COLLECTION_SCOPE" != full && "$SAMPLE_COUNT" != 30 ]]; then exit 2; fi
           mkdir -p .build/ci/performance
           scripts/ci/check-toolchain.sh > .build/ci/performance/toolchain.txt
           python3 scripts/ci/ui_probe.py --mode environment --require-interactive
@@ -57,23 +66,25 @@ jobs:
           "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/ui-smoke-display.json -- \
             bash scripts/ci/run-native-performance.sh 1 > .build/ci/performance/ui-smoke.log 2>&1
       - name: Check out immutable released application for the control
-        if: inputs.samples == '30' && inputs.compare_baseline
+        if: inputs.samples == '30' && inputs.compare_baseline && inputs.collection_scope == 'full'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: 2d1cb2a1e5a5b52f7ba45232e1f0b2a20530120a
           path: .build/performance-baseline
           persist-credentials: false
       - name: Fixed v1.0 control with the same measurement harness and VM
-        if: inputs.samples == '30' && inputs.compare_baseline
+        if: inputs.samples == '30' && inputs.compare_baseline && inputs.collection_scope == 'full'
         run: |
           "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/baseline-display.json -- \
             python3 scripts/ci/compare_native_baseline.py --baseline .build/performance-baseline \
             > .build/ci/performance/baseline.log 2>&1
       - name: Thirty UI samples, launch and fixed scrolling trajectory
         if: inputs.samples == '30'
+        env:
+          COLLECTION_SCOPE: ${{ inputs.collection_scope }}
         run: |
           "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/ui-full-display.json -- \
-            bash scripts/ci/run-native-performance.sh 30 > .build/ci/performance/ui-full.log 2>&1
+            bash scripts/ci/run-native-performance.sh 30 "$COLLECTION_SCOPE" > .build/ci/performance/ui-full.log 2>&1
       - name: Rebuild ordinary Release after XCTest instrumentation
         if: (success() || failure()) && steps.environment.outcome == 'success'
         run: scripts/build.sh Release > .build/ci/performance/ordinary-release-build.log 2>&1
