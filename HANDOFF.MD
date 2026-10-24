@@ -147,6 +147,8 @@
 - 原检出的太极 Loading 已单独提交并对齐 main `a41095a`，由 #54 跟踪；分支 `codex/loading-and-v1-2-plan` 同时提交本轮需求整理。`xcodegen generate` 与已提交工程一致，Debug `build-for-testing` 通过，本地没有执行 XCTest。
 - 新应用输入包含 Loading，不能挪用 `835b8c4` 的 54/54 或 Beta 性能作为新源码验收；旧 Beta 标签和制品保留原样。
 - Loading 编译与 142 项应用输入核对记录见 `docs/acceptance/2026-10-24/loading-integration/`；原始日志和 DerivedData 保留在 `.build/`。
+- 首次 CI 40052796726 的应用 Debug 和两套各 204 项 / 37 suites 核心通过，独立主题检查在编译时找不到 `YinYangLoadingStyle`。独立 `swiftc` 的手写文件清单不会自动继承 Xcode 工程新增依赖；共享 AppStyle 引入组件后必须同步依赖清单。本机重现同一失败后补齐 `verify-themes.sh` 的两个 Loading 源文件，不删断言或改动产品动效。
+- 修复后本机独立主题检查 290 项通过，142 项应用输入逐项不变；后续托管 CI 仍需实际运行，首次失败保持原状态。
 - 滚动 run 40048716577 实际 1/1、0 失败/跳过，导出 30 次，但动画帧数/帧率/卡顿指标全为 0；scope-results 明确 `diagnosticOnly: true`。不能由 workflow success 宣称 60 fps 或完整性能通过。
 - v1.2 统一需求入口为 `docs/V1_2_PLAN.md`，规划任务 #55；PRD、PLAN 和索引已同步。先考虑已有 Worktree 可靠打开、单提交 Cherry-pick/Revert、Blame、选中行暂存，复杂编辑和仓库扩展按依赖拆分，推荐优先级不等于已批准全部实现。
 - 中英文 README 的一级标题使用 HTML `<h1>`，代码示例另含 `#` 开头的 Shell 注释；文档标题检查需先排除围栏代码块，再识别 Markdown/HTML 标题。此次最初的检查误把缺少 Markdown 标题、随后又把命令注释当成多余标题；修正解析口径后重验，不修改既有首页结构来迎合检查。

@@ -11,6 +11,7 @@ xcrun swiftc -sdk "$sdk_path" -target arm64-apple-macosx27.0 \
   WeGit/DesignSystem/CustomTheme.swift WeGit/DesignSystem/AppColors.swift \
   WeGit/DesignSystem/ThemeWindowBridge.swift WeGit/DesignSystem/AppPresentation.swift \
   WeGit/DesignSystem/BrandGeometry.swift WeGit/DesignSystem/AppStyle.swift \
+  WeGit/DesignSystem/YinYangLoadingGlyph.swift WeGit/DesignSystem/YinYangLoadingStyle.swift \
   WeGit/App/AppPreferences.swift scripts/ThemeChecks.swift -o "$check_run/checks"
 ditto "$library_path/WeGit_WeGitCore.bundle" "$check_run/WeGit_WeGitCore.bundle"
 echo "Report: $check_run/result.json"

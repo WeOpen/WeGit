@@ -20,3 +20,11 @@
 HANDOFF 的 2026-10-23 独立 NSHosting 预览记录确认浅深色、mini/small 控件、关闭动效、busy indicator 名称和确定进度 `0.42`。此次保留该实现；预览文件与 AX 原文位于 `.build/loading-preview/`。这是独立组件预览的历史证据，不是本轮最终应用的托管交互结果。
 
 新源码的托管运行、整套功能回归、Release 实际性能、受保护 Mac 安装和 Beta/稳定版签收仍分别跟进。此次没有生成或发布新包，既有 Beta 标签与制品保持原来源。
+
+## 首次 CI 的独立检查器编译失败
+
+[40052796726](https://github.com/WeOpen/WeGit/actions/runs/40052796726) 的应用 Debug 和 Apple / Git 2.46 两套各 204 项、37 suites 核心回归已通过；独立文件历史、Tag、Remote、Stash、同步计数、文件夹树和变更地图检查通过。随后主题检查在编译时报告 AppStyle 找不到 `YinYangLoadingStyle`，不是主题断言或应用构建失败。后面的签名、Homebrew 核心、UI 编译及 Release 包步骤未执行，原 run 保持失败。
+
+本机 `scripts/verify-themes.sh` 在修复前重现同一编译错误。检查器使用手写 `swiftc` 源文件清单，只包含旧 AppStyle 依赖；补齐 `YinYangLoadingGlyph.swift` 和 `YinYangLoadingStyle.swift` 后重跑。修复只改检查器清单，142 项应用输入与本记录的 Debug 回执保持一致。
+
+修复后独立主题检查退出 0，实际执行并通过 290 项。Shell 语法、仓库策略与差异检查通过；142 项应用输入重新逐项核对，零差异。托管重跑结果单独按实际 run 记录，首次失败不改写为成功。
