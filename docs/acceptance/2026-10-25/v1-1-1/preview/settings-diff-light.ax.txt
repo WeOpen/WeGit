@@ -1,0 +1,14 @@
+The following is a diff from the previous accessibility tree for Window: "WeGit 设置" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 9-31
+~			5 单选按钮 Description: 外观, Value: 0
+~			6 单选按钮 Description: 差异, Value: 1
++		44 滚动区
++			45 标题 默认阅读方式
++			46 container
++				47 弹出式按钮 布局, Value: 统一
++				48 弹出式按钮 上下文行数, Value: 3 行
++				49 转换 词级差异, Value: off
++				50 转换 显示行号, Value: on
++				51 转换 显示空格和 Tab 标记, Help: 空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。, Value: off, ID: settings-whitespace
++				52 转换 忽略空白差异（只读）, Help: 空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。, Value: off
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

@@ -32,13 +32,18 @@ private struct StashActionRequest: Identifiable {
 /// The browser owns its selection/confirmation snapshot; the app adapter supplies
 /// serialized session writes and the existing commit-file diff reader.
 struct StashBrowser<Detail: View>: View {
+    @Environment(AppPreferences.self) private var preferences
     @Environment(\.themeColors) private var colors
     let service: RepositoryService
     let status: RepositoryStatus
     let canWrite: Bool
     let writeReason: String
     let refreshID: UUID
-    let perform: @MainActor (String, @escaping @Sendable (RepositoryService) async throws -> String?) -> Void
+    let perform:
+        @MainActor (
+            String, OperationFeedbackContext,
+            @escaping @Sendable (RepositoryService) async throws -> OperationFeedbackOutcome
+        ) -> Void
     let showChanges: () -> Void
     @ViewBuilder let detail: (StashContents, StashPart) -> Detail
     @State private var list: StashList?
@@ -78,7 +83,7 @@ struct StashBrowser<Detail: View>: View {
         if !canWrite { return writeReason }
         if status.head == nil { return L10n.text("请先创建本地提交") }
         if status.sequencer != .none { return L10n.text("请先完成当前 Git 操作") }
-        if loading || loadingContents { return L10n.text("正在读取暂存记录，请稍候。") }
+        if loading || loadingContents { return L10n.text("正在读取储藏，请稍候。") }
         if contents == nil || listError != nil { return L10n.text("请先读取并选择一条有效记录。") }
         if !status.files.allSatisfy(\.untracked) { return L10n.text("请先提交或保存已跟踪文件的改动。") }
         return L10n.text("应用会保留记录；取出会在应用成功后删除。")
@@ -87,7 +92,7 @@ struct StashBrowser<Detail: View>: View {
     var body: some View {
         HSplitView {
             VStack(spacing: 0) {
-                PanelHeader(title: L10n.text("暂存记录"), symbol: "archivebox") {
+                PanelHeader(title: L10n.text("储藏"), symbol: "archivebox") {
                     Spacer()
                     Button(L10n.text("保存改动…"), systemImage: "plus") {
                         saveRequest = StashSaveRequest(status: status)
@@ -98,7 +103,7 @@ struct StashBrowser<Detail: View>: View {
                 Divider()
                 if let listError {
                     EmptyPanel(
-                        title: L10n.text("无法读取暂存记录"), symbol: "exclamationmark.triangle", message: listError)
+                        title: L10n.text("无法读取储藏"), symbol: "exclamationmark.triangle", message: listError)
                     Button(L10n.text("重试")) { reload = UUID() }.padding()
                 } else if let list, !list.entries.isEmpty {
                     List(list.entries, selection: $selection) { entry in
@@ -112,16 +117,16 @@ struct StashBrowser<Detail: View>: View {
                         }.padding(.vertical, 4).tag(entry.id)
                             .accessibilityIdentifier("stash-record:" + entry.id)
                     }.listStyle(.inset).scrollContentBackground(.hidden).background(colors.canvas)
-                        .accessibilityIdentifier("stash-list").accessibilityLabel(L10n.text("暂存记录列表"))
+                        .accessibilityIdentifier("stash-list").accessibilityLabel(L10n.text("储藏列表"))
                     if list.hasMore {
                         Button(L10n.text("载入更多")) { limit = min(limit + 200, 10_000) }
                             .disabled(loading || limit >= 10_000).padding(10)
                     }
                 } else if loading {
-                    ProgressView(L10n.text("读取暂存记录…")).frame(maxWidth: .infinity, maxHeight: .infinity)
+                    ProgressView(L10n.text("读取储藏…")).frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     EmptyPanel(
-                        title: L10n.text("没有暂存记录"), symbol: "archivebox", message: L10n.text("保存当前改动，稍后再恢复。")
+                        title: L10n.text("没有储藏"), symbol: "archivebox", message: L10n.text("保存当前改动，稍后再恢复。")
                     )
                     .accessibilityIdentifier("stash-empty")
                 }
@@ -138,16 +143,16 @@ struct StashBrowser<Detail: View>: View {
                 let branch = request.status.branch
                 let files = request.status.files
                 saveRequest = nil
-                perform(L10n.text("保存暂存记录")) { repository in
+                perform(L10n.text("保存储藏"), .stashSave) { repository in
                     _ = try await repository.expectingBranch(branch).createStash(
                         message: message, includeUntracked: includeUntracked, expectedHead: head,
                         expectedFiles: files)
-                    return L10n.text("改动已保存为暂存记录。")
+                    return .completed(message: L10n.text("改动已保存为储藏。"))
                 }
-            }
+            }.workbenchSheet(preferences)
         }
         .alert(
-            actionRequest?.kind == .delete ? L10n.text("删除暂存记录？") : L10n.text("应用后删除暂存记录？"),
+            actionRequest?.kind == .delete ? L10n.text("删除储藏？") : L10n.text("应用后删除储藏？"),
             isPresented: Binding(get: { actionRequest != nil }, set: { if !$0 { actionRequest = nil } }),
             presenting: actionRequest
         ) { request in
@@ -219,7 +224,7 @@ struct StashBrowser<Detail: View>: View {
             }.id(entry.id)
         } else {
             EmptyPanel(
-                title: L10n.text("选择一条暂存记录"), symbol: "archivebox",
+                title: L10n.text("选择一条储藏"), symbol: "archivebox",
                 message: L10n.text("分别查看保存的工作区、暂存区与未跟踪文件。"))
         }
     }
@@ -266,21 +271,22 @@ struct StashBrowser<Detail: View>: View {
 
     private func execute(_ request: StashActionRequest) {
         guard canWrite else { return }
-        let title = request.kind == .delete ? L10n.text("删除暂存记录") : L10n.text("恢复暂存记录")
-        perform(title) { repository in
+        let title = request.kind == .delete ? L10n.text("删除储藏") : L10n.text("恢复储藏")
+        perform(title, .standard) { repository in
             let pinned = repository.expectingBranch(request.branch)
             if request.kind == .delete {
                 try await pinned.deleteStash(request.entry, in: request.list, expectedHead: request.head)
-                return L10n.text("暂存记录已删除。")
+                return .completed(message: L10n.text("储藏已删除。"))
             }
             let outcome = try await pinned.restoreStash(
                 request.entry, in: request.list, restoreIndex: request.restoreIndex,
                 pop: request.kind == .pop, expectedHead: request.head)
             switch outcome {
-            case .applied: return L10n.text("内容已应用，暂存记录已保留。")
-            case .popped: return L10n.text("内容已应用，暂存记录已删除。")
+            case .applied: return .completed(message: L10n.text("内容已应用，储藏已保留。"))
+            case .popped: return .completed(message: L10n.text("内容已应用，储藏已删除。"))
             case .appliedNeedsReview(let reason):
-                return L10n.text("内容已应用。记录列表或删除结果需要核对，请勿重复恢复。") + "\n" + reason
+                return .needsReview(
+                    message: L10n.text("内容已应用。记录列表或删除结果需要核对，请勿重复恢复。"), details: reason)
             }
         }
     }
@@ -295,7 +301,7 @@ private struct StashSaveSheet: View {
     @State private var includeUntracked = false
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(L10n.text("保存暂存记录")).font(.title2.bold())
+            Text(L10n.text("保存储藏")).font(.title2.bold())
             Text(status.displayBranch).font(.headline)
             TextField(L10n.text("记录名称（可选）"), text: $message).textFieldStyle(.roundedBorder)
                 .accessibilityIdentifier("stash-message")

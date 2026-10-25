@@ -1,0 +1,47 @@
+{
+  "input": "r5/generated/logo-horizontal.png",
+  "regions": [
+    {
+      "name": "plate",
+      "region": {
+        "left": 203,
+        "top": 113,
+        "width": 508,
+        "height": 482
+      },
+      "kind": "alpha",
+      "largest": true,
+      "min": 1500,
+      "w": 566,
+      "h": 566
+    },
+    {
+      "name": "git",
+      "region": {
+        "left": 203,
+        "top": 113,
+        "width": 508,
+        "height": 482
+      },
+      "kind": "white",
+      "largest": true,
+      "min": 1500,
+      "w": 566,
+      "h": 566
+    },
+    {
+      "name": "wordmark",
+      "region": {
+        "left": 751,
+        "top": 207,
+        "width": 1041,
+        "height": 288
+      },
+      "kind": "black",
+      "min": 500,
+      "w": 1040,
+      "h": 300
+    }
+  ],
+  "seal": "Existing verified seal-contours.json is preserved byte for byte"
+}

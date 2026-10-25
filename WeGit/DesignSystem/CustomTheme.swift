@@ -76,14 +76,14 @@ struct CustomTheme: Codable, Equatable, Sendable {
 
     static let maximumFileSize = 65_536
     static let starter = CustomTheme(
-        version: 1, name: "Graphite", controls: .dark,
+        version: 1, name: "Ink & Ivory", controls: .dark,
         colors: [
-            "accent": "#5B8DEF", "canvas": "#171B24", "chrome": "#171B24",
-            "sidebar": "#202633", "surface": "#252D3B", "border": "#3C4659",
-            "text": "#E9EDF5", "secondaryText": "#A5B0C2", "positive": "#79C8A0",
-            "negative": "#ED8A96", "modified": "#D7B174", "diffAdded": "#20392F",
-            "diffRemoved": "#3B262C", "keyword": "#C1A7EE", "string": "#D8B68A",
-            "number": "#88B9E8", "comment": "#9BA8B9",
+            "accent": "#D66E5D", "canvas": "#1F1F1F", "chrome": "#1F1F1F",
+            "sidebar": "#191817", "surface": "#2B2825", "border": "#62574B",
+            "text": "#F7F3ED", "secondaryText": "#C3B8AA", "positive": "#79C8A0",
+            "negative": "#F0A098", "modified": "#E6BA76", "diffAdded": "#25392E",
+            "diffRemoved": "#412826", "keyword": "#CAB5E7", "string": "#8BC6B9",
+            "number": "#8EBBE8", "comment": "#BAAEA1",
         ])
 
     subscript(_ role: ThemeColorRole) -> String {

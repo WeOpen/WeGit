@@ -39,13 +39,13 @@ public enum StashRestoreOutcome: Sendable {
 enum StashParser {
     static func parse(_ data: Data) throws -> [GitStash] {
         guard data.isEmpty || data.last == 0 else {
-            throw ModelFailure.invalidOutput(L10n.text("暂存记录列表被截断"))
+            throw ModelFailure.invalidOutput(L10n.text("储藏列表被截断"))
         }
         guard !data.isEmpty else { return [] }
         var fields = data.split(separator: 0, omittingEmptySubsequences: false)
         fields.removeLast()
         guard fields.count.isMultiple(of: 4) else {
-            throw ModelFailure.invalidOutput(L10n.text("暂存记录字段数量无效"))
+            throw ModelFailure.invalidOutput(L10n.text("储藏字段数量无效"))
         }
         return try stride(from: 0, to: fields.count, by: 4).map { offset in
             let selector = String(decoding: fields[offset], as: UTF8.self)
@@ -55,7 +55,7 @@ enum StashParser {
                 let index = Int(selector.dropFirst(7).dropLast()), index >= 0,
                 selector == "stash@{\(index)}", GitObjectID.valid(object), let seconds = Int64(time),
                 seconds >= 0, let message = String(data: Data(fields[offset + 3]), encoding: .utf8)
-            else { throw ModelFailure.invalidOutput(L10n.text("暂存记录无法可靠解析")) }
+            else { throw ModelFailure.invalidOutput(L10n.text("储藏无法可靠解析")) }
             return GitStash(
                 selector: selector, objectID: object, createdAt: Date(timeIntervalSince1970: Double(seconds)),
                 message: message)

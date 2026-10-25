@@ -1,0 +1,24 @@
+{
+  "scope": "Visible vertical silhouette in the final 2x new-branch sheet, not AX container bounds",
+  "backgroundRGB": [
+    246,
+    243,
+    238
+  ],
+  "samples": {
+    "cancel": {
+      "columnPx": 590,
+      "firstPx": 518,
+      "lastPx": 579,
+      "heightPx": 62,
+      "heightPt": 31.0
+    },
+    "create": {
+      "columnPx": 780,
+      "firstPx": 518,
+      "lastPx": 579,
+      "heightPx": 62,
+      "heightPt": 31.0
+    }
+  }
+}

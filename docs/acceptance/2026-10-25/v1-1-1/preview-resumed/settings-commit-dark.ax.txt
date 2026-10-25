@@ -1,0 +1,33 @@
+Window: "WeGit 设置", App: WeGit v1.1.1 Final.
+0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 单选按钮 Description: 通用, Value: 0
+			4 单选按钮 Description: Git, Value: 0
+			5 单选按钮 Description: 外观, Value: 0
+			6 单选按钮 Description: 差异, Value: 0
+			7 单选按钮 Description: 提交, Value: 1
+			8 单选按钮 Description: 高级, Value: 0
+		9 滚动区
+			10 标题 草稿
+			11 container
+				12 转换 按仓库保存提交草稿, Value: on, ID: settings-save-drafts
+				13 text 关闭后，新编辑不再持久保存；已经保存的草稿保留，便于手动恢复或清除。草稿不会同步或上传。 纸墨青瓷样例
+				14 按钮 清除此仓库的草稿…
+			15 标题 提交与恢复
+			16 container
+				17 text Amend 始终先确认历史改写。“提交并推送”会分别记录结果；推送失败后的重试不会再次提交。 已有 Hook 与 GPG/SSH 签名配置继续由 Git 执行，失败时保留草稿。
+	18 关闭按钮
+	19 缩放按钮 (disabled)
+	20 文本 WeGit 设置
+21 menu bar
+	22 WeGit v1.1.1 Review, ID: native-menu-app
+	23 文件, ID: native-menu-file
+	24 编辑, ID: native-menu-edit
+	25 显示, ID: native-menu-view
+	26 仓库, ID: native-menu-repository
+	27 工作区, ID: native-menu-workspace
+	28 窗口, ID: native-menu-window
+	29 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

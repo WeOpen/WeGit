@@ -5,15 +5,24 @@ struct StashView: View {
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
     var body: some View {
-        StashBrowser(
-            service: session.service, status: session.status, canWrite: session.canWrite,
-            writeReason: session.writeReason, refreshID: session.statusRenderID,
-            perform: { name, operation in
-                guard app.session === session else { return }
-                session.performResult(name, operation: operation)
-            }, showChanges: { app.workspace.route = .changes }
-        ) { contents, part in
-            StashDiffView(app: app, session: session, contents: contents, part: part)
+        VStack(spacing: 0) {
+            StashBrowser(
+                service: session.service, status: session.status, canWrite: session.canWrite,
+                writeReason: session.writeReason, refreshID: session.statusRenderID,
+                perform: { name, context, operation in
+                    guard app.session === session else { return }
+                    session.performResult(name, context: context, operation: operation)
+                }, showChanges: { app.workspace.route = .changes }
+            ) { contents, part in
+                StashDiffView(app: app, session: session, contents: contents, part: part)
+            }
+            if session.isBusy || session.operationFeedback != nil {
+                Divider()
+                OperationFeedback(
+                    busy: session.isBusy, activity: session.activityLabel,
+                    result: session.operationFeedback, context: session.operationFeedbackContext, fallback: ""
+                ).frame(maxWidth: .infinity, alignment: .leading).padding(12)
+            }
         }.id(session.id)
     }
 }

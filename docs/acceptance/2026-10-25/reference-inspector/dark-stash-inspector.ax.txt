@@ -1,0 +1,125 @@
+Window: "品牌工作台样例", App: WeGit.
+0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+2
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selected) 储藏
+						11 row (selectable) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) 品牌工作台样例、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 分离组
+					19 container
+						20 文本 储藏
+						21 按钮 Description: 保存改动…, Help: 将改动保存为 Stash；不会自动切换分支。, ID: stash-save
+						22 滚动区
+							23 列表 Description: 储藏列表, ID: stash-list
+								24 row (selected) On main: Keep the reading draft
+stash@{0}
+2026年10月24日
+								25 row (selectable) On main: Refine the toolbar proportions
+stash@{1}
+2026年10月24日
+					26 分离器 (disabled, settable, float) 470
+					27 container
+						28 text On main: Keep the reading draft main · 935d631edf69
+						29 复选框 Description: 恢复原暂存状态, Value: 1, ID: stash-restore-index
+						30 按钮 (disabled) Description: 应用, Help: 请先提交或保存已跟踪文件的改动。, ID: stash-apply
+						31 按钮 (disabled) Description: 取出…, Help: 请先提交或保存已跟踪文件的改动。, ID: stash-pop
+						32 按钮 Description: 删除…, ID: stash-delete
+						33 文本 应用会保留记录；取出会在应用成功后删除。请先处理已跟踪文件的现有改动。
+						34 记录内容, ID: stash-content-part
+							35 单选按钮 Description: 原未暂存内容, Value: 1
+							36 单选按钮 Description: 原暂存区内容, Value: 0
+						37 文本 Help: docs/工作流程.md, Value: 工作流程.md
+						38 Description: 布局, ID: diff-layout
+							39 单选按钮 Description: 统一, Value: 1
+							40 单选按钮 Description: 分栏, Value: 0
+						41 菜单按钮 阅读选项
+						42 按钮 复制补丁
+						43 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+						44 按钮 (disabled) Description: 下一差异块, ID: diff-hunk-next
+						45 文本 Value: 差异块 1 / 1, ID: diff-hunk-position
+						46 滚动区 Description: 文本差异, ID: diff-content
+							47 列表 Description: 文本差异内容, Secondary Actions: AXScrollToTop, AXScrollToBottom
+								48 container 差异块：@@ -1,3 +1,3 @@
+									49 文本 @@ -1,3 +1,3 @@
+									50 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+								51 container Description: 上下文行, ID: unified-diff-row
+									52 文本 1
+									53 文本 1
+									54 文本输入区 Description: 上下文代码，第 1 行, Value: # 工作流程, ID: diff-code:0
+								55 container Description: 上下文行, ID: unified-diff-row
+									56 文本 2
+									57 文本 2
+									58 文本输入区 Description: 上下文代码，第 2 行, Value:  , ID: diff-code:1
+								59 container Description: 删除行, ID: unified-diff-row
+									60 文本 3
+									61 文本 -
+									62 文本输入区 Description: 删除的代码，第 3 行, Value: 浏览改动 → 暂存 → 提交 → 核对推送目标。, ID: diff-code:2
+								63 container Description: 新增行, ID: unified-diff-row
+									64 文本 3
+									65 文本 +
+									66 文本输入区 Description: 新增代码，第 3 行, Value: Review before committing., ID: diff-code:3
+								67 container 上下文展开控制
+									68 按钮 Description: 展开 20 行, ID: diff-context-expand-1
+									69 文本 后续上下文
+				70 分离器 (disabled, settable, float) 999
+				71 container Description: 检查器, ID: repository-inspector
+					72 Description: 检查器, ID: inspector-tabs
+						73 单选按钮 Description: 文件信息, Value: 0
+						74 单选按钮 Description: 提交信息, Value: 1
+					75 滚动区
+						76 text ID: inspector-commit-info, Value: On main: Keep the reading draft WeGit UI Fixture <fixture@example.test> 2026年10月24日 20:47 935d631edf69
+						77 按钮 Description: 复制 SHA, ID: inspector-commit-info
+						78 显示三角形 Description: 完整提交消息, Value: off, ID: inspector-commit-info
+					79 text 提交的文件 1
+					80 滚动区
+						81 列表 inspector-commit-files
+							82 row (selected) 状态：修改
+工作流程.md
+docs/工作流程.md
++1
+−1
+	83 工具栏
+		84 container 隐藏边栏
+			85 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		86 按钮 Description: 品牌工作台样例, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/brand-review-_98xgmqd/品牌工作台样例
+切换仓库 ⌘K
+		87 菜单按钮 当前分支：main, Value: 同步状态：↑1 ↓0, ID: current-branch
+		88 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		89 按钮 Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		90 按钮 Description: 推送, Value: 1, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		91 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		92 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		93 按钮 Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		94 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	95 关闭按钮
+	96 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	97 最小化按钮
+	98 text 品牌工作台样例 main
+99 menu bar
+	100 WeGit 品牌预览, ID: native-menu-app
+	101 文件, ID: native-menu-file
+	102 编辑, ID: native-menu-edit
+	103 显示, ID: native-menu-view
+	104 仓库, ID: native-menu-repository
+	105 工作区, ID: native-menu-workspace
+	106 窗口, ID: native-menu-window
+	107 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise

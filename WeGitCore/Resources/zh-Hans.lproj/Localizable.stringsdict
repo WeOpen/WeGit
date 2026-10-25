@@ -114,5 +114,21 @@
 			<string>提交（%lld 个文件）</string>
 		</dict>
 	</dict>
+	<key>%lld 个差异块</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld 个差异块</string>
+			<key>other</key>
+			<string>%lld 个差异块</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

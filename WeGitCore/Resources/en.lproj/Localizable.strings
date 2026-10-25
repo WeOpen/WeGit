@@ -984,6 +984,7 @@
 "隐藏侧栏" = "Hide sidebar";
 "隐藏检查器" = "Hide Inspector";
 "需要 Git %1$@+ 和运行时配置能力。自动检测依次检查系统/Xcode、Homebrew 和 PATH。" = "Requires Git %1$@+ with runtime configuration support. Automatic detection checks system/Xcode Git, Homebrew, then PATH.";
+"需要核对" = "Needs review";
 "需要已安装的 Xcode" = "Xcode must be installed";
 "需要已读取且包含提交的仓库" = "Requires a loaded repository with commits";
 "需要未暂存或未跟踪的文件" = "Requires unstaged or untracked files";
@@ -1020,15 +1021,15 @@
 "保存" = "Save";
 "保存当前改动，稍后再恢复。" = "Save your current changes and restore them later.";
 "保存改动…" = "Save Changes…";
-"保存暂存记录" = "Save Stash";
+"保存储藏" = "Save Stash";
 "内容已应用。记录列表或删除结果需要核对，请勿重复恢复。" = "Contents were applied. Check the stash list and deletion result before doing anything else; do not apply again.";
-"内容已应用，暂存记录已保留。" = "Contents applied. The stash was kept.";
-"内容已应用，暂存记录已删除。" = "Contents applied. The stash was removed.";
+"内容已应用，储藏已保留。" = "Contents applied. The stash was kept.";
+"内容已应用，储藏已删除。" = "Contents applied. The stash was removed.";
 "分别查看保存的工作区、暂存区与未跟踪文件。" = "Inspect the saved working tree, index, and untracked files separately.";
 "删除…" = "Delete…";
 "删除后无法从列表恢复；不会删除工作区文件。" = "Deletion cannot be undone from this list. Working files will not be deleted.";
-"删除暂存记录" = "Delete Stash";
-"删除暂存记录？" = "Delete this stash?";
+"删除储藏" = "Delete Stash";
+"删除储藏？" = "Delete this stash?";
 "删除记录" = "Delete Stash";
 "前往更改解决冲突" = "Resolve Conflicts in Changes";
 "包含未跟踪文件" = "Include untracked files";
@@ -1039,25 +1040,26 @@
 "应用" = "Apply";
 "应用会保留记录；取出会在应用成功后删除。" = "Apply keeps the stash. Pop removes it after a successful application.";
 "应用会保留记录；取出会在应用成功后删除。请先处理已跟踪文件的现有改动。" = "Apply keeps the stash; Pop removes it after a successful application. Handle existing tracked-file changes first.";
-"应用后删除暂存记录？" = "Apply and remove this stash?";
+"应用后删除储藏？" = "Apply and remove this stash?";
 "应用并删除" = "Apply and Remove";
 "应用成功后才删除记录；产生冲突时保留记录。" = "The stash is removed only after a successful application. It is kept if conflicts occur.";
 "忽略文件不会保存。保存后，所选范围内的改动从工作区移入记录。" = "Ignored files are not saved. The selected changes are saved in the stash and removed from the working tree.";
-"恢复产生冲突，暂存记录已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。" = "Restoration caused conflicts and the stash was kept. Resolve them in Changes and commit normally. This is not an abortable merge operation.";
+"恢复产生冲突，储藏已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。" = "Restoration caused conflicts and the stash was kept. Resolve them in Changes and commit normally. This is not an abortable merge operation.";
 "恢复前请先提交或保存已跟踪文件的改动，并完成进行中的 Git 操作。" = "Before restoring, commit or stash tracked-file changes and finish any Git operation in progress.";
 "恢复原暂存状态" = "Restore saved staging state";
-"恢复暂存记录" = "Restore Stash";
-"改动已保存为暂存记录。" = "Changes saved in a stash.";
+"恢复储藏" = "Restore Stash";
+"改动已保存为储藏。" = "Changes saved in a stash.";
 "文件与目录替换中有不会被保存的未跟踪或忽略文件，请先移走这些文件。" = "This file/directory replacement contains untracked or ignored files that would not be saved. Move those files out first.";
-"无法读取暂存记录" = "Cannot Read Stashes";
+"无法读取储藏" = "Cannot Read Stashes";
 "无法读取记录内容" = "Cannot Read Stash Contents";
 "暂存操作未完整返回，记录列表已变化。请刷新核对，不要直接重复保存。" = "The stash operation did not return a complete result and the list changed. Refresh and check it before saving again.";
 "暂存记录" = "Stashes";
-"暂存记录列表被截断" = "The stash list was truncated";
-"暂存记录字段数量无效" = "Invalid number of stash fields";
-"暂存记录已删除。" = "Stash deleted.";
-"暂存记录无法可靠解析" = "The stash entry could not be parsed reliably";
-"未能确认新的暂存记录，请核对工作区和记录列表。" = "A new stash could not be confirmed. Check the working tree and stash list.";
+"储藏" = "Stashes";
+"储藏列表被截断" = "The stash list was truncated";
+"储藏字段数量无效" = "Invalid number of stash fields";
+"储藏已删除。" = "Stash deleted.";
+"储藏无法可靠解析" = "The stash entry could not be parsed reliably";
+"未能确认新的储藏，请核对工作区和记录列表。" = "A new stash could not be confirmed. Check the working tree and stash list.";
 "未跟踪内容" = "Untracked Files";
 "来源分支未知" = "Source branch unknown";
 "此记录不是支持的 Stash 格式。" = "This entry is not a supported stash format.";
@@ -1065,31 +1067,31 @@
 "此记录的未跟踪文件基准无法可靠识别。" = "The untracked-file base could not be identified reliably.";
 "没有可保存的改动。" = "There are no changes to save.";
 "没有可保存的改动，请检查是否需要包含未跟踪文件。" = "There are no changes to save. Check whether untracked files should be included.";
-"没有暂存记录" = "No Stashes";
+"没有储藏" = "No Stashes";
 "记录内容" = "Stash Contents";
 "记录名称（可选）" = "Stash name (optional)";
 "请先创建提交并完成当前 Git 操作或冲突。" = "Create a commit first and finish any Git operation or conflict in progress.";
 "请先提交或保存已跟踪文件的改动。" = "Commit or stash tracked-file changes first.";
-"读取暂存记录…" = "Reading Stashes…";
+"读取储藏…" = "Reading Stashes…";
 "读取记录内容…" = "Reading Stash Contents…";
 "载入更多" = "Load More";
-"选择一条暂存记录" = "Select a Stash";
+"选择一条储藏" = "Select a Stash";
 "操作会替换现有目录、未跟踪文件或符号链接父路径，请先处理这些内容。" = "This operation would replace an existing directory, untracked file, or symbolic-link parent. Handle that content first.";
 "原未暂存内容" = "Saved Unstaged Changes";
-"正在读取暂存记录，请稍候。" = "Reading the stash. Please wait.";
+"正在读取储藏，请稍候。" = "Reading the stash. Please wait.";
 "请先读取并选择一条有效记录。" = "Read and select a valid stash first.";
 "读取记录文件…" = "Reading Stash Files…";
 "无法读取记录文件" = "Cannot Read Stash Files";
 "此部分没有保存的文件变化，可切换查看其他内容。" = "There are no saved file changes in this part. Select another part to inspect.";
-"暂存记录的文件变化" = "Files changed in this stash";
+"储藏的文件变化" = "Files changed in this stash";
 "此记录中的文件不支持文本差异。" = "This file in the stash does not support text diffs.";
 "删除结果未能可靠确认，请刷新记录列表后核对。" = "The deletion result could not be confirmed reliably. Refresh the stash list and check it.";
-"并发变化后恢复的暂存记录" = "Stash recovered after a concurrent change";
+"并发变化后恢复的储藏" = "Stash recovered after a concurrent change";
 "当前版本不在包含子模块的仓库中执行 Stash。" = "This version does not perform stash operations in repositories containing submodules.";
 "记录列表发生并发变化，恢复移除记录未完成。请保留此对象并核对：" = "The stash list changed concurrently and recovery of a removed entry did not finish. Preserve and check this object: ";
 "记录列表在操作时发生变化，移除的记录已重新保存，请刷新核对。" = "The list changed during the operation. The removed entry was saved again. Refresh and check the list.";
 "请先处理特殊索引标记或未合并条目，再执行 Stash。" = "Handle special index flags or unmerged entries before performing stash operations.";
-"暂存记录列表" = "Stash list";
+"储藏列表" = "Stash list";
 
 "远端管理" = "Remote Management";
 
@@ -1181,3 +1183,15 @@
 "跟随重命名" = "Follow Renames";
 "输入单个文件的相对路径" = "Enter a Relative File Path";
 "历史路径由 Git 检测，复制关系不保证。" = "Git follows historical paths; copy tracking is not guaranteed.";
+
+"文件信息" = "File Info";
+
+"提交信息" = "Commit Info";
+
+"复制文件路径" = "Copy File Path";
+
+"未提交的更改" = "Uncommitted Changes";
+
+"提交的文件" = "Committed Files";
+
+"块 %1$@" = "Hunk %1$@";

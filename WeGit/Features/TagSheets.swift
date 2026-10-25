@@ -2,6 +2,7 @@ import SwiftUI
 import WeGitCore
 
 struct TagCreationSheet: View {
+    @Environment(\.themeColors) private var colors
     let app: AppState
     let request: TagCreationRequest
     @Environment(\.dismiss) private var dismiss
@@ -29,10 +30,13 @@ struct TagCreationSheet: View {
                     }
                 }
             }.textFieldStyle(.roundedBorder).disabled(session.isBusy)
-            if signing == true { Text(L10n.text("沿用当前 Git 配置签名")).foregroundStyle(.secondary) }
-            if let error { Text(error).foregroundStyle(.red) }
-            if attempted, let error = session.error {
-                Text(error).foregroundStyle(.red).textSelection(.enabled)
+            if signing == true { Text(L10n.text("沿用当前 Git 配置签名")).foregroundStyle(colors.secondaryText) }
+            if let error { Text(error).foregroundStyle(colors.negative) }
+            if attempted {
+                OperationFeedback(
+                    busy: session.isBusy, activity: session.activityLabel,
+                    result: session.operationFeedback, context: session.operationFeedbackContext, fallback: ""
+                )
             }
             HStack {
                 Spacer()
@@ -76,6 +80,7 @@ struct TagCreationSheet: View {
 }
 
 struct TagPushSheet: View {
+    @Environment(\.themeColors) private var colors
     let app: AppState
     @Bindable var session: RepositorySession
     let tag: GitTag
@@ -86,6 +91,7 @@ struct TagPushSheet: View {
     @State private var plan: TagPushPlan?
     @State private var error: String?
     @State private var preparing = false
+    @State private var attempted = false
     @State private var prepareTask: Task<Void, Never>?
     private var selected: GitRemote? { remotes.first { $0.name == remote } }
     var body: some View {
@@ -113,8 +119,13 @@ struct TagPushSheet: View {
                 }.disabled(preparing)
             }
             if preparing { ProgressView(L10n.text("核对远端标签…")) }
-            if let error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
-            if let error = session.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
+            if let error { Text(error).foregroundStyle(colors.negative).textSelection(.enabled) }
+            if attempted {
+                OperationFeedback(
+                    busy: session.isBusy, activity: session.activityLabel,
+                    result: session.operationFeedback, context: session.operationFeedbackContext, fallback: ""
+                )
+            }
             HStack {
                 if plan != nil { Button(L10n.text("返回")) { plan = nil }.disabled(session.isBusy) }
                 Spacer()
@@ -162,13 +173,14 @@ struct TagPushSheet: View {
     private func push(_ plan: TagPushPlan) {
         guard app.session === session else { return }
         let session = session
+        attempted = true
         session.perform(
             L10n.text("推送标签"), onSuccess: { dismiss() },
             operation: { service in
                 do { _ = try await service.pushTag(plan) } catch let unknown as TagPushOutcomeUnknown {
                     await MainActor.run {
                         session.pendingTagPush = unknown.plan
-                        session.tagPushVerification = nil
+                        session.tagPushFeedback = .from(unknown)
                     }
                     throw unknown
                 }

@@ -25,7 +25,7 @@ enum WorkspaceRoute: String, CaseIterable, Identifiable {
     case stashes = "暂存记录"
     case tags = "标签"
     var id: String { rawValue }
-    var title: String { L10n.key(rawValue) }
+    var title: String { self == .stashes ? L10n.text("储藏") : L10n.key(rawValue) }
     var icon: String {
         switch self {
         case .changes: "square.and.pencil"
@@ -39,6 +39,9 @@ enum WorkspaceRoute: String, CaseIterable, Identifiable {
 
 @Observable @MainActor
 final class WorkspaceState {
+    // The inspector observes the same comparison and selection as the visible diff.
+    // A route/session identity prevents a disappearing pane from exposing stale data.
+    var commitInspection: CommitInspection?
     var route: WorkspaceRoute = .changes
     var selectedFile: String? {
         didSet {
@@ -79,6 +82,13 @@ final class WorkspaceState {
     }
 }
 
+struct CommitInspection {
+    let sessionID: UUID
+    let route: WorkspaceRoute
+    let detail: CommitDetailState
+    let allowsFileHistory: Bool
+}
+
 @Observable @MainActor
 final class RepositorySession {
     let id = UUID()
@@ -90,7 +100,7 @@ final class RepositorySession {
     var history: [GitCommit] { historyState.commits }
     var remotes: [String] = []
     var pendingTagPush: TagPushPlan?
-    var tagPushVerification: String?
+    var tagPushFeedback: OperationFeedbackResult?
     var statusRenderID = UUID()
     var watcherRenderID: UUID?
     #if WEGIT_PERFORMANCE
@@ -112,7 +122,8 @@ final class RepositorySession {
     var activityLabel = ""
     var error: String?
     var details = ""
-    var notice: String?
+    var operationFeedback: OperationFeedbackResult?
+    var operationFeedbackContext: OperationFeedbackContext = .standard
     var lastTrashedFile: URL?
     var pendingPush: PendingPushRecord? {
         didSet {
@@ -327,30 +338,38 @@ final class RepositorySession {
     ) {
         performResult(name, onSuccess: onSuccess) {
             try await operation($0)
-            return nil
+            return .completed(message: L10n.text("\(name)完成"))
         }
     }
 
     func performResult(
-        _ name: String, onSuccess: (@MainActor () -> Void)? = nil,
-        operation: @escaping @Sendable (RepositoryService) async throws -> String?
+        _ name: String, context: OperationFeedbackContext = .standard,
+        onSuccess: (@MainActor () -> Void)? = nil,
+        operation: @escaping @Sendable (RepositoryService) async throws -> OperationFeedbackOutcome
     ) {
         guard !isBusy else { return }
         guard canWrite else {
-            error = L10n.text("仓库状态已过期，请刷新后再操作。")
+            let message = L10n.text("仓库状态已过期，请刷新后再操作。")
+            error = message
+            details = ""
+            operationFeedback = .failure(message: message, details: nil)
+            operationFeedbackContext = context
             return
         }
         suspendRefresh()
         isBusy = true
         activityLabel = name
         error = nil
-        notice = nil
+        details = ""
+        operationFeedback = nil
+        operationFeedbackContext = context
         let pinned = service.expectingBranch(status.branch)
         operationTask = Task {
             var succeeded = false
             do {
-                notice = try await operation(pinned) ?? L10n.text("\(name)完成")
-                succeeded = true
+                let outcome = try await operation(pinned)
+                operationFeedback = outcome.feedback
+                succeeded = outcome.didComplete
             } catch { show(error) }
             // Refresh in a fresh task even if the operation task was cancelled.
             await Task { await self.refresh() }.value
@@ -373,11 +392,14 @@ final class RepositorySession {
         isBusy = true
         activityLabel = L10n.text("提交")
         error = nil
+        details = ""
+        operationFeedback = nil
+        operationFeedbackContext = .commit
         operationTask = Task {
             do {
                 _ = try await pinned.commit(message: text, amend: amend, expectedHead: head)
                 completeCommit(message: text)
-                notice = L10n.text("提交完成")
+                operationFeedback = .success(message: L10n.text("提交完成"))
             } catch { show(error) }
             await Task { await self.refresh() }.value
             isBusy = false
@@ -395,9 +417,11 @@ final class RepositorySession {
     }
     func show(_ error: any Error) {
         self.error = error.localizedDescription
+        operationFeedback = .from(error)
         details =
             (error as? GitFailure)?.details ?? (error as? PullFailure)?.details
-            ?? (error as? CommitOutcomeUnknown)?.details ?? (error as? PushOutcomeUnknown)?.details ?? ""
+            ?? (error as? CommitOutcomeUnknown)?.details ?? (error as? PushOutcomeUnknown)?.details
+            ?? (error as? TagPushOutcomeUnknown)?.details ?? ""
         if let path = (error as? UntrackedTrashFailure)?.trashURL, path.isFileURL { lastTrashedFile = path }
     }
 }
@@ -672,7 +696,7 @@ final class AppState {
                             try FileManager.default.moveItem(at: source, to: destination)
                         }.value
                     }
-                    return L10n.text("回收夹具已核对并恢复")
+                    return .completed(message: L10n.text("回收夹具已核对并恢复"))
                 })
         }
     #endif
@@ -793,6 +817,19 @@ final class AppState {
             workspace.selectedFile = file.layers.first(where: {
                 workspace.fileFilter.matches(file, layer: $0)
             }).map { $0.rawValue + "|" + path }
+            // A stage/unstage can remap selection while the task for the old
+            // layer is being cancelled. Start a fresh unstructured read as well
+            // as changing the task key, so that coalescing that key change cannot
+            // leave a selected row with an empty Diff. The normal request token
+            // still cancels/suppresses any duplicate or superseded read.
+            if let remappedSelection = workspace.selectedFile {
+                Task {
+                    guard self.session === session, self.workspace.route == .changes,
+                        self.workspace.selectedFile == remappedSelection
+                    else { return }
+                    await self.loadDiff()
+                }
+            }
             return
         }
         guard workspace.fileFilter.matches(file, layer: layer) else {

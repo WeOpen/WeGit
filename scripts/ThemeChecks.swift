@@ -55,8 +55,13 @@ struct ThemeChecks {
         try require(
             roundTripView.changesByFolder == true && roundTripView == folderView,
             "Folder display preference round-trips with the repository workspace")
-        func level(_ color: NSColor) -> CGFloat {
-            (color.usingColorSpace(.sRGB) ?? color).redComponent
+        func level(_ color: NSColor) -> Double {
+            let color = color.usingColorSpace(.sRGB)!
+            let channels = [color.redComponent, color.greenComponent, color.blueComponent].map {
+                let channel = Double($0)
+                return channel <= 0.04045 ? channel / 12.92 : pow((channel + 0.055) / 1.055, 2.4)
+            }
+            return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
         }
         func requireLadder(_ colors: AppColors, _ appearance: String) throws {
             let sidebar = level(colors.resolvedNSColor(.sidebar))
@@ -66,8 +71,9 @@ struct ThemeChecks {
                     && equal(colors.resolvedNSColor(.canvas), colors.resolvedNSColor(.chrome)),
                 "Built-in \(appearance) central panes and headers share one surface")
             try require(
-                sidebar < canvas && (colors.dark || abs(canvas - 1) < 0.0001),
-                "Built-in \(appearance) sidebars are recessed; light work panes are pure white")
+                sidebar < canvas && (colors.dark ? canvas < 0.05 : canvas > 0.85),
+                "Built-in \(appearance) sidebars are recessed beside a clean paper or dark ink reading surface"
+            )
         }
 
         func resolve(_ color: NSColor, using colors: AppColors) -> NSColor {
@@ -158,6 +164,26 @@ struct ThemeChecks {
                 let colors = AppColors(dark: dark, increasedContrast: increased)
                 try requireLadder(colors, "dark=\(dark), increased=\(increased)")
                 let canvas = colors.resolvedNSColor(.canvas)
+                let expectedCanvas = ThemeRGB(hex: dark ? "#1F1F1F" : "#F7F3ED")!
+                try require(
+                    equal(
+                        canvas,
+                        NSColor(
+                            srgbRed: expectedCanvas.red, green: expectedCanvas.green,
+                            blue: expectedCanvas.blue, alpha: 1)),
+                    "Built-in ink/ivory canvas uses the specified brand color")
+                for tone in InterfaceTone.allCases {
+                    let foreground = resolve(NSColor(colors.tone(tone)), using: colors)
+                    for role in [ThemeColorRole.canvas, .sidebar] {
+                        let background = painted(
+                            foreground.withAlphaComponent(0.10), over: colors.resolvedNSColor(role))
+                        let ratio = contrast(foreground, against: background)
+                        try require(
+                            ratio >= 4.5,
+                            "Categorical \(tone) badge on \(role) dark=\(dark) increased=\(increased) contrast \(ratio) meets 4.5:1"
+                        )
+                    }
+                }
                 let backgrounds: [(String, NSColor)] = [
                     ("canvas", canvas),
                     ("added", painted(colors.resolvedNSColor(.diffAdded), over: canvas)),
@@ -213,7 +239,7 @@ struct ThemeChecks {
                     )
                 }
                 let badge = painted(
-                    resolve(NSColor.white.withAlphaComponent(0.09), using: colors),
+                    resolve(NSColor.white.withAlphaComponent(0.10), using: colors),
                     over: resolve(NSColor(colors.selectionBackground), using: colors))
                 let badgeRatio = contrast(.white, against: badge)
                 try require(
@@ -224,7 +250,7 @@ struct ThemeChecks {
                     (ThemeColorRole.positive, NSColor.systemGreen), (.negative, .systemRed),
                     (.modified, .systemOrange), (.keyword, .systemPurple), (.string, .systemBrown),
                     (.number, .linkColor),
-                    (.accent, .controlAccentColor),
+                    (.accent, NSColor(colors.brand)),
                 ] {
                     let before = resolve(colors.syntaxPalette[role] ?? source, using: colors)
                     let after =

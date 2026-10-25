@@ -30,9 +30,9 @@ private struct GlassMetrics {
     /// controls, the 26pt inline action and the 24pt compact icon button.
     private var outerHeight: CGFloat {
         switch controlSize {
-        case .mini: 24
-        case .small: 26
-        case .large: 34
+        case .mini: AppStyle.compactControlHeight
+        case .small: AppStyle.smallControlHeight
+        case .large: AppStyle.largeControlHeight
         default: AppStyle.controlHeight
         }
     }
@@ -48,6 +48,14 @@ private struct GlassMetrics {
     }
 
     var labelHeight: CGFloat { outerHeight - inset }
+    var labelMinimumWidth: CGFloat {
+        switch controlSize {
+        case .mini: 16
+        case .small: 48
+        case .large: 96
+        default: AppStyle.actionMinimumWidth - 16
+        }
+    }
 }
 
 /// Keep secondary buttons neutral without clearing the accent of switches and primary actions.
@@ -57,14 +65,16 @@ private struct NeutralGlassButton: PrimitiveButtonStyle {
     @Environment(\.controlSize) private var controlSize
 
     func makeBody(configuration: Configuration) -> some View {
-        let label = configuration.label.frame(minHeight: GlassMetrics(controlSize: controlSize).labelHeight)
+        let metrics = GlassMetrics(controlSize: controlSize)
+        let label = configuration.label.frame(
+            minWidth: metrics.labelMinimumWidth, minHeight: metrics.labelHeight)
         return Group {
             if inToolbar {
                 Button(role: configuration.role, action: configuration.trigger) {
                     configuration.label.font(.system(size: AppStyle.toolbarSymbolSize))
                         .padding(.horizontal, 12).frame(height: AppStyle.toolbarControlHeight)
                         .contentShape(Capsule())
-                }.buttonStyle(.plain).modifier(GlassCapsuleSurface(solid: solid))
+                }.buttonStyle(ToolbarGlassButtonStyle(solid: solid))
             } else if solid {
                 Button(role: configuration.role, action: configuration.trigger) { label }
                     .buttonStyle(.bordered)
@@ -77,23 +87,35 @@ private struct NeutralGlassButton: PrimitiveButtonStyle {
 }
 
 private struct GlassPrimaryAction: ViewModifier {
-    @Environment(\.themeColors) private var colors
-    @Environment(\.isEnabled) private var enabled
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.colorSchemeContrast) private var contrast
 
     func body(content: Content) -> some View {
-        if reduceTransparency || contrast == .increased {
-            content.foregroundStyle(enabled ? colors.selectionText : colors.secondaryText).buttonStyle(
-                .borderedProminent
-            ).buttonBorderShape(
-                .capsule)
-        } else {
-            content.foregroundStyle(enabled ? colors.selectionText : colors.secondaryText).buttonStyle(
-                .glassProminent
-            ).buttonBorderShape(
-                .capsule)
-        }
+        content.buttonStyle(PrimaryGlassButton(solid: reduceTransparency || contrast == .increased))
+    }
+}
+
+/// Primary and secondary controls reserve the same label metrics before native styling.
+private struct PrimaryGlassButton: PrimitiveButtonStyle {
+    let solid: Bool
+    @Environment(\.themeColors) private var colors
+    @Environment(\.controlSize) private var controlSize
+    @Environment(\.isEnabled) private var enabled
+
+    func makeBody(configuration: Configuration) -> some View {
+        let metrics = GlassMetrics(controlSize: controlSize)
+        let label = configuration.label
+            .frame(minWidth: metrics.labelMinimumWidth, minHeight: metrics.labelHeight)
+            .foregroundStyle(enabled ? colors.selectionText : colors.secondaryText)
+        return Group {
+            if solid {
+                Button(role: configuration.role, action: configuration.trigger) { label }
+                    .buttonStyle(.borderedProminent)
+            } else {
+                Button(role: configuration.role, action: configuration.trigger) { label }
+                    .buttonStyle(.glassProminent)
+            }
+        }.buttonBorderShape(.capsule).tint(colors.primaryAction)
     }
 }
 
@@ -113,7 +135,7 @@ private struct GlassIconButton: PrimitiveButtonStyle {
                     configuration.label.labelStyle(.iconOnly).font(.system(size: AppStyle.toolbarSymbolSize))
                         .frame(width: AppStyle.toolbarControlHeight, height: AppStyle.toolbarControlHeight)
                         .contentShape(Circle())
-                }.buttonStyle(.plain).modifier(GlassCapsuleSurface(solid: solid))
+                }.buttonStyle(ToolbarGlassButtonStyle(solid: solid))
             } else if solid {
                 Button(role: configuration.role, action: configuration.trigger) { label }
                     .buttonStyle(.bordered)
@@ -140,7 +162,8 @@ private struct GlassMenuSurface: ViewModifier {
                 content.menuIndicator(.hidden).labelStyle(.iconOnly)
                     .frame(width: height, height: height)
             } else {
-                content.padding(.horizontal, 10).frame(minHeight: height)
+                content.padding(.horizontal, 10).frame(
+                    minWidth: AppStyle.actionMinimumWidth, minHeight: height)
             }
         }
         .menuStyle(.borderlessButton)
@@ -162,21 +185,55 @@ private struct ToolbarLabelFont: ViewModifier {
     }
 }
 
+/// ButtonStyle reads the native pressed state; it never replaces Button's input gesture.
+private struct ToolbarGlassButtonStyle: ButtonStyle {
+    let solid: Bool
+    @Environment(\.isEnabled) private var enabled
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(AppPreferences.self) private var preferences
+
+    func makeBody(configuration: Configuration) -> some View {
+        let pressed = enabled && configuration.isPressed
+        let motion = enabled && preferences.interfaceMotion && !reduceMotion
+        return configuration.label
+            .modifier(GlassCapsuleSurface(solid: solid, pressed: pressed))
+            .scaleEffect(pressed && motion ? 0.96 : 1)
+            .opacity(enabled ? 1 : 0.52)
+            .animation(motion ? AppMotion.feedback : nil, value: pressed)
+    }
+}
+
 private struct GlassCapsuleSurface: ViewModifier {
     @Environment(\.themeColors) private var colors
     let solid: Bool
+    var pressed = false
+    @Environment(\.isEnabled) private var enabled
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorSchemeContrast) private var contrast
+    @Environment(AppPreferences.self) private var preferences
+    @State private var hovering = false
 
     func body(content: Content) -> some View {
-        if solid {
-            content.background(colors.surface, in: .capsule)
+        Group {
+            if solid {
+                content.background {
+                    Capsule().fill(colors.surface)
+                        .overlay { Capsule().fill(colors.celadon.opacity(0.08)) }
+                }
                 .overlay {
-                    Capsule().strokeBorder(colors.border, lineWidth: contrast == .increased ? 2 : 1)
+                    Capsule().strokeBorder(colors.controlBorder, lineWidth: contrast == .increased ? 2 : 1)
                         .allowsHitTesting(false)
                 }
-        } else {
-            content.glassEffect(.regular.interactive(), in: .capsule)
+            } else {
+                content.glassEffect(.regular.tint(colors.celadon.opacity(0.1)).interactive(), in: .capsule)
+            }
         }
+        .overlay {
+            Capsule().fill(colors.text.opacity(enabled ? (pressed ? 0.09 : hovering ? 0.04 : 0) : 0))
+                .allowsHitTesting(false)
+        }
+        .onHover { hovering = enabled && $0 }
+        .animation(reduceMotion || !preferences.interfaceMotion ? nil : AppMotion.hover, value: hovering)
     }
 }
 
@@ -188,6 +245,18 @@ private struct GlassIconFamily: ViewModifier {
     func body(content: Content) -> some View {
         content.buttonStyle(
             GlassIconButton(solid: reduceTransparency || contrast == .increased, inToolbar: toolbar))
+    }
+}
+
+private struct WorkbenchSheetSurface: ViewModifier {
+    @Environment(\.themeColors) private var colors
+    func body(content: Content) -> some View { content.background(colors.canvas) }
+}
+
+extension View {
+    /// A sheet is a native presentation boundary: install its styles explicitly.
+    func workbenchSheet(_ preferences: AppPreferences) -> some View {
+        modifier(WorkbenchSheetSurface()).workbenchControlFamily().workbenchAppearance(preferences)
     }
 }
 
@@ -211,6 +280,10 @@ struct GlassTab<Value: Hashable>: Identifiable {
     var id: Value { value }
 }
 
+private enum SegmentInputSource: Equatable {
+    case immediate, pointer, keyboard
+}
+
 /// The transparent native control owns hit testing, focus, arrow keys and AX radio buttons.
 /// SwiftUI draws one material track and one moving glass lens beneath it.
 struct WorkbenchGlassTabs<Value: Hashable>: View {
@@ -226,31 +299,62 @@ struct WorkbenchGlassTabs<Value: Hashable>: View {
     @Environment(\.colorSchemeContrast) private var contrast
     @Environment(AppPreferences.self) private var preferences
     @Namespace private var lens
+    @State private var lensSelection: Value? = nil
+    @State private var immediateLensRevision = 0
+
+    private var motionEnabled: Bool { enabled && preferences.interfaceMotion && !reduceMotion }
+    private var lensNeedsSync: Bool { lensSelection.map { $0 != selection } ?? false }
+    private var presentedSelection: Value {
+        if let lensSelection, lensSelection == selection { return lensSelection }
+        return selection
+    }
 
     var body: some View {
         ZStack {
             HStack(spacing: 0) {
                 ForEach(tabs) { tab in
+                    Color.clear.frame(maxWidth: .infinity).frame(height: height - 8)
+                        .background {
+                            if presentedSelection == tab.value {
+                                if motionEnabled {
+                                    tabLens.matchedGeometryEffect(id: "selection", in: lens)
+                                } else {
+                                    tabLens
+                                }
+                            }
+                        }
+                }
+            }
+            .padding(4).accessibilityHidden(true).allowsHitTesting(false)
+            .id(immediateLensRevision)
+            .transaction {
+                if !motionEnabled || lensNeedsSync {
+                    $0.animation = nil
+                    $0.disablesAnimations = true
+                }
+            }
+            HStack(spacing: 0) {
+                ForEach(tabs) { tab in
                     HStack(spacing: 5) {
-                        if let symbol = tab.symbol { Image(systemName: symbol) }
+                        if let symbol = tab.symbol {
+                            Image(systemName: symbol).foregroundStyle(colors.symbolTint(symbol))
+                        }
                         Text(tab.title).lineLimit(1)
                     }
                     .font(.system(size: 12, weight: selection == tab.value ? .semibold : .medium))
                     .foregroundStyle(selection == tab.value ? colors.text : colors.secondaryText)
                     .frame(maxWidth: .infinity).frame(height: height - 8)
-                    .background {
-                        if selection == tab.value {
-                            tabLens.matchedGeometryEffect(id: "selection", in: lens)
-                        }
-                    }
                 }
             }.padding(4).accessibilityHidden(true).allowsHitTesting(false)
+                .transaction {
+                    $0.animation = nil
+                    $0.disablesAnimations = true
+                }
             GlassSegmentInteraction(
                 title: title, labels: tabs.map(\.title),
-                selection: Binding(
-                    get: { tabs.firstIndex { $0.value == selection } ?? -1 },
-                    set: { if tabs.indices.contains($0) { selection = tabs[$0].value } }),
-                enabled: enabled, identifier: identifier)
+                selection: tabs.firstIndex { $0.value == selection } ?? -1,
+                enabled: enabled, identifier: identifier, onSelection: select,
+                onKeyboardInput: stopLens)
         }
         .frame(height: height)
         .background {
@@ -265,17 +369,52 @@ struct WorkbenchGlassTabs<Value: Hashable>: View {
                 .allowsHitTesting(false)
         }
         .opacity(enabled ? 1 : 0.5)
-        .animation(
-            reduceMotion || !preferences.interfaceMotion ? nil : .spring(response: 0.28, dampingFraction: 1),
-            value: selection)
+        .onAppear { synchronizeLens() }
+        .onChange(of: selection) { synchronizeLens() }
+        .onChange(of: tabs.map(\.value)) { synchronizeLens() }
+        .onChange(of: motionEnabled) { synchronizeLens() }
+    }
+
+    private func select(_ index: Int, _ source: SegmentInputSource) {
+        guard enabled, tabs.indices.contains(index) else { return }
+        let value = tabs[index].value
+        var immediate = Transaction(animation: nil)
+        immediate.disablesAnimations = true
+        withTransaction(immediate) { selection = value }
+        if source == .pointer, motionEnabled {
+            withAnimation(AppMotion.selection) { lensSelection = value }
+        } else {
+            synchronizeLensImmediately(to: value)
+        }
+    }
+
+    private func synchronizeLens() {
+        // The pointer callback sets its target in the same call stack as the model.
+        // Do not overwrite that local spring when the binding's onChange arrives.
+        guard lensSelection != selection else { return }
+        synchronizeLensImmediately(to: selection)
+    }
+
+    private func stopLens() { synchronizeLensImmediately(to: selection) }
+
+    private func synchronizeLensImmediately(to value: Value) {
+        var immediate = Transaction(animation: nil)
+        immediate.disablesAnimations = true
+        withTransaction(immediate) {
+            lensSelection = value
+            // Recreate only the decorative track to cancel a pointer spring even
+            // when a keyboard action selects the same endpoint. Native identity stays stable.
+            immediateLensRevision &+= 1
+        }
     }
 
     @ViewBuilder private var tabLens: some View {
         if reduceTransparency || contrast == .increased {
-            Capsule().fill(colors.text.opacity(0.1))
-                .overlay { Capsule().strokeBorder(colors.border, lineWidth: 1) }
+            Capsule().fill(colors.text.opacity(0.08))
+                .overlay { Capsule().strokeBorder(colors.controlBorder, lineWidth: 1) }
         } else {
-            Capsule().fill(colors.text.opacity(0.045)).glassEffect(.regular, in: .capsule)
+            Capsule().fill(colors.text.opacity(0.04))
+                .glassEffect(.regular.tint(colors.celadon.opacity(0.08)), in: .capsule)
         }
     }
 }
@@ -284,9 +423,11 @@ private struct GlassSegmentInteraction: NSViewRepresentable {
     @Environment(\.themeColors) private var colors
     let title: String
     let labels: [String]
-    @Binding var selection: Int
+    let selection: Int
     let enabled: Bool
     let identifier: String?
+    let onSelection: (Int, SegmentInputSource) -> Void
+    let onKeyboardInput: () -> Void
 
     func makeCoordinator() -> Coordinator { Coordinator(self) }
 
@@ -304,6 +445,9 @@ private struct GlassSegmentInteraction: NSViewRepresentable {
         view.trackingMode = .selectOne
         view.target = context.coordinator
         view.action = #selector(Coordinator.select(_:))
+        view.onKeyboardInput = { [weak coordinator = context.coordinator] in
+            coordinator?.keyboardInput()
+        }
         view.setContentHuggingPriority(.defaultLow, for: .horizontal)
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         updateNSView(view, context: context)
@@ -311,32 +455,42 @@ private struct GlassSegmentInteraction: NSViewRepresentable {
     }
 
     func updateNSView(_ view: TransparentSegments, context: Context) {
-        view.focusStroke = colors.resolvedNSColor(.text).withAlphaComponent(0.5)
+        view.focusStroke = NSColor(colors.controlBorder)
         context.coordinator.parent = self
         if view.segmentCount != labels.count { view.segmentCount = labels.count }
         for (index, label) in labels.enumerated() where view.label(forSegment: index) != label {
             view.setLabel(label, forSegment: index)
         }
-        view.selectedSegment = selection
+        if view.selectedSegment != selection { view.selectedSegment = selection }
         view.isEnabled = enabled
         view.setAccessibilityLabel(title)
         view.setAccessibilityIdentifier(identifier)
         view.needsLayout = true
+        view.needsDisplay = true
     }
 
     @MainActor final class Coordinator: NSObject {
         var parent: GlassSegmentInteraction
         init(_ parent: GlassSegmentInteraction) { self.parent = parent }
-        @objc func select(_ sender: NSSegmentedControl) { parent.selection = sender.selectedSegment }
+        @objc func select(_ sender: NSSegmentedControl) {
+            let source = (sender as? TransparentSegments)?.inputSource ?? .immediate
+            parent.onSelection(sender.selectedSegment, source)
+        }
+        func keyboardInput() { parent.onKeyboardInput() }
     }
 }
 
 private final class TransparentSegments: NSSegmentedControl {
     var focusStroke = NSColor.labelColor.withAlphaComponent(0.5)
+    private(set) var inputSource = SegmentInputSource.immediate
+    var onKeyboardInput: (() -> Void)?
     private var showsKeyboardFocus = false
     override var acceptsFirstResponder: Bool { isEnabled }
 
     override func mouseDown(with event: NSEvent) {
+        let previous = inputSource
+        inputSource = .pointer
+        defer { inputSource = previous }
         window?.makeFirstResponder(self)
         showsKeyboardFocus = false
         needsDisplay = true
@@ -344,6 +498,10 @@ private final class TransparentSegments: NSSegmentedControl {
     }
 
     override func keyDown(with event: NSEvent) {
+        let previous = inputSource
+        inputSource = .keyboard
+        defer { inputSource = previous }
+        onKeyboardInput?()
         showsKeyboardFocus = true
         needsDisplay = true
         // NSSegmentedControl normally moves AX focus before Space selects. Tabs

@@ -71,31 +71,26 @@ struct SettingsView: View {
                     Text(verbatim: L10n.text("简体中文")).tag(AppLanguage.simplifiedChinese)
                     Text(verbatim: "English").tag(AppLanguage.english)
                 }.accessibilityIdentifier("settings-language")
-                Text(L10n.text("界面和应用菜单立即切换，无需重新启动。macOS 提供的系统面板可能沿用系统语言。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
-
+                    .help(L10n.text("界面和应用菜单立即切换，无需重新启动。macOS 提供的系统面板可能沿用系统语言。"))
             }
             Section(L10n.text("打开与克隆")) {
                 LabeledContent(L10n.text("默认目录")) {
-                    Text(app.preferences.defaultDirectory).lineLimit(2).truncationMode(.middle).textSelection(
-                        .enabled)
-                }
-                Button(L10n.text("选择默认目录…")) {
-                    let panel = NSOpenPanel()
-                    panel.canChooseFiles = false
-                    panel.canChooseDirectories = true
-                    panel.directoryURL = URL(fileURLWithPath: app.preferences.defaultDirectory)
-                    if panel.runModal() == .OK, let url = panel.url {
-                        app.preferences.defaultDirectory = url.path
+                    HStack(spacing: 10) {
+                        Text(preferences.defaultDirectory).lineLimit(2).truncationMode(.middle)
+                            .textSelection(.enabled).accessibilityValue(preferences.defaultDirectory)
+                        Button(action: chooseDefaultDirectory) {
+                            Image(systemName: "folder").frame(width: 24, height: 24)
+                        }.workbenchIconButton().accessibilityLabel(L10n.text("选择默认目录…"))
+                            .help(L10n.text("选择默认目录…"))
                     }
                 }
             }
             Section(L10n.text("启动与窗口")) {
                 Toggle(L10n.text("在菜单栏显示 WeGit"), isOn: $preferences.showMenuBar)
                     .accessibilityLabel(L10n.text("在菜单栏显示 WeGit")).accessibilityIdentifier(
-                        "settings-menu-bar")
-                Text(L10n.text("从菜单栏查看仓库状态、最近仓库与常用操作，关闭主窗口后也可重新打开。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
+                        "settings-menu-bar"
+                    )
+                    .help(L10n.text("从菜单栏查看仓库状态、最近仓库与常用操作，关闭主窗口后也可重新打开。"))
                 Toggle(L10n.text("启动时恢复上次仓库"), isOn: $preferences.restoreRepository)
                     .accessibilityLabel(L10n.text("启动时恢复上次仓库")).accessibilityIdentifier(
                         "settings-restore-repository")
@@ -103,8 +98,7 @@ struct SettingsView: View {
                     .accessibilityLabel(L10n.text("恢复窗口、分栏和仓库页面"))
                 Toggle(L10n.text("切换仓库前确认"), isOn: $preferences.confirmRepositorySwitch)
                     .accessibilityLabel(L10n.text("切换仓库前确认"))
-                Text(L10n.text("切换仓库不会取消正在进行的 Git 操作；关闭仓库前需要等待或取消操作。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
+                    .help(L10n.text("切换仓库不会取消正在进行的 Git 操作；关闭仓库前需要等待或取消操作。"))
             }
             Section(L10n.text("风险确认")) {
                 Text(L10n.text("丢弃改动、修改提交、删除未合并分支和 Force Push With Lease 始终需要明确确认。"))
@@ -130,16 +124,20 @@ struct SettingsView: View {
                     .accessibilityLabel(L10n.text("显示文件图标"))
                 Toggle(L10n.text("界面动效"), isOn: $preferences.interfaceMotion)
                     .accessibilityLabel(L10n.text("界面动效")).accessibilityIdentifier(
-                        "settings-interface-motion")
-                Text(L10n.text("欢迎标记与操作反馈使用短动画，并遵循 macOS 的“减少动态效果”设置。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
+                        "settings-interface-motion"
+                    )
+                    .help(L10n.text("欢迎标记与操作反馈使用短动画，并遵循 macOS 的“减少动态效果”设置。"))
             }
             Section(L10n.text("自定义配色")) {
-                LabeledContent(L10n.text("已保存主题"), value: preferences.customTheme.name)
-                Button(L10n.text("编辑自定义主题…")) { themeEditorPresented = true }
-                    .accessibilityIdentifier("settings-custom-theme")
-                Text(L10n.text("自定义配色独立保存，内置浅色与深色保持不变。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
+                LabeledContent(L10n.text("已保存主题")) {
+                    HStack(spacing: 10) {
+                        Text(preferences.customTheme.name).lineLimit(1).truncationMode(.middle)
+                        Button(L10n.text("编辑…")) { themeEditorPresented = true }
+                            .accessibilityLabel(L10n.text("编辑自定义主题…"))
+                            .accessibilityIdentifier("settings-custom-theme")
+                            .help(L10n.text("自定义配色独立保存，内置浅色与深色保持不变。"))
+                    }
+                }
                 if preferences.customThemeLoadFailed {
                     Text(L10n.text("上次的自定义主题无法读取，当前使用初始配色。"))
                         .font(.caption).foregroundStyle(colors.modified)
@@ -182,12 +180,23 @@ struct SettingsView: View {
                     .accessibilityLabel(L10n.text("显示行号"))
                 Toggle(L10n.text("显示空格和 Tab 标记"), isOn: $preferences.showWhitespace)
                     .accessibilityLabel(L10n.text("显示空格和 Tab 标记")).accessibilityIdentifier(
-                        "settings-whitespace")
+                        "settings-whitespace"
+                    )
+                    .help(L10n.text("空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。"))
                 Toggle(L10n.text("忽略空白差异（只读）"), isOn: $preferences.ignoreWhitespace)
                     .accessibilityLabel(L10n.text("忽略空白差异（只读）"))
-                Text(L10n.text("空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
+                    .help(L10n.text("空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。"))
             }
+        }
+    }
+
+    private func chooseDefaultDirectory() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.directoryURL = URL(fileURLWithPath: preferences.defaultDirectory)
+        if panel.runModal() == .OK, let url = panel.url {
+            preferences.defaultDirectory = url.path
         }
     }
 

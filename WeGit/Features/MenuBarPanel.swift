@@ -6,7 +6,7 @@ import WeGitCore
 enum MenuBarSymbol {
     static let image: NSImage = {
         let image = NSImage(size: NSSize(width: 22, height: 18), flipped: true) { _ in
-            let rect = CGRect(x: -5, y: -7, width: 32, height: 32)
+            let rect = CGRect(x: 1, y: 0, width: 20, height: 18)
             NSColor.black.set()
             NSBezierPath(cgPath: BrandGeometry.path(in: rect, optical: true)).fill()
             return true
@@ -27,7 +27,7 @@ struct MenuBarPanel: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(spacing: 10) {
-                BrandMark(tint: colors.brandBlue).frame(width: 56, height: 56).frame(width: 32, height: 32)
+                BrandMark().frame(width: 32, height: 32)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(app.session?.location.name ?? "WeGit").font(.headline).lineLimit(1)
                     Text(L10n.text("快速访问")).font(.caption).foregroundStyle(colors.secondaryText)

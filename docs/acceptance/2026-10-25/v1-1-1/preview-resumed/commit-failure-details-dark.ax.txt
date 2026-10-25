@@ -1,0 +1,179 @@
+Window: "纸墨青瓷样例", App: WeGit v1.1.1 Final.
+0 标准窗口 纸墨青瓷样例 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selected) 更改
+2
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 储藏
+						11 row (selectable) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) 纸墨青瓷样例、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 container
+					19 文本 Git 操作未完成，请查看详情。
+					20 按钮 关闭
+					21 显示三角形 Description: 查看详情, Value: off
+					22 分离组
+						23 container
+							24 text 更改 2
+							25 菜单按钮 显示方式, Help: 切换文件列表或按文件夹显示, ID: changes-display-mode
+							26 菜单按钮 更多, ID: ellipsis
+							27 文本栏 (settable) Description: 筛选文件路径, ID: changes-filter
+							28 弹出式按钮 Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							29 滚动区
+								30 列表 changes-list
+									31 row (selectable) Value: 已展开, Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存
+已暂存（1）
+										32 复选框 Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存, Help: 取消暂存所显示的文件 已暂存, Value: 1, ID: stage-group:staged
+									33 row (selected) Description: 取消暂存 Sources/Workbench.swift、取消暂存 Sources/Workbench.swift, Value: Workbench.swift
+Sources
+状态：修改
+										34 复选框 Description: 取消暂存 Sources/Workbench.swift、取消暂存 Sources/Workbench.swift, Help: 取消暂存 Sources/Workbench.swift, Value: 1, ID: stage:staged:Sources/Workbench.swift
+									35 row (selectable) Value: 已展开, Description: 暂存所显示的文件 未跟踪、暂存所显示的文件 未跟踪
+未跟踪（1）
+										36 复选框 Description: 暂存所显示的文件 未跟踪、暂存所显示的文件 未跟踪, Help: 暂存所显示的文件 未跟踪, Value: 0, ID: stage-group:untracked
+									37 row (selectable) Description: 暂存 Sources/引用签条.swift、暂存 Sources/引用签条.swift, Value: 引用签条.swift
+Sources
+状态：未跟踪
+										38 复选框 Description: 暂存 Sources/引用签条.swift、暂存 Sources/引用签条.swift, Help: 暂存 Sources/引用签条.swift, Value: 0, ID: stage:untracked:Sources/引用签条.swift
+						39 分离器 (disabled, settable, float) 590
+						40 container
+							41 text Help: Sources/Workbench.swift, Value: Sources/Workbench.swift +3 −3 暂存区 ↔ HEAD
+							42 Description: 差异布局, ID: diff-layout
+								43 单选按钮 Description: 统一, Value: 1
+								44 单选按钮 Description: 分栏, Value: 0
+							45 菜单按钮 差异文件操作, Description: 更多
+							46 弹出式按钮 上下文, Value: 3 行, ID: diff-context
+							47 复选框 Description: 忽略空白, Value: 0, ID: diff-ignore-whitespace
+							48 复选框 Description: 词级差异, Help: 突出替换行中变化的词；长行仍保留整行差异标识。, Value: 0, ID: diff-word-highlight
+							49 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+							50 按钮 (disabled) Description: 下一差异块, ID: diff-hunk-next
+							51 文本 Value: 差异块 1 / 1, ID: diff-hunk-position
+							52 滚动区 Description: 文本差异, ID: diff-content
+								53 列表 Description: 文本差异内容, Secondary Actions: AXScrollToTop, AXScrollToBottom
+									54 container 差异块：@@ -1,10 +1,10 @@
+										55 文本 @@ -1,10 +1,10 @@
+										56 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+										57 按钮 取消暂存此块
+									58 container Description: 上下文行, ID: unified-diff-row
+										59 文本 1
+										60 文本 1
+										61 文本输入区 Description: 上下文代码，第 1 行, Value: import Foundation, ID: diff-code:0
+									62 container Description: 上下文行, ID: unified-diff-row
+										63 文本 2
+										64 文本 2
+										65 文本输入区 Description: 上下文代码，第 2 行, Value:  , ID: diff-code:1
+									66 container Description: 上下文行, ID: unified-diff-row
+										67 文本 3
+										68 文本 3
+										69 文本输入区 Description: 上下文代码，第 3 行, Value: struct Workbench {, ID: diff-code:2
+									70 container Description: 删除行, ID: unified-diff-row
+										71 文本 4
+										72 文本 -
+										73 文本输入区 Description: 删除的代码，第 4 行, Value:     var title = "WeGit", ID: diff-code:3
+									74 container Description: 删除行, ID: unified-diff-row
+										75 文本 5
+										76 文本 -
+										77 文本输入区 Description: 删除的代码，第 5 行, Value:     var staged = 1, ID: diff-code:4
+									78 container Description: 新增行, ID: unified-diff-row
+										79 文本 4
+										80 文本 +
+										81 文本输入区 Description: 新增代码，第 4 行, Value:     var title = "纸墨与青瓷", ID: diff-code:5
+									82 container Description: 新增行, ID: unified-diff-row
+										83 文本 5
+										84 文本 +
+										85 文本输入区 Description: 新增代码，第 5 行, Value:     var staged = 2, ID: diff-code:6
+									86 container Description: 上下文行, ID: unified-diff-row
+										87 文本 6
+										88 文本 6
+										89 文本输入区 Description: 上下文代码，第 6 行, Value:  , ID: diff-code:7
+									90 container Description: 上下文行, ID: unified-diff-row
+										91 文本 7
+										92 文本 7
+										93 文本输入区 Description: 上下文代码，第 7 行, Value:     func refresh() {, ID: diff-code:8
+									94 container Description: 删除行, ID: unified-diff-row
+										95 文本 8
+										96 文本 -
+										97 文本输入区 Description: 删除的代码，第 8 行, Value:         print(title), ID: diff-code:9
+									98 container Description: 新增行, ID: unified-diff-row
+										99 文本 8
+										100 文本 +
+										101 文本输入区 Description: 新增代码，第 8 行, Value:         print("Ready: \(title)"), ID: diff-code:10
+									102 container Description: 上下文行, ID: unified-diff-row
+										103 文本 9
+										104 文本 9
+										105 文本输入区 Description: 上下文代码，第 9 行, Value:     }, ID: diff-code:11
+									106 container Description: 上下文行, ID: unified-diff-row
+										107 文本 10
+										108 文本 10
+										109 文本输入区 Description: 上下文代码，第 10 行, Value: }, ID: diff-code:12
+									110 container 上下文展开控制
+										111 按钮 Description: 展开 20 行, ID: diff-context-expand-1
+										112 文本 后续上下文
+					113 文本栏 (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Value: 失败后仍保留的私有草稿, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					114 按钮 Description: 提交（1 个文件）, Help: 提交已暂存内容 ⌘↩, ID: commit-button
+					115 按钮 Description: 提交并推送…, Help: 先提交本地改动，再推送到指定远端, ID: commit-push-button
+					116 unknown Description: 已暂存 1 个文件, ID: commit-staged-count
+					117 复选框 Description: 修改上次提交（Amend）, Value: 0
+					118 container Details: failure, ID: operation-feedback, Description: 失败: Git 操作未完成，请查看详情。
+
+Private preview rejects this commit
+
+						119 按钮 ID: operation-feedback-message, Description: 失败: Git 操作未完成，请查看详情。
+
+Private preview rejects this commit
+, Help: Git 操作未完成，请查看详情。
+
+Private preview rejects this commit
+
+							120 弹出窗口 Secondary Actions: Cancel
+								121 滚动区
+									122 文本 ID: operation-feedback-details, Value: Git 操作未完成，请查看详情。
+
+Private preview rejects this commit
+
+										123 文本 Git 操作未完成，请查看详情。
+
+Private preview rejects this commit
+
+	124 工具栏
+		125 container 隐藏边栏
+			126 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		127 按钮 Description: 纸墨青瓷样例, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/v111-preview-wvh3y4jm/纸墨青瓷样例
+切换仓库 ⌘K
+		128 菜单按钮 main · ↑1 ↓0, Description: 分叉为两条路径的三角形箭头, Value: 同步状态：↑1 ↓0, ID: current-branch
+		129 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		130 按钮 Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		131 按钮 Description: 推送, Value: 1, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		132 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		133 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		134 按钮 Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		135 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	136 关闭按钮
+	137 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	138 最小化按钮
+	139 text 纸墨青瓷样例 main
+140 menu bar
+	141 WeGit v1.1.1 Review, ID: native-menu-app
+	142 文件, ID: native-menu-file
+	143 编辑, ID: native-menu-edit
+	144 显示, ID: native-menu-view
+	145 仓库, ID: native-menu-repository
+	146 工作区, ID: native-menu-workspace
+	147 窗口, ID: native-menu-window
+	148 帮助, ID: native-menu-help
+
+The focused UI element is 113 文本栏 (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Value: 失败后仍保留的私有草稿, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message

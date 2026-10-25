@@ -1,0 +1,24 @@
+{
+  "generator": "image_gen.imagegen",
+  "fullCanvasPreserved": true,
+  "referenceBoard": "source/reference/r5-direction.png",
+  "originals": [
+    {
+      "file": "r5/generated/app-icon-dark.png",
+      "sha256": "c72bc736c87261c1db73b6a0fe5f5904f135398dd6eba51564b93126d401a963"
+    },
+    {
+      "file": "r5/generated/app-icon.png",
+      "sha256": "1092a235ac699cef6825c1fd1753079029d99613108883357d818fcb803788e1"
+    },
+    {
+      "file": "r5/generated/ink-red.png",
+      "sha256": "21e6399b31bb485a87aece6c371d3fa5166965b11d43a7b5626bc27184a10061"
+    },
+    {
+      "file": "r5/generated/logo-horizontal.png",
+      "sha256": "7aa23b837a2be2823cf99fb81d29fd49ec8e9b6bea5748ed44305d43c7d127c3"
+    }
+  ],
+  "productionHD": "Rendered from shared vector masters and independent complete ink material; not board crops"
+}

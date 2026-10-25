@@ -1,0 +1,116 @@
+Window: "品牌工作台样例", App: WeGit.
+0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+2
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 储藏
+						11 row (selected) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) 品牌工作台样例、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 分离组
+					19 container
+						20 文本 标签
+						21 按钮 Description: 创建标签…, ID: tag-create
+						22 文本栏 (settable) Description: 搜索标签名称, ID: tag-search
+						23 滚动区
+							24 列表 tag-list
+								25 row (selected) Description: 标记, Value: v1.1.0
+8e015e9
+								26 row (selectable) Description: 标记, Value: v1.1.1-preview
+8e015e9
+						27 按钮 刷新
+					28 分离器 (disabled, settable, float) 590
+					29 container
+						30 文本 v1.1.0
+							31 文本 v1.1.0
+						32 按钮 Description: 推送标签…, ID: tag-push
+						33 按钮 Description: 删除本地标签…, ID: tag-delete
+						34 文本 轻量标签
+						35 unknown Description: 目标提交: 8e015e9a507e4a6389bd6d96e35af24ddb2cd36e, ID: tag-target
+						36 文本 Clarify the review workflow
+						37 滚动区 Secondary Actions: Scroll Up, Scroll Down
+							38 列表 Description: 本次提交的文件变化, ID: commit-files
+								39 row (selected) 状态：修改
+docs/工作流程.md
++1 −1
+							40 滚动条 (settable, float) 0
+								41 值指示器 (settable, float) 0
+								42 增箭头按钮
+								43 减箭头按钮
+								44 增页面按钮
+								45 减页面按钮
+						46 Description: 布局, ID: diff-layout
+							47 单选按钮 Description: 统一, Value: 1
+							48 单选按钮 Description: 分栏, Value: 0
+						49 菜单按钮 阅读选项
+						50 按钮 复制补丁
+						51 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+						52 按钮 (disabled) Description: 下一差异块, ID: diff-hunk-next
+						53 文本 Value: 差异块 1 / 1, ID: diff-hunk-position
+						54 滚动区 Description: 文本差异, ID: diff-content
+							55 列表 Description: 文本差异内容, Secondary Actions: AXScrollToTop, AXScrollToBottom
+								56 container 差异块：@@ -1,3 +1,3 @@
+									57 文本 @@ -1,3 +1,3 @@
+									58 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+								59 container Description: 上下文行, ID: unified-diff-row
+									60 文本 1
+									61 文本 1
+									62 文本输入区 Description: 上下文代码，第 1 行, Value: # 工作流程, ID: diff-code:0
+								63 container Description: 上下文行, ID: unified-diff-row
+									64 文本 2
+									65 文本 2
+									66 文本输入区 Description: 上下文代码，第 2 行, Value:  , ID: diff-code:1
+								67 container Description: 删除行, ID: unified-diff-row
+									68 文本 3
+									69 文本 -
+									70 文本输入区 Description: 删除的代码，第 3 行, Value: 浏览改动 → 暂存 → 提交。, ID: diff-code:2
+								71 container Description: 新增行, ID: unified-diff-row
+									72 文本 3
+									73 文本 +
+									74 文本输入区 Description: 新增代码，第 3 行, Value: 浏览改动 → 暂存 → 提交 → 核对推送目标。, ID: diff-code:3
+								75 container 上下文展开控制
+									76 按钮 Description: 展开 20 行, ID: diff-context-expand-1
+									77 文本 后续上下文
+	78 工具栏
+		79 container 隐藏边栏
+			80 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		81 按钮 Description: 品牌工作台样例, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/brand-review-37soljin/品牌工作台样例
+切换仓库 ⌘K
+		82 菜单按钮 main · ↑1 ↓0, Description: 分叉为两条路径的三角形箭头, Value: 同步状态：↑1 ↓0, ID: current-branch
+		83 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		84 按钮 Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		85 按钮 Description: 推送, Value: 1, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		86 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		87 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		88 按钮 Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		89 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	90 关闭按钮
+	91 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	92 最小化按钮
+	93 text 品牌工作台样例 main
+94 menu bar
+	95 WeGit 品牌预览, ID: native-menu-app
+	96 文件, ID: native-menu-file
+	97 编辑, ID: native-menu-edit
+	98 显示, ID: native-menu-view
+	99 仓库, ID: native-menu-repository
+	100 工作区, ID: native-menu-workspace
+	101 窗口, ID: native-menu-window
+	102 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise

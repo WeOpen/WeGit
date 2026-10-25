@@ -1,0 +1,861 @@
+{
+  "version": "R5",
+  "status": "passed",
+  "checks": 212,
+  "inkMeanRGB": [
+    178.79641924152122,
+    50.12972840975863,
+    44.73721094093796
+  ],
+  "scope": "Independent full imagegen masters; common geometry; HD transparent complete exports; actual Icon Composer Default/Dark renders. Native app inspection is recorded separately.",
+  "results": [
+    {
+      "name": "source/git-symbol.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "source/git-symbol.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "source/icon-master-flat.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "source/icon-master-flat.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "source/icon-master-flat.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "source/icon-master.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "source/icon-master.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "source/icon-master.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "source/ink-plate.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "source/seal-ku.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "source/seal-ku.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "source/wordmark.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "source/wordmark.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-black.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-black.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-red.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-red.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-white.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-white.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol-monochrome.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol-monochrome.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol-monochrome.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark-dark.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark-dark.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "github/avatar.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "github/avatar.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "github/avatar.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/banner-dark.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "github/banner-dark.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "github/banner-dark.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/banner-dark.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/banner-dark.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "github/banner.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "github/banner.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "github/banner.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/banner.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/banner.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "github/favicon.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "github/favicon.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview-dark.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview-dark.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview-dark.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview-dark.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview-dark.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview.svg shared wordmark",
+      "passed": true
+    },
+    {
+      "name": "macos/WeGit.icon/Assets/branch.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/WeGit.icon/Assets/branch.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "macos/WeGit.icon/Assets/seal.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/WeGit.icon/Assets/seal.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-1024.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-1024.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-1024.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-dark-1024.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-dark-1024.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-dark-1024.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-monochrome-1024.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-monochrome-1024.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-monochrome-1024.svg shared seal-ku",
+      "passed": true
+    },
+    {
+      "name": "macos/composer-plate.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/menu-bar-git.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/menu-bar-git.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "macos/toolbar-git.svg no font dependency",
+      "passed": true
+    },
+    {
+      "name": "macos/toolbar-git.svg shared git-branch",
+      "passed": true
+    },
+    {
+      "name": "git-symbol editable vector",
+      "passed": true
+    },
+    {
+      "name": "seal-ku editable vector",
+      "passed": true
+    },
+    {
+      "name": "wordmark editable vector",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol-monochrome.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-symbol-monochrome.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark-dark.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-wordmark-dark.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-red.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-red.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-black.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-black.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-white.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/seal-ku-white.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-1024.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-2048.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-16.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-32.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-64.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-128.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-256.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-512.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-dark-1024.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-dark-2048.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-dark-16.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-dark-32.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-dark-64.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-dark-128.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-dark-256.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-dark-512.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-monochrome-1024.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/app-icon-monochrome-2048.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-monochrome-16.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-monochrome-32.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-monochrome-64.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-monochrome-128.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-monochrome-256.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/sizes/app-icon-monochrome-512.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-16.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-16.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-18.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-18.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-20.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-20.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-24.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-24.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-32.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-32.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-36.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-36.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-40.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-40.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-48.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-48.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-64.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/toolbar-git-64.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-16.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-16.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-18.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-18.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-20.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-20.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-24.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-24.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-32.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-32.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-36.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-36.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-40.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-40.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-48.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-48.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-64.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/templates/menu-bar-git-64.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "github/avatar.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/banner.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/banner-dark.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/social-preview-dark.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/favicon-16.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/favicon-32.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/favicon-48.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/favicon-64.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/favicon-180.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/favicon-192.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "github/favicon-512.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "macos/composer-plate.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-2400.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-2400.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-4800.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-4800.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark-2400.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark-2400.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark-4800.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-dark-4800.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome-2400.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome-2400.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome-4800.png dimensions",
+      "passed": true
+    },
+    {
+      "name": "logo/wegit-logo-horizontal-monochrome-4800.png transparent margin",
+      "passed": true
+    },
+    {
+      "name": "Two hollow endpoints",
+      "passed": true
+    },
+    {
+      "name": "Verified small seal unchanged",
+      "passed": true
+    },
+    {
+      "name": "Cinnabar pigment centered on #B3322D",
+      "passed": true
+    },
+    {
+      "name": "Composer Default branch white",
+      "passed": true
+    },
+    {
+      "name": "Composer Default seal white",
+      "passed": true
+    },
+    {
+      "name": "Composer Dark branch black",
+      "passed": true
+    },
+    {
+      "name": "Composer Dark seal black",
+      "passed": true
+    },
+    {
+      "name": "HD Icon ",
+      "passed": true
+    },
+    {
+      "name": "Uncut outer margin ",
+      "passed": true
+    },
+    {
+      "name": "HD Icon -dark",
+      "passed": true
+    },
+    {
+      "name": "Uncut outer margin -dark",
+      "passed": true
+    },
+    {
+      "name": "HD Icon -monochrome",
+      "passed": true
+    },
+    {
+      "name": "Uncut outer margin -monochrome",
+      "passed": true
+    },
+    {
+      "name": "wegit-logo-horizontal-480.webp",
+      "passed": true
+    },
+    {
+      "name": "wegit-logo-horizontal-960.webp",
+      "passed": true
+    },
+    {
+      "name": "wegit-logo-horizontal-dark-480.webp",
+      "passed": true
+    },
+    {
+      "name": "wegit-logo-horizontal-dark-960.webp",
+      "passed": true
+    }
+  ]
+}

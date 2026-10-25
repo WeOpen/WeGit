@@ -1,0 +1,21 @@
+Window: "", App: WeGit.
+0 表单 Secondary Actions: Raise
+	1 container
+		2 text 新建分支 从当前提交创建新分支。
+		3 文本栏 (settable) Value: preview/button-sizing, Placeholder: 分支名称, ID: branch-name
+		4 弹出式按钮 起点, Value: 当前 HEAD, ID: branch-start
+		5 文本 起点：main
+		6 复选框 Description: 创建后立即切换, Value: 1
+		7 按钮 取消
+		8 按钮 创建并切换
+9 menu bar
+	10 WeGit 品牌预览, ID: native-menu-app
+	11 文件, ID: native-menu-file
+	12 编辑, ID: native-menu-edit
+	13 显示, ID: native-menu-view
+	14 仓库, ID: native-menu-repository
+	15 工作区, ID: native-menu-workspace
+	16 窗口, ID: native-menu-window
+	17 帮助, ID: native-menu-help
+
+The focused UI element is 3 文本栏 (settable) Value: preview/button-sizing, Placeholder: 分支名称, ID: branch-name

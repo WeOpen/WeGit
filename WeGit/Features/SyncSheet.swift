@@ -65,7 +65,7 @@ struct SyncSheet: View {
                     }
                     if let warning = state.warning {
                         Label(warning, systemImage: "exclamationmark.triangle").font(.callout)
-                            .foregroundStyle(.orange).textSelection(.enabled)
+                            .foregroundStyle(colors.modified).textSelection(.enabled)
                     }
                     if let error = state.error ?? state.session.refreshError {
                         VStack(alignment: .leading, spacing: 8) {
@@ -163,7 +163,7 @@ struct SyncSheet: View {
                     )
                     .textSelection(.enabled)
                     if let warning = preference.warning {
-                        Text(warning).font(.caption).foregroundStyle(.orange)
+                        Text(warning).font(.caption).foregroundStyle(colors.modified)
                     }
                 }
                 if state.strategy == .rebase {
@@ -221,7 +221,7 @@ struct SyncSheet: View {
             }
             if plan.forceWithLease {
                 Text(L10n.text("将用本地历史替换目标分支历史。只有远端仍是上述提交（或仍不存在）时才允许推送；后台获取不会更新这次确认条件。"))
-                    .font(.callout).foregroundStyle(.orange)
+                    .font(.callout).foregroundStyle(colors.modified)
                 Toggle(L10n.text("确认覆盖这个远端分支的历史"), isOn: $state.leaseAcknowledged)
                     .toggleStyle(.checkbox).disabled(state.isWorking)
                     .accessibilityIdentifier("sync-lease-acknowledgement")

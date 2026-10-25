@@ -183,7 +183,7 @@ private struct ThemePreview: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                BrandMark(tint: colors.accent).frame(width: 34, height: 34)
+                BrandMark().frame(width: 34, height: 34)
                 Text(theme.name).font(.headline).lineLimit(1)
                 Spacer()
                 Image(systemName: "sidebar.right")

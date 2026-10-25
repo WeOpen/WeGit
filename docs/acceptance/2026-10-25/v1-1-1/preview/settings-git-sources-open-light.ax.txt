@@ -1,0 +1,4 @@
+The following is a diff from the previous accessibility tree for Window: "WeGit 设置" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~			33 滚动条 (settable, float) 1
+~				34 值指示器 (settable, float) 1
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

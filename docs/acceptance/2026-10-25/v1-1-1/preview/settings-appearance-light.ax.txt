@@ -1,0 +1,28 @@
+The following is a diff from the previous accessibility tree for Window: "WeGit 设置" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 9-39
+~			4 单选按钮 Description: Git, Value: 0
+~			5 单选按钮 Description: 外观, Value: 1
++		52 滚动区 Secondary Actions: Scroll Up, Scroll Down
++			53 标题 界面
++			54 container
++				55 弹出式按钮 主题, Value: 浅色, ID: settings-appearance
++				56 弹出式按钮 列表密度, Value: 舒适, ID: settings-density
++				57 转换 显示文件图标, Value: on
++				58 转换 界面动效, Help: 欢迎标记与操作反馈使用短动画，并遵循 macOS 的“减少动态效果”设置。, Value: off, ID: settings-interface-motion
++			59 标题 自定义配色
++			60 文本 已保存主题
++				61 文本 Graphite
++					62 文本 Graphite
++				63 按钮 Description: 编辑自定义主题…, Help: 自定义配色独立保存，内置浅色与深色保持不变。, ID: settings-custom-theme
++			64 标题 差异文本
++			65 container
++				66 弹出式按钮 代码字体, Value: 系统等宽字体, ID: settings-code-font
++				67 滑块 (settable, float) 字号 13 pt, Value: 13, ID: settings-code-size
++				68 文本 let changes = repository.status()
++			69 滚动条 (settable, float) 0
++				70 值指示器 (settable, float) 0
++				71 增箭头按钮
++				72 减箭头按钮
++				73 增页面按钮
++				74 减页面按钮
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

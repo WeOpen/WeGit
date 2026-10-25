@@ -6,14 +6,21 @@ struct EmptyPanel: View {
     let title: String
     let symbol: String
     let message: String
+    var artwork: HeritageArtwork.Kind? = nil
+
     var body: some View {
         VStack(spacing: 12) {
-            WorkbenchEmblem(symbol: symbol)
+            if let artwork {
+                HeritageArtwork(kind: artwork)
+            } else {
+                WorkbenchEmblem(symbol: symbol)
+            }
             Text(title).font(.title3.weight(.semibold))
-            Text(message).font(.callout).foregroundStyle(colors.secondaryText).multilineTextAlignment(
-                .center
-            ).frame(
-                maxWidth: 360)
+            if !message.isEmpty {
+                Text(message).font(.callout).foregroundStyle(colors.secondaryText).multilineTextAlignment(
+                    .center
+                ).frame(maxWidth: 360)
+            }
         }.padding(24).frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
@@ -22,14 +29,19 @@ struct StatusBadge: View {
     @Environment(\.themeColors) private var colors
     let symbol: String
     private var tint: Color {
-        symbol == "U" || symbol == "D"
-            ? colors.negative
-            : symbol == "A" || symbol == "?" ? colors.positive : colors.modified
+        switch symbol {
+        case "U", "D": colors.negative
+        case "A": colors.positive
+        case "R", "?": colors.tone(.blue)
+        case "C": colors.tone(.teal)
+        case "T": colors.tone(.violet)
+        default: colors.modified
+        }
     }
     var body: some View {
         Text(symbol).font(.system(size: 11, weight: .semibold, design: .monospaced))
-            .foregroundStyle(colors.text)
-            .frame(width: 22, height: 22).background(tint.opacity(0.12), in: .rect(cornerRadius: 6))
+            .foregroundStyle(tint)
+            .frame(width: 22, height: 22).background(tint.opacity(0.10), in: .rect(cornerRadius: 4))
             .accessibilityLabel(
                 L10n.text("状态：")
                     + ([
@@ -45,12 +57,14 @@ struct CountBadge: View {
     @Environment(\.themeColors) private var colors
     let value: String
     var tint: Color?
+    var tone: InterfaceTone = .blue
 
     var body: some View {
+        let color = tint ?? colors.tone(tone)
         Text(value).font(.system(size: 11, weight: .medium)).monospacedDigit()
-            .foregroundStyle(.primary)
-            .padding(.horizontal, 7).padding(.vertical, 3)
-            .background((tint ?? colors.secondaryText).opacity(0.09), in: .capsule)
+            .foregroundStyle(color)
+            .padding(.horizontal, 7).frame(minWidth: 24, minHeight: 20)
+            .background(color.opacity(0.10), in: .capsule)
     }
 }
 
@@ -77,9 +91,11 @@ struct SheetTitle: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: symbol).font(.system(size: 17, weight: .medium))
-                .foregroundStyle(colors.text)
+                .foregroundStyle(colors.symbolTint(symbol))
                 .frame(width: 34, height: 34)
-                .background(colors.surface, in: .rect(cornerRadius: 10))
+                .background(
+                    colors.symbolTint(symbol).opacity(0.10), in: .rect(cornerRadius: AppStyle.controlRadius)
+                )
                 .accessibilityHidden(true)
             Text(title).font(.title3.weight(.semibold))
         }
@@ -121,8 +137,8 @@ struct WorkbenchSearchField: View {
         .overlay {
             RoundedRectangle(cornerRadius: AppStyle.controlRadius)
                 .strokeBorder(
-                    (focus?.wrappedValue ?? internalFocus) ? colors.focus : colors.border,
-                    lineWidth: (focus?.wrappedValue ?? internalFocus) || contrast == .increased ? 1.5 : 0.5
+                    (focus?.wrappedValue ?? internalFocus) ? colors.focus : colors.controlBorder,
+                    lineWidth: contrast == .increased ? 2 : (focus?.wrappedValue ?? internalFocus) ? 1.5 : 1
                 )
                 .allowsHitTesting(false)
         }
@@ -142,11 +158,22 @@ struct FileTypeIcon: View {
         default: "doc"
         }
     }
+    private var tint: Color {
+        switch (path as NSString).pathExtension.lowercased() {
+        case "swift", "js", "json", "yml", "yaml", "toml": colors.tone(.amber)
+        case "py", "ts", "tsx", "jsx": colors.tone(.blue)
+        case "go", "md", "txt", "rst": colors.tone(.teal)
+        case "png", "jpg", "jpeg", "webp", "gif", "svg", "c", "h", "cpp": colors.tone(.violet)
+        case "rs": colors.tone(.rose)
+        case "sh", "bash", "zsh": colors.tone(.green)
+        default: colors.tone(.blue)
+        }
+    }
     var body: some View {
         Image(systemName: symbol).font(.system(size: 13, weight: .regular))
-            .foregroundStyle(colors.text).opacity(0.8)
+            .foregroundStyle(tint)
             .frame(width: 26, height: 26)
-            .background(.primary.opacity(0.045), in: .rect(cornerRadius: 7))
+            .background(tint.opacity(0.10), in: .rect(cornerRadius: 7))
             .accessibilityHidden(true)
     }
 }
@@ -162,39 +189,6 @@ struct DiffChangeSummary: View {
         }.font(.system(size: 11, weight: .medium, design: .monospaced))
             .padding(.horizontal, 8).padding(.vertical, 5)
             .background(colors.surface, in: .rect(cornerRadius: 6))
-    }
-}
-
-struct OperationFeedback: View {
-    @Environment(\.themeColors) private var colors
-    let busy: Bool
-    let activity: String
-    let notice: String?
-    let fallback: String
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(AppPreferences.self) private var preferences
-
-    var body: some View {
-        HStack(spacing: 6) {
-            if busy {
-                ProgressView().controlSize(.mini).frame(width: 12, height: 12)
-            } else if notice != nil {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(colors.positive).accessibilityHidden(true)
-                    .transition(.opacity)
-            }
-            Text(busy ? activity + "…" : notice ?? fallback).lineLimit(1)
-                .contentTransition(.opacity)
-        }
-        .font(.caption).foregroundStyle(colors.secondaryText)
-        .padding(.horizontal, 8).padding(.vertical, 4)
-        .background(
-            (notice == nil ? colors.secondaryText : colors.positive).opacity(0.07), in: .capsule
-        )
-        .animation(reduceMotion || !preferences.interfaceMotion ? nil : AppMotion.feedback, value: busy)
-        .animation(reduceMotion || !preferences.interfaceMotion ? nil : AppMotion.feedback, value: notice)
-        .accessibilityElement(children: .combine)
-        .accessibilityIdentifier("operation-feedback")
     }
 }
 
@@ -220,7 +214,9 @@ struct DetailHeader: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(title).font(.headline).lineLimit(1).truncationMode(.middle).help(title)
-            Text(subtitle).font(.caption).foregroundStyle(colors.secondaryText)
+            if !subtitle.isEmpty {
+                Text(subtitle).font(.caption).foregroundStyle(colors.secondaryText)
+            }
         }.frame(maxWidth: .infinity, alignment: .leading)
     }
 }
@@ -239,8 +235,8 @@ struct WorkbenchMessageField: View {
             .overlay {
                 RoundedRectangle(cornerRadius: AppStyle.controlRadius)
                     .strokeBorder(
-                        focused ? colors.focus : colors.border,
-                        lineWidth: focused || contrast == .increased ? 1.5 : 0.5
+                        focused ? colors.focus : colors.controlBorder,
+                        lineWidth: contrast == .increased ? 2 : focused ? 1.5 : 1
                     ).allowsHitTesting(false)
             }
             .accessibilityLabel(L10n.text("提交消息")).accessibilityIdentifier("commit-message")
@@ -253,13 +249,12 @@ struct CommitReadiness: View {
     let count: Int
 
     var body: some View {
-        VStack(spacing: 4) {
-            Text("\(count)").font(.system(size: 19, weight: .semibold, design: .rounded)).monospacedDigit()
+        HStack(spacing: 4) {
+            Text("\(count)").font(.system(size: 12, weight: .semibold)).monospacedDigit()
                 .foregroundStyle(count == 0 ? colors.secondaryText : colors.text)
-            Text(L10n.text("已暂存")).font(.system(size: 11, weight: .medium)).foregroundStyle(
+            Text(L10n.text("已暂存")).font(.system(size: 12)).foregroundStyle(
                 colors.secondaryText)
-        }.frame(width: 44, height: 49)
-            .background(colors.surface, in: .rect(cornerRadius: 10))
+        }.frame(height: 24)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(L10n.count("已暂存 %lld 个文件", count))
             .accessibilityIdentifier("commit-staged-count")
@@ -270,12 +265,31 @@ struct ReferenceBadge: View {
     @Environment(\.themeColors) private var colors
     let name: String
     var selected = false
+    var symbol: String? = nil
+    var tone: InterfaceTone? = nil
 
     var body: some View {
-        Text(name).font(.system(size: 11, weight: .medium)).lineLimit(1).truncationMode(.middle)
-            .foregroundStyle(selected ? colors.selectionText : colors.text)
-            .padding(.horizontal, 6).padding(.vertical, 3)
-            .background(colors.text.opacity(selected ? 0.07 : 0.045), in: .capsule)
-            .help(name)
+        let tint = tone.map { colors.tone($0) } ?? colors.symbolTint(symbol ?? "arrow.triangle.branch")
+        HStack(spacing: 4) {
+            if let symbol {
+                Image(systemName: symbol).font(.system(size: 10, weight: .medium))
+                    .accessibilityHidden(true)
+            }
+            Text(name).font(.system(size: 11, weight: .medium))
+                .lineLimit(1).truncationMode(.middle).accessibilityLabel(name)
+        }
+        .foregroundStyle(selected ? colors.text : tint)
+        .padding(.horizontal, 7).frame(minHeight: HeritageTokens.referenceHeight)
+        .background(
+            selected ? colors.surface : tint.opacity(0.09),
+            in: HeritageReferenceShape()
+        )
+        .overlay {
+            HeritageReferenceShape().strokeBorder(
+                selected ? colors.controlBorder : colors.border, lineWidth: 0.5
+            )
+            .allowsHitTesting(false)
+        }
+        .help(name)
     }
 }

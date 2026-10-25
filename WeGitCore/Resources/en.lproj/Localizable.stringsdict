@@ -114,5 +114,21 @@
 			<string>Commit (%lld files)</string>
 		</dict>
 	</dict>
+	<key>%lld 个差异块</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>one</key>
+			<string>%lld hunk</string>
+			<key>other</key>
+			<string>%lld hunks</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

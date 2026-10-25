@@ -64,7 +64,7 @@ struct ChangesView: View {
                             title: session.isStale ? L10n.text("等待重新核对仓库") : L10n.text("工作区干净"),
                             symbol: "checkmark.circle",
                             message: session.isStale
-                                ? L10n.text("上次读取时没有未提交改动，请刷新确认当前状态。") : L10n.text("没有未提交改动。"))
+                                ? L10n.text("上次读取时没有未提交改动，请刷新确认当前状态。") : "")
                     } else if app.workspace.fileFilter.visiblePathCount(session.status.files) == 0 {
                         VStack {
                             EmptyPanel(
@@ -285,7 +285,7 @@ struct ChangesView: View {
                         app.presentSync(.commitAndPush)
                     } label: {
                         Text(L10n.text("提交并推送…")).frame(maxWidth: .infinity)
-                    }.workbenchPrimaryAction().tint(colors.primaryAction)
+                    }.workbenchControlFamily()
                         .disabled(!session.canCommitAndPush).accessibilityIdentifier("commit-push-button")
                         .help(
                             session.canCommitAndPush
@@ -318,7 +318,8 @@ struct ChangesView: View {
                         .accessibilityValue(path.path)
                 }
                 OperationFeedback(
-                    busy: session.isBusy, activity: session.activityLabel, notice: session.notice,
+                    busy: session.isBusy, activity: session.activityLabel, result: session.operationFeedback,
+                    context: session.operationFeedbackContext,
                     fallback: session.canCommit ? L10n.text("⌥↩ 换行 · ⌘↩ 提交") : session.commitReason)
             }
         }.padding(16).background(colors.chrome)
@@ -373,10 +374,18 @@ struct DiffView: View {
                 DiskDiffView(app: app, session: session, display: display).id(ObjectIdentifier(display))
             } else if let diff = app.workspace.diff, let display = app.workspace.diffDisplay {
                 HStack(spacing: 12) {
-                    DetailHeader(title: diff.path, subtitle: subtitle(diff.layer))
-                    if diff.preview == nil && !diff.binary {
-                        DiffChangeSummary(additions: display.additions, deletions: display.deletions)
+                    if app.workspace.inspector {
+                        Text((diff.path as NSString).lastPathComponent).font(
+                            .system(size: 12, weight: .medium)
+                        )
+                        .lineLimit(1).truncationMode(.middle).help(diff.path)
+                        Spacer(minLength: 0)
                     } else {
+                        DetailHeader(title: diff.path, subtitle: subtitle(diff.layer))
+                    }
+                    if !app.workspace.inspector, diff.preview == nil && !diff.binary {
+                        DiffChangeSummary(additions: display.additions, deletions: display.deletions)
+                    } else if !app.workspace.inspector {
                         Text(diff.binary ? L10n.text("二进制") : L10n.text("内容预览")).foregroundStyle(
                             colors.secondaryText)
                     }
@@ -388,6 +397,17 @@ struct DiffView: View {
                         ],
                         identifier: "diff-layout"
                     ).frame(width: 110)
+                    if app.workspace.inspector {
+                        Menu(L10n.text("阅读选项")) {
+                            Picker(L10n.text("上下文"), selection: $app.workspace.diffOptions.contextLines) {
+                                ForEach([3, 20, 80, 200], id: \.self) {
+                                    Text(L10n.count("%lld 行", $0)).tag($0)
+                                }
+                            }
+                            Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
+                            Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)
+                        }.fixedSize().tint(colors.accentText)
+                    }
                     Menu {
                         if !diff.binary {
                             Button(diff.preview == nil ? L10n.text("复制完整补丁") : L10n.text("复制完整内容")) {
@@ -416,18 +436,22 @@ struct DiffView: View {
                         .accessibilityLabel(L10n.text("差异文件操作")).help(L10n.text("差异文件操作"))
                 }.font(.caption).padding(14).background(colors.chrome)
                 if diff.layer == .unstaged || diff.layer == .staged {
-                    HStack(spacing: 16) {
-                        Picker(L10n.text("上下文"), selection: $app.workspace.diffOptions.contextLines) {
-                            ForEach([3, 20, 80, 200], id: \.self) { Text(L10n.count("%lld 行", $0)).tag($0) }
-                        }.pickerStyle(.menu).fixedSize().tint(colors.accentText)
-                            .accessibilityIdentifier("diff-context")
-                        Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
-                            .toggleStyle(.checkbox).accessibilityIdentifier("diff-ignore-whitespace")
-                        Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)
-                            .toggleStyle(.checkbox).accessibilityIdentifier("diff-word-highlight")
-                            .help(L10n.text("突出替换行中变化的词；长行仍保留整行差异标识。"))
-                        Spacer()
-                    }.font(.caption).padding(.horizontal, 14).padding(.bottom, 10)
+                    if !app.workspace.inspector {
+                        HStack(spacing: 16) {
+                            Picker(L10n.text("上下文"), selection: $app.workspace.diffOptions.contextLines) {
+                                ForEach([3, 20, 80, 200], id: \.self) {
+                                    Text(L10n.count("%lld 行", $0)).tag($0)
+                                }
+                            }.pickerStyle(.menu).fixedSize().tint(colors.accentText)
+                                .accessibilityIdentifier("diff-context")
+                            Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
+                                .toggleStyle(.checkbox).accessibilityIdentifier("diff-ignore-whitespace")
+                            Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)
+                                .toggleStyle(.checkbox).accessibilityIdentifier("diff-word-highlight")
+                                .help(L10n.text("突出替换行中变化的词；长行仍保留整行差异标识。"))
+                            Spacer()
+                        }.font(.caption).padding(.horizontal, 14).padding(.bottom, 10)
+                    }
                     if app.workspace.wordDiff, display.highlighting.fallbackLines > 0 {
                         Text(L10n.text("部分行使用整行差异标识")).font(.caption).foregroundStyle(colors.secondaryText)
                             .padding(.horizontal, 14).padding(.bottom, 8)

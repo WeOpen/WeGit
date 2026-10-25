@@ -56,9 +56,9 @@ struct WorkspaceView: View {
                         }
                         .background(colors.canvas)
                         if app.workspace.inspector {
-                            inspector(session)
+                            RepositoryInspector(app: app, session: session)
                                 .background(colors.sidebar)
-                                .frame(minWidth: 240, idealWidth: 260, maxWidth: 320)
+                                .frame(minWidth: 260, idealWidth: 300, maxWidth: 360)
                                 .accessibilityElement(children: .contain)
                                 .accessibilityLabel(L10n.text("检查器"))
                                 .accessibilityIdentifier("repository-inspector")
@@ -187,23 +187,34 @@ struct WorkspaceView: View {
                 }.sharedBackgroundVisibility(.hidden)
             }
         }
-        .sheet(isPresented: $app.clonePresented) { CloneView(app: app) }
+        .sheet(isPresented: $app.clonePresented) { CloneView(app: app).workbenchSheet(app.preferences) }
         .sheet(isPresented: $app.remoteManagementPresented) {
-            if let session = app.session { RemoteManagementSheet(app: app, session: session).id(session.id) }
+            if let session = app.session {
+                RemoteManagementSheet(app: app, session: session).id(session.id).workbenchSheet(
+                    app.preferences)
+            }
         }
-        .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app) }
-        .sheet(item: $app.tagCreationRequest) { TagCreationSheet(app: app, request: $0) }
-        .sheet(item: $app.fileHistoryRequest) { FileHistorySheet(app: app, request: $0).id($0.id) }
-        .sheet(item: $app.branchSwitchRequest) { BranchSwitcherView(app: app, request: $0) }
-        .sheet(isPresented: $app.activityPresented) { ActivityView(app: app) }
+        .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app).workbenchSheet(app.preferences) }
+        .sheet(item: $app.tagCreationRequest) {
+            TagCreationSheet(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.fileHistoryRequest) {
+            FileHistorySheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.branchSwitchRequest) {
+            BranchSwitcherView(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(isPresented: $app.activityPresented) { ActivityView(app: app).workbenchSheet(app.preferences) }
         .sheet(isPresented: $app.repositoryPickerPresented, onDismiss: app.repositoryPickerDidDismiss) {
-            RepositoryPicker(app: app)
+            RepositoryPicker(app: app).workbenchSheet(app.preferences)
         }
         .sheet(isPresented: $app.palettePresented, onDismiss: app.paletteDidDismiss) {
-            CommandPalette(app: app)
+            CommandPalette(app: app).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.syncRequest) { SyncSheet(app: app, request: $0) }
-        .sheet(item: $app.searchRequest) { RepositorySearchView(app: app, request: $0) }
+        .sheet(item: $app.syncRequest) { SyncSheet(app: app, request: $0).workbenchSheet(app.preferences) }
+        .sheet(item: $app.searchRequest) {
+            RepositorySearchView(app: app, request: $0).workbenchSheet(app.preferences)
+        }
         .onChange(of: app.settingsRequestID) { _, _ in openSettings() }
         .onChange(of: app.sidebarRequestID) { _, _ in
             columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
@@ -249,7 +260,7 @@ struct WorkspaceView: View {
                             CountBadge(
                                 value: "\(session.status.files.count)",
                                 tint: app.workspace.route == route
-                                    ? colors.selectionText : colors.secondaryText)
+                                    ? colors.selectionText : colors.tone(.blue))
                         }
                     }.padding(.horizontal, 8)
                         .frame(height: app.preferences.density == "compact" ? 34 : 42)
@@ -404,13 +415,13 @@ struct WorkspaceView: View {
             Divider()
             Button(L10n.text("新建分支…")) { app.branchPresented = true }
         } label: {
-            HStack(spacing: 6) {
-                Image(systemName: "arrow.triangle.branch")
-                Text(session.status.displayBranch + " · " + RepositorySyncSummary(session: session).summary)
-                    .font(.system(size: 12, weight: .medium))
-                    .lineLimit(1).truncationMode(.middle).frame(maxWidth: workspaceWidth < 1180 ? 176 : 238)
-            }
+            Text(" ")
         }
+        .menuIndicator(.hidden)
+        .frame(width: branchLabelWidth(session))
+        // NSPopUpButton flattens a SwiftUI Menu label to its first Text. Draw the
+        // complete colored label over the native menu's hit/focus surface.
+        .overlay { branchMenuLabel(session).allowsHitTesting(false).accessibilityHidden(true) }
         .workbenchGlassMenu(toolbar: true)
         .disabled(!session.canWrite)
         .accessibilityIdentifier("current-branch")
@@ -421,38 +432,36 @@ struct WorkspaceView: View {
         .accessibilityValue(L10n.text("同步状态：") + RepositorySyncSummary(session: session).summary)
     }
 
-    private func inspector(_ session: RepositorySession) -> some View {
-        ThemedForm(backgroundRole: .sidebar) {
-            Section(L10n.text("仓库")) {
-                LabeledContent(L10n.text("名称"), value: session.location.name)
-                Text(session.location.root.path).font(.caption).textSelection(.enabled)
-                Button(L10n.text("在 Finder 中显示")) { NSWorkspace.shared.open(session.location.root) }
-                Button(L10n.text("在 Terminal 中打开"), action: app.openTerminal)
-                if app.xcodeURL != nil {
-                    Button(L10n.text("在 Xcode 中打开…"), action: app.openRepositoryInXcode)
-                }
-                Button(L10n.text("复制仓库路径"), action: app.copyRepositoryPath)
-            }
-            Section(L10n.text("分支")) {
-                LabeledContent(L10n.text("当前"), value: session.status.displayBranch)
-                LabeledContent(L10n.text("上游"), value: session.status.upstream ?? L10n.text("未设置"))
-                LabeledContent(
-                    L10n.text("领先 / 落后"),
-                    value:
-                        "\(session.status.ahead.map(String.init) ?? "—") / \(session.status.behind.map(String.init) ?? "—")"
-                )
-            }
-            if app.workspace.route != .stashes, app.workspace.route != .tags, let diff = app.workspace.diff {
-                Section(L10n.text("文件")) {
-                    Text(diff.path).textSelection(.enabled)
-                    LabeledContent(L10n.text("新增"), value: "\(diff.additions)")
-                    LabeledContent(L10n.text("删除"), value: "\(diff.deletions)")
-                }
-            }
-        }.formStyle(.grouped)
-            .scrollContentBackground(.hidden)
-            .background(colors.sidebar)
+    private func branchLabelWidth(_ session: RepositorySession) -> CGFloat {
+        let font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        let branch = min(
+            (session.status.displayBranch as NSString).size(withAttributes: [.font: font]).width,
+            workspaceWidth < 1180 ? 176 : 238)
+        let sync = (RepositorySyncSummary(session: session).summary as NSString).size(withAttributes: [
+            .font: font
+        ]).width
+        return ceil(branch + sync + 48)
     }
+    private func branchMenuLabel(_ session: RepositorySession) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: "arrow.triangle.branch")
+            Text(session.status.displayBranch)
+                .font(.system(size: 12, weight: .medium))
+                .lineLimit(1).truncationMode(.middle).frame(maxWidth: workspaceWidth < 1180 ? 176 : 238)
+            let counts = RepositorySyncCounts(
+                status: session.status, hasLoaded: session.hasLoaded, isStale: session.isStale)
+            if let ahead = counts.ahead, let behind = counts.behind {
+                Text("↑\(ahead)").foregroundStyle(colors.tone(.violet))
+                Text("↓\(behind)").foregroundStyle(colors.tone(.teal))
+            } else {
+                Text(RepositorySyncSummary(session: session).summary).foregroundStyle(
+                    colors.secondaryText)
+            }
+            Image(systemName: "chevron.down").font(.system(size: 9, weight: .semibold))
+        }
+        .font(.system(size: 12, weight: .medium)).monospacedDigit()
+    }
+
 }
 
 /// A quiet floating footer leaves repository state in the work panes and menu panel.
@@ -479,7 +488,7 @@ private struct SidebarBrandCard: View {
 
     private var content: some View {
         HStack(spacing: 8) {
-            BrandMark(tint: colors.brandBlue).frame(width: 48, height: 48).frame(width: 28, height: 28)
+            HeritageBrandSeal(tint: colors.brand, size: 28)
             Text("WeGit").font(.system(size: 14, weight: .medium))
                 .accessibilityIdentifier("sidebar-brand")
             Spacer(minLength: 0)
@@ -500,7 +509,8 @@ struct WelcomeView: View {
             Spacer()
             WelcomeIdentity()
             VStack(spacing: 8) {
-                Text("WeGit").font(.system(size: 36, weight: .medium))
+                Image("BrandWordmark").resizable().scaledToFit().frame(width: 210, height: 61)
+                    .accessibilityLabel("WeGit")
                 Text(L10n.text("专注每一次改动。")).font(.title3).foregroundStyle(colors.secondaryText)
             }
             HStack(spacing: 12) {
@@ -512,25 +522,6 @@ struct WelcomeView: View {
                     .workbenchControlFamily().controlSize(.large)
             }
             if app.isOpening { ProgressView(L10n.text("正在打开仓库…")) }
-            if app.recents.isEmpty {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(L10n.text("从这里开始")).font(.caption.weight(.medium))
-                        .foregroundStyle(colors.secondaryText)
-                    ForEach(
-                        [
-                            L10n.text("打开本地仓库，或从远端克隆一份"),
-                            L10n.text("逐文件暂存，提交前看清每一处改动"),
-                            L10n.text("⌘K 切换仓库，⌘⇧F 搜索当前仓库"),
-                        ], id: \.self
-                    ) { text in
-                        HStack(spacing: 10) {
-                            Text(text).foregroundStyle(colors.text)
-                            Spacer(minLength: 0)
-                        }
-                    }
-                }.frame(width: 520).padding(12).workbenchSurface(radius: AppStyle.controlRadius + 12)
-                    .accessibilityIdentifier("welcome-first-run")
-            }
             if !app.recents.isEmpty {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {

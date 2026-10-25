@@ -2,6 +2,11 @@ import AppKit
 import SwiftUI
 import Synchronization
 
+/// Categorical color is independent of brand emphasis; it always accompanies a label or symbol.
+enum InterfaceTone: CaseIterable {
+    case blue, teal, violet, amber, green, rose
+}
+
 /// Values travel through SwiftUI's environment; editing a theme never replaces a view or session.
 struct AppColors: Equatable, Sendable {
     var custom: CustomTheme?
@@ -9,35 +14,6 @@ struct AppColors: Equatable, Sendable {
     var increasedContrast = false
 
     var isCustom: Bool { custom != nil }
-
-    /// The two outer sidebars share a recessed surface. Both central panes and
-    /// their chrome share one uninterrupted work surface in each appearance.
-    /// Explicit imported custom roles still take precedence in nsColor(_:).
-    private struct SurfaceLadder {
-        let sidebar: CGFloat
-        let canvas: CGFloat
-        let chrome: CGFloat
-        let surface: CGFloat
-
-        init(dark: Bool, increasedContrast: Bool) {
-            switch (dark, increasedContrast) {
-            case (false, false): (sidebar, canvas, chrome, surface) = (0.94, 1, 1, 1)
-            case (false, true): (sidebar, canvas, chrome, surface) = (0.9, 1, 1, 1)
-            case (true, false): (sidebar, canvas, chrome, surface) = (0.1, 0.118, 0.118, 0.118)
-            case (true, true): (sidebar, canvas, chrome, surface) = (0.06, 0.118, 0.118, 0.118)
-            }
-        }
-
-        func level(_ role: ThemeColorRole) -> CGFloat? {
-            switch role {
-            case .sidebar: sidebar
-            case .canvas: canvas
-            case .chrome: chrome
-            case .surface: surface
-            default: nil
-            }
-        }
-    }
 
     /// Calibrated per appearance so keywords, strings and numbers share one lightness
     /// instead of the louder system purple/brown/link defaults.
@@ -60,17 +36,17 @@ struct AppColors: Equatable, Sendable {
         if let hex = custom?[role], let rgb = ThemeRGB(hex: hex) {
             return NSColor(srgbRed: rgb.red, green: rgb.green, blue: rgb.blue, alpha: 1)
         }
-        if let level = SurfaceLadder(dark: dark, increasedContrast: increasedContrast).level(role) {
-            return NSColor(srgbRed: level, green: level, blue: level, alpha: 1)
+        if let surface = NativePaperPalette.surface(role, dark: dark, increasedContrast: increasedContrast) {
+            return surface
         }
         if let syntax = syntaxPalette[role] {
             return NativeReadableColors.foreground(syntax, wordHighlights: true)
         }
         switch role {
-        case .accent: return .controlAccentColor
+        case .accent: return NativePaperPalette.brand(dark: dark)
         case .canvas, .chrome, .sidebar, .surface: return .controlBackgroundColor
-        case .border: return .separatorColor
-        case .text: return .labelColor
+        case .border: return NativePaperPalette.border(dark: dark, increasedContrast: increasedContrast)
+        case .text: return NativeReadableColors.text
         case .secondaryText: return NativeReadableColors.secondary
         case .comment: return NativeReadableColors.comment
         case .positive: return NativeReadableColors.positive
@@ -85,7 +61,6 @@ struct AppColors: Equatable, Sendable {
     }
 
     func color(_ role: ThemeColorRole) -> Color {
-        if custom == nil, role == .text { return .primary }
         return Color(nsColor: nsColor(role))
     }
     var accent: Color { color(.accent) }
@@ -94,7 +69,36 @@ struct AppColors: Equatable, Sendable {
     var destructiveAction: Color {
         custom == nil ? Color(nsColor: NativeReadableColors.destructiveFill) : negative
     }
-    var brandBlue: Color { custom == nil ? Color(nsColor: .systemBlue) : accent }
+    var brand: Color {
+        custom == nil ? Color(nsColor: NativePaperPalette.brand(dark: dark)) : accent
+    }
+    func tone(_ tone: InterfaceTone) -> Color {
+        let role: ThemeColorRole
+        switch tone {
+        case .blue: role = .number
+        case .teal: role = .string
+        case .violet: role = .keyword
+        case .amber: role = .modified
+        case .green: role = .positive
+        case .rose: role = .negative
+        }
+        if custom != nil { return color(role) }
+        return Color(nsColor: NativeReadableColors.category(tone))
+    }
+
+    func symbolTint(_ symbol: String) -> Color {
+        if symbol.contains("tag") || symbol.contains("clock") { return tone(.violet) }
+        if symbol.contains("branch") || symbol.contains("network") { return tone(.teal) }
+        if symbol.contains("archive") || symbol.contains("tray") || symbol.contains("pencil") {
+            return tone(.amber)
+        }
+        if symbol.contains("checkmark") || symbol.contains("terminal") { return tone(.green) }
+        if symbol.hasPrefix("lock") || symbol.hasPrefix("key") || symbol.hasPrefix("shield") {
+            return tone(.rose)
+        }
+        return tone(.blue)
+    }
+
     var selectionBackground: Color {
         custom == nil ? Color(nsColor: NativeReadableColors.selectionFill) : accent
     }
@@ -103,6 +107,17 @@ struct AppColors: Equatable, Sendable {
     var sidebar: Color { color(.sidebar) }
     var surface: Color { color(.surface) }
     var border: Color { color(.border) }
+    /// Required input boundaries remain opaque; the lighter border role structures surfaces.
+    var controlBorder: Color {
+        custom == nil
+            ? Color(
+                nsColor: NativePaperPalette.controlBorder(dark: dark, increasedContrast: increasedContrast))
+            : border
+    }
+    /// Decoration only. Functional text, icons, focus and results use their existing roles.
+    var celadon: Color {
+        custom == nil ? Color(nsColor: NativePaperPalette.celadon(dark: dark)) : secondaryText
+    }
     var graphLine: Color { border }
     var focus: Color { custom == nil ? Color(nsColor: .keyboardFocusIndicatorColor) : accent }
     var text: Color { color(.text) }
@@ -141,32 +156,112 @@ struct AppColors: Equatable, Sendable {
     }
 }
 
-/// Resolve the user's native appearance first, then change only the tone of an
-/// insufficient pair. Custom theme values and native surfaces remain untouched.
+/// Ivory and ink form the continuous workbench; categorical color stays in small meaningful accents.
+/// Imported themes bypass this palette through the existing seventeen color roles.
+private enum NativePaperPalette {
+    static func surface(_ role: ThemeColorRole, dark: Bool, increasedContrast: Bool) -> NSColor? {
+        switch role {
+        case .canvas, .chrome, .surface: color(dark ? 0x1F1F1F : 0xF7F3ED)
+        case .sidebar:
+            color(
+                dark ? (increasedContrast ? 0x141312 : 0x191817) : (increasedContrast ? 0xE7DED2 : 0xEEE7DC))
+        default: nil
+        }
+    }
+
+    static func border(dark: Bool, increasedContrast: Bool) -> NSColor {
+        color(dark ? (increasedContrast ? 0x9F9487 : 0x4C443D) : (increasedContrast ? 0x847565 : 0xCBBFB0))
+    }
+
+    static func controlBorder(dark: Bool, increasedContrast: Bool) -> NSColor {
+        color(dark ? (increasedContrast ? 0xCEC3B4 : 0x918373) : (increasedContrast ? 0x685749 : 0x8B7867))
+    }
+
+    static func brand(dark: Bool) -> NSColor { color(0xB3322D) }
+    static func celadon(dark: Bool) -> NSColor { color(dark ? 0xA89A89 : 0xCFBFA9) }
+
+    static let brandInk = NSColor(name: nil) { appearance in
+        brand(dark: traits(appearance).dark)
+    }
+
+    static let ink = NSColor(name: nil) { appearance in
+        let value = traits(appearance)
+        return color(
+            value.dark ? (value.increased ? 0xFFFDF8 : 0xF7F3ED) : (value.increased ? 0x151413 : 0x1F1F1F))
+    }
+    static let secondaryInk = NSColor(name: nil) { appearance in
+        let value = traits(appearance)
+        return color(
+            value.dark ? (value.increased ? 0xDFD4C5 : 0xC3B8AA) : (value.increased ? 0x4C4138 : 0x5F574E))
+    }
+
+    static func traits(_ appearance: NSAppearance) -> (dark: Bool, increased: Bool) {
+        let match = appearance.bestMatch(from: [
+            .aqua, .darkAqua, .accessibilityHighContrastAqua, .accessibilityHighContrastDarkAqua,
+        ])
+        return (
+            match == .darkAqua || match == .accessibilityHighContrastDarkAqua,
+            match == .accessibilityHighContrastAqua || match == .accessibilityHighContrastDarkAqua
+        )
+    }
+
+    private static func color(_ value: UInt32) -> NSColor {
+        NSColor(
+            srgbRed: CGFloat((value >> 16) & 255) / 255,
+            green: CGFloat((value >> 8) & 255) / 255,
+            blue: CGFloat(value & 255) / 255, alpha: 1)
+    }
+}
+
+/// Resolve native accents and status hues, then adjust only insufficient brightness.
+/// Calibration uses the actual paper, porcelain, Diff and native selection surfaces.
 private enum NativeReadableColors {
     private static let cache = Mutex<[Key: RGB]>([:])
-    static let accent = foreground(.controlAccentColor)
-    static let secondary = foreground(.secondaryLabelColor)
-    static let comment = foreground(.secondaryLabelColor, wordHighlights: true)
+    static let text = foreground(NativePaperPalette.ink, wordHighlights: true)
+    static let accent = foreground(NativePaperPalette.brandInk)
+    static let secondary = foreground(NativePaperPalette.secondaryInk)
+    static let comment = foreground(NativePaperPalette.secondaryInk, wordHighlights: true)
     static let positive = foreground(.systemGreen)
     static let negative = foreground(.systemRed)
     static let modified = foreground(.systemOrange)
     static let keyword = foreground(.systemPurple, wordHighlights: true)
     static let string = foreground(.systemBrown, wordHighlights: true)
     static let number = foreground(.linkColor, wordHighlights: true)
-    static let primaryFill = adjusted(.controlAccentColor, fill: true)
+    static let primaryFill = adjusted(NativePaperPalette.brandInk, fill: true)
     static let destructiveFill = adjusted(.systemRed, fill: true)
-    static let selectionFill = adjusted(.systemBlue, fill: true)
+    static let selectionFill = adjusted(NativePaperPalette.brandInk, fill: true)
+
+    static func category(_ tone: InterfaceTone) -> NSColor {
+        let source: NSColor
+        switch tone {
+        case .blue: source = .systemBlue
+        case .teal: source = .systemTeal
+        case .violet: source = .systemPurple
+        case .amber: source = .systemOrange
+        case .green: source = .systemGreen
+        case .rose: source = .systemPink
+        }
+        return adjusted(source, fill: false, minimumContrast: 6)
+    }
 
     static func foreground(_ source: NSColor, wordHighlights: Bool = false) -> NSColor {
         adjusted(source, fill: false, wordHighlights: wordHighlights)
     }
 
-    private static func adjusted(_ source: NSColor, fill: Bool, wordHighlights: Bool = false) -> NSColor {
+    private static func adjusted(
+        _ source: NSColor, fill: Bool, wordHighlights: Bool = false, minimumContrast: Double = 5
+    ) -> NSColor {
         NSColor(name: nil) { appearance in
             var result = source
             appearance.performAsCurrentDrawingAppearance {
-                guard let native = RGB(source), let canvas = RGB(.controlBackgroundColor) else { return }
+                let traits = NativePaperPalette.traits(appearance)
+                guard let native = RGB(source),
+                    let paper = NativePaperPalette.surface(
+                        .canvas, dark: traits.dark, increasedContrast: traits.increased),
+                    let porcelain = NativePaperPalette.surface(
+                        .sidebar, dark: traits.dark, increasedContrast: traits.increased),
+                    let canvas = RGB(paper), let sidebar = RGB(porcelain)
+                else { return }
                 if fill {
                     result =
                         cached([native, canvas, .white], minimumContrast: 6) {
@@ -180,10 +275,13 @@ private enum NativeReadableColors {
                     let green = RGB(.systemGreen), let red = RGB(.systemRed)
                 else { return }
                 result =
-                    cached([native, canvas, green, red, selected], wordHighlights: wordHighlights) {
+                    cached(
+                        [native, canvas, sidebar, green, red, selected], wordHighlights: wordHighlights,
+                        minimumContrast: minimumContrast
+                    ) {
                         let addedSurface = green.withAlpha(0.10).over(canvas)
                         let removedSurface = red.withAlpha(0.10).over(canvas)
-                        let base = [canvas, addedSurface, removedSurface, selected.over(canvas)]
+                        let base = [canvas, sidebar, addedSurface, removedSurface, selected.over(canvas)]
                         var surfaces = base
                         if wordHighlights {
                             // Only native text/syntax spans sit on word highlights.
@@ -195,7 +293,7 @@ private enum NativeReadableColors {
                                     .withAlpha(0.22).over(removedSurface),
                             ]
                         }
-                        return toned(native, over: surfaces, canvas: canvas)
+                        return toned(native, over: surfaces, canvas: canvas, minimumContrast: minimumContrast)
                     }.color
             }
             return result
@@ -209,7 +307,7 @@ private enum NativeReadableColors {
         if let value = cache.withLock({ $0[key] }) { return value }
         let value = build()
         cache.withLock {
-            if $0.count >= 128 { $0.removeAll(keepingCapacity: true) }
+            if $0.count >= 256 { $0.removeAll(keepingCapacity: true) }
             $0[key] = value
         }
         return value

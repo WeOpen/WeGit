@@ -15,7 +15,7 @@ xcrun swiftc -sdk "$sdk_path" -target arm64-apple-macosx27.0 \
   WeGit/DesignSystem/AppPresentation.swift WeGit/App/AppPreferences.swift \
   scripts/AppearanceIconChecks.swift -o "$check_app/Contents/MacOS/AppearanceChecks"
 ditto "$library_path/WeGit_WeGitCore.bundle" "$check_app/Contents/Resources/WeGit_WeGitCore.bundle"
-cp branding/wegit-v2/WeGit.icns "$check_app/Contents/Resources/AppIcon.icns"
+cp WeGit/Resources/AppearanceIcons/WeGitLight.icns "$check_app/Contents/Resources/AppIcon.icns"
 cp WeGit/Resources/AppearanceIcons/WeGitLight.icns "$check_app/Contents/Resources/WeGitLight.icns"
 cp WeGit/Resources/AppearanceIcons/WeGitDark.icns "$check_app/Contents/Resources/WeGitDark.icns"
 cat > "$check_app/Contents/Info.plist" <<'PLIST'

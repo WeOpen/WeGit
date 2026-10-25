@@ -1,0 +1,113 @@
+Window: "", App: WeGit.
+0 表单 Secondary Actions: Raise
+	1 container
+		2 文本 自定义主题
+		3 转换 实时预览, Value: off, ID: theme-live-preview
+		4 分离组
+			5 滚动区 Secondary Actions: Scroll Up, Scroll Down
+				6 文本栏 (settable) Value: Ink & Ivory, Placeholder: 主题名称, ID: theme-name
+				7 弹出式按钮 控件外观, Value: 深色, ID: theme-controls
+				8 文本 控件外观决定系统控件与运行中图标的明暗，具体配色在下方设置。
+				9 标题 表面
+				10 container
+					11 文本 内容背景
+					12 文本栏 (settable) Description: 内容背景, Value: #1F1F1F, Placeholder: #RRGGBB, ID: theme-color-canvas
+					13 颜色池 Description: 内容背景、内容背景颜色选择器, Value: rgb 0.121569 0.121569 0.121569 1, ID: theme-well-canvas, Secondary Actions: 显示颜色面板
+				14 container
+					15 文本 工具栏与面板标题
+					16 文本栏 (settable) Description: 工具栏与面板标题, Value: #1F1F1F, Placeholder: #RRGGBB, ID: theme-color-chrome
+					17 颜色池 Description: 工具栏与面板标题、工具栏与面板标题颜色选择器, Value: rgb 0.121569 0.121569 0.121569 1, ID: theme-well-chrome, Secondary Actions: 显示颜色面板
+				18 container
+					19 文本 侧栏背景
+					20 文本栏 (settable) Description: 侧栏背景, Value: #191817, Placeholder: #RRGGBB, ID: theme-color-sidebar
+					21 颜色池 Description: 侧栏背景、侧栏背景颜色选择器, Value: rgb 0.0980392 0.0941176 0.0901961 1, ID: theme-well-sidebar, Secondary Actions: 显示颜色面板
+				22 container
+					23 文本 卡片与输入区域
+					24 文本栏 (settable) Description: 卡片与输入区域, Value: #2B2825, Placeholder: #RRGGBB, ID: theme-color-surface
+					25 颜色池 Description: 卡片与输入区域、卡片与输入区域颜色选择器, Value: rgb 0.168627 0.156863 0.145098 1, ID: theme-well-surface, Secondary Actions: 显示颜色面板
+				26 container
+					27 文本 边界与分隔线
+					28 文本栏 (settable) Description: 边界与分隔线, Value: #62574B, Placeholder: #RRGGBB, ID: theme-color-border
+					29 颜色池 Description: 边界与分隔线、边界与分隔线颜色选择器, Value: rgb 0.384314 0.341176 0.294118 1, ID: theme-well-border, Secondary Actions: 显示颜色面板
+				30 标题 文字与强调
+				31 container
+					32 文本 强调色
+					33 文本栏 (settable) Description: 强调色, Value: #D66E5D, Placeholder: #RRGGBB, ID: theme-color-accent
+					34 颜色池 Description: 强调色、强调色颜色选择器, Value: rgb 0.839216 0.431373 0.364706 1, ID: theme-well-accent, Secondary Actions: 显示颜色面板
+				35 container
+					36 文本 主要文字
+					37 文本栏 (settable) Description: 主要文字, Value: #F7F3ED, Placeholder: #RRGGBB, ID: theme-color-text
+					38 颜色池 Description: 主要文字、主要文字颜色选择器, Value: rgb 0.968627 0.952941 0.929412 1, ID: theme-well-text, Secondary Actions: 显示颜色面板
+				39 container
+					40 文本 次要文字
+					41 文本栏 (settable) Description: 次要文字, Value: #C3B8AA, Placeholder: #RRGGBB, ID: theme-color-secondaryText
+					42 颜色池 Description: 次要文字、次要文字颜色选择器, Value: rgb 0.764706 0.721569 0.666667 1, ID: theme-well-secondaryText, Secondary Actions: 显示颜色面板
+				43 标题 Git 状态与差异
+				44 container
+					45 文本 新增与成功
+					46 文本栏 (settable) Description: 新增与成功, Value: #79C8A0, Placeholder: #RRGGBB, ID: theme-color-positive
+					47 颜色池 Description: 新增与成功、新增与成功颜色选择器, Value: rgb 0.47451 0.784314 0.627451 1, ID: theme-well-positive, Secondary Actions: 显示颜色面板
+				48 container
+					49 文本 删除与错误
+					50 文本栏 (settable) Description: 删除与错误, Value: #F0A098, Placeholder: #RRGGBB, ID: theme-color-negative
+					51 颜色池 Description: 删除与错误、删除与错误颜色选择器, Value: rgb 0.941176 0.627451 0.596078 1, ID: theme-well-negative, Secondary Actions: 显示颜色面板
+				52 container
+					53 文本 修改与提醒
+					54 文本栏 (settable) Description: 修改与提醒, Value: #E6BA76, Placeholder: #RRGGBB, ID: theme-color-modified
+					55 颜色池 Description: 修改与提醒、修改与提醒颜色选择器, Value: rgb 0.901961 0.729412 0.462745 1, ID: theme-well-modified, Secondary Actions: 显示颜色面板
+				56 container
+					57 文本 新增行背景
+					58 文本栏 (settable) Description: 新增行背景, Value: #25392E, Placeholder: #RRGGBB, ID: theme-color-diffAdded
+					59 颜色池 Description: 新增行背景、新增行背景颜色选择器, Value: rgb 0.145098 0.223529 0.180392 1, ID: theme-well-diffAdded, Secondary Actions: 显示颜色面板
+				60 container
+					61 文本 删除行背景
+					62 文本栏 (settable) Description: 删除行背景, Value: #412826, Placeholder: #RRGGBB, ID: theme-color-diffRemoved
+					63 颜色池 Description: 删除行背景、删除行背景颜色选择器, Value: rgb 0.254902 0.156863 0.14902 1, ID: theme-well-diffRemoved, Secondary Actions: 显示颜色面板
+				64 标题 语法高亮
+				65 container
+					66 文本 关键字
+					67 文本栏 (settable) Description: 关键字, Value: #CAB5E7, Placeholder: #RRGGBB, ID: theme-color-keyword
+					68 颜色池 Description: 关键字、关键字颜色选择器, Value: rgb 0.792157 0.709804 0.905882 1, ID: theme-well-keyword, Secondary Actions: 显示颜色面板
+				69 container
+					70 文本 字符串
+					71 文本栏 (settable) Description: 字符串, Value: #8BC6B9, Placeholder: #RRGGBB, ID: theme-color-string
+					72 颜色池 Description: 字符串、字符串颜色选择器, Value: rgb 0.545098 0.776471 0.72549 1, ID: theme-well-string, Secondary Actions: 显示颜色面板
+				73 container
+					74 文本 数字与链接
+					75 文本栏 (settable) Description: 数字与链接, Value: #8EBBE8, Placeholder: #RRGGBB, ID: theme-color-number
+					76 颜色池 Description: 数字与链接、数字与链接颜色选择器, Value: rgb 0.556863 0.733333 0.909804 1, ID: theme-well-number, Secondary Actions: 显示颜色面板
+				77 container
+					78 文本 注释
+					79 文本栏 (settable) Description: 注释, Value: #BAAEA1, Placeholder: #RRGGBB, ID: theme-color-comment
+					80 颜色池 Description: 注释、注释颜色选择器, Value: rgb 0.729412 0.682353 0.631373 1, ID: theme-well-comment, Secondary Actions: 显示颜色面板
+				81 滚动条 (settable, float) 0
+					82 值指示器 (settable, float) 0
+					83 增箭头按钮
+					84 减箭头按钮
+					85 增页面按钮
+					86 减页面按钮
+			87 分离器 (disabled, settable, float) 429.5
+			88 滚动区
+				89 文本 Value: Ink & Ivory, ID: theme-preview
+				90 图像 Description: 水平右侧拆分视图, ID: theme-preview
+				91 text ID: theme-preview, Value: 更改 main 提交历史 新增 删除 修改 // WeGit let  branch =  "main" + count = 42 − count = 41 自定义配色独立保存，内置浅色与深色保持不变。
+		92 按钮 Description: 导入…, ID: theme-import
+		93 按钮 Description: 导出…, ID: theme-export
+		94 按钮 Description: 恢复初始配色, ID: theme-reset
+		95 按钮 Description: 取消, ID: theme-cancel
+		96 按钮 Description: 应用主题, ID: theme-apply
+97 menu bar
+	98 WeGit 品牌预览, ID: native-menu-app
+	99 文件, ID: native-menu-file
+	100 编辑, ID: native-menu-edit
+	101 显示, ID: native-menu-view
+	102 仓库, ID: native-menu-repository
+	103 工作区, ID: native-menu-workspace
+	104 窗口, ID: native-menu-window
+	105 帮助, ID: native-menu-help
+
+Selected text: ```
+Ink & Ivory
+```
+
+Note: Pay special attention to the content selected by the user. If the user asks a question or refers to the content they are looking at on-screen, they might be referring to the selected content (but they might be referring to something else that's visible, too).

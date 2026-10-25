@@ -1,0 +1,85 @@
+Window: "品牌工作台样例", App: WeGit.
+0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selected) 更改
+2
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 储藏
+						11 row (selectable) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) 品牌工作台样例、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 container
+					19 分离组
+						20 container
+							21 text 更改 2
+							22 菜单按钮 显示方式, Help: 切换文件列表或按文件夹显示, ID: changes-display-mode
+							23 菜单按钮 更多, ID: ellipsis
+							24 文本栏 (settable) Description: 筛选文件路径, ID: changes-filter
+							25 弹出式按钮 Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							26 滚动区
+								27 列表 changes-list
+									28 row (selectable) Value: 已展开, Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存
+已暂存（1）
+										29 复选框 Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存, Help: 取消暂存所显示的文件 已暂存, Value: 1, ID: stage-group:staged
+									30 row (selectable) Description: 取消暂存 Sources/Workbench.swift、取消暂存 Sources/Workbench.swift, Value: Workbench.swift
+Sources
+状态：修改
+										31 复选框 Description: 取消暂存 Sources/Workbench.swift、取消暂存 Sources/Workbench.swift, Help: 取消暂存 Sources/Workbench.swift, Value: 1, ID: stage:staged:Sources/Workbench.swift
+									32 row (selectable) Value: 已展开, Description: 暂存所显示的文件 未跟踪、暂存所显示的文件 未跟踪
+未跟踪（1）
+										33 复选框 Description: 暂存所显示的文件 未跟踪、暂存所显示的文件 未跟踪, Help: 暂存所显示的文件 未跟踪, Value: 0, ID: stage-group:untracked
+									34 row (selectable) Description: 暂存 Sources/引用签条.swift、暂存 Sources/引用签条.swift, Value: 引用签条.swift
+Sources
+状态：未跟踪
+										35 复选框 Description: 暂存 Sources/引用签条.swift、暂存 Sources/引用签条.swift, Help: 暂存 Sources/引用签条.swift, Value: 0, ID: stage:untracked:Sources/引用签条.swift
+						36 分离器 (disabled, settable, float) 590
+						37 container
+							38 text 选择一个文件 查看工作区与暂存区的差异，整理下一次提交。
+					39 文本栏 (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					40 按钮 (disabled) Description: 提交（1 个文件）, Help: 填写提交消息, ID: commit-button
+					41 按钮 (disabled) Description: 提交并推送…, Help: 填写提交消息, ID: commit-push-button
+					42 unknown Description: 已暂存 1 个文件, ID: commit-staged-count
+					43 复选框 Description: 修改上次提交（Amend）, Value: 0
+					44 unknown Description: 填写提交消息, Details: idle, ID: operation-feedback
+	45 工具栏
+		46 container 隐藏边栏
+			47 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		48 按钮 Description: 品牌工作台样例, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/brand-review-a2qhoxto/品牌工作台样例
+切换仓库 ⌘K
+		49 菜单按钮 当前分支：main, Value: 同步状态：↑1 ↓0, ID: current-branch
+		50 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		51 按钮 Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		52 按钮 Description: 推送, Value: 1, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		53 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		54 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		55 按钮 Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		56 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	57 关闭按钮
+	58 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	59 最小化按钮
+	60 text 品牌工作台样例 main
+61 menu bar
+	62 WeGit 品牌预览, ID: native-menu-app
+	63 文件, ID: native-menu-file
+	64 编辑, ID: native-menu-edit
+	65 显示, ID: native-menu-view
+	66 仓库, ID: native-menu-repository
+	67 工作区, ID: native-menu-workspace
+	68 窗口, ID: native-menu-window
+	69 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise

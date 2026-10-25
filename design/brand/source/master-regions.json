@@ -1,0 +1,51 @@
+{
+  "input": "r3/generated/logo-horizontal.png",
+  "regions": [
+    {
+      "name": "git",
+      "crop": {
+        "left": 110,
+        "top": 95,
+        "width": 566,
+        "height": 566
+      },
+      "kind": "white",
+      "largest": true,
+      "min": 1000
+    },
+    {
+      "name": "seal",
+      "crop": {
+        "left": 492,
+        "top": 494,
+        "width": 120,
+        "height": 120
+      },
+      "kind": "white",
+      "min": 80
+    },
+    {
+      "name": "wordmark",
+      "crop": {
+        "left": 700,
+        "top": 240,
+        "width": 1040,
+        "height": 300
+      },
+      "kind": "black",
+      "min": 250
+    },
+    {
+      "name": "plate",
+      "crop": {
+        "left": 110,
+        "top": 95,
+        "width": 566,
+        "height": 566
+      },
+      "kind": "alpha",
+      "largest": true,
+      "min": 1000
+    }
+  ]
+}

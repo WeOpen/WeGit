@@ -1,0 +1,10 @@
+{
+  "unstageFromInspector": "passed: cached diff empty, worktree +3 -3",
+  "stageFromInspector": "passed: cached diff +3 -3, worktree diff empty",
+  "centralDiffAfterBoth": "passed: diff-code and inspector-file-statistics retained",
+  "headUnchanged": true,
+  "privateFixture": true,
+  "regression": "Initial restage produced selected row and empty Diff. Fresh bounded read after layer remapping fixed it; both directions rerun.",
+  "rerunOnFinalSource": true,
+  "previewTruncationDoesNotAlterPatch": true
+}
