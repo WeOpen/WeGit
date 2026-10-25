@@ -1,0 +1,5 @@
+# R4 shared ink material
+
+Built-in image_gen edit reference: r3/generated/logo-horizontal.png.
+
+Use case: logo-brand material layer. Edit the red ink face of the attached WeGit logo into a standalone reusable INK TEXTURE TILE. Preserve the same exact vermilion/cinnabar red ink material, organic density variation, fine irregular ink pores and subtle rice-paper transfer texture of the red square. Remove ALL logos, ALL white Git lines, ALL seal text and ALL borders; the entire output must be uninterrupted red ink material with no identifiable marks. Straight-on FLAT printed surface, not a rounded app icon or a 3D object. A square red tile filling the ENTIRE canvas edge-to-edge, opaque background. The red should match the red face of the reference, with its natural variation; avoid giant white scratches, regular dots, fake geometric grain, overly crumpled paper or shiny plastic. Fine authentic seal-ink texture, rich and tactile, moderate grain visible at large size. No text, no shapes, no white margins, no shadows. This will be clipped behind the original vector contours and glyphs.

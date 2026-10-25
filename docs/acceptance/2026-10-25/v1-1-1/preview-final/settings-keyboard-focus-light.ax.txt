@@ -1,0 +1,54 @@
+Window: "WeGit 设置", App: WeGit v1.1.1 Final.
+0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 单选按钮 Description: 通用, Value: 0
+			4 单选按钮 Description: Git, Value: 1
+			5 单选按钮 Description: 外观, Value: 0
+			6 单选按钮 Description: 差异, Value: 0
+			7 单选按钮 Description: 提交, Value: 0
+			8 单选按钮 Description: 高级, Value: 0
+		9 滚动区 Secondary Actions: Scroll Up, Scroll Down
+			10 标题 Git 可执行文件
+			11 container
+				12 text 正在使用, Value: /usr/bin/git git version 2.54.0 (Apple Git-157)
+				13 按钮 选择 Git…
+				14 按钮 Description: 恢复自动检测, Help: 需要 Git 2.46+ 和运行时配置能力。自动检测依次检查系统/Xcode、Homebrew 和 PATH。
+			15 标题 身份与策略
+			16 container
+				17 弹出式按钮 写入作用域, Value: 当前仓库, ID: git-setting-scope
+				18 text 只编辑当前仓库：纸墨青瓷样例 提交者姓名 WeGit UI Fixture
+				19 按钮 Description: 编辑…, ID: edit-setting:user.name
+				20 text 提交邮箱 fixture@example.test
+				21 按钮 Description: 编辑…, ID: edit-setting:user.email
+				22 text 新仓库默认分支 main
+				23 按钮 Description: 编辑…, ID: edit-setting:init.defaultBranch
+				24 text Pull 整合方式 未配置
+				25 按钮 Description: 编辑…, ID: edit-setting:pull.rebase
+				26 text Pull 快进策略 未配置
+				27 按钮 Description: 编辑…, ID: edit-setting:pull.ff
+				28 text Merge 快进策略 未配置
+				29 按钮 Description: 编辑…, ID: edit-setting:merge.ff
+				30 显示三角形 Description: 配置来源, Value: off, ID: git-setting-sources
+				31 按钮 重新读取配置
+			32 显示三角形 Description: 认证, Value: off
+			33 滚动条 (settable, float) 0
+				34 值指示器 (settable, float) 0
+				35 增箭头按钮
+				36 减箭头按钮
+				37 增页面按钮
+				38 减页面按钮
+	39 关闭按钮
+	40 缩放按钮 (disabled)
+	41 文本 WeGit 设置
+42 menu bar
+	43 WeGit v1.1.1 Review, ID: native-menu-app
+	44 文件, ID: native-menu-file
+	45 编辑, ID: native-menu-edit
+	46 显示, ID: native-menu-view
+	47 仓库, ID: native-menu-repository
+	48 工作区, ID: native-menu-workspace
+	49 窗口, ID: native-menu-window
+	50 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

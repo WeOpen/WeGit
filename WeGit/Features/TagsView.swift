@@ -33,16 +33,24 @@ struct TagsView: View {
         VStack(spacing: 0) {
             if let pending = session.pendingTagPush {
                 HStack {
-                    Text(session.tagPushVerification ?? L10n.text("标签推送结果尚未确认"))
-                    Text(pending.tag.name).font(.body.monospaced())
+                    OperationFeedback(
+                        busy: session.isBusy, activity: session.activityLabel,
+                        result: session.tagPushFeedback
+                            ?? .needsReview(
+                                message: L10n.text("标签推送结果尚未确认"), details: pending.feedbackTargetDetails),
+                        fallback: "")
+                    Text(pending.tag.name).font(.body.monospaced()).textSelection(.enabled)
+                        .help(pending.feedbackTargetDetails)
+                        .accessibilityValue(pending.feedbackTargetDetails)
+                        .accessibilityIdentifier("tag-push-target")
                     Spacer()
                     Button(L10n.text("核对远端")) { verify(pending) }.disabled(!session.canWrite)
                         .accessibilityIdentifier("tag-verify-push")
                     Button(L10n.text("关闭提示")) {
                         session.pendingTagPush = nil
-                        session.tagPushVerification = nil
-                    }.disabled(session.isBusy)
-                }.padding(12).background(colors.chrome)
+                        session.tagPushFeedback = nil
+                    }.disabled(session.isBusy).accessibilityIdentifier("tag-dismiss-push-notice")
+                }.padding(12).background(colors.chrome).accessibilityIdentifier("tag-push-pending")
             }
             HSplitView {
                 VStack(spacing: 0) {
@@ -59,7 +67,7 @@ struct TagsView: View {
                         .padding(12)
                     List(entries, selection: $selection) { tag in
                         HStack {
-                            Image(systemName: "tag")
+                            Image(systemName: "tag").foregroundStyle(colors.tone(.violet))
                             Text(tag.name).lineLimit(1)
                             Spacer()
                             Text(String((tag.targetCommit ?? tag.objectID).prefix(7))).font(
@@ -67,7 +75,8 @@ struct TagsView: View {
                             )
                             .foregroundStyle(colors.secondaryText)
                         }.tag(tag.id).accessibilityIdentifier("tag-row:" + tag.name)
-                    }.accessibilityIdentifier("tag-list")
+                    }.scrollContentBackground(.hidden).background(colors.canvas)
+                        .accessibilityIdentifier("tag-list")
                     HStack {
                         if loading { ProgressView().controlSize(.small) }
                         if hasMore {
@@ -77,7 +86,9 @@ struct TagsView: View {
                         Spacer()
                         Button(L10n.text("刷新")) { reload = UUID() }.disabled(loading)
                     }.padding(10)
-                    if let error { Text(error).foregroundStyle(.red).padding(12).textSelection(.enabled) }
+                    if let error {
+                        Text(error).foregroundStyle(colors.negative).padding(12).textSelection(.enabled)
+                    }
                     if !loading, entries.isEmpty, error == nil {
                         Text(query.isEmpty ? L10n.text("暂无标签") : L10n.text("没有匹配标签"))
                             .foregroundStyle(colors.secondaryText).padding(12)
@@ -125,15 +136,23 @@ struct TagsView: View {
                         TagDetailView(app: app, session: session, tag: tag).id(
                             tag.id + tag.objectID + (tag.symbolicTarget ?? ""))
                     } else {
-                        Text(L10n.text("选择一个标签")).foregroundStyle(colors.secondaryText)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        EmptyPanel(title: L10n.text("选择一个标签"), symbol: "tag", message: "", artwork: .tally)
                     }
                 }.frame(minWidth: 420, maxWidth: .infinity, maxHeight: .infinity)
+            }
+            if session.pendingTagPush == nil, session.isBusy || session.operationFeedback != nil {
+                Divider()
+                OperationFeedback(
+                    busy: session.isBusy, activity: session.activityLabel,
+                    result: session.operationFeedback, context: session.operationFeedbackContext, fallback: ""
+                ).frame(maxWidth: .infinity, alignment: .leading).padding(12)
             }
         }.background(colors.canvas)
             .task(id: "\(query):\(limit):\(session.historyGeneration):\(reload)") { await read() }
             .onChange(of: query) { _, _ in limit = 200 }
-            .sheet(item: $pushing) { TagPushSheet(app: app, session: session, tag: $0) }
+            .sheet(item: $pushing) {
+                TagPushSheet(app: app, session: session, tag: $0).workbenchSheet(app.preferences)
+            }
             .alert(
                 L10n.text("删除本地标签？"),
                 isPresented: Binding(get: { deletion != nil }, set: { if !$0 { deletion = nil } }),
@@ -170,20 +189,29 @@ struct TagsView: View {
 
     private func verify(_ plan: TagPushPlan) {
         guard app.session === session else { return }
-        session.perform(L10n.text("核对标签推送")) { service in
+        session.performResult(L10n.text("核对标签推送")) { service in
             let result = try await service.verifyTagPush(plan)
-            await MainActor.run {
-                switch result {
-                case .matches: session.tagPushVerification = L10n.text("已确认远端包含此标签对象")
-                case .absent: session.tagPushVerification = L10n.text("远端尚无此标签，可关闭提示后重新确认推送")
-                case .different: session.tagPushVerification = L10n.text("远端同名标签指向其他对象，未执行推送。")
-                }
+            let outcome: OperationFeedbackOutcome
+            switch result {
+            case .matches:
+                outcome = .completed(message: L10n.text("已确认远端包含此标签对象"))
+            case .absent:
+                outcome = .needsReview(
+                    message: L10n.text("远端尚无此标签，可关闭提示后重新确认推送"), details: plan.feedbackTargetDetails)
+            case .different:
+                outcome = .needsReview(
+                    message: L10n.text("远端同名标签指向其他对象，未执行推送。"), details: plan.feedbackTargetDetails)
             }
+            await MainActor.run {
+                session.tagPushFeedback = outcome.feedback
+            }
+            return outcome
         }
     }
 }
 
 private struct TagDetailView: View {
+    @Environment(\.themeColors) private var colors
     let app: AppState
     let session: RepositorySession
     let tag: GitTag
@@ -220,7 +248,7 @@ private struct TagDetailView: View {
                         }.padding(12)
                     }
                 }
-                if let commitError { Text(commitError).foregroundStyle(.red).padding(12) }
+                if let commitError { Text(commitError).foregroundStyle(colors.negative).padding(12) }
                 CommitFilesView(app: app, session: session, detail: detail)
             } else {
                 Text(L10n.text("此标签未指向提交对象")).padding(24)

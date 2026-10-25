@@ -1,0 +1,150 @@
+Window: "品牌工作台样例", App: WeGit.
+0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+2
+						8 row (selected) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 储藏
+						11 row (selectable) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) 品牌工作台样例、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 分离组
+					19 container 历史浏览与筛选
+						20 文本 提交历史
+						21 按钮 Description: 文件历史…, ID: history-file-history
+						22 文本 Value: 4 个提交, ID: history-count
+						23 弹出式按钮 Description: 浏览范围, Value: 全部引用, ID: history-scope
+						24 弹出式按钮 Description: 搜索字段, Value: 消息, ID: history-search-field
+						25 文本栏 (settable) Description: 搜索提交消息, ID: history-search
+						26 滚动区 Secondary Actions: Scroll Left, Scroll Right
+							27 外框 Description: 提交历史列表, ID: history-list
+								28 row (selectable) Description: HEAD，分支列 1
+验证失败反馈时保留草稿, Value: 提交 71ac19c3e5ee，作者 WeGit UI Fixture，1 个父提交
+引用：HEAD · main
+WeGit UI Fixture
+								29 row (selectable) Description: 提交图，分支列 1
+Clarify the review workflow, Value: 提交 8e015e9a507e，作者 WeGit UI Fixture，1 个父提交
+引用：feature/paper-and-celadon-long-reference-name · 修整/文件与记录层级 · origin/main · v1.1.0 · v1.1.1-preview
+WeGit UI Fixture
+								30 row (selectable) Description: 提交图，分支列 1
+Add a clear repository summary, Value: 提交 fdb7395d1be9，作者 WeGit UI Fixture，1 个父提交
+WeGit UI Fixture
+								31 row (selected) Description: 提交图，分支列 1
+Create private interface fixture, Value: 提交 87d855a6afa2，作者 WeGit UI Fixture，0 个父提交
+WeGit UI Fixture
+								32 container
+									33 排序按钮 图
+									34 排序按钮 提交
+									35 排序按钮 引用
+									36 排序按钮 作者
+							37 滚动条 (settable, float) 0
+								38 值指示器 (settable, float) 0
+								39 增箭头按钮
+								40 减箭头按钮
+								41 增页面按钮
+								42 减页面按钮
+					43 分离器 (disabled, settable, float) 784.5
+					44 container 提交详情
+						45 text Create private interface fixture 作者：WeGit UI Fixture <fixture@example.test> 2026年10月24日 20:47
+						46 显示三角形 Description: 完整提交消息, Value: off
+						47 文本 87d855a6afa2040c26eb1afc318d5767c566075a
+							48 文本 87d855a6afa2040c26eb1afc318d5767c566075a
+						49 按钮 Description: 复制 SHA, ID: history-copy-sha
+						50 菜单按钮 所选提交的操作, ID: history-operations
+						51 文本 根提交 · 相对于空树
+						52 滚动区 Secondary Actions: Scroll Up, Scroll Down
+							53 列表 Description: 本次提交的文件变化, ID: commit-files
+								54 row (selectable) 状态：新增
+README.md
++3 −0
+								55 row (selected) 状态：新增
+Sources/Workbench.swift
++6 −0
+								56 row (selectable) 状态：新增
+docs/工作流程.md
++3 −0
+							57 滚动条 (settable, float) 0
+								58 值指示器 (settable, float) 0
+								59 增箭头按钮
+								60 减箭头按钮
+								61 增页面按钮
+								62 减页面按钮
+						63 Description: 布局, ID: diff-layout
+							64 单选按钮 Description: 统一, Value: 1
+							65 单选按钮 Description: 分栏, Value: 0
+						66 菜单按钮 阅读选项
+						67 按钮 复制补丁
+						68 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+						69 按钮 (disabled) Description: 下一差异块, ID: diff-hunk-next
+						70 文本 Value: 差异块 1 / 1, ID: diff-hunk-position
+						71 滚动区 Description: 文本差异, ID: diff-content
+							72 列表 Description: 文本差异内容, Secondary Actions: AXScrollToTop, AXScrollToBottom
+								73 container 差异块：@@ -0,0 +1,6 @@
+									74 文本 @@ -0,0 +1,6 @@
+									75 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+								76 container Description: 新增行, ID: unified-diff-row
+									77 文本 1
+									78 文本 +
+									79 文本输入区 Description: 新增代码，第 1 行, Value: import Foundation, ID: diff-code:0
+								80 container Description: 新增行, ID: unified-diff-row
+									81 文本 2
+									82 文本 +
+									83 文本输入区 Description: 新增代码，第 2 行, Value:  , ID: diff-code:1
+								84 container Description: 新增行, ID: unified-diff-row
+									85 文本 3
+									86 文本 +
+									87 文本输入区 Description: 新增代码，第 3 行, Value: struct Workbench {, ID: diff-code:2
+								88 container Description: 新增行, ID: unified-diff-row
+									89 文本 4
+									90 文本 +
+									91 文本输入区 Description: 新增代码，第 4 行, Value:     var title = "Changes", ID: diff-code:3
+								92 container Description: 新增行, ID: unified-diff-row
+									93 文本 5
+									94 文本 +
+									95 文本输入区 Description: 新增代码，第 5 行, Value:     var staged = 0, ID: diff-code:4
+								96 container Description: 新增行, ID: unified-diff-row
+									97 文本 6
+									98 文本 +
+									99 文本输入区 Description: 新增代码，第 6 行, Value: }, ID: diff-code:5
+	100 工具栏
+		101 container 隐藏边栏
+			102 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		103 按钮 Description: 品牌工作台样例, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/brand-review-_98xgmqd/品牌工作台样例
+切换仓库 ⌘K
+		104 菜单按钮 当前分支：main, Value: 同步状态：↑1 ↓0, ID: current-branch
+		105 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		106 按钮 Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		107 按钮 Description: 推送, Value: 1, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		108 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		109 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		110 按钮 Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		111 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	112 关闭按钮
+	113 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	114 最小化按钮
+	115 text 品牌工作台样例 main
+116 menu bar
+	117 WeGit 品牌预览, ID: native-menu-app
+	118 文件, ID: native-menu-file
+	119 编辑, ID: native-menu-edit
+	120 显示, ID: native-menu-view
+	121 仓库, ID: native-menu-repository
+	122 工作区, ID: native-menu-workspace
+	123 窗口, ID: native-menu-window
+	124 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise

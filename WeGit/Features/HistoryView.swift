@@ -25,7 +25,7 @@ struct HistoryView: View {
                     Button(L10n.text("文件历史…"), systemImage: "doc.text.magnifyingglass") {
                         app.fileHistoryRequest = FileHistoryRequest(session: session, path: "")
                     }.accessibilityIdentifier("history-file-history")
-                    CountBadge(value: L10n.count("%lld 个提交", history.commits.count))
+                    CountBadge(value: L10n.count("%lld 个提交", history.commits.count), tone: .violet)
                         .accessibilityIdentifier("history-count")
                 }
                 ViewThatFits(in: .horizontal) {
@@ -93,61 +93,55 @@ struct HistoryView: View {
             VStack(alignment: .leading, spacing: 0) {
                 if let commit = app.workspace.selectedCommit {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(commit.subject).font(.title3.weight(.semibold))
-                        HStack {
-                            Text(L10n.text("作者：\(commit.author) <\(commit.authorEmail)>"))
-                            Text(
-                                commit.date.formatted(
-                                    Date.FormatStyle(date: .abbreviated, time: .shortened).locale(L10n.locale)
-                                ))
-                        }.font(.caption).foregroundStyle(colors.secondaryText)
-                        Text(
-                            L10n.text(
-                                "提交者：\(commit.committer) <\(commit.committerEmail)> · \(commit.committedAt.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(L10n.locale)))"
-                            )
-                        )
-                        .font(.caption).foregroundStyle(colors.secondaryText)
-                        DisclosureGroup(L10n.text("完整提交消息")) {
-                            ScrollView {
-                                Text(commit.message).textSelection(.enabled).frame(
-                                    maxWidth: .infinity, alignment: .leading)
-                            }.frame(maxHeight: 120)
-                        }.font(.caption)
-                        HStack {
-                            Text(commit.id).font(.caption.monospaced()).textSelection(.enabled)
-                            Button(L10n.text("复制 SHA"), systemImage: "doc.on.doc") {
-                                NSPasteboard.general.clearContents()
-                                NSPasteboard.general.setString(commit.id, forType: .string)
-                            }.labelStyle(.iconOnly).accessibilityIdentifier("history-copy-sha")
-                            Spacer()
-                            Menu(L10n.text("操作")) {
-                                Button(L10n.text("从此提交创建标签…")) {
-                                    app.tagCreationRequest = TagCreationRequest(
-                                        session: session, target: commit.id)
+                        if app.workspace.inspector {
+                            HStack {
+                                Text(commit.subject).font(.headline).lineLimit(2)
+                                Spacer(minLength: 0)
+                                commitActions(commit)
+                            }
+                        } else {
+                            Text(commit.subject).font(.title3.weight(.semibold))
+                            let author = L10n.text("作者：\(commit.author) <\(commit.authorEmail)>")
+                            let authoredAt = commit.date.formatted(
+                                Date.FormatStyle(date: .abbreviated, time: .shortened).locale(L10n.locale))
+                            ViewThatFits(in: .horizontal) {
+                                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                                    Text(author).fixedSize()
+                                    Spacer(minLength: 0)
+                                    Text(authoredAt).fixedSize()
                                 }
-                                Button(L10n.text("从此提交新建分支…")) {
-                                    branchStart = commit.id
-                                    createBranch = true
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(author).fixedSize(horizontal: false, vertical: true)
+                                    Text(authoredAt)
                                 }
-                                Button(L10n.text("检出此提交…")) {
-                                    let head = session.status.head
-                                    if app.confirm(
-                                        title: L10n.text("检出 \(commit.id.prefix(12))？"),
-                                        message:
-                                            L10n.text(
-                                                "将进入 Detached HEAD。后续提交不会自动归属现有分支；需要继续开发时可先从此提交新建分支。Git 会拒绝覆盖冲突的本地改动。"
-                                            ),
-                                        action: L10n.text("检出提交"), destructive: false)
-                                    {
-                                        session.perform(L10n.text("检出提交")) {
-                                            try await $0.checkoutCommit(commit.id, expectedHead: head)
-                                        }
-                                    }
-                                }
-                            }.fixedSize().disabled(!session.canWrite)
-                                .tint(colors.accentText)
-                                .accessibilityIdentifier("history-operations")
-                                .accessibilityLabel(L10n.text("所选提交的操作"))
+                            }.font(.caption).foregroundStyle(colors.secondaryText)
+                            if commit.committer != commit.author
+                                || commit.committerEmail != commit.authorEmail
+                                || commit.committedAt != commit.date
+                            {
+                                Text(
+                                    L10n.text(
+                                        "提交者：\(commit.committer) <\(commit.committerEmail)> · \(commit.committedAt.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).locale(L10n.locale)))"
+                                    )
+                                )
+                                .font(.caption).foregroundStyle(colors.secondaryText)
+                                .fixedSize(horizontal: false, vertical: true)
+                            }
+                            DisclosureGroup(L10n.text("完整提交消息")) {
+                                ScrollView {
+                                    Text(commit.message).textSelection(.enabled).frame(
+                                        maxWidth: .infinity, alignment: .leading)
+                                }.frame(maxHeight: 120)
+                            }.font(.caption)
+                            HStack {
+                                Text(commit.id).font(.caption.monospaced()).textSelection(.enabled)
+                                Button(L10n.text("复制 SHA"), systemImage: "doc.on.doc") {
+                                    NSPasteboard.general.clearContents()
+                                    NSPasteboard.general.setString(commit.id, forType: .string)
+                                }.labelStyle(.iconOnly).accessibilityIdentifier("history-copy-sha")
+                                Spacer()
+                                commitActions(commit)
+                            }
                         }
                         if commit.parents.count > 1 {
                             Picker(L10n.text("比较父提交"), selection: $parent) {
@@ -163,14 +157,14 @@ struct HistoryView: View {
                             )
                             .font(.caption).foregroundStyle(colors.secondaryText)
                         }
-                    }.padding(18).background(colors.chrome)
+                    }.padding(app.workspace.inspector ? 10 : 18).background(colors.chrome)
                     Divider()
                     CommitFilesView(app: app, session: session, detail: history.detail)
 
                 } else {
                     EmptyPanel(
                         title: L10n.text("选择一次提交"), symbol: "clock.arrow.circlepath",
-                        message: L10n.text("查看提交消息、父子关系和代码差异。"))
+                        message: "")
                 }
             }.frame(minWidth: 420, maxWidth: .infinity, maxHeight: .infinity)
                 .accessibilityElement(children: .contain).accessibilityLabel(L10n.text("提交详情"))
@@ -195,7 +189,40 @@ struct HistoryView: View {
                 history.cancel()
                 history.detail.cancel()
             }
-            .sheet(isPresented: $createBranch) { NewBranchView(app: app, startCommit: branchStart) }
+            .sheet(isPresented: $createBranch) {
+                NewBranchView(app: app, startCommit: branchStart).workbenchSheet(app.preferences)
+            }
+    }
+
+    private func commitActions(_ commit: GitCommit) -> some View {
+        Menu(L10n.text("操作")) {
+            Button(L10n.text("从此提交创建标签…")) {
+                app.tagCreationRequest = TagCreationRequest(
+                    session: session, target: commit.id)
+            }
+            Button(L10n.text("从此提交新建分支…")) {
+                branchStart = commit.id
+                createBranch = true
+            }
+            Button(L10n.text("检出此提交…")) {
+                let head = session.status.head
+                if app.confirm(
+                    title: L10n.text("检出 \(commit.id.prefix(12))？"),
+                    message:
+                        L10n.text(
+                            "将进入 Detached HEAD。后续提交不会自动归属现有分支；需要继续开发时可先从此提交新建分支。Git 会拒绝覆盖冲突的本地改动。"
+                        ),
+                    action: L10n.text("检出提交"), destructive: false)
+                {
+                    session.perform(L10n.text("检出提交")) {
+                        try await $0.checkoutCommit(commit.id, expectedHead: head)
+                    }
+                }
+            }
+        }.fixedSize().disabled(!session.canWrite)
+            .tint(colors.accentText)
+            .accessibilityIdentifier("history-operations")
+            .accessibilityLabel(L10n.text("所选提交的操作"))
     }
 
     private var scopePicker: some View {
@@ -272,7 +299,7 @@ struct BranchesView: View {
                                     HStack {
                                         Text(branch.name).font(.headline).lineLimit(1)
                                             .truncationMode(.middle).help(branch.name)
-                                        if branch.current { CountBadge(value: L10n.text("当前")) }
+                                        if branch.current { CountBadge(value: L10n.text("当前"), tone: .green) }
                                     }
                                     Text("\(branch.oid.prefix(7)) · \(trackingText(branch))").font(.caption)
                                         .foregroundStyle(colors.secondaryText)
@@ -363,8 +390,12 @@ struct BranchesView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(colors.canvas)
-        .sheet(item: $editor) { BranchEditorSheet(app: app, session: session, request: $0) }
-        .sheet(item: $deletion) { BranchDeletionSheet(app: app, session: session, plan: $0) }
+        .sheet(item: $editor) {
+            BranchEditorSheet(app: app, session: session, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $deletion) {
+            BranchDeletionSheet(app: app, session: session, plan: $0).workbenchSheet(app.preferences)
+        }
         .onDisappear { prepareTask?.cancel() }
     }
 

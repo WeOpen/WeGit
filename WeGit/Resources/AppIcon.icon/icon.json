@@ -1,57 +1,66 @@
 {
-  "features": [
-    "refractivity"
-  ],
   "fill-specializations": [
     {
       "value": {
-        "automatic-gradient": "extended-srgb:0.055,0.220,0.820,1.00000"
+        "solid": "srgb:0.96863,0.95294,0.92941,1"
       }
     },
     {
       "appearance": "dark",
       "value": {
-        "automatic-gradient": "extended-srgb:0.055,0.080,0.135,1.00000"
+        "solid": "srgb:0.12157,0.12157,0.12157,1"
       }
     }
   ],
   "groups": [
     {
+      "name": "R5 shared two-node identity",
       "layers": [
         {
+          "name": "Verified Ku small seal",
+          "image-name": "seal.svg",
+          "glass": false,
           "fill-specializations": [
             {
               "value": {
-                "automatic-gradient": "extended-srgb:0.88,0.93,1.00000,1.00000"
+                "solid": "srgb:1.00000,1.00000,1.00000,1"
               }
             },
             {
               "appearance": "dark",
               "value": {
-                "automatic-gradient": "extended-srgb:0.88,0.93,1.00000,1.00000"
+                "solid": "srgb:0.12157,0.12157,0.12157,1"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Two Git nodes",
+          "image-name": "branch.svg",
+          "glass": false,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:1.00000,1.00000,1.00000,1"
               }
             },
             {
-              "appearance": "tinted",
+              "appearance": "dark",
               "value": {
-                "solid": "extended-srgb:1.00000,1.00000,1.00000,1.00000"
+                "solid": "srgb:0.12157,0.12157,0.12157,1"
               }
             }
-          ],
-          "glass": true,
-          "image-name": "mark.svg",
-          "name": "Pearl W with one Git fork"
+          ]
+        },
+        {
+          "name": "Cinnabar ink",
+          "image-name": "plate.png",
+          "glass": false
         }
       ],
-      "name": "WeGit fork W",
-      "refractivity": {
-        "depth": 0.16,
-        "enabled": true,
-        "strength": 0.25
-      },
       "shadow": {
         "kind": "neutral",
-        "opacity": 0.4
+        "opacity": 0.03
       },
       "translucency": {
         "enabled": false,

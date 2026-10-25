@@ -72,7 +72,7 @@ extension RepositoryService {
             }
             let fresh = try await stashes()
             guard fresh.token != previous.token, let created = fresh.entries.first else {
-                throw ModelFailure.unsupported(L10n.text("未能确认新的暂存记录，请核对工作区和记录列表。"))
+                throw ModelFailure.unsupported(L10n.text("未能确认新的储藏，请核对工作区和记录列表。"))
             }
             return created
         }
@@ -99,7 +99,7 @@ extension RepositoryService {
             } catch {
                 let fresh = await Task.detached { try? await status() }.value
                 if let fresh, !fresh.conflicts.isEmpty {
-                    throw ModelFailure.unsupported(L10n.text("恢复产生冲突，暂存记录已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。"))
+                    throw ModelFailure.unsupported(L10n.text("恢复产生冲突，储藏已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。"))
                 }
                 throw error
             }
@@ -153,7 +153,7 @@ extension RepositoryService {
                     do {
                         _ = try await Task.detached {
                             try await engine.run(
-                                ["stash", "store", "--message", L10n.text("并发变化后恢复的暂存记录"), removed],
+                                ["stash", "store", "--message", L10n.text("并发变化后恢复的储藏"), removed],
                                 in: location.root, literalPathspecs: false)
                         }.value
                     } catch {

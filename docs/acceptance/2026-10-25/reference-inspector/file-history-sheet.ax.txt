@@ -1,0 +1,116 @@
+Window: "", App: WeGit.
+0 表单 Secondary Actions: Raise
+	1 container
+		2 文本 文件历史
+		3 按钮 刷新
+		4 按钮 Description: 关闭, ID: file-history-close
+		5 文本栏 (settable) Description: 仓库相对路径, Value: Sources/Workbench.swift, ID: file-history-path
+		6 复选框 Description: 跟随重命名, Value: 1, ID: file-history-follow
+		7 文本栏 (settable) Description: 作者或邮箱, ID: file-history-author
+		8 文本栏 (settable) Description: 提交消息, ID: file-history-message
+		9 复选框 Description: 提交时间范围, Value: 0, ID: file-history-dates
+		10 分离组
+			11 滚动区
+				12 列表 file-history-list
+					13 row (selected) Add a clear repository summary
+					14 row (selectable) Create private interface fixture
+			15 分离器 (disabled, settable, float) 380
+			16 container
+				17 text Add a clear repository summary Sources/Workbench.swift fdb7395d1be93d2b62536938d129578dd2d32e82
+				18 滚动区 Secondary Actions: Scroll Up, Scroll Down
+					19 列表 Description: 本次提交的文件变化, ID: commit-files
+						20 row (selected) 状态：修改
+Sources/Workbench.swift
++6 −2
+					21 滚动条 (settable, float) 0
+						22 值指示器 (settable, float) 0
+						23 增箭头按钮
+						24 减箭头按钮
+						25 增页面按钮
+						26 减页面按钮
+				27 Description: 布局, ID: diff-layout
+					28 单选按钮 Description: 统一, Value: 1
+					29 单选按钮 Description: 分栏, Value: 0
+				30 菜单按钮 阅读选项
+				31 按钮 复制补丁
+				32 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+				33 按钮 (disabled) Description: 下一差异块, ID: diff-hunk-next
+				34 文本 Value: 差异块 1 / 1, ID: diff-hunk-position
+				35 滚动区 Description: 文本差异, ID: diff-content, Secondary Actions: Scroll Up, Scroll Down
+					36 列表 Description: 文本差异内容, Secondary Actions: AXScrollToTop, AXScrollToBottom
+						37 container 差异块：@@ -1,6 +1,10 @@
+							38 文本 @@ -1,6 +1,10 @@
+							39 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+						40 container Description: 上下文行, ID: unified-diff-row
+							41 文本 1
+							42 文本 1
+							43 文本输入区 Description: 上下文代码，第 1 行, Value: import Foundation, ID: diff-code:0
+						44 container Description: 上下文行, ID: unified-diff-row
+							45 文本 2
+							46 文本 2
+							47 文本输入区 Description: 上下文代码，第 2 行, Value:  , ID: diff-code:1
+						48 container Description: 上下文行, ID: unified-diff-row
+							49 文本 3
+							50 文本 3
+							51 文本输入区 Description: 上下文代码，第 3 行, Value: struct Workbench {, ID: diff-code:2
+						52 container Description: 删除行, ID: unified-diff-row
+							53 文本 4
+							54 文本 -
+							55 文本输入区 Description: 删除的代码，第 4 行, Value:     var title = "Changes", ID: diff-code:3
+						56 container Description: 删除行, ID: unified-diff-row
+							57 文本 5
+							58 文本 -
+							59 文本输入区 Description: 删除的代码，第 5 行, Value:     var staged = 0, ID: diff-code:4
+						60 container Description: 新增行, ID: unified-diff-row
+							61 文本 4
+							62 文本 +
+							63 文本输入区 Description: 新增代码，第 4 行, Value:     var title = "WeGit", ID: diff-code:5
+						64 container Description: 新增行, ID: unified-diff-row
+							65 文本 5
+							66 文本 +
+							67 文本输入区 Description: 新增代码，第 5 行, Value:     var staged = 1, ID: diff-code:6
+						68 container Description: 新增行, ID: unified-diff-row
+							69 文本 6
+							70 文本 +
+							71 文本输入区 Description: 新增代码，第 6 行, Value:  , ID: diff-code:7
+						72 container Description: 新增行, ID: unified-diff-row
+							73 文本 7
+							74 文本 +
+							75 文本输入区 Description: 新增代码，第 7 行, Value:     func refresh() {, ID: diff-code:8
+						76 container Description: 新增行, ID: unified-diff-row
+							77 文本 8
+							78 文本 +
+							79 文本输入区 Description: 新增代码，第 8 行, Value:         print(title), ID: diff-code:9
+						80 container Description: 新增行, ID: unified-diff-row
+							81 文本 9
+							82 文本 +
+							83 文本输入区 Description: 新增代码，第 9 行, Value:     }, ID: diff-code:10
+						84 container Description: 上下文行, ID: unified-diff-row
+							85 文本 6
+							86 文本 10
+							87 文本输入区 Description: 上下文代码，第 10 行, Value: }, ID: diff-code:11
+						88 container 上下文展开控制
+							89 按钮 Description: 展开 20 行, ID: diff-context-expand-1
+							90 文本 后续上下文
+					91 滚动条 (settable, float) 0
+						92 值指示器 (settable, float) 0
+						93 增箭头按钮
+						94 减箭头按钮
+						95 增页面按钮
+						96 减页面按钮
+		97 text 起点提交 · 71ac19c3e5ee 历史路径由 Git 检测，复制关系不保证。
+98 menu bar
+	99 WeGit 品牌预览, ID: native-menu-app
+	100 文件, ID: native-menu-file
+	101 编辑, ID: native-menu-edit
+	102 显示, ID: native-menu-view
+	103 仓库, ID: native-menu-repository
+	104 工作区, ID: native-menu-workspace
+	105 窗口, ID: native-menu-window
+	106 帮助, ID: native-menu-help
+
+Selected text: ```
+Sources/Workbench.swift
+```
+
+Note: Pay special attention to the content selected by the user. If the user asks a question or refers to the content they are looking at on-screen, they might be referring to the selected content (but they might be referring to something else that's visible, too).

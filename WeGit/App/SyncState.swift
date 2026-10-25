@@ -178,7 +178,7 @@ final class SyncState {
                             self.session.pendingPush = nil
                         }
                     }
-                    return result.warning
+                    return .completed(message: L10n.text("推送完成"), warning: result.warning)
                 } catch {
                     await MainActor.run {
                         self.pushPlan = nil
@@ -215,7 +215,8 @@ final class SyncState {
                         }
                     }
                 }
-                return result.message
+                if result.matches { return .completed(message: result.message) }
+                return .needsReview(message: result.message, details: plan.feedbackTargetDetails)
             } catch {
                 await MainActor.run { self.show(error) }
                 throw error
@@ -253,7 +254,7 @@ final class SyncState {
         let head = initialHead
         let localBranch = localBranch
         session.performResult(
-            L10n.text("提交并推送"), onSuccess: { self.completed = true },
+            L10n.text("提交并推送"), context: .commit, onSuccess: { self.completed = true },
             operation: { service in
                 do {
                     let result = try await service.expectingBranch(localBranch).commitAndPush(
@@ -274,7 +275,8 @@ final class SyncState {
                         self.warning = result.push?.warning
                         self.session.pendingPush = nil
                     }
-                    return result.push?.warning
+                    return .completed(
+                        message: L10n.text("\(L10n.text("提交并推送"))完成"), warning: result.push?.warning)
                 } catch {
                     await MainActor.run { self.show(error) }
                     throw error
@@ -301,7 +303,7 @@ final class SyncState {
                         preserveMerges: preserve, createMergeCommit: mergeCommit, expectedHead: head)
                     let result = try await pinned.pull(plan)
                     await MainActor.run { self.warning = result.warning }
-                    return result.warning
+                    return .completed(message: L10n.text("拉取完成"), warning: result.warning)
                 } catch {
                     await MainActor.run { self.show(error) }
                     throw error
@@ -317,9 +319,7 @@ final class SyncState {
 
     private func show(_ failure: any Error) {
         error = failure.localizedDescription
-        details =
-            (failure as? GitFailure)?.details ?? (failure as? PullFailure)?.details
-            ?? (failure as? PushOutcomeUnknown)?.details ?? ""
+        details = OperationFeedbackResult.from(failure).details ?? ""
         if let unknown = failure as? PushOutcomeUnknown {
             pushPlan = nil
             verificationPlan = unknown.plan

@@ -1,0 +1,38 @@
+Window: "WeGit v1.1.1 组件样册", App: WeGit Catalog.
+0 standard window WeGit v1.1.1 组件样册, ID: catalog, Secondary Actions: Raise
+	1 container
+		2 text WeGit · 组件样册
+		3 button Description: 浅色, ID: catalog-light
+		4 button Description: 深色, ID: catalog-dark
+		5 button 提交
+		6 button 获取
+		7 button (disabled) 推送
+		8 button Description: 搜索, ID: magnifyingglass
+		9 busy indicator Description: 读取中…, Value: 0
+		10 text field (settable) Description: 筛选文件路径, ID: catalog-search
+		11 Description: 差异布局, ID: catalog-layout
+			12 radio button Description: 统一, Value: 1
+			13 radio button Description: 分栏, Value: 0
+		14 text Help: main, Value: main v1.1.1 feature/paper-and-celadon 状态：修改 +12 −4 24 8 3
+		15 container Description: 完成: 提交完成, Details: success, ID: operation-feedback
+			16 button Description: 完成: 提交完成, Help: 提交完成, ID: operation-feedback-message
+		17 container Details: needs-review, ID: operation-feedback, Description: 需要核对: 结果需要核对
+
+请核对真实目标，避免重复操作。
+			18 button ID: operation-feedback-message, Description: 需要核对: 结果需要核对
+
+请核对真实目标，避免重复操作。, Help: 结果需要核对
+
+请核对真实目标，避免重复操作。
+		19 text Workbench.swift Sources/Interface let changes = repository.status() + let committed = changes.staged 工作区干净 暂无提交 暂无储藏 没有未提交的改动。 提交后在这里查看历史。 保存改动后可以继续工作。
+		20 checkbox Description: 界面动效, Value: 0, ID: catalog-motion
+		21 button 舒适
+		22 button 紧凑
+	23 close button
+	24 zoom button (disabled)
+	25 minimize button
+	26 text WeGit v1.1.1 组件样册
+27 menu bar
+	28 WeGit Catalog
+
+The focused UI element is 0 standard window WeGit v1.1.1 组件样册, ID: catalog, Secondary Actions: Raise

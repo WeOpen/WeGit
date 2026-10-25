@@ -1,0 +1,77 @@
+Window: "品牌工作台样例", App: WeGit.
+0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+2
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 储藏
+						11 row (selected) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) 品牌工作台样例、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 分离组
+					19 container
+						20 文本 标签
+						21 按钮 Description: 创建标签…, ID: tag-create
+						22 文本栏 (settable) Description: 搜索标签名称, ID: tag-search
+						23 滚动区
+							24 列表 tag-list
+								25 row (selectable) Description: 标记, Value: v1.1.0
+8e015e9
+								26 row (selectable) Description: 标记, Value: v1.1.1-preview
+8e015e9
+						27 按钮 刷新
+					28 分离器 (disabled, settable, float) 590
+					29 文本 选择一个标签
+				30 分离器 (disabled, settable, float) 1099
+				31 container Description: 检查器, ID: repository-inspector
+					32 Description: 检查器, ID: inspector-tabs
+						33 单选按钮 Description: 文件信息, Value: 1
+						34 单选按钮 Description: 提交信息, Value: 0
+					35 滚动区
+						36 text 品牌工作台样例 /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/brand-review-_98xgmqd/品牌工作台样例
+						37 按钮 Description: 在 Finder 中显示, ID: inspector-open-finder
+						38 按钮 Description: 在 Terminal 中打开, ID: inspector-open-terminal
+						39 按钮 Description: 复制仓库路径, ID: inspector-copy-path
+						40 text 当前, Value: main origin/main 同步状态：↑1 ↓0
+	41 工具栏
+		42 container 隐藏边栏
+			43 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		44 按钮 Description: 品牌工作台样例, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/brand-review-_98xgmqd/品牌工作台样例
+切换仓库 ⌘K
+		45 菜单按钮 当前分支：main, Value: 同步状态：↑1 ↓0, ID: current-branch
+		46 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		47 按钮 Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		48 按钮 Description: 推送, Value: 1, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		49 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		50 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		51 按钮 Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		52 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	53 关闭按钮
+	54 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	55 最小化按钮
+	56 text 品牌工作台样例 main
+57 menu bar
+	58 WeGit 品牌预览, ID: native-menu-app
+	59 文件, ID: native-menu-file
+	60 编辑, ID: native-menu-edit
+	61 显示, ID: native-menu-view
+	62 仓库, ID: native-menu-repository
+	63 工作区, ID: native-menu-workspace
+	64 窗口, ID: native-menu-window
+	65 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise

@@ -1,0 +1,39 @@
+import CoreGraphics
+
+/// Frozen R5 two-node contours traced from the independent generated logo; shared with design/brand/source.
+/// Parsing happens once. The immutable paths are reused by SwiftUI and the native menu item.
+enum BrandGeometry {
+    private struct FrozenPath: @unchecked Sendable { let value: CGPath }
+    private static let git = makePath([
+{{GIT}}
+    ])
+    private static let stamp = makePath([
+{{SEAL}}
+    ])
+
+    static func path(in rect: CGRect, optical: Bool = false) -> CGPath {
+        fit(git.value, size: 566, in: rect)
+    }
+    static func seal(in rect: CGRect) -> CGPath { fit(stamp.value, size: 120, in: rect) }
+
+    private static func fit(_ path: CGPath, size: CGFloat, in rect: CGRect) -> CGPath {
+        let scale = min(rect.width, rect.height) / size
+        var transform = CGAffineTransform(
+            a: scale, b: 0, c: 0, d: scale,
+            tx: rect.midX - size * scale / 2, ty: rect.midY - size * scale / 2)
+        return path.copy(using: &transform)!
+    }
+
+    private static func makePath(_ contours: [String]) -> FrozenPath {
+        let path = CGMutablePath()
+        for contour in contours {
+            for (index, pair) in contour.split(separator: ";").enumerated() {
+                let values = pair.split(separator: ",").compactMap { Double($0) }
+                let point = CGPoint(x: values[0], y: values[1])
+                if index == 0 { path.move(to: point) } else { path.addLine(to: point) }
+            }
+            path.closeSubpath()
+        }
+        return FrozenPath(value: path.copy()!)
+    }
+}

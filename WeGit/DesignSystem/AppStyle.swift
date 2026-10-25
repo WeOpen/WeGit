@@ -7,14 +7,20 @@ enum AppStyle {
     static let surfaceRadius: CGFloat = 14
     static let panelInset: CGFloat = 14
     static let controlHeight: CGFloat = 30
+    static let compactControlHeight: CGFloat = 24
+    static let smallControlHeight: CGFloat = 26
+    static let largeControlHeight: CGFloat = 34
+    static let actionMinimumWidth: CGFloat = 80
     /// One owned surface height for toolbar buttons, menus and the sidebar toggle.
     static let toolbarControlHeight: CGFloat = 36
     static let toolbarSymbolSize: CGFloat = 14
 }
 
 enum AppMotion {
+    static let hover = Animation.easeOut(duration: 0.12)
     static let feedback = Animation.timingCurve(0.2, 0, 0, 1, duration: 0.16)
     static let reveal = Animation.timingCurve(0.2, 0, 0, 1, duration: 0.28)
+    static let selection = Animation.spring(response: 0.28, dampingFraction: 1)
 }
 
 private struct WorkbenchAppearance: ViewModifier {
@@ -47,6 +53,7 @@ private struct WorkbenchAppearance: ViewModifier {
                 ThemeWindowBridge(colors: palette).frame(width: 0, height: 0).accessibilityHidden(true)
             )
             .animation(nil, value: preferences.appearance)
+            .animation(nil, value: palette)
             .onAppear { preferences.observeSystemAppearance() }
     }
 }
@@ -93,7 +100,7 @@ private struct WorkbenchHoverRow: ViewModifier {
             .contentShape(.rect(cornerRadius: AppStyle.controlRadius))
             .onHover { hovering = $0 }
             .animation(
-                reduceMotion || !preferences.interfaceMotion ? nil : .easeOut(duration: 0.12), value: hovering
+                reduceMotion || !preferences.interfaceMotion ? nil : AppMotion.hover, value: hovering
             )
     }
 }
@@ -108,11 +115,8 @@ struct BrandGlyph: Shape {
 }
 
 struct BrandMark: View {
-    @Environment(\.themeColors) private var colors
-    var tint: Color?
-
     var body: some View {
-        BrandGlyph().fill(tint ?? colors.text).accessibilityHidden(true)
+        Image("BrandSymbol").resizable().interpolation(.high).scaledToFit().accessibilityHidden(true)
     }
 }
 
@@ -123,31 +127,24 @@ struct WelcomeIdentity: View {
     @State private var revealed = false
 
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 30)
-                .fill(colors.surface)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 30).strokeBorder(colors.border, lineWidth: 0.5)
+        Image("BrandAppIcon").resizable().interpolation(.high).scaledToFit()
+            .frame(width: 136, height: 136)
+            .opacity(revealed || reduceMotion || !preferences.interfaceMotion ? 1 : 0)
+            .scaleEffect(revealed || reduceMotion || !preferences.interfaceMotion ? 1 : 0.96)
+            .accessibilityHidden(true)
+            .allowsHitTesting(false)
+            .onAppear {
+                guard !revealed else { return }
+                if reduceMotion || !preferences.interfaceMotion {
+                    revealed = true
+                } else {
+                    withAnimation(AppMotion.reveal) { revealed = true }
                 }
-            BrandMark(tint: colors.brandBlue).frame(width: 112, height: 112)
-                .opacity(revealed || reduceMotion ? 1 : 0)
-                .scaleEffect(revealed || reduceMotion ? 1 : 0.96)
-        }
-        .frame(width: 112, height: 112)
-        .shadow(color: .black.opacity(0.06), radius: 12, y: 5)
-        .accessibilityHidden(true)
-        .onAppear {
-            guard !revealed else { return }
-            if reduceMotion || !preferences.interfaceMotion {
-                revealed = true
-            } else {
-                withAnimation(AppMotion.reveal) { revealed = true }
             }
-        }
     }
 }
 
-/// Neutral symbols let native row selection and typography define the hierarchy.
+/// Categorical symbols add useful color while native row selection keeps its own readable state.
 struct WorkbenchGlyph: View {
     @Environment(\.themeColors) private var colors
     let symbol: String
@@ -157,8 +154,11 @@ struct WorkbenchGlyph: View {
     var body: some View {
         Image(systemName: symbol)
             .font(.system(size: 13, weight: selected ? .semibold : .medium))
-            .foregroundStyle(selected ? colors.selectionText : colors.text)
+            .foregroundStyle(selected ? colors.selectionText : colors.symbolTint(symbol))
             .frame(width: size, height: size)
+            .background(
+                selected ? Color.clear : colors.symbolTint(symbol).opacity(0.09), in: .rect(cornerRadius: 7)
+            )
             .accessibilityHidden(true)
     }
 }
@@ -169,7 +169,7 @@ struct SidebarIdentity: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            BrandMark().frame(width: 60, height: 60).frame(width: 36, height: 36)
+            HeritageBrandSeal(tint: colors.brand, size: 36)
             VStack(alignment: .leading, spacing: 3) {
                 Text("WeGit").font(.system(size: 17, weight: .medium))
                 Text(repository).font(.caption).foregroundStyle(colors.secondaryText)
@@ -182,45 +182,35 @@ struct SidebarIdentity: View {
     }
 }
 
-private struct BranchEcho: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.width * 0.1, y: rect.height * 0.24))
-        path.addCurve(
-            to: CGPoint(x: rect.midX, y: rect.midY),
-            control1: CGPoint(x: rect.width * 0.34, y: rect.height * 0.24),
-            control2: CGPoint(x: rect.width * 0.3, y: rect.midY))
-        for end in [0.24, 0.76] {
-            path.move(to: CGPoint(x: rect.midX, y: rect.midY))
-            path.addCurve(
-                to: CGPoint(x: rect.width * 0.9, y: rect.height * end),
-                control1: CGPoint(x: rect.width * 0.74, y: rect.midY),
-                control2: CGPoint(x: rect.width * 0.66, y: rect.height * end))
-        }
-        return path
-    }
-}
-
 struct WorkbenchEmblem: View {
     @Environment(\.themeColors) private var colors
     let symbol: String
     var tint: Color?
 
+    private var artwork: HeritageArtwork.Kind? {
+        switch symbol {
+        case "checkmark.circle", "checkmark.circle.fill": .bamboo
+        case "archivebox", "archivebox.fill": .scroll
+        case "clock", "clock.arrow.circlepath": .mountain
+        case "tag", "tag.fill", "doc", "doc.text", "doc.text.magnifyingglass": .folio
+        default: nil
+        }
+    }
+
+    @ViewBuilder
     var body: some View {
-        ZStack {
-            BranchEcho().stroke(colors.graphLine, style: StrokeStyle(lineWidth: 1.5, lineCap: .round))
-            ForEach(0..<3) { index in
-                Circle().fill(tint ?? colors.text).frame(width: 5, height: 5)
-                    .position(x: index == 0 ? 11 : 101, y: index == 2 ? 65 : 21)
-            }
+        if let artwork {
+            HeritageArtwork(kind: artwork, tint: tint)
+        } else {
             Image(systemName: symbol).font(.system(size: 23, weight: .regular))
-                .foregroundStyle(tint ?? colors.text).frame(width: 52, height: 52)
-                .background(colors.surface, in: .rect(cornerRadius: 16))
+                .foregroundStyle(tint ?? colors.text).frame(width: 48, height: 48)
+                .background(colors.celadon.opacity(0.08), in: HeritageSeal(cornerRadius: 4))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 16).strokeBorder(
-                        (tint ?? colors.text).opacity(0.18), lineWidth: 0.5)
+                    HeritageSeal(cornerRadius: 4).strokeBorder(colors.border, lineWidth: 0.7)
                 }
-        }.frame(width: 112, height: 86).accessibilityHidden(true)
+                .frame(width: HeritageTokens.artworkSize.width, height: HeritageTokens.artworkSize.height)
+                .accessibilityHidden(true).allowsHitTesting(false)
+        }
     }
 }
 

@@ -9,6 +9,8 @@ struct CommitFilesView: View {
     @Bindable var detail: CommitDetailState
     var stashContext = false
     var allowsFileHistory = true
+    var usesWorkspaceInspector = true
+    private var movesFilesToInspector: Bool { usesWorkspaceInspector && app.workspace.inspector }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -31,36 +33,48 @@ struct CommitFilesView: View {
                         message: stashContext
                             ? L10n.text("此部分没有保存的文件变化，可切换查看其他内容。") : L10n.text("这次提交相对于所选父提交没有文件变化。"))
                 } else {
-                    List(selection: $detail.selectedPath) {
-                        ForEach(comparison.files) { file in
-                            HStack(spacing: 8) {
-                                StatusBadge(symbol: String(file.status))
-                                Text(file.oldPath.map { "\($0) → \(file.path)" } ?? file.path).lineLimit(1)
+                    if !movesFilesToInspector {
+                        List(selection: $detail.selectedPath) {
+                            ForEach(comparison.files) { file in
+                                HStack(spacing: 8) {
+                                    StatusBadge(symbol: String(file.status))
+                                    Text(file.oldPath.map { "\($0) → \(file.path)" } ?? file.path).lineLimit(
+                                        1
+                                    )
                                     .truncationMode(.middle)
-                                Spacer()
-                                Text(
-                                    file.binary
-                                        ? L10n.text("二进制") : "+\(file.additions ?? 0) −\(file.deletions ?? 0)"
-                                )
-                                .foregroundStyle(colors.secondaryText)
-                            }.font(.caption).tag(file.path).help(file.path)
-                                .accessibilityIdentifier("commit-file:" + file.path)
-                                .contextMenu {
-                                    if allowsFileHistory && !stashContext {
-                                        Button(L10n.text("查看文件历史…")) {
-                                            guard app.session === session else { return }
-                                            app.fileHistoryRequest = FileHistoryRequest(
-                                                session: session, path: file.path, tip: comparison.commit.id)
-                                        }.accessibilityIdentifier("commit-file-history:" + file.path)
+                                    Spacer()
+                                    Text(
+                                        file.binary
+                                            ? L10n.text("二进制")
+                                            : "+\(file.additions ?? 0) −\(file.deletions ?? 0)"
+                                    )
+                                    .foregroundStyle(colors.secondaryText)
+                                }.font(.caption).tag(file.path).help(file.path)
+                                    .accessibilityIdentifier("commit-file:" + file.path)
+                                    .contextMenu {
+                                        if allowsFileHistory && !stashContext {
+                                            Button(L10n.text("查看文件历史…")) {
+                                                guard app.session === session else { return }
+                                                app.fileHistoryRequest = FileHistoryRequest(
+                                                    session: session, path: file.path,
+                                                    tip: comparison.commit.id)
+                                            }.accessibilityIdentifier("commit-file-history:" + file.path)
+                                        }
                                     }
-                                }
-                        }
-                    }.listStyle(.inset).scrollContentBackground(.hidden).background(colors.canvas)
-                        .frame(height: CGFloat(min(4, comparison.files.count)) * 29 + 12)
-                        .accessibilityIdentifier("commit-files").accessibilityLabel(
-                            stashContext ? L10n.text("暂存记录的文件变化") : L10n.text("本次提交的文件变化"))
+                            }
+                        }.listStyle(.inset).scrollContentBackground(.hidden).background(colors.canvas)
+                            .frame(height: CGFloat(min(4, comparison.files.count)) * 29 + 12)
+                            .accessibilityIdentifier("commit-files").accessibilityLabel(
+                                stashContext ? L10n.text("储藏的文件变化") : L10n.text("本次提交的文件变化"))
+                    }
                     if detail.diskDisplay == nil {
                         HStack(spacing: 12) {
+                            if movesFilesToInspector, let path = detail.selectedPath {
+                                Text((path as NSString).lastPathComponent).lineLimit(1).truncationMode(
+                                    .middle
+                                )
+                                .help(path)
+                            }
                             WorkbenchGlassTabs(
                                 title: L10n.text("布局"), selection: $app.workspace.splitDiff,
                                 tabs: [
@@ -130,6 +144,17 @@ struct CommitFilesView: View {
             }
         }
         .background(colors.canvas)
+        .onChange(of: ObjectIdentifier(detail), initial: true) { _, _ in
+            guard usesWorkspaceInspector else { return }
+            app.workspace.commitInspection = CommitInspection(
+                sessionID: session.id, route: app.workspace.route, detail: detail,
+                allowsFileHistory: allowsFileHistory && !stashContext)
+        }
+        .onDisappear {
+            if usesWorkspaceInspector, app.workspace.commitInspection?.detail === detail {
+                app.workspace.commitInspection = nil
+            }
+        }
         .task(
             id:
                 "\(detail.comparison?.commit.id ?? ""):\(detail.comparison?.parent ?? ""):\(detail.selectedPath ?? ""):\(app.workspace.diffOptions.contextLines):\(app.workspace.diffOptions.ignoreWhitespace)"

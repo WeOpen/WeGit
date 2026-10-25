@@ -94,7 +94,7 @@ struct FileHistorySheet: View {
                             .accessibilityIdentifier("file-history-commit:" + entry.id)
                     }.accessibilityIdentifier("file-history-list")
                     if let error = state.error {
-                        Text(error).foregroundStyle(.red).textSelection(.enabled).padding(10)
+                        Text(error).foregroundStyle(colors.negative).textSelection(.enabled).padding(10)
                         Button(L10n.text("重试")) {
                             if state.hasMore { state.loadMore() } else { reload = UUID() }
                         }.padding(8)
@@ -126,7 +126,9 @@ struct FileHistorySheet: View {
                             colors.chrome)
                         Divider()
                         CommitFilesView(
-                            app: app, session: request.session, detail: state.detail, allowsFileHistory: false
+                            app: app, session: request.session, detail: state.detail,
+                            allowsFileHistory: false,
+                            usesWorkspaceInspector: false
                         )
                     } else {
                         Text(L10n.text("选择一次提交")).foregroundStyle(colors.secondaryText)

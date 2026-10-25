@@ -1,0 +1,56 @@
+{
+  "version": "R3",
+  "method": "built-in image_gen",
+  "scope": "generated raster assets; file and visual checks only; no frozen vector geometry acceptance",
+  "assets": [
+    {
+      "file": "generated/app-icon.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "a9793f34d0595c1d6dd7aa7836dc9959b4eed5f2f29f1ae9b5798cae9f8b8e5b",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        108,
+        53,
+        1206,
+        1254
+      ],
+      "transparentPixelCount": 595720
+    },
+    {
+      "file": "generated/logo-horizontal.png",
+      "dimensions": [
+        2076,
+        758
+      ],
+      "mode": "RGBA",
+      "sha256": "73092c127b7be3651f441933a94180cf08f917e1bf90947e63b8be401069048e",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        111,
+        53,
+        1996,
+        740
+      ],
+      "transparentPixelCount": 1106479
+    },
+    {
+      "file": "generated/visual-proof.png",
+      "dimensions": [
+        1983,
+        793
+      ],
+      "mode": "RGB",
+      "sha256": "5f38e74542cebef891a8fb3e4d6d75078a021d1c4a58dca9125f090a8a06832c"
+    }
+  ]
+}

@@ -1,0 +1,428 @@
+[
+  {
+    "svg": "logo/wegit-logo-horizontal.svg",
+    "png": "logo/wegit-logo-horizontal.png",
+    "width": 1200,
+    "height": 400
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal-dark.svg",
+    "png": "logo/wegit-logo-horizontal-dark.png",
+    "width": 1200,
+    "height": 400
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal-monochrome.svg",
+    "png": "logo/wegit-logo-horizontal-monochrome.png",
+    "width": 1200,
+    "height": 400
+  },
+  {
+    "svg": "logo/wegit-symbol.svg",
+    "png": "logo/wegit-symbol.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "svg": "logo/wegit-symbol-monochrome.svg",
+    "png": "logo/wegit-symbol-monochrome.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "svg": "logo/wegit-wordmark.svg",
+    "png": "logo/wegit-wordmark.png",
+    "width": 1040,
+    "height": 300
+  },
+  {
+    "svg": "logo/wegit-wordmark-dark.svg",
+    "png": "logo/wegit-wordmark-dark.png",
+    "width": 1040,
+    "height": 300
+  },
+  {
+    "svg": "logo/seal-ku-red.svg",
+    "png": "logo/seal-ku-red.png",
+    "width": 600,
+    "height": 600
+  },
+  {
+    "svg": "logo/seal-ku-black.svg",
+    "png": "logo/seal-ku-black.png",
+    "width": 600,
+    "height": 600
+  },
+  {
+    "svg": "logo/seal-ku-white.svg",
+    "png": "logo/seal-ku-white.png",
+    "width": 600,
+    "height": 600
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/app-icon-1024.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/app-icon-2048.png",
+    "width": 2048,
+    "height": 2048
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/sizes/app-icon-16.png",
+    "width": 16,
+    "height": 16
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/sizes/app-icon-32.png",
+    "width": 32,
+    "height": 32
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/sizes/app-icon-64.png",
+    "width": 64,
+    "height": 64
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/sizes/app-icon-128.png",
+    "width": 128,
+    "height": 128
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/sizes/app-icon-256.png",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "svg": "macos/app-icon-1024.svg",
+    "png": "macos/sizes/app-icon-512.png",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/app-icon-dark-1024.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/app-icon-dark-2048.png",
+    "width": 2048,
+    "height": 2048
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/sizes/app-icon-dark-16.png",
+    "width": 16,
+    "height": 16
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/sizes/app-icon-dark-32.png",
+    "width": 32,
+    "height": 32
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/sizes/app-icon-dark-64.png",
+    "width": 64,
+    "height": 64
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/sizes/app-icon-dark-128.png",
+    "width": 128,
+    "height": 128
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/sizes/app-icon-dark-256.png",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "svg": "macos/app-icon-dark-1024.svg",
+    "png": "macos/sizes/app-icon-dark-512.png",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/app-icon-monochrome-1024.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/app-icon-monochrome-2048.png",
+    "width": 2048,
+    "height": 2048
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/sizes/app-icon-monochrome-16.png",
+    "width": 16,
+    "height": 16
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/sizes/app-icon-monochrome-32.png",
+    "width": 32,
+    "height": 32
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/sizes/app-icon-monochrome-64.png",
+    "width": 64,
+    "height": 64
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/sizes/app-icon-monochrome-128.png",
+    "width": 128,
+    "height": 128
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/sizes/app-icon-monochrome-256.png",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "svg": "macos/app-icon-monochrome-1024.svg",
+    "png": "macos/sizes/app-icon-monochrome-512.png",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-16.png",
+    "width": 16,
+    "height": 16
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-18.png",
+    "width": 18,
+    "height": 18
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-20.png",
+    "width": 20,
+    "height": 20
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-24.png",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-32.png",
+    "width": 32,
+    "height": 32
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-36.png",
+    "width": 36,
+    "height": 36
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-40.png",
+    "width": 40,
+    "height": 40
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-48.png",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "svg": "macos/toolbar-git.svg",
+    "png": "macos/templates/toolbar-git-64.png",
+    "width": 64,
+    "height": 64
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-16.png",
+    "width": 16,
+    "height": 16
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-18.png",
+    "width": 18,
+    "height": 18
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-20.png",
+    "width": 20,
+    "height": 20
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-24.png",
+    "width": 24,
+    "height": 24
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-32.png",
+    "width": 32,
+    "height": 32
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-36.png",
+    "width": 36,
+    "height": 36
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-40.png",
+    "width": 40,
+    "height": 40
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-48.png",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "svg": "macos/menu-bar-git.svg",
+    "png": "macos/templates/menu-bar-git-64.png",
+    "width": 64,
+    "height": 64
+  },
+  {
+    "svg": "github/avatar.svg",
+    "png": "github/avatar.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "svg": "github/banner.svg",
+    "png": "github/banner.png",
+    "width": 1600,
+    "height": 480
+  },
+  {
+    "svg": "github/banner-dark.svg",
+    "png": "github/banner-dark.png",
+    "width": 1600,
+    "height": 480
+  },
+  {
+    "svg": "github/social-preview.svg",
+    "png": "github/social-preview.png",
+    "width": 1280,
+    "height": 640
+  },
+  {
+    "svg": "github/social-preview-dark.svg",
+    "png": "github/social-preview-dark.png",
+    "width": 1280,
+    "height": 640
+  },
+  {
+    "svg": "github/favicon.svg",
+    "png": "github/favicon-16.png",
+    "width": 16,
+    "height": 16
+  },
+  {
+    "svg": "github/favicon.svg",
+    "png": "github/favicon-32.png",
+    "width": 32,
+    "height": 32
+  },
+  {
+    "svg": "github/favicon.svg",
+    "png": "github/favicon-48.png",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "svg": "github/favicon.svg",
+    "png": "github/favicon-64.png",
+    "width": 64,
+    "height": 64
+  },
+  {
+    "svg": "github/favicon.svg",
+    "png": "github/favicon-180.png",
+    "width": 180,
+    "height": 180
+  },
+  {
+    "svg": "github/favicon.svg",
+    "png": "github/favicon-192.png",
+    "width": 192,
+    "height": 192
+  },
+  {
+    "svg": "github/favicon.svg",
+    "png": "github/favicon-512.png",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "svg": "macos/composer-plate.svg",
+    "png": "macos/composer-plate.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal.svg",
+    "png": "logo/wegit-logo-horizontal-2400.png",
+    "width": 2400,
+    "height": 800
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal.svg",
+    "png": "logo/wegit-logo-horizontal-4800.png",
+    "width": 4800,
+    "height": 1600
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal-dark.svg",
+    "png": "logo/wegit-logo-horizontal-dark-2400.png",
+    "width": 2400,
+    "height": 800
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal-dark.svg",
+    "png": "logo/wegit-logo-horizontal-dark-4800.png",
+    "width": 4800,
+    "height": 1600
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal-monochrome.svg",
+    "png": "logo/wegit-logo-horizontal-monochrome-2400.png",
+    "width": 2400,
+    "height": 800
+  },
+  {
+    "svg": "logo/wegit-logo-horizontal-monochrome.svg",
+    "png": "logo/wegit-logo-horizontal-monochrome-4800.png",
+    "width": 4800,
+    "height": 1600
+  }
+]

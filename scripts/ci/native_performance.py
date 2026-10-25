@@ -7,6 +7,8 @@ from pathlib import Path
 import re
 import subprocess
 
+from verify_scroll_metrics import verify_saved_scroll_report
+
 
 def budget_failure(report, kind, summary=None):
     """True only for complete measurements with a recomputed budget failure."""
@@ -54,6 +56,12 @@ def run_scope(root, command, prefix, report_name=None, kind=None):
     created = set(output.glob(prefix + "-*")) - before
     report = next(iter(created)) / report_name if len(created) == 1 and report_name else None
     budget_only = False
+    evidence_valid = None
+    exit_code = result.returncode
+    if kind == "scroll":
+        evidence_valid = bool(report and report.is_file() and verify_saved_scroll_report(report))
+        if not evidence_valid and not exit_code:
+            exit_code = 1
     if result.returncode and report and report.is_file():
         try:
             summary_path = report.parent / "summary.json"
@@ -61,8 +69,13 @@ def run_scope(root, command, prefix, report_name=None, kind=None):
             budget_only = budget_failure(json.loads(report.read_text()), kind, summary)
         except (ValueError, TypeError, KeyError):
             pass
-    return {"command": command[0], "exitCode": result.returncode,
-            "budgetOnlyFailure": budget_only, "report": str(report.relative_to(root)) if report else None}
+    observation = {"command": command[0], "exitCode": exit_code,
+                   "budgetOnlyFailure": budget_only, "report": str(report.relative_to(root)) if report else None}
+    if kind == "scroll":
+        observation["evidenceValid"] = evidence_valid
+        if not evidence_valid:
+            observation["evidenceError"] = "Scroll collection or counted frame data is unavailable/incomplete."
+    return observation
 
 
 def main():
@@ -81,7 +94,7 @@ def main():
         scopes += [
             ("scripts/benchmark-ui-workbench.sh", [str(fixture / "large"), "30"], "workbench", "workbench.json", "workbench"),
             ("scripts/benchmark-ui-launch.sh", [], "launch", "launch.json", "launch"),
-            ("scripts/benchmark-ui-large-scroll.sh", [str(fixture / "large")], "large-scroll", None, None),
+            ("scripts/benchmark-ui-large-scroll.sh", [str(fixture / "large")], "large-scroll", "scroll.json", "scroll"),
         ]
     if args.scope != "full":
         scopes = [scope for scope in scopes if scope[2] == {"launch": "launch", "scroll": "large-scroll"}[args.scope]]

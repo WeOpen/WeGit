@@ -31,18 +31,16 @@ struct GitSettingsView: View {
             Section(L10n.text("Git 可执行文件")) {
                 LabeledContent(L10n.text("正在使用")) { Text(app.engine.executable.path).textSelection(.enabled) }
                 LabeledContent(L10n.text("版本"), value: app.gitVersion)
-                Text(
-                    L10n.text(
-                        "需要 Git \(GitInstallation.minimumVersion)+ 和运行时配置能力。自动检测依次检查系统/Xcode、Homebrew 和 PATH。"
-                    )
-                )
-                .font(.caption).foregroundStyle(colors.secondaryText)
                 HStack {
                     Button(L10n.text("选择 Git…")) { chooseGit() }.disabled(app.anyOperationRunning)
                     Button(L10n.text("恢复自动检测")) {
                         app.defaults.removeObject(forKey: "gitExecutable")
                         pendingExecutable = L10n.text("重启后自动检测")
                     }.disabled(app.anyOperationRunning)
+                        .help(
+                            L10n.text(
+                                "需要 Git \(GitInstallation.minimumVersion)+ 和运行时配置能力。自动检测依次检查系统/Xcode、Homebrew 和 PATH。"
+                            ))
                 }
                 if let pendingExecutable {
                     Text(pendingExecutable).font(.caption).foregroundStyle(colors.secondaryText)
@@ -61,24 +59,16 @@ struct GitSettingsView: View {
                 .font(.caption).foregroundStyle(colors.secondaryText)
                 if loading { ProgressView(L10n.text("读取配置及来源…")).controlSize(.small) }
                 ForEach(settings, id: \.key) { setting in
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(setting.key.title).font(.headline)
-                            Text(setting.effective?.value ?? L10n.text("未配置")).textSelection(.enabled)
-                            if let record = setting.effective {
-                                Text("\(record.scope) · \(record.origin)").font(.caption).foregroundStyle(
-                                    colors.secondaryText
-                                )
-                                .textSelection(.enabled)
-                            }
-                            Text(
-                                L10n.text(
-                                    "\(scope.title)直接设置：\(setting.values(in: scope).last ?? L10n.text("未设置，使用继承值"))"
-                                )
-                            )
-                            .font(.caption).foregroundStyle(colors.secondaryText)
-                        }
-                        Spacer()
+                    HStack(spacing: 12) {
+                        Text(setting.key.title)
+                        Spacer(minLength: 12)
+                        Text(setting.effective?.value ?? L10n.text("未配置"))
+                            .foregroundStyle(colors.secondaryText)
+                            .lineLimit(2).truncationMode(.middle)
+                            .multilineTextAlignment(.trailing)
+                            .textSelection(.enabled)
+                            .accessibilityValue(setting.effective?.value ?? L10n.text("未配置"))
+                            .help(setting.effective?.value ?? L10n.text("未配置"))
                         Button(L10n.text("编辑…")) {
                             edit = GitSettingEditRequest(snapshot: setting, scope: scope, service: service)
                         }
@@ -86,15 +76,40 @@ struct GitSettingsView: View {
                         .accessibilityIdentifier("edit-setting:" + setting.key.rawValue)
                     }
                 }
+                DisclosureGroup(L10n.text("配置来源")) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        ForEach(settings, id: \.key) { setting in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(setting.key.title).fontWeight(.medium)
+                                if let record = setting.effective {
+                                    Text("\(record.scope) · \(record.origin)")
+                                        .textSelection(.enabled)
+                                        .accessibilityValue("\(record.scope) · \(record.origin)")
+                                }
+                                Text(
+                                    L10n.text(
+                                        "\(scope.title)直接设置：\(setting.values(in: scope).last ?? L10n.text("未设置，使用继承值"))"
+                                    )
+                                )
+                                .textSelection(.enabled)
+                            }
+                        }
+                    }.font(.caption).foregroundStyle(colors.secondaryText).padding(.top, 8)
+                }.accessibilityIdentifier("git-setting-sources")
                 if let error { Text(error).foregroundStyle(colors.negative).font(.callout) }
                 Button(L10n.text("重新读取配置")) { Task { await load() } }.disabled(
                     loading || app.anyOperationRunning)
             }
-            Section(L10n.text("认证")) {
-                Text(L10n.text("优先复用 Credential Helper、SSH Agent 和已配置的 AskPass。缺少凭证时使用独立窗口输入，等待超过 2 分钟自动取消。"))
-                    .font(.callout)
-                Text(L10n.text("不会自动信任新主机或关闭主机检查。签名继续使用现有 Git 配置。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
+            Section {
+                DisclosureGroup(L10n.text("认证")) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(
+                            L10n.text(
+                                "优先复用 Credential Helper、SSH Agent 和已配置的 AskPass。缺少凭证时使用独立窗口输入，等待超过 2 分钟自动取消。")
+                        )
+                        Text(L10n.text("不会自动信任新主机或关闭主机检查。签名继续使用现有 Git 配置。"))
+                    }.font(.callout).foregroundStyle(colors.secondaryText).padding(.top, 8)
+                }
             }
         }
         .task(id: app.session?.id) {
@@ -110,7 +125,7 @@ struct GitSettingsView: View {
             GitSettingEditor(app: app, request: request) { _ in
                 Task { await load() }
                 for session in app.sessions.values { session.scheduleRefresh() }
-            }
+            }.workbenchSheet(app.preferences)
         }
     }
 
@@ -204,7 +219,7 @@ private struct GitSettingEditor: View {
                 Text(error).font(.callout).foregroundStyle(colors.negative).textSelection(.enabled)
             }
             if snapshot.values(in: request.scope).count > 1 {
-                Text(L10n.text("当前作用域有多个直接值，保存会合并为一个值。")).font(.caption).foregroundStyle(.orange)
+                Text(L10n.text("当前作用域有多个直接值，保存会合并为一个值。")).font(.caption).foregroundStyle(colors.modified)
             }
             HStack {
                 Button(L10n.text("移除此作用域的设置")) { save(nil) }

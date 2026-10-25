@@ -14,6 +14,7 @@ private struct RemoteRemovalRequest: Identifiable {
 }
 
 struct RemoteManagementSheet: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
     @Environment(\.dismiss) private var dismiss
@@ -55,26 +56,28 @@ struct RemoteManagementSheet: View {
                             }
                             if !remote.canEdit {
                                 Text(L10n.text("多地址、继承或包含凭据的配置仅供查看，请在 Terminal 中修改。"))
-                                    .font(.callout).foregroundStyle(.secondary)
+                                    .font(.callout).foregroundStyle(colors.secondaryText)
                             }
                             DisclosureGroup(L10n.text("配置来源")) {
                                 ForEach(Array(remote.values.enumerated()), id: \.offset) { _, value in
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text(value.key + " = " + value.displayValue).textSelection(.enabled)
                                         Text(value.scope + " · " + value.origin).font(.caption)
-                                            .foregroundStyle(.secondary)
+                                            .foregroundStyle(colors.secondaryText)
                                     }.frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
                             Button(L10n.text("在 Terminal 中打开"), action: app.openTerminal)
                         }.padding(12)
                     } else {
-                        Text(L10n.text("选择或添加远端")).foregroundStyle(.secondary).padding(24)
+                        Text(L10n.text("选择或添加远端")).foregroundStyle(colors.secondaryText).padding(24)
                     }
                 }.frame(minWidth: 380, maxWidth: .infinity, maxHeight: .infinity)
             }.frame(height: 300)
-            if let error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
-            if let error = session.error { Text(error).foregroundStyle(.red).textSelection(.enabled) }
+            if let error { Text(error).foregroundStyle(colors.negative).textSelection(.enabled) }
+            if let error = session.error {
+                Text(error).foregroundStyle(colors.negative).textSelection(.enabled)
+            }
             HStack {
                 Button(L10n.text("新增远端…")) {
                     if let snapshot { editor = RemoteEditorRequest(snapshot: snapshot, remote: nil) }
@@ -101,7 +104,8 @@ struct RemoteManagementSheet: View {
         }.padding(24).frame(width: 760).interactiveDismissDisabled(session.isBusy)
             .task(id: "\(session.statusRenderID):\(reload)") { await read() }
             .sheet(item: $editor) { request in
-                RemoteEditorSheet(app: app, session: session, request: request)
+                RemoteEditorSheet(app: app, session: session, request: request).workbenchSheet(
+                    app.preferences)
             }
             .alert(
                 L10n.text("删除远端配置？"),
@@ -138,6 +142,7 @@ struct RemoteManagementSheet: View {
 }
 
 private struct RemoteEditorSheet: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
     let request: RemoteEditorRequest
@@ -171,7 +176,7 @@ private struct RemoteEditorSheet: View {
                 }
             }.textFieldStyle(.roundedBorder).disabled(session.isBusy)
             if attempted, let error = session.error {
-                Text(error).foregroundStyle(.red).textSelection(.enabled)
+                Text(error).foregroundStyle(colors.negative).textSelection(.enabled)
             }
             HStack {
                 Spacer()

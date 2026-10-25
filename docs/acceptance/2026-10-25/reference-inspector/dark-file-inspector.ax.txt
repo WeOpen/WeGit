@@ -1,0 +1,177 @@
+Window: "品牌工作台样例", App: WeGit.
+0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selected) 更改
+2
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 储藏
+						11 row (selectable) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) 品牌工作台样例、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 container
+					19 分离组
+						20 container
+							21 text 更改 2
+							22 菜单按钮 显示方式, Help: 切换文件列表或按文件夹显示, ID: changes-display-mode
+							23 菜单按钮 更多
+							24 文本栏 (settable) Description: 筛选文件路径, ID: changes-filter
+							25 弹出式按钮 Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							26 滚动区
+								27 列表 changes-list
+									28 row (selectable) Value: 已展开, Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存
+已暂存（1）
+										29 复选框 Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存, Help: 取消暂存所显示的文件 已暂存, Value: 1, ID: stage-group:staged
+									30 row (selected) Description: 取消暂存 Sources/Workbench.swift、取消暂存 Sources/Workbench.swift, Value: Workbench.swift
+Sources
+状态：修改
+										31 复选框 Description: 取消暂存 Sources/Workbench.swift、取消暂存 Sources/Workbench.swift, Help: 取消暂存 Sources/Workbench.swift, Value: 1, ID: stage:staged:Sources/Workbench.swift
+									32 row (selectable) Value: 已展开, Description: 暂存所显示的文件 未跟踪、暂存所显示的文件 未跟踪
+未跟踪（1）
+										33 复选框 Description: 暂存所显示的文件 未跟踪、暂存所显示的文件 未跟踪, Help: 暂存所显示的文件 未跟踪, Value: 0, ID: stage-group:untracked
+									34 row (selectable) Description: 暂存 Sources/引用签条.swift、暂存 Sources/引用签条.swift, Value: 引用签条.swift
+Sources
+状态：未跟踪
+										35 复选框 Description: 暂存 Sources/引用签条.swift、暂存 Sources/引用签条.swift, Help: 暂存 Sources/引用签条.swift, Value: 0, ID: stage:untracked:Sources/引用签条.swift
+						36 分离器 (disabled, settable, float) 578
+						37 container
+							38 文本 Help: Sources/Workbench.swift, Value: Workbench.swift
+							39 Description: 差异布局, ID: diff-layout
+								40 单选按钮 Description: 统一, Value: 1
+								41 单选按钮 Description: 分栏, Value: 0
+							42 菜单按钮 阅读选项
+							43 菜单按钮 差异文件操作, Description: 更多
+							44 按钮 (disabled) Description: 上一差异块, ID: diff-hunk-previous
+							45 按钮 (disabled) Description: 下一差异块, ID: diff-hunk-next
+							46 文本 Value: 差异块 1 / 1, ID: diff-hunk-position
+							47 滚动区 Description: 文本差异, ID: diff-content, Secondary Actions: Scroll Left, Scroll Right
+								48 列表 Description: 文本差异内容, Secondary Actions: AXScrollToTop, AXScrollToBottom
+									49 container 差异块：@@ -1,10 +1,10 @@
+										50 文本 @@ -1,10 +1,10 @@
+										51 按钮 Description: 复制此块补丁, ID: diff-hunk-copy:0
+										52 按钮 取消暂存此块
+									53 container Description: 上下文行, ID: unified-diff-row
+										54 文本 1
+										55 文本 1
+										56 文本输入区 Description: 上下文代码，第 1 行, Value: import Foundation, ID: diff-code:0
+									57 container Description: 上下文行, ID: unified-diff-row
+										58 文本 2
+										59 文本 2
+										60 文本输入区 Description: 上下文代码，第 2 行, Value:  , ID: diff-code:1
+									61 container Description: 上下文行, ID: unified-diff-row
+										62 文本 3
+										63 文本 3
+										64 文本输入区 Description: 上下文代码，第 3 行, Value: struct Workbench {, ID: diff-code:2
+									65 container Description: 删除行, ID: unified-diff-row
+										66 文本 4
+										67 文本 -
+										68 文本输入区 Description: 删除的代码，第 4 行, Value:     var title = "WeGit", ID: diff-code:3
+									69 container Description: 删除行, ID: unified-diff-row
+										70 文本 5
+										71 文本 -
+										72 文本输入区 Description: 删除的代码，第 5 行, Value:     var staged = 1, ID: diff-code:4
+									73 container Description: 新增行, ID: unified-diff-row
+										74 文本 4
+										75 文本 +
+										76 文本输入区 Description: 新增代码，第 4 行, Value:     var title = "纸墨与青瓷", ID: diff-code:5
+									77 container Description: 新增行, ID: unified-diff-row
+										78 文本 5
+										79 文本 +
+										80 文本输入区 Description: 新增代码，第 5 行, Value:     var staged = 2, ID: diff-code:6
+									81 container Description: 上下文行, ID: unified-diff-row
+										82 文本 6
+										83 文本 6
+										84 文本输入区 Description: 上下文代码，第 6 行, Value:  , ID: diff-code:7
+									85 container Description: 上下文行, ID: unified-diff-row
+										86 文本 7
+										87 文本 7
+										88 文本输入区 Description: 上下文代码，第 7 行, Value:     func refresh() {, ID: diff-code:8
+									89 container Description: 删除行, ID: unified-diff-row
+										90 文本 8
+										91 文本 -
+										92 文本输入区 Description: 删除的代码，第 8 行, Value:         print(title), ID: diff-code:9
+									93 container Description: 新增行, ID: unified-diff-row
+										94 文本 8
+										95 文本 +
+										96 文本输入区 Description: 新增代码，第 8 行, Value:         print("Ready: \(title)"), ID: diff-code:10
+									97 container Description: 上下文行, ID: unified-diff-row
+										98 文本 9
+										99 文本 9
+										100 文本输入区 Description: 上下文代码，第 9 行, Value:     }, ID: diff-code:11
+									101 container Description: 上下文行, ID: unified-diff-row
+										102 文本 10
+										103 文本 10
+										104 文本输入区 Description: 上下文代码，第 10 行, Value: }, ID: diff-code:12
+									105 container 上下文展开控制
+										106 按钮 Description: 展开 20 行, ID: diff-context-expand-1
+										107 文本 后续上下文
+								108 滚动条 (settable, float) 0
+									109 值指示器 (settable, float) 0
+									110 增箭头按钮
+									111 减箭头按钮
+									112 增页面按钮
+									113 减页面按钮
+					114 文本栏 (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Value: R5 · 检查器验证草稿, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					115 按钮 Description: 提交（1 个文件）, Help: 提交已暂存内容 ⌘↩, ID: commit-button
+					116 按钮 Description: 提交并推送…, Help: 先提交本地改动，再推送到指定远端, ID: commit-push-button
+					117 unknown Description: 已暂存 1 个文件, ID: commit-staged-count
+					118 复选框 Description: 修改上次提交（Amend）, Value: 0
+					119 unknown Description: ⌥↩ 换行 · ⌘↩ 提交, Details: idle, ID: operation-feedback
+				120 分离器 (disabled, settable, float) 999
+				121 container Description: 检查器, ID: repository-inspector
+					122 Description: 检查器, ID: inspector-tabs
+						123 单选按钮 Description: 文件信息, Value: 1
+						124 单选按钮 Description: 提交信息, Value: 0
+					125 滚动区
+						126 text Workbench.swift 状态：修改 Sources/Workbench.swift
+						127 按钮 Description: 复制文件路径, ID: inspector-copy-file-path
+						128 text Value: +3 −3 已暂存, ID: inspector-file-statistics
+						129 按钮 外部打开
+						130 按钮 Description: 在 Finder 中显示, ID: folder
+						131 按钮 Description: 查看文件历史…, ID: inspector-file-history
+						132 文本 1 个差异块
+						133 列表 Secondary Actions: AXScrollToTop, AXScrollToBottom
+							134 按钮 Description: 块 1, ID: inspector-hunk:0
+							135 text Help: @@ -1,10 +1,10 @@, Value: @@ -1,10 +1,10 @@ -     var title = "WeGit" -     var staged = 1 +     var title = "纸墨与青瓷" +     var staged = 2
+							136 按钮 取消暂存此块
+	137 工具栏
+		138 container 隐藏边栏
+			139 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		140 按钮 Description: 品牌工作台样例, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/v1-1-1-polish/WeGit/.build/brand-review-_98xgmqd/品牌工作台样例
+切换仓库 ⌘K
+		141 菜单按钮 当前分支：main, Value: 同步状态：↑1 ↓0, ID: current-branch
+		142 菜单按钮 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		143 按钮 Description: 拉取, Value: 0, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		144 按钮 Description: 推送, Value: 1, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: 选择远端、目标分支和同步方式
+相对上游 origin/main：领先 1 个提交，落后 0 个提交。
+数量基于最近一次获取，请先获取以核对远端。
+		145 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		146 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		147 按钮 Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		148 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	149 关闭按钮
+	150 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	151 最小化按钮
+	152 text 品牌工作台样例 main
+153 menu bar
+	154 WeGit 品牌预览, ID: native-menu-app
+	155 文件, ID: native-menu-file
+	156 编辑, ID: native-menu-edit
+	157 显示, ID: native-menu-view
+	158 仓库, ID: native-menu-repository
+	159 工作区, ID: native-menu-workspace
+	160 窗口, ID: native-menu-window
+	161 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise

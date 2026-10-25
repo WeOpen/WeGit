@@ -1,0 +1,16 @@
+The following is a diff from the previous accessibility tree for Window: "WeGit 设置" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 9-17
+~			7 单选按钮 Description: 提交, Value: 0
+~			8 单选按钮 Description: 高级, Value: 1
++		30 滚动区
++			31 标题 活动记录
++			32 container
++				33 弹出式按钮 最多保留, Value: 100 条
++				34 弹出式按钮 最长保留时间, Value: 24 小时
++				35 文本 活动摘要仅在本次运行的内存中保存，退出后清空；保留规则同时受数量与时间限制。
++				36 按钮 导出诊断摘要…
++				37 按钮 清空活动记录
++				38 文本 诊断摘要包含版本、命令名称、时间与结果，不包含仓库路径、代码、Diff、提交消息、输出或凭证。
++			39 标题 界面状态
++			40 按钮 重置界面偏好…
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

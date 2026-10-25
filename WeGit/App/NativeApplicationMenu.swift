@@ -312,7 +312,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         add(.changes, to: workspace, key: "1") { L10n.text("更改") }
         add(.history, to: workspace, key: "2") { L10n.text("提交历史") }
         add(.branches, to: workspace, key: "3") { L10n.text("分支") }
-        add(.stashes, to: workspace, key: "4") { L10n.text("暂存记录") }
+        add(.stashes, to: workspace, key: "4") { L10n.text("储藏") }
         add(.tags, to: workspace, key: "5") { L10n.text("标签") }
         workspace.addItem(.separator())
         add(.quickAccess, to: workspace, key: "m", modifiers: [.command, .shift]) { L10n.text("菜单栏快捷面板") }

@@ -14,3 +14,7 @@ __pycache__/
 /branding/*.zip.sha256
 # Raw Xcode diagnostics are retained locally beside the published summaries.
 /docs/acceptance/**/*.xcactivitylog
+
+# Reproducible brand delivery archives stay local; their sources are tracked.
+/design/*.zip
+/design/*.zip.sha256

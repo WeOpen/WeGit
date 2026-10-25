@@ -40,14 +40,18 @@ struct HistoryTableView: View {
                     TableColumn(L10n.text("引用")) { row in
                         let references = history.references[row.id] ?? []
                         HStack(spacing: 4) {
-                            ForEach(Array(references.prefix(2).enumerated()), id: \.offset) { _, reference in
+                            ForEach(Array(references.prefix(2).enumerated()), id: \.offset) {
+                                index, reference in
                                 ReferenceBadge(
-                                    name: reference.name, selected: app.workspace.selectedCommit?.id == row.id
-                                )
+                                    name: reference.name,
+                                    selected: app.workspace.selectedCommit?.id == row.id,
+                                    tone: reference.kind.badgeTone
+                                ).layoutPriority(index == 0 ? 1 : 0)
                             }
                             if references.count > 2 {
                                 Text("+\(references.count - 2)").font(.caption2)
                                     .foregroundStyle(colors.secondaryText)
+                                    .fixedSize()
                             }
                         }.help(references.map(\.name).joined(separator: " · "))
                             .accessibilityElement(children: .combine)
@@ -154,5 +158,16 @@ private struct HistoryGraphCell: View {
             shallow
                 ? L10n.text("浅克隆边界")
                 : head ? L10n.text("HEAD，分支列 \(row.column + 1)") : L10n.text("提交图，分支列 \(row.column + 1)"))
+    }
+}
+
+extension GitReference.Kind {
+    fileprivate var badgeTone: InterfaceTone {
+        switch self {
+        case .localBranch: .blue
+        case .remoteBranch: .teal
+        case .tag: .violet
+        case .head: .green
+        }
     }
 }

@@ -18,9 +18,36 @@ class NativePerformanceTests(unittest.TestCase):
                 main()
             self.assertEqual(run.call_count, 1)
             self.assertEqual(run.call_args.args[1][0], "scripts/benchmark-ui-large-scroll.sh")
+            self.assertEqual(run.call_args.args[3:], ("scroll.json", "scroll"))
             result = json.loads((Path(directory) / ".build/ci/performance/scope-results.json").read_text())
             self.assertTrue(result["diagnosticOnly"])
             self.assertEqual(result["requestedScope"], "scroll")
+
+    def test_full_default_preserves_normal_large_launch_and_scroll_scopes(self):
+        with TemporaryDirectory() as directory:
+            with patch.object(sys, "argv", ["native_performance", "--root", directory]), \
+                    patch("native_performance.run_scope", return_value={"exitCode": 0}) as run:
+                main()
+            self.assertEqual(run.call_count, 4)
+            self.assertEqual([call.args[2] for call in run.call_args_list],
+                             ["workbench", "workbench", "launch", "large-scroll"])
+            self.assertEqual(run.call_args.args[3:], ("scroll.json", "scroll"))
+            result = json.loads((Path(directory) / ".build/ci/performance/scope-results.json").read_text())
+            self.assertFalse(result["diagnosticOnly"])
+
+    def test_full_retains_prior_budget_failure_and_stops_on_unavailable_scroll(self):
+        results = [{"exitCode": 65, "budgetOnlyFailure": True},
+                   {"exitCode": 0, "budgetOnlyFailure": False},
+                   {"exitCode": 0, "budgetOnlyFailure": False},
+                   {"exitCode": 1, "budgetOnlyFailure": False, "evidenceValid": False}]
+        with TemporaryDirectory() as directory:
+            with patch.object(sys, "argv", ["native_performance", "--root", directory]), \
+                    patch("native_performance.run_scope", side_effect=results) as run:
+                with self.assertRaisesRegex(SystemExit, "evidence is incomplete"):
+                    main()
+            self.assertEqual(run.call_count, 4)
+            result = json.loads((Path(directory) / ".build/ci/performance/scope-results.json").read_text())
+            self.assertEqual(result["scopes"], results)
 
     def test_full_collection_stops_on_incomplete_launch_and_preserves_prior_failure(self):
         results = [{"exitCode": 65, "budgetOnlyFailure": True},

@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-25",
+  "branch": "codex/v1-1-1-polish",
+  "build": "Debug succeeded",
+  "finalApplicationInputs": 157,
+  "brandChecks": 212,
+  "themeChecks": 342,
+  "appearanceIconChecks": 42,
+  "localization": {
+    "keys": 1171,
+    "plurals": 8,
+    "sourceLiterals": 1570
+  },
+  "nativeDiagnostics": [
+    "Light and Dark file details, colored sync counts, contextual commit file selection and actual Diff update",
+    "Commit info tab and inspector collapse restoring central metadata/list",
+    "Tags themed list, tied bamboo tally empty state, deselection clears prior commit context",
+    "Tag and stash comparisons use current shared file list",
+    "File history sheet keeps its own file list and does not publish inspector context",
+    "Inspector hunk navigation, unstage and stage with actual private Git index verification; selected Diff remains visible",
+    "Draft retained through route and appearance changes"
+  ],
+  "dockScope": "Actual AppKit icon canvas and center compared with Finder. A live user-pinned Dock cache was not changed.",
+  "regression": "Initial stage after layer remapping left an empty Diff. Fresh guarded read fixed it; bidirectional native fixture checks passed.",
+  "limits": [
+    "No local XCTest executed, per HANDOFF.MD",
+    "Full hosted regression and performance gates remain separate",
+    "No installed user application overwritten; all native Git writes used private fixture repositories"
+  ],
+  "lastVerifiedOn": "2026-10-26",
+  "nativeIconSizeCoverage": [
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "deliveryIntegrity": {
+    "manifestEntries": 179,
+    "catalogAssets": 129,
+    "archiveMatchesWorkspace": true
+  }
+}

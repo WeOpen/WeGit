@@ -95,7 +95,10 @@ struct RepositorySyncButtons: View {
                                 .monospacedDigit().padding(.horizontal, 4).frame(minWidth: 16).frame(
                                     height: 16
                                 )
-                                .background(colors.text.opacity(0.08), in: .capsule)
+                                .foregroundStyle(colors.tone(symbol == "arrow.down" ? .teal : .violet))
+                                .background(
+                                    colors.tone(symbol == "arrow.down" ? .teal : .violet).opacity(0.10),
+                                    in: .capsule)
                         }
                     }.fixedSize()
                 } icon: {
