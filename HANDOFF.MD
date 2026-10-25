@@ -2,6 +2,10 @@
 
 新任务先读本文件，再核对 Git 工作区、Issue/PR 与当前源码；历史结果只适用于其记录的源码。
 
+## v1.2 原生诊断入口准备
+
+- #59 / PR #60 的 Worktree 打开功能需要新原生专项。白名单入口先以独立 PR 正常进入可信 main；测试与产品实现留在功能 PR，避免在尚无该功能的 main 加入必败的 UI 用例。`worktree-opening` 只在一个实际 smoke 通过后运行一个固定候选测试方法，不放开任意输入。准备 PR 不改变应用源码，也不表示 Worktree 功能已进入 main。
+
 ## 目标与约束
 
 - v1.2 已从 main `db66556` 建立 `codex/v1.2-development`，用户选择先做已有 Worktree 可靠打开；需求 #59，范围与证据见 `docs/V1_2_PLAN.md` 和 `docs/acceptance/2026-10-26/worktree-opening/`。测试不操作用户真实工作树；产品的创建/移除功能留在后续批次，不把开发版本号当作发布。
