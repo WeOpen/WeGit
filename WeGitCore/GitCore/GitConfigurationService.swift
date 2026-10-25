@@ -57,11 +57,12 @@ public struct GitConfigurationService: Sendable {
     private let queue: RepositoryOperationQueue
     public init(
         engine: GitEngine, location: RepositoryLocation? = nil,
-        queue: RepositoryOperationQueue = RepositoryOperationQueue()
+        queue: RepositoryOperationQueue? = nil
     ) {
         self.engine = engine
         self.location = location
-        self.queue = queue
+        self.queue =
+            queue ?? location.map { RepositoryOperationQueue.shared(for: $0) } ?? RepositoryOperationQueue()
     }
     private var directory: URL { location?.root ?? URL(fileURLWithPath: "/") }
 

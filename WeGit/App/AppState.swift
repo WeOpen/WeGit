@@ -596,7 +596,7 @@ final class AppState {
                 value = RepositorySession(
                     service: RepositoryService(
                         location: location, engine: engine,
-                        queue: matching?.service.queue ?? RepositoryOperationQueue()),
+                        queue: matching?.service.queue),
                     defaults: defaults, preferences: preferences)
                 if let matching, matching.location.id != location.id {
                     if value.message.isEmpty { value.message = matching.message }

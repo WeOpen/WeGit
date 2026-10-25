@@ -1,6 +1,12 @@
 # WeGit v1.2 开发需求
 
-更新：2026-10-24。本轮交付是需求整理，跟踪任务 [#55](https://github.com/WeOpen/WeGit/issues/55)。本文件汇总原有 v1.2 规划和 v1.1 后移项，给出推荐顺序、最小范围及验收标准；优先级是开发建议，具体交付范围与日期在拆分功能 Issue 时确定。
+更新：2026-10-26。需求整理由 [#55](https://github.com/WeOpen/WeGit/issues/55) 完成；开发已按用户确认从 V12-01 的已有 Worktree 打开开始，跟踪 [#59](https://github.com/WeOpen/WeGit/issues/59)。本文件汇总原有 v1.2 规划和 v1.1 后移项，给出推荐顺序、最小范围及验收标准；优先级是开发建议，具体交付范围与日期在拆分功能 Issue 时确定。
+
+## 开发启动（2026-10-26）
+
+- 分支 `codex/v1.2-development` 从已核对远端的 `main` / `db66556a1fcb42cded904f642894ab26526e41d5` 创建；开发版本 1.2.0 / build 4。该基线包含 R5 与原 1.1.1 界面整合，没有创建版本标签或 Release。
+- #59 首批实现已有 Worktree 发现与身份校验、共同 Git 目录写队列、Remote 共享配置原子写入和精确事件分类。原生预览已核对两个 Worktree 切换、独立草稿/暂存、历史页面恢复及退出后草稿恢复。
+- 独立行为检查、编译和原生诊断见 [Worktree 开发记录](acceptance/2026-10-26/worktree-opening/README.md)。托管核心/UI 的实际执行、完整性能和发布门禁继续待验；本项尚未标记完整验收。
 
 ## 发布安排（2026-10-26）
 
@@ -12,7 +18,7 @@
 
 - v1.1 四项必选 Stash、Remote、Tag、文件历史与定向搜索已经实现。固定应用源码 `835b8c4` 的完整原生功能回归 54/54、0 失败、0 跳过，阅读矩阵 144 张；[Beta 记录](acceptance/2026-10-24/v1-1-beta/README.md)保留其来源和限制。
 - 已有文件/差异块暂存、普通提交、Merge、Pull Rebase、外部冲突编辑、Merge/Rebase 继续与中止，作为回归基线，不重复建设。
-- 当前代码明确拒绝打开 linked worktree；能检测分支被其他 worktree 占用，并不等于支持打开或管理它。
+- 开发前基线明确拒绝打开 linked worktree；#59 已移除此限制并补齐协调与身份保护。能检测分支被其他 worktree 占用并不等于已完成创建/移除等管理能力。
 - Cherry-pick/Revert 目前只有外部序列状态识别，应用内继续/中止仍仅支持 Merge/Rebase；从 v1.1 后移到本需求池。
 - 本轮另提交太极 Loading 动效，由 [#54](https://github.com/WeOpen/WeGit/issues/54) 跟踪。它改变应用输入；旧 Beta 的 54/54 与性能结果只适用于旧源码，新应用仍需按实际范围验收。
 

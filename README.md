@@ -121,7 +121,7 @@ Tests use isolated configuration files, temporary repositories, and separate pre
 
 ## 🗺️ Scope & roadmap
 
-V1.0 focuses on daily Git workflows and readable diffs. **Stash and Tag management, an integrated conflict editor, interactive rebase, Blame, linked worktree/submodule management, and hosting-provider integrations** remain outside the first release. Linked worktree and bare-repository layouts are not currently supported for opening.
+V1.0 focuses on daily Git workflows and readable diffs. **Stash and Tag management, an integrated conflict editor, interactive rebase, Blame, linked worktree/submodule management, and hosting-provider integrations** remain outside the first release. The published V1.0 build does not support opening linked worktrees or bare repositories. Development for v1.2 has started with [existing-worktree opening](https://github.com/WeOpen/WeGit/issues/59); validation and release remain pending.
 
 The four required features in the [v1.1 plan](docs/V1_1_PLAN.md)—Stash, Remote and Tag management, plus file history with targeted search—are implemented and integrated. Application source `835b8c4` passed 54/54 functional tests with zero failures/skips and retained 144 reading-matrix screenshots; the Beta 1 draft package is verified. Performance, protected-Mac installation, real Beta feedback and stable-release acceptance remain open. See the [source-pinned Beta record](docs/acceptance/2026-10-24/v1-1-beta/README.md).
 

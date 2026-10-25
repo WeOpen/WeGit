@@ -19,8 +19,12 @@ public final class RepositoryWatcher: @unchecked Sendable {
     public convenience init(
         location: RepositoryLocation, onChange: @escaping @Sendable (RepositoryRefreshScope) -> Void
     ) throws {
-        let paths = Array(
-            Set([location.root.path, location.gitDirectory.path, location.commonDirectory.path]))
+        let candidates = Set([location.root.path, location.gitDirectory.path, location.commonDirectory.path])
+        // FSEvents already watches descendants. Only the active session subscribes;
+        // overlapping root/common/private paths must not multiply its event stream.
+        let paths = candidates.filter { path in
+            !candidates.contains { path.hasPrefix($0 + "/") }
+        }.sorted()
         try self.init(paths: paths) { paths, flags in
             let scope = RepositoryRefreshScope.events(paths: paths, flags: flags, location: location)
             if !scope.isEmpty { onChange(scope) }

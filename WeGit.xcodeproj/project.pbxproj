@@ -17,6 +17,7 @@
 		0E91C0A425DED14E8A4599DE /* GlassControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEDFC588FBF73378C4A8D2F /* GlassControls.swift */; };
 		0F21B245FF0D90CD93E50123 /* DiffSelectableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5879B4111C8EBEFD88E3998D /* DiffSelectableText.swift */; };
 		10993AA44DE4E740B18B752F /* LayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35ED6F3020AE96FCB957830 /* LayoutTests.swift */; };
+		12BB2E5EC3C9529CF9144E8A /* WorktreeWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691EEA2002AF912273BB99C /* WorktreeWorkflowTests.swift */; };
 		13E276DCB1333E635B092E4B /* Sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73B06EA47A30EF556BB101 /* Sheets.swift */; };
 		15E5B26FD697DE40D8086422 /* WorkspaceToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF720B7D33FB8C39517EFF3 /* WorkspaceToolbar.swift */; };
 		183036618BECA409A1A44349 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6428AEF6C0D56A748B4534 /* MenuBarController.swift */; };
@@ -177,6 +178,7 @@
 		2B5DFEF17F1F72DD8EDC9BF2 /* TagWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagWorkflowTests.swift; sourceTree = "<group>"; };
 		2BF720B7D33FB8C39517EFF3 /* WorkspaceToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceToolbar.swift; sourceTree = "<group>"; };
 		3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryContextMenu.swift; sourceTree = "<group>"; };
+		3691EEA2002AF912273BB99C /* WorktreeWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeWorkflowTests.swift; sourceTree = "<group>"; };
 		3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		3C5B9523CA4BAF7A324606E1 /* DiskDiffDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDiffDisplayState.swift; sourceTree = "<group>"; };
 		3C5BA94DCEE3ED51F613BB31 /* WeGitAskPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitAskPass.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				CE224312D030E65115351A57 /* WeGitUITests.swift */,
 				0D1C5E9CA800E3E0AE246165 /* WindowLifecycleTests.swift */,
 				D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */,
+				3691EEA2002AF912273BB99C /* WorktreeWorkflowTests.swift */,
 			);
 			path = WeGitUITests;
 			sourceTree = "<group>";
@@ -824,6 +827,7 @@
 				C4D041197B01466496C8BAE2 /* WeGitUITests.swift in Sources */,
 				7255F461F562A83B14327E42 /* WindowLifecycleTests.swift in Sources */,
 				8939BDCE63DB2BF25F75F186 /* WorkflowRecoveryTests.swift in Sources */,
+				12BB2E5EC3C9529CF9144E8A /* WorktreeWorkflowTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1164,7 +1168,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -1173,7 +1177,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.performanceHarness;
 				PRODUCT_NAME = WeGit;
 				SDKROOT = macosx;
@@ -1282,7 +1286,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -1291,7 +1295,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.development;
 				PRODUCT_NAME = WeGit;
 				SDKROOT = macosx;
@@ -1318,7 +1322,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -1327,7 +1331,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.development;
 				PRODUCT_NAME = WeGit;
 				SDKROOT = macosx;
