@@ -5,6 +5,7 @@ import WeGitCore
 private actor WorktreeEvents {
     var scope: RepositoryRefreshScope = []
     func add(_ value: RepositoryRefreshScope) { scope.formUnion(value) }
+    func reset() { scope = [] }
 }
 
 private actor WorktreeGate {
@@ -214,6 +215,17 @@ private actor WorktreeGate {
         try check(
             "Shared tag is readable from linked worktree",
             try await a.tags().entries.contains { $0.name == "shared-tag" })
+        try await Task.sleep(for: .milliseconds(600))
+        await events.reset()
+        try Data("watcher edit\n".utf8).write(to: first.appending(path: "file.txt"))
+        for _ in 0..<100 {
+            if await events.scope.contains(.status) { break }
+            try await Task.sleep(for: .milliseconds(50))
+        }
+        try check(
+            "Actual temporary-directory file event refreshes only status and diff",
+            await events.scope == [.status, .diff])
+        try Data("first\n".utf8).write(to: first.appending(path: "file.txt"))
         watcher.stop()
 
         let stash = try await b.createStash(

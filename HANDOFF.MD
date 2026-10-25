@@ -287,3 +287,5 @@
 - R5 仓库切换器已使用原生列表，旧 repository:<path> Button 查询不适合新用例。实际预览使用搜索框及 Return 成功切换后，新 Worktree 用例相应采用键盘流程；切换返回的首次 AX 可仍是前页，必须等目标页面/标题和草稿实际出现。
 - 本机仅执行独立 Swift 行为检查、Python 检查和 build-for-testing，未执行 XCTest。原生 CUA 预览核对独立草稿、暂存、历史页面和重开；私有夹具 HEAD/索引逐一比对，已退出专用预览、清理夹具并恢复原 UITests 偏好，实际用户 WeGit 未退出。托管原生和完整性能门禁保持待验。
 - 首轮托管 CI 40244094107 实际 209 项、38 suites，208 通过/1 失败。唯一失败是 Worktree 分支占用路径断言：Git 返回 `/private/var/...`，Foundation 返回 `/var/...`；两者不能按原始字符串判断为不同工作区。用 reportedPath 再发现并核对实体身份，保留 HEAD/index/序列断言和原失败，不用只比文件名的断言替代。
+- 独立 FSEvents 探针确认同一别名也影响产品：监听 `/var` 时事件返回 `/private/var`，旧分类回退 `.all`；只检查“收到 references”会漏掉过度刷新。新增真实普通文件事件必须精确为 status+diff 的检查，先失败，再由订阅时一次性 realpath 前缀映射修复，29 项通过。每个事件不调用 realpath/磁盘解析。
+- 用户已要求持续执行直到完成。范围、依赖和逐项状态写入 `plans/V1_2_EXECUTION.md`，不能将完成 Worktree 首批或创建草稿 PR 当作 v1.2 完成。

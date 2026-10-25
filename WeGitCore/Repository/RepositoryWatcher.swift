@@ -1,4 +1,5 @@
 import CoreServices
+import Darwin
 import Foundation
 
 private final class WatchCallback: @unchecked Sendable {
@@ -25,8 +26,25 @@ public final class RepositoryWatcher: @unchecked Sendable {
         let paths = candidates.filter { path in
             !candidates.contains { path.hasPrefix($0 + "/") }
         }.sorted()
+        // FSEvents reports POSIX physical paths (/private/var), while Foundation
+        // can preserve a system alias (/var). Resolve only at subscription time,
+        // then translate event prefixes without a filesystem lookup per event.
+        let aliases = candidates.compactMap { path -> (source: String, destination: String)? in
+            guard let physical = realpath(path, nil) else { return nil }
+            defer { free(physical) }
+            let source = String(cString: physical)
+            return source == path ? nil : (source, path)
+        }.sorted { $0.source.count > $1.source.count }
         try self.init(paths: paths) { paths, flags in
-            let scope = RepositoryRefreshScope.events(paths: paths, flags: flags, location: location)
+            let normalized = paths.map { path in
+                guard
+                    let alias = aliases.first(where: { path == $0.source || path.hasPrefix($0.source + "/") })
+                else {
+                    return path
+                }
+                return alias.destination + path.dropFirst(alias.source.count)
+            }
+            let scope = RepositoryRefreshScope.events(paths: normalized, flags: flags, location: location)
             if !scope.isEmpty { onChange(scope) }
         }
     }
