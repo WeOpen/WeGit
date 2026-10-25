@@ -12,7 +12,7 @@ def contours(name):
   values=re.findall(r'-?\d+(?:\.\d+)?',piece)
   assert len(values)%2==0
   result.append('        "'+';'.join(','.join(values[i:i+2]) for i in range(0,len(values),2))+'"')
- return ',\n'.join(result)
+ return ',\n'.join(result) + ','
 text=(source/'BrandGeometry.swift.template').read_text().replace('{{GIT}}',contours('git')).replace('{{SEAL}}',contours('seal'))
 target=root/'WeGit/DesignSystem/BrandGeometry.swift'
 if not target.exists() or target.read_text()!=text:target.write_text(text)
