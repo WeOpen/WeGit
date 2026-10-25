@@ -289,3 +289,5 @@
 - 首轮托管 CI 40244094107 实际 209 项、38 suites，208 通过/1 失败。唯一失败是 Worktree 分支占用路径断言：Git 返回 `/private/var/...`，Foundation 返回 `/var/...`；两者不能按原始字符串判断为不同工作区。用 reportedPath 再发现并核对实体身份，保留 HEAD/index/序列断言和原失败，不用只比文件名的断言替代。
 - 独立 FSEvents 探针确认同一别名也影响产品：监听 `/var` 时事件返回 `/private/var`，旧分类回退 `.all`；只检查“收到 references”会漏掉过度刷新。新增真实普通文件事件必须精确为 status+diff 的检查，先失败，再由订阅时一次性 realpath 前缀映射修复，29 项通过。每个事件不调用 realpath/磁盘解析。
 - 用户已要求持续执行直到完成。范围、依赖和逐项状态写入 `plans/V1_2_EXECUTION.md`，不能将完成 Worktree 首批或创建草稿 PR 当作 v1.2 完成。
+- 全 common 单队列只是首稿，后续已拆分：局部 index/文件操作和快照用 private Git 目录队列；所有共享引用、Stash、Remote/网络及提交/分支操作经 `withSharedOperation` 固定 common→private 顺序。局部队列内部不能调用共享操作。默认 Git 配置编辑同序，再获取既有 global 配置队列。34 项独立检查验证跨工作区局部进展、共享提交取消及真实冲突恢复；Remote40/Stash55/Tag34重验通过。
+- 为核对最近/收藏跨进程持久化，测试模式可显式指定 `WEGIT_UI_TEST_PERSISTENCE_DIRECTORY`，默认仍内存且正常应用路径不变。独立原生预览的两条最近记录和第一条收藏已由重开后的菜单及只读SQLite共同核对；157项实际构建输入匹配，夹具/测试偏好已清理还原。该结果仍不代替托管新专项。

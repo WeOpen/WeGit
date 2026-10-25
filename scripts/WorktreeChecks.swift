@@ -13,6 +13,22 @@ private actor WorktreeGate {
     func enter() { entered = true }
 }
 
+private func withinTwoSeconds<T: Sendable>(_ operation: @escaping @Sendable () async throws -> T) async throws
+    -> T
+{
+    try await withThrowingTaskGroup(of: T.self) { group in
+        group.addTask(operation: operation)
+        group.addTask {
+            try await Task.sleep(for: .seconds(2))
+            throw NSError(
+                domain: "WeGit.WorktreeChecks", code: 2,
+                userInfo: [NSLocalizedDescriptionKey: "A sibling's shared operation blocked local work"])
+        }
+        defer { group.cancelAll() }
+        return try await group.next()!
+    }
+}
+
 @main struct WorktreeChecks {
     static func main() async {
         do { try await run() } catch {
@@ -77,7 +93,9 @@ private actor WorktreeGate {
         )
         try check(
             "All worktrees share common-directory coordination",
-            primary.queue === a.queue && a.queue === b.queue)
+            primary.sharedQueue === a.sharedQueue && a.sharedQueue === b.sharedQueue)
+        try check(
+            "Each worktree has an independent local queue", primary.queue !== a.queue && a.queue !== b.queue)
         let statusA = try await a.status()
         let statusB = try await b.status()
         try check(
@@ -91,7 +109,7 @@ private actor WorktreeGate {
 
         let gate = WorktreeGate()
         let owner = Task {
-            try await primary.queue.perform {
+            try await primary.sharedQueue.perform {
                 await gate.enter()
                 try await Task.sleep(for: .seconds(30))
             }
@@ -99,11 +117,20 @@ private actor WorktreeGate {
         defer { owner.cancel() }
         while !(await gate.entered) { await Task.yield() }
         try Data("first\n".utf8).write(to: first.appending(path: "file.txt"))
-        let waiting = Task { try await a.stage(paths: ["file.txt"], expectedHead: initial) }
+        let independent = try await withinTwoSeconds {
+            try await a.stage(paths: ["file.txt"], expectedHead: initial)
+            return try await b.readSnapshot()
+        }
+        try check(
+            "Sibling shared operation permits independent stage and first snapshot",
+            independent.status.isDetached && independent.status.head == initial)
+        let waiting = Task {
+            try await a.commit(message: "Must not commit", amend: false, expectedHead: initial)
+        }
         try await Task.sleep(for: .milliseconds(80))
         try check(
-            "Another worktree cannot stage during shared ownership",
-            try await git(["diff", "--cached"], at: first).isEmpty)
+            "Another worktree cannot commit during shared ownership",
+            try await a.head() == initial)
         waiting.cancel()
         do {
             try await waiting.value
@@ -112,8 +139,8 @@ private actor WorktreeGate {
         owner.cancel()
         do { try await owner.value } catch is CancellationError {}
         try check(
-            "Cancelled queued write leaves index unchanged",
-            try await git(["show", ":file.txt"], at: first) == Data("base\n".utf8))
+            "Cancelled shared write preserves the staged index",
+            try await git(["show", ":file.txt"], at: first) == Data("first\n".utf8))
         try Data("second\n".utf8).write(to: second.appending(path: "file.txt"))
         async let stageA: Void = a.stage(paths: ["file.txt"], expectedHead: initial)
         async let stageB: Void = b.stage(paths: ["file.txt"], expectedHead: initial)
@@ -274,6 +301,44 @@ private actor WorktreeGate {
             "Thirty discovery plus first-snapshot samples stay within the 2000 ms backend budget",
             p95.values.allSatisfy { $0 <= 2000 })
 
+        try Data("main conflict\n".utf8).write(to: main.appending(path: "file.txt"))
+        try await primary.stage(paths: ["file.txt"], expectedHead: initial)
+        let mainTip = try await primary.commit(message: "Main conflict", amend: false, expectedHead: initial)
+        let mainBranch = try await a.branches().first { $0.name == "main" }!
+        do {
+            try await a.merge(mainBranch, expectedHead: committed)
+            try check("Merge must expose the linked-worktree conflict", false)
+        } catch is GitFailure {}
+        let conflict = try await a.status()
+        let mainState = try await primary.status()
+        let siblingState = try await b.status()
+        try check(
+            "Real merge conflict state is private to its worktree",
+            conflict.sequencer == .merge && !conflict.conflicts.isEmpty && mainState.sequencer == .none
+                && siblingState.sequencer == .none)
+        let recovery = try await open(first)
+        try await recovery.sequencer(continueOperation: false, expected: .merge)
+        try check(
+            "Reopened linked worktree can abort without changing sibling content",
+            try await recovery.head() == committed
+                && Data(contentsOf: first.appending(path: "file.txt")) == Data("first\n".utf8))
+        do { try await recovery.merge(mainBranch, expectedHead: committed) } catch is GitFailure {}
+        try Data("resolved\n".utf8).write(to: first.appending(path: "file.txt"))
+        try await recovery.markResolved(path: "file.txt", expectedHead: committed)
+        try await recovery.sequencer(continueOperation: true, expected: .merge)
+        let merged = try await recovery.status()
+        let finalMain = try await primary.head()
+        let finalSibling = try await b.head()
+        let finalMainIndex = try await git(["show", ":file.txt"])
+        let finalSiblingIndex = try await git(["show", ":file.txt"], at: second)
+        try check(
+            "Linked merge continue preserves other HEADs and indexes",
+            merged.sequencer == .none && merged.files.isEmpty && finalMain == mainTip
+                && finalSibling == initial && finalMainIndex == Data("main conflict\n".utf8)
+                && finalSiblingIndex == Data("second\n".utf8)
+                && (try Data(contentsOf: second.appending(path: "file.txt"))) == Data("second\n".utf8))
+        let expectedReopenHead = merged.head
+
         // Identity attacks happen only after all normal behavior; every directory
         // and replacement remains under this private fixture's cleanup root.
         let commonPointer = a.location.gitDirectory.appending(path: "commondir")
@@ -285,7 +350,8 @@ private actor WorktreeGate {
         } catch ModelFailure.repositoryReplaced {}
         let reopened = try await open(first)
         try check(
-            "Reopen after pointer rewrite restores correct worktree", try await reopened.head() == committed)
+            "Reopen after pointer rewrite restores correct worktree",
+            try await reopened.head() == expectedReopenHead)
         try await git(["worktree", "remove", second.path, "--force"])
         do {
             _ = try await b.status()

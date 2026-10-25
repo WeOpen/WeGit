@@ -2,7 +2,7 @@ import Foundation
 
 extension RepositoryService {
     public func renameBranch(_ branch: GitBranch, to name: String, expectedHead: String?) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let fresh = try await freshBranch(branch, localOnly: true)
             try ensureNotInOtherWorktree(fresh)
@@ -19,7 +19,7 @@ extension RepositoryService {
     public func prepareBranchDeletion(_ branch: GitBranch, expectedHead: String?) async throws
         -> BranchDeletionPlan
     {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             return try await deletionPlan(branch, head: expectedHead)
         }
@@ -56,7 +56,7 @@ extension RepositoryService {
     }
 
     public func deleteBranch(_ plan: BranchDeletionPlan, allowUnmerged: Bool = false) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.repositoryReplaced }
             try await verifyHead(plan.head)
             let current = try await deletionPlan(plan.branch, head: plan.head)
@@ -76,7 +76,7 @@ extension RepositoryService {
     public func createTrackingBranch(
         from remote: GitBranch, name: String, switchTo: Bool = true, expectedHead: String?
     ) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let fresh = try await freshBranch(remote)
             guard fresh.remote else { throw ModelFailure.unsupported(L10n.text("请选择远端跟踪分支。")) }
@@ -95,7 +95,7 @@ extension RepositoryService {
 
     public func setUpstream(of branch: GitBranch, to upstream: GitBranch?, expectedHead: String?) async throws
     {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let local = try await freshBranch(branch, localOnly: true)
             try ensureNotInOtherWorktree(local)

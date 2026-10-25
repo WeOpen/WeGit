@@ -3,9 +3,13 @@ import Foundation
 /// Explicit FIFO ownership persists across await; actor isolation alone is not a mutex.
 public actor RepositoryOperationQueue {
     private static let registry = RepositoryQueueRegistry()
+    private static let worktreeRegistry = RepositoryQueueRegistry()
 
     static func shared(for location: RepositoryLocation) -> RepositoryOperationQueue {
         registry.queue(for: location.commonIdentity)
+    }
+    static func worktree(for location: RepositoryLocation) -> RepositoryOperationQueue {
+        worktreeRegistry.queue(for: location.gitIdentity)
     }
     private var held = false
     private var waiters: [(UUID, CheckedContinuation<Void, Error>)] = []
@@ -45,9 +49,9 @@ public actor RepositoryOperationQueue {
     }
 }
 
-/// All Git writes can update shared refs/configuration, including commit and checkout.
-/// One common-directory queue avoids nested lock ordering. Independent reads remain
-/// concurrent; consistent multi-command snapshots retain their existing permit.
+/// Shared reference/configuration writes and worktree-local operations have distinct
+/// registries. Shared operations always acquire common first, then private; local
+/// index/file operations and snapshots never wait for another worktree's network IO.
 /// Weak entries keep closed repositories from accumulating for the app's lifetime.
 private final class RepositoryQueueRegistry: @unchecked Sendable {
     private final class Entry {

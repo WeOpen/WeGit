@@ -90,7 +90,7 @@ extension RepositoryService {
     public func changeRemote(
         _ change: RemoteChange, in snapshot: RemoteManagementSnapshot, expectedHead: String?
     ) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             guard snapshot.location == location else { throw ModelFailure.changed }
             try await verifyHead(expectedHead)
             let name: String

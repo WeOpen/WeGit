@@ -6,10 +6,12 @@ final class WorktreeWorkflowTests: XCTestCase {
         let f = try UITestGit(prefix: "WeGitWorktreeUI")
         let first = f.root.appendingPathExtension("first")
         let second = f.root.appendingPathExtension("second")
+        let persistence = f.root.appendingPathExtension("persistence")
         defer {
             f.remove()
             try? FileManager.default.removeItem(at: first)
             try? FileManager.default.removeItem(at: second)
+            try? FileManager.default.removeItem(at: persistence)
         }
         try f.git(["init", "-b", "main"])
         try f.git(["config", "user.name", "Worktree UI"])
@@ -26,15 +28,24 @@ final class WorktreeWorkflowTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
         app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = first.path
+        app.launchEnvironment["WEGIT_UI_TEST_PERSISTENCE_DIRECTORY"] = persistence.path
         app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launchWeGit()
         defer { app.terminate() }
         let message = app.textFields["commit-message"]
         XCTAssertTrue(message.waitForExistence(timeout: 10))
+        let firstRecord = app.staticTexts[first.lastPathComponent].firstMatch
+        XCTAssertTrue(firstRecord.waitForExistence(timeout: 5))
+        firstRecord.rightClick()
+        let pin = app.menuItems["收藏"]
+        XCTAssertTrue(pin.waitForExistence(timeout: 5))
+        pin.click()
         message.click()
         message.typeText("First worktree draft")
-        app.checkBoxes["stage:unstaged:file.txt"].click()
+        let stage = app.checkBoxes["stage:unstaged:file.txt"]
+        XCTAssertTrue(stage.waitForExistence(timeout: 10))
+        stage.click()
         XCTAssertTrue(app.checkBoxes["stage:staged:file.txt"].waitForExistence(timeout: 10))
         XCTAssertEqual(try UITestGit.run(["show", ":file.txt"], in: first), "first\n")
         XCTAssertEqual(try f.git(["show", ":file.txt"]), "base\n")
@@ -73,6 +84,10 @@ final class WorktreeWorkflowTests: XCTestCase {
         XCTAssertTrue(message.waitForExistence(timeout: 10))
         XCTAssertEqual(message.value as? String, "Second worktree draft")
         XCTAssertFalse(app.checkBoxes["stage:staged:file.txt"].exists)
+        XCTAssertTrue(firstRecord.waitForExistence(timeout: 5))
+        firstRecord.rightClick()
+        XCTAssertTrue(app.menuItems["取消收藏"].waitForExistence(timeout: 5))
+        app.typeKey(.escape, modifierFlags: [])
         XCTAssertEqual(try UITestGit.run(["show", ":file.txt"], in: second), "base\n")
         XCTAssertEqual(try f.git(["rev-parse", "HEAD"]), initial)
         XCTAssertEqual(try UITestGit.run(["rev-parse", "HEAD"], in: first), initial)

@@ -5,6 +5,13 @@ import Testing
 @testable import WeGitCore
 
 struct WorktreeTests {
+    private actor PermitState {
+        var entered = false
+        var released = false
+        func enter() { entered = true }
+        func release() { released = true }
+    }
+
     private func linked(_ f: Fixture, at path: URL, branch: String = "topic") async throws
         -> RepositoryService
     {
@@ -125,5 +132,36 @@ struct WorktreeTests {
         #expect(first.service.queue !== second.service.queue)
         let rediscovered = try await RepositoryService.discover(first.root, engine: first.engine)
         #expect(RepositoryService(location: rediscovered, engine: first.engine).queue === first.service.queue)
+    }
+
+    @Test(.timeLimit(.minutes(1))) func sharedPermitDoesNotBlockSiblingIndexOrSnapshot() async throws {
+        let f = try await Fixture.create()
+        let path = f.root.appendingPathExtension("linked")
+        defer {
+            f.remove()
+            try? FileManager.default.removeItem(at: path)
+        }
+        try f.write("file", "base\n")
+        let head = try await f.commit()
+        let service = try await linked(f, at: path)
+        let state = PermitState()
+        let owner = Task {
+            try await f.service.sharedQueue.perform {
+                await state.enter()
+                try await Task.sleep(for: .seconds(10))
+                await state.release()
+            }
+        }
+        defer { owner.cancel() }
+        while !(await state.entered) { await Task.yield() }
+        try Data("independent\n".utf8).write(to: path.appending(path: "file"))
+        try await service.stage(paths: ["file"], expectedHead: head)
+        let snapshot = try await service.readSnapshot()
+        #expect(await !state.released)
+        #expect(snapshot.status.files.first?.staged == true)
+        #expect(try await f.engine.run(["show", ":file"], in: path).text == "independent\n")
+        #expect(try await f.engine.run(["show", ":file"], in: f.root).text == "base\n")
+        owner.cancel()
+        do { try await owner.value } catch is CancellationError {}
     }
 }

@@ -41,7 +41,7 @@ extension RepositoryService {
     ) async throws
         -> GitStash
     {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard state.head != nil, state.sequencer == .none, state.conflicts.isEmpty else {
@@ -81,7 +81,7 @@ extension RepositoryService {
     public func restoreStash(
         _ entry: GitStash, in list: StashList, restoreIndex: Bool, pop: Bool, expectedHead: String?
     ) async throws -> StashRestoreOutcome {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard state.head != nil, state.sequencer == .none, state.files.allSatisfy(\.untracked) else {
@@ -118,7 +118,7 @@ extension RepositoryService {
     }
 
     public func deleteStash(_ entry: GitStash, in list: StashList, expectedHead: String?) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await verifyStashEntry(entry, in: list)
             try await dropStashEntry(entry)

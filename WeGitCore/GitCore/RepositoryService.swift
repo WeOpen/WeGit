@@ -5,6 +5,7 @@ public struct RepositoryService: Sendable {
     public let location: RepositoryLocation
     public let engine: GitEngine
     public let queue: RepositoryOperationQueue
+    public let sharedQueue: RepositoryOperationQueue
     private var expectedBranch: String?
     public init(
         location: RepositoryLocation, engine: GitEngine,
@@ -12,7 +13,17 @@ public struct RepositoryService: Sendable {
     ) {
         self.location = location
         self.engine = engine
-        self.queue = queue ?? RepositoryOperationQueue.shared(for: location)
+        self.queue = queue ?? RepositoryOperationQueue.worktree(for: location)
+        self.sharedQueue = RepositoryOperationQueue.shared(for: location)
+    }
+
+    /// A common-first lock order serializes shared writes without blocking local
+    /// work in sibling worktrees. No worktree-local operation may acquire common.
+    func withSharedOperation<T: Sendable>(_ operation: @Sendable () async throws -> T) async throws -> T {
+        try await sharedQueue.perform {
+            if queue === sharedQueue { return try await operation() }
+            return try await queue.perform(operation)
+        }
     }
 
     public func expectingBranch(_ branch: String) -> RepositoryService {
@@ -233,7 +244,7 @@ public struct RepositoryService: Sendable {
     }
 
     public func commit(message: String, amend: Bool, expectedHead: String?) async throws -> String {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {

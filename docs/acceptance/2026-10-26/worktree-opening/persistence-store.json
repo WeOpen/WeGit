@@ -1,0 +1,12 @@
+{
+  "repositories": [
+    [
+      "linked-first",
+      1
+    ],
+    [
+      "linked-second",
+      0
+    ]
+  ]
+}
