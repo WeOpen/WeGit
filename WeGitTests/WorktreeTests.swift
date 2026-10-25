@@ -35,9 +35,10 @@ struct WorktreeTests {
         #expect(
             secondary.status.branch == "topic" && secondary.status.files.first?.staged == true
                 && secondary.status.sequencer == .cherryPick)
-        #expect(
-            primary.branches?.first { $0.name == "topic" }?.worktreePath
-                == path.resolvingSymlinksInPath().path)
+        let reportedPath = try #require(primary.branches?.first { $0.name == "topic" }?.worktreePath)
+        let reported = try await RepositoryService.discover(
+            URL(fileURLWithPath: reportedPath), engine: f.engine)
+        #expect(reported.isSameRepository(as: service.location))
         #expect(secondary.branches?.first { $0.current }?.name == "topic")
     }
 

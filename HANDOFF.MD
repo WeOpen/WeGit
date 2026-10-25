@@ -4,7 +4,7 @@
 
 ## 目标与约束
 
-- v1.2 已从 main `db66556` 建立 `codex/v1.2-development`，用户选择先做已有 Worktree 可靠打开；需求 #59，范围与证据见 `docs/V1_2_PLAN.md` 和 `docs/acceptance/2026-10-26/worktree-opening/`。后续仍不创建/移除真实 Worktree，不把开发版本号当作发布。
+- v1.2 已从 main `db66556` 建立 `codex/v1.2-development`，用户选择先做已有 Worktree 可靠打开；需求 #59，范围与证据见 `docs/V1_2_PLAN.md` 和 `docs/acceptance/2026-10-26/worktree-opening/`。测试不操作用户真实工作树；产品的创建/移除功能留在后续批次，不把开发版本号当作发布。
 - v1.1 四项必选：Stash、仓库级 Remote、Tag、文件历史与定向搜索。Cherry-pick/Revert 仅在恢复路径和回归具备证据后纳入，否则明确后移。
 - 用户要求持续开发到完成。按仓库 Issue → 分支 → PR → 必需 CI 的流程集成，不能把创建 PR 当成版本完成。
 - 本地不执行 XCTest。独立行为检查可运行；核心/UI 测试可以编译；实际 XCTest 放在托管环境。
@@ -286,3 +286,4 @@
 - Foundation 的目录 URL 可有不同的尾斜杠，直接 URL == 曾误拒绝普通主仓库。重定向内容校验比较解析后的 path，同时用设备/inode/出生时间和指针文件版本固定身份；不要为修复 URL 表示差异删除真实身份验证。首次失败与修复后的 28 项独立检查均有记录；新增后台采样在预算断言前落盘，失败也保留全部样本。
 - R5 仓库切换器已使用原生列表，旧 repository:<path> Button 查询不适合新用例。实际预览使用搜索框及 Return 成功切换后，新 Worktree 用例相应采用键盘流程；切换返回的首次 AX 可仍是前页，必须等目标页面/标题和草稿实际出现。
 - 本机仅执行独立 Swift 行为检查、Python 检查和 build-for-testing，未执行 XCTest。原生 CUA 预览核对独立草稿、暂存、历史页面和重开；私有夹具 HEAD/索引逐一比对，已退出专用预览、清理夹具并恢复原 UITests 偏好，实际用户 WeGit 未退出。托管原生和完整性能门禁保持待验。
+- 首轮托管 CI 40244094107 实际 209 项、38 suites，208 通过/1 失败。唯一失败是 Worktree 分支占用路径断言：Git 返回 `/private/var/...`，Foundation 返回 `/var/...`；两者不能按原始字符串判断为不同工作区。用 reportedPath 再发现并核对实体身份，保留 HEAD/index/序列断言和原失败，不用只比文件名的断言替代。
