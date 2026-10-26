@@ -65,6 +65,10 @@ enum OperationFeedbackResult: Equatable, Sendable {
             .needsReview(
                 message: unknown.localizedDescription,
                 details: unknown.observedHead + "\n\n" + unknown.details)
+        case let unknown as SingleCommitOutcomeUnknown:
+            .needsReview(
+                message: unknown.localizedDescription,
+                details: [unknown.observedHead, unknown.details].compactMap { $0 }.joined(separator: "\n\n"))
         case let unknown as PushOutcomeUnknown:
             .needsReview(
                 message: unknown.localizedDescription,

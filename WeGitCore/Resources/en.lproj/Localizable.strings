@@ -1195,3 +1195,23 @@
 "提交的文件" = "Committed Files";
 
 "块 %1$@" = "Hunk %1$@";
+
+"选中提交" = "Selected commit";
+"创建新提交撤销所选改动，原提交保留。" = "Create a new commit to undo the selected changes. The original commit is preserved.";
+"将改变的文件" = "Files to change";
+"此提交在当前 HEAD 上没有可应用的改动。" = "This commit has no changes to apply on the current HEAD.";
+"预计 %1$@ 个文件产生冲突" = "Files with expected conflicts: %1$@";
+"预演合并…" = "Previewing merge…";
+"查看更改" = "View Changes";
+"产生 %1$@ 个冲突，请在更改页面解决后继续或中止。" = "Conflicts: %1$@. Resolve them in Changes, then continue or abort.";
+"提交尚未完成。请核对错误和暂存区，再继续或中止。" = "The commit is incomplete. Review the error and staged changes, then continue or abort.";
+"Cherry-pick…" = "Cherry-pick…";
+"Revert…" = "Revert…";
+"合并预览记录不完整" = "Incomplete merge preview";
+"此提交存在文件类型或复杂重命名冲突，请在 Terminal 中处理。" = "This commit has file type or complex rename conflicts. Handle it in Terminal.";
+"请先处理特殊索引标记、未合并条目或子模块，再执行此操作。" = "Resolve special index flags, unmerged entries or submodules before this operation.";
+"当前操作暂不支持包含子模块的提交。" = "This operation does not yet support commits containing submodules.";
+"请先提交或保存工作区改动，并完成当前 Git 操作。" = "Commit or save your working changes and finish the current Git operation first.";
+"请选取一个普通提交；合并提交需要另行选择主线。" = "Select an ordinary commit. Merge commits require a separate mainline choice.";
+"操作结果需要核对。请检查 HEAD、暂存区和进行中的 Git 操作；不会自动重复执行。" = "The result needs review. Check HEAD, staged changes and the current Git operation. It will not be repeated automatically.";
+"此操作超过合并预览的读取上限，请在 Terminal 中处理。" = "This operation exceeds the merge preview read limit. Handle it in Terminal.";

@@ -196,6 +196,15 @@ struct HistoryView: View {
 
     private func commitActions(_ commit: GitCommit) -> some View {
         Menu(L10n.text("操作")) {
+            Button(L10n.text("Cherry-pick…")) {
+                app.singleCommitRequest = SingleCommitRequest(
+                    session: session, operation: .cherryPick, target: commit.id)
+            }.disabled(commit.parents.count > 1)
+            Button(L10n.text("Revert…")) {
+                app.singleCommitRequest = SingleCommitRequest(
+                    session: session, operation: .revert, target: commit.id)
+            }.disabled(commit.parents.count > 1)
+            Divider()
             Button(L10n.text("从此提交创建标签…")) {
                 app.tagCreationRequest = TagCreationRequest(
                     session: session, target: commit.id)

@@ -19,7 +19,7 @@
 - v1.1 四项必选 Stash、Remote、Tag、文件历史与定向搜索已经实现。固定应用源码 `835b8c4` 的完整原生功能回归 54/54、0 失败、0 跳过，阅读矩阵 144 张；[Beta 记录](acceptance/2026-10-24/v1-1-beta/README.md)保留其来源和限制。
 - 已有文件/差异块暂存、普通提交、Merge、Pull Rebase、外部冲突编辑、Merge/Rebase 继续与中止，作为回归基线，不重复建设。
 - 开发前基线明确拒绝打开 linked worktree；#59 已移除此限制并补齐协调与身份保护。能检测分支被其他 worktree 占用并不等于已完成创建/移除等管理能力。
-- Cherry-pick/Revert 目前只有外部序列状态识别，应用内继续/中止仍仅支持 Merge/Rebase；从 v1.1 后移到本需求池。
+- #62 已实现单提交 Cherry-pick/Revert 的历史预演、执行、冲突继续/中止和重开恢复；65 项独立检查与原生预览已完成，实际托管验证见[单提交开发记录](acceptance/2026-10-26/single-commit-operations/README.md)。外部多提交队列与 Merge mainline 仍不在本批范围。
 - 本轮另提交太极 Loading 动效，由 [#54](https://github.com/WeOpen/WeGit/issues/54) 跟踪。它改变应用输入；旧 Beta 的 54/54 与性能结果只适用于旧源码，新应用仍需按实际范围验收。
 
 每项需求完成时，用户可从应用入口完成正常操作、取消、失败核对和冲突恢复；外部 Terminal 修改或重开应用后状态仍准确；写入范围、实际 Git 状态、源码与验收证据均可核对。功能实现、托管验证和版本发布分别记录。

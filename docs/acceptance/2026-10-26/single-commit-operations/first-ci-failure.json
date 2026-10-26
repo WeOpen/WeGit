@@ -1,0 +1,12 @@
+{
+  "runId": 40274156920,
+  "candidate": "67ad681e818bcf1a30feceb0d151eac999ec61b1",
+  "testDeclarations": 218,
+  "suites": 39,
+  "reportedIssues": 3,
+  "failingMethods": [
+    "ignoredRelocatedDestinationsCannotBeOverwritten",
+    "failedHooksAndSigningRetainGitRecovery"
+  ],
+  "cause": "New fixtures did not create parent directories before Fixture.write. Product assertions remain unchanged."
+}

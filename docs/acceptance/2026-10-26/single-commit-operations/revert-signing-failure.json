@@ -1,0 +1,18 @@
+[
+  {
+    "mode": "argument",
+    "failedExit": 128,
+    "files": {},
+    "continueExit": 128,
+    "continueError": "error: no cherry-pick or revert in progress\nfatal: revert failed\n",
+    "indexAfterFailure": "error: gpg failed to sign the data:\n(no gpg output)\nerror: failed to write commit object\nfatal: revert failed\n"
+  },
+  {
+    "mode": "stdin",
+    "failedExit": 128,
+    "files": {},
+    "continueExit": 128,
+    "continueError": "error: no cherry-pick or revert in progress\nfatal: revert failed\n",
+    "indexAfterFailure": "error: gpg failed to sign the data:\n(no gpg output)\nerror: failed to write commit object\nfatal: revert failed\n"
+  }
+]
