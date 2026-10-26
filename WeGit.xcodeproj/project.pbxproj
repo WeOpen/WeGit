@@ -42,6 +42,7 @@
 		4351FAB1F2126A7161D87F41 /* RepositoryContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */; };
 		461DEA46B43F53AC35E72678 /* BrandGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C19B279458D6ADB439FB3B7 /* BrandGeometry.swift */; };
 		47C755A1171E4D24EA69B438 /* TagSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B4A120BF9CADFE64A68BF /* TagSheets.swift */; };
+		48CD515449E276DC8F7AB9D6 /* SingleCommitSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D383F9B7E556B3889501BC97 /* SingleCommitSheet.swift */; };
 		4C4E2302E50E982C6B5B1561 /* CloneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B068FD8FA547E5DD7CBDAB2 /* CloneViewModel.swift */; };
 		5068264D82A0586CCB565E25 /* AppPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D51D1CF2C9585589177216 /* AppPresentation.swift */; };
 		510F2F6F84699A83FFEDF337 /* StashWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABF9BDC6250640F1FEE61EF /* StashWorkflowTests.swift */; };
@@ -239,6 +240,7 @@
 		D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkflowRecoveryTests.swift; sourceTree = "<group>"; };
 		D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualAccessibilitySession.swift; sourceTree = "<group>"; };
 		D35ED6F3020AE96FCB957830 /* LayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTests.swift; sourceTree = "<group>"; };
+		D383F9B7E556B3889501BC97 /* SingleCommitSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCommitSheet.swift; sourceTree = "<group>"; };
 		D398DEA1043DACA3D64F74FC /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
 		D4C08C85BA8E89B65DAB0E3C /* CommandPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPalette.swift; sourceTree = "<group>"; };
 		D62410513A08411AAD45D335 /* DiffChangeMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffChangeMap.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				8B6E81CBD8CE053ADDDEC25C /* RepositorySyncCounts.swift */,
 				F3A8CC78668A40CFC111A86F /* SettingsView.swift */,
 				1D73B06EA47A30EF556BB101 /* Sheets.swift */,
+				D383F9B7E556B3889501BC97 /* SingleCommitSheet.swift */,
 				20AC571FAE93EE55A0C1CC83 /* StashBrowser.swift */,
 				01E44BC7A4D6B018D185CC84 /* StashView.swift */,
 				48B64C6AE5A196C899E210E3 /* SyncSheet.swift */,
@@ -889,6 +892,7 @@
 				33D8289BE2D3E18E5E1439F4 /* RepositorySyncCounts.swift in Sources */,
 				997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */,
 				13E276DCB1333E635B092E4B /* Sheets.swift in Sources */,
+				48CD515449E276DC8F7AB9D6 /* SingleCommitSheet.swift in Sources */,
 				3AC13E8FF683B2F0F5D99304 /* StashBrowser.swift in Sources */,
 				25E74BC8C0606966859D685C /* StashView.swift in Sources */,
 				CFFAE1DB6F5D266C35021FDF /* SyncSheet.swift in Sources */,

@@ -421,6 +421,7 @@ final class RepositorySession {
         details =
             (error as? GitFailure)?.details ?? (error as? PullFailure)?.details
             ?? (error as? CommitOutcomeUnknown)?.details ?? (error as? PushOutcomeUnknown)?.details
+            ?? (error as? SingleCommitOutcomeUnknown)?.details
             ?? (error as? TagPushOutcomeUnknown)?.details ?? ""
         if let path = (error as? UntrackedTrashFailure)?.trashURL, path.isFileURL { lastTrashedFile = path }
     }
@@ -455,6 +456,7 @@ final class AppState {
     var branchPresented = false
     var remoteManagementPresented = false
     var tagCreationRequest: TagCreationRequest?
+    var singleCommitRequest: SingleCommitRequest?
     var fileHistoryRequest: FileHistoryRequest?
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?

@@ -198,6 +198,9 @@ struct WorkspaceView: View {
         .sheet(item: $app.tagCreationRequest) {
             TagCreationSheet(app: app, request: $0).workbenchSheet(app.preferences)
         }
+        .sheet(item: $app.singleCommitRequest) {
+            SingleCommitSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
         .sheet(item: $app.fileHistoryRequest) {
             FileHistorySheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
@@ -374,23 +377,37 @@ struct WorkspaceView: View {
                     L10n.text("正在\(session.status.sequencer.title) · \(session.status.conflicts.count) 个冲突"),
                     systemImage: "arrow.triangle.merge")
                 Spacer()
-                if [.merge, .rebase].contains(session.status.sequencer) {
+                if [.merge, .rebase].contains(session.status.sequencer)
+                    || session.status.singleCommitRecovery != nil
+                {
                     Button(L10n.text("中止…")) {
                         let expected = session.status.sequencer
+                        let singleCommit = session.status.singleCommitRecovery
                         if app.confirm(
                             title: L10n.text("中止 \(expected.rawValue)？"),
                             message: L10n.text("将撤回本次操作，操作中的手工编辑可能无法恢复。"),
                             action: L10n.text("中止"))
                         {
                             session.perform(L10n.text("中止")) {
-                                try await $0.sequencer(continueOperation: false, expected: expected)
+                                if let singleCommit {
+                                    try await $0.recoverSingleCommit(
+                                        continueOperation: false, expected: singleCommit)
+                                } else {
+                                    try await $0.sequencer(continueOperation: false, expected: expected)
+                                }
                             }
                         }
                     }.disabled(!session.canWrite).accessibilityIdentifier("sequencer-abort")
                     Button(L10n.text("继续")) {
                         let expected = session.status.sequencer
+                        let singleCommit = session.status.singleCommitRecovery
                         session.perform(L10n.text("继续")) {
-                            try await $0.sequencer(continueOperation: true, expected: expected)
+                            if let singleCommit {
+                                try await $0.recoverSingleCommit(
+                                    continueOperation: true, expected: singleCommit)
+                            } else {
+                                try await $0.sequencer(continueOperation: true, expected: expected)
+                            }
                         }
                     }
                     .disabled(!session.status.conflicts.isEmpty || !session.canWrite)

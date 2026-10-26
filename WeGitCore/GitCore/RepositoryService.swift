@@ -84,8 +84,10 @@ public struct RepositoryService: Sendable {
             value.sequencer = .merge
         } else if FileManager.default.fileExists(atPath: base.appending(path: "CHERRY_PICK_HEAD").path) {
             value.sequencer = .cherryPick
+            value.singleCommitRecovery = try singleCommitRecovery(for: value, operation: .cherryPick)
         } else if FileManager.default.fileExists(atPath: base.appending(path: "REVERT_HEAD").path) {
             value.sequencer = .revert
+            value.singleCommitRecovery = try singleCommitRecovery(for: value, operation: .revert)
         } else if FileManager.default.fileExists(atPath: base.appending(path: "sequencer").path) {
             value.sequencer = .unknown
         }
