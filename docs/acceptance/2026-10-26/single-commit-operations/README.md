@@ -36,6 +36,8 @@
 
 ## 失败记录与后续门禁
 
+- 首轮 [CI 40274156920](https://github.com/WeOpen/WeGit/actions/runs/40274156920) 在 `67ad681` 执行 218 个测试声明/39 suites，两个方法有三条失败记录。失败均发生在新夹具写文件时缺少 `old` / `.git/fixture-hooks` 父目录，尚未进入对应产品操作。核心 `Fixture.write` 与独立检查的 helper 行为不同；已在新用例显式建目录，原断言保留，等待托管重跑。
+- 首轮 [原生 40274310004](https://github.com/WeOpen/WeGit/actions/runs/40274310004) 的 [smoke 1/1 通过](native-first-smoke.json)；[专项 0/1、1 失败、0 跳过](native-first-failure.json)。普通操作、冲突与重开已执行，失败在中止确认定位。AX 证实按钮处于顶层 Dialog，Touch Bar 还有同名按钮；用例误查主窗口 Sheet，现限定实际 Dialog。原始 xcresult、录像、日志和 UI 树保留于本机 `.build/v12-development/resumed/native-single-commit-first/`、同轮附件目录及托管制品。
 - [独立 Git 复现](revert-signing-failure.json)证明单次 Revert 签名失败后没有可恢复标记，`--stdin` 也未修复；[两阶段原生恢复复现](revert-recovery-probe.json)的继续和中止均成功。最初独立行为检查停在这项，修复后完整 65 项通过。
 - SwiftUI 初次把相邻预览字段合并为一个 AX 元素；直接修饰 GridRow 又给两个子项重复赋予同一语义。改用实际 HStack 容器后各字段只暴露一次。英文 Selected commit 的截断随后通过标签列宽与换行修正。
 - 独立检查最初的 Swift 编译问题和格式问题均修正；本机 iOS CoreSimulator 版本警告不属于 macOS 测试通过证据，最终 macOS 测试目标实际编译成功。

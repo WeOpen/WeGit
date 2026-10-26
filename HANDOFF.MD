@@ -313,3 +313,5 @@
 - 原生 CUA 已核对取消、两种提交、独立草稿保留、冲突重开、中止、外部编辑后标记并继续、Return/Escape 和中英文浅深。最终预览 161 输入匹配；夹具已移除、预览退出、原 UITests 偏好逐值还原。本机只编译新增核心与 UI 测试，不执行 XCTest；#63 原生入口已合入 main `df1c4d0`，功能托管结果仍待核对。
 - SwiftUI GridRow 的语义修饰会分发到两个子项，造成重复 ID/朗读。使用具体 HStack 的单个语义容器；目标完整 SHA 进入其 label，与已有 Tag 模式一致。英文标签列必须留出真实文本宽度并允许换行，不能只看中文截图。
 - `defaults import` 合并而非删除多出的测试键。恢复已备份的专用 UITests 域时先清除该测试域、再导入，并按 plist 值核对；只做 import 返回成功不证明恢复完成。Cua 退出预览后不要再读取它的 AX，否则会自动重开。
+- #62 首轮托管核心 40274156920 执行 218 个测试声明/39 suites，2 个方法失败、3 条记录，均为新夹具缺父目录：`old/base` 与两种操作的 `.git/fixture-hooks/prepare-commit-msg`。独立检查的 helper 会建父目录，核心 `Fixture.write` 不会；新核心用例须自己先建目录，不能因为独立脚本通过就假设两种 helper 等价。修正只涉及夹具，原保护与 Hook 断言保留，待托管重跑。
+- #62 首轮原生 40274310004：smoke 1/1，通过；专项 0/1、1 失败、0 跳过，停在重开后的中止确认定位。AX 显示原生 `NSAlert.runModal()` 是顶层 Dialog，主窗口确为 980×692；Dialog 与 Touch Bar 都有“中止”。预览用 SwiftUI Sheet 查询，原生确认必须用 `app.dialogs.firstMatch`，不能复用 Sheet 查询或全局同名按钮。首次完整日志/xcresult/录像保留；修正只改测试，不放宽原断言。

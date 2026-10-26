@@ -101,6 +101,8 @@ struct SingleCommitTests {
     @Test func ignoredRelocatedDestinationsCannotBeOverwritten() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }
+        try FileManager.default.createDirectory(
+            at: f.root.appending(path: "old"), withIntermediateDirectories: true)
         try f.write("old/base", "base\n")
         _ = try await f.commit("Base")
         _ = try await f.engine.run(["switch", "-c", "source"], in: f.root)
@@ -164,6 +166,8 @@ struct SingleCommitTests {
                 _ = try await f.engine.run(["config", key, value], in: f.root)
             }
         } else {
+            try FileManager.default.createDirectory(
+                at: f.root.appending(path: ".git/fixture-hooks"), withIntermediateDirectories: true)
             try f.write(".git/fixture-hooks/prepare-commit-msg", "#!/bin/sh\nexit 29\n")
             try FileManager.default.setAttributes(
                 [.posixPermissions: 0o700],

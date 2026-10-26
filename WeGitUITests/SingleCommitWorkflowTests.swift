@@ -93,7 +93,7 @@ final class SingleCommitWorkflowTests: XCTestCase {
         XCTAssertTrue(continuation.waitForExistence(timeout: 10))
         checkDraft(app)
         app.buttons["sequencer-abort"].click()
-        let abort = sheet.buttons["中止"]
+        let abort = app.dialogs.firstMatch.buttons["中止"]
         XCTAssertTrue(abort.waitForExistence(timeout: 5))
         abort.click()
         waitUntilGone(continuation)
@@ -110,7 +110,7 @@ final class SingleCommitWorkflowTests: XCTestCase {
         let resolve = app.buttons["stage:conflict:file.txt"]
         XCTAssertTrue(resolve.waitForExistence(timeout: 10))
         resolve.click()
-        let confirmation = sheet.buttons["标记已解决"]
+        let confirmation = app.dialogs.firstMatch.buttons["标记已解决"]
         XCTAssertTrue(confirmation.waitForExistence(timeout: 5))
         confirmation.click()
         waitUntilEnabled(continuation)
@@ -130,6 +130,7 @@ final class SingleCommitWorkflowTests: XCTestCase {
         app.launchWeGit()
         resizeToMinimum(app.windows["main"])
         showPreview(app, target: completed, operation: "Revert")
+        XCTAssertTrue(displayedTarget.waitForExistence(timeout: 10))
         XCTAssertEqual(displayedTarget.label, "Selected commit: " + completed)
         XCTAssertTrue(sheet.buttons["single-commit-execute"].isHittable)
         XCTAssertLessThanOrEqual(sheet.frame.width, app.windows["main"].frame.width)
