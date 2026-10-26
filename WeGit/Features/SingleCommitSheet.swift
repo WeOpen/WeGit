@@ -28,24 +28,12 @@ struct SingleCommitSheet: View {
                 symbol: request.operation == .cherryPick ? "arrow.turn.down.right" : "arrow.uturn.backward")
             if let plan {
                 Text(plan.target.subject).font(.headline).lineLimit(3)
-                Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 8) {
-                    GridRow {
-                        Text(L10n.text("当前分支")).foregroundStyle(colors.secondaryText)
-                        Text(plan.branch == "(detached)" ? "Detached HEAD" : plan.branch)
-                            .lineLimit(2).textSelection(.enabled)
-                            .accessibilityIdentifier("single-commit-branch")
-                    }
-                    GridRow {
-                        Text("HEAD").foregroundStyle(colors.secondaryText)
-                        Text(plan.head).font(.caption.monospaced()).textSelection(.enabled)
-                            .accessibilityValue(plan.head).accessibilityIdentifier("single-commit-head")
-                    }
-                    GridRow {
-                        Text(L10n.text("选中提交")).foregroundStyle(colors.secondaryText)
-                        Text(plan.target.id).font(.caption.monospaced()).textSelection(.enabled)
-                            .accessibilityValue(plan.target.id).accessibilityIdentifier(
-                                "single-commit-target")
-                    }
+                VStack(alignment: .leading, spacing: 8) {
+                    contextRow(
+                        L10n.text("当前分支"), value: plan.branch == "(detached)" ? "Detached HEAD" : plan.branch,
+                        identifier: "single-commit-branch", monospaced: false)
+                    contextRow("HEAD", value: plan.head, identifier: "single-commit-head")
+                    contextRow(L10n.text("选中提交"), value: plan.target.id, identifier: "single-commit-target")
                 }
                 if request.operation == .revert {
                     Text(L10n.text("创建新提交撤销所选改动，原提交保留。")).foregroundStyle(colors.secondaryText)
@@ -76,7 +64,7 @@ struct SingleCommitSheet: View {
                     Text(L10n.text("此提交在当前 HEAD 上没有可应用的改动。"))
                         .accessibilityIdentifier("single-commit-empty")
                 }
-                if !plan.conflictPaths.isEmpty {
+                if !attempted, !plan.conflictPaths.isEmpty {
                     Label(
                         L10n.text("预计 \(plan.conflictPaths.count) 个文件产生冲突"),
                         systemImage: "exclamationmark.triangle"
@@ -118,6 +106,19 @@ struct SingleCommitSheet: View {
             }
     }
 
+    private func contextRow(_ label: String, value: String, identifier: String, monospaced: Bool = true)
+        -> some View
+    {
+        HStack(alignment: .firstTextBaseline, spacing: 16) {
+            Text(label).foregroundStyle(colors.secondaryText)
+                .fixedSize(horizontal: false, vertical: true).frame(width: 120, alignment: .leading)
+            Text(value).font(monospaced ? .caption.monospaced() : .body)
+                .textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }.accessibilityElement(children: .ignore)
+            .accessibilityLabel(label + ": " + value).accessibilityIdentifier(identifier)
+    }
+
     private func prepare() async {
         guard app.session === session else { return }
         preparing = true
@@ -138,16 +139,18 @@ struct SingleCommitSheet: View {
     private func execute() {
         guard app.session === session, let plan, !attempted else { return }
         attempted = true
-        session.performResult(request.operation.title, onSuccess: { dismiss() }) {
-            switch try await $0.executeSingleCommit(plan) {
-            case .committed:
-                return .completed(message: L10n.text("\(plan.operation.title)完成"))
-            case .conflicts(let count):
-                return .needsReview(message: L10n.text("产生 \(count) 个冲突，请在更改页面解决后继续或中止。"))
-            case .pending(let details):
-                return .needsReview(
-                    message: L10n.text("提交尚未完成。请核对错误和暂存区，再继续或中止。"), details: details)
-            }
-        }
+        session.performResult(
+            request.operation.title, onSuccess: { dismiss() },
+            operation: {
+                switch try await $0.executeSingleCommit(plan) {
+                case .committed:
+                    return .completed(message: L10n.text("\(plan.operation.title)完成"))
+                case .conflicts(let count):
+                    return .needsReview(message: L10n.text("产生 \(count) 个冲突，请在更改页面解决后继续或中止。"))
+                case .pending(let details):
+                    return .needsReview(
+                        message: L10n.text("提交尚未完成。请核对错误和暂存区，再继续或中止。"), details: details)
+                }
+            })
     }
 }

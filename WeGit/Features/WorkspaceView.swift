@@ -384,7 +384,7 @@ struct WorkspaceView: View {
                         let expected = session.status.sequencer
                         let singleCommit = session.status.singleCommitRecovery
                         if app.confirm(
-                            title: L10n.text("中止 \(expected.rawValue)？"),
+                            title: L10n.text("中止 \(expected.title)？"),
                             message: L10n.text("将撤回本次操作，操作中的手工编辑可能无法恢复。"),
                             action: L10n.text("中止"))
                         {

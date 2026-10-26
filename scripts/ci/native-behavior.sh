@@ -3,6 +3,7 @@ set -euo pipefail
 # Older revisions do not contain every feature. Once a feature is present its
 # behavior check is mandatory; a missing checker is an error, not a silent skip.
 for pair in \
+  WeGitCore/GitCore/SingleCommitService.swift:scripts/verify-single-commit.sh \
   WeGitTests/WorktreeTests.swift:scripts/verify-worktrees.sh \
   WeGitCore/GitCore/FileHistoryService.swift:scripts/verify-file-history.sh \
   WeGitCore/GitCore/TagService.swift:scripts/verify-tags.sh \
