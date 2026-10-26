@@ -520,7 +520,18 @@ final class AppState {
         do {
             let configuration: ModelConfiguration
             if testing {
-                configuration = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+                if let path = ProcessInfo.processInfo.environment["WEGIT_UI_TEST_PERSISTENCE_DIRECTORY"],
+                    !path.isEmpty
+                {
+                    let directory = URL(fileURLWithPath: path, isDirectory: true)
+                    try FileManager.default.createDirectory(
+                        at: directory, withIntermediateDirectories: true,
+                        attributes: [.posixPermissions: 0o700])
+                    configuration = ModelConfiguration(
+                        url: directory.appending(path: "Repositories.store"), cloudKitDatabase: .none)
+                } else {
+                    configuration = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+                }
             } else {
                 let directory = FileManager.default.urls(
                     for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -596,7 +607,7 @@ final class AppState {
                 value = RepositorySession(
                     service: RepositoryService(
                         location: location, engine: engine,
-                        queue: matching?.service.queue ?? RepositoryOperationQueue()),
+                        queue: matching?.service.queue),
                     defaults: defaults, preferences: preferences)
                 if let matching, matching.location.id != location.id {
                     if value.message.isEmpty { value.message = matching.message }

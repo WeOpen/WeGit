@@ -90,7 +90,7 @@ extension RepositoryService {
     public func changeRemote(
         _ change: RemoteChange, in snapshot: RemoteManagementSnapshot, expectedHead: String?
     ) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             guard snapshot.location == location else { throw ModelFailure.changed }
             try await verifyHead(expectedHead)
             let name: String
@@ -220,14 +220,18 @@ private final class RemoteConfigLease: @unchecked Sendable {
     let descriptor: Int32
     init(file: RemoteConfigFile, location: RepositoryLocation) throws {
         self.file = file
-        guard location.commonDirectory == location.gitDirectory else { throw ModelFailure.repositoryReplaced }
-        let parent = Darwin.open(location.gitDirectory.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        try location.validateIdentity()
+        guard file.url == location.commonDirectory.appending(path: "config") else {
+            throw ModelFailure.repositoryReplaced
+        }
+        let parent = Darwin.open(
+            location.commonDirectory.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard parent >= 0 else { throw ModelFailure.repositoryReplaced }
         var info = stat()
-        guard fstat(parent, &info) == 0, info.st_dev == location.gitIdentity.device,
-            info.st_ino == location.gitIdentity.inode,
-            info.st_birthtimespec.tv_sec == location.gitIdentity.bornSeconds,
-            info.st_birthtimespec.tv_nsec == location.gitIdentity.bornNanoseconds
+        guard fstat(parent, &info) == 0, info.st_dev == location.commonIdentity.device,
+            info.st_ino == location.commonIdentity.inode,
+            info.st_birthtimespec.tv_sec == location.commonIdentity.bornSeconds,
+            info.st_birthtimespec.tv_nsec == location.commonIdentity.bornNanoseconds
         else {
             Darwin.close(parent)
             throw ModelFailure.repositoryReplaced

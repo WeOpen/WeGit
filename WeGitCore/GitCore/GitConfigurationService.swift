@@ -55,13 +55,17 @@ public struct GitConfigurationService: Sendable {
     public let engine: GitEngine
     public let location: RepositoryLocation?
     private let queue: RepositoryOperationQueue
+    private let sharedQueue: RepositoryOperationQueue
     public init(
         engine: GitEngine, location: RepositoryLocation? = nil,
-        queue: RepositoryOperationQueue = RepositoryOperationQueue()
+        queue: RepositoryOperationQueue? = nil
     ) {
         self.engine = engine
         self.location = location
-        self.queue = queue
+        self.queue =
+            queue ?? location.map { RepositoryOperationQueue.worktree(for: $0) } ?? RepositoryOperationQueue()
+        self.sharedQueue =
+            location.map { RepositoryOperationQueue.shared(for: $0) } ?? RepositoryOperationQueue()
     }
     private var directory: URL { location?.root ?? URL(fileURLWithPath: "/") }
 
@@ -90,6 +94,14 @@ public struct GitConfigurationService: Sendable {
 
     public func set(_ value: String?, scope: GitSettingScope, expected: GitSettingSnapshot) async throws
         -> GitSettingSnapshot
+    {
+        try await sharedQueue.perform {
+            try await setUnderSharedPermit(value, scope: scope, expected: expected)
+        }
+    }
+
+    private func setUnderSharedPermit(_ value: String?, scope: GitSettingScope, expected: GitSettingSnapshot)
+        async throws -> GitSettingSnapshot
     {
         try await queue.perform {
             try await Self.globalQueue.perform {

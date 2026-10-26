@@ -8,6 +8,7 @@
 
 ## 目标与约束
 
+- v1.2 已从 main `db66556` 建立 `codex/v1.2-development`，用户选择先做已有 Worktree 可靠打开；需求 #59，范围与证据见 `docs/V1_2_PLAN.md` 和 `docs/acceptance/2026-10-26/worktree-opening/`。测试不操作用户真实工作树；产品的创建/移除功能留在后续批次，不把开发版本号当作发布。
 - v1.1 四项必选：Stash、仓库级 Remote、Tag、文件历史与定向搜索。Cherry-pick/Revert 仅在恢复路径和回归具备证据后纳入，否则明确后移。
 - 用户要求持续开发到完成。按仓库 Issue → 分支 → PR → 必需 CI 的流程集成，不能把创建 PR 当成版本完成。
 - 本地不执行 XCTest。独立行为检查可运行；核心/UI 测试可以编译；实际 XCTest 放在托管环境。
@@ -281,3 +282,18 @@
 - 用户明确要求将1.1.1合并回当前项目、清理已合并分支，先不发布，与1.2一并发布。实施经PR进入main，当前旧loading分支在Squash后树内容等于main；不打Tag、不创建Release、不部署站点。1.1.1的完整托管功能/性能发布验收继续纳入1.2，不用本地诊断代替。
 - 合并前分别保存两个检出的全部修改、未跟踪文件、索引/Tag/Stash清单及验证过的Git bundle，位置见原检出.build/v111-merge-active.json。原检出的R4素材有同名未跟踪文件，必须先留存再切换main，不能直接覆盖或整体丢弃。交接文档保留两边独有的历史段落。
 - Squash后删除来源分支要以远端PR已合并、最终树/提交覆盖和备份回执为依据；先解除来源工作树分支占用，再删除本地分支。工作树与ignored构建资料不随分支清理删除。
+
+## 2026-10-26 Worktree 开发首批
+
+- 不能只删除 discover 的 linked worktree 拒绝分支。RemoteConfigLease 原来只允许 gitDirectory == commonDirectory；须对共享目录描述符与身份加锁，同时把 AppState 新会话的默认独立队列改为 common identity 注册的共享队列。普通仓库的旧草稿键不变，linked worktree 的持久身份额外包含 common identity。
+- linked 私有目录位于 common/worktrees 下面。事件匹配不能用 Set 的随机第一个前缀；先匹配最长目录，兄弟 index/序列事件忽略，兄弟 HEAD/登记事件只刷新引用占用。只活动会话监听，FSEvents 路径移除已被祖先覆盖的重复项，无轮询。
+- Foundation 的目录 URL 可有不同的尾斜杠，直接 URL == 曾误拒绝普通主仓库。重定向内容校验比较解析后的 path，同时用设备/inode/出生时间和指针文件版本固定身份；不要为修复 URL 表示差异删除真实身份验证。首次失败与修复后的 28 项独立检查均有记录；新增后台采样在预算断言前落盘，失败也保留全部样本。
+- R5 仓库切换器已使用原生列表，旧 repository:<path> Button 查询不适合新用例。实际预览使用搜索框及 Return 成功切换后，新 Worktree 用例相应采用键盘流程；切换返回的首次 AX 可仍是前页，必须等目标页面/标题和草稿实际出现。
+- 本机仅执行独立 Swift 行为检查、Python 检查和 build-for-testing，未执行 XCTest。原生 CUA 预览核对独立草稿、暂存、历史页面和重开；私有夹具 HEAD/索引逐一比对，已退出专用预览、清理夹具并恢复原 UITests 偏好，实际用户 WeGit 未退出。托管原生和完整性能门禁保持待验。
+- 首轮托管 CI 40244094107 实际 209 项、38 suites，208 通过/1 失败。唯一失败是 Worktree 分支占用路径断言：Git 返回 `/private/var/...`，Foundation 返回 `/var/...`；两者不能按原始字符串判断为不同工作区。用 reportedPath 再发现并核对实体身份，保留 HEAD/index/序列断言和原失败，不用只比文件名的断言替代。
+- 独立 FSEvents 探针确认同一别名也影响产品：监听 `/var` 时事件返回 `/private/var`，旧分类回退 `.all`；只检查“收到 references”会漏掉过度刷新。新增真实普通文件事件必须精确为 status+diff 的检查，先失败，再由订阅时一次性 realpath 前缀映射修复，29 项通过。每个事件不调用 realpath/磁盘解析。
+- 用户已要求持续执行直到完成。范围、依赖和逐项状态写入 `plans/V1_2_EXECUTION.md`，不能将完成 Worktree 首批或创建草稿 PR 当作 v1.2 完成。
+- 全 common 单队列只是首稿，后续已拆分：局部 index/文件操作和快照用 private Git 目录队列；所有共享引用、Stash、Remote/网络及提交/分支操作经 `withSharedOperation` 固定 common→private 顺序。局部队列内部不能调用共享操作。默认 Git 配置编辑同序，再获取既有 global 配置队列。34 项独立检查验证跨工作区局部进展、共享提交取消及真实冲突恢复；Remote40/Stash55/Tag34重验通过。
+- 为核对最近/收藏跨进程持久化，测试模式可显式指定 `WEGIT_UI_TEST_PERSISTENCE_DIRECTORY`，默认仍内存且正常应用路径不变。独立原生预览的两条最近记录和第一条收藏已由重开后的菜单及只读SQLite共同核对；157项实际构建输入匹配，夹具/测试偏好已清理还原。该结果仍不代替托管新专项。
+- 原生入口 PR #61 已经四项检查通过并正常合入 main `d8655f1`。候选 `bef8821` 的运行 40246780755：smoke 1/1通过，Worktree专项0/1、1失败、0跳过；事件回执右键坐标800,103命中标题文字，侧栏真实Button为296,434/178×48。改用 `sidebar-repository:<path>` 的精确NSPredicate，长路径不用字符串下标；收藏和重开断言保留，待重跑。
+- 下一项为 #62 单提交Cherry-pick/Revert；已建立尚未实现的 `codex/v1.2-single-commit-operations` 起点分支。私有Git预研证实干净status下cherry-pick和revert均会成功覆盖ignored目标文件；assume-unchanged/skip-worktree改动则被Git拒绝。保护不能只检查status，也不能只看简单提交路径而忽略目录重命名后的实际落点。原始预研在 `.build/v12-development/single-commit-probe.json`。

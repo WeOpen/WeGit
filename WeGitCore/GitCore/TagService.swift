@@ -81,7 +81,7 @@ extension RepositoryService {
     public func prepareTagCreation(
         name: String, target: String, kind: TagKind, message: String = "", expectedHead: String?
     ) async throws -> TagCreationPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await validateTagName(name)
             try await verifyCommit(target)
@@ -103,7 +103,7 @@ extension RepositoryService {
     }
 
     public func createTag(_ plan: TagCreationPlan) async throws -> GitTag {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.changed }
             try await verifyHead(plan.head)
             try await validateTagName(plan.name)
@@ -145,7 +145,7 @@ extension RepositoryService {
     }
 
     public func deleteTag(_ tag: GitTag, expectedHead: String?) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await verifyTag(tag)
             guard tag.symbolicTarget == nil else {
@@ -200,7 +200,7 @@ extension RepositoryService {
     public func prepareTagPush(
         _ tag: GitTag, remote name: String, pushURLIndex: Int = 0, expectedHead: String?
     ) async throws -> TagPushPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await verifyTag(tag)
             guard tag.targetCommit != nil, tag.symbolicTarget == nil else {
@@ -219,7 +219,7 @@ extension RepositoryService {
     }
 
     public func pushTag(_ plan: TagPushPlan) async throws -> TagPushResult {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.changed }
             try await verifyHead(plan.head)
             try await verifyTag(plan.tag)
@@ -259,7 +259,7 @@ extension RepositoryService {
     }
 
     public func verifyTagPush(_ plan: TagPushPlan) async throws -> TagPushVerification {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.changed }
             try await verifyRemote(plan.remote)
             let current = try await remoteTagOID(

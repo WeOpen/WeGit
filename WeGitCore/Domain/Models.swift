@@ -31,6 +31,10 @@ public struct RepositoryLocation: Hashable, Sendable, Identifiable {
     let rootIdentity: RepositoryNodeIdentity
     let gitIdentity: RepositoryNodeIdentity
     let markerIdentity: RepositoryNodeIdentity
+    let commonIdentity: RepositoryNodeIdentity
+    let commonMarkerIdentity: RepositoryNodeIdentity?
+    let worktreeLinkIdentity: RepositoryNodeIdentity?
+    public var isLinkedWorktree: Bool { gitDirectory != commonDirectory }
     public var id: String { root.path }
     public var name: String { root.lastPathComponent }
 }

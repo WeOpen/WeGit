@@ -121,7 +121,7 @@ M0 之前的历史核心验证在 **Apple Git 2.54.0** 和私有构建的 **Git 
 
 ## 🗺️ 范围与路线图
 
-V1.0 聚焦日常 Git 流程和差异阅读。**Stash / Tag 管理、内置冲突编辑器、Interactive Rebase、Blame、linked worktree / submodule 管理及 Hosting Provider 集成**保留在后续版本。当前不支持打开 linked worktree 和 Bare 仓库布局。
+V1.0 聚焦日常 Git 流程和差异阅读。**Stash / Tag 管理、内置冲突编辑器、Interactive Rebase、Blame、linked worktree / submodule 管理及 Hosting Provider 集成**保留在后续版本。已发布的 V1.0 不支持打开 linked worktree 和 Bare 仓库布局。v1.2 已从[已有 Worktree 打开](https://github.com/WeOpen/WeGit/issues/59)开始开发，完整验收与发布仍待完成。
 
 已授权的 [v1.1 计划](docs/V1_1_PLAN.md)中的四项必选 Stash、Remote、Tag 管理，以及文件历史与定向搜索均已实现并集成。固定应用源码 `835b8c4` 完成功能回归 54/54、零失败/跳过及 144 张阅读矩阵截图，Beta 1 草稿包已核对；性能、受保护 Mac 安装、真实反馈与稳定版发布验收仍开放，见 [Beta 记录](docs/acceptance/2026-10-24/v1-1-beta/README.md)。
 

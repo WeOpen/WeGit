@@ -5,14 +5,25 @@ public struct RepositoryService: Sendable {
     public let location: RepositoryLocation
     public let engine: GitEngine
     public let queue: RepositoryOperationQueue
+    public let sharedQueue: RepositoryOperationQueue
     private var expectedBranch: String?
     public init(
         location: RepositoryLocation, engine: GitEngine,
-        queue: RepositoryOperationQueue = RepositoryOperationQueue()
+        queue: RepositoryOperationQueue? = nil
     ) {
         self.location = location
         self.engine = engine
-        self.queue = queue
+        self.queue = queue ?? RepositoryOperationQueue.worktree(for: location)
+        self.sharedQueue = RepositoryOperationQueue.shared(for: location)
+    }
+
+    /// A common-first lock order serializes shared writes without blocking local
+    /// work in sibling worktrees. No worktree-local operation may acquire common.
+    func withSharedOperation<T: Sendable>(_ operation: @Sendable () async throws -> T) async throws -> T {
+        try await sharedQueue.perform {
+            if queue === sharedQueue { return try await operation() }
+            return try await queue.perform(operation)
+        }
     }
 
     public func expectingBranch(_ branch: String) -> RepositoryService {
@@ -34,17 +45,21 @@ public struct RepositoryService: Sendable {
         let common = try await engine.run(
             ["rev-parse", "--path-format=absolute", "--git-common-dir"], in: directory
         ).text.removingLastNewline
-        guard git == common else {
-            throw ModelFailure.unsupported(L10n.text("已识别 linked worktree。共享引用写入支持计划在 V1.2 提供，请打开主仓库。"))
-        }
         let rootURL = URL(fileURLWithPath: root).resolvingSymlinksInPath()
         let gitURL = URL(fileURLWithPath: git).resolvingSymlinksInPath()
-        return RepositoryLocation(
+        let commonURL = URL(fileURLWithPath: common).resolvingSymlinksInPath()
+        let location = RepositoryLocation(
             root: rootURL, gitDirectory: gitURL,
-            commonDirectory: URL(fileURLWithPath: common).resolvingSymlinksInPath(),
+            commonDirectory: commonURL,
             rootIdentity: try RepositoryNodeIdentity.read(rootURL, directory: true),
             gitIdentity: try RepositoryNodeIdentity.read(gitURL, directory: true),
-            markerIdentity: try RepositoryNodeIdentity.read(rootURL.appending(path: ".git")))
+            markerIdentity: try RepositoryNodeIdentity.read(rootURL.appending(path: ".git")),
+            commonIdentity: try RepositoryNodeIdentity.read(commonURL, directory: true),
+            commonMarkerIdentity: try RepositoryNodeIdentity.readIfPresent(
+                gitURL.appending(path: "commondir")),
+            worktreeLinkIdentity: try RepositoryNodeIdentity.readIfPresent(gitURL.appending(path: "gitdir")))
+        try location.validateLayout()
+        return location
     }
 
     public func status() async throws -> RepositoryStatus {
@@ -229,7 +244,7 @@ public struct RepositoryService: Sendable {
     }
 
     public func commit(message: String, amend: Bool, expectedHead: String?) async throws -> String {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {

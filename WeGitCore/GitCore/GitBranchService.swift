@@ -13,7 +13,7 @@ extension RepositoryService {
     public func createBranch(
         _ name: String, start: String? = nil, switchTo: Bool = true, expectedHead: String?
     ) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await validateBranchName(name)
             if let start { try await verifyCommit(start) }
@@ -46,7 +46,7 @@ extension RepositoryService {
     }
 
     public func checkoutCommit(_ oid: String, expectedHead: String?) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await verifyCommit(oid)
             guard try await status().sequencer == .none else {
@@ -64,7 +64,7 @@ extension RepositoryService {
     }
 
     public func switchBranch(_ branch: GitBranch, expectedHead: String?) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             guard !branch.remote else {
                 throw ModelFailure.unsupported(L10n.text("请先创建本地跟踪分支；当前版本不会自动猜测名称。"))
@@ -77,7 +77,7 @@ extension RepositoryService {
     }
 
     public func merge(_ branch: GitBranch, expectedHead: String?) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard state.files.isEmpty, state.sequencer == .none else {
@@ -92,7 +92,7 @@ extension RepositoryService {
     }
 
     public func sequencer(continueOperation: Bool, expected: Sequencer) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             let state = try await status()
             guard state.sequencer == expected, [.merge, .rebase].contains(expected) else {
                 throw ModelFailure.changed

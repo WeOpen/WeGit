@@ -8,7 +8,7 @@ extension RepositoryService {
         pushURLIndex: Int = 0, setUpstream: Bool = false, expectedHead: String?,
         onCommit: @Sendable (String) async -> Void = { _ in }
     ) async throws -> CommitPushResult {
-        let localBranch = try await queue.perform {
+        let localBranch = try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await validateBranchName(branch)
             guard remote.pushURLs.indices.contains(pushURLIndex) else { throw ModelFailure.invalidPath }
@@ -39,7 +39,7 @@ extension RepositoryService {
         remote name: String, branch: String, pushURLIndex: Int = 0,
         forceWithLease: Bool = false, setUpstream: Bool = false, expectedHead: String?
     ) async throws -> PushPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard let head = state.head, !state.isDetached, state.sequencer == .none, state.conflicts.isEmpty
@@ -82,7 +82,7 @@ extension RepositoryService {
     }
 
     public func push(_ plan: PushPlan) async throws -> PushResult {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.repositoryReplaced }
             try await verifyHead(plan.head)
             let state = try await status()
@@ -134,7 +134,7 @@ extension RepositoryService {
 
     /// Reconstruct only an unchanged destination, without persisting URL credentials.
     public func restorePushPlan(_ receipt: PushReceipt) async throws -> PushPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try location.validateIdentity()
             guard receipt.repositoryID == location.persistenceID,
                 GitObjectID.valid(receipt.head), receipt.targetRef.hasPrefix("refs/heads/"),
@@ -163,7 +163,7 @@ extension RepositoryService {
 
     /// Only read the originally confirmed endpoint and ref. Local HEAD may have moved.
     public func verifyPushOutcome(_ plan: PushPlan) async throws -> PushVerification {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.repositoryReplaced }
             try location.validateIdentity()
             let observed = try await remoteOID(plan.remote, index: plan.pushURLIndex, ref: plan.targetRef)
@@ -199,7 +199,7 @@ extension RepositoryService {
         createMergeCommit: Bool = false,
         expectedHead: String?
     ) async throws -> PullPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard let head = state.head, !state.isDetached, state.sequencer == .none, state.conflicts.isEmpty
@@ -216,7 +216,7 @@ extension RepositoryService {
     }
 
     public func pull(_ plan: PullPlan) async throws -> PullResult {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.repositoryReplaced }
             try await verifyHead(plan.head)
             let state = try await status()

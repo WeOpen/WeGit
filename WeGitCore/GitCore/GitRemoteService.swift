@@ -8,7 +8,7 @@ extension RepositoryService {
     }
 
     public func fetch(remote: String) async throws {
-        try await queue.perform {
+        try await withSharedOperation {
             let target = try await remoteDetails(name: remote)
             try location.validateIdentity()
             _ = try await engine.run(
