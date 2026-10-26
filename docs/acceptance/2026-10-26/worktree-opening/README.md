@@ -2,6 +2,14 @@
 
 2026-10-26，任务 [#59](https://github.com/WeOpen/WeGit/issues/59)，分支 `codex/v1.2-development`。开发起点为 `main` / `db66556a1fcb42cded904f642894ab26526e41d5`，已从远端核对一致；开发版本更新为 1.2.0 / build 4。本记录不表示功能完整验收或版本发布。
 
+## 托管结果与集成
+
+候选 `0dd55bd9809670b5bdf0235a2bacce944156cd55` 的 [原生运行 40247719836](https://github.com/WeOpen/WeGit/actions/runs/40247719836) 已完成：[smoke](native-passed-smoke.json) 与 [Worktree 专项](native-passed-worktree.json) 各 1/1 通过、0 失败、0 跳过。专项覆盖预览中已有的收藏、切换、独立草稿/暂存、历史页面和重开，并保留[托管截图](screenshots/native-restored-worktree.png)。首次定位失败继续保留在下文。
+
+[CI 40247723253](https://github.com/WeOpen/WeGit/actions/runs/40247723253) 的三套 Git 核心各 210 项/38 suites 通过；Worktree 独立检查 34 项通过，托管普通/linked 的后台首次快照 p95 为 113.72/117.82 ms。原生 Debug 与 CI Release 的 157 项应用输入均匹配该候选，见[核对回执](hosted-verification.json)。PR #60 在最新必需检查通过后正常合入 main `d3c14c7`。
+
+这是首批功能集成与托管专项结果。完整最终源码功能回归、长时间/大型仓库测量、Release UI 性能、Beta 与发布门禁仍由 #59/#35 和 v1.2 总计划跟进。下文旧的等待记录描述当时进度，不能替代此处的新结果。
+
 ## 实现
 
 - 允许打开已有 linked worktree，同时校验其独立 Git 目录、共享 common directory、`.git` / `commondir` / `gitdir` 重定向。路径保持原始中文和换行；目录/重定向被替换后旧会话拒绝写入。

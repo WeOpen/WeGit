@@ -4,6 +4,7 @@
 
 ## v1.2 原生诊断入口准备
 
+- #62 的 `single-commit` 入口沿用相同边界：可信 main 先通过 PR 注册一个固定方法 `SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch`，实际用例与产品源码留在功能分支。只有 smoke 实际通过后才能运行该方法，候选脚本不能扩展范围。
 - #59 / PR #60 的 Worktree 打开功能需要新原生专项。白名单入口先以独立 PR 正常进入可信 main；测试与产品实现留在功能 PR，避免在尚无该功能的 main 加入必败的 UI 用例。`worktree-opening` 只在一个实际 smoke 通过后运行一个固定候选测试方法，不放开任意输入。准备 PR 不改变应用源码，也不表示 Worktree 功能已进入 main。
 
 ## 目标与约束
@@ -297,3 +298,9 @@
 - 为核对最近/收藏跨进程持久化，测试模式可显式指定 `WEGIT_UI_TEST_PERSISTENCE_DIRECTORY`，默认仍内存且正常应用路径不变。独立原生预览的两条最近记录和第一条收藏已由重开后的菜单及只读SQLite共同核对；157项实际构建输入匹配，夹具/测试偏好已清理还原。该结果仍不代替托管新专项。
 - 原生入口 PR #61 已经四项检查通过并正常合入 main `d8655f1`。候选 `bef8821` 的运行 40246780755：smoke 1/1通过，Worktree专项0/1、1失败、0跳过；事件回执右键坐标800,103命中标题文字，侧栏真实Button为296,434/178×48。改用 `sidebar-repository:<path>` 的精确NSPredicate，长路径不用字符串下标；收藏和重开断言保留，待重跑。
 - 下一项为 #62 单提交Cherry-pick/Revert；已建立尚未实现的 `codex/v1.2-single-commit-operations` 起点分支。私有Git预研证实干净status下cherry-pick和revert均会成功覆盖ignored目标文件；assume-unchanged/skip-worktree改动则被Git拒绝。保护不能只检查status，也不能只看简单提交路径而忽略目录重命名后的实际落点。原始预研在 `.build/v12-development/single-commit-probe.json`。
+
+## 2026-10-26 原会话接续
+
+- Worktree 候选 `0dd55bd` 的原生 40247719836 已下载核对：smoke 与专项各 1/1、0 失败/跳过；157 项实际应用输入与 PR 一致，截图已检查。CI 40247723253 的 Apple、最低 Git 2.46、Homebrew 三套核心各 210 项/38 suites 通过。PR #60 在新触发的必需检查也通过后，正常 Squash 合入 main `d3c14c7`；#59 的完整回归/大型与发布性能仍保留。
+- 本仓库未启用 GitHub 自动合并；`gh pr merge --auto` 被拒绝后没有改仓库设置，也没有绕过检查。等待最新检查通过后用固定 head 的正常 Squash 合并。
+- 私有 Git 复现确认单次 `revert` 在签名失败时会留下暂存结果，却没有 REVERT_HEAD，不能继续/中止；仅加 `--stdin` 仍不能修复。先 `revert --no-commit` 保留原生标记，核对索引树后 `revert --continue`，签名失败、继续和中止均有真实回执。该实现正在 #62 功能分支验证，本入口准备不合入它。

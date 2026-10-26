@@ -49,6 +49,24 @@ class NativeProcessDeadlineTests(unittest.TestCase):
 
 
 class NativeScopeSelectionTests(unittest.TestCase):
+    def test_single_commit_diagnostic_cannot_expand_its_candidate_scope(self):
+        root = Path(__file__).resolve().parents[3]
+        target = "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch"
+        self.assertEqual(ui_probe.FOCUSED_TESTS["single-commit"], target)
+        self.assertIn("single-commit", (root / ".github/workflows/native-ui.yml").read_text())
+        summary = {"totalTestCount": 1, "passedTests": 1, "failedTests": 0, "skippedTests": 0}
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(sys, "argv", ["ui_probe.py", "--mode", "smoke", "--focus", "single-commit", "--output", folder]), \
+                 patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                 patch.object(ui_probe, "run_logged", return_value={"exitCode": 0, "timedOut": False}) as runner, \
+                 patch.object(ui_probe, "result_summary", return_value=summary), \
+                 redirect_stdout(StringIO()):
+                ui_probe.main()
+            self.assertEqual(runner.call_count, 2)
+            self.assertIn("-only-testing:WeGitUITests/WeGitUITests/testWelcomeAndCloneForm", runner.call_args_list[0].args[0])
+            self.assertIn("-only-testing:WeGitUITests/" + target, runner.call_args_list[1].args[0])
+            self.assertLessEqual(runner.call_args_list[1].args[2], 300)
+
     def test_worktree_diagnostic_runs_only_registered_candidate_method(self):
         root = Path(__file__).resolve().parents[3]
         target = ui_probe.FOCUSED_TESTS["worktree-opening"]
