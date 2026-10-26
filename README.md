@@ -127,6 +127,8 @@ The four required features in the [v1.1 plan](docs/V1_1_PLAN.md)—Stash, Remote
 
 The [v1.2 requirements](docs/V1_2_PLAN.md) cover linked-worktree opening/management, the deferred single-commit Cherry-pick/Revert workflows, Blame, selected-line staging, the conflict editor, standalone/interactive Rebase, Submodule management and LFS status. Priorities and delivery batches are recommendations; implementation and release dates follow individual requirements.
 
+The development branch now includes single-commit Cherry-pick/Revert previews and recovery. It checks the actual merge destinations, protects ignored content, preserves drafts, and keeps recovery available after a failed commit. Hosted acceptance is tracked separately in the [development record](docs/acceptance/2026-10-26/single-commit-operations/README.md).
+
 The app can hand conflicts to an external editor and continue or abort supported operations. It does not yet include an integrated three-way merge editor. Homebrew Git core and isolated noninteractive OpenPGP checks have passed. GitLab, interactive Pinentry/hardware keys, additional credential-helper setups, and other untested environments remain explicitly pending in the [compatibility matrix](docs/COMPATIBILITY.md).
 
 ## 📚 Explore the project

@@ -127,6 +127,8 @@ V1.0 聚焦日常 Git 流程和差异阅读。**Stash / Tag 管理、内置冲�
 
 [v1.2 需求](docs/V1_2_PLAN.md)整理了 Worktree 打开/管理、从 v1.1 后移的单提交 Cherry-pick/Revert、Blame、选中行暂存、冲突编辑器、独立/Interactive Rebase、Submodule 和 LFS 状态。优先级与交付批次为建议，实现范围和日期按各项需求确定。
 
+开发分支现已加入单提交 Cherry-pick/Revert 的预演与恢复：检查实际合并落点、保护忽略内容和草稿，提交失败后仍保留继续／中止入口。托管验收单独跟踪于[开发记录](docs/acceptance/2026-10-26/single-commit-operations/README.md)。
+
 冲突可以在外部编辑器中处理，再回到应用继续或中止支持的操作；当前没有内置三方合并编辑器。Homebrew Git 核心与隔离非交互 OpenPGP 已通过；GitLab、交互式 Pinentry/硬件密钥、其他 Helper 组合及未覆盖环境继续在[兼容性矩阵](docs/COMPATIBILITY.md)中保留待验状态。
 
 ## 📚 项目结构与文档

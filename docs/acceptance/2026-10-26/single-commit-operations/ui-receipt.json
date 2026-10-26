@@ -1,0 +1,20 @@
+{
+  "initialHead": "71446bb2b9f9b4a6d96a16033825a3f4a6433c64",
+  "pickedHead": "c3710363ad5cb4c99fff85a3ed48346996244b5d",
+  "revertedHead": "35990b7115a1a793f1c18700f3212bc2750d3818",
+  "revertRestoresInitialTree": true,
+  "originalCommitRetained": true,
+  "conflictTarget": "3766f091598f99fe9dea084ff12fd4d59cac225a",
+  "sourceInputs": 161,
+  "localXCTestExecuted": false,
+  "completedHead": "9aa30463bd9175419e290507838cb46f638354b7",
+  "continuedIndexMatchesWorkingFile": true,
+  "cleanAfterContinue": true,
+  "relaunchPreservedRecovery": true,
+  "abortPreservedHeadAndTree": true,
+  "privateFixtureRemoved": true,
+  "testPreferencesRestored": true,
+  "previewExited": true,
+  "englishDarkPreviewAndEscapeVerified": true,
+  "finalDraftPreserved": true
+}
