@@ -1,0 +1,27 @@
+{
+  "candidate": "0dd55bd9809670b5bdf0235a2bacce944156cd55",
+  "mergedMain": "d3c14c783723580819a4872dc8d474a8ed17893e",
+  "nativeRun": 40247719836,
+  "requiredCIRun": 40247723253,
+  "applicationInputs": 157,
+  "mismatchedInputs": [],
+  "coreRuns": [
+    {
+      "git": "Apple Git",
+      "passed": 210,
+      "suites": 38
+    },
+    {
+      "git": "Git 2.46",
+      "passed": 210,
+      "suites": 38
+    },
+    {
+      "git": "Homebrew Git",
+      "passed": 210,
+      "suites": 38
+    }
+  ],
+  "worktreeChecks": 34,
+  "fullApplicationPerformanceAcceptance": false
+}
