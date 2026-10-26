@@ -44,6 +44,7 @@
 
 ## 保留的失败与待验
 
+- 首次原生运行 [40246780755](https://github.com/WeOpen/WeGit/actions/runs/40246780755) 的 [smoke 实际 1/1 通过](native-first-smoke.json)；[Worktree 专项实际 0/1、1 失败、0 跳过](native-first-failure.json)。精确事件与 AX 回执显示按同名 StaticText 右键点到了标题栏（800,103），没有点到侧栏仓库 Button，详见[坐标证据](native-selection-failure.json)。用例改用侧栏 ID 的 NSPredicate 定位，原收藏/持久化断言不变。原始 xcresult、AX 和录像保留于本机 `.build/v12-development/native-worktree-first/` 及托管制品。
 - 路径别名的独立 FSEvents 探针进一步复现普通文件修改被分类为 `.all`。新增精确 status+diff 检查在原实现失败；订阅时一次性建立 POSIX→Foundation 路径前缀映射后，[29 项检查全部通过](watcher-alias-checks.json)。原始 28 项结果和源码快照作为修复前历史保留；这次修复不对每个事件增加文件系统查询。
 - 首轮托管 [40244094107](https://github.com/WeOpen/WeGit/actions/runs/40244094107) 在 `fcec684` 执行 209 项核心测试、38 suites：208 通过、1 失败。新增快照用例的分支占用路径比较遇到 `/private/var` 与 `/var` 别名；其 HEAD/index/序列断言及另外四个新用例通过。改为重新发现 Git 报告的目录并核对实体身份，后续托管重验。
 - 独立脚本首轮因异步表达式位于 `&&` 自动闭包和 TagList 字段名称错误而未编译，修正脚本后执行；不把编译失败计作产品行为失败。

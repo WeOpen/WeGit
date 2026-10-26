@@ -1,0 +1,21 @@
+{
+  "runId": 40246780755,
+  "candidate": "bef88212ca596a618bad57126a6abff73cec312d",
+  "rightClick": {
+    "x": 800,
+    "y": 103
+  },
+  "titleTextFrame": {
+    "x": 538,
+    "y": 77,
+    "width": 524,
+    "height": 52
+  },
+  "sidebarButtonFrame": {
+    "x": 296,
+    "y": 434,
+    "width": 178,
+    "height": 48
+  },
+  "correction": "Match the sidebar-repository identifier with NSPredicate; keep favorite persistence assertions."
+}

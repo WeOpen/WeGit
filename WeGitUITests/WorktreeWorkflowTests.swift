@@ -35,7 +35,10 @@ final class WorktreeWorkflowTests: XCTestCase {
         defer { app.terminate() }
         let message = app.textFields["commit-message"]
         XCTAssertTrue(message.waitForExistence(timeout: 10))
-        let firstRecord = app.staticTexts[first.lastPathComponent].firstMatch
+        let firstRecord = app.windows["main"].buttons.matching(
+            NSPredicate(
+                format: "identifier == %@", "sidebar-repository:" + first.resolvingSymlinksInPath().path)
+        ).firstMatch
         XCTAssertTrue(firstRecord.waitForExistence(timeout: 5))
         firstRecord.rightClick()
         let pin = app.menuItems["收藏"]

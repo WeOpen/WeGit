@@ -295,3 +295,5 @@
 - 用户已要求持续执行直到完成。范围、依赖和逐项状态写入 `plans/V1_2_EXECUTION.md`，不能将完成 Worktree 首批或创建草稿 PR 当作 v1.2 完成。
 - 全 common 单队列只是首稿，后续已拆分：局部 index/文件操作和快照用 private Git 目录队列；所有共享引用、Stash、Remote/网络及提交/分支操作经 `withSharedOperation` 固定 common→private 顺序。局部队列内部不能调用共享操作。默认 Git 配置编辑同序，再获取既有 global 配置队列。34 项独立检查验证跨工作区局部进展、共享提交取消及真实冲突恢复；Remote40/Stash55/Tag34重验通过。
 - 为核对最近/收藏跨进程持久化，测试模式可显式指定 `WEGIT_UI_TEST_PERSISTENCE_DIRECTORY`，默认仍内存且正常应用路径不变。独立原生预览的两条最近记录和第一条收藏已由重开后的菜单及只读SQLite共同核对；157项实际构建输入匹配，夹具/测试偏好已清理还原。该结果仍不代替托管新专项。
+- 原生入口 PR #61 已经四项检查通过并正常合入 main `d8655f1`。候选 `bef8821` 的运行 40246780755：smoke 1/1通过，Worktree专项0/1、1失败、0跳过；事件回执右键坐标800,103命中标题文字，侧栏真实Button为296,434/178×48。改用 `sidebar-repository:<path>` 的精确NSPredicate，长路径不用字符串下标；收藏和重开断言保留，待重跑。
+- 下一项为 #62 单提交Cherry-pick/Revert；已建立尚未实现的 `codex/v1.2-single-commit-operations` 起点分支。私有Git预研证实干净status下cherry-pick和revert均会成功覆盖ignored目标文件；assume-unchanged/skip-worktree改动则被Git拒绝。保护不能只检查status，也不能只看简单提交路径而忽略目录重命名后的实际落点。原始预研在 `.build/v12-development/single-commit-probe.json`。
