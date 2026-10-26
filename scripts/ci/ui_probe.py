@@ -11,6 +11,7 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "single-commit": "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch",
     "worktree-opening": "WorktreeWorkflowTests/testLinkedWorktreesKeepDraftsPagesAndIndexesAcrossSwitchAndRelaunch",
     "file-history": "FileHistoryWorkflowTests/testFileContextRenameSearchAndManualDeletedPath",
     "tags-workflow": "TagWorkflowTests/testCreateCancelInspectAndDeleteLocalTagPreservesBranch",
