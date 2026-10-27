@@ -1,0 +1,19 @@
+{
+  "desktopPreview": {
+    "insideViewport": true,
+    "open": true,
+    "title": "Light"
+  },
+  "desktopSummary": {
+    "cardCount": 10,
+    "closed": true,
+    "focused": "Preview Light",
+    "headerDownload": "flex",
+    "mode": "light",
+    "overflow": false,
+    "title": "WeGit — Theme Studio",
+    "url": "http://127.0.0.1:4173/themes/#gallery",
+    "visibleLabels": 30
+  },
+  "console": []
+}

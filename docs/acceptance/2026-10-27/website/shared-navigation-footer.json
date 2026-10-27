@@ -1,0 +1,170 @@
+[
+  {
+    "browser": "Codex",
+    "locale": "en",
+    "width": 375,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "en",
+    "width": 375,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "en",
+    "width": 768,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "en",
+    "width": 768,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "en",
+    "width": 1122,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "en",
+    "width": 1122,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "zh",
+    "width": 375,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "zh",
+    "width": 375,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "zh",
+    "width": 768,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "zh",
+    "width": 768,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "zh",
+    "width": 1122,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Codex",
+    "locale": "zh",
+    "width": 1122,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "en",
+    "width": 375,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "en",
+    "width": 375,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "en",
+    "width": 768,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "en",
+    "width": 768,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "en",
+    "width": 1122,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "en",
+    "width": 1122,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "zh",
+    "width": 375,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "zh",
+    "width": 375,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "zh",
+    "width": 768,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "zh",
+    "width": 768,
+    "mode": "dark",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "zh",
+    "width": 1122,
+    "mode": "light",
+    "differences": []
+  },
+  {
+    "browser": "Chrome",
+    "locale": "zh",
+    "width": 1122,
+    "mode": "dark",
+    "differences": []
+  }
+]
