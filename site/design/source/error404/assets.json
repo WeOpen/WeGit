@@ -1,0 +1,46 @@
+[
+  {
+    "asset": "site/public/assets/illustrations/error404/hero-light.webp",
+    "master": "site/design/source/error404/hero-light-native.png",
+    "nativePixels": [
+      1468,
+      1071
+    ],
+    "bytes": 312732,
+    "upscaled": false,
+    "tool": "built-in image_gen"
+  },
+  {
+    "asset": "site/public/assets/illustrations/error404/hero-dark.webp",
+    "master": "site/design/source/error404/hero-dark-native.png",
+    "nativePixels": [
+      1469,
+      1071
+    ],
+    "bytes": 376692,
+    "upscaled": false,
+    "tool": "built-in image_gen"
+  },
+  {
+    "asset": "site/public/assets/illustrations/error404/footer-light.webp",
+    "master": "site/design/source/error404/footer-light-native.png",
+    "nativePixels": [
+      2172,
+      724
+    ],
+    "bytes": 225336,
+    "upscaled": false,
+    "tool": "built-in image_gen"
+  },
+  {
+    "asset": "site/public/assets/illustrations/error404/footer-dark.webp",
+    "master": "site/design/source/error404/footer-dark-native.png",
+    "nativePixels": [
+      2172,
+      724
+    ],
+    "bytes": 210316,
+    "upscaled": false,
+    "tool": "built-in image_gen"
+  }
+]

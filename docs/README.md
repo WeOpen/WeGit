@@ -109,3 +109,5 @@ GitHub 协作：[Issue → PR → CI/CD 方案](GITHUB_WORKFLOW.md)，包含已�
 
 原生验收：[环境诊断与 main 手动 UI 路径](NATIVE_VALIDATION.md)，先最小用例，再推进功能/辅助访问；发布门禁独立保留。
 项目网站：[English](https://weopen.github.io/WeGit/) · [简体中文](https://weopen.github.io/WeGit/zh/)，代码和部署说明见 [site/README](../site/README.md)。
+
+网站集成：[2026-10-27 验收与证据边界](acceptance/2026-10-27/website/README.md)；素材与来源见 [网站设计目录](../site/design/README.md)、[404 母版](../site/design/source/error404/README.md)和 [迁移说明](../site/docs/MIGRATION.md)。项目级技能来源及固定版本见 [设计 Skills](../.agents/skills/README.md)。

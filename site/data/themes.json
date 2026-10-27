@@ -1,0 +1,112 @@
+[
+  {
+    "id": "light",
+    "name": {
+      "zh": "浅色主题",
+      "en": "Light"
+    },
+    "description": {
+      "zh": "清爽简洁，适合日常阅读。",
+      "en": "A crisp palette for everyday work."
+    }
+  },
+  {
+    "id": "dark",
+    "name": {
+      "zh": "深色主题",
+      "en": "Dark"
+    },
+    "description": {
+      "zh": "深色层次，保持代码清晰。",
+      "en": "Clear code in a dark workspace."
+    }
+  },
+  {
+    "id": "ink",
+    "name": {
+      "zh": "水墨主题",
+      "en": "Ink"
+    },
+    "description": {
+      "zh": "纸色与青灰，安静的水墨气息。",
+      "en": "Paper and quiet ink tones."
+    }
+  },
+  {
+    "id": "crimson",
+    "name": {
+      "zh": "朱砂主题",
+      "en": "Crimson"
+    },
+    "description": {
+      "zh": "朱砂与深墨，温暖而沉稳。",
+      "en": "Cinnabar and warm dark ink."
+    }
+  },
+  {
+    "id": "rice-paper",
+    "name": {
+      "en": "Rice Paper",
+      "zh": "米纸"
+    },
+    "description": {
+      "en": "Warm paper. A vermilion signature.",
+      "zh": "温润米纸，一点朱砂。"
+    }
+  },
+  {
+    "id": "celadon",
+    "name": {
+      "en": "Celadon",
+      "zh": "青瓷"
+    },
+    "description": {
+      "en": "A quiet green for a fresh perspective.",
+      "zh": "青瓷如玉，清透从容。"
+    }
+  },
+  {
+    "id": "sakura",
+    "name": {
+      "en": "Sakura",
+      "zh": "樱雾"
+    },
+    "description": {
+      "en": "Soft rose. Clear thoughts.",
+      "zh": "樱色轻落，思绪清明。"
+    }
+  },
+  {
+    "id": "inkstone",
+    "name": {
+      "en": "Inkstone",
+      "zh": "砚墨"
+    },
+    "description": {
+      "en": "Warm ink for the hours after dark.",
+      "zh": "墨色温厚，伴你夜读。"
+    }
+  },
+  {
+    "id": "nord",
+    "name": {
+      "en": "Northern Light",
+      "zh": "北境"
+    },
+    "description": {
+      "en": "Cool blue. A little more stillness.",
+      "zh": "冷蓝如夜，安静有序。"
+    }
+  },
+  {
+    "id": "dusk",
+    "name": {
+      "en": "Dusk",
+      "zh": "暮紫"
+    },
+    "description": {
+      "en": "The last light, held a little longer.",
+      "zh": "暮色微紫，留一盏灯。"
+    }
+  }
+]

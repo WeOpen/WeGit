@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN" data-site-mode="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ffffff"><meta name="description" content="页面走丢了。返回 WeGit，继续熟悉的工作流。">
+  <title>404 — WeGit</title>
+  <link rel="icon" type="image/svg+xml" href="{{base}}/assets/brand/favicon.svg">
+  <link rel="stylesheet" href="{{base}}/assets/css/main.css"><link rel="stylesheet" href="{{base}}/assets/css/components.css"><link rel="stylesheet" href="{{base}}/assets/css/error.css">
+  <script type="module" src="{{base}}/assets/js/app.js"></script>
+  {{metadata}}
+</head>
+<body data-base="{{base}}" data-page="404" class="error-page">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">跳到正文</a>
+  {{header}}
+  <main id="main" tabindex="-1">
+    <section class="error-hero" aria-labelledby="error-title">
+      <picture class="error-hero-art"><source data-error-dark srcset="{{base}}/assets/illustrations/error404/hero-dark.webp" media="(prefers-color-scheme: dark)"><img src="{{base}}/assets/illustrations/error404/hero-light.webp" width="1468" height="1071" alt="" fetchpriority="high"></picture>
+      <p class="error-code">ERROR 404</p>
+      <img class="error-seal" src="{{base}}/assets/brand/seal-red.svg" width="120" height="120" alt="" aria-hidden="true">
+      <div class="error-message"><h1 id="error-title" data-i18n="error.title">页面走丢了</h1><p class="error-description" data-i18n-html="error.description">你访问的页面似乎隐入山水之间。<br>别担心，我们可以带你回到熟悉的工作流。</p><div class="error-actions"><a class="button error-home" href="{{home}}">{{icon:home}}<span data-i18n="error.home">返回首页</span>{{icon:chevron-right}}</a><a class="button error-themes" href="{{themes}}">{{icon:themes}}<span data-i18n="error.themes">前往主题中心</span>{{icon:chevron-right}}</a></div><div class="error-recovery"><button class="error-reload" data-action="reload-page">{{icon:reset}}<span data-i18n="error.reload">重新加载</span></button><button class="icon-button error-search-toggle" data-action="open-search" aria-label="搜索站内页面">{{icon:search}}</button></div></div>
+    </section>
+    <div class="error-bottom">
+      <picture class="error-footer-art"><source data-error-dark srcset="{{base}}/assets/illustrations/error404/footer-dark.webp" media="(prefers-color-scheme: dark)"><img src="{{base}}/assets/illustrations/error404/footer-light.webp" width="2172" height="724" alt="" decoding="async" fetchpriority="low"></picture>
+      <section class="error-suggestions" aria-labelledby="error-suggestions-title"><div class="error-wrap"><h2 id="error-suggestions-title" class="error-section-title" data-i18n="error.moreTitle">你也可以看看这些</h2><p class="error-more-description" data-i18n="error.moreDescription">返回熟悉的地方，继续高效的开发之旅。</p><div class="error-card-grid">
+        <a class="error-card" href="{{home}}#features"><span class="error-card-icon">{{icon:branch}}</span><h3 data-i18n="error.aboutTitle">了解 WeGit</h3><p data-i18n-html="error.aboutBody">探索为开发者打造的<br>原生 macOS Git 客户端。</p><span class="error-card-arrow">{{icon:chevron-right}}</span></a>
+        <a class="error-card" href="{{themes}}"><span class="error-card-icon">{{icon:themes}}</span><h3 data-i18n="error.themeTitle">主题中心</h3><p data-i18n-html="error.themeBody">发现更多精美主题<br>打造专属工作空间。</p><span class="error-card-arrow">{{icon:chevron-right}}</span></a>
+        <a class="error-card" href="https://github.com/WeOpen/WeGit/blob/main/docs/README.md"><span class="error-card-icon">{{icon:docs}}</span><h3 data-i18n="error.docsTitle">产品文档</h3><p data-i18n-html="error.docsBody">查看详细的使用指南<br>快速上手 WeGit。</p><span class="error-card-arrow">{{icon:chevron-right}}</span></a>
+        <a class="error-card" href="https://github.com/WeOpen/WeGit/releases" data-action="app-download"><span class="error-card-icon">{{icon:download}}</span><h3 data-i18n="error.downloadTitle">下载 WeGit</h3><p data-i18n-html="error.downloadBody">获取最新版本<br>开启高效的开发体验。</p><span class="error-card-arrow">{{icon:chevron-right}}</span></a>
+      </div></div></section>
+      <section class="error-brand-scene" aria-label="WeGit"><div class="error-brand-content"><div class="error-brand-lockup"><img class="brand-light" src="{{base}}/assets/brand/logo-light.webp" width="480" height="160" alt="WeGit"><img class="brand-dark" src="{{base}}/assets/brand/logo-dark.webp" width="480" height="160" alt="WeGit"><p data-i18n="error.brandWords">简单 · 可靠 · 专注</p><small>MACOS NATIVE GIT CLIENT</small></div><div class="error-brand-rule"></div><div class="error-brand-copy"><h3 data-i18n-html="error.brandTitle">好的工具，<br>让专注回归创造本身。</h3><p data-i18n="error.brandBody">为开发者打造值得信赖的工具。</p></div></div></section>
+    </div>
+  </main>
+  {{footer}}
+  <dialog id="error-search-dialog" class="error-search-dialog" aria-labelledby="error-search-title"><div class="error-search-heading"><h2 id="error-search-title" data-i18n="error.searchTitle">找回熟悉的页面</h2><button class="icon-button" data-action="close-search" aria-label="Close">{{icon:close}}</button></div><label class="sr-only" for="error-search-input" data-i18n="error.searchLabel">搜索页面</label><input id="error-search-input" type="text" inputmode="search" role="searchbox" autocomplete="off" placeholder="WeGit / 主题 / 文档 / 下载"><div class="error-search-results"><a href="{{home}}#features" data-search-item>WeGit <span data-i18n="error.aboutTitle">了解 WeGit</span></a><a href="{{themes}}" data-search-item data-i18n="error.themeTitle">主题中心</a><a href="https://github.com/WeOpen/WeGit/blob/main/docs/README.md" data-search-item data-i18n="error.docsTitle">产品文档</a><a href="https://github.com/WeOpen/WeGit/releases" data-action="app-download" data-search-item data-i18n="error.downloadTitle">下载 WeGit</a></div><p id="error-search-empty" hidden data-i18n="error.searchEmpty">没有匹配的页面，可以返回首页继续浏览。</p></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>

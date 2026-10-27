@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "name": "Light",
+  "controls": "light",
+  "colors": {
+    "accent": "#D72D30",
+    "canvas": "#FBFBFA",
+    "chrome": "#FBFBFA",
+    "sidebar": "#EFF0F0",
+    "surface": "#FFFFFF",
+    "border": "#E1E1E1",
+    "text": "#30343A",
+    "secondaryText": "#68696B",
+    "positive": "#285F42",
+    "negative": "#9D302D",
+    "modified": "#805015",
+    "diffAdded": "#E5EFDF",
+    "diffRemoved": "#F8E5DE",
+    "keyword": "#66447F",
+    "string": "#306251",
+    "number": "#365D86",
+    "comment": "#6B6258"
+  }
+}

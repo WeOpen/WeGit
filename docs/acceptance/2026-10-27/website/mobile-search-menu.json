@@ -1,0 +1,41 @@
+{
+  "searchClosed": {
+    "focused": "open-search",
+    "open": false,
+    "scrollLocked": false
+  },
+  "menuOpen": {
+    "expanded": "true",
+    "headerDownload": "none",
+    "height": 230,
+    "links": [
+      {
+        "text": "产品",
+        "visible": true
+      },
+      {
+        "text": "功能",
+        "visible": true
+      },
+      {
+        "text": "主题",
+        "visible": true
+      },
+      {
+        "text": "GitHub",
+        "visible": true
+      }
+    ],
+    "viewport": {
+      "height": 860,
+      "width": 375
+    },
+    "width": 349,
+    "x": 13,
+    "y": 85
+  },
+  "menuClosed": {
+    "expanded": "false",
+    "focused": "toggle-menu"
+  }
+}

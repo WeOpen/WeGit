@@ -1,10 +1,10 @@
 name: Project website
 on:
   pull_request:
-    paths: ['site/**', 'scripts/build_website.py', '.github/workflows/pages.yml']
+    paths: ['site/**', 'design/brand/**', 'scripts/build_website.py', 'scripts/ci/tests/test_website.py', '.github/workflows/pages.yml']
   push:
     branches: [main]
-    paths: ['site/**', 'scripts/build_website.py', '.github/workflows/pages.yml']
+    paths: ['site/**', 'design/brand/**', 'scripts/build_website.py', 'scripts/ci/tests/test_website.py', '.github/workflows/pages.yml']
   release:
     types: [published, edited, deleted, unpublished]
   workflow_dispatch:
@@ -44,7 +44,8 @@ jobs:
         run: |
           mkdir -p .build
           gh api "repos/$GITHUB_REPOSITORY/releases?per_page=30" > .build/public-releases.json
-          node site/release.test.mjs
+          node --test site/tests/*.test.mjs
+          python3 -m unittest scripts.ci.tests.test_website -v
           python3 scripts/build_website.py --base-path "/${GITHUB_REPOSITORY#*/}" --releases-json .build/public-releases.json
           git diff --exit-code
       - name: Upload static website

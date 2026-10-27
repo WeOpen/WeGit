@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "name": "Rice Paper",
+  "controls": "light",
+  "colors": {
+    "accent": "#AE322C",
+    "canvas": "#F7F3ED",
+    "chrome": "#F7F3ED",
+    "sidebar": "#EEE7DC",
+    "surface": "#FFFCF7",
+    "border": "#B5A99A",
+    "text": "#292622",
+    "secondaryText": "#645B51",
+    "positive": "#285F42",
+    "negative": "#9D302D",
+    "modified": "#805015",
+    "diffAdded": "#E5EFDF",
+    "diffRemoved": "#F8E5DE",
+    "keyword": "#66447F",
+    "string": "#306251",
+    "number": "#365D86",
+    "comment": "#6B6258"
+  }
+}
