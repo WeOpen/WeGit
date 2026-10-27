@@ -9,6 +9,7 @@ struct CommitFilesView: View {
     @Bindable var detail: CommitDetailState
     var stashContext = false
     var allowsFileHistory = true
+    var allowsBlame = true
     var usesWorkspaceInspector = true
     private var movesFilesToInspector: Bool { usesWorkspaceInspector && app.workspace.inspector }
 
@@ -52,6 +53,16 @@ struct CommitFilesView: View {
                                 }.font(.caption).tag(file.path).help(file.path)
                                     .accessibilityIdentifier("commit-file:" + file.path)
                                     .contextMenu {
+                                        if allowsBlame && !stashContext,
+                                            let target = BlameRequest.file(
+                                                file, in: comparison, session: session)
+                                        {
+                                            Button(L10n.text("逐行归属…")) {
+                                                guard app.session === session else { return }
+                                                app.blameRequest = target
+                                            }
+                                            .accessibilityIdentifier("commit-file-blame:" + file.path)
+                                        }
                                         if allowsFileHistory && !stashContext {
                                             Button(L10n.text("查看文件历史…")) {
                                                 guard app.session === session else { return }
@@ -92,6 +103,16 @@ struct CommitFilesView: View {
                                 Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
                                 Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)
                             }.fixedSize().tint(colors.accentText)
+                            if allowsBlame, !stashContext,
+                                let file = comparison.files.first(where: { $0.path == detail.selectedPath }),
+                                let target = BlameRequest.file(file, in: comparison, session: session)
+                            {
+                                Button(L10n.text("逐行归属…")) {
+                                    guard app.session === session else { return }
+                                    app.blameRequest = target
+                                }
+                                .accessibilityIdentifier("commit-blame")
+                            }
                             Spacer()
                             if let display = detail.display, !display.diff.binary {
                                 Button(L10n.text("复制补丁")) {

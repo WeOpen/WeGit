@@ -57,6 +57,7 @@
 		5D93C609116608C0234463F2 /* DiffReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD62AD5BEEA0F025C5A11B /* DiffReaderTests.swift */; };
 		5F75A13DB8D14E470AB132AD /* ApplicationMenuActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA32AB51AEBEB8AD95DB129 /* ApplicationMenuActions.swift */; };
 		63DE29A998D120E3A5D72BAA /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */; };
+		6421862C4D0861DEF2A9C8D5 /* BlameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42D666687D0916B44B3453F /* BlameSheet.swift */; };
 		65230F7EB49E603D14A73C3F /* ThemeInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA99F5206327D9D9A6157E9A /* ThemeInteractionTests.swift */; };
 		6A0A6FB9AB7EF0C07E239541 /* ReadingMatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FE942EF50EBED9D782A7FE /* ReadingMatrixTests.swift */; };
 		6A3FD3FCBEA5BFBE9B818BA5 /* AppStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2474B45C92EBA9AECC2B494E /* AppStyle.swift */; };
@@ -88,7 +89,9 @@
 		A55B7241A3EDBD2EB3AEEEA0 /* DiffContextControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1148752A1A69F851DE39E729 /* DiffContextControls.swift */; };
 		A7C329BCA84B9137E936FEB6 /* GitSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1202E2B641C73BAB9FF1CF7 /* GitSettingsView.swift */; };
 		A9168015B95F2AFB24DFB6DB /* WindowStateBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294B154B492B77C3F4D7B39 /* WindowStateBridge.swift */; };
+		AAA5794908AA69E8322B8C9C /* BlameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFCBD32F5CA95C86AD085F7 /* BlameState.swift */; };
 		AF7AF4952BB47022C8F704DD /* UITestGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124F18C7E3AEADB6E5E789F /* UITestGit.swift */; };
+		B17FD935F949705FEAFEAE29 /* BlameWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D76EC00C8BC8A04E98ED29 /* BlameWorkflowTests.swift */; };
 		B473F54890DFA2DCFB038F84 /* ChangesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029D5F7DBFB1C4F806AEBD78 /* ChangesView.swift */; };
 		B7B8BCF9C3D61F7DCBF68742 /* ChangesFileList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2509E985E43763206AA5C85 /* ChangesFileList.swift */; };
 		C1AD725D2D40C1CDBE32B1EC /* PreferenceMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9C335F65C59CCA9AF75647 /* PreferenceMigration.swift */; };
@@ -185,6 +188,7 @@
 		3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		3C5B9523CA4BAF7A324606E1 /* DiskDiffDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDiffDisplayState.swift; sourceTree = "<group>"; };
 		3C5BA94DCEE3ED51F613BB31 /* WeGitAskPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitAskPass.swift; sourceTree = "<group>"; };
+		3EFCBD32F5CA95C86AD085F7 /* BlameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlameState.swift; sourceTree = "<group>"; };
 		427BBA1EC78DD6B32995F4E3 /* WeGitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeGitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48B64C6AE5A196C899E210E3 /* SyncSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSheet.swift; sourceTree = "<group>"; };
 		49DC2838B27F440F9A2D2CB6 /* WorkspaceActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceActions.swift; sourceTree = "<group>"; };
@@ -226,6 +230,7 @@
 		AC6428AEF6C0D56A748B4534 /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
 		AC8AB00BDC343AF3E5B3958A /* ToolbarMenuBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarMenuBarTests.swift; sourceTree = "<group>"; };
 		ADEDFC588FBF73378C4A8D2F /* GlassControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassControls.swift; sourceTree = "<group>"; };
+		B42D666687D0916B44B3453F /* BlameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlameSheet.swift; sourceTree = "<group>"; };
 		B7406090F3F3D453C8C2A796 /* ViewPerformanceJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPerformanceJournal.swift; sourceTree = "<group>"; };
 		BBA763BCB4493EC8B7C35D44 /* ChangesListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesListTests.swift; sourceTree = "<group>"; };
 		BDC147DBB2A084BF6E1530AD /* WeGitTestGit */ = {isa = PBXFileReference; includeInIndex = 0; path = WeGitTestGit; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +244,7 @@
 		CDB2AD0382813F7677E12A4B /* WorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceView.swift; sourceTree = "<group>"; };
 		CE224312D030E65115351A57 /* WeGitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitUITests.swift; sourceTree = "<group>"; };
 		CE707A5CE21DB67044026ECF /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		D0D76EC00C8BC8A04E98ED29 /* BlameWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlameWorkflowTests.swift; sourceTree = "<group>"; };
 		D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkflowRecoveryTests.swift; sourceTree = "<group>"; };
 		D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualAccessibilitySession.swift; sourceTree = "<group>"; };
 		D35ED6F3020AE96FCB957830 /* LayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTests.swift; sourceTree = "<group>"; };
@@ -307,6 +313,7 @@
 		07BE59A938A1D6A3F01C1D9F /* WeGitUITests */ = {
 			isa = PBXGroup;
 			children = (
+				D0D76EC00C8BC8A04E98ED29 /* BlameWorkflowTests.swift */,
 				BBA763BCB4493EC8B7C35D44 /* ChangesListTests.swift */,
 				ABBD62AD5BEEA0F025C5A11B /* DiffReaderTests.swift */,
 				E04044492C96A4E8F875261B /* FileHistoryWorkflowTests.swift */,
@@ -408,6 +415,7 @@
 				9CA57D9AB3E86BE4A2FB5E6C /* AppPreferences.swift */,
 				0465095E3E7AE6B70D37D9F9 /* AppState.swift */,
 				4A7D913455ACBB969181615B /* AuthenticationController.swift */,
+				3EFCBD32F5CA95C86AD085F7 /* BlameState.swift */,
 				6AB7DCA8173B212F363D34B9 /* CommitDetailState.swift */,
 				F9F4A74A44FD79FF73E2093D /* DiffDisplayState.swift */,
 				DF8973FD129834FD70547A32 /* DiffTextSelection.swift */,
@@ -444,6 +452,7 @@
 			isa = PBXGroup;
 			children = (
 				82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */,
+				B42D666687D0916B44B3453F /* BlameSheet.swift */,
 				7183C67E493C4FB81DECA942 /* BranchSheets.swift */,
 				C89ADEB8CDD4AF507D2E9489 /* BranchSwitcherView.swift */,
 				F2509E985E43763206AA5C85 /* ChangesFileList.swift */,
@@ -808,6 +817,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B17FD935F949705FEAFEAE29 /* BlameWorkflowTests.swift in Sources */,
 				912482B2DB0CA8509E9FFE16 /* ChangesListTests.swift in Sources */,
 				5D93C609116608C0234463F2 /* DiffReaderTests.swift in Sources */,
 				D605AE2D42515263127C7539 /* FileHistoryWorkflowTests.swift in Sources */,
@@ -851,6 +861,8 @@
 				5F75A13DB8D14E470AB132AD /* ApplicationMenuActions.swift in Sources */,
 				709A8103FC06B8BE84E83C04 /* AuthenticationController.swift in Sources */,
 				63DE29A998D120E3A5D72BAA /* AuthenticationView.swift in Sources */,
+				6421862C4D0861DEF2A9C8D5 /* BlameSheet.swift in Sources */,
+				AAA5794908AA69E8322B8C9C /* BlameState.swift in Sources */,
 				D943793F42D7C463F8D8545E /* BranchSheets.swift in Sources */,
 				284E95746BEE7431EE17E8A8 /* BranchSwitcherView.swift in Sources */,
 				461DEA46B43F53AC35E72678 /* BrandGeometry.swift in Sources */,

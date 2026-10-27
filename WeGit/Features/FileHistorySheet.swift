@@ -6,6 +6,7 @@ struct FileHistoryRequest: Identifiable {
     let session: RepositorySession
     let path: String
     var tip: String?
+    var readService: RepositoryService? = nil
 }
 
 private struct FileHistoryReadKey: Equatable {
@@ -16,6 +17,7 @@ private struct FileHistoryReadKey: Equatable {
 struct FileHistorySheet: View {
     let app: AppState
     let request: FileHistoryRequest
+    var allowsBlame = true
     @Environment(\.dismiss) private var dismiss
     @Environment(\.themeColors) private var colors
     @State private var state: FileHistoryState
@@ -27,6 +29,7 @@ struct FileHistorySheet: View {
     @State private var since = Calendar.current.date(byAdding: .year, value: -1, to: Date())!
     @State private var until = Date()
     @State private var reload = UUID()
+    @State private var blameRequest: BlameRequest?
     private var query: FileHistoryQuery {
         FileHistoryQuery(
             path: path, followRenames: follow, author: author, message: message,
@@ -37,11 +40,13 @@ struct FileHistorySheet: View {
                     to: Calendar.current.date(
                         byAdding: .day, value: 1, to: Calendar.current.startOfDay(for: until))!) : nil)
     }
-    init(app: AppState, request: FileHistoryRequest) {
+    init(app: AppState, request: FileHistoryRequest, allowsBlame: Bool = true) {
         self.app = app
         self.request = request
+        self.allowsBlame = allowsBlame
         _path = State(initialValue: request.path)
-        _state = State(initialValue: FileHistoryState(service: request.session.service))
+        _state = State(
+            initialValue: FileHistoryState(service: request.readService ?? request.session.service))
     }
     var body: some View {
         @Bindable var state = state
@@ -118,6 +123,15 @@ struct FileHistorySheet: View {
                             Text(entry.oldPath.map { $0 + " → " + entry.path } ?? entry.path)
                                 .textSelection(.enabled).font(.caption.monospaced())
                             Text(entry.commit.id).font(.caption.monospaced()).textSelection(.enabled)
+                            if allowsBlame,
+                                let revision = entry.status == "D"
+                                    ? entry.commit.parents.first : entry.commit.id
+                            {
+                                Button(L10n.text("逐行归属…")) {
+                                    blameRequest = BlameRequest(
+                                        session: request.session, path: entry.path, revision: revision)
+                                }.accessibilityIdentifier("file-history-blame")
+                            }
                             if entry.commit.parents.count > 1 {
                                 Text(L10n.text("Merge · 相对于第一父提交")).font(.caption).foregroundStyle(
                                     colors.secondaryText)
@@ -127,7 +141,7 @@ struct FileHistorySheet: View {
                         Divider()
                         CommitFilesView(
                             app: app, session: request.session, detail: state.detail,
-                            allowsFileHistory: false,
+                            allowsFileHistory: false, allowsBlame: false,
                             usesWorkspaceInspector: false
                         )
                     } else {
@@ -157,6 +171,9 @@ struct FileHistorySheet: View {
                 }
             }
             .onDisappear { state.release() }
+            .sheet(item: $blameRequest) { target in
+                BlameSheet(app: app, request: target).workbenchSheet(app.preferences)
+            }
             .onChange(of: app.session?.id) { _, _ in
                 if app.session !== request.session {
                     state.release()
