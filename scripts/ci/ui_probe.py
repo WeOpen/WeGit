@@ -11,6 +11,7 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "blame": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
     "single-commit": "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch",
     "worktree-opening": "WorktreeWorkflowTests/testLinkedWorktreesKeepDraftsPagesAndIndexesAcrossSwitchAndRelaunch",
     "file-history": "FileHistoryWorkflowTests/testFileContextRenameSearchAndManualDeletedPath",
