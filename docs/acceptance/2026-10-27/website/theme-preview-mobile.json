@@ -1,0 +1,21 @@
+{
+  "previewInfo": {
+    "closeVisible": true,
+    "height": 832,
+    "insideViewport": true,
+    "open": true,
+    "scrollLocked": true,
+    "title": "浅色主题",
+    "viewport": {
+      "height": 860,
+      "width": 375
+    },
+    "width": 347
+  },
+  "previewClosed": {
+    "focused": "预览 浅色主题",
+    "open": false,
+    "scrollLocked": false,
+    "theme": "light"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "name": "Northern Light",
+  "controls": "dark",
+  "colors": {
+    "accent": "#9AC9E3",
+    "canvas": "#1B2430",
+    "chrome": "#1B2430",
+    "sidebar": "#151D27",
+    "surface": "#263241",
+    "border": "#53677D",
+    "text": "#EDF3F9",
+    "secondaryText": "#B8C9D9",
+    "positive": "#A4D9B3",
+    "negative": "#F0B0B8",
+    "modified": "#E8D091",
+    "diffAdded": "#25392F",
+    "diffRemoved": "#3E2935",
+    "keyword": "#D1BCE9",
+    "string": "#ACDACF",
+    "number": "#A8CDEC",
+    "comment": "#B2C3D4"
+  }
+}

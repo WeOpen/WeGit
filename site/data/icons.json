@@ -1,0 +1,242 @@
+[
+  {
+    "id": "taiji",
+    "label": "太极",
+    "meaning": "明暗、平衡与外观切换"
+  },
+  {
+    "id": "scroll",
+    "label": "卷轴",
+    "meaning": "历史、长文与内容"
+  },
+  {
+    "id": "plum",
+    "label": "梅枝",
+    "meaning": "特色、枝叶与生长"
+  },
+  {
+    "id": "cloud",
+    "label": "祥云",
+    "meaning": "同步、流动与轻盈"
+  },
+  {
+    "id": "window",
+    "label": "园窗",
+    "meaning": "查看、预览与界面"
+  },
+  {
+    "id": "fan",
+    "label": "折扇",
+    "meaning": "展开、菜单与分支选择"
+  },
+  {
+    "id": "brush",
+    "label": "毛笔",
+    "meaning": "编辑、书写与改动"
+  },
+  {
+    "id": "seal",
+    "label": "印钮",
+    "meaning": "确认、签名与钤印"
+  },
+  {
+    "id": "chest",
+    "label": "漆箱",
+    "meaning": "仓库、归档与存储"
+  },
+  {
+    "id": "bamboo",
+    "label": "竹节",
+    "meaning": "代码、结构与成长"
+  },
+  {
+    "id": "download",
+    "label": "收卷",
+    "meaning": "下载、接收与保存"
+  },
+  {
+    "id": "upload",
+    "label": "展卷",
+    "meaning": "导入、上传与传递"
+  },
+  {
+    "id": "arrow",
+    "label": "如意箭",
+    "meaning": "继续、前往与方向"
+  },
+  {
+    "id": "close",
+    "label": "合笔",
+    "meaning": "关闭与收拢"
+  },
+  {
+    "id": "reset",
+    "label": "回纹",
+    "meaning": "恢复、刷新与重试"
+  },
+  {
+    "id": "search",
+    "label": "探窗",
+    "meaning": "搜索、寻找与检索"
+  },
+  {
+    "id": "home",
+    "label": "亭台",
+    "meaning": "首页、归处与返回"
+  },
+  {
+    "id": "themes",
+    "label": "屏风",
+    "meaning": "主题、外观与多种选择"
+  },
+  {
+    "id": "docs",
+    "label": "竹简",
+    "meaning": "文档、指南与阅读"
+  },
+  {
+    "id": "palette",
+    "label": "青瓷盘",
+    "meaning": "颜色、配色与调色"
+  },
+  {
+    "id": "layers",
+    "label": "叠笺",
+    "meaning": "图层、方案与层级"
+  },
+  {
+    "id": "link",
+    "label": "连环",
+    "meaning": "链接、连接与关联"
+  },
+  {
+    "id": "external",
+    "label": "出窗",
+    "meaning": "外部链接与新窗口"
+  },
+  {
+    "id": "check",
+    "label": "如意钩",
+    "meaning": "完成、选中与确认"
+  },
+  {
+    "id": "chevron-right",
+    "label": "折向右",
+    "meaning": "下一级与向右"
+  },
+  {
+    "id": "chevron-down",
+    "label": "折向下",
+    "meaning": "展开与向下"
+  },
+  {
+    "id": "folder",
+    "label": "书函",
+    "meaning": "文件夹与项目"
+  },
+  {
+    "id": "file",
+    "label": "宣纸",
+    "meaning": "文件与单篇内容"
+  },
+  {
+    "id": "settings",
+    "label": "罗盘",
+    "meaning": "设置、参数与校准"
+  },
+  {
+    "id": "history",
+    "label": "日晷",
+    "meaning": "历史、时间与回溯"
+  },
+  {
+    "id": "branch",
+    "label": "竹枝",
+    "meaning": "Git 分支与分流"
+  },
+  {
+    "id": "tag",
+    "label": "签牌",
+    "meaning": "标签、标记与版本"
+  },
+  {
+    "id": "commit",
+    "label": "玉璧",
+    "meaning": "提交、节点与定点"
+  },
+  {
+    "id": "stash",
+    "label": "锦囊",
+    "meaning": "暂存、储藏与收纳"
+  },
+  {
+    "id": "terminal",
+    "label": "算筹",
+    "meaning": "终端、命令与执行"
+  },
+  {
+    "id": "copy",
+    "label": "叠纸",
+    "meaning": "复制与副本"
+  },
+  {
+    "id": "edit",
+    "label": "书札",
+    "meaning": "编辑内容与题写"
+  },
+  {
+    "id": "trash",
+    "label": "竹篓",
+    "meaning": "删除与清理"
+  },
+  {
+    "id": "lock",
+    "label": "长命锁",
+    "meaning": "锁定、保护与安全"
+  },
+  {
+    "id": "unlock",
+    "label": "开锁",
+    "meaning": "解锁与允许编辑"
+  },
+  {
+    "id": "mail",
+    "label": "鱼雁笺",
+    "meaning": "邮件与寄送"
+  },
+  {
+    "id": "feedback",
+    "label": "纸鸢",
+    "meaning": "反馈、建议与交流"
+  },
+  {
+    "id": "info",
+    "label": "方鉴",
+    "meaning": "信息与说明"
+  },
+  {
+    "id": "warning",
+    "label": "警钟",
+    "meaning": "警告、注意与风险"
+  },
+  {
+    "id": "help",
+    "label": "问窗",
+    "meaning": "帮助与疑问"
+  },
+  {
+    "id": "bell",
+    "label": "编钟",
+    "meaning": "通知与提醒"
+  },
+  {
+    "id": "pin",
+    "label": "发簪",
+    "meaning": "固定与收藏"
+  },
+  {
+    "id": "bookmark",
+    "label": "书签",
+    "meaning": "书签、保存与稍后阅读"
+  }
+]

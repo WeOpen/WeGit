@@ -1,0 +1,22 @@
+{
+  "logo-light.webp": "design/brand/logo/wegit-logo-horizontal-480.webp",
+  "logo-dark.webp": "design/brand/logo/wegit-logo-horizontal-dark-480.webp",
+  "symbol.png": "design/brand/github/favicon-512.png",
+  "favicon.svg": "design/brand/github/favicon.svg",
+  "favicon.ico": "design/brand/github/favicon.ico",
+  "seal-red.svg": "design/brand/logo/seal-ku-red.svg",
+  "seal-white.svg": "design/brand/logo/seal-ku-white.svg",
+  "social-preview.png": "design/brand/github/social-preview.png",
+  "icon-light-16.png": "design/brand/macos/sizes/app-icon-16.png",
+  "icon-light-32.png": "design/brand/macos/sizes/app-icon-32.png",
+  "icon-light-64.png": "design/brand/macos/sizes/app-icon-64.png",
+  "icon-light-128.png": "design/brand/macos/sizes/app-icon-128.png",
+  "icon-light-256.png": "design/brand/macos/sizes/app-icon-256.png",
+  "icon-light-512.png": "design/brand/macos/sizes/app-icon-512.png",
+  "icon-dark-16.png": "design/brand/macos/sizes/app-icon-dark-16.png",
+  "icon-dark-32.png": "design/brand/macos/sizes/app-icon-dark-32.png",
+  "icon-dark-64.png": "design/brand/macos/sizes/app-icon-dark-64.png",
+  "icon-dark-128.png": "design/brand/macos/sizes/app-icon-dark-128.png",
+  "icon-dark-256.png": "design/brand/macos/sizes/app-icon-dark-256.png",
+  "icon-dark-512.png": "design/brand/macos/sizes/app-icon-dark-512.png"
+}
