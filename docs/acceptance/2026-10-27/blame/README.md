@@ -32,6 +32,8 @@
 
 ## 待验与已修正细节
 
+- [首次托管原生 40518140084](https://github.com/WeOpen/WeGit/actions/runs/40518140084) 使用候选 `59dd9f0`；[smoke 1/1 通过](native-first-smoke.json)，[Blame 专项 0/1、1 失败、0 跳过](native-first-failure.json)。测试在首个代码值断言处停止，后续导航和剪贴板步骤没有执行。AX 的展示文本把 CR 显示为空格，测试误把展示值当原始字节；现改成核对准确展示值，跨行剪贴板仍逐字节要求 `first\r\nchanged\r`。原始日志与 xcresult 由该运行的 artifact 保留。其 165 项应用输入与 `bb50bbd` 逐一匹配。
+- [托管 CI 40479885155](https://github.com/WeOpen/WeGit/actions/runs/40479885155) 对候选 `71b1b29` 的 Apple、最低 Git 2.46 与 Homebrew 三套核心各执行 **224 项 / 40 suites 全部通过**。该结果是更新 main 前的源码；当前源码的必需检查仍需重新完成。
 - 托管核心执行、smoke 和 Blame 专项在固定功能 PR SHA 上运行，保留实际计数、源码清单、日志与 xcresult；当前不以本机构建替代。
 - 初始逐行原生文本没有连接共享选择，无法跨行；接入现有 `DiffTextSelection`，每页以原始行与换行建立选择源。原生文本自带右键菜单会接管代码区，文件历史另提供可键盘访问的图标入口，不依赖父行菜单。
 - 翻页后旧滚动位置不应让新页从中段开始；以首行重新建立滚动容器。一次 CUA 读取遇到切页瞬间 AXError，随后真实末页 201–206/206 与禁用的下一页均已核对，没有把点击返回本身当作通过。
