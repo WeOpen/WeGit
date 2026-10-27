@@ -315,3 +315,30 @@
 - `defaults import` 合并而非删除多出的测试键。恢复已备份的专用 UITests 域时先清除该测试域、再导入，并按 plist 值核对；只做 import 返回成功不证明恢复完成。Cua 退出预览后不要再读取它的 AX，否则会自动重开。
 - #62 首轮托管核心 40274156920 执行 218 个测试声明/39 suites，2 个方法失败、3 条记录，均为新夹具缺父目录：`old/base` 与两种操作的 `.git/fixture-hooks/prepare-commit-msg`。独立检查的 helper 会建父目录，核心 `Fixture.write` 不会；新核心用例须自己先建目录，不能因为独立脚本通过就假设两种 helper 等价。修正只涉及夹具，原保护与 Hook 断言保留，待托管重跑。
 - #62 首轮原生 40274310004：smoke 1/1，通过；专项 0/1、1 失败、0 跳过，停在重开后的中止确认定位。AX 显示原生 `NSAlert.runModal()` 是顶层 Dialog，主窗口确为 980×692；Dialog 与 Touch Bar 都有“中止”。预览用 SwiftUI Sheet 查询，原生确认必须用 `app.dialogs.firstMatch`，不能复用 Sheet 查询或全局同名按钮。首次完整日志/xcresult/录像保留；修正只改测试，不放宽原断言。
+
+## 2026-10-27 网站迁移与主题中心集成（#66）
+
+- 2026-10-27 网站导航与页脚已统一为 `site/src/partials/{header,footer}.html`，404 的独立颜色变量只作用于 main 和搜索弹窗，不能污染共享页头/页尾。小屏 <=860px 隐藏导航下载入口与主题按钮文字，卡片容器 <=288px 时也隐藏文字，覆盖 861/1024px 的窄列；图标按钮保留 aria-label、title 与至少 40px 高度。
+- 浏览器缓存不能只更新 HTML 的入口脚本地址：app 的静态依赖、workbench 的子依赖以及按需 import 的 404 脚本也可能复用旧文件。构建现给整个 JS 依赖集合生成稳定内容版本并写入所有相对 import，随后计算入口内容摘要；模块校验用 URL path 去掉 query。新增独立夹具先复现没有模块版本地址，再验证子模块单独变化会更新入口/依赖地址、未变 CSS 地址保持稳定、重复构建结果相同，不修改源文件。
+- Cua 的某些快速 Playwright click 本轮曾返回但没有切换实际外观，不能把返回成功当作操作通过。AX 点击和 Space 已实际验证，验收需等页面初始化/加载状态并核对 aria-pressed 与真实外观；刚切换时的过渡帧不用于静态颜色比较。默认 30 秒的长批次曾重置浏览器内核，改用短批次并逐项落盘；旧会话占用或失去调试连接的 Chrome tab 不强行复用。
+- 本轮网站最终 JS 9/9（发布测试文件另含 11 个子场景）、Python 10/10、策略与构建检查通过；Codex/Chrome 的主题中英文 7 宽度共 28 组无溢出，共享导航/页脚中英文浅深色 3 宽度共 24 组一致。手机预览/Escape/焦点、搜索筛选/单次 Escape、菜单展开退出、下载与导入提示已实际操作；下载 JSON 的 17 个颜色均与原主题相同。两种浏览器的目标页 console error/warning 均为 0。分发（含构建标记）2,465,918 bytes，低于 3 MB；版本处理只增加构建工作，没有新增前端循环。证据在 `~/.codex/visualizations/2026/10/27/01a17abc-31f4-7710-be4c-7f6fc51a5299/wegit-compact-ui/`；本轮为本地网站验收，没有部署或客户端发布。
+- 通用 `python -m http.server` 在本机多图并发时出现过 ERR_CONNECTION_RESET，资源文件实际存在，不能误判为素材缺失。站点本地服务器现在使用 HTTP/1.1 复用连接与 64 项请求队列；应优先用 `site/scripts/serve.py` 预览，并实际解码全部图标、检查干净重载后的 Network/Console。
+- 2026-10-27 404 按用户原型实现独立模板，浅深主景与页尾均为内置 imagegen 原生 PNG，真实尺寸记录在 `site/design/source/error404/assets.json`；主景约 1.5K 宽、页尾 2172px，不能把请求过的更大尺寸或插值图叫作原生高清。WebP 原尺寸发布，全部四张素材加入后总分发预算显式改为 3MB，正常页面不加载 404 图片。图标由 16 个重审并扩充到 48 个，总览生成器支持 16/24/40px 浅深检查。
+- 404 的 `overflow:hidden` 会成为可被 `scrollIntoView` 间接滚动的容器，曾产生 80px 内部偏移而裁掉推荐标题；纯裁剪使用 `overflow:clip`，复核 scrollTop 和真实截图。只比原型 1122px 不够：768px 原桌面留白过长、1440px 插画与正文会挤在一起，需同时按画面比例调整 hero/正文/印章，平板卡片改两列。
+- WebKit 的 `input type=search` 首次 Escape 可只清空内容，不退出 dialog，bubble keydown 也可能收不到。404 搜索现用 text + inputmode=search + role=searchbox，单次 Escape 关闭并恢复触发焦点，已在 IAB 实测。真实缺失文档需返回 HTTP404，HTTP/1.1 同时核对 Content-Length、HEAD 无正文，不能给丢失 CSS/JS 伪装成页面。直接构建 localhost 时必须加 `--base-path ''`；默认 `/WeGit` 是 Pages 路径，会让根目录预览引用错误地址。最新同尺寸与局部对比、测试及差异边界见 `site/design-qa.md`。
+- 网站预览现统一为真实 WeGit Changes 结构；Hero 使用已留存的原生浅/深截图，不能再回退到旧的三栏提交列表占位应用。主题页移除整段实时预览，卡片「预览」通过原生 dialog 打开配色面板。弹窗在 top layer，下载/导入提示 Toast 也要移入 dialog，单改 z-index 不能越过遮罩；关闭需解除滚动锁并还原焦点，手机操作区不能用横向 flex 把重置文字挤成竖排。
+- 卡片 hover 要作用到图片或图标子元素，不能 transform 带标题/描述的整体容器。2026-10-26 浏览器实测：首页主题图片上移 6px，标题与说明位移均为 0。下载区兼容描述用独立居中规则；重复的 pavilion.svg 覆盖层与页脚 release-links 已按用户要求移除。文化图标从共享 SVG sprite 引用，不用字体符号拼太极或印章。
+- 原型网站的 7 色 `format/appearance/preferences` JSON 不能导入当前客户端。现已使用 version/name/controls/17 colors；强调色与对比度必须同时影响预览和导出，字体/字号仅作网页预览且需明确提示。主题缩略图用轻量 DOM，字号输入不能重建全主题列表；导入名用 textContent，异步文件验收等待具体渲染状态，不能只等一帧就读取旧标签。
+- 2026-10-26 用户否定首轮网站的居中大标题/卡片网格，要求参考 elaya.design 做 dither。曾以独立抖动山景、左对齐排版和紧凑列表重做；该方案已由用户提供的 WeGit-Website 整体迁移取代，当前入口见 site/README.md。参考站只作构图参考，不复制其作品。真实客户端截图与 17 色 JSON 预览保持可读、颜色准确；不能为了 dither 将代码或导入主题失真。画面为静态 WebP、限 400 KB，不增加持续 Canvas/WebGL 绘制。
+- 网站主题文件位于 `site/public/themes/`，保持客户端 version 1 的 17 色 JSON；网站从同一文件生成预览 CSS 与原样下载，不额外插入画廊元数据。主题名/文案另放 `site/data/themes.json`。导入只填编辑器，点击应用才保存，取消实时预览需恢复此前主题；网站的普通 37 对文字对比度检查不能代替原生材质/系统控件验收。
+- R5 完整 Symbol SVG 带纹理约 800 KB，不适合导航小图；网站使用约 9 KB 的品牌 favicon 衍生图。Google Fonts 按单独 weight 请求可能返回静态字体，不能把最后一个粗体文件声明为整个 400–700 范围；使用真实变量字体，附 OFL，运行时只加载本地文件。移动全屏导航的父级 backdrop-filter 会限制 fixed 包含块，打开时要解除父级滤镜并核对覆盖整个视口。
+- 项目级 Codex skills 安装到 `.agents/skills/`，不要照第三方旧 README 将整个技能追加到 `AGENTS.md`。2026-10-26 已安装 `elayadesign/ai-design-skills` 的 `landing-page-design` / `design-to-motion`，固定提交及文件校验见 `.agents/skills/README.md`；保留上游原文与 MIT 许可证。
+- `npx skills add` 直连 GitHub 也可能长时间停在克隆阶段。本次安装通过当前子进程的 `HTTPS_PROXY` / `HTTP_PROXY` 使用 `scutil --proxy` 已确认的系统代理后成功；不要因此修改全局配置。
+
+## 2026-10-27 网站合并复核（#66）
+
+- 构建器不能用通用 `.nojekyll` 判断目录归属；该标记也存在于其他 Pages 网站。先验证私有临时夹具会被误覆盖，再改为精确匹配 `.wegit-site-build` 内容，拒绝符号链接标记，并核对重复构建正常。
+- 自定义主题的文件导入必须有真实可聚焦按钮；隐藏 input 外包 label 无法通过键盘触发。导入后弹窗退出的焦点恢复到稳定的导入按钮，不能依赖重建后消失的卡片。
+- 网站 Pages 的路径过滤必须覆盖 `design/brand/**`，因为构建直接读取 canonical 品牌文件；仅监听 site 会漏掉单独的品牌更新。
+- 同一个输出目录不能同时用于默认 `/WeGit` 构建和根路径浏览器预览；异步构建会替换服务器正在读取的文件。不同用途指定独立输出目录，或串行完成后再重载验证。
+- 本轮 gstack 自动预检的测试映射未覆盖迁移目录，秘密扫描子进程也未完成；工具总结果保留为 incomplete，不能宣称完整 ship 自动门禁通过。仓库要求的策略、凭据扫描和托管原生检查仍须逐项通过后才能正常 Squash 合并。

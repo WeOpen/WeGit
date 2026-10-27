@@ -37,9 +37,9 @@ jobs:
           "$RUNNER_TEMP/wegit-tools/actionlint" -color
           python3 scripts/ci/check_policy.py
           python3 -m unittest discover -s scripts/ci/tests -v
-          if [[ -f site/template.html ]]; then
+          if [[ -f site/src/pages/index.html ]]; then
             python3 scripts/build_website.py
-            node site/release.test.mjs
+            node --test site/tests/*.test.mjs
           fi
           python3 scripts/ci/verify_secret_policy.py --gitleaks "$RUNNER_TEMP/wegit-tools/gitleaks"
           git diff --check

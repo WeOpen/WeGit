@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "name": "Celadon",
+  "controls": "light",
+  "colors": {
+    "accent": "#23685F",
+    "canvas": "#F1F7F3",
+    "chrome": "#F1F7F3",
+    "sidebar": "#E3EEE7",
+    "surface": "#F8FCF9",
+    "border": "#98B5A7",
+    "text": "#203B33",
+    "secondaryText": "#4C665C",
+    "positive": "#276444",
+    "negative": "#A03B43",
+    "modified": "#7B561E",
+    "diffAdded": "#DDEEDD",
+    "diffRemoved": "#F7E5E7",
+    "keyword": "#695080",
+    "string": "#296354",
+    "number": "#315F84",
+    "comment": "#53695D"
+  }
+}

@@ -1,0 +1,14 @@
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="brand" href="{{home}}" aria-label="WeGit"><img class="brand-logo brand-light" src="{{base}}/assets/brand/logo-light.webp" width="480" height="160" alt="WeGit"><img class="brand-logo brand-dark" src="{{base}}/assets/brand/logo-dark.webp" width="480" height="160" alt="WeGit"></a>
+    <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
+      <a href="{{home}}"{{product_state}} data-i18n="nav.product">产品</a><a href="{{home}}#features" data-i18n="nav.features">Features</a><a href="{{themes}}"{{themes_state}} data-i18n="nav.themes">主题</a><a href="https://github.com/WeOpen/WeGit" class="nav-source">GitHub</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-button mode-toggle" data-action="toggle-mode" title="Toggle light and dark mode" aria-label="Toggle light and dark mode"><span class="mode-symbol">{{icon:taiji}}</span></button>
+      <button class="lang-toggle" data-action="toggle-lang" aria-label="Change language">EN</button>
+      <button class="button button-red small header-download" data-action="app-download">{{icon:download}} <span data-i18n="nav.download">下载 WeGit</span></button>
+      <button class="icon-button menu-toggle" data-action="toggle-menu" aria-controls="main-nav" aria-expanded="false" aria-label="Open menu"><span class="menu-symbol">{{icon:fan}}</span></button>
+    </div>
+  </div>
+</header>

@@ -370,6 +370,30 @@ struct ThemeChecks {
             damaged.customThemeLoadFailed && damaged.customTheme == starter,
             "Corrupt saved themes recover to a safe editable starter")
 
+        // Exercise the same decoder, contrast checks and persistence used by the theme editor.
+        let websiteThemes = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+            .appending(path: "site/public/themes", directoryHint: .isDirectory)
+        if FileManager.default.fileExists(atPath: websiteThemes.path) {
+            let files = try FileManager.default.contentsOfDirectory(
+                at: websiteThemes, includingPropertiesForKeys: nil
+            ).filter { $0.pathExtension == "json" }.sorted { $0.path < $1.path }
+            try require(!files.isEmpty, "Website theme collection is not empty")
+            for file in files {
+                let imported = try CustomTheme.decode(Data(contentsOf: file))
+                try require(
+                    imported.contrastIssues.isEmpty,
+                    "Website \(imported.name) has no client contrast warnings")
+                try require(
+                    try CustomTheme.decode(imported.encoded()) == imported,
+                    "Website \(imported.name) imports and exports without losing colors")
+                try preferences.applyCustomTheme(imported)
+                let saved = AppPreferences(defaults: defaults)
+                try require(
+                    saved.customTheme == imported && saved.appearance == "custom",
+                    "Website \(imported.name) applies and restores all colors from private preferences")
+            }
+        }
+
         let report: [String: Any] = [
             "passed": true, "checks": checks, "starterContrastIssues": starter.contrastIssues.count,
             "nativeContrastMinimum": 4.5,
