@@ -15,6 +15,7 @@ struct DiffContentView: View {
     var body: some View {
         let split = display.split && diff.preview == nil
         VStack(spacing: 0) {
+            SelectedLinesControl(app: app, session: session, display: display)
             if !diff.hunks.isEmpty {
                 DiffNavigationControls(
                     count: diff.hunks.count, current: display.currentHunk,
@@ -200,13 +201,14 @@ struct DiffContentView: View {
     private func unifiedLine(_ line: DiffLine) -> some View {
         DiffCodeRow(
             content: .unified(line), codeSize: app.codeSize, wordDiff: app.workspace.wordDiff,
-            highlighting: display.highlighting, selection: display.selection, performanceID: display.renderID)
+            highlighting: display.highlighting, selection: display.selection, performanceID: display.renderID,
+            canSelectLines: diff.canSelectLines, isUntracked: diff.layer == .untracked)
     }
 
     private func splitLine(_ row: SplitDiffRow, columnWidth: CGFloat) -> some View {
         DiffCodeRow(
             content: .split(row), codeSize: app.codeSize, wordDiff: app.workspace.wordDiff,
             highlighting: display.highlighting, columnWidth: columnWidth, selection: display.selection,
-            performanceID: display.renderID)
+            performanceID: display.renderID, canSelectLines: diff.canSelectLines)
     }
 }

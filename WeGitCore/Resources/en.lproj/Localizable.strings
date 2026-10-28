@@ -1231,3 +1231,14 @@
 "逐行归属仅支持 UTF-8 文本文件。" = "Blame supports UTF-8 text files only.";
 "逐行归属记录无法与文件内容对应" = "Blame records do not match the file content";
 "该版本的 Git 对象不可用，请先手动获取所需对象再重试。" = "Git objects for this version are unavailable. Fetch the required objects explicitly, then retry.";
+
+"选择此行" = "Select this line";
+"选择第 %1$@ 行" = "Select line %1$@";
+"暂存所选行…" = "Stage selected lines…";
+"取消暂存所选行…" = "Unstage selected lines…";
+"暂存所选行" = "Stage selected lines";
+"取消暂存所选行" = "Unstage selected lines";
+"预览所选行…" = "Previewing selected lines…";
+"所选行预览过大，请缩小选择范围。" = "The selection is too large to preview. Select fewer lines.";
+"暂存区可能已更新。请刷新并核对文件；不会自动重复操作。" = "The index may have changed. Refresh and inspect the file; the operation will not be repeated automatically.";
+"暂存区更新完成" = "Index updated";
