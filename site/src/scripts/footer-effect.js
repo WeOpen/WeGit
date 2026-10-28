@@ -1,107 +1,142 @@
-/** Canvas 2D particle wordmark; no dependencies or continuous offscreen work. */
+/** Cached letter tiles; one clock paints visible wordmarks at most 30 times/s. */
 export function initParticleFooter() {
-  const stage = document.querySelector('[data-footer-particles]');
-  const canvas = stage?.querySelector('canvas');
-  if (!canvas || !canvas.getContext || !('IntersectionObserver' in window)) return;
-  const context = canvas.getContext('2d', { alpha: true });
-  if (!context) return;
+  const panel = document.querySelector('.footer-logo-panel');
+  if (!panel || panel.dataset.pixelsInitialized || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = matchMedia('(pointer: coarse)');
-  let particles = [], width = 0, height = 0, frame = 0, visible = false, lastTime = 0, age = 0;
-  let target = { x: -1000, y: -1000 }, pointer = { x: -1000, y: -1000 };
-  const dpr = () => Math.min(devicePixelRatio || 1, 2);
-  function rebuild() {
-    const bounds = stage.getBoundingClientRect();
-    width = Math.round(bounds.width);
-    height = Math.round(bounds.height);
-    if (width < 1 || height < 1) return;
-    canvas.width = Math.round(width * dpr());
-    canvas.height = Math.round(height * dpr());
-    context.setTransform(dpr(), 0, 0, dpr(), 0, 0);
-    const off = document.createElement('canvas');
-    off.width = width;
-    off.height = height;
-    const ink = off.getContext('2d', { willReadFrequently: true });
-    if (!ink) return;
-    const size = Math.min(width * .235, height * .59, 290);
-    ink.font = '900 ' + size + 'px Arial, Helvetica, sans-serif';
-    ink.textAlign = 'center';
-    ink.textBaseline = 'middle';
-    const word = 'WEGIT';
-    const textWidth = ink.measureText(word).width;
-    const scale = Math.min(1, (width * .82) / textWidth);
-    ink.translate(width / 2, height * .53);
-    ink.scale(scale, scale);
-    ink.fillText(word, 0, 0);
-    const pixels = ink.getImageData(0, 0, width, height).data;
-    const step = width < 500 ? 5 : width < 950 ? 6 : 7;
-    const candidates = [];
-    for (let y = 0; y < height; y += step) {
-      for (let x = 0; x < width; x += step) {
-        if (pixels[(y * width + x) * 4 + 3] > 100) candidates.push([x, y]);
+  const renderers = [];
+  let frame = 0, lastTick = 0, lastPaint = -Infinity, elapsed = 0;
+  const random = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+  for (const stage of panel.querySelectorAll('[data-footer-pixels]')) {
+    const canvas = stage.querySelector('canvas');
+    const context = canvas?.getContext('2d', { alpha: true });
+    if (!context) continue;
+    const layer = document.createElement('canvas');
+    const ink = layer.getContext('2d', { willReadFrequently: true });
+    if (!ink) continue;
+    const renderer = { stage, visible: false, dirty: true, ready: false };
+    let width = 0, height = 0, step = 1, colors, moving = [], pointer = null;
+
+    renderer.rebuild = () => {
+      const bounds = stage.getBoundingClientRect();
+      width = Math.round(bounds.width); height = Math.round(bounds.height);
+      if (!width || !height) { renderer.ready = false; return; }
+      const ratio = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      layer.width = width; layer.height = height;
+      const style = getComputedStyle(stage);
+      colors = Object.fromEntries(['pixel', 'hot'].map(key => [key, style.getPropertyValue('--footer-' + key).trim()]));
+      moving = [];
+      const size = Math.min(width * .33, height * 1.18);
+      ink.font = '700 ' + size + 'px Arial, Helvetica, sans-serif';
+      ink.textAlign = 'center'; ink.textBaseline = 'middle';
+      const scale = Math.min(1, width * .98 / ink.measureText('WeGit').width);
+      const iStart = width / 2 + (ink.measureText('WeG').width - ink.measureText('WeGit').width / 2) * scale;
+      const iEnd = iStart + ink.measureText('i').width * scale;
+      ink.save(); ink.translate(width / 2, height * .53); ink.scale(scale, scale); ink.fillText('WeGit', 0, 0); ink.restore();
+      const pixels = ink.getImageData(0, 0, width, height).data;
+      // Find the actual blank row below the i dot rather than tinting the stem.
+      let dotBottom = height, sawDot = false;
+      for (let y = 0; y < height; y++) {
+        let hasInk = false;
+        for (let x = Math.max(0, Math.floor(iStart)); x < Math.min(width, Math.ceil(iEnd)); x++) {
+          if (pixels[(y * width + x) * 4 + 3] > 100) { hasInk = true; break; }
+        }
+        if (hasInk) sawDot = true;
+        else if (sawDot) { dotBottom = y; break; }
       }
-    }
-    // Cap particles for low-powered devices and high-density displays.
-    const stride = Math.max(1, Math.ceil(candidates.length / (coarse.matches ? 1700 : 3300)));
-    particles = candidates.filter((_, i) => i % stride === 0).map(([x, y], index) => ({
-      x, y, px: x, py: y, phase: (index * 1.618) % 6.283,
-      radius: .65 + ((index * 13) % 9) / 13,
-      warm: (index * 7) % 5 === 0
-    }));
-    stage.classList.add('is-canvas-ready');
-    paint(0);
+      ink.clearRect(0, 0, width, height);
+      step = Math.max(3, Math.ceil(width / (coarse.matches ? 120 : 165)));
+      for (let y = 0; y < height; y += step) {
+        for (let x = 0; x < width; x += step) {
+          if (pixels[(y * width + x) * 4 + 3] < 100) continue;
+          const dot = x >= iStart && x < iEnd && y < dotBottom;
+          const noise = random(x + y * 997);
+          if (!dot && noise > .86) {
+            moving.push({ x, y, phase: x / width * 6 + random(x * 11 + y) * 1.5, warm: noise > .985 });
+          } else {
+            ink.fillStyle = dot ? colors.hot : colors.pixel;
+            ink.fillRect(x, y, step - 1, step - 1);
+          }
+        }
+      }
+      renderer.dirty = false; renderer.ready = true;
+      stage.classList.add('is-canvas-ready');
+    };
+    renderer.paint = time => {
+      if (!renderer.ready) return;
+      context.clearRect(0, 0, width, height);
+      context.drawImage(layer, 0, 0);
+      const active = !reduced.matches;
+      for (const p of moving) {
+        const pulse = active ? Math.max(0, Math.sin(time * .0008 - p.phase)) ** 12 : 0;
+        const near = pointer && active ? Math.max(0, 1 - Math.hypot(p.x - pointer.x, p.y - pointer.y) / 100) : 0;
+        // Tiles drift and settle on the same grid, keeping the letter silhouette clear.
+        const x = p.x + Math.round(Math.sin(p.phase * 5) * pulse * 2) * step;
+        const y = p.y + Math.round(Math.cos(p.phase * 3) * pulse * 2) * step;
+        context.globalAlpha = 1 - pulse * .35;
+        context.fillStyle = p.warm || near > .35 ? colors.hot : colors.pixel;
+        context.fillRect(x, y, step - 1, step - 1);
+      }
+      context.globalAlpha = 1;
+    };
+    stage.addEventListener('pointermove', event => {
+      if (coarse.matches || reduced.matches) return;
+      const bounds = stage.getBoundingClientRect();
+      pointer = { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
+    }, { passive: true });
+    stage.addEventListener('pointerleave', () => { pointer = null; });
+    renderers.push(renderer);
   }
-  function paint(time) {
-    if (!width || !height) return;
-    context.clearRect(0, 0, width, height);
-    const glow = context.createRadialGradient(width*.5, height*.55, 0, width*.5, height*.55, width*.4);
-    glow.addColorStop(0, 'rgba(201,74,48,.17)');
-    glow.addColorStop(1, 'rgba(201,74,48,0)');
-    context.fillStyle = glow; context.fillRect(0, 0, width, height);
-    const active = !reduced.matches;
-    for (const p of particles) {
-      const dx = p.x - pointer.x, dy = p.y - pointer.y;
-      const dist = Math.hypot(dx, dy) || 1;
-      const force = active && dist < 125 ? Math.pow(1 - dist / 125, 2) * 36 : 0;
-      const sway = active ? Math.sin(time*.0007 + p.phase) * 1.1 : 0;
-      const tx = p.x + dx / dist * force + sway;
-      const ty = p.y + dy / dist * force + (active ? Math.cos(time*.0006 + p.phase) * 1.2 : 0);
-      p.px += (tx - p.px) * .14;
-      p.py += (ty - p.py) * .14;
-      const light = .60 + (active ? .24 * Math.sin(time*.0014 + p.phase) : .16);
-      context.fillStyle = p.warm ? 'rgba(255,194,137,' + light + ')' : 'rgba(230,104,75,' + light + ')';
-      context.beginPath(); context.arc(p.px, p.py, p.radius, 0, Math.PI*2); context.fill();
-    }
-  }
-  function tick(time) {
+  if (!renderers.length) return;
+  panel.dataset.pixelsInitialized = 'true';
+
+  function tick(now) {
     frame = 0;
-    if (!visible || reduced.matches) return;
-    if (time - lastTime >= 33) {
-      lastTime = time;
-      pointer.x += (target.x - pointer.x) * .18;
-      pointer.y += (target.y - pointer.y) * .18;
-      paint(time);
+    if (document.hidden || reduced.matches || !renderers.some(r => r.visible)) return;
+    if (lastTick) elapsed += Math.min(now - lastTick, 100);
+    lastTick = now;
+    if (now - lastPaint >= 1000 / 30) {
+      lastPaint = now;
+      for (const r of renderers) if (r.visible) {
+        if (r.dirty) r.rebuild();
+        r.paint(elapsed);
+      }
     }
     frame = requestAnimationFrame(tick);
   }
   function sync() {
-    cancelAnimationFrame(frame); frame = 0;
-    if (visible && !reduced.matches) frame = requestAnimationFrame(tick);
-    else paint(0);
+    cancelAnimationFrame(frame); frame = 0; lastTick = 0; lastPaint = -Infinity;
+    if (document.hidden) return;
+    for (const r of renderers) if (r.visible) {
+      if (r.dirty) r.rebuild();
+      if (reduced.matches) r.paint(0);
+    }
+    if (!reduced.matches && renderers.some(r => r.visible)) frame = requestAnimationFrame(tick);
   }
-  const observer = new IntersectionObserver(entries => {
-    visible = entries[0]?.isIntersecting ?? false; sync();
-  }, { rootMargin: '80px' });
-  observer.observe(stage);
-  const resize = new ResizeObserver(() => { rebuild(); sync(); });
-  resize.observe(stage);
-  stage.addEventListener('pointermove', event => {
-    if (coarse.matches || reduced.matches) return;
-    const rect = stage.getBoundingClientRect();
-    target = { x: event.clientX - rect.left, y: event.clientY - rect.top };
-  }, { passive: true });
-  stage.addEventListener('pointerleave', () => { target = { x: -1000, y: -1000 }; });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(frame); frame = 0; } else sync(); });
+  const visibility = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      const r = renderers.find(r => r.stage === entry.target);
+      if (r) r.visible = entry.isIntersecting;
+    }
+    sync();
+  });
+  const resize = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const r = renderers.find(r => r.stage === entry.target);
+      if (r) r.dirty = true;
+    }
+    sync();
+  });
+  const appearance = new MutationObserver(() => {
+    for (const r of renderers) r.dirty = true;
+    sync();
+  });
+  for (const r of renderers) { visibility.observe(r.stage); resize.observe(r.stage); }
+  appearance.observe(document.documentElement, { attributes: true, attributeFilter: ['data-site-mode'] });
+  document.addEventListener('visibilitychange', sync);
+  window.addEventListener('pageshow', sync);
   reduced.addEventListener('change', sync);
-  rebuild();
 }
