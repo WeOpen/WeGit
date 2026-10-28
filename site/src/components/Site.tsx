@@ -1,4 +1,6 @@
 import { createContext, Fragment, memo, useCallback, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { flushSync } from 'react-dom'
+import { createThemeTransition } from '../lib/theme-transition'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { localeFromPath, pageFromPath, route, translate, type Locale, type Mode } from '../lib/site'
 import { selectRelease } from '../scripts/release.mjs'
@@ -117,6 +119,13 @@ export function SiteShell({ children }: { children: ReactNode }) {
   const locale = localeFromPath(pathname), page = pageFromPath(pathname)
   const navigate = useNavigate()
   const [mode, setMode] = useState<Mode>('light')
+  const desiredMode = useRef<Mode | null>(null)
+  const transition = useRef<ReturnType<typeof createThemeTransition> | null>(null)
+  useEffect(() => {
+    transition.current = createThemeTransition()
+    return () => { transition.current?.dispose(); transition.current = null }
+  }, [])
+  useEffect(() => { document.dispatchEvent(new Event('wegit-route-change')) }, [pathname])
   const [notice, notify] = useState('')
   const [overlay, setOverlay] = useState(false)
   const [download, setDownload] = useState(RELEASES)
@@ -145,8 +154,11 @@ export function SiteShell({ children }: { children: ReactNode }) {
   useEffect(() => { if (!notice) return; const timer = setTimeout(() => notify(''), 4200); return () => clearTimeout(timer) }, [notice])
   useEffect(() => { document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'dark' ? '#151719' : '#faf8f3') }, [mode])
   const toggleMode = () => {
-    const next = mode === 'light' ? 'dark' : 'light'
-    document.documentElement.dataset.siteMode = next; save('wegit-site-mode', next); setMode(next)
+    const next = (desiredMode.current ?? document.documentElement.dataset.siteMode) === 'light' ? 'dark' : 'light'
+    desiredMode.current = next
+    const update = () => { flushSync(() => { document.documentElement.dataset.siteMode = next; setMode(next) }); save('wegit-site-mode', next) }
+    if (transition.current) transition.current.run(update)
+    else update()
   }
   const switchLanguage = () => {
     const other = locale === 'zh' ? 'en' : 'zh'

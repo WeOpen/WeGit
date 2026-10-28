@@ -64,24 +64,29 @@ export function initPageMotion(root: HTMLElement) {
       const entry = entries.find(entry => entry.node === change.target)
       if (entry) {
         entry.inView = change.isIntersecting
-        if (entry.inView && !entry.shown) { play(entry); observer.unobserve(entry.node) }
+        if (!entry.inView && !reduced.matches && !entry.node.contains(document.activeElement)) {
+          entry.control?.cancel(); entry.control = undefined; entry.shown = false
+          restore(entry)
+          entry.node.style.transition = 'none'; entry.node.style.opacity = '0'
+          entry.node.style.transform = 'translateY(18px)'; entry.node.dataset.motionState = 'waiting'
+        } else if (entry.inView && !entry.shown && !reduced.matches) play(entry)
       } else if (floatVisible.has(change.target as HTMLElement)) floatVisible.set(change.target as HTMLElement, change.isIntersecting)
     }
     syncFloats()
-  }, { threshold: 0.08 })
-  for (const entry of entries) if (!entry.shown) observer.observe(entry.node)
+  }, { threshold: [0, 0.08] })
+  for (const entry of entries) observer.observe(entry.node)
   for (const node of floating) { floatVisible.set(node, false); observer.observe(node) }
   for (const entry of entries) if (entry.shown && entry.node.matches('.error-message > *, .section > .wrap > h1, .section > .wrap > p')) play(entry, true)
   // The native hero screenshot stays visible and never enters a hidden queue.
   for (const [index, node] of Array.from(root.querySelectorAll<HTMLElement>('.hero-copy > *')).entries()) {
     if (!node.getBoundingClientRect().height) continue
     const entry: Entry = { node, saved: save(node), shown: false, inView: true, delay: index * 0.08 }
-    entries.push(entry); play(entry, true)
+    entries.push(entry); observer.observe(node); play(entry, true)
   }
   const finishAll = () => {
     for (const entry of entries) {
       entry.control?.cancel(); entry.control = undefined; entry.shown = true
-      restore(entry); entry.node.dataset.motionState = 'shown'; observer.unobserve(entry.node)
+      restore(entry); entry.node.dataset.motionState = 'shown'
     }
     syncFloats()
   }
@@ -98,7 +103,7 @@ export function initPageMotion(root: HTMLElement) {
     if (!(target instanceof Element)) return
     for (const entry of entries) if (entry.node.contains(target)) {
       entry.control?.cancel(); entry.control = undefined; entry.shown = true
-      restore(entry); entry.node.dataset.motionState = 'shown'; observer.unobserve(entry.node)
+      restore(entry); entry.node.dataset.motionState = 'shown'
     }
   }
   root.addEventListener('focusin', focus)

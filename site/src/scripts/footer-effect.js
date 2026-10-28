@@ -71,6 +71,7 @@ export function initParticleFooter(panel = document.querySelector('.footer-logo-
       renderer.dirty = false; renderer.ready = true;
       stage.classList.add('is-canvas-ready');
     };
+    renderer.reset = () => { startedAt = null; revealed = false; pointer = null; stage.dataset.footerEntrance = 'waiting'; };
     renderer.paint = time => {
       if (!renderer.ready) return;
       context.clearRect(0, 0, width, height);
@@ -138,7 +139,10 @@ export function initParticleFooter(panel = document.querySelector('.footer-logo-
   const visibility = new IntersectionObserver(entries => {
     for (const entry of entries) {
       const r = renderers.find(r => r.stage === entry.target);
-      if (r) r.visible = entry.isIntersecting;
+      if (r) {
+        if (r.visible && !entry.isIntersecting) r.reset();
+        r.visible = entry.isIntersecting;
+      }
     }
     sync();
   });

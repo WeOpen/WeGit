@@ -379,3 +379,13 @@
 - JS21/21、静态兼容12/12、Workers HTTP16/16、构建/类型/策略/预算通过；生产依赖audit为0，开发依赖仍有既有告警，未强制升级工具链。分发2,717,271 bytes，CSS61,407，客户端JSgzip141,440，Worker模块gzip253,726，均在预算内。本机字标完成后采样1.5秒39帧，paint平均0.211ms/p95 0.600ms，不能作为线上性能验收。
 - 像素实测早期只有W，中段W/e/G，末段五字均有像素；5.33秒/135帧实际浏览器MP4在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/page-motion/preview.mp4`。录制为fragmented MP4，mvhd duration可为0，时长需从mdhd版本对应timescale和moof/trun时序读取，不能误认录像为空。64组回执在同目录validation.json。
 - 本轮为本地实现与验证，没有推送/合并/生产部署，也没有创建新的定时任务。预览沿用4179；重建后须重启自己的preview并等healthz就绪。
+
+## 2026-10-28 原会话接续：滚动重播与像素主题切换
+
+- 原会话标题仍为 #71 PR 审查，但最新实际任务已经转为官网滚动动画每次进入视口重播，以及参考 omavashia.com 的像素主题切换。继续使用 review-pr-71 工作树的 codex/site-tanstack-start-cloudflare；原主检出未提交内容保持原状。
+- 页面元素完全离开视口后重新准备入场，保留 IntersectionObserver；Hero 同样可重播，键盘焦点内的内容不会被隐藏。底部字标离屏重置序列但不启动时钟，外观/尺寸改变不会无故重播；减少动态效果始终完整显示。
+- 参考站实际为从按钮向外扩散的48px方块遮罩。当前使用原生View Transition快照和25个离散关键帧，720ms完成，方块尺寸随大屏调整以限制数量，不添加DOM方块或常驻绘制。React flushSync 将图片/图标与颜色一起更新；快速连点用代次取消旧回调，避免拍摄前的旧更新覆盖新意图。路由/隐藏/resize/减少动态效果取消动画，仍允许原生更新回调完成；卸载移除监听。
+- 验证滚动必须显式 behavior:instant 或使用真实滚动并等待到位：本项目默认平滑滚动会让150ms采样仍处于中途，容易误判离屏重置失败。桌面900px高的features标题在顶部视口仍可见，重播检查应选完全离开的brand-quote；本轮实际shown→waiting→running→shown，字标complete→waiting→revealing→complete。
+- JS25/25（新增字标重播及主题捕获前连点/清理/降级检查）、静态兼容12/12、Workers16/16、build/typecheck和预算通过。Chrome中英文四类页面×桌面1280普通/手机390减少动态效果共16组，无溢出/空白/隐藏内容/主题动画残留；另实测手机普通动效、快速连点及Codex浏览器外观切换。正常首页console无错误/警告；404文档HTTP404为预期。Vite保留已有css-post sourcemap警告，Node stripTypeScriptTypes测试工具有experimental警告。
+- 最终分发2,720,100 bytes、CSS61,844、客户端JSgzip142,785、Worker模块gzip255,666均低于现有预算。本轮没有线上性能测量；快照只在点击后短时创建，不能把本地检查当作线上验收。截图中途帧与16组JSON在 ~/.codex/visualizations/2026/10/28/01a182ef-465f-7643-a50a-c185adee2fa6/replay-theme/。预览4179已重建并重启自身进程，日志/tmp/wegit-replay-preview.log；本轮没有推送/合并/部署。
+- 仓库策略检查通过；凭据策略脚本需要 --gitleaks，本机PATH中没有该工具，因此本轮凭据扫描未完成，不能报告完整CI门禁通过。

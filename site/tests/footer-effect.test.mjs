@@ -144,3 +144,19 @@ test('React unmount removes the clock, observers and preference listeners', () =
   assert.ok(Object.values(f.observers).flat().every(observer => observer.disconnected));
   assert.ok(f.stages.every(stage => stage.listeners.size === 0));
 });
+
+
+test('leaving the viewport rearms the letter sequence without starting an offscreen clock', () => {
+  const f = fixture(); f.init(); f.show([true, false]);
+  for (let i = 0; i < 50; i++) f.step(100 + i * 40);
+  assert.equal(f.stages[0].dataset.footerEntrance, 'complete');
+  f.changeMode(); f.step(2200);
+  assert.equal(f.stages[0].dataset.footerEntrance, 'complete');
+  f.show([false, false]);
+  assert.equal(f.stages[0].dataset.footerEntrance, 'waiting');
+  assert.equal(f.pending.size, 0);
+  f.show([true, false]); f.step(2300);
+  assert.equal(f.stages[0].dataset.footerEntrance, 'revealing');
+  for (let i = 0; i < 50; i++) f.step(2340 + i * 40);
+  assert.equal(f.stages[0].dataset.footerEntrance, 'complete');
+});
