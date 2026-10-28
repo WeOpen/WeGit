@@ -49,6 +49,29 @@ class NativeProcessDeadlineTests(unittest.TestCase):
 
 
 class NativeScopeSelectionTests(unittest.TestCase):
+    def test_selected_lines_diagnostic_is_bounded_and_requires_a_passing_smoke(self):
+        root = Path(__file__).resolve().parents[3]
+        target = "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation"
+        self.assertEqual(ui_probe.FOCUSED_TESTS["selected-lines"], target)
+        self.assertIn("selected-lines", (root / ".github/workflows/native-ui.yml").read_text())
+        for success in (True, False):
+            summary = {"totalTestCount": 1, "passedTests": int(success), "failedTests": int(not success), "skippedTests": 0}
+            with self.subTest(success=success), tempfile.TemporaryDirectory() as folder:
+                with patch.object(sys, "argv", ["ui_probe.py", "--mode", "smoke", "--focus", "selected-lines", "--output", folder]), \
+                     patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                     patch.object(ui_probe, "run_logged", return_value={"exitCode": 0 if success else 65, "timedOut": False}) as runner, \
+                     patch.object(ui_probe, "result_summary", return_value=summary), \
+                     redirect_stdout(StringIO()):
+                    if success:
+                        ui_probe.main()
+                    else:
+                        with self.assertRaises(SystemExit):
+                            ui_probe.main()
+                self.assertEqual(runner.call_count, 2 if success else 1)
+                if success:
+                    self.assertIn("-only-testing:WeGitUITests/" + target, runner.call_args_list[1].args[0])
+                    self.assertLessEqual(runner.call_args_list[1].args[2], 300)
+
     def test_blame_diagnostic_is_bounded_and_requires_a_passing_smoke(self):
         root = Path(__file__).resolve().parents[3]
         target = "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation"

@@ -4,6 +4,8 @@
 
 ## v1.2 原生诊断入口准备
 
+- #70 的 `selected-lines` 只注册 `SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation`。必须先经过一次真实 smoke，失败时停止；实际产品与 UI 用例留在功能 PR。
+
 - #65 的 Blame 诊断先将 `BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation` 注册到可信 main。应用与实际 UI 用例留在功能分支；只在一次真实 smoke 通过后执行这一个固定方法，保留原有超时与制品要求。
 - #62 的 `single-commit` 入口沿用相同边界：可信 main 先通过 PR 注册一个固定方法 `SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch`，实际用例与产品源码留在功能分支。只有 smoke 实际通过后才能运行该方法，候选脚本不能扩展范围。
 - #59 / PR #60 的 Worktree 打开功能需要新原生专项。白名单入口先以独立 PR 正常进入可信 main；测试与产品实现留在功能 PR，避免在尚无该功能的 main 加入必败的 UI 用例。`worktree-opening` 只在一个实际 smoke 通过后运行一个固定候选测试方法，不放开任意输入。准备 PR 不改变应用源码，也不表示 Worktree 功能已进入 main。
