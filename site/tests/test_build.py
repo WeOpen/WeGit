@@ -55,6 +55,20 @@ class WebsiteBuildTests(unittest.TestCase):
                 self.assertIn('data-action="reload-page"', error)
                 self.assertIn('id="error-search-dialog"', error)
 
+    def test_interactive_footer_is_shared_and_self_contained(self):
+        for base, output in self.outputs:
+            self.assertTrue((output / 'assets/css/footer-effect.css').is_file())
+            script = (output / 'assets/js/footer-effect.js').read_text()
+            self.assertIn('prefers-reduced-motion', script)
+            self.assertIn('IntersectionObserver', script)
+            self.assertIn('ResizeObserver', script)
+            for prefix in ('', 'zh/'):
+                for name in ('index.html', 'themes/index.html', '404.html', 'privacy/index.html'):
+                    html = (output / prefix / name).read_text()
+                    self.assertIn('data-footer-particles', html)
+                    self.assertIn('footer-word-fallback', html)
+                    self.assertIn(f'{base}/assets/css/footer-effect.css?v=', html)
+
     def test_brand_assets_match_the_current_canonical_sources(self):
         manifest = json.loads((SITE / 'data/brand-assets.json').read_text())
         for _, output in self.outputs:
