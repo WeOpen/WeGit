@@ -389,3 +389,10 @@
 - JS25/25（新增字标重播及主题捕获前连点/清理/降级检查）、静态兼容12/12、Workers16/16、build/typecheck和预算通过。Chrome中英文四类页面×桌面1280普通/手机390减少动态效果共16组，无溢出/空白/隐藏内容/主题动画残留；另实测手机普通动效、快速连点及Codex浏览器外观切换。正常首页console无错误/警告；404文档HTTP404为预期。Vite保留已有css-post sourcemap警告，Node stripTypeScriptTypes测试工具有experimental警告。
 - 最终分发2,720,100 bytes、CSS61,844、客户端JSgzip142,785、Worker模块gzip255,666均低于现有预算。本轮没有线上性能测量；快照只在点击后短时创建，不能把本地检查当作线上验收。截图中途帧与16组JSON在 ~/.codex/visualizations/2026/10/28/01a182ef-465f-7643-a50a-c185adee2fa6/replay-theme/。预览4179已重建并重启自身进程，日志/tmp/wegit-replay-preview.log；本轮没有推送/合并/部署。
 - 仓库策略检查通过；凭据策略脚本需要 --gitleaks，本机PATH中没有该工具，因此本轮凭据扫描未完成，不能报告完整CI门禁通过。
+
+## 2026-10-28 动画减速与 CF 部署说明
+
+- 用户要求动画更慢、主题方块更小，并询问 CF 部署方式；只授权实现和说明，没有执行远端部署。页面入场520→800ms，网格错峰70→100ms/Hero80→120ms；字母800ms/间隔180ms，整组1520ms；主题720→960ms，最小方块48→24px，大屏按约2400个方块预算自适应。保持25个离散关键帧和零常驻主题绘制，不为细方块添加DOM。
+- JS25/25、build/typecheck、预算、wrangler dry-run、Worker16/16通过；Chrome实测800/960ms、字标1250ms仍revealing/1850ms complete、离屏waiting与快速连点最终持久化一致；手机390减少动态效果静态且无溢出，正常页console0错误/警告；Codex浏览器新标签实际点击切换成功。客户端gzip142,767、CSS61,844、Worker模块gzip255,667、分发2,720,099 bytes。一次桌面主题点击同步准备9.1ms仅本机诊断，未测线上性能。截图 ~/.codex/visualizations/2026/10/28/01a182ef-465f-7643-a50a-c185adee2fa6/slower-theme.png。
+- 当前 workers.yml 是验证而非发布；pages.yml 是旧静态GitHub Pages。README已明确推荐CF Workers Builds连接GitHub/main，root site、Node24、build/test/budget与wrangler deploy；也说明GitHub Actions需新增deploy job/Secrets及手动Wrangler方式。不要把连接GitHub自动发布说成必须通过GitHub Actions；Git集成和Actions是两条不同生产入口，择一使用。
+- 构建读取仓库根design/brand，CF监听路径要包含site/**与design/brand/**，不能仅上传site目录或只监听site。VITE_SITE_ORIGIN必须是公开构建变量，目标域名改变后重建。合入main前先通过PR检查，CF原生Git触发不会自动等待其他GitHub检查。

@@ -37,7 +37,7 @@ test('pixel snapshots finish and disposal cancels animation and listeners', asyn
   await Promise.resolve();
   assert.equal(commits, 1);
   assert.equal(f.animations[0].frames.length, 25);
-  assert.equal(f.animations[0].options.duration, 720);
+  assert.equal(f.animations[0].options.duration, 960);
   f.controller.dispose();
   assert.equal(f.animations[0].cancelled, true);
   assert.equal(f.root.dataset.themeTransition, undefined);

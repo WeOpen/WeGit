@@ -1,5 +1,5 @@
-export const LETTER_DURATION_MS = 520;
-export const LETTER_STAGGER_MS = 140;
+export const LETTER_DURATION_MS = 800;
+export const LETTER_STAGGER_MS = 180;
 
 /** Each letter eases upward independently; reduced motion reveals the complete mark. */
 export function letterReveal(index, elapsed, immediate = false) {

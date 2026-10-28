@@ -49,7 +49,22 @@ npx wrangler deploy --dry-run
 npx wrangler check startup --config dist/server/wrangler.json
 ```
 
-目前没有上线或创建 Cloudflare 远端资源。正式部署时，在 Cloudflare Workers Builds 中连接该仓库、设置根目录 site，安装命令 npm ci、构建命令 npm run build、部署命令 npx wrangler deploy。为目标域名设置公开构建变量 VITE_SITE_ORIGIN=https://实际域名，生成准确的 canonical、语言 alternate 和分享图片地址。未配置时使用相对地址，不写死另一个托管平台的域名。
+目前没有上线或创建 Cloudflare 远端资源。当前 `.github/workflows/workers.yml` 只运行测试、构建、预算、dry-run 与本地 Worker 检查，不会发布；`.github/workflows/pages.yml` 发布的是旧静态 GitHub Pages。
+
+推荐使用 Cloudflare Workers Builds 连接 GitHub 自动发布：
+
+1. 将经过 PR 检查的官网分支合入 main；本地未推送的提交不会被 Cloudflare 读取。
+2. Cloudflare 控制台 → Workers & Pages → Create application → GitHub，连接 WeOpen/WeGit。选择 Worker 项目，名称 `wegit-site`（与 wrangler.jsonc 一致）。
+3. 设置生产分支 `main`、Root directory `site`；使用 Node 24（构建变量 `NODE_VERSION=24`）。依赖由平台安装，锁文件在 site/package-lock.json；本地或自建 CI 使用 `npm ci`。
+4. Build command：`npm test && npm run build && npm run check:budget`。Deploy command：`npx wrangler deploy`。部署包含 Worker 与 ASSETS，不是只上传 dist/client 的静态站点。
+5. 公开构建变量 `VITE_SITE_ORIGIN=https://实际域名` 用来生成 canonical、语言 alternate 与分享图片地址。必须在构建时设置；未配置时使用相对地址。
+6. 首次发布核对 workers.dev 地址；在 Worker 的 Settings → Domains & Routes 接入正式域名后，用正式域名重建验证。GitHub main 后续新提交会触发 CF Builds。构建监听路径若启用，至少覆盖 `site/**` 与 `design/brand/**`，后者是素材生成输入。
+
+Workers Builds 与 GitHub Actions 部署择一作为生产发布入口，避免同一提交重复发布。若需要严格等 GitHub CI 成功才部署，可改用现有 build job 成功后的 deploy job，仅 main push/受控手动触发时运行；在 GitHub Secrets 配置 `CLOUDFLARE_API_TOKEN` 与 `CLOUDFLARE_ACCOUNT_ID`，从 site 执行 `npx wrangler deploy`，或使用 cloudflare/wrangler-action。仅配置 Secrets 不会让当前 workflow 自动发布。
+
+参考：[Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/)、[构建设置](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/)、[GitHub Actions](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)。
+
+手动发布：在包含最新官网提交的 site 目录运行 `npm ci`、`npx wrangler login`，再以实际域名设置 `VITE_SITE_ORIGIN` 后执行 `npm run deploy`。该脚本已包含 build，不能只 deploy 旧产物。首次可先 build → check:budget → wrangler deploy --dry-run 复核。
 
 本机手动部署使用 Wrangler 登录既有 Cloudflare 账户后执行 npm run deploy。ASSETS 由部署构建管理。后续需要数据库、文件存储、任务队列时，在 wrangler.jsonc 增加 D1、R2、Queues 等 binding，重新运行 npm run cf-typegen，再通过服务端代码使用 binding；当前没有业务需求的资源不预先创建。私密值通过 Wrangler secrets 配置，禁止放入 VITE_ 变量或提交到代码。
 
@@ -59,7 +74,7 @@ npx wrangler check startup --config dist/server/wrangler.json
 
 项目预算：分发资源 3 MB、CSS 总量 64 KiB、全部客户端 JS 合计 gzip 150 KiB、Worker 模块合计 gzip 512 KiB。构建后 check:budget 会执行这些预算。页面和页脚动效尊重减少动态效果；像素时钟离屏/隐藏暂停，React 卸载时解除观察器和事件监听。字号调整不会重建主题列表的工作台 DOM。
 
-页面使用 Motion 的 mini 入口，通过原生合成动画实现 Hero 文字和滚动标题、卡片、图标的入场；主截图保持完整可见。入场在每个页面元素首次可见时播放，键盘聚焦会立即完成，切页时取消并还原样式。装饰印章只在可见且页面未隐藏时浮动。
+页面使用 Motion 的 mini 入口，通过原生合成动画实现 Hero 文字和滚动标题、卡片、图标的入场；主截图保持完整可见。入场在每个页面元素重新进入视口时播放（完全离开后重置），键盘聚焦会立即完成，切页时取消并还原样式。装饰印章只在可见且页面未隐藏时浮动。
 
 底部像素字标保持同一份缓存，W/e/G/i/t 按 140ms 间隔依次浮现，每字 520ms，完成后仅保留原有轻微像素流动。减少动态效果时立即显示全部字母；离屏/隐藏暂停，切换外观或缩放布局不重新播放已完成的字母入场。
 

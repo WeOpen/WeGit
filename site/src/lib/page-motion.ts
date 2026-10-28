@@ -30,7 +30,7 @@ export function initPageMotion(root: HTMLElement) {
     if (!columnCounts.has(parent)) columnCounts.set(parent, getComputedStyle(parent).gridTemplateColumns.split(' ').filter(value => value !== 'none').length || 1)
     const columns = columnCounts.get(parent)!
     const index = Array.from(parent.children).indexOf(node)
-    entries.push({ node, saved: save(node), shown: bounds.top < innerHeight - 8, inView: bounds.bottom > 0 && bounds.top < innerHeight, delay: columns > 1 ? index % columns * 0.07 : 0 })
+    entries.push({ node, saved: save(node), shown: bounds.top < innerHeight - 8, inView: bounds.bottom > 0 && bounds.top < innerHeight, delay: columns > 1 ? index % columns * 0.1 : 0 })
   }
   for (const entry of entries) if (!entry.shown) {
     entry.node.style.transition = 'none'
@@ -44,7 +44,7 @@ export function initPageMotion(root: HTMLElement) {
     entry.node.dataset.motionState = 'running'
     entry.node.style.transition = 'none'
     entry.node.style.willChange = 'transform, opacity'
-    const control = animate(entry.node, { opacity: [gentle ? 0.85 : 0, 1], transform: [gentle ? 'translateY(12px)' : 'translateY(18px)', 'translateY(0px)'] }, { duration: 0.52, delay: entry.delay, ease: [...ease] })
+    const control = animate(entry.node, { opacity: [gentle ? 0.85 : 0, 1], transform: [gentle ? 'translateY(12px)' : 'translateY(18px)', 'translateY(0px)'] }, { duration: 0.8, delay: entry.delay, ease: [...ease] })
     entry.control = control
     if (document.hidden) control.pause()
     void control.then(() => {
@@ -80,7 +80,7 @@ export function initPageMotion(root: HTMLElement) {
   // The native hero screenshot stays visible and never enters a hidden queue.
   for (const [index, node] of Array.from(root.querySelectorAll<HTMLElement>('.hero-copy > *')).entries()) {
     if (!node.getBoundingClientRect().height) continue
-    const entry: Entry = { node, saved: save(node), shown: false, inView: true, delay: index * 0.08 }
+    const entry: Entry = { node, saved: save(node), shown: false, inView: true, delay: index * 0.12 }
     entries.push(entry); observer.observe(node); play(entry, true)
   }
   const finishAll = () => {

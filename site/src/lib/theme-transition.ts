@@ -26,7 +26,7 @@ export function createThemeTransition() {
       const button = document.querySelector('[data-action="toggle-mode"]')?.getBoundingClientRect()
       const x = button ? button.left + button.width / 2 : innerWidth / 2
       const y = button ? button.top + button.height / 2 : 0
-      const size = Math.max(48, Math.ceil(Math.sqrt(innerWidth * innerHeight / 900)))
+      const size = Math.max(24, Math.ceil(Math.sqrt(innerWidth * innerHeight / 2400)))
       const distance = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) || 1
       const tiles: { path: string; at: number }[] = []
       for (let top = 0; top < innerHeight; top += size) for (let left = 0; left < innerWidth; left += size) {
@@ -42,7 +42,7 @@ export function createThemeTransition() {
       current = transition
       void transition.ready.then(() => {
         if (id !== generation || current !== transition) return
-        animation = root.animate(frames, { duration: 720, fill: 'both', pseudoElement: '::view-transition-new(root)' })
+        animation = root.animate(frames, { duration: 960, fill: 'both', pseudoElement: '::view-transition-new(root)' })
       }).catch(() => { /* Unsupported snapshot animation retains the committed theme. */ })
       void transition.finished.catch(() => {}).then(() => { if (id === generation) stop() })
     },
