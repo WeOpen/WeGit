@@ -357,4 +357,64 @@
 - 同一个输出目录不能同时用于默认 `/WeGit` 构建和根路径浏览器预览；异步构建会替换服务器正在读取的文件。不同用途指定独立输出目录，或串行完成后再重载验证。
 - 本轮 gstack 自动预检的测试映射未覆盖迁移目录，秘密扫描子进程也未完成；工具总结果保留为 incomplete，不能宣称完整 ship 自动门禁通过。仓库要求的策略、凭据扫描和托管原生检查仍须逐项通过后才能正常 Squash 合并。
 
+## 2026-10-28 #71 像素字母 Logo
+
+- 用户明确参考的是 X 视频下方的字母 Logo，放在原 footer 下方；不能把视频上方半圆当成目标，也不重排原导航/版权栏。当前 footer 的原始 HTML 与 main 基点 `7a649e9` 逐字节保留，像素字母位于其后独立 sibling 区域 `#footer-logo`。
+- 实现在 `~/.codex/worktrees/review-pr-71/WeGit` 的 `codex/71-reference-footer`，沿用 PR head `fd56caf`，目前为本地未提交修改，未推送/合并/部署。主检出只有本次交接记录追加，其他网站与原生修改保留。
+- 使用当前 surface 作为底色，浅深色字标各自配色；字母采用缓存方块与少量漂移/归位像素，i 点按真实空白行分离后着朱砂色，不能用高度百分比误染字干。页脚新区域只展示 Logo，不重复插入次级说明。没有常驻 CSS 扫描动效；离屏/隐藏停止时钟，减少动态效果保持静态，切换主题时更新缓存。
+- 本地 JS 13/13（含 4 项动效生命周期检查；release 文件另含 11 子场景）、Python 12/12、构建及 diff 检查通过。Chrome 双语四类路由 × 浅深 × 390/1280px 共 32 组，原 footer 布局、追加顺序、初始化、宽度与控制台均通过。Codex 浏览器检查实际切换与渲染。离屏/减少动态效果均 1 秒 0 次持续绘制；桌面最后一次可见采样 2 秒 51 次、paint 平均 0.152 ms/p95 0.300 ms，仅本机局部结果。分发 2,477,268 bytes，低于 3 MB。预览与 JSON 证据在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/footer-wordmark/`。
+- 新输入会使前台预览会话或 CUA 变量失效，不能靠旧页面截图判断服务仍在。此次使用独立预览进程 PID 62316（命令必须核对为本工作树 serve.py），日志/PID 在证据目录；地址 `http://127.0.0.1:4177/zh/#footer-logo`。若服务已拒绝连接，先核对进程和 HTTP；旧 data URL 错误页可能被浏览器策略挡住，服务恢复后获取同浏览器的新 tab，不能更改系统网络/权限。
+
+## 2026-10-28 TanStack Start / Cloudflare 官网迁移
+
+- 官网默认 dev/build 已切换为 React 19.3.1、TanStack Start 1.169.4 / Router 1.170.46、Cloudflare Vite 1.65.0 与 Wrangler 4.154.0；依赖固定在 package-lock.json。实现位于 `~/.codex/worktrees/review-pr-71/WeGit` 的 `codex/site-tanstack-start-cloudflare`，以前一轮像素 footer 提交 `cd959a7` 为起点。原主检出的其他网站/原生未提交内容保持原状。
+- 首页、主题、隐私与真实 404 由 React/TanStack 路由渲染，语言切换使用 Router；主题编辑、原生 dialog、文件导入/导出与原 footer 下方像素 Logo 均迁入组件。保持 17 色 v1 JSON、64 KiB 上限和 canonical 品牌资源。Workbench 为受控静态叶子结构，memo 与稳定的 HTML 标记防止字号变化重建所有缩略图；主题草稿保存在会话的 React ref，不能放入 SSR 模块共享状态。
+- Workers 通过 ASSETS binding 分发资源，公开营销页使用 5 分钟 Cache API，构建版本/公开 origin/年份隔离缓存。Cookie、Authorization、Set-Cookie 和非公开路径不缓存；nonce 按请求生成并交给 Router SSR，私密配置不进入 VITE_ 变量。未来使用 D1/R2/Queues 应通过 binding，并重新生成类型；本轮没有创建远端资源、推送、合并或生产部署。原 Pages/Python 路径仍为静态兼容入口，不能用其测试证明 Workers 运行通过。
+- `npm run build` 必须包含 wrangler types：生成文件不提交，只有本机已有类型时通过的构建会在全新 CF Builds/CI 中失败。Cloudflare 已安装的 workerd 仅支持到 2026-10-26，设置今天 10-28 会使 preview 启动失败；兼容日期以实际发布运行时支持为准。当前 Vite 8 css-post 仍有一条源码映射诊断，保留在日志，不误报为类型/运行失败或零警告验收。
+- npm 默认缓存出现 EACCES 时，使用本工作树 `.build/npm-start-cache`，不改用户缓存权限、不 sudo。npm 12 安装脚本需要显式的项目级版本审批；只批准所需 workerd/esbuild 的固定版本，不 approve all。
+- vite preview 会缓存 SSR 模块：重建后必须关闭自己的旧进程并重启，再等待 healthz 返回 200 后操作浏览器。仅刷新会混用旧 SSR 与新哈希资源；重启后立刻测试曾产生短暂 ECONNREFUSED。React 受控 range 不能用简单 value赋值+input 事件证明变化；原生 ArrowRight 已验证 13→14。Cua 旧 tab 获取曾报 browser.user unavailable，重置内核并在同一浏览器建立新 tab 后恢复；不是断开或需改系统权限。
+- 最终本地 JS 14/14（5 项像素生命周期检查；release 文件另有 11 子场景）、Python 静态兼容 12/12、Workers HTTP 16/16、类型、构建、dry-run、预算和仓库策略通过。Chrome 双语四类页面 × 两种外观 × 390/1280px 共 32 组，语言/外观、布局、图片解码和 footer 顺序通过。404 的 8 条文档 HTTP404 控制台记录是预期状态；正常页没有代码/CSP错误。Codex 浏览器已实际核对主题预览、字体调整、下载、Unicode/类似HTML名称导入与 Escape/焦点恢复。真实下载含全部17角色，只有所选 accent 改变，字体未导出。
+- 最后构建分发 2,704,297 bytes；CSS 61,269；全部客户端 JS gzip 136,567（预算153,600）；Worker模块合计gzip244,360（预算524,288），均通过。Wrangler本地启动 profile window42.4ms/active21.4ms，不是Cloudflare上线启动时长。一次本地 /zh/ 请求30.44ms、缓存命中3.13ms只作局部证据。源码回执、32组矩阵、截图、导出JSON和日志在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/start-migration/`。
+- 新的 workers.yml 是只读 hosted CI 门禁，无部署 job。未来 CF Builds 根目录 site，npm ci → npm run build → npx wrangler deploy；正式域名通过 VITE_SITE_ORIGIN 指定，未配置时用相对元数据地址，不写死其他托管域名。当前生产构建预览为 `http://127.0.0.1:4179/zh/#footer-logo`，自身进程PID/日志在证据目录。
+
+## 2026-10-28 Hero 截图与导航修复
+
+- NativeImage 从 img 变为 picture 包装后，原 `.laptop-screen>.native-wegit-image` 选择器失效：1280px 页面实测图片宽613.68/高1213，object-fit为fill，发生纵向拉伸与裁切。picture 必须建立与屏幕一致的盒子，图片尺寸规则覆盖包装层内的 img；本轮 height369.60、contain 完整显示，原1920×1213素材字节不变。不要只核对图片存在或自然尺寸而跳过渲染盒子。
+- TanStack Link 默认追加 active class，而 Header 又按首页手工 active，点击 features 后两项同时红。现在 Header 统一由路径+hash 的 topNavigationItem 选择一项，并通过 SiteLink 的受控 active 属性关闭该项自动CSS激活。其他链接保留Router原有行为。直接 #features、产品返回、主题页面与浏览器后退/前进均已检查，不能只测初始首页。
+- 本轮在 codex/site-tanstack-start-cloudflare 继续，构建/类型/预算与策略通过；JS18/18、静态兼容12/12、Workers HTTP16/16。Chrome 首页/主题 × 中英文 × 浅深 × 390/768/1280px 共24组，图片完整包含、模式、单项导航、无横向溢出及控制台0错误/警告通过；Codex 浏览器实际点击功能→产品和截图复核通过。证据在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/hero-nav-fix/`。
+- 按用户要求创建的 hero 报错续跑检查为每5分钟；本轮完成后删除。本次没有推送、合并或生产部署。预览沿用4179，重建后重启自己的进程并实际等待healthz就绪。
+
+## 2026-10-28 页面动效与字母依次入场
+
+- 用户要求整体页面增加动画，并让底部 WeGit 字母依次出现。使用 Motion 14.7.1 的 mini 入口，动态加载约增加4.7KB客户端gzip，保留原预算；未引入较大的完整动画运行时。Hero文字轻量分层入场，滚动标题/卡片/品牌图/图标/步骤/CTA逐组进入，主截图不加入隐藏队列；键盘聚焦立即完成入场，切页取消并恢复原样式。
+- 字标仍用同一份缓存，按字符范围绘制W/e/G/i/t，间隔140ms、每字520ms。首次进入视口依次浮现，随后保留原有少量像素漂移。外观/尺寸更新不重播已完成的入场；减少动态效果立即完整显示。初始化成功标记负责隐藏无脚本fallback，不能先显示完整fallback再闪为空白。观察器、时钟和事件在React卸载时清理。
+- 入场使用原生合成动画，仅transform/opacity，既有印章CSS浮动只在可见且页面未隐藏时运行；减少动态效果恢复所有等待元素为可见。禁用Web Animations/Observer时保留静态内容。64组（中英文四类页面×浅深×390/1280×普通/减少动态效果）检查通过，主截图opacity1且contain、无溢出、正常页控制台无异常；404文档HTTP404仍为预期。Codex浏览器确认motion ready、字母完成、切页和主题预览/Escape正常。
+- JS21/21、静态兼容12/12、Workers HTTP16/16、构建/类型/策略/预算通过；生产依赖audit为0，开发依赖仍有既有告警，未强制升级工具链。分发2,717,271 bytes，CSS61,407，客户端JSgzip141,440，Worker模块gzip253,726，均在预算内。本机字标完成后采样1.5秒39帧，paint平均0.211ms/p95 0.600ms，不能作为线上性能验收。
+- 像素实测早期只有W，中段W/e/G，末段五字均有像素；5.33秒/135帧实际浏览器MP4在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/page-motion/preview.mp4`。录制为fragmented MP4，mvhd duration可为0，时长需从mdhd版本对应timescale和moof/trun时序读取，不能误认录像为空。64组回执在同目录validation.json。
+- 本轮为本地实现与验证，没有推送/合并/生产部署，也没有创建新的定时任务。预览沿用4179；重建后须重启自己的preview并等healthz就绪。
+
+## 2026-10-28 原会话接续：滚动重播与像素主题切换
+
+- 原会话标题仍为 #71 PR 审查，但最新实际任务已经转为官网滚动动画每次进入视口重播，以及参考 omavashia.com 的像素主题切换。继续使用 review-pr-71 工作树的 codex/site-tanstack-start-cloudflare；原主检出未提交内容保持原状。
+- 页面元素完全离开视口后重新准备入场，保留 IntersectionObserver；Hero 同样可重播，键盘焦点内的内容不会被隐藏。底部字标离屏重置序列但不启动时钟，外观/尺寸改变不会无故重播；减少动态效果始终完整显示。
+- 参考站实际为从按钮向外扩散的48px方块遮罩。当前使用原生View Transition快照和25个离散关键帧，720ms完成，方块尺寸随大屏调整以限制数量，不添加DOM方块或常驻绘制。React flushSync 将图片/图标与颜色一起更新；快速连点用代次取消旧回调，避免拍摄前的旧更新覆盖新意图。路由/隐藏/resize/减少动态效果取消动画，仍允许原生更新回调完成；卸载移除监听。
+- 验证滚动必须显式 behavior:instant 或使用真实滚动并等待到位：本项目默认平滑滚动会让150ms采样仍处于中途，容易误判离屏重置失败。桌面900px高的features标题在顶部视口仍可见，重播检查应选完全离开的brand-quote；本轮实际shown→waiting→running→shown，字标complete→waiting→revealing→complete。
+- JS25/25（新增字标重播及主题捕获前连点/清理/降级检查）、静态兼容12/12、Workers16/16、build/typecheck和预算通过。Chrome中英文四类页面×桌面1280普通/手机390减少动态效果共16组，无溢出/空白/隐藏内容/主题动画残留；另实测手机普通动效、快速连点及Codex浏览器外观切换。正常首页console无错误/警告；404文档HTTP404为预期。Vite保留已有css-post sourcemap警告，Node stripTypeScriptTypes测试工具有experimental警告。
+- 最终分发2,720,100 bytes、CSS61,844、客户端JSgzip142,785、Worker模块gzip255,666均低于现有预算。本轮没有线上性能测量；快照只在点击后短时创建，不能把本地检查当作线上验收。截图中途帧与16组JSON在 ~/.codex/visualizations/2026/10/28/01a182ef-465f-7643-a50a-c185adee2fa6/replay-theme/。预览4179已重建并重启自身进程，日志/tmp/wegit-replay-preview.log；本轮没有推送/合并/部署。
+- 仓库策略检查通过；凭据策略脚本需要 --gitleaks，本机PATH中没有该工具，因此本轮凭据扫描未完成，不能报告完整CI门禁通过。
+
+## 2026-10-28 动画减速与 CF 部署说明
+
+- 用户要求动画更慢、主题方块更小，并询问 CF 部署方式；只授权实现和说明，没有执行远端部署。页面入场520→800ms，网格错峰70→100ms/Hero80→120ms；字母800ms/间隔180ms，整组1520ms；主题720→960ms，最小方块48→24px，大屏按约2400个方块预算自适应。保持25个离散关键帧和零常驻主题绘制，不为细方块添加DOM。
+- JS25/25、build/typecheck、预算、wrangler dry-run、Worker16/16通过；Chrome实测800/960ms、字标1250ms仍revealing/1850ms complete、离屏waiting与快速连点最终持久化一致；手机390减少动态效果静态且无溢出，正常页console0错误/警告；Codex浏览器新标签实际点击切换成功。客户端gzip142,767、CSS61,844、Worker模块gzip255,667、分发2,720,099 bytes。一次桌面主题点击同步准备9.1ms仅本机诊断，未测线上性能。截图 ~/.codex/visualizations/2026/10/28/01a182ef-465f-7643-a50a-c185adee2fa6/slower-theme.png。
+- 当前 workers.yml 是验证而非发布；pages.yml 是旧静态GitHub Pages。README已明确推荐CF Workers Builds连接GitHub/main，root site、Node24、build/test/budget与wrangler deploy；也说明GitHub Actions需新增deploy job/Secrets及手动Wrangler方式。不要把连接GitHub自动发布说成必须通过GitHub Actions；Git集成和Actions是两条不同生产入口，择一使用。
+- 构建读取仓库根design/brand，CF监听路径要包含site/**与design/brand/**，不能仅上传site目录或只监听site。VITE_SITE_ORIGIN必须是公开构建变量，目标域名改变后重建。合入main前先通过PR检查，CF原生Git触发不会自动等待其他GitHub检查。
 - 选中行暂存预研：同块含两处替换时，把未选删除行改成 context、删去未选新增行后直接 reverse，会在当前索引上失败。取消暂存的未选新增行必须保留为当前索引 context、未选删除行应省略；私有夹具只撤回 b→B 后，index 为 a/b/C/d，工作文件仍为 a/B/C/d。证据保留在原工作区 `.build/v12-development/resumed/selected-lines-direction-probe.json`；这是预研，不是 #70 实现/验收。
+
+## 2026-10-28 官网合入 main 准备
+
+- 用户明确授权先合并main，Cloudflare GitHub连接由用户手动完成。复用PR#71并将实际范围重写为Workers迁移/可重复动效，新增需求#73满足必须关联open Issue的门禁；不合入其他待办PR。
+- main已前进到c8961da（包含blame与selected-lines原生诊断入口），先合入当前官网分支；唯一冲突HANDOFF.MD为两侧追加，全部保留。原主检出的未提交网站/原生改动不动。
+- 页面新测试使用Node type stripping，旧pages/Repository policy工作流依赖runner默认Node版本不可靠，两个工作流都显式固定Node24，与Workers workflow一致；不增加任何CF deploy job。Changelog补充本次网站迁移/动画。
+- 本地策略69项、JS25项、build/typecheck/预算通过。校验摘要固定的actionlint/gitleaks只安装到工作树.build/merge-tools，未修改系统；actionlint与真实凭据策略5场景通过，83个提交/47.78MB历史扫描0泄露。远端最新head检查仍需全部通过后正常Squash，不能沿用PR原fd56caf检查结果。
+- 首轮远端bf97019的Workers构建、静态网站与PR policy通过；Repository policy在shellcheck SC2034失败：就绪轮询的attempt未读取。本机actionlint无shellcheck时不会覆盖该告警，不能将本机通过等同Linux完整lint。改名为明确忽略的_attempt，保留轮询次数/超时语义，不禁用检查；Native因依赖失败被跳过，需新head重跑。

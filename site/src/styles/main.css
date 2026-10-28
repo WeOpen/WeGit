@@ -1690,7 +1690,8 @@ body {
   background:color-mix(in srgb,var(--paper) 80%,transparent)
 }
 .hero-home .floating-seal,.hero-themes .floating-seal {
-  animation:sealFloat 6s ease-in-out infinite
+  animation:sealFloat 6s ease-in-out infinite;
+  animation-play-state:paused
 }
 @keyframes sealFloat {
   0%,100% {
@@ -2085,3 +2086,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible {
     gap:12px
   }
 }
+
+/* Scoped to appearance changes; the snapshots keep controls and layout intact. */
+:root[data-theme-transition="pixels"] *,
+:root[data-theme-transition="pixels"] *::before,
+:root[data-theme-transition="pixels"] *::after { transition: none !important; }
+:root[data-theme-transition="pixels"]::view-transition-old(root),
+:root[data-theme-transition="pixels"]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+:root[data-theme-transition="pixels"]::view-transition-new(root) { clip-path: path('M0 0'); }

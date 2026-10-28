@@ -1,0 +1,38 @@
+/* Pixel letter logo below the unchanged, shared footer. */
+.footer-logo-panel {
+  --footer-background: var(--surface);
+  --footer-pixel: #c7beb4;
+  --footer-hot: #b3322d;
+  background: var(--footer-background);
+  padding: 8px 0 24px;
+  overflow: clip;
+}
+:root[data-site-mode="dark"] .footer-logo-panel {
+  --footer-pixel: #48413c;
+  --footer-hot: #e45a3b;
+}
+.footer-wordmark {
+  position: relative;
+  height: clamp(112px, 22vw, 280px);
+  overflow: clip;
+}
+.footer-wordmark canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.footer-word-fallback {
+  margin: 0;
+  color: var(--footer-pixel);
+  font: 700 clamp(96px, 22vw, 280px)/1 Arial, Helvetica, sans-serif;
+  letter-spacing: -.065em;
+  text-align: center;
+}
+.is-canvas-ready .footer-word-fallback,
+.footer-logo-panel[data-pixels-initialized="true"] .footer-word-fallback { visibility: hidden; }
+@media (max-width: 700px) {
+  .footer-logo-panel { padding-bottom: 16px; }
+}

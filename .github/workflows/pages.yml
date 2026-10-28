@@ -38,6 +38,9 @@ jobs:
         with:
           ref: ${{ steps.source.outputs.sha }}
           persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
       - name: Validate release links and build both languages
         env:
           GH_TOKEN: ${{ github.token }}

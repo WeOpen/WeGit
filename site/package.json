@@ -1,15 +1,47 @@
 {
   "name": "@weopen/wegit-website",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "WeGit product website and native-compatible theme studio",
+  "description": "WeGit website on TanStack Start and Cloudflare Workers",
   "scripts": {
-    "build": "python3 scripts/build.py",
-    "dev": "python3 scripts/serve.py",
+    "dev": "node scripts/prepare-assets.mjs && vite dev",
+    "build": "node scripts/prepare-assets.mjs && wrangler types && vite build && tsc --noEmit",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types",
+    "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
-    "test:build": "python3 -m unittest discover -s tests -p 'test_*.py' -v"
+    "check:budget": "node scripts/check-budget.mjs",
+    "test:worker": "node scripts/check-worker.mjs",
+    "test:legacy": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "build:legacy": "python3 scripts/build.py"
   },
-  "engines": { "node": ">=18" },
-  "license": "MIT"
+  "engines": {
+    "node": ">=22.12"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@tanstack/react-router": "1.170.46",
+    "@tanstack/react-start": "1.169.4",
+    "motion": "14.7.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.65.0",
+    "@cloudflare/workers-types": "5.20261028.1",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "wrangler": "4.154.0"
+  },
+  "allowScripts": {
+    "workerd@1.20261019.1": true,
+    "workerd@1.20261023.1": true,
+    "esbuild@0.28.2": true
+  }
 }

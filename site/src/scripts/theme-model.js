@@ -42,6 +42,7 @@ function blend(a, b, amount) {
 }
 
 /** Contrast changes become actual color values, shared by preview and download. */
+/** @param {unknown} document @param {{accent?: string | null, contrast?: 'soft' | 'normal' | 'high'}} options */
 export function prepareTheme(document, { accent = null, contrast = 'normal' } = {}) {
   const theme = validateTheme(document);
   if (accent) theme.colors.accent = normalizeHex(accent);
