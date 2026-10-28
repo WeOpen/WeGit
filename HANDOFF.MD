@@ -417,3 +417,4 @@
 - main已前进到c8961da（包含blame与selected-lines原生诊断入口），先合入当前官网分支；唯一冲突HANDOFF.MD为两侧追加，全部保留。原主检出的未提交网站/原生改动不动。
 - 页面新测试使用Node type stripping，旧pages/Repository policy工作流依赖runner默认Node版本不可靠，两个工作流都显式固定Node24，与Workers workflow一致；不增加任何CF deploy job。Changelog补充本次网站迁移/动画。
 - 本地策略69项、JS25项、build/typecheck/预算通过。校验摘要固定的actionlint/gitleaks只安装到工作树.build/merge-tools，未修改系统；actionlint与真实凭据策略5场景通过，83个提交/47.78MB历史扫描0泄露。远端最新head检查仍需全部通过后正常Squash，不能沿用PR原fd56caf检查结果。
+- 首轮远端bf97019的Workers构建、静态网站与PR policy通过；Repository policy在shellcheck SC2034失败：就绪轮询的attempt未读取。本机actionlint无shellcheck时不会覆盖该告警，不能将本机通过等同Linux完整lint。改名为明确忽略的_attempt，保留轮询次数/超时语义，不禁用检查；Native因依赖失败被跳过，需新head重跑。

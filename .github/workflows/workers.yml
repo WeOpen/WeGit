@@ -40,7 +40,7 @@ jobs:
           worker_pid=$!
           trap 'kill "$worker_pid" || true' EXIT
           ready=0
-          for attempt in {1..40}; do
+          for _attempt in {1..40}; do
             if curl --fail --silent http://127.0.0.1:4179/healthz; then
               ready=1
               break
