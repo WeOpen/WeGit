@@ -1,3 +1,5 @@
+import { letterReveal } from './footer-sequence.mjs';
+
 /** Cached letter tiles; one clock paints visible wordmarks at most 30 times/s. */
 export function initParticleFooter(panel = document.querySelector('.footer-logo-panel')) {
   if (!panel || panel.dataset.pixelsInitialized || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) return;
@@ -15,7 +17,8 @@ export function initParticleFooter(panel = document.querySelector('.footer-logo-
     const ink = layer.getContext('2d', { willReadFrequently: true });
     if (!ink) continue;
     const renderer = { stage, visible: false, dirty: true, ready: false };
-    let width = 0, height = 0, step = 1, colors, moving = [], pointer = null;
+    let width = 0, height = 0, step = 1, colors, moving = [], ranges = [], pointer = null;
+    let startedAt = null, revealed = false;
 
     renderer.rebuild = () => {
       const bounds = stage.getBoundingClientRect();
@@ -34,6 +37,9 @@ export function initParticleFooter(panel = document.querySelector('.footer-logo-
       const scale = Math.min(1, width * .98 / ink.measureText('WeGit').width);
       const iStart = width / 2 + (ink.measureText('WeG').width - ink.measureText('WeGit').width / 2) * scale;
       const iEnd = iStart + ink.measureText('i').width * scale;
+      const wordWidth = ink.measureText('WeGit').width;
+      const boundaries = [0, ...[1, 2, 3, 4].map(index => Math.max(0, Math.min(width, width / 2 + (ink.measureText('WeGit'.slice(0, index)).width - wordWidth / 2) * scale))), width];
+      ranges = boundaries.slice(0, -1).map((left, index) => ({ left, right: boundaries[index + 1] }));
       ink.save(); ink.translate(width / 2, height * .53); ink.scale(scale, scale); ink.fillText('WeGit', 0, 0); ink.restore();
       const pixels = ink.getImageData(0, 0, width, height).data;
       // Find the actual blank row below the i dot rather than tinting the stem.
@@ -54,7 +60,8 @@ export function initParticleFooter(panel = document.querySelector('.footer-logo-
           const dot = x >= iStart && x < iEnd && y < dotBottom;
           const noise = random(x + y * 997);
           if (!dot && noise > .86) {
-            moving.push({ x, y, phase: x / width * 6 + random(x * 11 + y) * 1.5, warm: noise > .985 });
+            const letter = ranges.findIndex(range => x >= range.left && x < range.right);
+            moving.push({ x, y, letter: Math.max(0, letter), phase: x / width * 6 + random(x * 11 + y) * 1.5, warm: noise > .985 });
           } else {
             ink.fillStyle = dot ? colors.hot : colors.pixel;
             ink.fillRect(x, y, step - 1, step - 1);
@@ -67,15 +74,25 @@ export function initParticleFooter(panel = document.querySelector('.footer-logo-
     renderer.paint = time => {
       if (!renderer.ready) return;
       context.clearRect(0, 0, width, height);
-      context.drawImage(layer, 0, 0);
       const active = !reduced.matches;
+      if (startedAt === null) { startedAt = time; stage.dataset.footerEntrance = 'revealing'; }
+      const reveals = ranges.map((_, index) => letterReveal(index, time - startedAt, !active || revealed));
+      for (const [index, range] of ranges.entries()) {
+        const reveal = reveals[index];
+        if (!reveal.progress || range.right <= range.left) continue;
+        context.globalAlpha = reveal.progress;
+        context.drawImage(layer, range.left, 0, range.right - range.left, height, range.left, reveal.offset, range.right - range.left, height);
+      }
+      if (!revealed && reveals.every(reveal => reveal.progress === 1)) { revealed = true; stage.dataset.footerEntrance = 'complete'; }
       for (const p of moving) {
-        const pulse = active ? Math.max(0, Math.sin(time * .0008 - p.phase)) ** 12 : 0;
+        const reveal = reveals[p.letter];
+        if (!reveal.progress) continue;
+        const pulse = active && revealed ? Math.max(0, Math.sin(time * .0008 - p.phase)) ** 12 : 0;
         const near = pointer && active ? Math.max(0, 1 - Math.hypot(p.x - pointer.x, p.y - pointer.y) / 100) : 0;
         // Tiles drift and settle on the same grid, keeping the letter silhouette clear.
         const x = p.x + Math.round(Math.sin(p.phase * 5) * pulse * 2) * step;
-        const y = p.y + Math.round(Math.cos(p.phase * 3) * pulse * 2) * step;
-        context.globalAlpha = 1 - pulse * .35;
+        const y = p.y + Math.round(Math.cos(p.phase * 3) * pulse * 2) * step + reveal.offset;
+        context.globalAlpha = (1 - pulse * .35) * reveal.progress;
         context.fillStyle = p.warm || near > .35 ? colors.hot : colors.pixel;
         context.fillRect(x, y, step - 1, step - 1);
       }

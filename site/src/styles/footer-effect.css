@@ -31,7 +31,8 @@
   letter-spacing: -.065em;
   text-align: center;
 }
-.is-canvas-ready .footer-word-fallback { visibility: hidden; }
+.is-canvas-ready .footer-word-fallback,
+.footer-logo-panel[data-pixels-initialized="true"] .footer-word-fallback { visibility: hidden; }
 @media (max-width: 700px) {
   .footer-logo-panel { padding-bottom: 16px; }
 }

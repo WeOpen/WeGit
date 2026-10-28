@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import { letterReveal } from '../src/scripts/footer-sequence.mjs';
 
-const source = readFileSync(new URL('../src/scripts/footer-effect.js', import.meta.url), 'utf8').replace('export function', 'function');
+const source = readFileSync(new URL('../src/scripts/footer-effect.js', import.meta.url), 'utf8').replace(/^import .*\n/m, '').replace('export function', 'function');
 
 function fixture() {
   const events = target => Object.assign(target, {
@@ -16,11 +17,11 @@ function fixture() {
   function canvas() {
     const ctx = {
       paints: 0, fills: [], fillStyle: '#000',
-      setTransform() {}, clearRect() {}, save() {}, restore() {}, translate() {}, scale() {},
+      setTransform() {}, clearRect() { this.paints++; }, save() {}, restore() {}, translate() {}, scale() {},
       fillText() {}, measureText(word) { return { width: word.length * 20 }; },
       getImageData(x, y, w, h) { return { data: new Uint8ClampedArray(w * h * 4).fill(255) }; },
       fillRect() { this.fills.push(this.fillStyle); },
-      drawImage() { this.paints++; }
+      drawImage() {}
     };
     contexts.push(ctx);
     return { getContext() { return ctx; } };
@@ -53,6 +54,7 @@ function fixture() {
     IntersectionObserver: observer('intersection'), ResizeObserver: observer('resize')
   });
   const environment = {
+    letterReveal,
     document, window,
     IntersectionObserver: window.IntersectionObserver,
     ResizeObserver: window.ResizeObserver,

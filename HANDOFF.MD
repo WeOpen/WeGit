@@ -370,3 +370,12 @@
 - TanStack Link 默认追加 active class，而 Header 又按首页手工 active，点击 features 后两项同时红。现在 Header 统一由路径+hash 的 topNavigationItem 选择一项，并通过 SiteLink 的受控 active 属性关闭该项自动CSS激活。其他链接保留Router原有行为。直接 #features、产品返回、主题页面与浏览器后退/前进均已检查，不能只测初始首页。
 - 本轮在 codex/site-tanstack-start-cloudflare 继续，构建/类型/预算与策略通过；JS18/18、静态兼容12/12、Workers HTTP16/16。Chrome 首页/主题 × 中英文 × 浅深 × 390/768/1280px 共24组，图片完整包含、模式、单项导航、无横向溢出及控制台0错误/警告通过；Codex 浏览器实际点击功能→产品和截图复核通过。证据在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/hero-nav-fix/`。
 - 按用户要求创建的 hero 报错续跑检查为每5分钟；本轮完成后删除。本次没有推送、合并或生产部署。预览沿用4179，重建后重启自己的进程并实际等待healthz就绪。
+
+## 2026-10-28 页面动效与字母依次入场
+
+- 用户要求整体页面增加动画，并让底部 WeGit 字母依次出现。使用 Motion 14.7.1 的 mini 入口，动态加载约增加4.7KB客户端gzip，保留原预算；未引入较大的完整动画运行时。Hero文字轻量分层入场，滚动标题/卡片/品牌图/图标/步骤/CTA逐组进入，主截图不加入隐藏队列；键盘聚焦立即完成入场，切页取消并恢复原样式。
+- 字标仍用同一份缓存，按字符范围绘制W/e/G/i/t，间隔140ms、每字520ms。首次进入视口依次浮现，随后保留原有少量像素漂移。外观/尺寸更新不重播已完成的入场；减少动态效果立即完整显示。初始化成功标记负责隐藏无脚本fallback，不能先显示完整fallback再闪为空白。观察器、时钟和事件在React卸载时清理。
+- 入场使用原生合成动画，仅transform/opacity，既有印章CSS浮动只在可见且页面未隐藏时运行；减少动态效果恢复所有等待元素为可见。禁用Web Animations/Observer时保留静态内容。64组（中英文四类页面×浅深×390/1280×普通/减少动态效果）检查通过，主截图opacity1且contain、无溢出、正常页控制台无异常；404文档HTTP404仍为预期。Codex浏览器确认motion ready、字母完成、切页和主题预览/Escape正常。
+- JS21/21、静态兼容12/12、Workers HTTP16/16、构建/类型/策略/预算通过；生产依赖audit为0，开发依赖仍有既有告警，未强制升级工具链。分发2,717,271 bytes，CSS61,407，客户端JSgzip141,440，Worker模块gzip253,726，均在预算内。本机字标完成后采样1.5秒39帧，paint平均0.211ms/p95 0.600ms，不能作为线上性能验收。
+- 像素实测早期只有W，中段W/e/G，末段五字均有像素；5.33秒/135帧实际浏览器MP4在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/page-motion/preview.mp4`。录制为fragmented MP4，mvhd duration可为0，时长需从mdhd版本对应timescale和moof/trun时序读取，不能误认录像为空。64组回执在同目录validation.json。
+- 本轮为本地实现与验证，没有推送/合并/生产部署，也没有创建新的定时任务。预览沿用4179；重建后须重启自己的preview并等healthz就绪。

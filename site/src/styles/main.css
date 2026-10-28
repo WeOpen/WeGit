@@ -1690,7 +1690,8 @@ body {
   background:color-mix(in srgb,var(--paper) 80%,transparent)
 }
 .hero-home .floating-seal,.hero-themes .floating-seal {
-  animation:sealFloat 6s ease-in-out infinite
+  animation:sealFloat 6s ease-in-out infinite;
+  animation-play-state:paused
 }
 @keyframes sealFloat {
   0%,100% {

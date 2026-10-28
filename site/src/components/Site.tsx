@@ -123,6 +123,15 @@ export function SiteShell({ children }: { children: ReactNode }) {
   const themeDraft = useRef<ThemeDraft | null>(null)
   const tr = useCallback((key: string) => translate(locale, key), [locale])
   useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let cancelled = false, dispose: (() => void) | undefined
+    void import('../lib/page-motion').then(({ initPageMotion }) => {
+      const root = document.querySelector<HTMLElement>('#main')
+      if (!cancelled && root) dispose = initPageMotion(root)
+    }).catch(() => {})
+    return () => { cancelled = true; dispose?.() }
+  }, [pathname])
+  useEffect(() => {
     const actual = document.documentElement.dataset.siteMode === 'dark' ? 'dark' : 'light'
     setMode(actual)
     document.documentElement.lang = locale === 'zh' ? 'zh-CN' : 'en'
