@@ -26,6 +26,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
       - name: Install checksum-pinned tools and policy dependency
         run: |
           python3 -m venv "$RUNNER_TEMP/wegit-python"

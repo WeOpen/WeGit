@@ -410,3 +410,10 @@
 - 当前 workers.yml 是验证而非发布；pages.yml 是旧静态GitHub Pages。README已明确推荐CF Workers Builds连接GitHub/main，root site、Node24、build/test/budget与wrangler deploy；也说明GitHub Actions需新增deploy job/Secrets及手动Wrangler方式。不要把连接GitHub自动发布说成必须通过GitHub Actions；Git集成和Actions是两条不同生产入口，择一使用。
 - 构建读取仓库根design/brand，CF监听路径要包含site/**与design/brand/**，不能仅上传site目录或只监听site。VITE_SITE_ORIGIN必须是公开构建变量，目标域名改变后重建。合入main前先通过PR检查，CF原生Git触发不会自动等待其他GitHub检查。
 - 选中行暂存预研：同块含两处替换时，把未选删除行改成 context、删去未选新增行后直接 reverse，会在当前索引上失败。取消暂存的未选新增行必须保留为当前索引 context、未选删除行应省略；私有夹具只撤回 b→B 后，index 为 a/b/C/d，工作文件仍为 a/B/C/d。证据保留在原工作区 `.build/v12-development/resumed/selected-lines-direction-probe.json`；这是预研，不是 #70 实现/验收。
+
+## 2026-10-28 官网合入 main 准备
+
+- 用户明确授权先合并main，Cloudflare GitHub连接由用户手动完成。复用PR#71并将实际范围重写为Workers迁移/可重复动效，新增需求#73满足必须关联open Issue的门禁；不合入其他待办PR。
+- main已前进到c8961da（包含blame与selected-lines原生诊断入口），先合入当前官网分支；唯一冲突HANDOFF.MD为两侧追加，全部保留。原主检出的未提交网站/原生改动不动。
+- 页面新测试使用Node type stripping，旧pages/Repository policy工作流依赖runner默认Node版本不可靠，两个工作流都显式固定Node24，与Workers workflow一致；不增加任何CF deploy job。Changelog补充本次网站迁移/动画。
+- 本地策略69项、JS25项、build/typecheck/预算通过。校验摘要固定的actionlint/gitleaks只安装到工作树.build/merge-tools，未修改系统；actionlint与真实凭据策略5场景通过，83个提交/47.78MB历史扫描0泄露。远端最新head检查仍需全部通过后正常Squash，不能沿用PR原fd56caf检查结果。
