@@ -9,6 +9,7 @@ function fixture() {
   const events = target => Object.assign(target, {
     listeners: new Map(),
     addEventListener(type, callback) { this.listeners.set(type, callback); },
+    removeEventListener(type) { this.listeners.delete(type); },
     fire(type) { this.listeners.get(type)?.(); }
   });
   const contexts = [];
@@ -44,6 +45,7 @@ function fixture() {
   const observer = kind => class {
     constructor(callback) { this.callback = callback; observers[kind].push(this); }
     observe() {}
+    disconnect() { this.disconnected = true; }
     emit(entries) { this.callback(entries); }
   };
   let next = 0, mode = 'light';
@@ -127,4 +129,16 @@ test('initialization is idempotent and unsupported observers retain the fallback
   assert.doesNotThrow(unsupported.init);
   assert.equal(unsupported.observers.intersection.length, 0);
   assert.equal(unsupported.pending.size, 0);
+});
+
+test('React unmount removes the clock, observers and preference listeners', () => {
+  const f = fixture(); const dispose = f.init(); f.show([true, true]); f.step(100);
+  assert.equal(f.pending.size, 1);
+  dispose();
+  const before = f.contexts.map(c => c.paints);
+  f.preference.fire('change'); f.document.fire('visibilitychange'); f.window.fire('pageshow'); f.step(200);
+  assert.equal(f.pending.size, 0);
+  assert.deepEqual(f.contexts.map(c => c.paints), before);
+  assert.ok(Object.values(f.observers).flat().every(observer => observer.disconnected));
+  assert.ok(f.stages.every(stage => stage.listeners.size === 0));
 });

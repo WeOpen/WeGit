@@ -351,3 +351,15 @@
 - 使用当前 surface 作为底色，浅深色字标各自配色；字母采用缓存方块与少量漂移/归位像素，i 点按真实空白行分离后着朱砂色，不能用高度百分比误染字干。页脚新区域只展示 Logo，不重复插入次级说明。没有常驻 CSS 扫描动效；离屏/隐藏停止时钟，减少动态效果保持静态，切换主题时更新缓存。
 - 本地 JS 13/13（含 4 项动效生命周期检查；release 文件另含 11 子场景）、Python 12/12、构建及 diff 检查通过。Chrome 双语四类路由 × 浅深 × 390/1280px 共 32 组，原 footer 布局、追加顺序、初始化、宽度与控制台均通过。Codex 浏览器检查实际切换与渲染。离屏/减少动态效果均 1 秒 0 次持续绘制；桌面最后一次可见采样 2 秒 51 次、paint 平均 0.152 ms/p95 0.300 ms，仅本机局部结果。分发 2,477,268 bytes，低于 3 MB。预览与 JSON 证据在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/footer-wordmark/`。
 - 新输入会使前台预览会话或 CUA 变量失效，不能靠旧页面截图判断服务仍在。此次使用独立预览进程 PID 62316（命令必须核对为本工作树 serve.py），日志/PID 在证据目录；地址 `http://127.0.0.1:4177/zh/#footer-logo`。若服务已拒绝连接，先核对进程和 HTTP；旧 data URL 错误页可能被浏览器策略挡住，服务恢复后获取同浏览器的新 tab，不能更改系统网络/权限。
+
+## 2026-10-28 TanStack Start / Cloudflare 官网迁移
+
+- 官网默认 dev/build 已切换为 React 19.3.1、TanStack Start 1.169.4 / Router 1.170.46、Cloudflare Vite 1.65.0 与 Wrangler 4.154.0；依赖固定在 package-lock.json。实现位于 `~/.codex/worktrees/review-pr-71/WeGit` 的 `codex/site-tanstack-start-cloudflare`，以前一轮像素 footer 提交 `cd959a7` 为起点。原主检出的其他网站/原生未提交内容保持原状。
+- 首页、主题、隐私与真实 404 由 React/TanStack 路由渲染，语言切换使用 Router；主题编辑、原生 dialog、文件导入/导出与原 footer 下方像素 Logo 均迁入组件。保持 17 色 v1 JSON、64 KiB 上限和 canonical 品牌资源。Workbench 为受控静态叶子结构，memo 与稳定的 HTML 标记防止字号变化重建所有缩略图；主题草稿保存在会话的 React ref，不能放入 SSR 模块共享状态。
+- Workers 通过 ASSETS binding 分发资源，公开营销页使用 5 分钟 Cache API，构建版本/公开 origin/年份隔离缓存。Cookie、Authorization、Set-Cookie 和非公开路径不缓存；nonce 按请求生成并交给 Router SSR，私密配置不进入 VITE_ 变量。未来使用 D1/R2/Queues 应通过 binding，并重新生成类型；本轮没有创建远端资源、推送、合并或生产部署。原 Pages/Python 路径仍为静态兼容入口，不能用其测试证明 Workers 运行通过。
+- `npm run build` 必须包含 wrangler types：生成文件不提交，只有本机已有类型时通过的构建会在全新 CF Builds/CI 中失败。Cloudflare 已安装的 workerd 仅支持到 2026-10-26，设置今天 10-28 会使 preview 启动失败；兼容日期以实际发布运行时支持为准。当前 Vite 8 css-post 仍有一条源码映射诊断，保留在日志，不误报为类型/运行失败或零警告验收。
+- npm 默认缓存出现 EACCES 时，使用本工作树 `.build/npm-start-cache`，不改用户缓存权限、不 sudo。npm 12 安装脚本需要显式的项目级版本审批；只批准所需 workerd/esbuild 的固定版本，不 approve all。
+- vite preview 会缓存 SSR 模块：重建后必须关闭自己的旧进程并重启，再等待 healthz 返回 200 后操作浏览器。仅刷新会混用旧 SSR 与新哈希资源；重启后立刻测试曾产生短暂 ECONNREFUSED。React 受控 range 不能用简单 value赋值+input 事件证明变化；原生 ArrowRight 已验证 13→14。Cua 旧 tab 获取曾报 browser.user unavailable，重置内核并在同一浏览器建立新 tab 后恢复；不是断开或需改系统权限。
+- 最终本地 JS 14/14（5 项像素生命周期检查；release 文件另有 11 子场景）、Python 静态兼容 12/12、Workers HTTP 16/16、类型、构建、dry-run、预算和仓库策略通过。Chrome 双语四类页面 × 两种外观 × 390/1280px 共 32 组，语言/外观、布局、图片解码和 footer 顺序通过。404 的 8 条文档 HTTP404 控制台记录是预期状态；正常页没有代码/CSP错误。Codex 浏览器已实际核对主题预览、字体调整、下载、Unicode/类似HTML名称导入与 Escape/焦点恢复。真实下载含全部17角色，只有所选 accent 改变，字体未导出。
+- 最后构建分发 2,704,297 bytes；CSS 61,269；全部客户端 JS gzip 136,567（预算153,600）；Worker模块合计gzip244,360（预算524,288），均通过。Wrangler本地启动 profile window42.4ms/active21.4ms，不是Cloudflare上线启动时长。一次本地 /zh/ 请求30.44ms、缓存命中3.13ms只作局部证据。源码回执、32组矩阵、截图、导出JSON和日志在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/start-migration/`。
+- 新的 workers.yml 是只读 hosted CI 门禁，无部署 job。未来 CF Builds 根目录 site，npm ci → npm run build → npx wrangler deploy；正式域名通过 VITE_SITE_ORIGIN 指定，未配置时用相对元数据地址，不写死其他托管域名。当前生产构建预览为 `http://127.0.0.1:4179/zh/#footer-logo`，自身进程PID/日志在证据目录。

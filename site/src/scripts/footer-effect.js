@@ -1,6 +1,5 @@
 /** Cached letter tiles; one clock paints visible wordmarks at most 30 times/s. */
-export function initParticleFooter() {
-  const panel = document.querySelector('.footer-logo-panel');
+export function initParticleFooter(panel = document.querySelector('.footer-logo-panel')) {
   if (!panel || panel.dataset.pixelsInitialized || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = matchMedia('(pointer: coarse)');
@@ -82,12 +81,15 @@ export function initParticleFooter() {
       }
       context.globalAlpha = 1;
     };
-    stage.addEventListener('pointermove', event => {
+    const move = event => {
       if (coarse.matches || reduced.matches) return;
       const bounds = stage.getBoundingClientRect();
       pointer = { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
-    }, { passive: true });
-    stage.addEventListener('pointerleave', () => { pointer = null; });
+    };
+    const leave = () => { pointer = null; };
+    stage.addEventListener('pointermove', move, { passive: true });
+    stage.addEventListener('pointerleave', leave);
+    renderer.dispose = () => { stage.removeEventListener('pointermove', move); stage.removeEventListener('pointerleave', leave); };
     renderers.push(renderer);
   }
   if (!renderers.length) return;
@@ -139,4 +141,13 @@ export function initParticleFooter() {
   document.addEventListener('visibilitychange', sync);
   window.addEventListener('pageshow', sync);
   reduced.addEventListener('change', sync);
+  return () => {
+    cancelAnimationFrame(frame);
+    visibility.disconnect(); resize.disconnect(); appearance.disconnect();
+    document.removeEventListener('visibilitychange', sync);
+    window.removeEventListener('pageshow', sync);
+    reduced.removeEventListener('change', sync);
+    for (const renderer of renderers) renderer.dispose();
+    delete panel.dataset.pixelsInitialized;
+  };
 }
