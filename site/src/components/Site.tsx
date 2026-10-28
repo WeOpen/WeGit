@@ -6,6 +6,7 @@ import { workbenchHTML } from '../scripts/workbench.js'
 import { previewProperties } from '../scripts/theme-model.js'
 import { catalog, type ThemeDocument, type ThemeDraft } from '../lib/catalog'
 import build from '../../.generated/build-meta.json'
+import { topNavigationItem } from '../lib/navigation.mjs'
 
 type SiteState = {
   locale: Locale; mode: Mode; tr: (key: string) => string; toggleMode: () => void
@@ -27,13 +28,14 @@ function knownRoute(path: string): SiteTo | null {
   const paths: Record<string, SiteTo> = { '/': '/', '/zh': '/zh/', '/themes': '/themes/', '/zh/themes': '/zh/themes/', '/privacy': '/privacy/', '/zh/privacy': '/zh/privacy/' }
   return paths[clean] ?? null
 }
-export function SiteLink({ href, children, className, onClick, ...props }: { href: string; children: ReactNode; className?: string; onClick?: () => void; 'aria-label'?: string; 'aria-current'?: 'page' }) {
+export function SiteLink({ href, children, className, onClick, active, ...props }: { href: string; children: ReactNode; className?: string; onClick?: () => void; active?: boolean; 'aria-label'?: string; 'aria-current'?: 'page' }) {
   const [fullPath, hash] = href.split('#')
   const [path, query] = fullPath.split('?')
   const theme = new URLSearchParams(query).get('theme') ?? undefined
   const current = useLocation({ select: location => location.pathname })
   const to = knownRoute(path || current)
-  return to ? <Link to={to} hash={hash} search={theme ? { theme } : {}} activeOptions={{ exact: true, includeHash: true }} className={className} onClick={onClick} {...props}>{children}</Link> :
+  const linkClass = [className, active ? 'active' : ''].filter(Boolean).join(' ') || undefined
+  return to ? <Link to={to} hash={hash} search={theme ? { theme } : {}} activeOptions={{ exact: true, includeHash: true }} activeProps={active === undefined ? undefined : {}} className={linkClass} onClick={onClick} {...props}>{children}</Link> :
     <a href={href} className={className} onClick={onClick} {...props}>{children}</a>
 }
 export function Icon({ name }: { name: string }) {
@@ -74,7 +76,9 @@ function Brand({ footer = false }: { footer?: boolean }) {
 }
 function Header() {
   const { locale, tr, mode, toggleMode, switchLanguage } = useSite()
-  const page = pageFromPath(useLocation({ select: location => location.pathname }))
+  const pathname = useLocation({ select: location => location.pathname })
+  const hash = useLocation({ select: location => location.hash })
+  const currentItem = topNavigationItem(pathname, hash)
   const [menu, setMenu] = useState(false)
   const toggle = useRef<HTMLButtonElement>(null)
   useEffect(() => {
@@ -85,9 +89,9 @@ function Header() {
     return () => { document.removeEventListener('keydown', escape); media.removeEventListener('change', changed) }
   }, [menu])
   return <header className="site-header" id="top"><div className="wrap header-inner"><Brand /><nav className={'main-nav' + (menu ? ' open' : '')} id="main-nav" aria-label="Primary navigation">
-    <SiteLink href={route(locale)} className={page === 'home' ? 'active' : ''} aria-current={page === 'home' ? 'page' : undefined} onClick={() => setMenu(false)}>{tr('nav.product')}</SiteLink>
-    <SiteLink href={route(locale) + '#features'} onClick={() => setMenu(false)}>{tr('nav.features')}</SiteLink>
-    <SiteLink href={route(locale, 'themes')} className={page === 'themes' ? 'active' : ''} aria-current={page === 'themes' ? 'page' : undefined} onClick={() => setMenu(false)}>{tr('nav.themes')}</SiteLink>
+    <SiteLink href={route(locale)} active={currentItem === 'product'} aria-current={currentItem === 'product' ? 'page' : undefined} onClick={() => setMenu(false)}>{tr('nav.product')}</SiteLink>
+    <SiteLink href={route(locale) + '#features'} active={currentItem === 'features'} aria-current={currentItem === 'features' ? 'page' : undefined} onClick={() => setMenu(false)}>{tr('nav.features')}</SiteLink>
+    <SiteLink href={route(locale, 'themes')} active={currentItem === 'themes'} aria-current={currentItem === 'themes' ? 'page' : undefined} onClick={() => setMenu(false)}>{tr('nav.themes')}</SiteLink>
     <a href="https://github.com/WeOpen/WeGit" className="nav-source">GitHub</a></nav><div className="nav-actions">
     <button className="icon-button mode-toggle" data-action="toggle-mode" aria-label={tr(mode === 'dark' ? 'a11y.toLight' : 'a11y.toDark')} title={tr(mode === 'dark' ? 'a11y.toLight' : 'a11y.toDark')} aria-pressed={mode === 'dark'} onClick={toggleMode}><span className="mode-symbol"><Icon name="taiji" /></span></button>
     <button className="lang-toggle" aria-label="Change language" onClick={switchLanguage}>{locale === 'zh' ? 'EN' : '中文'}</button>

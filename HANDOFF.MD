@@ -363,3 +363,10 @@
 - 最终本地 JS 14/14（5 项像素生命周期检查；release 文件另有 11 子场景）、Python 静态兼容 12/12、Workers HTTP 16/16、类型、构建、dry-run、预算和仓库策略通过。Chrome 双语四类页面 × 两种外观 × 390/1280px 共 32 组，语言/外观、布局、图片解码和 footer 顺序通过。404 的 8 条文档 HTTP404 控制台记录是预期状态；正常页没有代码/CSP错误。Codex 浏览器已实际核对主题预览、字体调整、下载、Unicode/类似HTML名称导入与 Escape/焦点恢复。真实下载含全部17角色，只有所选 accent 改变，字体未导出。
 - 最后构建分发 2,704,297 bytes；CSS 61,269；全部客户端 JS gzip 136,567（预算153,600）；Worker模块合计gzip244,360（预算524,288），均通过。Wrangler本地启动 profile window42.4ms/active21.4ms，不是Cloudflare上线启动时长。一次本地 /zh/ 请求30.44ms、缓存命中3.13ms只作局部证据。源码回执、32组矩阵、截图、导出JSON和日志在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/start-migration/`。
 - 新的 workers.yml 是只读 hosted CI 门禁，无部署 job。未来 CF Builds 根目录 site，npm ci → npm run build → npx wrangler deploy；正式域名通过 VITE_SITE_ORIGIN 指定，未配置时用相对元数据地址，不写死其他托管域名。当前生产构建预览为 `http://127.0.0.1:4179/zh/#footer-logo`，自身进程PID/日志在证据目录。
+
+## 2026-10-28 Hero 截图与导航修复
+
+- NativeImage 从 img 变为 picture 包装后，原 `.laptop-screen>.native-wegit-image` 选择器失效：1280px 页面实测图片宽613.68/高1213，object-fit为fill，发生纵向拉伸与裁切。picture 必须建立与屏幕一致的盒子，图片尺寸规则覆盖包装层内的 img；本轮 height369.60、contain 完整显示，原1920×1213素材字节不变。不要只核对图片存在或自然尺寸而跳过渲染盒子。
+- TanStack Link 默认追加 active class，而 Header 又按首页手工 active，点击 features 后两项同时红。现在 Header 统一由路径+hash 的 topNavigationItem 选择一项，并通过 SiteLink 的受控 active 属性关闭该项自动CSS激活。其他链接保留Router原有行为。直接 #features、产品返回、主题页面与浏览器后退/前进均已检查，不能只测初始首页。
+- 本轮在 codex/site-tanstack-start-cloudflare 继续，构建/类型/预算与策略通过；JS18/18、静态兼容12/12、Workers HTTP16/16。Chrome 首页/主题 × 中英文 × 浅深 × 390/768/1280px 共24组，图片完整包含、模式、单项导航、无横向溢出及控制台0错误/警告通过；Codex 浏览器实际点击功能→产品和截图复核通过。证据在 `~/.codex/visualizations/2026/10/28/01a18102-f840-7de1-ad77-f0b1e0424775/hero-nav-fix/`。
+- 按用户要求创建的 hero 报错续跑检查为每5分钟；本轮完成后删除。本次没有推送、合并或生产部署。预览沿用4179，重建后重启自己的进程并实际等待healthz就绪。
