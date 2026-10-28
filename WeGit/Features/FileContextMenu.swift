@@ -11,6 +11,15 @@ struct FileContextMenu: View {
             guard app.session === session else { return }
             app.fileHistoryRequest = FileHistoryRequest(session: session, path: historyPath ?? path)
         }.accessibilityIdentifier("file-history:" + path)
+        Button(L10n.text("逐行归属…")) {
+            guard app.session === session, let revision = session.status.head else { return }
+            app.blameRequest = BlameRequest(session: session, path: historyPath ?? path, revision: revision)
+        }.accessibilityIdentifier("file-blame:" + path)
+            .disabled(
+                session.status.head == nil
+                    || session.status.files.contains {
+                        $0.path == path && ($0.untracked || $0.index == "A")
+                    })
         Button(L10n.text("在文本编辑器中打开")) { app.openFile(path, in: session) }
             .disabled(!app.canOpenFile(path, in: session))
         if app.xcodeURL != nil {

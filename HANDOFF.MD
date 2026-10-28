@@ -4,6 +4,8 @@
 
 ## v1.2 原生诊断入口准备
 
+- #70 的 `selected-lines` 只注册 `SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation`。必须先经过一次真实 smoke，失败时停止；实际产品与 UI 用例留在功能 PR。
+
 - #65 的 Blame 诊断先将 `BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation` 注册到可信 main。应用与实际 UI 用例留在功能分支；只在一次真实 smoke 通过后执行这一个固定方法，保留原有超时与制品要求。
 - #62 的 `single-commit` 入口沿用相同边界：可信 main 先通过 PR 注册一个固定方法 `SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch`，实际用例与产品源码留在功能分支。只有 smoke 实际通过后才能运行该方法，候选脚本不能扩展范围。
 - #59 / PR #60 的 Worktree 打开功能需要新原生专项。白名单入口先以独立 PR 正常进入可信 main；测试与产品实现留在功能 PR，避免在尚无该功能的 main 加入必败的 UI 用例。`worktree-opening` 只在一个实际 smoke 通过后运行一个固定候选测试方法，不放开任意输入。准备 PR 不改变应用源码，也不表示 Worktree 功能已进入 main。
@@ -317,6 +319,17 @@
 - #62 首轮托管核心 40274156920 执行 218 个测试声明/39 suites，2 个方法失败、3 条记录，均为新夹具缺父目录：`old/base` 与两种操作的 `.git/fixture-hooks/prepare-commit-msg`。独立检查的 helper 会建父目录，核心 `Fixture.write` 不会；新核心用例须自己先建目录，不能因为独立脚本通过就假设两种 helper 等价。修正只涉及夹具，原保护与 Hook 断言保留，待托管重跑。
 - #62 首轮原生 40274310004：smoke 1/1，通过；专项 0/1、1 失败、0 跳过，停在重开后的中止确认定位。AX 显示原生 `NSAlert.runModal()` 是顶层 Dialog，主窗口确为 980×692；Dialog 与 Touch Bar 都有“中止”。预览用 SwiftUI Sheet 查询，原生确认必须用 `app.dialogs.firstMatch`，不能复用 Sheet 查询或全局同名按钮。首次完整日志/xcresult/录像保留；修正只改测试，不放宽原断言。
 
+
+## 2026-10-27 接续 Blame 开发
+
+- 原会话的 #64 已合入 main `596bec6`：三套 Git 核心各 218 项通过，原生 smoke/专项各 1/1、0 失败/跳过；本轮实时核对 PR 合并与必需检查成功。v1.2 剩余功能及最终回归/发布门禁继续跟进。
+- #65 Blame 按固定 OID/原路径读取，禁用替换对象、自动缺失对象获取与 textconv，逐行字节核对。29 项独立检查重新通过，5000 行各 30 次首次/分页后台 Debug p95 58.23/26.27 ms；不等同 Release UI 或复杂历史压力验收。
+- #65 首次托管原生 40518140084：smoke 1/1，通过；专项 0/1、1 失败、0 跳过，在首个代码值断言停止。`CodeTextPresentation` 将 CR 展示为空格，AX 是展示值而非原始字节；显示断言改核对 `first ` / `changed `，跨行复制仍核对 CRLF 原始字节。该轮 165 项应用输入与同步后的 `bb50bbd` 一致；原始 xcresult、日志与失败记录保留。旧候选 `71b1b29` 的三套 Git 核心各 224 项通过，新候选需重新验收。
+- 每行单独 NSTextView 不会自动支持跨行选择；须连接现有共享选择，并在换页/释放时清理。代码区的原生右键菜单会接管父行菜单，来源历史需要另一个可键盘访问的直接图标入口。翻页要重置滚动，避免保留旧页中段偏移。
+- CUA 实际核对中浅/英深、来源提交、重命名前历史、首末页、跨行选择高亮、Escape 和草稿；HEAD/原始索引/未提交字节保持一致。剪贴板原始字节待托管用例核对，不把高亮截图当复制通过。专用预览退出、夹具移除、UITests 偏好逐值恢复。
+- 预览 165 项输入建立时匹配；随后工程只增加 UI 用例登记，不能说旧工程哈希仍匹配。核心/UI 目标编译通过，本机未执行 XCTest；Blame 可信入口通过独立 PR #68 注册，功能分支保留实际用例。
+- 同一检出还有网站工作和它的 workflow/ThemeChecks 修改；本轮功能提交只选择 Blame 文件与自身文档，不整体暂存 HANDOFF 或网站内容。
+
 ## 2026-10-27 网站迁移与主题中心集成（#66）
 
 - 2026-10-27 网站导航与页脚已统一为 `site/src/partials/{header,footer}.html`，404 的独立颜色变量只作用于 main 和搜索弹窗，不能污染共享页头/页尾。小屏 <=860px 隐藏导航下载入口与主题按钮文字，卡片容器 <=288px 时也隐藏文字，覆盖 861/1024px 的窄列；图标按钮保留 aria-label、title 与至少 40px 高度。
@@ -396,3 +409,4 @@
 - JS25/25、build/typecheck、预算、wrangler dry-run、Worker16/16通过；Chrome实测800/960ms、字标1250ms仍revealing/1850ms complete、离屏waiting与快速连点最终持久化一致；手机390减少动态效果静态且无溢出，正常页console0错误/警告；Codex浏览器新标签实际点击切换成功。客户端gzip142,767、CSS61,844、Worker模块gzip255,667、分发2,720,099 bytes。一次桌面主题点击同步准备9.1ms仅本机诊断，未测线上性能。截图 ~/.codex/visualizations/2026/10/28/01a182ef-465f-7643-a50a-c185adee2fa6/slower-theme.png。
 - 当前 workers.yml 是验证而非发布；pages.yml 是旧静态GitHub Pages。README已明确推荐CF Workers Builds连接GitHub/main，root site、Node24、build/test/budget与wrangler deploy；也说明GitHub Actions需新增deploy job/Secrets及手动Wrangler方式。不要把连接GitHub自动发布说成必须通过GitHub Actions；Git集成和Actions是两条不同生产入口，择一使用。
 - 构建读取仓库根design/brand，CF监听路径要包含site/**与design/brand/**，不能仅上传site目录或只监听site。VITE_SITE_ORIGIN必须是公开构建变量，目标域名改变后重建。合入main前先通过PR检查，CF原生Git触发不会自动等待其他GitHub检查。
+- 选中行暂存预研：同块含两处替换时，把未选删除行改成 context、删去未选新增行后直接 reverse，会在当前索引上失败。取消暂存的未选新增行必须保留为当前索引 context、未选删除行应省略；私有夹具只撤回 b→B 后，index 为 a/b/C/d，工作文件仍为 a/B/C/d。证据保留在原工作区 `.build/v12-development/resumed/selected-lines-direction-probe.json`；这是预研，不是 #70 实现/验收。

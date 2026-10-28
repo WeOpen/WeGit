@@ -16,6 +16,7 @@ swift format lint --strict scripts/TagChecks.swift
 swift format lint --strict scripts/FileHistoryChecks.swift
 swift format lint --strict scripts/WorktreeChecks.swift
 swift format lint --strict scripts/SingleCommitChecks.swift
+swift format lint --strict scripts/BlameChecks.swift
 swift format lint --strict scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift
 scripts/verify-preference-migration.sh
 python3 scripts/verify-localization.py
