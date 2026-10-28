@@ -11,6 +11,7 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "selected-lines": "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
     "blame": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
     "single-commit": "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch",
     "worktree-opening": "WorktreeWorkflowTests/testLinkedWorktreesKeepDraftsPagesAndIndexesAcrossSwitchAndRelaunch",
