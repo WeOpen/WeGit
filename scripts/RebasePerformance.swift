@@ -18,6 +18,8 @@ import WeGitCore
         let name: String
         let trackedFiles: Int
         let replayCommits: Int
+        let objectStorage: String
+        let objectStatistics: String
         let samples: [Sample]
         let p95First: Double
         let p95Steady: Double
@@ -153,8 +155,10 @@ import WeGitCore
         var activeSamples: [Sample] = []
         var phase = "fixture"
         do {
-            for (name, files, commits, memoryBudget) in [
-                ("ordinary", 10, 5, 256 * 1024 * 1024), ("large", 5_000, 30, 512 * 1024 * 1024),
+            for (name, files, commits, memoryBudget, storage) in [
+                ("ordinary", 10, 5, 256 * 1024 * 1024, "loose"),
+                ("large-loose", 5_000, 30, 512 * 1024 * 1024, "loose"),
+                ("large-packed", 5_000, 30, 512 * 1024 * 1024, "packed"),
             ] {
                 activeWorkload = name
                 activeSamples = []
@@ -168,6 +172,7 @@ import WeGitCore
                 for (key, value) in [
                     ("user.name", "Performance"), ("user.email", "fixture@example.invalid"),
                     ("commit.gpgsign", "false"), ("core.hooksPath", parent.appending(path: "no-hooks").path),
+                    ("gc.auto", "0"), ("maintenance.auto", "false"),
                 ] {
                     try await git(["config", key, value])
                 }
@@ -192,6 +197,16 @@ import WeGitCore
                 try await git(["commit", "-am", "Target"])
                 phase = "fixture.switch-feature"
                 try await git(["switch", "feature"])
+                phase = "fixture.object-storage"
+                if storage == "packed" { try await git(["gc", "--quiet"]) }
+                let statistics = try await git(["count-objects", "-v"])
+                let packs = statistics.split(separator: "\n").first { $0.hasPrefix("packs: ") }
+                    .flatMap { Int($0.dropFirst("packs: ".count)) }
+                try require(
+                    packs.map { storage == "packed" ? $0 > 0 : $0 == 0 } == true,
+                    "Fixture object storage differs from its declared workload")
+                phase = "fixture.fsck"
+                _ = try await git(["fsck", "--full", "--no-reflogs"])
                 phase = "fixture.discover"
                 let location = try await RepositoryService.discover(directory, engine: engine)
                 let target = try await RepositoryService(location: location, engine: engine).branches().first
@@ -262,7 +277,8 @@ import WeGitCore
                     && memory <= Double(memoryBudget)
                 reports.append(
                     Workload(
-                        name: name, trackedFiles: files, replayCommits: commits, samples: samples,
+                        name: name, trackedFiles: files, replayCommits: commits,
+                        objectStorage: storage, objectStatistics: statistics, samples: samples,
                         p95First: first, p95Steady: steady, p95Cancel: cancel, p95Recovered: recovered,
                         p95ResidentBytes: memory, passed: passed))
                 print(
@@ -295,7 +311,7 @@ import WeGitCore
             "workloads": try JSONSerialization.jsonObject(with: data),
             "allPassed": reports.allSatisfy(\.passed),
             "scope":
-                "CLI fixed-range preparation and cancellation after a delay wrapper and child are alive; no claim about unmodified Git's large-repo cancellation or native/version acceptance",
+                "CLI fixed-range preparation with explicit loose/packed object storage and fixture-only automatic maintenance disabled; cancellation after a delay wrapper and child are alive; no claim about unmodified Git's large-repo cancellation or native/version acceptance",
         ]
         try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]).write(
             to: output, options: .atomic)

@@ -2,6 +2,10 @@
 
 当前为草稿 PR #80，尚未完成最新候选的托管 Core/原生专项或整版验收。可信入口 PR #79 已正常集成，main `507f03b4240d2fb8987cd214eed94d50ffda2d84` 只允许 smoke 实际通过后运行 `RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch`；120/180 秒原值保留。
 
+`ec874e2` 已实际通过可信原生 `40969583341`：smoke 和 Rebase 均 1 总/1 通过/0 失败/0 跳过，方法 114.874 秒，外层执行 125.912 秒。完整制品 12940410836、121494486 bytes、SHA `712565ade5ef8bc0593b695ff2f46ae136ec2d7c0099d628b60a2c17ee3b0d1f`、2081 CRC 和 185 个构建输入核验；四张关键截图及其 AX 已实看，详见 `hosted-40969583341-passed.json`、`screenshots/`、`accessibility/`。实际键盘路径保留 Tab/Return/Escape、关闭后筛选续写、草稿、两轮冲突、重开和确认中止。QoS warning 保留；本机 CUA 仍待解锁，整版验收未完成。
+
+同源正常 Release 60 样本的 2000ms/500ms/RSS 原预算均通过，large first/steady/recovered P95 为 1737.124/1716.076/1693.693ms，cancel 0.352ms。required `40968600683` 仍在建仓阶段失败，最新全部必需检查和正常集成继续。
+
 从分支页选择目标，预览本地分支、HEAD、不可变目标、共同起点和待重放提交。已包含目标时不执行，快进保持分支名；普通重放保留空提交、显式控制合并结构，不自动 Stash、更新其他引用或 Force Push。已发布范围需要确认，后续推送仍走显式 Lease。
 
 准备与确认均检查仓库身份、目标引用/对象、HEAD/分支、索引及全部目标/重放/父路径。忽略文件、未跟踪路径、特殊索引、目录替换及符号链接父节点不因干净 status 获得覆盖许可。私有预演对象和 index 不写入用户对象或 index；单次准备内有界缓存、原始 delta 更新合并树，不跨确认复用旧状态。普通双父线合并可保留；缺共同起点的合并、外侧父线、子模块及复杂结构冲突交给 Terminal。
@@ -25,3 +29,9 @@
 可信原生 `40960942390` 完整制品 12935377335、118512561 bytes、SHA `b37e64f84d6f36d9ff9c74e810e6ee910ac42a02846c2a4e80cb65138cb20e37`、2133 个 CRC 与 185 个构建输入核验。直接 xcresult：smoke 1 总/1 通过/0 失败/0 跳过，Rebase 1 总/0 通过/1 失败/0 跳过，实际方法 48.016 秒，在原 104 行读取目标移动反馈的 `value` 时得到空字符串。QoS warning、完整日志、xcresult、42 个导出附件及录屏保留。后续用 main sheet 内的可访问失败名称核对同一语义，并在断言前保存截图/AX；HEAD/index、完整流程与时间上限保持。
 
 本机纯 Git 大型夹具建立和 fsck 通过；原产品 Core 的逐命令追踪未复现缺失 blob，却在第 29 个大型样本触发进程就绪断言。`readiness-failure-diagnostic.json` 保留 30 普通/28 大型有效诊断样本及诊断程序、15183 命令日志的摘要；有追踪开销，不作为普通 Release 的预算结论。就绪标记现在写完后原子发布，异常检查也取消、等待原 Task 和进程组。失败报告补全所有已完成与当前样本、阶段和 Git 版本，另保留 16 MiB/20000 项以内的私有失败夹具。`first-hosted-failures.json` 记录首轮证据；固定新候选的正常 Release 和托管重验继续。
+
+## 固定对象存储的性能夹具
+
+第二个 required 失败完整保存了 `fixture.feature-commit.8` 的私有仓库，尚未执行大型 Rebase 准备。原 multi-pack-index 的 PNAM 引用已消失的 `.tmp-69550-pack-0030a4b7213a2f81855d6de3048477c497c63b8b.idx`，其余两个真实 pack 不含原始 `file-1` blob；禁用 MIDX 查询仍缺少原提交与对象。原包及解析结果保留在 `rebase-hosted-midx-diagnostic-gen9.json`，不能只重建 MIDX 声称恢复。
+
+检查器仅在自己创建的私有仓库设定 `gc.auto=0`、`maintenance.auto=false`，使建仓和测量期间没有隐式后台打包。普通 10 文件/5 commit 散装对象、大型 5000 文件/30 commit 散装对象、大型相同规模前台 GC 后打包对象，各 30 有效样本；每类保持首次/稳态/恢复 2000ms、实际进程启动后取消 500ms 与原 RSS 预算。报告记录真实对象统计，进入测量前要求对象存储形态正确且完整 fsck 通过。前台打包也必须等待实际返回，不把默认自动维护的隐式存储变化当作同一条件。新 90 样本和托管完整检查继续；产品与用户仓库的 Git 自动维护设置保持原样。

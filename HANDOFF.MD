@@ -707,3 +707,16 @@
 - 原printf重定向会先创建ready，再写两PID，存在完整性窗口。现先写pending再原子mv发布；实际wrapper/child存活与全进程组消失断言保持。失败验证也取消并等待原Task和已知进程组，不带着延迟child退出。
 - 性能失败报告保留所有completed workloads和active样本，带明确fixture/sample phase、Git版本及16MiB/20000项有界私有失败夹具归档；CI只新增该失败归档的保留路径，原2000/500/RSS预算不变。原报告丢失ordinary数组的缺口仍记录，不补造。
 - 原生目标移动断言改为限定main sheet并核对反馈已提供的可访问失败名称，断言前保留截图/AX；HEAD/index保护断言和全部真实流程不删，120/180秒不变。waitEnabled仅移除同一就绪条件的重复AX读取。最新编译/严格格式和固定新候选正常重验仍在进行，未修改Core/App产品源码。
+
+## 2026-10-30 固定 ec874e2 正常 Release 与一次调度等待错误
+
+- ec874e2f014266a01824c7aaa5fe724f0089904b 已正常提交/推送，Core/App/CoreTests产品输入185项不变，仅实际native用例、性能检查器和失败证据/策略保留路径变动。严格格式、策略与native build-for-testing通过，本机未XCTest。原预算下正常60样本全部通过，large first1737.124/steady1716.076/recovered1693.693ms、cancel0.352ms、RSS103546880。报告rebase-performance-tawlvV/result.json和主根副本保留（实际路径以state为准）。
+- 真实malformed-ready检查从活着的wrapper+child开始，异常后整个进程组消失、公共队列重验和HEAD/index字节保持，readiness-failure-cleanup-passed.json保留。
+- 调度前REST进程返回running session52837时过早读取尚不存在的native-runs-before文件，真实I/O失败；随后未按guard结果停止而发出了dispatch。已等待52837/89263真实完成；原队列快照20项全部completed，无旧active/pending被覆盖，新运行根据服务器created/source independently核验，未重复dispatch。该顺序错误进ledger；以后所有依赖读写都要等进程完成并检查exit_code，不把yield当结果。当前同源新的Native运行与required编号以state为准，完整Goal/M5仍未完成。
+
+## 2026-10-30 托管私有夹具自动维护损坏定位
+
+- required40968600683还是失败，源ec874e2，两套Core各241/CLI42过但后续被跳过。1,096,724bytes制品12939977128/SHAf2269663/4CRC完整，报告保留ordinary30全部样本、失败phase fixture.feature-commit.8及16MiB内完整私有夹具。大型Rebase准备尚未执行，不能当产品预演失败。
+- 实读MIDX header为v1且packCount3，PNAM引用已不存在的.tmp-69550-pack-0030...idx；其余两个真实pack自身verify-pack过但不含base file-1原blob，完整fsck确认原始提交/许多blob缺失。禁用MIDX查询仍找不到这些blob，不能仅重建MIDX宣称恢复。ProcessRunner成功路径没有发SIGTERM/KILL，不能凭本症状改正常进程策略。原归档不修改，诊断解包位于主根continuation。
+- 新检查器仅私有fixture禁用gc.auto/maintenance.auto，并明确保留ordinary loose、large loose、large foreground-gc packed三类各30、同2000/500/RSS预算；打包路径先wait并fsck，统计真实pack/loose状态，避免一边建仓一边detached维护。产品Git配置/自动维护不改。新字段加入memberwise initializer时未按字段声明顺序传参，真实compile失败已记录，随后实读编译诊断修正；最新编译/90样本尚待完成。
+- Native40969583341已job success且完整121494486bytes制品12940410836/SHA712565ad/185输入与ec874e2全匹配，smoke及唯一Rebase方法均1/1/0/0。完整xcresult/源回执已核验，四图/AX实看继续；不是整版或发布验收。后续Core/App/UItests/trusted脚本若完全等价，不重复同一成功native输入；真实产品输入变更仍需新候选重验。

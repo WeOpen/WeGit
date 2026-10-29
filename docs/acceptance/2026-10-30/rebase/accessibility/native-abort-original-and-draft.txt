@@ -1,0 +1,100 @@
+Attributes: Window (Main), 0x796b652440, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Keyboard Focused, Disabled
+Element subtree:
+ →Window (Main), 0x796b652440, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Keyboard Focused, Disabled
+    Group, 0x796b652300, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+      Group, 0x796b6521c0, {{70.0, 318.0}, {980.0, 692.0}}, label: 'WeGit workspace'
+        SplitGroup, 0x796b650dc0, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+          Group, 0x796b652080, {{70.0, 318.0}, {210.0, 692.0}}, Disabled
+            ScrollView, 0x796b651cc0, {{70.0, 370.0}, {210.0, 566.0}}, Disabled
+              Outline, 0x796b652580, {{69.0, 369.0}, {212.0, 568.0}}, label: 'Sidebar'
+                OutlineRow, 0x796b651b80, {{70.0, 370.0}, {210.0, 19.0}}, Disabled
+                  Cell, 0x796b652a80, {{80.0, 370.0}, {190.0, 19.0}}, Keyboard Focused
+                    Group, 0x796b651f40, {{84.0, 370.0}, {194.0, 19.0}}, Disabled
+                      StaticText, 0x796b651e00, {{84.0, 372.5}, {61.0, 14.0}}, label: 'Workspace'
+                OutlineRow, 0x796b650c80, {{70.0, 389.0}, {210.0, 50.0}}, Selected, Disabled
+                  Cell, 0x796b650b40, {{80.0, 389.0}, {190.0, 50.0}}, Keyboard Focused, Selected
+                    StaticText, 0x796b650a00, {{130.0, 406.0}, {56.0, 16.0}}, identifier: 'route-更改', value: Changes
+                    StaticText, 0x796b6508c0, {{240.0, 407.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 0
+                OutlineRow, 0x796b650780, {{70.0, 439.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x796b650640, {{80.0, 439.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x796b650500, {{94.0, 451.0}, {80.0, 26.0}}, identifier: 'route-提交历史', value: History
+                OutlineRow, 0x796b6503c0, {{70.0, 489.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x796b650280, {{80.0, 489.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x796b650140, {{94.0, 501.0}, {93.0, 26.0}}, identifier: 'route-分支', value: Branches
+                OutlineRow, 0x796b650000, {{70.0, 539.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x796b437340, {{80.0, 539.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x796b4375c0, {{94.0, 551.0}, {85.0, 26.0}}, identifier: 'route-暂存记录', value: Stashes
+                OutlineRow, 0x796b437700, {{70.0, 589.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x796b437840, {{80.0, 589.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x796b437980, {{94.0, 601.0}, {65.0, 26.0}}, identifier: 'route-标签', value: Tags
+                OutlineRow, 0x796b437ac0, {{70.0, 652.0}, {210.0, 19.0}}, Disabled
+                  Cell, 0x796b437c00, {{80.0, 652.0}, {190.0, 19.0}}, Keyboard Focused
+                    Group, 0x796b437d40, {{84.0, 652.0}, {194.0, 19.0}}, Disabled
+                      StaticText, 0x796b437e80, {{84.0, 654.5}, {60.0, 14.0}}, label: 'Repository'
+                OutlineRow, 0x796b3af200, {{70.0, 671.0}, {210.0, 56.0}}, Disabled
+                  Cell, 0x796b3ad400, {{80.0, 671.0}, {190.0, 56.0}}, Keyboard Focused
+                    Button, 0x796b3aee40, {{86.0, 675.0}, {178.0, 48.0}}, identifier: 'sidebar-repository:/Users/runner/Library/Containers/com.willxue.wegit.UITests.xctrunner/Data/tmp/WeGitIndependentRebaseUI-26756D67-ECC0-4BD2-BAD3-D8E20D8D929D/repo', label: 'repo, feature'
+                TableColumn, 0x796b3aebc0, {{80.0, 370.0}, {190.0, 566.0}}, identifier: 'ListColumn', Disabled
+            StaticText, 0x796b3ae080, {{130.0, 962.5}, {40.0, 17.0}}, identifier: 'sidebar-brand', value: WeGit
+            Button, 0x796b3af700, {{226.0, 956.0}, {30.0, 30.0}}, identifier: 'sidebar-add-repository', label: 'Open repository'
+          Splitter, 0x796b3aef80, {{280.0, 370.0}, {1.0, 640.0}}, value: 210, Disabled
+          Group, 0x796b3af0c0, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+            SplitGroup, 0x796b3ad540, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+              Group, 0x796b3af5c0, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+                SplitGroup, 0x796b3afe80, {{70.0, 318.0}, {980.0, 561.0}}, Disabled
+                  Group, 0x796b3af480, {{70.0, 318.0}, {559.0, 561.0}}, Disabled
+                    StaticText, 0x796b3ad7c0, {{331.0, 387.0}, {56.0, 16.0}}, value: Changes
+                    StaticText, 0x796b3acb40, {{396.0, 385.0}, {24.0, 20.0}}, value: 0
+                    MenuButton, 0x796b3ac000, {{549.0, 387.0}, {25.0, 16.0}}, identifier: 'changes-display-mode', title: 'Display mode'
+                    MenuButton, 0x796b3ad2c0, {{589.0, 387.0}, {22.0, 16.0}}, identifier: 'ellipsis', title: 'More'
+                    TextField, 0x796b3ac8c0, {{320.0, 426.0}, {171.0, 18.0}}, identifier: 'changes-filter', label: 'Filter file paths', placeholderValue: 'Filter file paths'
+                    PopUpButton, 0x796b3adcc0, {{507.0, 423.0}, {110.0, 24.0}}, identifier: 'changes-state-filter', label: 'Change status', value: All statuses
+                    StaticText, 0x796b3ad180, {{387.5, 709.5}, {134.0, 19.0}}, value: Working tree clean
+                  Splitter, 0x796b3ae1c0, {{629.0, 318.0}, {1.0, 561.0}}, value: 559, Disabled
+                  Group, 0x796b3adb80, {{630.0, 318.0}, {420.0, 561.0}}, Disabled
+                    StaticText, 0x796b3aca00, {{798.0, 643.0}, {84.0, 19.0}}, value: Select a file
+                    StaticText, 0x796b3ac500, {{675.0, 674.0}, {330.0, 30.0}}, value: Review working tre...
+                TextField, 0x796b3ad900, {{305.0, 919.0}, {540.0, 34.0}}, identifier: 'commit-message', label: 'Commit message', placeholderValue: 'Commit message; ⌥↩ for a new line', value: Keep rebase draft 中文
+                Button, 0x796b3ac280, {{866.0, 896.0}, {168.0, 30.0}}, identifier: 'commit-button', label: 'Commit (0 files)', Disabled
+                Button, 0x796b3af340, {{866.0, 932.0}, {168.0, 30.0}}, identifier: 'commit-push-button', label: 'Commit and Push…', Disabled
+                Other, 0x796b3ad680, {{296.0, 974.5}, {53.0, 15.0}}, identifier: 'commit-staged-count', label: '0 staged files'
+                CheckBox, 0x796b3adf40, {{359.0, 974.0}, {138.0, 16.0}}, label: 'Amend last commit', value: 0
+                Group, 0x796b3acc80, {{781.0, 975.5}, {253.0, 13.0}}, identifier: 'operation-feedback', label: 'Completed: Rebase aborted and the original branch restored'
+                  Button, 0x796b3acdc0, {{800.0, 975.5}, {234.0, 13.0}}, identifier: 'operation-feedback-message', label: 'Completed: Rebase aborted and the original branch restored'
+    Toolbar, 0x796b3ac640, {{70.0, 318.0}, {980.0, 52.0}}, Disabled
+      Group, 0x796b3acf00, {{232.0, 318.0}, {44.0, 52.0}}, Disabled
+        Group, 0x796b3ac3c0, {{236.0, 326.0}, {36.0, 36.0}}, label: 'Hide Sidebar', Disabled
+          Button, 0x796b3ae6c0, {{236.0, 326.0}, {36.0, 36.0}}, identifier: 'toolbar-sidebar', label: 'Sidebar', value: Open
+      Button, 0x796b3ae800, {{284.0, 318.0}, {44.0, 52.0}}, identifier: 'toolbar-repository', label: 'repo'
+      Group, 0x796b3ae940, {{581.0, 318.0}, {192.0, 52.0}}, Disabled
+        MenuButton, 0x796b3afc00, {{671.0, 335.0}, {12.0, 18.0}}, identifier: 'current-branch', title: 'Current branch: feature', value: Sync status: No up...
+      Group, 0x796b3afd40, {{773.0, 318.0}, {97.0, 52.0}}, Disabled
+        MenuButton, 0x796b3af980, {{786.0, 335.0}, {71.0, 18.0}}, identifier: 'toolbar-sync', title: 'Sync', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'
+      Button, 0x796b3aed00, {{870.0, 318.0}, {44.0, 52.0}}, identifier: 'arrow.trianglehead.2.clockwise.rotate.90', label: 'Refresh'
+      Button, 0x796b3ae300, {{914.0, 318.0}, {44.0, 52.0}}, identifier: 'toolbar-search', label: 'Search repository'
+      Button, 0x796b3ae440, {{958.0, 318.0}, {44.0, 52.0}}, identifier: 'toolbar-inspector', label: 'Inspector', value: Closed
+      Group, 0x796b3af840, {{1002.0, 318.0}, {44.0, 52.0}}, Disabled
+        MenuButton, 0x796b3afac0, {{1013.0, 336.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: 'More actions'
+    Button, 0x796b3ae580, {{88.0, 336.0}, {16.0, 16.0}}, identifier: '_XCUI:CloseWindow'
+    Button, 0x796b31bc00, {{134.0, 336.0}, {16.0, 16.0}}, identifier: '_XCUI:FullScreenWindow'
+      Group, 0x796b3192c0, {{135.0, 337.0}, {14.0, 14.0}}, Disabled
+        Group, 0x796b31a800, {{135.0, 337.0}, {14.0, 14.0}}, Disabled
+    Button, 0x796b318b40, {{111.0, 336.0}, {16.0, 16.0}}, identifier: '_XCUI:MinimizeWindow'
+    StaticText, 0x796b318f00, {{328.0, 318.0}, {253.0, 52.0}}, value: repo
+    StaticText, 0x796b31b5c0, {{328.0, 318.0}, {253.0, 52.0}}, value: feature
+Path to element:
+ →Application, 0x796b651a40, pid: 10002, title: 'WeGit', Disabled
+  ↳Window (Main), 0x796b652440, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Keyboard Focused, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x796b43e1c0, pid: 10002, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendants matching type Window
+    Output: {
+      Window (Main), 0x796b43e300, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Keyboard Focused, Disabled
+    }
+    ↪︎Find: Elements matching predicate '"main" IN identifiers'
+      Output: {
+        Window (Main), 0x796b43e300, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Keyboard Focused, Disabled
+      }
