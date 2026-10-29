@@ -1255,3 +1255,26 @@
 "所选行预览过大，请缩小选择范围。" = "The selection is too large to preview. Select fewer lines.";
 "暂存区可能已更新。请刷新并核对文件；不会自动重复操作。" = "The index may have changed. Refresh and inspect the file; the operation will not be repeated automatically.";
 "暂存区更新完成" = "Index updated";
+
+"工作树" = "Worktrees";
+"工作树…" = "Worktrees…";
+"读取工作树…" = "Reading worktrees…";
+"创建工作树" = "Create worktree";
+"创建工作树…" = "Create worktree…";
+"已有分支" = "Existing branch";
+"工作树路径" = "Worktree path";
+"创建方式" = "Creation mode";
+"移除工作树" = "Remove worktree";
+"工作树已创建" = "Worktree created";
+"工作树登记已移除，目录已保留。" = "Worktree registration removed. The directory was kept.";
+"主工作树" = "Primary worktree";
+"已锁定" = "Locked";
+"登记已过期" = "Stale registration";
+"登记将移除，全部文件和 Git 状态会保留在私有目录。" = "The registration will be removed. All files and Git state will be kept in a private directory.";
+
+"新分支" = "New branch";
+"预览" = "Preview";
+"Detached HEAD" = "Detached HEAD";
+
+"在 Finder 中查看" = "Show in Finder";
+"选择" = "Choose";

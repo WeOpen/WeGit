@@ -12,8 +12,8 @@
 | V12-01a · 已有 Worktree 打开、切换、恢复 | 实现和托管专项已集成，完整最终验收继续 | #59 / PR #60，main `d3c14c7`；`docs/acceptance/2026-10-26/worktree-opening/` |
 | V12-02 · 单提交 Cherry-pick/Revert | 实现和托管专项已集成，完整最终验收继续 | #62 / PR #64，main `596bec6`；三套 Git 各 218 项通过，smoke/专项各 1/1；`docs/acceptance/2026-10-26/single-commit-operations/` |
 | V12-03 · Blame | 实现和托管专项已集成，完整最终验收继续 | #65 / PR #69，main `d8a0d1a`；固定提交/路径、200 行分页、跨行选择、提交/原路径历史导航；`docs/acceptance/2026-10-27/blame/` |
-| V12-04 · 选中行暂存/取消暂存 | 已实现，99 项独立检查和可信原生专项通过；最终 PR 门禁与集成继续 | #70 / PR #74；3f94994 的 smoke/专项各 1/1，171 项输入匹配；原始字节、稳定确认、快照/索引锁与 Unified/Split；`docs/acceptance/2026-10-28/selected-lines/` |
-| V12-01b · Worktree 管理 | 待实施 | 列表、创建与安全移除；保留锁定、脏内容与陈旧登记保护 |
+| V12-04 · 选中行暂存/取消暂存 | 实现与可信原生专项已集成，完整最终验收继续 | #70 / PR #74，main `ee6d025`；smoke/专项各 1/1，171 项输入匹配，三套各 226 核心检查；`docs/acceptance/2026-10-28/selected-lines/` |
+| V12-01b · Worktree 管理 | 已实现，21 项独立检查、原生/核心测试目标编译通过；托管和性能待验 | #75；可信入口 PR #76 已进入 main `20c21de`；列表/三种创建/保留式移除，锁定/脏/孤立/陈旧保护；`docs/acceptance/2026-10-29/worktree-management/` |
 | V12-06 · 独立 Rebase | 待实施 | 明确目标/提交范围、干净工作区、继续/中止/未知回执恢复 |
 | V12-05 · 内置三方冲突编辑器 | 待实施 | BASE/OURS/THEIRS/RESULT、逐块接受、保存与标记解决分开、外部改动重验 |
 | V12-07 · Interactive Rebase | 待实施 | 线性序列的 pick/reword/edit/squash/fixup/drop/排序与完整恢复 |

@@ -500,3 +500,10 @@
 - 修复候选3f94994的托管40820141087已下载：smoke与selected-lines各1/1、0失败/跳过，171项输入逐项匹配。全部原断言执行至最后，陈旧索引/外部字节/无lock/草稿/HEAD检查通过；三张原生截图已检查，英文深色失败时确认窗口、错误和Close均保留。hosted-40820141087.json与screenshots/保存实际证据。当前完整必需CI 40820061103仍在进行，最终回归/Release验收继续。
 
 - 3f94994的必需CI 40820061103已全部成功；Apple、最低Git2.46、Homebrew各226项/41 suites通过。新的收尾提交只加入实际验收/截图和执行状态，应用、Core、UI/核心测试输入均与该候选相同；收尾HEAD的必需检查仍要实际通过后集成，不沿用旧检查状态。
+
+- 原生UI初次检查发现OnlyOneTrailingClosureArgument两处、缺新分支资源及L10n.text不能接受动态String；模式枚举用L10n.key，操作回调必须显式operation参数。已修正，后续编译结果仍待重验；build-for-testing不代表XCTest通过。
+- rg --files空匹配退出1是正常查询结果，不是独立报错。审计仅在退出1、无输出且无命令链时排除此类查询，已纠正一次空Fixture文件名查找的误计，原事件留存为notAnError；真实IO错误、格式/资源/构建与CI失败继续按实际ID计数。
+
+- Worktree原生界面与固定用例已完整编译，176项应用输入匹配，严格格式及1248字符串/8复数通过；源码和全断言保留。Code/Test和原生真实执行不同，后续先运行可信main smoke+worktree-management，再通过最终CI集成；普通10文件与5000文件Release CLI各30有效样本正在测量。
+
+- Release CLI普通10文件/大型5000文件各30有效样本通过，均逐文件核对保留字节、源HEAD和索引。预设四项后台p95预算2000ms；5000文件prepareCreate118.55/create747.23/prepareRemove135.58/remove314.31ms，10文件33.71/126.51/55.08/98.49ms。全部原样本与源码绑定在release-cli-performance.json；不是UI或完整Release性能验收。

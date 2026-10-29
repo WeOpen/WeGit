@@ -467,6 +467,7 @@ final class AppState {
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?
     var searchRequest: RepositorySearchRequest?
+    var worktreeManagementRequest: WorktreeManagementRequest?
     var settingsRequestID = UUID()
     var sidebarRequestID = UUID()
     var sidebarVisible = true
