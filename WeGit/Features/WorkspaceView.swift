@@ -385,11 +385,14 @@ struct WorkspaceView: View {
         }
         if session.status.sequencer != .none {
             HStack {
+                let rebase = session.status.rebaseRecovery
                 Label(
-                    L10n.text("正在\(session.status.sequencer.title) · \(session.status.conflicts.count) 个冲突"),
+                    rebase.map { L10n.text("正在变基 \($0.branchName) · \(session.status.conflicts.count) 个冲突") }
+                        ?? L10n.text(
+                            "正在\(session.status.sequencer.title) · \(session.status.conflicts.count) 个冲突"),
                     systemImage: "arrow.triangle.merge")
                 Spacer()
-                if [.merge, .rebase].contains(session.status.sequencer)
+                if session.status.sequencer == .merge || rebase != nil
                     || session.status.singleCommitRecovery != nil
                 {
                     Button(L10n.text("中止…")) {
@@ -397,35 +400,53 @@ struct WorkspaceView: View {
                         let singleCommit = session.status.singleCommitRecovery
                         if app.confirm(
                             title: L10n.text("中止 \(expected.title)？"),
-                            message: L10n.text("将撤回本次操作，操作中的手工编辑可能无法恢复。"),
+                            message: rebase.map {
+                                L10n.text(
+                                    "将恢复 \($0.branchName) 的原提交 \($0.originalHead)。操作中的手工编辑将撤回，请先保存需要保留的内容。")
+                            } ?? L10n.text("将撤回本次操作，操作中的手工编辑可能无法恢复。"),
                             action: L10n.text("中止"))
                         {
-                            session.perform(L10n.text("中止")) {
+                            session.performResult(L10n.text("中止")) {
                                 if let singleCommit {
                                     try await $0.recoverSingleCommit(
                                         continueOperation: false, expected: singleCommit)
+                                } else if let rebase {
+                                    return try await $0.recoverRebase(
+                                        continueOperation: false, expected: rebase
+                                    ).feedback
                                 } else {
                                     try await $0.sequencer(continueOperation: false, expected: expected)
                                 }
+                                return .completed(message: L10n.text("已中止当前操作"))
                             }
                         }
-                    }.disabled(!session.canWrite).accessibilityIdentifier("sequencer-abort")
-                    Button(L10n.text("继续")) {
+                    }.disabled(!session.canWrite || rebase?.canAbort == false)
+                        .help(rebase?.abortRestriction ?? L10n.text("撤回当前操作并恢复原提交"))
+                        .accessibilityIdentifier("sequencer-abort")
+                    Button(rebase?.rescheduledCommit == nil ? L10n.text("继续") : L10n.text("重试并继续")) {
                         let expected = session.status.sequencer
                         let singleCommit = session.status.singleCommitRecovery
-                        session.perform(L10n.text("继续")) {
+                        session.performResult(L10n.text("继续")) {
                             if let singleCommit {
                                 try await $0.recoverSingleCommit(
                                     continueOperation: true, expected: singleCommit)
+                            } else if let rebase {
+                                return try await $0.recoverRebase(continueOperation: true, expected: rebase)
+                                    .feedback
                             } else {
                                 try await $0.sequencer(continueOperation: true, expected: expected)
                             }
+                            return .completed(message: L10n.text("当前操作完成"))
                         }
                     }
-                    .disabled(!session.status.conflicts.isEmpty || !session.canWrite)
+                    .disabled(
+                        !session.status.conflicts.isEmpty || !session.canWrite || rebase?.canContinue == false
+                    )
+                    .help(rebase?.continuationRestriction ?? L10n.text("提交已解决内容并继续当前操作"))
                     .accessibilityIdentifier("sequencer-continue")
                 } else {
-                    Text(L10n.text("请在 Terminal 完成当前操作")).foregroundStyle(colors.secondaryText)
+                    Text(session.status.rebaseRecoveryUnavailable ?? L10n.text("请在 Terminal 完成当前操作"))
+                        .foregroundStyle(colors.secondaryText)
                 }
             }.font(.callout).modifier(BannerSurface(tint: colors.modified))
         }

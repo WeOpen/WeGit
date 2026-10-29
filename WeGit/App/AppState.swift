@@ -178,6 +178,17 @@ final class RepositorySession {
         canWrite && status.head != nil && !status.isDetached
             && status.sequencer == .none && status.conflicts.isEmpty && !remotes.isEmpty
     }
+    var canRebase: Bool {
+        canWrite && status.head != nil && !status.isDetached && status.files.isEmpty
+            && status.sequencer == .none
+    }
+    var rebaseReason: String? {
+        if !canWrite { return writeReason }
+        if status.head == nil || status.isDetached { return L10n.text("请先切换到有提交的本地分支。") }
+        if status.sequencer != .none { return L10n.text("请先完成当前 Git 操作。") }
+        if !status.files.isEmpty { return L10n.text("请先提交或保存工作区改动。") }
+        return nil
+    }
     var canCommitAndPush: Bool {
         canCommit && !status.isDetached && !remotes.isEmpty && pendingPush?.verification == nil
     }
@@ -422,7 +433,9 @@ final class RepositorySession {
             (error as? GitFailure)?.details ?? (error as? PullFailure)?.details
             ?? (error as? CommitOutcomeUnknown)?.details ?? (error as? PushOutcomeUnknown)?.details
             ?? (error as? SingleCommitOutcomeUnknown)?.details
+            ?? (error as? RebaseOutcomeUnknown)?.details
             ?? (error as? TagPushOutcomeUnknown)?.details ?? ""
+        if error is RebaseOutcomeUnknown { details = operationFeedback?.details ?? details }
         if let path = (error as? UntrackedTrashFailure)?.trashURL, path.isFileURL { lastTrashedFile = path }
     }
 }

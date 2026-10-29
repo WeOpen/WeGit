@@ -92,6 +92,20 @@ extension RepositoryService {
     }
 
     public func sequencer(continueOperation: Bool, expected: Sequencer) async throws {
+        if expected == .rebase {
+            let state = try await status()
+            guard let recovery = state.rebaseRecovery else { throw ModelFailure.changed }
+            switch try await recoverRebase(continueOperation: continueOperation, expected: recovery) {
+            case .completed, .aborted, .unchanged: return
+            case .conflicts(_, let count):
+                throw GitFailure(
+                    message: L10n.text("存在未解决的冲突，请检查文件并继续或中止操作。"),
+                    details: L10n.text("变基仍有 \(count) 个冲突。"), exitCode: 1)
+            case .paused(_, let details):
+                throw GitFailure(
+                    message: L10n.text("变基尚未完成，请核对暂存区并继续或中止。"), details: details, exitCode: 1)
+            }
+        }
         try await withSharedOperation {
             let state = try await status()
             guard state.sequencer == expected, [.merge, .rebase].contains(expected) else {

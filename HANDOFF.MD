@@ -627,3 +627,59 @@
 - 新候选8b2bce79adb86c0654b3201c566f83d5b3fe94b0正常推送77。CI40898235020三套Git各233项/42suites全通过，新增TERM信号和执行中取消/容量用例每套执行；托管三类各30读性能样本全部达标。完整1,293,499字节日志SHA保存在core-ci-40898235020.json。
 - 可信main20c21de调度40899951262/job123539209559：直接xcresult smoke/专项各1/1、0失败/跳过，专项108.818961秒，176应用输入逐项匹配。12909880739完整118,781,670字节ZIP/SHA5d42c6fe.../全部2089CRC已核验，四张新源码截图已实看；QoS runtime warning保留。完整回执hosted-40899951262-passed.json，旧失败/旧成功不删。
 - 当前只追加最终文档；需确认与8b2bce7全部产品/Core/UI测试/可信脚本输入等价，再最新头部三项CI及review conversations核对后正常squash集成77，不使用admin/绕过检查，不提前关闭75。NativeUI已成功的相同输入不重复dispatch。全部V12-06/05/07/08/09与同一最终源码完整验收继续，五分钟唯一责任仍当前01a187c5。
+
+## 2026-10-30 V12-06 独立 Rebase 实施开始
+
+- Worktree管理77正常squash7564925、75已实际closed后，重新查询全量开放Issue无Rebase，已创建78。复用clean管理树从origin/main新建codex/v1.2-rebase，不attach/reset或重建旧树。当前已写有界固定OID/提交范围/索引/目标树路径的准备接口，使用原StashWorktreeGuard阻止ignored和父路径覆盖；正在实现可核对的实际序列恢复。完整功能/执行/UI/性能/托管验收仍未完成。
+- 新核心模型与rebase-merge/apply metadata读取编译通过；状态文件固定原HEAD/head-name/onto/todo/done及节点身份，真实恢复操作不能只检查.rebase枚举。首个独立checker编译失败是外部脚本调用Core internal String.removingLastNewline；不扩大产品API，仅将脚本OID换成Foundation trim，原编译日志保留。此处是准备阶段，不以编译或接口代替Rebase完成。
+
+## 2026-10-30 Rebase 执行与恢复契约继续
+
+- 唯一责任仍为01a187c5、Issue78、codex/v1.2-rebase基线7564925。新增真实执行/原HEAD可达引用、失败后独立观察、完整序列文件与根marker/重写标签指纹、确认后继续/中止；正在编译与私有真实Git重验，尚未证明产品完成。预览通过私有object directory/alternates模拟至下一次冲突，继续从已暂存解决内容重新保护未来写入；不把未来未知冲突解决当作已经模拟。
+- 新增读取误猜BranchesView.swift/SingleCommitState.swift的真实两项I/O失败，实际BranchesView在HistoryView.swift，单提交请求在SingleCommitSheet.swift；日志保留。后续读取前先rg --files。另一次AGENTS.md清单无匹配是成功负查询，混合命令exit1不能当成源码/I/O错误。
+- 当前Apply后端仍仅允许核对后中止，未证明继续，完整应用接入/托管/Core/性能/原生验证均继续；9项旧基础诊断不代表此新增源码验收。全部版本目标和原失败记录持续保留。
+
+## 2026-10-30 Rebase 暂存区预览的真实写入陷阱
+
+- 新执行代码初次编译通过。独立checker随后因四处&&的非async自动闭包内调用await编译失败（同一源码错误/同一run），已将读取移到布尔比较前；原rebase-execution-checks-gen8.log保留。
+- 修正脚本后的实际私有检查推进到第一轮冲突解决预览，随后Git128：b40a5238...不是有效object。独立实读保留夹具证实原index偏移249含此只在私有objects中存在的tree，工作文件仍是第一轮解决/第二目标内容，原branch/onto和序列保留。根因是write-tree即使--no-optional-locks仍会写原index的cache-tree；仅隔离GIT_OBJECT_DIRECTORY不够。原日志/夹具及主根rebase-private-index-diagnostic-gen8.json保留。
+- 现从已核对的stage记录在私有目录重建GIT_INDEX_FILE，再write-tree；不把私有对象引用写入用户index。新增逐字节原index不变断言，尚待实际重验。本轮未执行本机XCTest、用户仓库写入、PR/push/dispatch；v1.2继续开放。
+
+## 2026-10-30 Rebase 签名失败后的已重新排队提交
+
+- UI入口/固定范围/恢复控件已接入，Core测试目标swift build --build-tests与原生build-for-testing成功；只有编译，没有本机XCTest。47项新增文案的1295keys/8plurals覆盖校验通过。当前输入之后又改恢复逻辑，最终源码仍需重新核对。
+- 扩展真实检查在签名恢复处失败，rebase-recovery-boundaries-checks-gen8.log和原85E1AB0E私有夹具保留。Git把失败pick同时留在done与重新排队todo，暂存的是已经生成但尚未提交的内容；直接rebase --continue报staged changes，不能将签名配置修复等同于恢复成功。
+- 主根rebase-signing-diagnostic-gen8.json保存独立副本实证：原index tree与原提交merge-tree预演均92d9aa930288e30b8ee44cebad210e622acf2746，副本reset到固定HEAD后continue成功，仅生成一个Feature，SSH签名配置私有。原失败夹具未动。现仅在显式Continue、完整序列/HEAD/index重验且暂存树为纯生成内容时reset-and-replay；额外手工编辑拒绝且保留。原HEAD另有可达ref，不依赖reset会改写的ORIG_HEAD。新的完整重验尚在进行。
+- 一次恢复比对补丁未匹配格式化后的上下文，apply_patch无改动；已先实读当前文件再修正，真实失败进入审计。warning/负查询/同一签名失败副本诊断不重复计数。完整版本/性能/托管/native/M5仍开放。
+
+## 2026-10-30 独立 Rebase 可信入口 PR79
+
+- 新入口工作树已由主根origin/main7564925创建并登记，路径/分支为/Users/willxue/.codex/worktrees/rebase-native-entry/WeGit、codex/78-rebase-native-entry。create_worktree的sourceRoot必须是当前聊天workspace主根；管理树虽可CLI使用但不在可选workspace，本次首次sourceRoot验证被拒且未创建。没有强制attach/重建或reset管理树。
+- PR79真实创建并附加，commit3c895f099982f10838ade2997caf30180ccad232，只改可信scope/白名单/16项Python测试及HANDOFF，产品/Core/实际XCTest输入不变；注册rebase-workflow→RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch。smoke失败或跳过即停止，固定120/180秒与制品要求不变。16Python测试与repository policy通过；最新必需CI/reviews及正常集成尚待核对，Issue78保持open。
+- 管理树37项真实Git独立检查通过，包含有私有签名工具的失败/正确继续、支持的双父合并、丢失回执/外部额外提交区分、Git/hook/child实际启动后的取消和整个进程组退出。这里只覆盖CLI行为；Release30样本、最新Core/原生输入/完整制品和界面实看仍待完成。整版后续与M5保持开放。
+
+## 2026-10-30 Rebase 只读安全与当前审计
+
+- 新CLI检查40项全部通过。外部author-script只能是与原提交作者/时间对应的三个安全单引号赋值；任意额外命令禁用Continue且保留冲突/Abort。merge-tree预览会启动配置的merge driver，因此新预览在子进程配置中禁用这些程序，真实已确认的Git执行仍保留正常配置；实际私有driver marker未创建，原index字节不变。
+- 新WeGitTests/RebaseTests.swift已写固定预览/objects/index、目标/分支/特殊索引过期、ignored、重开冲突、外部作者脚本、merge driver、签名重新排队手工编辑保护，尚只待编译/托管执行，不能宣布Core XCTest已通过。Native实际方法和Release30样本仍在准备。
+- 一次更新独立checker补丁因格式化上下文未匹配，未写文件，随后实读尾部正确更新。另一次混合命令rg错误猜WeGit/UI/OperationFeedback.swift，实际为WeGit/DesignSystem/OperationFeedback.swift；最后命令exit0不掩盖该真实I/O，已单独按exec7436.../时间计入。
+- PR79初次回执：PR policy/Repository policy与独立scene controls success，Native macOS仍pending，必需run40949384573/job123713373768。可选Workers Builds实际failure/check123712820191保留并进入独立审计，不混作必需检查。正常合入前重新查最新head/三必需项/review；不重复push/create/dispatch。
+
+## 2026-10-30 Rebase Release 预算与首次测量
+
+- 在执行测量前固定普通10文件/5重放提交、大型5000文件/30重放提交各30有效样本：first/steady/post-cancel各P95≤2000ms，实际启动delay wrapper和child后取消P95≤500ms；普通/大型RSS P95≤256/512MiB。保留既有Shell500/Status300/Diff150/History300/启动1000预算，不能以此专项替代整版性能。
+- 新scripts/RebasePerformance.swift/verify-rebase-performance.sh只用ordinary Release Core和私有null-global/system配置仓库；保持原HEAD/index，先确认wrapper+child活着再取消并等全组退出，重新执行全量准备，不使用缓存后的页作为首次读。wrapper延迟模型不等于未修改Git大型仓库真实取消，报告明确限定；全部有效原始样本/输入hash/RSS保留。当前新测量启动中，尚无预算通过结论。
+- 实际原生RebaseWorkflowTests方法已写，覆盖已发布确认/完整SHA起点、Escape与筛选焦点续写、目标移动拒绝、真实重放、两轮冲突、重开、中英浅深与中止/草稿。新Core测试/原生方法均编译成功，1299keys/8plurals覆盖通过，本机没有XCTest运行。新不可变产品候选、Core托管/可信原生/完整xcresult仍未完成。
+
+## 2026-10-30 Rebase 大型读预算先失败后优化
+
+- 初始Release各30有效样本全部保留于rebase-read-budget-failed-gen8.json/原result。普通first/steady/recovered P95309.436/335.137/316.769ms、cancel0.490ms/RSS14.1MB通过；大型first/steady/recovered3558.648/3595.703/3551.122ms超过2000预算，cancel0.411ms/RSS31.1MB通过，allPassed=false。没有放宽预算或删样本。原夹具保留。
+- 独立一次真实profile：197命令、122ls-tree读取41,894,580bytes，耗1493.47ms，整体3408.07ms。现单次prepare内共享有界树元数据，按raw delta更新私有合并树，严格mode/OID/path/64MB changed-blob与index/ignored/作者指纹保护保留；不把缓存带到下一次确认。优化40项CLI重验通过；新tree delta Core回归只待编译/托管，未本机XCTest。
+- 优化后同一私有大型夹具单次profile1629.52ms、137命令、32ls-tree/11,324,480bytes、30diff-tree/3180bytes；此单次诊断不是30样本达标。现在按原2000/500/RSS256-512MiB与相同10/5000文件、5/30commit、每类30样本重新测量。测量期间不并行App构建。
+
+## 2026-10-30 Rebase 固定产品候选准备
+
+- 原生窄窗口方法已补volatile window frame980×692（workspace min640）与Tab/Return/Escape路径，最新Core/native build-for-testing成功，本机未执行XCTest。外部CLI42项真实Git检查及Release每类30全部通过；full最终原生/托管Core尚待候选PR。
+- 严格格式lint对RebaseSheet混合onSuccess闭包与trailing operation报真实error，后一个命令exit0不掩盖；现用显式operation参数修正并全量strict lint通过。实际WorkspaceState在AppState.swift，误猜Domain路径的I/O单独计入。全部真实失败按实际ID/time审计。
+- CUA报告Mac锁定且自动解锁失败，已请求人类手动解锁，未改系统安全或辅助访问。正确privateSuite/bundleID的预览60670后来不存活，launch.log0bytes，退出归因未明，不自动重开普通模式。六个当前用户prefs/DB/WAL/shm SHA与启动前保持；原历史shm变化与sharedUITest不明更新仍保留。Local渲染验证继续等待解锁，托管验证可继续。
+- 接下来正常固定本批产品/Core/UItests/scripts/evidence提交及draft PR，trusted main507f03b仅smoke后一方法。不可提前关78；所有V12-05/07/08/09与固定最终源码M5继续，不能把入口79或CLI通过当完成。

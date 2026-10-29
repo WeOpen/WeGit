@@ -69,6 +69,13 @@ enum OperationFeedbackResult: Equatable, Sendable {
             .needsReview(
                 message: unknown.localizedDescription,
                 details: [unknown.observedHead, unknown.details].compactMap { $0 }.joined(separator: "\n\n"))
+        case let unknown as RebaseOutcomeUnknown:
+            .needsReview(
+                message: unknown.localizedDescription,
+                details: [
+                    unknown.previousHead, unknown.observedHead, unknown.originalReference, unknown.details,
+                ]
+                .compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: "\n\n"))
         case let unknown as PushOutcomeUnknown:
             .needsReview(
                 message: unknown.localizedDescription,
@@ -79,6 +86,23 @@ enum OperationFeedbackResult: Equatable, Sendable {
             .failure(
                 message: error.localizedDescription,
                 details: (error as? GitFailure)?.details ?? (error as? PullFailure)?.details)
+        }
+    }
+}
+
+extension RebaseOutcome {
+    var feedback: OperationFeedbackOutcome {
+        switch self {
+        case .completed: .completed(message: L10n.text("变基完成"))
+        case .aborted: .completed(message: L10n.text("已中止变基并恢复原分支"))
+        case .unchanged: .completed(message: L10n.text("当前分支已包含目标提交"))
+        case .conflicts(_, let count):
+            .needsReview(message: L10n.text("产生 \(count) 个冲突，请在更改页面解决后继续或中止。"))
+        case .paused(let recovery, let details):
+            .needsReview(
+                message: L10n.text("变基已暂停，请核对错误和暂存区，再继续或中止。"),
+                details: [recovery.originalHead, recovery.onto, recovery.originalReference, details].joined(
+                    separator: "\n\n"))
         }
     }
 }
