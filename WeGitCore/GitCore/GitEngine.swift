@@ -131,7 +131,7 @@ public struct GitEngine: Sendable {
         let safeCommands: Set<String> = [
             "status", "for-each-ref", "remote", "rev-parse", "symbolic-ref", "diff", "config", "log",
             "show", "cat-file", "add", "commit", "switch", "fetch", "push", "merge", "rebase", "cherry-pick",
-            "revert",
+            "revert", "worktree",
         ]
         let operation = arguments.first.flatMap { safeCommands.contains($0) ? $0 : nil } ?? "git"
         let interval = Self.signposter.beginInterval(
@@ -141,10 +141,11 @@ public struct GitEngine: Sendable {
         let result: ProcessResult
         var commandEnvironment = environment
         let command = arguments.first ?? ""
-        let mayAuthenticate = [
-            "clone", "fetch", "push", "ls-remote", "pull", "commit", "merge", "rebase", "cherry-pick",
-            "revert", "credential",
-        ].contains(command)
+        let mayAuthenticate =
+            [
+                "clone", "fetch", "push", "ls-remote", "pull", "commit", "merge", "rebase", "cherry-pick",
+                "revert", "credential",
+            ].contains(command) || (command == "worktree" && arguments.dropFirst().first == "add")
         let askPass =
             try mayAuthenticate ? authentication?.session(command: command, repository: directory) : nil
         defer { askPass?.close() }

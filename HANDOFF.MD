@@ -418,3 +418,40 @@
 - 页面新测试使用Node type stripping，旧pages/Repository policy工作流依赖runner默认Node版本不可靠，两个工作流都显式固定Node24，与Workers workflow一致；不增加任何CF deploy job。Changelog补充本次网站迁移/动画。
 - 本地策略69项、JS25项、build/typecheck/预算通过。校验摘要固定的actionlint/gitleaks只安装到工作树.build/merge-tools，未修改系统；actionlint与真实凭据策略5场景通过，83个提交/47.78MB历史扫描0泄露。远端最新head检查仍需全部通过后正常Squash，不能沿用PR原fd56caf检查结果。
 - 首轮远端bf97019的Workers构建、静态网站与PR policy通过；Repository policy在shellcheck SC2034失败：就绪轮询的attempt未读取。本机actionlint无shellcheck时不会覆盖该告警，不能将本机通过等同Linux完整lint。改名为明确忽略的_attempt，保留轮询次数/超时语义，不禁用检查；Native因依赖失败被跳过，需新head重跑。
+
+
+## 2026-10-29 自动接续移交
+
+- 04:03:14 UTC 的滚动 30 分钟已记录 5 次独立失败，触发用户指定的新会话条件；包括一个外部可选 Workers 检查、一个工作树工具调用、第三轮原生诊断和两次错误路径查询。按 call/run ID 去重，已修复或已过期的旧失败不会在每次轮询再累计。触发回执保存在主检出 `.build/v1-2-continuation/state.json`。
+- 选中行工作树 `/Users/willxue/.codex/worktrees/selected-lines/WeGit`，分支 `codex/v1.2-selected-lines`，已推送 HEAD `4217901e76d624d8275167ca7f74246070f229d9`，草稿 PR #74。99 项独立检查通过；82b56dc 的 Apple / Git 2.46 / Homebrew 核心各 226 项、41 suites 通过，CLI Release 30 有效样本 prepare/execute p95 93.14/121.10 ms。当前 HEAD 的最终必需检查仍以 GitHub 实际状态为准。
+- 原生第三轮 40813349194 smoke 1/1，专项 0/1、1 失败、0 跳过；已执行单行暂存、Split 取消暂存、Unified 跨行两方向及英文深色重开。第90行等关闭按钮失败，之后的最终字节/草稿断言未执行。UI hierarchy 显示 external edit 和 Failed: repository/file changed，但 sheet 已消失。Core 拒绝了陈旧确认，产品确认界面却随 keyed DiffContentView 重建而失去状态。
+- 下一步在选中行分支修复真实 UI 生命周期：将 SelectedLinesRequest 从 SelectedLinesControl 的局部 State 迁到稳定的 AppState/WorkspaceView sheet 宿主，使用明确会话身份；成功仍关闭，失败保持反馈与 Close，切仓库清理旧请求。保持原全部断言、Core 锁/快照保护与可信 main 单方法门禁。真实入口是 `WeGit/Features/WorkspaceView.swift`，sheet 集中在190行附近；不要再猜 WorkbenchView/WorkbenchRootView 文件名，先用 rg --files 核对。
+- 最新已知原生 run 40813349194 已结束，不要重复旧 SHA 的 dispatch；修复、提交和确认新 head 后串行重跑一个 smoke + selected-lines。4217901 对应必需 CI run 40812824684，PR policy run 40812824717；按实际结果保存计数/源码回执。Cloudflare Workers Builds 为可选外部检查，main 的必需门禁实际只有 PR policy / Repository policy / Native macOS。
+- #75 的新管理工作树 `/Users/willxue/.codex/worktrees/worktree-management/WeGit` 已准备，分支 `codex/v1.2-worktree-management`，起点2e99036；未改产品。移除预研证明默认 git worktree remove 会删除 ignored 内容；先 Git move 到同卷私有目录、保留文件、再移除私有缺失路径登记可以保留晚到文件及原路径外来目录。九项保护断言通过，22.55ms仅单次预研；真实实现与托管验收待开展，跨卷/锁定/脏内容/孤立 detached 提交需保护。
+- create_worktree 的 sourceRoot 必须是当前会话 workspace folder；通过主根 `/Users/willxue/will/WeOpen/WeGit` 创建固定 ref，不会复制主根未提交网站内容。新会话使用已有工作树的明确 exec working directory，不重建、不重置或强行附加其他会话拥有的工作树。
+- 主检出的官网改动保留。核对时两开发树无 Git 序列或 index.lock，无其他活跃开发会话；专用 SelectedLinesPreviewV2 进程86120仍存在，未退出，不把只运行的预览当作重复开发任务。需要新预览时用唯一包路径，保留既有应用/草稿。
+- 全目标继续 V12-01～V12-09 与真实最终验收；不把本批 PR、诊断通过或当前移交当作 v1.2 完成。本机不执行 XCTest，Git 写入验收只用隔离临时仓库；生产交付保留性能、安装/Beta/发布门禁实际限制。
+
+- 按第5次错误规则已创建接续会话 `01a185eb-2412-7bd0-b893-576e75d4e6c4`（WeGit v1.2 持续开发接续），正在迁移同一 `wegit-v1-2` heartbeat；责任与完成状态以主根私有 state.json 为准。旧会话停止产品/Git写入，保留本轮错误和交接证据。
+
+
+## 2026-10-29 Worktree 管理可信入口准备
+
+- 先在codex/75-worktree-management-native-entry注册一个固定方法WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees；产品和真实用例仍留在管理功能分支。必须等该入口正常PR进入main后再调度候选。
+- 新边界检查首次15项中一个方法的2个子场景错误：Xcode退出0而summary失败/跳过时，ui_probe直接抛ValueError，退出非0才抛SystemExit。修正异常类型断言后15/15通过，失败或跳过时仍证明专项不启动；没有改动门禁或在本机执行XCTest。
+
+- #76入口已创建并附加，head32dc915、15项边界检查通过。functions.store只接受可序列化值；保存可选session_id前要用null或检查是否存在。一次空值保存使脚本报错，但Git推送与PR创建已真实成功；先核对实际PR再附加，不能重复创建。
+
+- 原生functions.wait脚本错误记在response_item/function_call_output，而非event_msg的McpToolCall。审计现只收集以Script error开头的独立错误块并按call_id去重；已补记PR创建后那次空值保存错误，不重复计算嵌套命令的成功输出。
+
+- #74最终5334a59三个必需检查均通过后正常Squash为main ee6d025；原生40820141087 smoke/专项各1/1、171输入匹配，全部字节与草稿断言通过。#76因main推进基线过期被正常门禁拒绝；已用expected_head_sha请求更新分支，必须等新SHA全部必需CI，不能用--admin或假设已合并。
+
+- Worktree新检查首轮通过3项创建/索引断言后失败于列表路径相等。保留的Git原始NUL数据为/private/var前缀，Foundation发现和选择目录为/var；这是已知路径别名，列表记录需同时保存reportedPath与规范path，产品移除后的登记查找也必须用一致的规范路径。不能只修改测试或仅比较末级目录名。
+
+
+## 2026-10-29 Worktree 核心阶段
+
+- 管理分支新增真实列表/创建/保留式移除Core API：原始reportedPath与规范path配对；新/已有/Detached创建固定提交，目录与列表重验；common→private队列；移除目标另获取其私有队列。原生界面尚未实现，不能报告#75或版本完成。
+- 同卷0700私有目录保护全部工作文件，另保存私有Git状态；移除仅向Git传入已经不存在的私有checkout登记路径。锁定/脏/特殊索引/子模块/孤立Detached提交/陈旧目标均保护；失败保留目录并先核对结果。创建后移动结果不确定时用固定目录描述符找回实际目录。
+- 本机独立真实检查21/21通过，含晚到ignored文件、原路径外来目录、所有HEAD/索引/分支与文件字节；首轮路径别名失败的夹具与JSON保留。基础与测试目标编译、复核后编译无诊断，未执行XCTest。证据在docs/acceptance/2026-10-29/worktree-management/core-checks-*.json。
+- #74已合入ee6d025；#76更新后9815d55所有必需CI通过，正常Squash为main20c21de。随后管理分支需正常合入最新main并保存两侧HANDOFF，不能覆盖未提交Core或主根官网内容。接着实现稳定Workspace sheet与WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees，再托管可信smoke+专项与性能验收。

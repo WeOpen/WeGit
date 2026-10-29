@@ -1,0 +1,40 @@
+{
+  "checks": [
+    "Creation preview does not create directories or change the index",
+    "Creation preserves newline/Unicode path and base bytes",
+    "Creation leaves the source HEAD and index unchanged",
+    "NUL list reports primary and linked branch identities",
+    "Occupied branch creation is refused",
+    "Nested creation is refused",
+    "A late foreign destination blocks creation",
+    "Foreign destination bytes remain unchanged",
+    "Existing branch attaches instead of detaching",
+    "Detached creation pins the selected commit",
+    "Locked worktree cannot be removed",
+    "Tracked unsaved content blocks removal",
+    "Rejected removal preserves tracked bytes",
+    "Skip-worktree flags block removal",
+    "An unreferenced detached commit blocks removal",
+    "Orphan rejection preserves commit and working bytes",
+    "Removal retains tracked, ignored and late bytes",
+    "Original-path foreign directory is untouched",
+    "Removal preserves private Git state",
+    "Only the selected registration retires",
+    "Branch object, source HEAD and source index remain"
+  ],
+  "failed": 0,
+  "fixturePath": "/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitWorktreeManagement-2C6095C3-1E59-423D-AA8A-DA1C18C03909",
+  "fixturePreserved": false,
+  "total": 21,
+  "diagnosticOnly": true,
+  "xctestExecutedLocally": false,
+  "fullReleaseAcceptance": false,
+  "base": "2e99036623bc56656ed1baf1167b72be51131af2",
+  "inputHashes": {
+    "WeGitCore/Domain/WorktreeModels.swift": "5c642e8301928aaf50eb931996d9357b8e218b6d242e6bceae56ad0f8d45134f",
+    "WeGitCore/GitCore/WorktreeService.swift": "9cbe51f7b90d225795d771e524b30abe3eea1d337e8d8657e25925400269d9e8",
+    "WeGitCore/Infrastructure/WorktreePreservationDirectory.swift": "7d806dcd1626cdaceacb607caf7f8199d3ec7ea140996256c7d91f1e45df4761",
+    "WeGitCore/GitCore/GitEngine.swift": "697ea7ca85021a290c4a1dbb8381a2a585c9fb6bffdb9d74533fb924de23b120",
+    "scripts/WorktreeManagementChecks.swift": "2cc4b8dc840855def0593b6ab7dc70321006cdfe50941b624008f12070cc6059"
+  }
+}
