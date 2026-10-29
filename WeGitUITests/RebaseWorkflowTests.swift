@@ -100,11 +100,16 @@ final class RebaseWorkflowTests: XCTestCase {
         try git(["update-ref", "refs/heads/main", base, target])
         app.buttons["rebase-execute"].click()
         waitEnabled(app.buttons["rebase-refresh"])
-        let feedback = app.descendants(matching: .any).matching(identifier: "operation-feedback").firstMatch
-        XCTAssertEqual(feedback.value as? String, "failure")
+        let feedback = app.windows["main"].sheets.firstMatch.descendants(matching: .any)
+            .matching(identifier: "operation-feedback").firstMatch
+        let failed = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "label BEGINSWITH %@", "失败: "), object: feedback)
+        let failureState = XCTWaiter.wait(for: [failed], timeout: 10)
+        capture(app, "Moved target refuses the old rebase confirmation")
+        XCTAssertEqual(failureState, .completed, feedback.debugDescription)
+        XCTAssertTrue(feedback.label.hasPrefix("失败: "))
         XCTAssertEqual(try head(), original)
         XCTAssertEqual(try Data(contentsOf: repo.appending(path: ".git/index")), initialIndex)
-        capture(app, "Moved target refuses the old rebase confirmation")
         app.buttons["rebase-cancel"].click()
         waitGone(app.buttons["rebase-refresh"])
         try git(["update-ref", "refs/heads/main", target, base])
@@ -239,13 +244,12 @@ final class RebaseWorkflowTests: XCTestCase {
         element.typeText(text)
     }
     @MainActor private func waitEnabled(_ element: XCUIElement) {
-        if !element.exists || !element.isEnabled {
+        let predicate = NSPredicate(format: "exists == true AND enabled == true")
+        if !predicate.evaluate(with: element) {
             let ready = XCTNSPredicateExpectation(
-                predicate: NSPredicate(format: "exists == true AND enabled == true"), object: element)
-            XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed)
+                predicate: predicate, object: element)
+            XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed, element.debugDescription)
         }
-        XCTAssertTrue(element.exists)
-        XCTAssertTrue(element.isEnabled)
     }
     @MainActor private func waitGone(_ element: XCUIElement) {
         if element.exists { XCTAssertTrue(element.waitForNonExistence(timeout: 10)) }

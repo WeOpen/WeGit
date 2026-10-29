@@ -14,7 +14,7 @@
 | V12-03 · Blame | 实现和托管专项已集成，完整最终验收继续 | #65 / PR #69，main `d8a0d1a`；固定提交/路径、200 行分页、跨行选择、提交/原路径历史导航；`docs/acceptance/2026-10-27/blame/` |
 | V12-04 · 选中行暂存/取消暂存 | 实现与可信原生专项已集成，完整最终验收继续 | #70 / PR #74，main `ee6d025`；smoke/专项各 1/1，171 项输入匹配，三套各 226 核心检查；`docs/acceptance/2026-10-28/selected-lines/` |
 | V12-01b · Worktree 管理 | 实现、可信原生专项和最新必需 CI 已正常集成，完整最终验收继续 | #75 / PR #77，main `7564925`；可信入口 #76 / main `20c21de`；21 独立检查、三类各30有效Release读/取消样本原250/500/250ms通过。`8b2bce7` smoke/专项各1/1、176输入与完整制品匹配，专项108.819秒；三套Git各233核心检查；Ready CI40914687041/reviews0后正常squash。`docs/acceptance/2026-10-29/worktree-management/` |
-| V12-06 · 独立 Rebase | 实施与验证中，产品尚未集成 | #78；固定目标/范围、私有index/objects预览、可达原HEAD、执行/继续/中止/重开/外部状态与不确定回执已实现，40项私有真实Git检查通过；新Core/原生用例编译通过。可信入口PR #79已正常合入main `507f03b`，仅开放smoke后一方法、120/180秒不变；Release30样本正在测量，CUA/新候选/产品PR/托管Core与完整原生制品仍待完成 |
+| V12-06 · 独立 Rebase | 草稿 PR80，首轮托管失败修复与重验中，产品尚未集成 | #78；固定目标/范围、私有index/objects、可达原HEAD、执行/继续/中止/重开/外部状态与不确定回执已实现，42项真实Git检查通过；可信入口PR79/main `507f03b`，smoke后一方法、120/180秒不变。61ae的两套Git各241核心通过、后续大型性能缺对象失败；完整原生185输入/118512561bytes/2133CRC已核验，smoke1/1、Rebase0/1在反馈value断言失败。修正弹窗语义查询、就绪标记原子发布与完整失败采样保留，最新Core/native编译通过；固定新候选Release/托管Core/原生与正常集成继续，CUA待解锁 |
 | V12-05 · 内置三方冲突编辑器 | 待实施 | BASE/OURS/THEIRS/RESULT、逐块接受、保存与标记解决分开、外部改动重验 |
 | V12-07 · Interactive Rebase | 待实施 | 线性序列的 pick/reword/edit/squash/fixup/drop/排序与完整恢复 |
 | V12-08 · Submodule 管理 | 待实施 | 已配置模块状态、打开、初始化/按记录 OID 更新与嵌套工作区隔离 |

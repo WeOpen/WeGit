@@ -683,3 +683,27 @@
 - 严格格式lint对RebaseSheet混合onSuccess闭包与trailing operation报真实error，后一个命令exit0不掩盖；现用显式operation参数修正并全量strict lint通过。实际WorkspaceState在AppState.swift，误猜Domain路径的I/O单独计入。全部真实失败按实际ID/time审计。
 - CUA报告Mac锁定且自动解锁失败，已请求人类手动解锁，未改系统安全或辅助访问。正确privateSuite/bundleID的预览60670后来不存活，launch.log0bytes，退出归因未明，不自动重开普通模式。六个当前用户prefs/DB/WAL/shm SHA与启动前保持；原历史shm变化与sharedUITest不明更新仍保留。Local渲染验证继续等待解锁，托管验证可继续。
 - 接下来正常固定本批产品/Core/UItests/scripts/evidence提交及draft PR，trusted main507f03b仅smoke后一方法。不可提前关78；所有V12-05/07/08/09与固定最终源码M5继续，不能把入口79或CLI通过当完成。
+
+## 2026-10-30 第九代接续准备：Rebase PR80 托管运行中
+
+- 用户已授权滚动30分钟第5个真实独立错误时新本地WeGit聊天继续同一个全目标。实际窗口在21:45:56UTC跨过5：CUA锁屏/自动解锁失败call9CQM...，混合错误猜Domain/WorkspaceState真实I/Oexec56a...，新原生用例补丁上下文失败callhfj...，RebaseSheet严格格式源错误exec2e081...（已修复且全量strict lint过），PR80新可选Workers failure/check123751715524。全部真实ID/time保留，负查询/旧回显/pending/重复poll不计；可选失败不混作required CI。当前从此停止产品/Git写入，仅保存/迁移同一任务。
+- 产品候选61ae6f57ad09480cbefdf171663ab46f582700eb已正常提交/推送，draft PR80实际创建并附加，Issue78仍open；管理树除了本交接文档无产品未提交。42项真实私有Git检查通过，旧失败均保存；原大型60有效样本首次3558.648ms失败完整保留，真实profile197命令/122ls-tree/41.9MB定位。优化单次prepare有界元数据与raw delta，源/路径/索引/指纹保护保留；新普通/大型各30全部通过，large first1725.879/steady1711.533/recovered1724.315ms、cancel0.397ms、RSS104022016。全部报表/源inputHash在acceptance2026-10-30/rebase和主根continuation。
+- 新Core原生方法均编译成功，不在本机XCTest。native方法已有980×692 volatile窗口配置及Tab/Return/Escape/筛选焦点、目标移动、发布确认、真实执行、两轮冲突/重开/中止/草稿断言，仍未实际通过。Local私有preview正确bundleID与不同.tests suite，曾启动60670后不存活/launch.log0，退出归因未明，Mac锁屏阻止CUA；六个当前user files SHA未变，旧shm改变和共享UITest不明更新仍保留，不宣称历史五文件零变化。等待人类解锁，getApp前重新实查PID/argv，禁止普通自动重开。
+- PR79可信入口已正常squash507f03b4240d2fb8987cd214eed94d50ffda2d84，16Python/3required/reviews0，无admin。入口树rebase-native-entry/WeGit、codex/78-rebase-native-entry HEAD3c895f0保持；由主根创建，可继续复用，不强制attach管理旧树。
+- 新PR80 required run40960676026/job123752503941：两policy实际success，Native macOS仍in_progress，最新checks按真实回执核对。新可信main原生40960942390已实际dispatch一次、source507f03b，focus rebase-workflow/candidate_pr80/smoke，原120/180秒；job与输入以主根rebase-native-jobs-gen8.json为准。不要再次dispatch相同61ae候选，先读实际run/job，必要时取完整新制品/xcresult/每测试计数/源输入和截图；旧Worktree成功SHA不重复下载/dispatch。
+- 实现细节：原HEAD有refs/wegit/rebase/<worktree identity>/<SHA>可达保存；全metadata/根markers/rewritten refs/index绑定。私有write-tree必须私有GIT_INDEX_FILE，不可再次污染原index。签名失败会done/todo重复重排，显式Continue仅纯生成stage验证后reset/replay一次；额外手工stage拒绝保留。Preview不运行外部merge drivers，author-script只允许匹配原作者/时间的安全三赋值。外部Apply仅有限Abort，既有Pull Rebase正常Merge后端继续/中止保留，不能宣称所有backend完成。
+- 接续先完成PR80/Core/原生回执与实际UI，必要变更固定新SHA才重验，最后docs与成功源等价及最新required/reviews后正常squash，不能提前关78。之后V12-05/07/08/09与固定最终源码完整功能/性能/安装/更新/迁移/回退/Beta/发布门禁继续；入口/一个PR/交接不代表完成。保护主根HEAD71b1b29/indexe57与33外部改动（含DiskDiff）、selected-lines5334a59/indexbfd clean。所有helpers主根绝对路径，跨聊天不复用exec session。
+
+## 2026-10-30 第九代首次托管失败的完整证据
+
+- 唯一责任及同一个 ACTIVE 五分钟 heartbeat 已核对为01a189ab，四树HEAD/index与交接一致。复用PR80且已附加，没有重复dispatch。
+- 原生40960942390完整制品12935377335：118512561bytes/SHA b37e64f84d6f36d9ff9c74e810e6ee910ac42a02846c2a4e80cb65138cb20e37/2133CRC、185构建输入与61ae候选逐字节匹配。直接xcresult smoke1/1/0/0，Rebase方法1总/0通过/1失败/0跳过，48.016秒在104行目标移动反馈value空字符串断言失败；QoS warning保留。完整xcresult、42导出附件和录屏保留，不把部分路径通过当专项完成。
+- required40960676026两次实际核心各241项通过（Apple默认/最低2.46）；42 CLI Rebase过。随后large性能夹具base file-1对象592d624缺失，尚无有效large样本，Homebrew完整核心/GPG/native编译等后续被跳过，不能称三Git全过。小制品12936163207的1856bytes/SHA608a843d/3CRC完整保留。原partial仅存completed workload数量，丢失先前ordinary样本数组；需修正失败报告保留所有已完成样本，不能凭计数补造旧样本。
+- 先隔离真实Git夹具与预演路径定位，错误log回显/重读不重复审计；Native失败完成时间早于第九代开始，按原source ID记录，required失败按当前代次和实际完成时间记录。所有新回执在主根continuation；原失败及旧成功制品不覆盖。
+
+## 2026-10-30 Rebase 取消就绪标记和失败采样保留
+
+- 61ae Core的本机私有逐命令Release追踪未复现托管592d624缺对象；44条纯Git大型夹具建立/完整fsck也通过，不能先猜产品修复。追踪在第29大型样本触发进程就绪断言，30普通+28大型有效诊断样本、15183命令、原夹具和错误log均保留；有追踪开销，不作为普通Release预算验收。该真实后台失败按实际execID计入本代，旧回显不再计。
+- 原printf重定向会先创建ready，再写两PID，存在完整性窗口。现先写pending再原子mv发布；实际wrapper/child存活与全进程组消失断言保持。失败验证也取消并等待原Task和已知进程组，不带着延迟child退出。
+- 性能失败报告保留所有completed workloads和active样本，带明确fixture/sample phase、Git版本及16MiB/20000项有界私有失败夹具归档；CI只新增该失败归档的保留路径，原2000/500/RSS预算不变。原报告丢失ordinary数组的缺口仍记录，不补造。
+- 原生目标移动断言改为限定main sheet并核对反馈已提供的可访问失败名称，断言前保留截图/AX；HEAD/index保护断言和全部真实流程不删，120/180秒不变。waitEnabled仅移除同一就绪条件的重复AX读取。最新编译/严格格式和固定新候选正常重验仍在进行，未修改Core/App产品源码。
