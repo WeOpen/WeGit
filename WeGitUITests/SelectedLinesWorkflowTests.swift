@@ -50,8 +50,7 @@ final class SelectedLinesWorkflowTests: XCTestCase {
         openFile(app, layer: "staged", path: path)
         XCTAssertEqual(app.checkBoxes["stage:staged:" + path].value as? Int, 1)
         XCTAssertEqual(app.checkBoxes["stage:unstaged:" + path].value as? Int, 0)
-        let layout = app.segmentedControls["diff-layout"]
-        layout.radioButtons.element(boundBy: 1).click()
+        app.radioButtons["分栏"].click()
         select(app, id: "1:new")
         app.buttons["diff-selected-lines-preview"].click()
         XCTAssertTrue(app.buttons["selected-lines-execute"].waitForExistence(timeout: 10))
@@ -62,7 +61,7 @@ final class SelectedLinesWorkflowTests: XCTestCase {
         XCTAssertEqual(try Data(contentsOf: f.root.appending(path: path)), work)
 
         openFile(app, layer: "unstaged", path: path)
-        layout.radioButtons.element(boundBy: 0).click()
+        app.radioButtons["统一"].click()
         selectRange(app, from: 1, through: 4)
         app.buttons["diff-selected-lines-preview"].click()
         execute(app)
@@ -79,7 +78,7 @@ final class SelectedLinesWorkflowTests: XCTestCase {
         ]
         app.launchWeGit()
         openFile(app, layer: "unstaged", path: path)
-        layout.radioButtons.element(boundBy: 0).click()
+        app.radioButtons["Unified"].click()
         select(app, id: "3:unified")
         app.buttons["diff-selected-lines-preview"].click()
         XCTAssertTrue(app.buttons["selected-lines-execute"].waitForExistence(timeout: 10))

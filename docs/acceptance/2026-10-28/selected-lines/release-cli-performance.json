@@ -1,0 +1,138 @@
+{
+  "budgetMilliseconds" : 2000,
+  "budgetPassed" : true,
+  "configuration" : "Swift package Release CLI",
+  "diagnosticOnly" : true,
+  "executionP95Milliseconds" : 121.103875,
+  "fixture" : {
+    "changedLocations" : 3,
+    "lines" : 5000,
+    "selectedReplacement" : 1
+  },
+  "previewP95Milliseconds" : 93.140583000000007,
+  "sampleCount" : 30,
+  "samples" : [
+    {
+      "executionMilliseconds" : 115.97212500000001,
+      "previewMilliseconds" : 93.140583000000007
+    },
+    {
+      "executionMilliseconds" : 113.7085,
+      "previewMilliseconds" : 89.233999999999995
+    },
+    {
+      "executionMilliseconds" : 114.7625,
+      "previewMilliseconds" : 88.706874999999997
+    },
+    {
+      "executionMilliseconds" : 121.103875,
+      "previewMilliseconds" : 88.889916999999997
+    },
+    {
+      "executionMilliseconds" : 114.73575,
+      "previewMilliseconds" : 90.341374999999999
+    },
+    {
+      "executionMilliseconds" : 113.63083399999999,
+      "previewMilliseconds" : 89.113332999999997
+    },
+    {
+      "executionMilliseconds" : 117.920041,
+      "previewMilliseconds" : 88.122166000000007
+    },
+    {
+      "executionMilliseconds" : 112.742459,
+      "previewMilliseconds" : 92.105999999999995
+    },
+    {
+      "executionMilliseconds" : 114.410791,
+      "previewMilliseconds" : 89.389667000000003
+    },
+    {
+      "executionMilliseconds" : 113.004583,
+      "previewMilliseconds" : 90.129666
+    },
+    {
+      "executionMilliseconds" : 123.217625,
+      "previewMilliseconds" : 89.674000000000007
+    },
+    {
+      "executionMilliseconds" : 114.70937499999999,
+      "previewMilliseconds" : 91.349416000000005
+    },
+    {
+      "executionMilliseconds" : 114.047917,
+      "previewMilliseconds" : 89.236958000000001
+    },
+    {
+      "executionMilliseconds" : 117.43383300000001,
+      "previewMilliseconds" : 89.329082999999997
+    },
+    {
+      "executionMilliseconds" : 114.027084,
+      "previewMilliseconds" : 89.991916000000003
+    },
+    {
+      "executionMilliseconds" : 116.47054199999999,
+      "previewMilliseconds" : 89.864292000000006
+    },
+    {
+      "executionMilliseconds" : 112.7855,
+      "previewMilliseconds" : 88.182541000000001
+    },
+    {
+      "executionMilliseconds" : 116.93816700000001,
+      "previewMilliseconds" : 91.389334000000005
+    },
+    {
+      "executionMilliseconds" : 115.327417,
+      "previewMilliseconds" : 90.612207999999995
+    },
+    {
+      "executionMilliseconds" : 120.58512500000001,
+      "previewMilliseconds" : 92.149208000000002
+    },
+    {
+      "executionMilliseconds" : 115.188417,
+      "previewMilliseconds" : 90.798124999999999
+    },
+    {
+      "executionMilliseconds" : 115.22108299999999,
+      "previewMilliseconds" : 90.055374999999998
+    },
+    {
+      "executionMilliseconds" : 114.77116700000001,
+      "previewMilliseconds" : 96.975750000000005
+    },
+    {
+      "executionMilliseconds" : 112.74291700000001,
+      "previewMilliseconds" : 88.922583000000003
+    },
+    {
+      "executionMilliseconds" : 119.615292,
+      "previewMilliseconds" : 91.035041000000007
+    },
+    {
+      "executionMilliseconds" : 117.664292,
+      "previewMilliseconds" : 89.525499999999994
+    },
+    {
+      "executionMilliseconds" : 115.289,
+      "previewMilliseconds" : 90.499583999999999
+    },
+    {
+      "executionMilliseconds" : 116.049667,
+      "previewMilliseconds" : 90.110917000000001
+    },
+    {
+      "executionMilliseconds" : 116.347041,
+      "previewMilliseconds" : 90.177125000000004
+    },
+    {
+      "executionMilliseconds" : 112.644666,
+      "previewMilliseconds" : 87.988500000000002
+    }
+  ],
+  "source" : "82b56dc5aa228140c6728f8c9f7503c418858140",
+  "uiPerformanceAcceptance" : false
+}
