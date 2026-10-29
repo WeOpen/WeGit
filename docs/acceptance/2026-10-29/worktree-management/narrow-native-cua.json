@@ -1,0 +1,254 @@
+{
+  "diagnosticOnly": true,
+  "scope": "Private native CUA preview; no XCTest. Fixed product inputs except two private test-suite literals and two application bundle IDs. The same fixture and staged/unstaged bytes remain unchanged.",
+  "source": {
+    "baselineHead": "8a60175adefe523eef224f109f9d8877e5094abd",
+    "workingTreeModified": true,
+    "inputSourceCount": 176,
+    "normalizedInputsMatch": true,
+    "productFilesSha256": {
+      "WeGitCore/Infrastructure/ProcessRunner.swift": "12138f0689f0965f348b93c08926a1416e1b8a8372dfe736b2b89cfa54b06310",
+      "WeGit/App/AppState.swift": "4577a094b9abdaa46b444b200db9b36c9f7950414815dc75548383cc0217a026",
+      "WeGit/App/WorktreeManagementState.swift": "3d1425c42149c3a025d241c8464149ab32e513b2ec0a518f1b250bce5d6752a2",
+      "WeGit/Features/WorkspaceView.swift": "aca713457048a7d0e0217e1a81681a1a5a38f7b16e37ce0e92c6981e542f71cb"
+    }
+  },
+  "layout": {
+    "workspaceMinimumPoints": {
+      "withoutInspectorWidth": 980,
+      "withInspectorWidth": 1292,
+      "workspaceHeight": 640
+    },
+    "nativeCapturePixels": {
+      "withoutInspector": [
+        1960,
+        1384
+      ],
+      "withInspector": [
+        2584,
+        1384
+      ],
+      "sheet": [
+        1320,
+        1040
+      ]
+    },
+    "note": "Native captures include the toolbar; their full height is 692 points at 2x scale. Workspace minimum height 640 is not the entire native window height."
+  },
+  "verified": {
+    "longChineseWorktreeRowAndBranch": true,
+    "formAndPreviewInsideSheet": true,
+    "returnEntersFormAndReadsPreview": true,
+    "tabMovesDestinationThenBranch": true,
+    "escapeReturnsPreviewToListThenCloses": true,
+    "draftFocusRestoresWithoutReclick": true,
+    "originalFilterFocusRestoresWithoutDraftFocusTheft": true,
+    "englishDarkReopenAndFocus": true,
+    "fixtureHeadIndexRefsFilesUnchanged": true
+  },
+  "retainedLimitations": {
+    "beforeFocusFixActualTypingFailed": true,
+    "initialSuiteEqualledBundleAndCrashed": true,
+    "ordinaryCUAAutoRelaunchChangedSQLiteSharedMemoryCache": true,
+    "databaseAndWalOriginalSha256Unchanged": true,
+    "oldPreview86120ExitedWithoutConfirmedCause": true,
+    "sharedTestPreferencesContainOldSelectedLinesFixtureAndNoNewWorktreeDraft": true,
+    "noClaimOfFiveOriginalUserFilesAllUnchanged": true,
+    "notFullVersionUiPerformanceVoiceOverOrReleaseAcceptance": true,
+    "sharedUITestPreferenceModifiedAt": 1793281848.8262892,
+    "sharedUITestPreferenceSha256": "3674c5484036f5fd3fd660e438b7bd7a82834526eb39ef305e3571fee749f97a",
+    "sharedTestPreferenceChangeAttributionUnknown": true
+  },
+  "captures": [
+    {
+      "slug": "inspector-minimum-form",
+      "axPath": "screenshots/cua-gen8-inspector-minimum-form.ax.txt",
+      "imagePath": "screenshots/cua-gen8-inspector-minimum-form.jpg",
+      "format": "jpeg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "db105be4d3aadd883cc38d763e05ea27695ac056c6404fdbf3e2f5f6421261c9",
+      "sourcePhase": "before-focus-fix"
+    },
+    {
+      "slug": "inspector-minimum-preview",
+      "axPath": "screenshots/cua-gen8-inspector-minimum-preview.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-inspector-minimum-preview.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "f0fc76ded9238d8ecbd7064eb56f427606fbe6bdd15dd0710ac28ca9e8282423",
+      "sourcePhase": "before-focus-fix"
+    },
+    {
+      "slug": "inspector-minimum-back-from-preview",
+      "axPath": "screenshots/cua-gen8-inspector-minimum-back-from-preview.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-inspector-minimum-back-from-preview.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "65183ba7a9cc432f1ca56635d12b04fbb249f51bd13a6765e483a18d7e5f32da",
+      "sourcePhase": "before-focus-fix"
+    },
+    {
+      "slug": "inspector-minimum-draft-after-close",
+      "axPath": "screenshots/cua-gen8-inspector-minimum-draft-after-close.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-inspector-minimum-draft-after-close.jpg",
+      "pixelWidth": 2584,
+      "pixelHeight": 1384,
+      "sha256": "be4de96d2b321dba1401181f90575b095c479af86399b1d2d3b6475ee2836c30",
+      "sourcePhase": "before-focus-fix"
+    },
+    {
+      "slug": "minimum-main-focus-candidate",
+      "axPath": "screenshots/cua-gen8-minimum-main-focus-candidate.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-main-focus-candidate.jpg",
+      "pixelWidth": 1960,
+      "pixelHeight": 1384,
+      "sha256": "e77eda8fbb6cc01fef776b40c9a517ac50df5dfde4813b1385f338b8183c5973",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "minimum-list-focus-candidate",
+      "axPath": "screenshots/cua-gen8-minimum-list-focus-candidate.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-list-focus-candidate.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "f731c22d9862a84dad3661fc30634bc0e03ffaf0d2f81cf5c213f319a8a47d05",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "minimum-focus-restored-after-close",
+      "axPath": "screenshots/cua-gen8-minimum-focus-restored-after-close.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-focus-restored-after-close.jpg",
+      "pixelWidth": 1960,
+      "pixelHeight": 1384,
+      "sha256": "d288bf5d74147320a4bcb3d5464e88084c199b8282760a60b57ccde129fe7eda",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "minimum-form-keyboard-passed",
+      "axPath": "screenshots/cua-gen8-minimum-form-keyboard-passed.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-form-keyboard-passed.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "2175353240239b95742d5667b81bbcd306f72a6284e9522166d13d2e182794a1",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "minimum-preview-keyboard-passed",
+      "axPath": "screenshots/cua-gen8-minimum-preview-keyboard-passed.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-preview-keyboard-passed.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "4f1e398d465843524b0d2b5454a3d9f4a31bfad3d88a228151acf76eb44c4b8b",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "minimum-list-after-preview-cancel",
+      "axPath": "screenshots/cua-gen8-minimum-list-after-preview-cancel.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-list-after-preview-cancel.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "f731c22d9862a84dad3661fc30634bc0e03ffaf0d2f81cf5c213f319a8a47d05",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "minimum-full-flow-draft-focus-passed",
+      "axPath": "screenshots/cua-gen8-minimum-full-flow-draft-focus-passed.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-full-flow-draft-focus-passed.jpg",
+      "pixelWidth": 1960,
+      "pixelHeight": 1384,
+      "sha256": "5715739764125e0494b81fe0f1e4900014567d0fe8a2185f5794ac1230ae3596",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "minimum-original-filter-focus-passed",
+      "axPath": "screenshots/cua-gen8-minimum-original-filter-focus-passed.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-minimum-original-filter-focus-passed.jpg",
+      "pixelWidth": 1960,
+      "pixelHeight": 1384,
+      "sha256": "c86a706ef73e8d3457838ea4ec0597ff8f0d33b40ccdfb066ff2b750204327fa",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "inspector-minimum-main-focus-candidate",
+      "axPath": "screenshots/cua-gen8-inspector-minimum-main-focus-candidate.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-inspector-minimum-main-focus-candidate.jpg",
+      "pixelWidth": 2584,
+      "pixelHeight": 1384,
+      "sha256": "76dbbffaa7956d6eb902a1284c0a6d09907160355de1cdeb21e83eae4206daa8",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "inspector-minimum-list-focus-passed",
+      "axPath": "screenshots/cua-gen8-inspector-minimum-list-focus-passed.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-inspector-minimum-list-focus-passed.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "98048c52cd7fbbe969dae0c836923f2481ab58e83defb55a31979b3b88dda852",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "inspector-minimum-draft-focus-passed",
+      "axPath": "screenshots/cua-gen8-inspector-minimum-draft-focus-passed.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-inspector-minimum-draft-focus-passed.jpg",
+      "pixelWidth": 2584,
+      "pixelHeight": 1384,
+      "sha256": "f78b73729424b01f833007366b0367cafbe91266dc879bc3e26d8f8d0bc4594e",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "english-dark-main",
+      "axPath": "screenshots/cua-gen8-english-dark-main.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-english-dark-main.jpg",
+      "pixelWidth": 2584,
+      "pixelHeight": 1384,
+      "sha256": "4635f25fbebc20f6da91a3fdc988a795841dc2e8f2c0a1b1f223b1249f9799c9",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "english-dark-list",
+      "axPath": "screenshots/cua-gen8-english-dark-list.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-english-dark-list.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "31d6070de785fe4708ae6e309b6800c289ae81451e280fa2fc51213cf335e587",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "english-dark-preview",
+      "axPath": "screenshots/cua-gen8-english-dark-preview.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-english-dark-preview.jpg",
+      "pixelWidth": 1320,
+      "pixelHeight": 1040,
+      "sha256": "2993932699ea62468b9ca8ff7bb0f1e0c71a96e544b8aa96dc704e807857e7c9",
+      "sourcePhase": "focus-candidate"
+    },
+    {
+      "slug": "english-dark-draft-focus-passed",
+      "axPath": "screenshots/cua-gen8-english-dark-draft-focus-passed.ax.txt",
+      "format": "jpeg",
+      "imagePath": "screenshots/cua-gen8-english-dark-draft-focus-passed.jpg",
+      "pixelWidth": 2584,
+      "pixelHeight": 1384,
+      "sha256": "d5cfddf686dd33188a39b8922495e4f4419fb9830306da67fbe063a7acecd136",
+      "sourcePhase": "focus-candidate"
+    }
+  ]
+}

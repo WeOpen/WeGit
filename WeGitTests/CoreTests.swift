@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 import Testing
 
@@ -116,6 +117,87 @@ struct ProcessTests {
                     arguments: ["-e", "if (fork() == 0) { sleep 30 } else { sleep 30 }"], timeout: 0.1))
         }
         #expect(start.duration(to: clock.now) < .seconds(3))
+    }
+
+    @Test func spawnedChildReceivesUnblockedTerminationSignals() async throws {
+        let result = try await ProcessRunner().run(
+            ProcessRequest(
+                executable: URL(fileURLWithPath: "/usr/bin/perl"),
+                arguments: [
+                    "-e",
+                    """
+                    use POSIX qw(SIG_BLOCK SIGTERM SIGINT SIGHUP SIGQUIT);
+                    my $mask = POSIX::SigSet->new();
+                    defined(POSIX::sigprocmask(SIG_BLOCK, POSIX::SigSet->new(), $mask)) or die "mask query failed";
+                    print join(',', map { $mask->ismember($_) } (SIGTERM, SIGINT, SIGHUP, SIGQUIT));
+                    """,
+                ]))
+        #expect(result.exitCode == 0)
+        #expect(result.text == "0,0,0,0")
+    }
+
+    @Test(.timeLimit(.minutes(1))) func executingGroupCancellationDeliversTermAndReturnsCapacity()
+        async throws
+    {
+        let root = FileManager.default.temporaryDirectory.appending(path: "WeGitProcessTerm-\(UUID())")
+        try FileManager.default.createDirectory(
+            at: root, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+        defer { try? FileManager.default.removeItem(at: root) }
+        let ready = root.appending(path: "ready")
+        let trapped = root.appending(path: "term")
+        var environment = ProcessInfo.processInfo.environment
+        environment["WEGIT_PROCESS_READY"] = ready.path
+        environment["WEGIT_PROCESS_TERM"] = trapped.path
+        let runner = ProcessRunner(capacity: ProcessCapacity(limit: 1))
+        let task = Task {
+            try await runner.run(
+                ProcessRequest(
+                    executable: URL(fileURLWithPath: "/bin/sh"),
+                    arguments: [
+                        "-c",
+                        """
+                        /bin/sleep 30 &
+                        child=$!
+                        trap 'wait "$child" 2>/dev/null; printf handled > "$WEGIT_PROCESS_TERM"; exit 143' TERM
+                        printf '%s\\n%s\\n' "$$" "$child" > "$WEGIT_PROCESS_READY"
+                        wait "$child"
+                        """,
+                    ], environment: environment, timeout: 5))
+        }
+        defer { task.cancel() }
+        let clock = ContinuousClock()
+        let deadline = clock.now.advanced(by: .seconds(2))
+        while !FileManager.default.fileExists(atPath: ready.path), clock.now < deadline {
+            try await Task.sleep(for: .milliseconds(2))
+        }
+        guard FileManager.default.fileExists(atPath: ready.path) else {
+            task.cancel()
+            _ = await task.result
+            Issue.record("The cancellation fixture never reached an executing process")
+            return
+        }
+        let ids = try String(contentsOf: ready, encoding: .utf8)
+            .split(separator: "\n").compactMap { Int32($0) }
+        let processID = try #require(ids.first)
+        #expect(ids.count == 2)
+        #expect(ids.allSatisfy { Darwin.kill($0, 0) == 0 })
+        let start = clock.now
+        task.cancel()
+        switch await task.result {
+        case .success: Issue.record("An executing cancelled process returned success")
+        case .failure(let error):
+            guard case .cancelled? = error as? ProcessFailure else {
+                Issue.record("Unexpected cancellation result: \(error)")
+                return
+            }
+        }
+        #expect(start.duration(to: clock.now) < .milliseconds(500))
+        let groupGone = Darwin.kill(-processID, 0) == -1 && errno == ESRCH
+        #expect(groupGone)
+        #expect(try Data(contentsOf: trapped) == Data("handled".utf8))
+        let next = try await runner.run(
+            ProcessRequest(executable: URL(fileURLWithPath: "/usr/bin/true"), arguments: []))
+        #expect(next.exitCode == 0)
     }
 
     @Test func cancellationAndOutputLimit() async throws {

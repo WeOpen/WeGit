@@ -125,7 +125,16 @@ public struct ProcessRunner: ProcessRunning {
         if let directory = request.directory {
             directory.path.withCString { _ = posix_spawn_file_actions_addchdir(&actions, $0) }
         }
-        posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETPGROUP))
+        // Dispatch workers block termination signals. A child must not inherit that
+        // worker mask, or graceful group cancellation waits for the SIGKILL fallback.
+        // Apply the empty mask only in the child; the host's signal state is untouched.
+        var childSignalMask = sigset_t()
+        sigemptyset(&childSignalMask)
+        let maskCode = posix_spawnattr_setsigmask(&attributes, &childSignalMask)
+        guard maskCode == 0 else { throw ProcessFailure.launch(maskCode) }
+        let flagsCode = posix_spawnattr_setflags(
+            &attributes, Int16(POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_SETSIGMASK))
+        guard flagsCode == 0 else { throw ProcessFailure.launch(flagsCode) }
         posix_spawnattr_setpgroup(&attributes, 0)
         let arguments = ([request.executable.path] + request.arguments).map { strdup($0) }
         let environment = request.environment.map { strdup("\($0.key)=\($0.value)") }

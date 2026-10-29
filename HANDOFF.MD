@@ -544,3 +544,80 @@
 - 测试原先每个存在和启用判断都先进入至少一次轮询，并重复检查创建按钮；现只有状态尚未就绪才等待，随后仍分别断言存在/启用或真实草稿值。取消、三种状态保护、原始文件字节、HEAD/索引/分支与保留Git状态断言全部保留，可信入口120/180秒不变，没有产品改动或本地XCTest。新测试编译、严格格式、策略和diff检查通过，176项应用输入与d8eb2f1逐项匹配。新候选仍需可信main smoke+一个专项实际通过及最终必需CI。
 - 制品下载的1MiB请求在断点重叠验证后超时；改为128KiB有界区间，48块全部完成，前缀增长到11599872 bytes。后续复用HTTPS连接并最多6个并行只读请求，每块校验206/Content-Range/长度，再按顺序落盘；只有完整ZIP/CRC与GitHub提供的SHA256都匹配才改名为完整制品。当前进程/session以state和真实进程为准，不用旧会话ID。
 - 文件与目录都先用已存在父目录的rg --files确认，再进行依赖读取；不要在同一并行批次里查询目录清单又猜测尚未看到的脚本路径。管道下游退出0会掩盖上游I/O错误；该真实调用仍保留。审计读取旧错误只是证据回显，不是新失败；按原调用ID去重。command -v空结果是负查询，不能当成格式器执行失败。
+
+
+## 2026-10-29 第四次自动接续：Worktree 新候选已实际通过
+
+- 本会话01a186ae-3385-7510-8f61-39c767d07d97在08:59UTC核对到滚动30分钟第5次独立失败，按既有授权接续。触发包含新候选的可选Workers失败、新ZIP读取超时7864320/11927552 bytes、gh原始日志TLS超时、一次apply_patch同时Delete/Add同一路径的无效补丁；随后有界Python日志读取也超时。按真实call/check ID与时间去重，重复poll和证据回显不计。旧会话停止产品/Git写入；完整回执在主根state及transfer-gen3-repositories.json。
+- #77管理分支HEAD已正常提交并推送8a60175adefe523eef224f109f9d8877e5094abd。修正只改UI等待：状态已就绪时不进入重复轮询，随后仍断言存在/启用及实际草稿值；全部取消、创建、打开、锁定/脏/陈旧保护、原始字节/HEAD/index/分支与Git状态断言保留。可信main的120/180秒没有调整，产品176项输入与d8eb2f1逐项匹配。本机只编译，严格格式/策略通过，没有执行XCTest。
+- 新原生40843285195/job123344593131已实际success。新制品12883438638的完整summary/log/build-source条目从保留前缀恢复并逐条校验deflate结束/长度/CRC：专项1总数/1通过/0失败/0跳过，实际103.931秒，176应用输入匹配。新完整ZIP与xcresult还待补取，不能据workflow或前缀计数直接合入#77或宣布版本完成。
+- 最新8a60175的必需CI40842751216各job已真实success：PR policy123342835818、Repository policy123342834302、Native macOS123343001335。原始日志851968-byte前缀含Apple、Git2.46、Homebrew各231测试/42 suites的完整passed行；日志下载仍超时，未伪装成完整日志。可选Workers2cb1ecbb-dc55-4c1d-8bcd-373c8cc05c10失败保留。合入前仍核实最新check-run/head状态。
+- 原失败40835298431完整63127338-byte ZIP已SHA256 b6949f9bd9e711966767c63987f9a3ccfd88c8f2c4e6e3cece354b509348d019与全部2121条目CRC通过，解压在.build/ui-40835298431-artifacts；xcresult实读smoke1/1、专项0/1，唯一120秒超时保留。导出106附件，三个自定义PNG已检查：中文创建、锁定禁用、英文深色陈旧确认均保留真实状态。
+- 新制品12883438638/name native-ui-smoke-worktree-management-8a60175adefe523eef224f109f9d8877e5094abd，63060610 bytes、期望SHA256 091a51e1f2867c408a6c623a2f94df8fd87eabe5568f220f9ca63e7706467e82；当前.build/ui-40843285195-artifacts.zip.part为11927552 bytes，.zip.range-chunks保留35个已验片段/4587520 bytes（多数与前缀重叠）。无活动下载/日志进程。会话89744/10385/71934都已结束，接续不能write_stdin旧ID。完整前缀诊断在.build/ui-40843285195-partial-diagnostics。
+- 管理树.build/resume-native-artifact.py支持有界Range、HTTPS连接复用、唯一artifact缓存身份、片段长度/哈希、最多两批pending与有序落盘，完整摘要/CRC都通过才改名。6连接和3连接均遇新独立超时；可继续用缓存和有界只读重试，记录真实失败，不自动重复Git写入。主根.build/v1-2-continuation/github-read.py只向api.github.com发凭据，签名重定向无认证头；其日志读取851968 bytes后超时，保留.log.part。
+- apply_patch不能在同一patch里Delete和Add同一文件；更新快照用安全引号/结构化JSON写入，旧文件保留到成功替换。thread snapshot必须实读后续turn，不能一直用最初inProgress快照；本次发现两次实际rate-limit失败turn（08:20/08:22），已按真实时间入历史账本，当前窗口外不重新计数。目录也需先rg --files，不在并行清单结果尚未读到前猜脚本路径。
+- 管理树除HANDOFF和原失败报告完整校验补充外无未提交产品；原HEAD8a60175/index3ec7a641保留，无Git序列或index.lock。主根HEAD71b1b29/indexe57fa41a及官网、PRD/完整性文档等其他改动保留；旧selected-lines树HEAD5334a59干净/indexbfd459be，预览86120仍在。
+- 下一步补全新ZIP/xcresult/smoke计数与四张实际截图，保留失败记录，最终文档只变时核对应用/Core/UI测试输入等价，再最新必需CI正常集成#77。随后独立Rebase(06)、三方编辑器(05)、Interactive Rebase(07)、Submodule(08)、LFS(09)及固定最终源码完整可执行验收仍未实施。本轮仅只读了解GitBranchService/SingleCommitService/Workspace sequencer，未写Rebase产品或Issue；REST全Issue标题查Rebase返回空。每五分钟同一heartbeat继续，state.targetThreadId唯一责任；完整目标完成才停止。
+
+- 第四次接续已实际创建 01a186ec-36f4-73b3-9d6c-aa0fcc2da026（WeGit v1.2 Worktree 验收收口与后续开发）；同一wegit-v1-2与唯一责任正在迁移，真实完成状态以主根state.json和automation.toml为准。来源01a186ae停止产品/Git写入，三树HEAD/index和无序列/锁已保存。
+
+## 2026-10-29 新制品断点续取
+
+- 01a186ec实读核对唯一责任和同一ACTIVE heartbeat；#77已附加，三树HEAD/index和无序列/锁保持。当前thread snapshot与真实rollout按ID/实际时间增量审计，不重复计算证据回显或同一后台失败。
+- 64KiB单连接新ZIP先在20578304 bytes遇TimeoutError，下一次在30539776 bytes遇HTTP403：签名URL会在慢速下载途中失效。私有.build/resume-native-artifact.py现每240秒从api.github.com重新获取签名地址，数据请求不附认证；每32区间换连接、最多两次传输重试，206/Content-Range/长度/缓存SHA/顺序和完整ZIP/SHA256/CRC门禁不变，旧失败保留。不得因此重复dispatch已成功8a60175。
+- 新下载session92233属本会话，实际状态以进程和range receipt为准；60038/92741已结束。完整新ZIP、xcresult/smoke和四张截图仍待核验，不能因前缀增长或专项日志提前集成#77。后续Rebase等尚未写产品或创建Issue。
+
+## 2026-10-29 用户指定当前会话接续与完整 Worktree 制品核验
+
+- 用户明确在现有会话 01a18781-179a-7d80-8da8-5d81c4a9fc3a 接续 01a186ec-36f4-73b3-9d6c-aa0fcc2da026。来源会话实际处于 systemError，后续 heartbeat 因 function_call_output 会话接口错误连续失败，没有重复产品写入。三树 HEAD/index 与无序列/锁已保存于主根 .build/v1-2-continuation/manual-takeover-repositories.json；主根其他官网/PRD 改动、选中行树和预览保留。
+- automation_update 的 view 仅显示卡片，返回“Rendered automation card in the app.”不证明任务存在，也不是 JSON。更新同一 ID 后实际返回任务不存在，原 automation.toml 也不存在；按用户既有五分钟接续授权重新创建唯一 wegit-v1-2，实际 ACTIVE / 五分钟 / target_thread_id 和主根 state.targetThreadId 均已实读匹配当前会话，generation=5。没有新建额外会话或 cron。
+- 原新制品下载已在来源会话的后台完成。当前直接核对 63060610 字节、GitHub SHA256 091a51e1f2867c408a6c623a2f94df8fd87eabe5568f220f9ca63e7706467e82、全部 2041 ZIP 条目 CRC，安全解压完整 bundle。xcresult 实读 smoke 与 Worktree 专项各 1 总数 / 1 通过 / 0 失败 / 0 跳过；专项 103.93134593963623 秒，176 项应用输入全部匹配 8a60175。四张原生截图均已检查：中文浅色创建、锁定移除禁用、英文深色陈旧确认保留 Close、撤销登记后保留目录入口。原失败 40835298431 不改写。
+- 专项 xcresult 有一条实际 QoS priority-inversion runtime warning，失败原记录也有同类 warning。保留原文，当前成功仅为本专项验收，不表示完整性能、VoiceOver、安装/Beta 或版本发布通过。
+- zsh 中含 ? 的 REST 路径必须单引号包裹，避免在发送请求前被 glob 拒绝。错误审计的 CommandExecution.command 实际为 shell 参数数组，应取真实命令；rg 正常无匹配的 exit 1 是负查询。混合清单中最后一次空 inventory 的退出码不能计作独立错误，须记录原 call ID 与核验依据；本轮两次负查询已排除，真实 JSON.parse、受限 Codex UI、glob 与任务不存在错误保留。Codex 原生 App 不允许 CUA 操作，自动任务使用专用工具和实际配置回执。
+- 下一步保存最终验收报告与文档，核对应用/Core/UI 测试及可信脚本输入等价、最新必需 CI 后正常集成 #77，再继续 Rebase、三方冲突编辑器、Interactive Rebase、Submodule、LFS 和固定最终源码可执行验收。所有写入验证仍只用隔离临时仓库，本机不执行 XCTest。
+
+## 2026-10-29 当前代次达到用户自动接续条件
+
+- 当前代次01a18781在滚动30分钟有6次真实独立错误：自动任务view文本误作JSON、受限Codex原生UI调用、未引号包裹REST问号路径、旧定时任务更新返回不存在、未经清单确认的GitRunner文件读取、错误工作目录下解析主根continuation脚本。最后一项同一命令两处缺文件按一个cwd原因计；两次正常rg负查询已明确标注不计。源用户原文已从01a184da真实rollout核对：“如果半小时内报错超过 4 次就新开一个会话来继续这个会话的任务”。
+- 完整新Worktree制品已经核验并安全解压，四张图已实看并保存，可复核成功报告已经写入；没有新产品修改、测试放宽、本机XCTest、Git提交/push/merge或重复native dispatch。管理树未提交文档/截图保持，#77仍草稿，HEAD8a60175；主根HEAD71b1b29/indexe57fa41a、选中行HEAD5334a59/干净及旧预览86120保持。所有下载/日志会话已结束，不复用50420/20689或旧ID。
+- #75真实验收尚需补列表延迟、实际执行中的只读取消、窄窗口焦点；当前记录不能代表这三项已验。实施提示在主根 .build/v1-2-continuation/worktree-remaining-acceptance-gen5.md；原性能源码是scripts/WorktreeManagementPerformance.swift，ProcessRunner实际路径WeGitCore/Infrastructure/ProcessRunner.swift。仅修改副本bundleID不会隔离AppState固定WeGit SwiftData目录；新预览尚未启动，用户/测试偏好未改。
+- 主根continuation的state/audit/github-read/with-system-proxy始终使用 /Users/willxue/will/WeOpen/WeGit 的绝对路径；它们不在管理树。包含多个命令时检查每个结果，最后一次清单的exit0可能掩盖前面的真实I/O错误。
+- 按既有明确授权准备新本地接续并迁移同一五分钟heartbeat；旧会话从此停止产品/Git写入，只做交接。新的责任ID和代次以state/automation.toml真实回执为准；完整v1.2目标继续，不把移交或本专项通过当作版本完成。
+
+- 当前代次接续已实际创建 01a18799-039f-7672-b778-87f872ad2703（WeGit v1.2 补充验收与后续开发）；同一wegit-v1-2已实读ACTIVE/每五分钟/target_thread_id匹配，state.targetThreadId同步、generation=6。来源01a18781停止产品/Git写入，新会话先补75的列表/取消/窄窗口证据，再最终CI集成77及全部剩余功能；具体回执transfer-gen5-receipt.json。
+
+
+## 2026-10-29 当前会话接续与 Worktree 读性能实测
+
+- 用户在当前会话 01a187a6-d3a9-7a00-becc-706a8704e89c 接续 01a18799。原五分钟任务实际已不存在，按原授权恢复唯一 wegit-v1-2；实际 TOML 的 ACTIVE / 每五分钟 / target_thread_id 与 state 已核对，generation=7。view 卡片不作为存在证据。管理树 attach 被拒绝为来源任务所有；后续使用明确绝对 workdir，不重试强行 attach、不重建或重置旧树。
+- 新增 scripts/WorktreeReadPerformance.swift 与 verify-worktree-read-performance.sh，使用 Release Core 与私有仓库；预设 firstList/postCancelList P95 250ms、cancelResponse P95 500ms。普通10文件+1 sibling、5000文件+1 sibling、10文件+32 siblings 各30个真实有效样本。每次新 service 首次 list 恰好一个 bounded worktree list 请求，无其他树 status 扫描；取消等私有延迟包装脚本的实际进程与 child 都存在后才触发，核对 ProcessFailure.cancelled、活动回执、整个进程组消失、公共队列恢复及全部原工作字节/HEAD/index/branch refs。不是未启动 Task 的取消，也不把延迟包装脚本当成未经改动 Git 的大型仓库实测。
+- 实测 firstList P95 7.5735/9.353792/12.311166ms，取消 534.454875/534.530792/534.709208ms，取消后列表 14.545042/14.369166/18.853959ms。三类取消均超500ms，allPassed=false；90个全部有效原样本与Core/脚本SHA保存在 read-performance-budget-failed.json。不能放宽预算、删样本或因列表通过关闭#75。需要先诊断取消为什么落到 ProcessControl 的0.5秒SIGKILL后才返回；检查子进程继承的signal mask/disposition和私有wrapper的trap/wait，先独立复现再改真实实现。只改子进程启动属性，不动父进程/系统信号或安全状态；若产品ProcessRunner变更，必须固定新源码并重新跑对应可信UI和必需Core CI。
+- 首次独立probe失败为夹具用URL对象相等判断主工作树，因目录标记而把主.git目录当关联.git文件读取；现按既知登记顺序判定。原失败保存在 read-performance-first-failure.json，不是产品行为通过。读取新路径必须先清单确认；本轮混合rg包含不存在Tests目录的真实I/O失败也保存，正常无匹配不计。
+- 已构建可靠隔离的窄窗口诊断副本：主根/管理树产品176项输入保持8a60175未改；私有clone只替换AppState两处固定测试suite和Debug/Release应用bundleID，UITesting SwiftData在内存。配置在管理树 .build/worktree-narrow-gen7-config.json，源码/夹具/派生目录与旧用户/test偏好字节快照均保存。build实际成功，尚未启动，也没有Cua检查或偏好修改，不能宣称窄窗口/焦点通过。当前980x640最小窗口（检查器开启时1292）需实看列表、长中文路径、表单、预览、Tab/Return/Escape和关闭后的草稿焦点。该私有副本不是未改动生产bundle或XCTest证明，后续产品变更时需重新核对源等价范围。
+- 当前代次滚动30分钟5次真实独立错误已审计：不存在Tests目录、原自动任务更新不存在、旧管理树归属拒绝、首次probe夹具.git读取、实际取消500ms预算失败。按已核对用户原文“如果半小时内报错超过 4 次就新开一个会话来继续这个会话的任务”接续。此后当前会话停止产品/Git写入，只做交接。所有编译/独立检查session已结束；没有XCTest、新产品改动、提交/push/merge或重复native dispatch。
+- #77仍草稿，管理树HEAD8a60175，原成功40843285195完整ZIP/xcresult/四图及原失败/QoS warning均保留。新CLI脚本/失败报告和旧未提交文档/四图待后续正常提交。完整V12-06/05/07/08/09与固定最终源码完整验收继续，不能把专项或交接当作完成。
+
+- 本代次接续已实际创建 01a187c5-d87c-7bc3-98be-2adf01330dcb（WeGit v1.2 取消响应修复与继续开发）；同一wegit-v1-2实际ACTIVE/每五分钟/target_thread_id匹配，state同步、generation=8。来源01a187a6已停止产品/Git写入；接续先修取消500ms预算失败再补980x640焦点/布局及全目标。真实回执transfer-gen7-receipt.json。
+
+## 2026-10-29 Worktree 执行中取消的信号掩码
+
+- 独立 C/Release Core 诊断先比较直接 exec sleep、shell sleep、shell/helper child 各三次。未改源码子进程实际屏蔽 SIGTERM，终止 disposition 为 default，shell trap 未执行，九次取消为523.06–525.95ms；完整进程组和容量在强杀后才恢复。不要把这个结果归因于 Git 大仓库或 wrapper wait 的猜测。
+- ProcessRunner 现仅通过 posix_spawn 子进程属性设置空信号掩码，并检查属性设置回执；不改变父进程/系统信号。0.5秒 SIGKILL 后备和原超时/输出/进程组保护保持。新诊断九次0.21–0.46ms，子进程掩码为空，全部shell trap实际执行且进程组消失/容量恢复。证据和诊断源文件在 worktree-management/process-signal-{before,after}.json。
+- 新Release读性能三类各30个全部有效样本：首次list P95 6.829125/8.926792/11.894583ms，取消0.517833/0.56225/0.42575ms，取消后list7.384833/8.118167/12.363084ms。原250/500/250ms预算和原失败90样本不变，新report read-performance-passed.json仅覆盖CLI诊断，不是原生或整版验收。
+- 新增托管Core回归核对真实子进程未屏蔽终止信号、实际wrapper和child启动后取消、TERM trap、500ms预算、全组退出与独占容量恢复。本机swift build --build-tests成功，仅编译；最新产品候选仍需可信smoke/专项和全部必需CI，旧8a60175原生通过不覆盖本次ProcessRunner变更。
+- 本轮一次读取猜测的WorktreeManagementView.swift路径失败；真实文件为WorktreeManagementSheet.swift。后续先rg --files确认具体文件名；真实I/O错误进入滚动审计，正常负查询不计。
+
+## 2026-10-29 原生预览的独立偏好域与自动启动陷阱
+
+- UITesting 的私有 UserDefaults suite 必须与应用 bundle ID 不同。上一代副本把两者设成同一标识；实际PID35534启动时UserDefaults返回nil并在AppState:501崩溃。编译通过不证明隔离启动正确。现测试suite使用唯一bundle ID加.tests，仍只改AppState两处测试domain和应用两处bundleID；生产AppState不改。
+- CUA getApp(path)在进程退出时会自动按普通参数重新启动。本轮因此启动PID35835普通副本；已用其原生Quit关闭，只留原86120。之后必须先实读PID/argv/存活状态，确认UITesting正确运行，再按唯一bundle ID绑定CUA；不要对已退出副本再次getApp。
+- 异常普通打开后两个原用户/test偏好、数据库和WAL SHA完全保持。Repositories.store-shm的SQLite共享内存索引SHA从714f82e6...变为5fabb657...；此缓存变化明确保留在.build/worktree-narrow-gen8-launch-failure-state.json，不能声称原五文件全部未改或覆盖用户缓存。之后验证以新的真实前快照核对，并保留这次差异记录。本轮没有选择/写入真实仓库。
+- 预览来源归一化应按实际项目bundleID核对，本树Debug/Release均为com.willxue.wegit.development；用com.willxue.wegit替换的首次归一化断言失败发生在启动前。原两次查询/来源断言与实际进程崩溃分别按真实ID计入当前滚动审计。
+
+## 2026-10-29 Worktree 窄窗口与原编辑焦点
+
+- CUA实查草稿值存在不等于焦点恢复：旧UI关闭面板后实际输入Z没有进入草稿。已新增弱引用原NSWindow/原生控件的恢复目标，共享field editor保存其实际NSControl；onDismiss仅为同一会话、仍存在且可见的目标恢复焦点/选择，打开其他工作树时丢弃旧目标。没有激活其他窗口或修改系统辅助访问。
+- 新源码的980宽工作区、1292宽检查器布局、660×520面板已实际检查。工作区最低640点，完整截图为1960×1384/2584×1384 Retina像素（包含工具栏），不要把完整原生窗口高度写成640。长中文/分支列表、表单/预览、Return/Tab/Escape、中英浅深均可操作；关闭后未重点击而追加Z/B/C/D真实成功，筛选框也恢复原焦点。私有夹具HEAD/index/refs/原文件全部保持。19个实际JPEG与AX树在当前会话visualizations/worktree-narrow及验收screenshots/cua-gen8-*。
+- 原生Worktree方法新增关闭后的实际续写断言；最新完整build-for-testing、严格格式与策略实际通过，本机仍未执行XCTest。此前8a60175原生通过不能覆盖新增ProcessRunner/焦点代码；必须新候选可信smoke+同一专项及最新三项必需CI。
+- CUA菜单取消后数字索引会从0/1重编；一次沿用54误切检查器。后续每次操作都从最新完整AX树按identifier重新定位。原生截图实际为JPEG，不能按PNG IHDR读取尺寸；原错误journal保留，现用ImageIO核对1320×1040/1960×1384/2584×1384。
+- 最后核对共享UITests偏好SHA已更新为3674c548...，mtime1793281848.826；内容仍指向旧WeGitSelectedUI-8qftli33，没有本次worktree私有夹具或alpha草稿。旧86120已不再运行，退出/更新归因未确认；不回写共享偏好或重建旧预览。新私有.tests域独立保存本次夹具/alphaBCD。真实数据库/WAL和原普通偏好继续保持SHA，初次异常普通重开造成的shared-memory缓存变化也保留，不宣称五文件零变化。

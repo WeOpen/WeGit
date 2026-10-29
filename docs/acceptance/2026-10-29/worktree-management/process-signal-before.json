@@ -1,0 +1,506 @@
+{
+  "samples": [
+    {
+      "cancelMilliseconds": 523.086333,
+      "capacityRecovered": true,
+      "executingPids": [
+        15156
+      ],
+      "iteration": 1,
+      "kind": "direct-exec-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15156,
+        "processGroup": 15156
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 523.602666,
+      "capacityRecovered": true,
+      "executingPids": [
+        15163
+      ],
+      "iteration": 2,
+      "kind": "direct-exec-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15163,
+        "processGroup": 15163
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 524.142291,
+      "capacityRecovered": true,
+      "executingPids": [
+        15181
+      ],
+      "iteration": 3,
+      "kind": "direct-exec-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15181,
+        "processGroup": 15181
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 525.512542,
+      "capacityRecovered": true,
+      "executingPids": [
+        15186,
+        15188
+      ],
+      "iteration": 1,
+      "kind": "shell-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15187,
+        "processGroup": 15186
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 525.652458,
+      "capacityRecovered": true,
+      "executingPids": [
+        15193,
+        15195
+      ],
+      "iteration": 2,
+      "kind": "shell-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15194,
+        "processGroup": 15193
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 523.648208,
+      "capacityRecovered": true,
+      "executingPids": [
+        15213,
+        15215
+      ],
+      "iteration": 3,
+      "kind": "shell-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15214,
+        "processGroup": 15213
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 525.945292,
+      "capacityRecovered": true,
+      "childSignalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "ignored",
+          "3": "ignored",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15222,
+        "processGroup": 15220
+      },
+      "executingPids": [
+        15220,
+        15222
+      ],
+      "iteration": 1,
+      "kind": "shell-helper-exec-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15221,
+        "processGroup": 15220
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 524.070709,
+      "capacityRecovered": true,
+      "childSignalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "ignored",
+          "3": "ignored",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15226,
+        "processGroup": 15224
+      },
+      "executingPids": [
+        15224,
+        15226
+      ],
+      "iteration": 2,
+      "kind": "shell-helper-exec-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15225,
+        "processGroup": 15224
+      },
+      "trapObserved": false
+    },
+    {
+      "cancelMilliseconds": 523.057291,
+      "capacityRecovered": true,
+      "childSignalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "ignored",
+          "3": "ignored",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15233,
+        "processGroup": 15231
+      },
+      "executingPids": [
+        15231,
+        15233
+      ],
+      "iteration": 3,
+      "kind": "shell-helper-exec-sleep",
+      "processGroupGone": true,
+      "signalState": {
+        "blocked": [
+          1,
+          2,
+          3,
+          6,
+          14,
+          15,
+          16,
+          18,
+          19,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          29,
+          30,
+          31
+        ],
+        "dispositions": {
+          "1": "default",
+          "2": "default",
+          "3": "default",
+          "13": "default",
+          "15": "default"
+        },
+        "pid": 15232,
+        "processGroup": 15231
+      },
+      "trapObserved": false
+    }
+  ],
+  "scope": "Private diagnostic of actual ProcessRunner execution and cancellation. Child signal queries are read-only. Parent signal state is unchanged. Not XCTest or a Git workload benchmark.",
+  "source": {
+    "baselineHead": "8a60175adefe523eef224f109f9d8877e5094abd",
+    "processRunnerSha256": "d84bb580162ce3fb5894902225014cb19a2cf399b988e6ee2e456e771a526cb3",
+    "workingTreeModified": false,
+    "probeBinarySha256": "dee0648b8c04fe3ba4576bddedf79709097be0fe8b87c26c4ae523ab971ea539",
+    "helperSourceSha256": "1e804af3041bce630d4f6a274eb3957e18d1be118f9156f35b9bfb57e6522caa",
+    "swiftSourceSha256": "867fdfae67516410c459bc0e2afecf8df222c0f280c88ac84ee7db4cc7552bd6"
+  },
+  "diagnosticNote": "After variant additionally waits for the helper child snapshot before starting the cancellation clock; timed cancellation and signal queries are unchanged."
+}

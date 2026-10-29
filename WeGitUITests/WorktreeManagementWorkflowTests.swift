@@ -106,6 +106,7 @@ final class WorktreeManagementWorkflowTests: XCTestCase {
         ]
         app.launchWeGit()
         expectValue(draft, "Keep Main worktree draft")
+        draft.click()
         openManager(app)
         waitEnabled(remove)
         remove.click()
@@ -148,6 +149,8 @@ final class WorktreeManagementWorkflowTests: XCTestCase {
         capture(app, "Removed registration keeps working files and Git state")
         app.buttons["worktree-cancel"].click()
         expectValue(draft, "Keep Main worktree draft")
+        app.typeText(" focus restored")
+        expectValue(draft, "Keep Main worktree draft focus restored")
         XCTAssertEqual(try git(["rev-parse", "refs/heads/topic"]), head)
         XCTAssertEqual(try git(["rev-parse", "HEAD"]), head)
         XCTAssertEqual(try Data(contentsOf: main.appending(path: ".git/index")), index)

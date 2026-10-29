@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import Observation
 import WeGitCore
@@ -5,6 +6,70 @@ import WeGitCore
 struct WorktreeManagementRequest: Identifiable {
     let id = UUID()
     let session: RepositorySession
+}
+
+/// Keep the native editing target across SwiftUI sheet dismissal. Field editors
+/// are shared and detach on resigning focus, so retain their owning control weakly.
+@MainActor
+final class WorktreeFocusRestoration {
+    private let sessionID: UUID
+    private weak var window: NSWindow?
+    private weak var responder: NSResponder?
+    private let selection: NSRange?
+
+    init?(sessionID: UUID) {
+        self.sessionID = sessionID
+        guard let key = NSApp.keyWindow ?? NSApp.mainWindow else { return nil }
+        let window = key.sheetParent ?? key
+        guard let original = window.firstResponder, original !== window else { return nil }
+        self.window = window
+        if let editor = original as? NSTextView, editor.isFieldEditor {
+            guard let content = window.contentView,
+                let control = Self.editingControl(editor, in: content)
+            else { return nil }
+            responder = control
+            selection = editor.selectedRange()
+        } else {
+            responder = original
+            selection = (original as? NSTextView)?.selectedRange()
+        }
+    }
+
+    private static func editingControl(_ editor: NSTextView, in view: NSView) -> NSControl? {
+        if let control = view as? NSControl, control.currentEditor() === editor { return control }
+        for child in view.subviews {
+            if let control = editingControl(editor, in: child) { return control }
+        }
+        return nil
+    }
+
+    func restore(sessionID currentID: UUID?) {
+        guard currentID == sessionID, let window, window.isVisible, let responder else { return }
+        if let view = responder as? NSView {
+            guard view.window === window, !view.isHiddenOrHasHiddenAncestor else { return }
+        }
+        if let current = window.firstResponder {
+            if current === responder { return }
+            // A new editing target may have been chosen while the sheet finished
+            // dismissing. Restoring the old target must not override that choice.
+            if let editor = current as? NSTextView, editor.window === window {
+                if !editor.isFieldEditor { return }
+                if let content = window.contentView, Self.editingControl(editor, in: content) != nil {
+                    return
+                }
+            }
+            if let control = current as? NSControl, control.window === window { return }
+        }
+        guard window.makeFirstResponder(responder), let selection,
+            let editor = ((responder as? NSControl)?.currentEditor() as? NSTextView)
+                ?? (responder as? NSTextView)
+        else { return }
+        let count = editor.string.utf16.count
+        let start = min(selection.location, count)
+        let range = NSRange(location: start, length: min(selection.length, count - start))
+        editor.setSelectedRange(range)
+        editor.scrollRangeToVisible(range)
+    }
 }
 
 enum WorktreeFormKind: String, CaseIterable, Identifiable {
@@ -112,6 +177,7 @@ final class WorktreeManagementState {
     }
     func open(_ tree: GitWorktree) {
         guard isCurrent, !session.isBusy, !tree.bare, tree.prunable == nil else { return }
+        app.discardWorktreeManagementFocus()
         close()
         Task { await app.open(tree.url) }
     }

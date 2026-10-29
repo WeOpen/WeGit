@@ -5,7 +5,7 @@
   "artifactId": 12880508044,
   "artifactExpectedBytes": 63127338,
   "artifactExpectedDigest": "sha256:b6949f9bd9e711966767c63987f9a3ccfd88c8f2c4e6e3cece354b509348d019",
-  "completeZipVerified": false,
+  "completeZipVerified": true,
   "completeEntriesCRCVerified": true,
   "counts": {
     "total": 1,
@@ -81,5 +81,15 @@
     "maximumSeconds": 180
   },
   "lastRecordedUIActivitySeconds": 124.93,
-  "diagnosticScope": "The full ZIP and xcresult remain pending; complete original summary/log entries were CRC and length verified from the partial ZIP. Timeout is a failure; final acceptance is not claimed."
+  "diagnosticScope": "Complete ZIP SHA256, all 2121 member CRCs, and original xcresult summary verified. Smoke passed; the focused test exceeded its unchanged 120-second default allowance and remains failed.",
+  "completeXCResultSummaryVerified": true,
+  "zipMemberCount": 2121,
+  "completeArtifactSHA256": "b6949f9bd9e711966767c63987f9a3ccfd88c8f2c4e6e3cece354b509348d019",
+  "smokeCounts": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "partialDiagnosticEntriesMatchCompleteZIP": true
 }

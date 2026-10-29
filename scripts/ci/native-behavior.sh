@@ -4,6 +4,7 @@ set -euo pipefail
 # behavior check is mandatory; a missing checker is an error, not a silent skip.
 for pair in \
   WeGitCore/GitCore/WorktreeService.swift:scripts/verify-worktree-management.sh \
+  WeGitCore/GitCore/WorktreeService.swift:scripts/verify-worktree-read-performance.sh \
   WeGitCore/GitCore/SelectedLinesService.swift:scripts/verify-selected-lines.sh \
   WeGitCore/GitCore/BlameService.swift:scripts/verify-blame.sh \
   WeGitCore/GitCore/SingleCommitService.swift:scripts/verify-single-commit.sh \
