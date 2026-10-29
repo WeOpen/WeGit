@@ -13,7 +13,7 @@
 | V12-02 · 单提交 Cherry-pick/Revert | 实现和托管专项已集成，完整最终验收继续 | #62 / PR #64，main `596bec6`；三套 Git 各 218 项通过，smoke/专项各 1/1；`docs/acceptance/2026-10-26/single-commit-operations/` |
 | V12-03 · Blame | 实现和托管专项已集成，完整最终验收继续 | #65 / PR #69，main `d8a0d1a`；固定提交/路径、200 行分页、跨行选择、提交/原路径历史导航；`docs/acceptance/2026-10-27/blame/` |
 | V12-04 · 选中行暂存/取消暂存 | 实现与可信原生专项已集成，完整最终验收继续 | #70 / PR #74，main `ee6d025`；smoke/专项各 1/1，171 项输入匹配，三套各 226 核心检查；`docs/acceptance/2026-10-28/selected-lines/` |
-| V12-01b · Worktree 管理 | 读取消与窄窗口焦点已修复并实查，新源码的可信原生/必需 CI 与集成待收口；完整最终验收继续 | #75 / PR #77；可信入口 #76 / main `20c21de`；21 独立检查、原写入与新增三类各 30 Release CLI 样本；旧 `8a60175` smoke/专项各 1/1、176 输入与完整制品匹配。子进程信号掩码、原窗口编辑焦点与新回归均待最新候选托管验证；`docs/acceptance/2026-10-29/worktree-management/` |
+| V12-01b · Worktree 管理 | 新产品候选可信原生与必需 CI 已通过，最后文档 CI 与集成待收口；完整最终验收继续 | #75 / PR #77；可信入口 #76 / main `20c21de`；21 独立检查、原写入与三类各 30 Release CLI 样本；`8b2bce7` smoke/专项各 1/1、176 输入与完整制品匹配，专项108.819秒；CI40898235020三套各233核心检查，取消/焦点新增断言执行。`docs/acceptance/2026-10-29/worktree-management/` |
 | V12-06 · 独立 Rebase | 待实施 | 明确目标/提交范围、干净工作区、继续/中止/未知回执恢复 |
 | V12-05 · 内置三方冲突编辑器 | 待实施 | BASE/OURS/THEIRS/RESULT、逐块接受、保存与标记解决分开、外部改动重验 |
 | V12-07 · Interactive Rebase | 待实施 | 线性序列的 pick/reword/edit/squash/fixup/drop/排序与完整恢复 |

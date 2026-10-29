@@ -1,0 +1,80 @@
+{
+  "runId": 40898235020,
+  "nativeJobId": 123533393408,
+  "candidate": "8b2bce79adb86c0654b3201c566f83d5b3fe94b0",
+  "nativeJobConclusion": "success",
+  "coreRuns": [
+    {
+      "gitEnvironment": "default Apple Git",
+      "passed": 233,
+      "suites": 42,
+      "durationSeconds": 133.6,
+      "failureReported": false,
+      "total": 233,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "gitEnvironment": "Git 2.46",
+      "passed": 233,
+      "suites": 42,
+      "durationSeconds": 87.399,
+      "failureReported": false,
+      "total": 233,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "gitEnvironment": "Homebrew Git",
+      "passed": 233,
+      "suites": 42,
+      "durationSeconds": 95.193,
+      "failureReported": false,
+      "total": 233,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "signalTestsPassedInEveryRun": true,
+  "logBytes": 1293499,
+  "logSha256": "ed80bea237f952e78e42bf94adbed2647f0ea1c91aee8ef0628de4606cf42b25",
+  "scope": "Actual trusted CI output for three complete core runs and native packaging. Specialized UI is verified separately with xcresult/source receipts.",
+  "hostedReadPerformance": {
+    "verifiedSamplesPerWorkload": 30,
+    "budgetMilliseconds": {
+      "firstList": 250,
+      "cancelResponse": 500,
+      "postCancelList": 250
+    },
+    "workloads": [
+      {
+        "fileCount": 10,
+        "siblingCount": 1,
+        "p95Milliseconds": {
+          "firstList": 10.9275,
+          "cancelResponse": 0.49475,
+          "postCancelList": 11.20225
+        }
+      },
+      {
+        "fileCount": 5000,
+        "siblingCount": 1,
+        "p95Milliseconds": {
+          "firstList": 12.961125,
+          "cancelResponse": 0.659375,
+          "postCancelList": 12.919708
+        }
+      },
+      {
+        "fileCount": 10,
+        "siblingCount": 32,
+        "p95Milliseconds": {
+          "firstList": 17.691833,
+          "cancelResponse": 0.534375,
+          "postCancelList": 17.841416
+        }
+      }
+    ],
+    "rawSamplesRetainedByCiArtifact": true
+  }
+}

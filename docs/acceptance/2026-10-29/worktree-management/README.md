@@ -19,7 +19,7 @@ Refs #75。列表保留 Git 原始 reportedPath 与同一发现机制的规范�
 
 ## 读取消与窄窗口补验
 
-新增源代码改变了 ProcessRunner 和工作树面板的焦点恢复。`8a60175` 的原生结果继续作为历史证据，新候选仍需可信 smoke/专项和最新必需 CI。
+新增源代码改变了 ProcessRunner 和工作树面板的焦点恢复。`8a60175` 的原生结果继续作为历史证据；新产品候选 `8b2bce7` 已通过可信 smoke/专项和三项必需 CI，最后文档提交按同一产品/测试输入重验 CI 后集成。
 
 - [原读取消失败](read-performance-budget-failed.json) 保留三类各 30 个全部有效样本和原 250/500/250 ms 预算。先用未改 Core 的 [信号诊断](process-signal-before.json) 确认实际子进程屏蔽 SIGTERM：九次直接执行和 shell/child 取消均为 523–526 ms，trap 没有执行。生产修复仅给 posix_spawn 子进程设空信号掩码；父进程和系统信号保持。
 - [修复后信号诊断](process-signal-after.json) 九次取消为 0.21–0.46 ms，shell trap 全部执行，进程组退出、容量恢复。[Release 读取消重验](read-performance-passed.json) 三类各 30 个有效样本全部达标；首次列表 P95 为 6.829/8.927/11.895 ms，取消为 0.518/0.562/0.426 ms，取消后列表为 7.385/8.118/12.363 ms。工作文件、HEAD、索引和分支引用逐字节保持。延迟 wrapper 仅用于实际执行中取消诊断，不作未经改动 Git 的大型仓库性能结论。
@@ -29,3 +29,11 @@ Refs #75。列表保留 Git 原始 reportedPath 与同一发现机制的规范�
 - 私有预览的测试 suite 与 bundle ID 必须不同。首次把两者设为同一值导致启动崩溃，CUA 随后按普通参数自动重开；已关闭该副本。数据库与 WAL 原 SHA 保持，SQLite shared-memory 索引发生缓存变化；共享 UITests 偏好也在旧选中行夹具上下文下更新，旧预览已退出，归因未确认。相关实际快照保留，不能宣称本段诊断的原五个用户文件全部未改。后续预览使用独立 suite、内存 SwiftData 与隔离 Git 配置，先核对 PID/argv/存活再绑定 CUA。
 
 本段 CUA 与 Release CLI 仅为诊断。完整原生 XCTest、最终版本性能、VoiceOver、安装/Beta 和发布门禁继续按固定最终源码独立执行。
+
+## 新产品候选的托管核验
+
+- [40899951262](https://github.com/WeOpen/WeGit/actions/runs/40899951262) 由可信 main `20c21de` 选择不可变候选 `8b2bce79adb86c0654b3201c566f83d5b3fe94b0`。118,781,670 字节完整 ZIP 的 SHA256 `5d42c6fe0118f4f9630c57fd94ab32bdd4693f7bd3efdfce168de6d52e6ad319` 匹配 GitHub，2089 条目 CRC 全部通过；直接 xcresult 的 smoke/专项各 1 总数、1 通过、0 失败、0 跳过。专项 108.818961 秒，120/180 秒可信时限保持。176 应用输入逐项匹配；原始字节/HEAD/index/分支、恢复和新增直接续写焦点断言均执行通过。详见 [完整成功回执](hosted-40899951262-passed.json)。
+- 已实看新源码四图：[中文创建](screenshots/native-gen8-create-chinese-light.png)、[锁定移除禁用](screenshots/native-gen8-locked-removal-disabled.png)、[英文陈旧确认](screenshots/native-gen8-stale-removal-english-dark.png)、[保留目录与 Git 状态](screenshots/native-gen8-removed-registration-preserved-files.png)。xcresult 仍有一条实际 QoS priority-inversion warning，完整性能门禁保持开放。
+- [CI 40898235020](https://github.com/WeOpen/WeGit/actions/runs/40898235020) 的 Repository policy/Native macOS 与 PR policy 全部通过。默认 Apple Git、Git 2.46、Homebrew Git 三套各 233 项核心检查通过，新增子进程 TERM/容量回归每套均执行；日志完整长度/SHA 与三套实际时长见 [核心回执](core-ci-40898235020.json)。托管读取消三类各 30 样本的列表 P95 10.9275/12.961125/17.691833 ms、取消 0.49475/0.659375/0.534375 ms、取消后列表 11.20225/12.919708/17.841416 ms 也通过原预算。
+
+这是一批 Worktree 管理实现和专项证据，完整 v1.2 的其余五项及固定最终源码验收继续。
