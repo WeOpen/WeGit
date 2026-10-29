@@ -434,7 +434,11 @@ final class AppState {
     let preferences: AppPreferences
     private(set) var engine: GitEngine
     let authentication: AuthenticationController
-    var session: RepositorySession?
+    var session: RepositorySession? {
+        didSet {
+            if selectedLinesRequest?.session !== session { selectedLinesRequest = nil }
+        }
+    }
     var sessions: [String: RepositorySession] = [:]
     var recents: [RecentRepository] = []
     var error: String?
@@ -457,6 +461,7 @@ final class AppState {
     var remoteManagementPresented = false
     var tagCreationRequest: TagCreationRequest?
     var singleCommitRequest: SingleCommitRequest?
+    var selectedLinesRequest: SelectedLinesRequest?
     var blameRequest: BlameRequest?
     var fileHistoryRequest: FileHistoryRequest?
     var branchSwitchRequest: BranchSwitchRequest?

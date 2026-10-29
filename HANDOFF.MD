@@ -411,6 +411,23 @@
 - 构建读取仓库根design/brand，CF监听路径要包含site/**与design/brand/**，不能仅上传site目录或只监听site。VITE_SITE_ORIGIN必须是公开构建变量，目标域名改变后重建。合入main前先通过PR检查，CF原生Git触发不会自动等待其他GitHub检查。
 - 选中行暂存预研：同块含两处替换时，把未选删除行改成 context、删去未选新增行后直接 reverse，会在当前索引上失败。取消暂存的未选新增行必须保留为当前索引 context、未选删除行应省略；私有夹具只撤回 b→B 后，index 为 a/b/C/d，工作文件仍为 a/B/C/d。证据保留在原工作区 `.build/v12-development/resumed/selected-lines-direction-probe.json`；这是预研，不是 #70 实现/验收。
 
+## 2026-10-27 选中行暂存预研
+
+- #70 的原始补丁试验发现：替换块由所有 `-` 行接所有 `+` 行组成；简单把未选删除行改为 context 再追加所选新增行，即使 `git apply` 成功也可能把 B 放到保留的 c 之后。以私有仓库逐字节比较 index，不能只核对 apply 的退出码。第一版按索引侧固定替换块顺序，零/三行上下文、暂存/取消暂存的 4 个基本夹具通过，尚需覆盖更多组合、EOF、陈旧快照和真实 UI。
+- 功能在独立 `codex/v1.2-selected-lines` 工作树开发，暂以未合并的 Blame 候选为起点；不能把原始工作区的官网改动加入该功能。实际写入/预览仍需设计索引锁、快照重验和失败回执，当前补丁构造实验不代表已支持索引写入或功能验收。
+- 当前隔离检查共 85 项：替换行全部 60 个组合、12 个 CRLF/EOF/Unicode/多块夹具，以及 13 个预演无写入、外部改动/暂存、同 HEAD 换分支、他人锁与并发 Git 写锁检查。预演在私有对象目录和索引上应用补丁，并独立计算期待的索引字节；执行持有真实 `index.lock`、复核快照，再原子安装候选。它仍是开发中核心，未完成新增/删除文件、界面、托管测试或性能验收。
+- 新增/删除文件的部分操作不能沿用整文件 mode 标记：`new file mode` 加上下文后反向应用会被 Git 拒绝，且不能把部分操作当整文件删除。对仍保留索引条目的情况转成普通修改头；仅选择完整文件才保留原始创建/删除标记。隔离检查另覆盖中文、换行、空格路径，未诞生分支和删除文件的部分/全部暂存或取消，共 8 项通过；未跟踪文件的首次分行暂存仍待实现。
+- `git add --intent-to-add` 自身未运行 clean filter，但随后对该临时索引执行 `git diff` 会运行 filter（私有复现调用两次）。未跟踪内容先用 `check-attr` 拒绝自定义 clean filter，再逐字节比较 Git 归一化结果与用户看到的原文件；CRLF/eol 转换导致不一致时也拒绝并保留文件级入口。未诞生/已有提交、首次部分/全部暂存共 4 项，filter/eol 拒绝及不执行脚本 2 项通过。
+- 选中行原生预览首次打开差异后界面失去响应，专用进程 CPU 约 100%；`sample` 显示 `DiffSelectableText.updateNSView → DiffTextSelection.register → cells.modify → ObservationRegistrar → SwiftUI` 循环。将仅用于弱引用登记的 `cells` 标记 `@ObservationIgnored`，选择状态仍可观察；不能把构建成功当作实际界面可用。首次采样保存在 `.build/selected-preview/frozen-sample.txt`，仅退出本次专用预览，需重新检查空闲 CPU 与真实交互。
+
+## 2026-10-28 选中行续接
+
+- #70 隔离行为检查 99 项重新通过（72 选择、13 安全、14 新增/删除/属性边界）。核心与原生测试目标可编译，本机没有执行 XCTest。
+- SwiftUI List 将不同分组的同路径 ForEach 身份复用：部分暂存后两个文件行都显示未暂存复选框，点已暂存行仍读工作区。文件与树行的身份都加入 layer；原生重验后两层分别显示正确复选框，可在分栏取消所选 B，逐字节恢复 a/b/c/d，工作文件与 HEAD 不变。
+- 选择后的操作条不能临时插入使代码行纵向位移；适用差异从初始就保留禁用动作，选择时只更新按钮状态。
+- 只读验收命令也要设 GIT_OPTIONAL_LOCKS=0。普通 git status 会刷新索引 stat 与校验和，曾造成取消前后字节误报；换成非写入读命令后预览/Escape 取消原始索引一致。
+- 原生 preview 的 Bundle ID/路径会被 CUA 缓存，替换旧包后可能仍选到旧身份。使用唯一的新专用包路径并先核对实际窗口；按显示名 WeGit 可能打开其他构建，不用于功能验收。
+- 本会话自动续接任务 wegit-v1-2 已创建；应用把请求的 30 分钟归一化成 5 分钟，已实时核对。进行中的任务不重复启动，错误后重验写入回执。
 ## 2026-10-28 官网合入 main 准备
 
 - 用户明确授权先合并main，Cloudflare GitHub连接由用户手动完成。复用PR#71并将实际范围重写为Workers迁移/可重复动效，新增需求#73满足必须关联open Issue的门禁；不合入其他待办PR。
@@ -418,3 +435,48 @@
 - 页面新测试使用Node type stripping，旧pages/Repository policy工作流依赖runner默认Node版本不可靠，两个工作流都显式固定Node24，与Workers workflow一致；不增加任何CF deploy job。Changelog补充本次网站迁移/动画。
 - 本地策略69项、JS25项、build/typecheck/预算通过。校验摘要固定的actionlint/gitleaks只安装到工作树.build/merge-tools，未修改系统；actionlint与真实凭据策略5场景通过，83个提交/47.78MB历史扫描0泄露。远端最新head检查仍需全部通过后正常Squash，不能沿用PR原fd56caf检查结果。
 - 首轮远端bf97019的Workers构建、静态网站与PR policy通过；Repository policy在shellcheck SC2034失败：就绪轮询的attempt未读取。本机actionlint无shellcheck时不会覆盖该告警，不能将本机通过等同Linux完整lint。改名为明确忽略的_attempt，保留轮询次数/超时语义，不禁用检查；Native因依赖失败被跳过，需新head重跑。
+
+
+## 2026-10-29 五分钟接续与选中行 PR
+
+- 历史会话记录中的 `wegit-v1-2` 已不在应用中，更新返回不存在；不能把历史创建记录当作仍启用。现已重新创建为 ACTIVE、每五分钟、绑定会话 `01a184da-9cbb-7b60-bd05-a0a03317315a`，配置文件和实际 heartbeat 触发均已核对。报错按 turn/call ID 去重，滚动 30 分钟第 5 次才创建新的本地接续会话，并迁移同一定时任务；不重复计算旧失败。
+- 本轮独立检查 99/99 通过；功能提交 `90ee3c9` 已推送并建立草稿 PR #74。最新 main `2e99036` 仅含官网迁移，合并冲突只在 HANDOFF 的两侧追加，全部保留。托管 CI、smoke/selected-lines 专项、最终回归和 Release 性能尚未通过本轮验收。
+- `read_thread` 的 `turnLimit` 实际上限为 10；超限返回 isError 文本，必须先检查结果再解析 JSON。恢复状态保存在主检出私有 `.build/v1-2-continuation/state.json`，原子更新；审计只增量读取当前会话日志，不把轮询本身计为报错。
+
+
+- 首轮托管 run 40806321814：smoke 实际 1/1、0 失败/跳过；selected-lines 专项实际 1 项、0 通过/1 失败/0 跳过，在部分暂存后的 checkbox.value 字符串强转断言失败，后续步骤未执行。已有原生用例与控件使用数值 1/0，现保持相同状态断言并改为 Int；不删检查或放宽结果。
+- 必需 CI 40806104965 在 OnlyOneTrailingClosureArgument 格式检查处失败，后续核心/构建步骤未执行。该规则不会由自动格式化全部修复；显式 operation 参数后重新执行严格 lint。旧运行和原始 xcresult 保留，修复后的托管验收仍待真实结果。
+
+
+- 第二轮原生 40810107371：smoke 1/1，专项 0/1、1 失败、0 跳过；已越过 checkbox 1/0 与单行暂存检查，失败是查询不存在的 SegmentedControl 容器。现沿用既有原生用例的 RadioButton「统一/分栏/Unified」切换，不改产品布局或删掉后续范围、重开及陈旧确认断言。
+- 固定 82b56dc 的 Swift package Release CLI 30 个有效样本全部逐字节核对：5000 行、三处替换，只选择一处，其他已暂存内容、工作文件和 HEAD 不变。prepare/execute p95 93.140583/121.103875 ms，预先沿用后台入口 2000 ms 预算。该结果仅为后台 CLI 诊断，不能代表原生界面或完整 Release 性能通过；初次临时测量表达式触发 Swift 类型检查超时，拆分为显式循环后编译和运行完成。
+- #75 的移除预研确认 Git 2.54 默认 worktree remove 会以成功状态删除 ignored 内容，不能凭普通 status 干净直接删除。私有同卷目录先经 Git move 更新登记，再保留文件、移除私有空路径登记，九项保护断言通过，原路径后来出现的外来目录与晚到 ignored 文件均保留；单次 22.55 ms 只作预研。首个夹具路径断言受 /var 与 /private/var 别名影响，改用规范路径后 NUL/中文/换行检查通过，不改产品或放宽身份保护。
+
+
+## 2026-10-29 自动接续移交
+
+- 04:03:14 UTC 的滚动 30 分钟已记录 5 次独立失败，触发用户指定的新会话条件；包括一个外部可选 Workers 检查、一个工作树工具调用、第三轮原生诊断和两次错误路径查询。按 call/run ID 去重，已修复或已过期的旧失败不会在每次轮询再累计。触发回执保存在主检出 `.build/v1-2-continuation/state.json`。
+- 选中行工作树 `/Users/willxue/.codex/worktrees/selected-lines/WeGit`，分支 `codex/v1.2-selected-lines`，已推送 HEAD `4217901e76d624d8275167ca7f74246070f229d9`，草稿 PR #74。99 项独立检查通过；82b56dc 的 Apple / Git 2.46 / Homebrew 核心各 226 项、41 suites 通过，CLI Release 30 有效样本 prepare/execute p95 93.14/121.10 ms。当前 HEAD 的最终必需检查仍以 GitHub 实际状态为准。
+- 原生第三轮 40813349194 smoke 1/1，专项 0/1、1 失败、0 跳过；已执行单行暂存、Split 取消暂存、Unified 跨行两方向及英文深色重开。第90行等关闭按钮失败，之后的最终字节/草稿断言未执行。UI hierarchy 显示 external edit 和 Failed: repository/file changed，但 sheet 已消失。Core 拒绝了陈旧确认，产品确认界面却随 keyed DiffContentView 重建而失去状态。
+- 下一步在选中行分支修复真实 UI 生命周期：将 SelectedLinesRequest 从 SelectedLinesControl 的局部 State 迁到稳定的 AppState/WorkspaceView sheet 宿主，使用明确会话身份；成功仍关闭，失败保持反馈与 Close，切仓库清理旧请求。保持原全部断言、Core 锁/快照保护与可信 main 单方法门禁。真实入口是 `WeGit/Features/WorkspaceView.swift`，sheet 集中在190行附近；不要再猜 WorkbenchView/WorkbenchRootView 文件名，先用 rg --files 核对。
+- 最新已知原生 run 40813349194 已结束，不要重复旧 SHA 的 dispatch；修复、提交和确认新 head 后串行重跑一个 smoke + selected-lines。4217901 对应必需 CI run 40812824684，PR policy run 40812824717；按实际结果保存计数/源码回执。Cloudflare Workers Builds 为可选外部检查，main 的必需门禁实际只有 PR policy / Repository policy / Native macOS。
+- #75 的新管理工作树 `/Users/willxue/.codex/worktrees/worktree-management/WeGit` 已准备，分支 `codex/v1.2-worktree-management`，起点2e99036；未改产品。移除预研证明默认 git worktree remove 会删除 ignored 内容；先 Git move 到同卷私有目录、保留文件、再移除私有缺失路径登记可以保留晚到文件及原路径外来目录。九项保护断言通过，22.55ms仅单次预研；真实实现与托管验收待开展，跨卷/锁定/脏内容/孤立 detached 提交需保护。
+- create_worktree 的 sourceRoot 必须是当前会话 workspace folder；通过主根 `/Users/willxue/will/WeOpen/WeGit` 创建固定 ref，不会复制主根未提交网站内容。新会话使用已有工作树的明确 exec working directory，不重建、不重置或强行附加其他会话拥有的工作树。
+- 主检出的官网改动保留。核对时两开发树无 Git 序列或 index.lock，无其他活跃开发会话；专用 SelectedLinesPreviewV2 进程86120仍存在，未退出，不把只运行的预览当作重复开发任务。需要新预览时用唯一包路径，保留既有应用/草稿。
+- 全目标继续 V12-01～V12-09 与真实最终验收；不把本批 PR、诊断通过或当前移交当作 v1.2 完成。本机不执行 XCTest，Git 写入验收只用隔离临时仓库；生产交付保留性能、安装/Beta/发布门禁实际限制。
+
+- 按第5次错误规则已创建接续会话 `01a185eb-2412-7bd0-b893-576e75d4e6c4`（WeGit v1.2 持续开发接续），正在迁移同一 `wegit-v1-2` heartbeat；责任与完成状态以主根私有 state.json 为准。旧会话停止产品/Git写入，保留本轮错误和交接证据。
+
+
+## 2026-10-29 选中行确认的稳定宿主
+
+- 第三轮 40813349194 的 smoke 1/1、专项 0/1 和第90行失败保留在原报告；其最后字节/草稿断言没有执行，不能当作通过。确认请求曾由会随 DiffDisplayState 身份重建的局部控件持有，Core 拒绝陈旧文件后弹窗消失。
+- 请求现由 AppState 持有，固定 RepositorySession 和请求 UUID；WorkspaceView 统一呈现。成功只关闭匹配请求，失败保留反馈和 Close；取消/切仓库取消旧预览，旧成功回调不会关闭后来请求。Core 快照/索引锁及原全部 UI 断言保持。
+- 本机严格格式、仓库策略、4项原生 Git helper 检查与 Debug build-for-testing 通过；171项实际应用输入逐项匹配。没有本地执行 XCTest。此处只报告编译和输入核对，可信 main 的新候选 smoke/selected-lines 与必需 CI 仍需实际通过。
+- 新 worktree 不会复制其他树的 ignored .build 资料；查询前用 rg --files 核对实际目录与脚本名，不能将猜测的 Sources/WeGitCore 或 test-policy.sh 当作已存在路径。两次迁移后的查询错误已按真实调用 ID 进入滚动审计。
+- 本会话责任与同一五分钟 heartbeat 已匹配 01a185eb-2412-7bd0-b893-576e75d4e6c4、generation=1；旧会话停止产品/Git 写入，主根官网未提交内容和原预览86120保留。
+
+
+- 修复候选3f94994的托管40820141087已下载：smoke与selected-lines各1/1、0失败/跳过，171项输入逐项匹配。全部原断言执行至最后，陈旧索引/外部字节/无lock/草稿/HEAD检查通过；三张原生截图已检查，英文深色失败时确认窗口、错误和Close均保留。hosted-40820141087.json与screenshots/保存实际证据。当前完整必需CI 40820061103仍在进行，最终回归/Release验收继续。
+
+- 3f94994的必需CI 40820061103已全部成功；Apple、最低Git2.46、Homebrew各226项/41 suites通过。新的收尾提交只加入实际验收/截图和执行状态，应用、Core、UI/核心测试输入均与该候选相同；收尾HEAD的必需检查仍要实际通过后集成，不沿用旧检查状态。
