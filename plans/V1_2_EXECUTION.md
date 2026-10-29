@@ -11,8 +11,8 @@
 | M0 · 固定基线 | 开发基线已固定，历史质量跟进继续 | main `db66556`；1.2.0/build 4；#35/#54/#57 的未验项仍保留 |
 | V12-01a · 已有 Worktree 打开、切换、恢复 | 实现和托管专项已集成，完整最终验收继续 | #59 / PR #60，main `d3c14c7`；`docs/acceptance/2026-10-26/worktree-opening/` |
 | V12-02 · 单提交 Cherry-pick/Revert | 实现和托管专项已集成，完整最终验收继续 | #62 / PR #64，main `596bec6`；三套 Git 各 218 项通过，smoke/专项各 1/1；`docs/acceptance/2026-10-26/single-commit-operations/` |
-| V12-03 · Blame | 已实现，29 项独立检查与原生预览通过；托管验收进行中 | #65；固定提交/路径、200 行分页、跨行选择、提交/原路径历史导航；`docs/acceptance/2026-10-27/blame/` |
-| V12-04 · 选中行暂存/取消暂存 | 已实现，99 项独立检查通过；托管验收进行中 | #70 / 草稿 PR #74；原始字节补丁、快照与索引锁、Unified/Split；`docs/acceptance/2026-10-28/selected-lines/` |
+| V12-03 · Blame | 实现和托管专项已集成，完整最终验收继续 | #65 / PR #69，main `d8a0d1a`；固定提交/路径、200 行分页、跨行选择、提交/原路径历史导航；`docs/acceptance/2026-10-27/blame/` |
+| V12-04 · 选中行暂存/取消暂存 | 已实现，99 项独立检查和可信原生专项通过；最终 PR 门禁与集成继续 | #70 / PR #74；3f94994 的 smoke/专项各 1/1，171 项输入匹配；原始字节、稳定确认、快照/索引锁与 Unified/Split；`docs/acceptance/2026-10-28/selected-lines/` |
 | V12-01b · Worktree 管理 | 待实施 | 列表、创建与安全移除；保留锁定、脏内容与陈旧登记保护 |
 | V12-06 · 独立 Rebase | 待实施 | 明确目标/提交范围、干净工作区、继续/中止/未知回执恢复 |
 | V12-05 · 内置三方冲突编辑器 | 待实施 | BASE/OURS/THEIRS/RESULT、逐块接受、保存与标记解决分开、外部改动重验 |

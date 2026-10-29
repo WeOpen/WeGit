@@ -1,0 +1,12 @@
+{
+  "source": "3f94994386d882671e094b671ac10fa0ce112d61",
+  "runId": 40820061103,
+  "conclusion": "success",
+  "coreTestSummaries": [
+    "Native macOS\tFormatting, core tests and Debug build\t2026-10-29T04:56:44.1616200Z ✔ Test run with 226 tests in 41 suites passed after 195.482 seconds.",
+    "Native macOS\tMinimum Git 2.46 core regression\t2026-10-29T05:01:40.4694920Z ✔ Test run with 226 tests in 41 suites passed after 101.687 seconds.",
+    "Native macOS\tComplete core regression with actual Homebrew Git\t2026-10-29T05:08:08.6615380Z ✔ Test run with 226 tests in 41 suites passed after 98.505 seconds."
+  ],
+  "diagnosticOnly": false,
+  "fullReleaseAcceptance": false
+}

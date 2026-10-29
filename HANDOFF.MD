@@ -475,3 +475,8 @@
 - 本机严格格式、仓库策略、4项原生 Git helper 检查与 Debug build-for-testing 通过；171项实际应用输入逐项匹配。没有本地执行 XCTest。此处只报告编译和输入核对，可信 main 的新候选 smoke/selected-lines 与必需 CI 仍需实际通过。
 - 新 worktree 不会复制其他树的 ignored .build 资料；查询前用 rg --files 核对实际目录与脚本名，不能将猜测的 Sources/WeGitCore 或 test-policy.sh 当作已存在路径。两次迁移后的查询错误已按真实调用 ID 进入滚动审计。
 - 本会话责任与同一五分钟 heartbeat 已匹配 01a185eb-2412-7bd0-b893-576e75d4e6c4、generation=1；旧会话停止产品/Git 写入，主根官网未提交内容和原预览86120保留。
+
+
+- 修复候选3f94994的托管40820141087已下载：smoke与selected-lines各1/1、0失败/跳过，171项输入逐项匹配。全部原断言执行至最后，陈旧索引/外部字节/无lock/草稿/HEAD检查通过；三张原生截图已检查，英文深色失败时确认窗口、错误和Close均保留。hosted-40820141087.json与screenshots/保存实际证据。当前完整必需CI 40820061103仍在进行，最终回归/Release验收继续。
+
+- 3f94994的必需CI 40820061103已全部成功；Apple、最低Git2.46、Homebrew各226项/41 suites通过。新的收尾提交只加入实际验收/截图和执行状态，应用、Core、UI/核心测试输入均与该候选相同；收尾HEAD的必需检查仍要实际通过后集成，不沿用旧检查状态。
