@@ -1,0 +1,2 @@
+# Add private Worker bindings here for local development when a feature needs them.
+# Public URL metadata is configured with the VITE_SITE_ORIGIN build environment variable.

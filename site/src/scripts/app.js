@@ -5,6 +5,7 @@ import { decodeTheme, MAX_THEME_BYTES, prepareTheme, previewProperties } from '.
 import { workbenchHTML } from './workbench.js';
 import { icon } from './icons.js';
 import { initAnimations } from './animations.js';
+import { initParticleFooter } from './footer-effect.js';
 
 const BASE = document.body.dataset.base || '';
 const asset = path => `${BASE}/assets/${path}`;
@@ -238,6 +239,7 @@ function init() {
     const button = document.createElement('button'); button.className = 'color-chip'; button.dataset.accent = color; button.style.background = color; button.setAttribute('aria-label', `Accent ${color}`); picker.append(button);
   }
   applyI18n();
+  initParticleFooter();
   if (document.body.dataset.page === '404') import('./error-page.js').then(({ initErrorPage }) => initErrorPage({ tr, setMenu }));
   else initAnimations();
   loadRelease();
