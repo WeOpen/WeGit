@@ -42,7 +42,7 @@ final class WorktreeManagementWorkflowTests: XCTestCase {
         app.launchWeGit()
         defer { app.terminate() }
         let draft = app.textFields["commit-message"]
-        XCTAssertTrue(draft.waitForExistence(timeout: 10))
+        XCTAssertTrue(draft.exists || draft.waitForExistence(timeout: 10))
         draft.click()
         draft.typeText("Keep Main worktree draft")
         openManager(app)
@@ -88,7 +88,7 @@ final class WorktreeManagementWorkflowTests: XCTestCase {
         waitEnabled(remove)
         remove.click()
         let error = app.descendants(matching: .any).matching(identifier: "worktree-error").firstMatch
-        XCTAssertTrue(error.waitForExistence(timeout: 10))
+        XCTAssertTrue(error.exists || error.waitForExistence(timeout: 10))
         XCTAssertEqual(try Data(contentsOf: linked.appending(path: "file")), Data("unsaved\n".utf8))
         try base.write(to: linked.appending(path: "file"))
         app.buttons["worktree-refresh"].click()
@@ -133,7 +133,7 @@ final class WorktreeManagementWorkflowTests: XCTestCase {
         execute.click()
         XCTAssertTrue(execute.waitForNonExistence(timeout: 10))
         let path = app.descendants(matching: .any).matching(identifier: "worktree-preserved-path").firstMatch
-        XCTAssertTrue(path.waitForExistence(timeout: 10))
+        XCTAssertTrue(path.exists || path.waitForExistence(timeout: 10))
         let reported = (path.value as? String).flatMap { $0.hasPrefix("/") ? $0 : nil } ?? path.label
         XCTAssertTrue(reported.hasPrefix("/"))
         let kept = URL(fileURLWithPath: reported)
@@ -156,16 +156,15 @@ final class WorktreeManagementWorkflowTests: XCTestCase {
 
     @MainActor private func openManager(_ app: XCUIApplication) {
         let more = app.descendants(matching: .any).matching(identifier: "toolbar-more").firstMatch
-        XCTAssertTrue(more.waitForExistence(timeout: 10))
+        XCTAssertTrue(more.exists || more.waitForExistence(timeout: 10))
         more.click()
         app.menuItems["worktree-management"].click()
-        XCTAssertTrue(app.buttons["worktree-create"].waitForExistence(timeout: 10))
         waitEnabled(app.buttons["worktree-create"])
     }
     @MainActor private func prepareCreation(_ app: XCUIApplication, path: String, branch: String) {
         app.buttons["worktree-create"].click()
         let field = app.textFields["worktree-destination"]
-        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        XCTAssertTrue(field.exists || field.waitForExistence(timeout: 5))
         field.click()
         field.typeKey("a", modifierFlags: .command)
         field.typeText(path)
@@ -177,16 +176,23 @@ final class WorktreeManagementWorkflowTests: XCTestCase {
         app.buttons["worktree-preview"].click()
     }
     @MainActor private func waitEnabled(_ element: XCUIElement) {
-        XCTAssertTrue(element.waitForExistence(timeout: 10))
-        let ready = XCTNSPredicateExpectation(
-            predicate: NSPredicate(format: "enabled == true"), object: element)
-        XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed)
+        if !element.exists || !element.isEnabled {
+            let ready = XCTNSPredicateExpectation(
+                predicate: NSPredicate { _, _ in element.exists && element.isEnabled }, object: nil)
+            XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed)
+        }
+        XCTAssertTrue(element.exists)
+        XCTAssertTrue(element.isEnabled)
     }
     @MainActor private func expectValue(_ element: XCUIElement, _ value: String) {
-        XCTAssertTrue(element.waitForExistence(timeout: 10))
-        let ready = XCTNSPredicateExpectation(
-            predicate: NSPredicate { _, _ in element.value as? String == value }, object: nil)
-        XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed)
+        if !element.exists || element.value as? String != value {
+            let ready = XCTNSPredicateExpectation(
+                predicate: NSPredicate { _, _ in element.exists && element.value as? String == value },
+                object: nil)
+            XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 10), .completed)
+        }
+        XCTAssertTrue(element.exists)
+        XCTAssertEqual(element.value as? String, value)
     }
     private func id(_ url: URL) -> String {
         SHA256.hash(data: Data(url.resolvingSymlinksInPath().path.utf8)).map { String(format: "%02x", $0) }

@@ -507,3 +507,40 @@
 - Worktree原生界面与固定用例已完整编译，176项应用输入匹配，严格格式及1248字符串/8复数通过；源码和全断言保留。Code/Test和原生真实执行不同，后续先运行可信main smoke+worktree-management，再通过最终CI集成；普通10文件与5000文件Release CLI各30有效样本正在测量。
 
 - Release CLI普通10文件/大型5000文件各30有效样本通过，均逐文件核对保留字节、源HEAD和索引。预设四项后台p95预算2000ms；5000文件prepareCreate118.55/create747.23/prepareRemove135.58/remove314.31ms，10文件33.71/126.51/55.08/98.49ms。全部原样本与源码绑定在release-cli-performance.json；不是UI或完整Release性能验收。
+
+- Worktree首次可信调度在读取workflow元数据时TLS超时，最新run列表仍无新运行；核实后改用结构化JSON直接dispatch endpoint，一次请求一次回执。状态更新不得把JSON null/true/false当Python字面量：整体json.loads或用None/True/False。首次更新失败没有真实落盘，已核实后修正，不重复PR创建。
+
+- 草稿#77已创建并附加，head d8eb2f1，CI40834478441；可信原生run40835298431已实际排队。首次TLS失败仅停在workflow读取，后续结构化dispatch成功，未重复运行。接续先核验这两个真实run与176输入，不重复PR/dispatch。
+
+
+## 2026-10-29 第二次自动接续移交
+
+- 当前代次在07:30:54 UTC触发滚动30分钟第5次独立报错：#77可选Workers检查、查询未完成JSON解析、首次调度TLS、状态更新JSON/Python空值、猜测BranchesView文件路径。随后原生40835298431也失败，按实际run/job ID另记；负查询和warning不计，审计同时处理event_msg与显式Script error输出。旧会话停止产品/Git写入。
+- 首要继续#77草稿，工作树/分支`/Users/willxue/.codex/worktrees/worktree-management/WeGit` / `codex/v1.2-worktree-management`，已推送HEAD`d8eb2f1c28817ac485b7696e3bdfaf44589c59ba`。只有HANDOFF有移交未提交更新；无index.lock/序列，原生/核心测试已编译，176实际应用输入逐项匹配。Core21真实检查与普通10文件/5000文件各30Release CLI有效样本通过，报告均已提交；这些不等于UI或完整Release验收。
+- 原生40835298431已实际结束失败，可信main20c21de在07:27:23日志确认smoke执行通过，worktree-management专项在07:29:48失败。保留`.build/ui-40835298431-failed.log`；完整xcresult/summary制品下载至`.build/ui-40835298431-artifacts`，下载会话55213可能仍进行中，先核对文件/下载结果，不能重复dispatch旧SHA。下一步读focused-worktree-management.log和summary/xcresult定位真实断言，保留全部取消/创建/锁定/脏/陈旧/字节/草稿断言后修复，在新SHA串行运行可信smoke+一个专项。
+- #77必需CI40834478441：PR policy与Repository policy已成功，Native macOS本次核对仍运行；按真实最新头部结果集成，不绕过三个必需门禁。可选Cloudflare失败449be47d-c93e-4ca0-88e7-f6859757ab42保留。完整性能/安装/Beta/发布门禁仍开放。
+- #74已正常合入main ee6d025，选中行稳定AppState/Workspace sheet的原生smoke/专项各1/1，171输入匹配；最终5334a59三个必需检查全过。#76可信Worktree入口更新到9815d55后CI40825628056全过，正常合入main20c21de。不要重做这两项。选中行旧树`/Users/willxue/.codex/worktrees/selected-lines/WeGit` / `codex/v1.2-selected-lines`仍保留HEAD5334a59及所有历史制品，工作区干净，专用预览86120仍存在，不退出或覆盖。
+- Worktree实现从原始Git NUL数据配对reportedPath与规范path，三种创建预览/重验，common→private队列；保留式移除先Git move到同卷0700私有checkout，再保留全部工作文件与git-state，仅撤销缺失路径登记。锁定、当前/主树、脏内容、特殊索引/子模块、孤立Detached与目录/身份变化均保护。不确定回执保持目录、不自动重复写入。
+- 主根仍在blame 71b1b29，官网以及docs/README、WeGit_PRD、LOCAL_GIT_COMPLETENESS_PLAN等其他未提交内容全部保留，索引SHA e57fa41a未变。新会话只使用明确工作目录，不重建/重置旧树或强行附加其他会话的树。需要新树时create_worktree的sourceRoot用主根workspace。
+- 剩余全目标仍为plans/V1_2_EXECUTION.md V12-01～V12-09与可执行最终验收；#75之后依序独立Rebase(V12-06)、三方编辑器(05)、Interactive Rebase(07)、Submodule(08)、LFS(09)，都未实施。本机不执行XCTest；只隔离临时仓库/本地bare remote做写入验证，Git/gh使用主根子进程代理，不改用户仓库/凭据/系统设置。每5分钟同一heartbeat继续，责任以state.targetThreadId唯一记录；迁移后新代次重置窗口，全部目标有真实结果才停止。
+
+
+## 2026-10-29 第三次自动接续：制品读取与网络边界
+
+- 本会话01a1869d-e11c-77a1-baef-e3b6b9335a02按用户滚动30分钟第5次规则移交；准备时审计已6次：OpenAI搜索连接器isError、gh GraphQL TLS超时、跨会话write_stdin旧session55213不存在、猜测RepositorySession.swift文件路径、REST ZIP下载unexpected EOF及GitHub连接器Transport错误。下载失败在后台已发生，poll只读取该退出结果，不另计。随后创建脚本多出闭合符造成SyntaxError，脚本完全未执行、没有实际创建或文档写入；已重新审计，不重复实际创建。真实ID留存state/audit，没有产品修复或本地XCTest执行。
+- #77/d8eb2f1三个必需检查已真实全部成功：PR policy123315932075、Repository policy123315932801、Native macOS123316052471，CI40834478441在07:36:12UTC结束success。可选Workers449be47d失败保留。原生40835298431仍只有可信日志确认smoke通过、专项失败；确切计数/断言仍需完整artifact，不能据CI成功集成或关闭#75。
+- 制品id12880508044、name native-ui-smoke-worktree-management-d8eb2f1c28817ac485b7696e3bdfaf44589c59ba、63,127,338bytes、未过期。继承gh进程92229等15分钟未写目录，经完整命令核对后仅终止该下载，记录.build/ui-40835298431-download-transfer.json。新REST CLI读取到.build/ui-40835298431-artifacts.zip.part，在5,308,416bytes以unexpected EOF退出；无活动下载或完整解压目录，partial保留。不要复用跨会话旧session55213或已结束session12283，优先有界/可续传私有下载并验完整ZIP。
+- GitHub连接器download_workflow_artifact返回backend-api/ps/mcp Transport错误；search_service也isError。gh REST小JSON本轮实际成功，GraphQL曾TLS超时。不能盲重试、盲等或重复调度旧原生SHA。官方自动任务页通过子进程系统代理可读取，但产品任务不必重复搜索Codex文档。
+- RepositorySession类实际在WeGit/App/AppState.swift，沒有单独同名文件；文件名先rg --files再读。WorktreeManagementState/Sheet已读，稳定WorkspaceView的sheet绑定request UUID；在获真实失败前未改变产品或测试断言。
+- 复用管理树codex/v1.2-worktree-management、HEAD d8eb2f1，仅HANDOFF.MD未提交。主根HEAD71b1b29和索引e57fa41aac85232aa3b25d74e8662afb30f9cc4c6fbd6311ce1aedd43571e115、官网/PRD/完整性文档其他改动不动。旧selected-lines树HEAD5334a59干净、原预览86120保留；无Git序列/index.lock。完整快照主根.build/v1-2-continuation/transfer-gen2-repositories.json。
+- 下一步取focused-worktree-management.log、summary与xcresult定位确切断言，保留全部创建/取消/打开/草稿隔离/锁定/脏/陈旧/保留字节/HEAD/index断言，新SHA串行可信main smoke+一个专项真正通过，再最新头部必需CI集成#77。随后独立Rebase(06)、三方冲突编辑器(05)、Interactive Rebase(07)、Submodule(08)、LFS(09)、固定最终源码可执行完整验收仍待实施。Core21/176输入/Release CLI各30样本仅为原记录范围，不是整版完成。同一五分钟heartbeat继续，state.targetThreadId唯一责任，不匹配只读。
+
+- 第三次接续已实际创建并迁移至01a186ae-3385-7510-8f61-39c767d07d97（WeGit v1.2 制品恢复与开发接续），generation=3；同一wegit-v1-2的ACTIVE/每五分钟/target_thread_id已实读核对。来源01a1869d停止产品/Git写入，三树HEAD/index与无序列/锁再次核对不变。
+
+
+## 2026-10-29 Worktree 原生超时定位
+
+- 原生40835298431的完整日志/摘要条目从保留的ZIP前缀恢复，逐条校验deflate结束、长度及CRC；远端断点64KiB重叠也已字节核对。专项确切为1总数/0通过/1失败/0跳过，唯一失败是超过默认120秒时限，最后记录到124.93秒。创建/切换/独立草稿、锁定/脏/陈旧与保留文件阶段已走到后段；该运行仍失败，不能用日志走到最后宣称通过。完整63127338-byte ZIP、整体SHA256及xcresult待补取，前缀只作失败定位。
+- 测试原先每个存在和启用判断都先进入至少一次轮询，并重复检查创建按钮；现只有状态尚未就绪才等待，随后仍分别断言存在/启用或真实草稿值。取消、三种状态保护、原始文件字节、HEAD/索引/分支与保留Git状态断言全部保留，可信入口120/180秒不变，没有产品改动或本地XCTest。新测试编译、严格格式、策略和diff检查通过，176项应用输入与d8eb2f1逐项匹配。新候选仍需可信main smoke+一个专项实际通过及最终必需CI。
+- 制品下载的1MiB请求在断点重叠验证后超时；改为128KiB有界区间，48块全部完成，前缀增长到11599872 bytes。后续复用HTTPS连接并最多6个并行只读请求，每块校验206/Content-Range/长度，再按顺序落盘；只有完整ZIP/CRC与GitHub提供的SHA256都匹配才改名为完整制品。当前进程/session以state和真实进程为准，不用旧会话ID。
+- 文件与目录都先用已存在父目录的rg --files确认，再进行依赖读取；不要在同一并行批次里查询目录清单又猜测尚未看到的脚本路径。管道下游退出0会掩盖上游I/O错误；该真实调用仍保留。审计读取旧错误只是证据回显，不是新失败；按原调用ID去重。command -v空结果是负查询，不能当成格式器执行失败。

@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-10-29T08:29:51.378504+00:00",
+  "productSourceCount": 176,
+  "productSourceMatchesFailedCandidate": true,
+  "changedRuntimeInputs": [],
+  "changedTestFile": "WeGitUITests/WorktreeManagementWorkflowTests.swift",
+  "buildForTesting": "succeeded",
+  "localXCTestExecuted": false,
+  "strictSwiftFormat": "passed",
+  "repositoryPolicy": "passed",
+  "diffCheck": "passed",
+  "defaultTestTimeAllowanceSeconds": 120,
+  "maximumTestTimeAllowanceSeconds": 180,
+  "remainingHostedValidation": true
+}
