@@ -48,8 +48,8 @@ final class SelectedLinesWorkflowTests: XCTestCase {
         XCTAssertEqual(try Data(contentsOf: f.root.appending(path: path)), work)
 
         openFile(app, layer: "staged", path: path)
-        XCTAssertEqual(app.checkBoxes["stage:staged:" + path].value as? String, "1")
-        XCTAssertEqual(app.checkBoxes["stage:unstaged:" + path].value as? String, "0")
+        XCTAssertEqual(app.checkBoxes["stage:staged:" + path].value as? Int, 1)
+        XCTAssertEqual(app.checkBoxes["stage:unstaged:" + path].value as? Int, 0)
         let layout = app.segmentedControls["diff-layout"]
         layout.radioButtons.element(boundBy: 1).click()
         select(app, id: "1:new")

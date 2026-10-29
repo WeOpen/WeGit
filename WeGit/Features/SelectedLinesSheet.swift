@@ -105,14 +105,16 @@ private struct SelectedLinesSheet: View {
     private func execute() {
         guard app.session === session, let plan, !attempted else { return }
         attempted = true
-        session.performResult(title, onSuccess: { dismiss() }) { service in
-            do {
-                try await service.executeSelectedLines(plan)
-                return .completed(message: L10n.text("暂存区更新完成"))
-            } catch let uncertain as SelectedLinesOutcomeUnknown {
-                return .needsReview(message: uncertain.localizedDescription)
-            }
-        }
+        session.performResult(
+            title, onSuccess: { dismiss() },
+            operation: { service in
+                do {
+                    try await service.executeSelectedLines(plan)
+                    return .completed(message: L10n.text("暂存区更新完成"))
+                } catch let uncertain as SelectedLinesOutcomeUnknown {
+                    return .needsReview(message: uncertain.localizedDescription)
+                }
+            })
     }
 
     /// The preview describes the actual index direction; reversing a staged

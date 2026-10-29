@@ -9,3 +9,7 @@
 - 可信 main 的 selected-lines 白名单通过独立 PR #72 集成，只允许一个固定方法，必须先实际 smoke 通过。
 
 本批不包含选中行丢弃、工作文件编辑或跨文件批量写入。二进制、符号链接、gitlink、mode/rename、split index、clean filter 或无法逐字节重现的转换保留文件级入口。完整最终回归、Release 开销和发布门禁继续跟进，不能把开发构建或本机 CUA 当作托管验收。
+
+
+- 首轮托管 run 40806321814：smoke 实际 1/1、0 失败/跳过；selected-lines 专项实际 1 项、0 通过/1 失败/0 跳过，在部分暂存后的 checkbox.value 字符串强转断言失败，后续步骤未执行。已有原生用例与控件使用数值 1/0，现保持相同状态断言并改为 Int；不删检查或放宽结果。
+- 必需 CI 40806104965 在 OnlyOneTrailingClosureArgument 格式检查处失败，后续核心/构建步骤未执行。该规则不会由自动格式化全部修复；显式 operation 参数后重新执行严格 lint。旧运行和原始 xcresult 保留，修复后的托管验收仍待真实结果。
