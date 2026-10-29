@@ -1245,3 +1245,13 @@
 "工作树有未保存内容或进行中的操作，请先处理。" = "The worktree has unsaved changes or an operation in progress. Resolve them first.";
 "此工作树包含特殊索引标记或子模块，已停止移除。" = "This worktree contains special index flags or submodules. Removal was stopped.";
 "Detached HEAD 含没有引用保护的提交，请先创建分支或标签。" = "Detached HEAD contains a commit without a protecting reference. Create a branch or tag first.";
+"选择此行" = "Select this line";
+"选择第 %1$@ 行" = "Select line %1$@";
+"暂存所选行…" = "Stage selected lines…";
+"取消暂存所选行…" = "Unstage selected lines…";
+"暂存所选行" = "Stage selected lines";
+"取消暂存所选行" = "Unstage selected lines";
+"预览所选行…" = "Previewing selected lines…";
+"所选行预览过大，请缩小选择范围。" = "The selection is too large to preview. Select fewer lines.";
+"暂存区可能已更新。请刷新并核对文件；不会自动重复操作。" = "The index may have changed. Refresh and inspect the file; the operation will not be repeated automatically.";
+"暂存区更新完成" = "Index updated";

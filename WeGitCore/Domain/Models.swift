@@ -208,6 +208,12 @@ public struct FileDiff: Sendable {
     public let indexTree: String?
     public var additions: Int { hunks.reduce(0) { $0 + $1.lines.count(where: { $0.kind == "+" }) } }
     public var deletions: Int { hunks.reduce(0) { $0 + $1.lines.count(where: { $0.kind == "-" }) } }
+    public var canSelectLines: Bool {
+        guard !options.ignoreWhitespace, !binary else { return false }
+        if layer == .untracked { return preview != nil }
+        return (layer == .unstaged || layer == .staged) && preview == nil && !hunks.isEmpty
+            && !header.contains("rename from") && !header.contains("old mode")
+    }
     public var canApplyHunk: Bool {
         !options.ignoreWhitespace && options.contextLines > 0 && !binary && preview == nil && !hunks.isEmpty
             && (layer == .unstaged || layer == .staged)
