@@ -4,6 +4,8 @@
 
 ## v1.2 原生诊断入口准备
 
+- #78 的独立 Rebase 入口只注册 `rebase-workflow` → `RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch`。可信 main 必须先实际通过一次 smoke，随后最多运行这一个方法；失败/跳过时停止，120/180秒和原有制品要求保持。产品与实际方法留在功能分支，这个入口本身不表示 Rebase 或整版验收完成。
+
 - #70 的 `selected-lines` 只注册 `SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation`。必须先经过一次真实 smoke，失败时停止；实际产品与 UI 用例留在功能 PR。
 
 - #65 的 Blame 诊断先将 `BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation` 注册到可信 main。应用与实际 UI 用例留在功能分支；只在一次真实 smoke 通过后执行这一个固定方法，保留原有超时与制品要求。
