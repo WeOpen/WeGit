@@ -38,7 +38,12 @@ struct ChangesFileList<Context: View>: View {
                         collapsedFolders.filter { $0.hasPrefix(prefix) }.map {
                             String($0.dropFirst(prefix.count))
                         })
-                    ForEach(ChangeFileTree.rows(visible, collapsedFolders: collapsed)) { row in
+                    ForEach(
+                        ChangeFileTree.rows(visible, collapsedFolders: collapsed).map {
+                            LayerRow(id: prefix + $0.id, value: $0)
+                        }
+                    ) { item in
+                        let row = item.value
                         if let file = row.file {
                             fileRow(file, layer: layer, tree: true)
                                 .padding(.leading, CGFloat(min(row.depth, 10)) * 14)
@@ -50,7 +55,9 @@ struct ChangesFileList<Context: View>: View {
                         }
                     }
                 } else {
-                    ForEach(visible) { file in fileRow(file, layer: layer, tree: false) }
+                    ForEach(visible.map { LayerRow(id: layer.rawValue + "|" + $0.id, value: $0) }) { item in
+                        fileRow(item.value, layer: layer, tree: false)
+                    }
                 }
             }
         }
@@ -144,7 +151,14 @@ struct ChangesFileList<Context: View>: View {
         .padding(.vertical, compact ? 1 : 4)
         .accessibilityElement(children: .contain)
         .tag(layer.rawValue + "|" + file.path)
+        .accessibilityIdentifier("changes-file:\(layer.rawValue):\(file.path)")
         .help(file.oldPath.map { "\($0) → \(file.path)" } ?? file.path)
         .contextMenu { context(file, layer) }
     }
+}
+
+/// List rows must remain distinct when one file appears in multiple index layers.
+private struct LayerRow<Value>: Identifiable {
+    let id: String
+    let value: Value
 }

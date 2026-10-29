@@ -75,6 +75,7 @@
 		886DC350ED84C7F0C7EB533F /* CommandPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C08C85BA8E89B65DAB0E3C /* CommandPalette.swift */; };
 		8939BDCE63DB2BF25F75F186 /* WorkflowRecoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22ED16A163FC726EA46A541 /* WorkflowRecoveryTests.swift */; };
 		8B84EAFF2D003E7B8D6F39B6 /* DiffChangeMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62410513A08411AAD45D335 /* DiffChangeMap.swift */; };
+		8C68F8448C673CE3E9696C5C /* SelectedLinesSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E10D7CCC7BECCD9F40129 /* SelectedLinesSheet.swift */; };
 		8CD5202D785F3E7937C7F542 /* OperationFeedbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AD46110F7EF9FE12832681 /* OperationFeedbackTests.swift */; };
 		8F4F1D37B4D173A30AB15BED /* ManualAccessibilitySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D74E4D9DD03CBD863A284A /* ManualAccessibilitySession.swift */; };
 		8FAF54D46F1AA2BF46169857 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 82EEFAE49C6A81275649EAA8 /* AppIcon.icon */; };
@@ -83,6 +84,7 @@
 		925318E482D036372631F21B /* ThemeWindowBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE13077D673F37C54948783 /* ThemeWindowBridge.swift */; };
 		959FD19237483478F5FC8310 /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EB883F4D016DC370F2DBC8 /* LaunchPerformanceTests.swift */; };
 		997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A8CC78668A40CFC111A86F /* SettingsView.swift */; };
+		99AD119B6CBDF57A417C25A8 /* SelectedLinesWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E000D06F4C77D804675ACE /* SelectedLinesWorkflowTests.swift */; };
 		9B153B37DB3AAE8794DB2374 /* NativeApplicationMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D27256E0799DF46A4E82712 /* NativeApplicationMenu.swift */; };
 		9F4DAE2FBDD1039426B386E1 /* SettingsReadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0674C9E8D60771CC8F639A14 /* SettingsReadingTests.swift */; };
 		A2B254D2EC7B9CABFE5E7D19 /* GitConfigurationInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9E903CDDF3740DD68FD87C /* GitConfigurationInterfaceTests.swift */; };
@@ -254,10 +256,12 @@
 		D62410513A08411AAD45D335 /* DiffChangeMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffChangeMap.swift; sourceTree = "<group>"; };
 		D878DE35EE4F4872C6C93473 /* OperationFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationFeedback.swift; sourceTree = "<group>"; };
 		D8A16AD616B79EF106512E6D /* OperationFeedbackState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationFeedbackState.swift; sourceTree = "<group>"; };
+		D8E000D06F4C77D804675ACE /* SelectedLinesWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedLinesWorkflowTests.swift; sourceTree = "<group>"; };
 		D90B25A1D5B3C8B9965F208F /* SpecialFileReadingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialFileReadingTests.swift; sourceTree = "<group>"; };
 		DCFF3B430742D6259E968FC5 /* ThemedForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedForm.swift; sourceTree = "<group>"; };
 		DE95A5E39419B153C6284C5F /* RepositoryPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryPickerTests.swift; sourceTree = "<group>"; };
 		DF2293E6A131AB3FB5C2EFBF /* DiffNavigationControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffNavigationControls.swift; sourceTree = "<group>"; };
+		DF7E10D7CCC7BECCD9F40129 /* SelectedLinesSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedLinesSheet.swift; sourceTree = "<group>"; };
 		DF8973FD129834FD70547A32 /* DiffTextSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTextSelection.swift; sourceTree = "<group>"; };
 		E04044492C96A4E8F875261B /* FileHistoryWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHistoryWorkflowTests.swift; sourceTree = "<group>"; };
 		E9D51D1CF2C9585589177216 /* AppPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPresentation.swift; sourceTree = "<group>"; };
@@ -328,6 +332,7 @@
 				A8FE942EF50EBED9D782A7FE /* ReadingMatrixTests.swift */,
 				28006F84E2ABEFA3D101BBCD /* RemoteManagementWorkflowTests.swift */,
 				DE95A5E39419B153C6284C5F /* RepositoryPickerTests.swift */,
+				D8E000D06F4C77D804675ACE /* SelectedLinesWorkflowTests.swift */,
 				FCB041EA4D090DC5B4972BD5 /* SettingsLifecycleTests.swift */,
 				0674C9E8D60771CC8F639A14 /* SettingsReadingTests.swift */,
 				29CD7E24679D72EE466E74D2 /* SingleCommitWorkflowTests.swift */,
@@ -479,6 +484,7 @@
 				CCCB069658808C472941F61B /* RepositoryInspector.swift */,
 				506EA8B0AC419E9437CB3682 /* RepositorySearchView.swift */,
 				8B6E81CBD8CE053ADDDEC25C /* RepositorySyncCounts.swift */,
+				DF7E10D7CCC7BECCD9F40129 /* SelectedLinesSheet.swift */,
 				F3A8CC78668A40CFC111A86F /* SettingsView.swift */,
 				1D73B06EA47A30EF556BB101 /* Sheets.swift */,
 				D383F9B7E556B3889501BC97 /* SingleCommitSheet.swift */,
@@ -832,6 +838,7 @@
 				6A0A6FB9AB7EF0C07E239541 /* ReadingMatrixTests.swift in Sources */,
 				D326869E95CBBFD9860792BC /* RemoteManagementWorkflowTests.swift in Sources */,
 				DF5F748199E35EAD4B76A6A3 /* RepositoryPickerTests.swift in Sources */,
+				99AD119B6CBDF57A417C25A8 /* SelectedLinesWorkflowTests.swift in Sources */,
 				1AE406C2F035ED897B998FD5 /* SettingsLifecycleTests.swift in Sources */,
 				9F4DAE2FBDD1039426B386E1 /* SettingsReadingTests.swift in Sources */,
 				240300F4BF42AD40D83B4AD5 /* SingleCommitWorkflowTests.swift in Sources */,
@@ -906,6 +913,7 @@
 				DCDC8CB3E69C63CA2F6DB912 /* RepositoryInspector.swift in Sources */,
 				06514071541003C7462D2826 /* RepositorySearchView.swift in Sources */,
 				33D8289BE2D3E18E5E1439F4 /* RepositorySyncCounts.swift in Sources */,
+				8C68F8448C673CE3E9696C5C /* SelectedLinesSheet.swift in Sources */,
 				997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */,
 				13E276DCB1333E635B092E4B /* Sheets.swift in Sources */,
 				48CD515449E276DC8F7AB9D6 /* SingleCommitSheet.swift in Sources */,

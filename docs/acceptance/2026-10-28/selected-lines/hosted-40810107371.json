@@ -1,0 +1,89 @@
+{
+  "source": "82b56dc5aa228140c6728f8c9f7503c418858140",
+  "nativeRun": 40810107371,
+  "diagnosticOnly": true,
+  "smoke": {
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "6375fe81e7ba03085a1a734d5b52733e69032d7d",
+          "deviceName": "My Mac",
+          "modelName": "Virtual Machine",
+          "osBuildNumber": "26A434",
+          "osVersion": "27.0.1",
+          "platform": "macOS"
+        },
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "passedTests": 1,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "WeGit · Built with macOS 27.0.1",
+    "expectedFailures": 0,
+    "failedTests": 0,
+    "finishTime": 1793243254.446,
+    "passedTests": 1,
+    "result": "Passed",
+    "runtimeWarnings": [],
+    "skippedTests": 0,
+    "startTime": 1793243237.612,
+    "statistics": [],
+    "testFailures": [],
+    "title": "Test - WeGit",
+    "topInsights": [],
+    "totalTestCount": 1
+  },
+  "focused": {
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "6375fe81e7ba03085a1a734d5b52733e69032d7d",
+          "deviceName": "My Mac",
+          "modelName": "Virtual Machine",
+          "osBuildNumber": "26A434",
+          "osVersion": "27.0.1",
+          "platform": "macOS"
+        },
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "WeGit · Built with macOS 27.0.1",
+    "expectedFailures": 0,
+    "failedTests": 1,
+    "finishTime": 1793243300.511,
+    "passedTests": 0,
+    "result": "Failed",
+    "runtimeWarnings": [],
+    "skippedTests": 0,
+    "startTime": 1793243257.412,
+    "statistics": [],
+    "testFailures": [
+      {
+        "failureText": "Failed to click RadioButton (Element at index 1): No matches found for Descendants matching type SegmentedControl from input {(\n    Application, pid: 34330, title: 'WeGit'\n)}",
+        "targetName": "WeGitUITests",
+        "testIdentifier": 1,
+        "testIdentifierString": "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation()",
+        "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
+        "testName": "testPreviewCancelStageUnstageAndStaleConfirmation()"
+      }
+    ],
+    "title": "Test - WeGit",
+    "topInsights": [],
+    "totalTestCount": 1
+  },
+  "followup": "Use the exposed Unified/Split RadioButton controls; do not assume a SegmentedControl container. All byte/state assertions are retained."
+}

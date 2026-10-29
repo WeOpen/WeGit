@@ -32,6 +32,8 @@ struct DiffCodeRow: View {
     var columnWidth: CGFloat = 440
     var selection: DiffTextSelection?
     var performanceID: UUID?
+    var canSelectLines = false
+    var isUntracked = false
     private var codeFont: Font {
         preferences.codeFont == "system"
             ? .system(size: codeSize, design: .monospaced) : .custom(preferences.codeFont, size: codeSize)
@@ -52,10 +54,16 @@ struct DiffCodeRow: View {
                 Text(line.newLine.map(String.init) ?? "").foregroundStyle(colors.secondaryText).frame(
                     width: 44, alignment: .trailing)
             }
-            Text(String(line.kind)).foregroundStyle(
-                line.kind == "+"
-                    ? colors.positive : line.kind == "-" ? colors.negative : colors.secondaryText
-            ).frame(width: 28)
+            if canSelectLines, let selection,
+                line.kind == "+" || line.kind == "-" || (isUntracked && line.kind == " ")
+            {
+                lineSelectButton(line, side: .unified, selection: selection).frame(width: 28)
+            } else {
+                Text(String(line.kind)).foregroundStyle(
+                    line.kind == "+"
+                        ? colors.positive : line.kind == "-" ? colors.negative : colors.secondaryText
+                ).frame(width: 28)
+            }
             lineText(line).fixedSize(horizontal: true, vertical: false).padding(.trailing, 24)
             Spacer(minLength: 0)
         }.font(codeFont).frame(
@@ -79,6 +87,13 @@ struct DiffCodeRow: View {
                         .frame(
                             width: 30, alignment: .trailing)
                 }
+                if canSelectLines {
+                    if let line = row.old, line.kind == "-", let selection {
+                        lineSelectButton(line, side: .old, selection: selection).frame(width: 16)
+                    } else {
+                        Color.clear.frame(width: 16, height: 1)
+                    }
+                }
                 lineText(row.old, side: .old).fixedSize(horizontal: false, vertical: true)
                     .frame(width: splitCodeWidth, alignment: .topLeading)
             }.frame(width: columnWidth - 20, alignment: .topLeading).padding(.horizontal, 10)
@@ -90,6 +105,13 @@ struct DiffCodeRow: View {
                     Text(row.new?.newLine.map(String.init) ?? "").foregroundStyle(colors.secondaryText)
                         .frame(
                             width: 30, alignment: .trailing)
+                }
+                if canSelectLines {
+                    if let line = row.new, line.kind == "+", let selection {
+                        lineSelectButton(line, side: .new, selection: selection).frame(width: 16)
+                    } else {
+                        Color.clear.frame(width: 16, height: 1)
+                    }
                 }
                 lineText(row.new, side: .new).fixedSize(horizontal: false, vertical: true)
                     .frame(width: splitCodeWidth, alignment: .topLeading)
@@ -127,7 +149,22 @@ struct DiffCodeRow: View {
     }
 
     private var splitCodeWidth: CGFloat {
-        max(1, columnWidth - 20 - (preferences.showLineNumbers ? 40 : 0))
+        max(1, columnWidth - 20 - (preferences.showLineNumbers ? 40 : 0) - (canSelectLines ? 26 : 0))
+    }
+
+    private func lineSelectButton(_ line: DiffLine, side: DiffCodeSide, selection: DiffTextSelection)
+        -> some View
+    {
+        let added = line.kind == "+" || isUntracked
+        return Button {
+            selection.selectWholeLine(line.id, side: side)
+        } label: {
+            Text(added ? "+" : "−").foregroundStyle(added ? colors.positive : colors.negative)
+                .frame(maxWidth: .infinity)
+        }.buttonStyle(.plain)
+            .help(L10n.text("选择此行"))
+            .accessibilityLabel(L10n.text("选择第 \(line.newLine ?? line.oldLine ?? 0) 行"))
+            .accessibilityIdentifier("diff-select-line:\(line.id):\(String(describing: side))")
     }
 
     private func highlight(_ line: DiffLine, presentation: CodeTextPresentation) -> NSAttributedString {
