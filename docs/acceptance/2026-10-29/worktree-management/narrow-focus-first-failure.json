@@ -1,0 +1,13 @@
+{
+  "diagnosticOnly": true,
+  "scope": "Original UI focus reproduction after closing worktree list; preserved draft did not receive an actual typed Z.",
+  "input": "Z",
+  "observedDraft": "Worktree 窄窗口验收草稿 alpha",
+  "focus": "main window",
+  "screenshot": "screenshots/cua-gen8-inspector-minimum-draft-after-close.jpg",
+  "source": {
+    "baselineHead": "8a60175adefe523eef224f109f9d8877e5094abd",
+    "processRunnerSha256": "12138f0689f0965f348b93c08926a1416e1b8a8372dfe736b2b89cfa54b06310",
+    "uiFocusFixAbsent": true
+  }
+}

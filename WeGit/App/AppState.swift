@@ -467,6 +467,8 @@ final class AppState {
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?
     var searchRequest: RepositorySearchRequest?
+    var worktreeManagementRequest: WorktreeManagementRequest?
+    @ObservationIgnored private var worktreeFocusRestoration: WorktreeFocusRestoration?
     var settingsRequestID = UUID()
     var sidebarRequestID = UUID()
     var sidebarVisible = true
@@ -957,6 +959,22 @@ final class AppState {
         alert.addButton(withTitle: L10n.text("取消"))
         alert.addButton(withTitle: action)
         return alert.runModal() == .alertSecondButtonReturn
+    }
+
+    func presentWorktreeManagement(_ session: RepositorySession) {
+        guard self.session === session, worktreeManagementRequest == nil else { return }
+        worktreeFocusRestoration = WorktreeFocusRestoration(sessionID: session.id)
+        worktreeManagementRequest = WorktreeManagementRequest(session: session)
+    }
+
+    func discardWorktreeManagementFocus() { worktreeFocusRestoration = nil }
+
+    func restoreWorktreeManagementFocus() {
+        guard worktreeManagementRequest == nil else { return }
+        let saved = worktreeFocusRestoration
+        worktreeFocusRestoration = nil
+        guard !isOpening else { return }
+        saved?.restore(sessionID: session?.id)
     }
 
     var nativeWindowStateName: String {

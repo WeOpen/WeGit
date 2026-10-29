@@ -170,6 +170,9 @@ struct WorkspaceView: View {
                             app.remoteManagementPresented = true
                         }
                         .accessibilityIdentifier("remote-management")
+                        Button(L10n.text("工作树…"), systemImage: "square.stack.3d.up") {
+                            app.presentWorktreeManagement(session)
+                        }.accessibilityIdentifier("worktree-management")
                         Button(L10n.text("活动记录"), systemImage: "clock") { app.activityPresented = true }
                         Button(L10n.text("命令面板…"), systemImage: "command") { app.palettePresented = true }
                         Button(L10n.text("切换仓库…"), systemImage: "folder") {
@@ -212,6 +215,9 @@ struct WorkspaceView: View {
         }
         .sheet(item: $app.branchSwitchRequest) {
             BranchSwitcherView(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.worktreeManagementRequest, onDismiss: app.restoreWorktreeManagementFocus) {
+            WorktreeManagementSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
         .sheet(isPresented: $app.activityPresented) { ActivityView(app: app).workbenchSheet(app.preferences) }
         .sheet(isPresented: $app.repositoryPickerPresented, onDismiss: app.repositoryPickerDidDismiss) {

@@ -1,0 +1,21 @@
+{
+  "allPassed": false,
+  "budgetMilliseconds": {
+    "cancelResponse": 500,
+    "firstList": 250,
+    "postCancelList": 250
+  },
+  "diagnosticOnly": true,
+  "failure": "Error Domain=NSCocoaErrorDomain Code=256 \"The file “.git” couldn’t be opened.\" UserInfo={NSFilePath=/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitWorktreeRead-A1FBDDBD-0A22-44BE-A0B7-7D326C4C2EDA/main/.git, NSURL=file:///var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitWorktreeRead-A1FBDDBD-0A22-44BE-A0B7-7D326C4C2EDA/main/.git, NSUnderlyingError=0x795a944060 {Error Domain=NSPOSIXErrorDomain Code=21 \"Is a directory\"}}",
+  "operatingSystem": "Version 27.0.1 (Build 26A434)",
+  "requiredSamplesPerWorkload": 30,
+  "scope": "Optimized Release CLI; first request per fresh service, filesystem cache uncontrolled; cancellation uses a private delayed list wrapper, not a slow unmodified Git benchmark. Not UI or complete version acceptance.",
+  "workloads": [],
+  "sourceBinding": {
+    "head": "8a60175adefe523eef224f109f9d8877e5094abd",
+    "probeSha256": "7e01d868c755c761ce3228a6e8cf3f0b9b4c5dd2da920dd04882a5bdc0d6fcd3",
+    "scriptSha256": "28616d1e55003478004f3e1fdb7bba25176d37e3267df8589d5e8c21f59a2840",
+    "recordedAt": 1793278593.543071,
+    "scope": "First independent read probe; canonical path fixture mistake, not a product acceptance pass"
+  }
+}

@@ -1,0 +1,17 @@
+Window: "", App: WeGit.
+0 表单 Secondary Actions: Raise
+	1 container
+		2 text Create worktree /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/英文深色预览-长中文路径-不执行创建 New branch: dark-keyboard-check 84ae1fb0d98b21f37418cc49ad6a6786f0086a29
+		3 按钮 Description: Close, ID: worktree-cancel
+		4 按钮 Description: Create worktree, ID: worktree-execute
+5 menu bar
+	6 WeGit, ID: native-menu-app
+	7 File, ID: native-menu-file
+	8 Edit, ID: native-menu-edit
+	9 View, ID: native-menu-view
+	10 Repository, ID: native-menu-repository
+	11 Workspace, ID: native-menu-workspace
+	12 Window, ID: native-menu-window
+	13 Help, ID: native-menu-help
+
+The focused UI element is 0 表单 Secondary Actions: Raise

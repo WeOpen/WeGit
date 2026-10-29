@@ -1,0 +1,90 @@
+Window: "main", App: WeGit.
+0 标准窗口 main – main, ID: main, Secondary Actions: Raise
+	1 container WeGit workspace
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 Sidebar
+						6 row (selectable) Workspace
+						7 row (selected) Changes
+2
+						8 row (selectable) History
+						9 row (selectable) Branches
+						10 row (selectable) Stashes
+						11 row (selectable) Tags
+						12 row (selectable) Repository
+						13 row (selectable) main, main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: Open repository, Help: Open repository ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 container
+					19 分离组
+						20 container
+							21 text Changes 2
+							22 菜单按钮 Display mode, Help: Switch between a file list and folder view, ID: changes-display-mode
+							23 菜单按钮 More, ID: ellipsis
+							24 文本栏 (settable) Description: Filter file paths, ID: changes-filter
+							25 弹出式按钮 Description: Change status, Value: All statuses, ID: changes-state-filter
+							26 滚动区
+								27 列表 changes-list
+									28 row (selectable) Value: Expanded, Description: Unstage displayed files Staged, Unstage displayed files Staged
+Staged (1)
+										29 复选框 Description: Unstage displayed files Staged, Unstage displayed files Staged, Help: Unstage displayed files Staged, Value: 1, ID: stage-group:staged
+									30 row (selectable) Description: Unstage other.txt, Unstage other.txt, Value: other.txt
+Status: Modified
+										31 复选框 Description: Unstage other.txt, Unstage other.txt, Help: Unstage other.txt, Value: 1, ID: stage:staged:other.txt
+									32 row (selectable) Value: Expanded, Description: Stage displayed files Unstaged, Stage displayed files Unstaged
+Unstaged (1)
+										33 复选框 Description: Stage displayed files Unstaged, Stage displayed files Unstaged, Help: Stage displayed files Unstaged, Value: 0, ID: stage-group:unstaged
+									34 row (selectable) Description: Stage file.txt, Stage file.txt, Value: file.txt
+Status: Modified
+										35 复选框 Description: Stage file.txt, Stage file.txt, Help: Stage file.txt, Value: 0, ID: stage:unstaged:file.txt
+						36 分离器 (disabled, settable, float) 498.5
+						37 container
+							38 text Select a file Review working tree and index changes, and prepare your next commit.
+					39 文本栏 (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Value: Worktree 窄窗口验收草稿 alphaBCD, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message
+					40 按钮 Description: Commit (1 file), Help: Commit staged changes ⌘↩, ID: commit-button
+					41 按钮 (disabled) Description: Commit and Push…, Help: No remotes configured. Add a remote first., ID: commit-push-button
+					42 unknown Description: 1 staged file, ID: commit-staged-count
+					43 复选框 Description: Amend last commit, Value: 0
+					44 unknown Description: ⌥↩ for a new line · ⌘↩ to commit, Details: idle, ID: operation-feedback
+				45 分离器 (disabled, settable, float) 1031
+				46 container Description: Inspector, ID: repository-inspector
+					47 Description: Inspector, ID: inspector-tabs
+						48 单选按钮 Description: File Info, Value: 1
+						49 单选按钮 Description: Commit Info, Value: 0
+					50 滚动区
+						51 text main /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/main
+						52 按钮 Description: Show in Finder, ID: inspector-open-finder
+						53 按钮 Description: Open in Terminal, ID: inspector-open-terminal
+						54 按钮 Description: Copy repository path, ID: inspector-copy-path
+						55 text Current, Value: main Not set Sync status: No upstream
+	56 工具栏
+		57 container Hide Sidebar
+			58 按钮 Description: Sidebar, Help: Hide sidebar, Value: Open, ID: toolbar-sidebar
+		59 按钮 Description: main, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/main
+Switch repository ⌘K
+		60 菜单按钮 Current branch: main, Value: Sync status: No upstream, ID: current-branch
+		61 菜单按钮 (disabled) Fetch, Help: No remote configured, ID: toolbar-fetch
+		62 按钮 (disabled) Description: Pull, Help: No remotes configured. Add a remote first., Value: Needs verification, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		63 按钮 (disabled) Description: Push, Help: No remotes configured. Add a remote first., Value: Needs verification, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		64 按钮 Description: Refresh, Help: Refresh ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		65 按钮 Description: Search repository, Help: Search current repository ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		66 按钮 Description: Inspector, Help: Hide Inspector, Value: Open, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		67 菜单按钮 More actions, Help: Activity, command palette, and more actions, ID: toolbar-more
+	68 关闭按钮
+	69 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	70 最小化按钮
+	71 text main main
+72 menu bar
+	73 WeGit, ID: native-menu-app
+	74 File, ID: native-menu-file
+	75 Edit, ID: native-menu-edit
+	76 View, ID: native-menu-view
+	77 Repository, ID: native-menu-repository
+	78 Workspace, ID: native-menu-workspace
+	79 Window, ID: native-menu-window
+	80 Help, ID: native-menu-help
+
+The focused UI element is 39 文本栏 (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Value: Worktree 窄窗口验收草稿 alphaBCD, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message

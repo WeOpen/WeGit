@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "Creation preview does not create directories or change the index",
+    "Creation preserves newline/Unicode path and base bytes",
+    "Creation leaves the source HEAD and index unchanged"
+  ],
+  "failed": 1,
+  "fixturePath": "/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitWorktreeManagement-D8F206C3-E7CF-464F-9F3B-23484DBCB8D3",
+  "fixturePreserved": true,
+  "total": 3,
+  "diagnosticOnly": true,
+  "xctestExecutedLocally": false,
+  "fullReleaseAcceptance": false,
+  "base": "2e99036623bc56656ed1baf1167b72be51131af2",
+  "sourceBinding": "Original partial counts and preserved fixture are recorded; a complete input manifest was not captured for this failed probe.",
+  "recordedPassedChecks": 3
+}

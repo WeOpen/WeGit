@@ -1,0 +1,174 @@
+{
+  "checkedAt": "2026-10-29T12:04:34.345373+00:00",
+  "sourceCommit": "8a60175adefe523eef224f109f9d8877e5094abd",
+  "runId": 40843285195,
+  "runUrl": "https://github.com/WeOpen/WeGit/actions/runs/40843285195",
+  "jobId": 123344593131,
+  "artifact": {
+    "id": 12883438638,
+    "name": "native-ui-smoke-worktree-management-8a60175adefe523eef224f109f9d8877e5094abd",
+    "bytes": 63060610,
+    "sha256": "091a51e1f2867c408a6c623a2f94df8fd87eabe5568f220f9ca63e7706467e82",
+    "allMemberCRCsVerified": true,
+    "zipMemberCount": 2041,
+    "completeXCResultRead": true
+  },
+  "productSourceCount": 176,
+  "productSourceHashesMatch": true,
+  "smoke": {
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "c7d2976440c01a9faee15ea8289b1b997d5d585c",
+          "deviceName": "My Mac",
+          "modelName": "Virtual Machine",
+          "osBuildNumber": "26A434",
+          "osVersion": "27.0.1",
+          "platform": "macOS"
+        },
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "passedTests": 1,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "WeGit · Built with macOS 27.0.1",
+    "expectedFailures": 0,
+    "failedTests": 0,
+    "finishTime": 1793263175.792,
+    "passedTests": 1,
+    "result": "Passed",
+    "runtimeWarnings": [],
+    "skippedTests": 0,
+    "startTime": 1793263150.779,
+    "statistics": [],
+    "testFailures": [],
+    "title": "Test - WeGit",
+    "topInsights": [],
+    "totalTestCount": 1
+  },
+  "focused": {
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "c7d2976440c01a9faee15ea8289b1b997d5d585c",
+          "deviceName": "My Mac",
+          "modelName": "Virtual Machine",
+          "osBuildNumber": "26A434",
+          "osVersion": "27.0.1",
+          "platform": "macOS"
+        },
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "passedTests": 1,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "WeGit · Built with macOS 27.0.1",
+    "expectedFailures": 0,
+    "failedTests": 0,
+    "finishTime": 1793263289.972,
+    "passedTests": 1,
+    "result": "Passed",
+    "runtimeWarnings": [
+      {
+        "issueType": "Runtime Warning",
+        "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+      }
+    ],
+    "skippedTests": 0,
+    "startTime": 1793263180.42,
+    "statistics": [],
+    "testFailures": [],
+    "title": "Test - WeGit",
+    "topInsights": [],
+    "totalTestCount": 1
+  },
+  "focusedTest": {
+    "nodeIdentifier": "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees()",
+    "result": "Passed",
+    "durationInSeconds": 103.93134593963623
+  },
+  "limits": {
+    "defaultSeconds": 120,
+    "maximumSeconds": 180,
+    "unchanged": true
+  },
+  "screenshots": [
+    {
+      "file": "screenshots/native-removed-registration-preserved-files.png",
+      "attachmentName": "Removed registration keeps working files and Git state_0_9B336AE5-3E13-4EAC-B8A2-14C421E79270.png",
+      "sha256": "0b4c9ab5d4aba26b9d411a7e96a6a4490d04e636d0e8d8f7ef79c4e214d28cca",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "screenshots/native-stale-removal-english-dark.png",
+      "attachmentName": "English dark stale removal preserves the confirmation and external bytes_0_CAC35C5A-AEA9-41CB-8805-63BBDEDE3A6E.png",
+      "sha256": "1ca14b61062bf365a08789466734b08c2a96613f425f68250cef617bf5a00c13",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "screenshots/native-locked-removal-disabled.png",
+      "attachmentName": "Locked worktree removal is disabled_0_7F8393E7-52F5-4350-877C-87C1DAC6A63C.png",
+      "sha256": "014162a178c1831c2a8ed5cf96c40662a232d40dff1c8731783605f5a1b854ab",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "screenshots/native-create-chinese-light.png",
+      "attachmentName": "Chinese light worktree creation preview_0_94CD4D39-8E64-4D7F-82A1-AE9F1ADFA6CD.png",
+      "sha256": "8706c5a70679954747d3bbc0d846e4ec5a541609ac7dbfc04332dc674d1893f3",
+      "visuallyReviewed": true
+    }
+  ],
+  "requiredCi": {
+    "runId": 40842751216,
+    "jobs": [
+      {
+        "id": 123342834302,
+        "name": "Repository policy",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 123343001335,
+        "name": "Native macOS",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "coreGitVariants": {
+      "Apple": 231,
+      "minimumGit246": 231,
+      "Homebrew": 231
+    },
+    "suiteCountPerGit": 42,
+    "originalNativeLogComplete": false,
+    "completePassingCountLinesPreservedInPartialLog": true
+  },
+  "environment": {
+    "macOS": "27.0.1",
+    "architecture": "arm64",
+    "osPermissionsChanged": false,
+    "providerSIPDisabledIsDiagnosticOnly": true
+  },
+  "localXCTestExecuted": false,
+  "originalFailureRetained": "hosted-40835298431-failed.json",
+  "scope": "Actual smoke and fixed worktree-management UI workflow passed with complete artifact and source receipt. Full version regression, ordinary Release/UI performance, VoiceOver, installation and Beta/publication remain separate open gates.",
+  "releaseReady": false,
+  "trustedWorkflowSourceCommit": "20c21de5598ece0b98978c02e7ed3c5049b8759c",
+  "remainingIssue75Evidence": [
+    "First worktree-list latency with bounded sibling reads",
+    "Cancellation response for an actually running slow read",
+    "Minimum-window native layout/focus review"
+  ]
+}

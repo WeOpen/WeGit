@@ -15,6 +15,9 @@ swift format lint --strict scripts/RemoteManagementChecks.swift
 swift format lint --strict scripts/TagChecks.swift
 swift format lint --strict scripts/FileHistoryChecks.swift
 swift format lint --strict scripts/WorktreeChecks.swift
+swift format lint --strict scripts/WorktreeManagementChecks.swift
+swift format lint --strict scripts/WorktreeManagementPerformance.swift
+swift format lint --strict scripts/WorktreeReadPerformance.swift
 swift format lint --strict scripts/SingleCommitChecks.swift
 swift format lint --strict scripts/BlameChecks.swift
 swift format lint --strict scripts/SelectedLinePatchChecks.swift scripts/SelectedLineSafetyChecks.swift scripts/SelectedLineFileChecks.swift

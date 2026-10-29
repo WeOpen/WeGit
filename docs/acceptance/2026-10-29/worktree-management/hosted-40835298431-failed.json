@@ -1,0 +1,95 @@
+{
+  "runId": 40835298431,
+  "candidate": "d8eb2f1c28817ac485b7696e3bdfaf44589c59ba",
+  "trustedMain": "20c21de5598ece0b98978c02e7ed3c5049b8759c",
+  "artifactId": 12880508044,
+  "artifactExpectedBytes": 63127338,
+  "artifactExpectedDigest": "sha256:b6949f9bd9e711966767c63987f9a3ccfd88c8f2c4e6e3cece354b509348d019",
+  "completeZipVerified": true,
+  "completeEntriesCRCVerified": true,
+  "counts": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0
+  },
+  "failure": [
+    {
+      "failureText": "Test exceeded execution time allowance of 2 minutes",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees",
+      "testName": "testCreateCancelRemoveAndProtectChangedWorktrees()"
+    }
+  ],
+  "sourceInputCount": 176,
+  "sourceMismatches": [],
+  "summary": {
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "aca1a523e86c97ce568c884b5949d660e2f1a3d3",
+          "deviceName": "My Mac",
+          "modelName": "Virtual Machine",
+          "osBuildNumber": "26A434",
+          "osVersion": "27.0.1",
+          "platform": "macOS"
+        },
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "WeGit · Built with macOS 27.0.1",
+    "expectedFailures": 0,
+    "failedTests": 1,
+    "finishTime": 1793258986.732,
+    "passedTests": 0,
+    "result": "Failed",
+    "runtimeWarnings": [
+      {
+        "issueType": "Runtime Warning",
+        "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+      }
+    ],
+    "skippedTests": 0,
+    "startTime": 1793258844.445,
+    "statistics": [],
+    "testFailures": [
+      {
+        "failureText": "Test exceeded execution time allowance of 2 minutes",
+        "targetName": "WeGitUITests",
+        "testIdentifier": 1,
+        "testIdentifierString": "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees()",
+        "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees",
+        "testName": "testCreateCancelRemoveAndProtectChangedWorktrees()"
+      }
+    ],
+    "title": "Test - WeGit",
+    "topInsights": [],
+    "totalTestCount": 1
+  },
+  "limits": {
+    "defaultSeconds": 120,
+    "maximumSeconds": 180
+  },
+  "lastRecordedUIActivitySeconds": 124.93,
+  "diagnosticScope": "Complete ZIP SHA256, all 2121 member CRCs, and original xcresult summary verified. Smoke passed; the focused test exceeded its unchanged 120-second default allowance and remains failed.",
+  "completeXCResultSummaryVerified": true,
+  "zipMemberCount": 2121,
+  "completeArtifactSHA256": "b6949f9bd9e711966767c63987f9a3ccfd88c8f2c4e6e3cece354b509348d019",
+  "smokeCounts": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "partialDiagnosticEntriesMatchCompleteZIP": true
+}

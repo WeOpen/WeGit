@@ -1,0 +1,25 @@
+Window: "", App: WeGit.
+0 表单 Secondary Actions: Raise
+	1 container
+		2 文本 创建工作树
+		3 创建方式, ID: worktree-kind
+			4 单选按钮 Description: 新分支, Value: 1
+			5 单选按钮 Description: 已有分支, Value: 0
+			6 单选按钮 Description: Detached HEAD, Value: 0
+		7 文本 工作树路径
+		8 文本栏 (settable) Placeholder: 工作树路径, ID: worktree-destination, Value: /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/工作树创建表单与预览的长中文路径-保持草稿-不执行创建
+		9 按钮 选择…
+		10 文本栏 (settable) Value: narrow-keyboard-check, Placeholder: 新分支名称, ID: worktree-branch
+		11 按钮 Description: 关闭, ID: worktree-cancel
+		12 按钮 Description: 预览, ID: worktree-preview
+13 menu bar
+	14 WeGit, ID: native-menu-app
+	15 文件, ID: native-menu-file
+	16 编辑, ID: native-menu-edit
+	17 显示, ID: native-menu-view
+	18 仓库, ID: native-menu-repository
+	19 工作区, ID: native-menu-workspace
+	20 窗口, ID: native-menu-window
+	21 帮助, ID: native-menu-help
+
+The focused UI element is 10 文本栏 (settable) Value: narrow-keyboard-check, Placeholder: 新分支名称, ID: worktree-branch

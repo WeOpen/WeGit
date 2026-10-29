@@ -1,0 +1,53 @@
+{
+  "issue": 75,
+  "git": "git version 2.54.0 (Apple Git-157)",
+  "diagnosticOnly": true,
+  "results": [
+    {
+      "name": "Git default removal with ignored data",
+      "exitCode": 0,
+      "ignoredFilePreserved": false
+    },
+    {
+      "name": "NUL metadata preserves canonical newline/Unicode path",
+      "passed": true
+    },
+    {
+      "name": "Git move updates private registration",
+      "passed": true
+    },
+    {
+      "name": "Missing private path can retire registration",
+      "passed": true
+    },
+    {
+      "name": "Tracked and late ignored bytes preserved",
+      "passed": true
+    },
+    {
+      "name": "Original-path foreign replacement untouched",
+      "passed": true
+    },
+    {
+      "name": "Branch object preserved",
+      "passed": true
+    },
+    {
+      "name": "Private move and retirement latency",
+      "milliseconds": 22.549500223249197,
+      "diagnosticOnly": true
+    },
+    {
+      "name": "Locked move refused without force",
+      "passed": true
+    },
+    {
+      "name": "Unreferenced detached commit detectable",
+      "passed": true
+    },
+    {
+      "name": "Primary HEAD unchanged",
+      "passed": true
+    }
+  ]
+}

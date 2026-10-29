@@ -1,0 +1,32 @@
+Window: "", App: WeGit.
+0 表单 Secondary Actions: Raise
+	1 container
+		2 文本 工作树
+		3 滚动区 worktree-list
+			4 列表 Secondary Actions: AXScrollToTop, AXScrollToBottom
+				5 container worktree-row:6ddd75c123bbe5a59f79cf142753bd075896d9d04df9512ae8f315350d8f95a6
+					6 text main main 主工作树 /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/main
+					7 按钮 Description: 打开, ID: worktree-open:6ddd75c123bbe5a59f79cf142753bd075896d9d04df9512ae8f315350d8f95a6
+					8 按钮 (disabled) Description: 移除工作树, ID: worktree-remove:6ddd75c123bbe5a59f79cf142753bd075896d9d04df9512ae8f315350d8f95a6
+				9 container worktree-row:60059f02aebe88f898158dc7374e3c072203bd213a48be03e26418736b81c648
+					10 text linked topic /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/linked
+					11 按钮 Description: 打开, ID: worktree-open:60059f02aebe88f898158dc7374e3c072203bd213a48be03e26418736b81c648
+					12 按钮 Description: 移除工作树, ID: worktree-remove:60059f02aebe88f898158dc7374e3c072203bd213a48be03e26418736b81c648
+				13 container worktree-row:bd7a4c308c3c1ea0d8a907cdc3b872f94504d48847ef2d43069496ecbd251820
+					14 text 工作树窄窗口路径与中文名称检查 feature/a-long-branch-name-for-the-minimum-window-layout-check /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/工作树窄窗口路径与中文名称检查
+					15 按钮 Description: 打开, ID: worktree-open:bd7a4c308c3c1ea0d8a907cdc3b872f94504d48847ef2d43069496ecbd251820
+					16 按钮 Description: 移除工作树, ID: worktree-remove:bd7a4c308c3c1ea0d8a907cdc3b872f94504d48847ef2d43069496ecbd251820
+		17 按钮 Description: 刷新, ID: worktree-refresh
+		18 按钮 Description: 关闭, ID: worktree-cancel
+		19 按钮 Description: 创建工作树…, ID: worktree-create
+20 menu bar
+	21 WeGit, ID: native-menu-app
+	22 文件, ID: native-menu-file
+	23 编辑, ID: native-menu-edit
+	24 显示, ID: native-menu-view
+	25 仓库, ID: native-menu-repository
+	26 工作区, ID: native-menu-workspace
+	27 窗口, ID: native-menu-window
+	28 帮助, ID: native-menu-help
+
+The focused UI element is 0 表单 Secondary Actions: Raise

@@ -1,0 +1,405 @@
+{
+  "allPassed": true,
+  "budgetMilliseconds": 2000,
+  "diagnosticOnly": true,
+  "scope": "Release CLI; not UI or complete release acceptance",
+  "workloads": [
+    {
+      "fileCount": 10,
+      "p95Milliseconds": {
+        "executeCreation": 126.512333,
+        "executeRemoval": 98.488833,
+        "prepareCreation": 33.713958,
+        "prepareRemoval": 55.076916
+      },
+      "passed": true,
+      "sampleCount": 30,
+      "samples": [
+        {
+          "executeCreation": 115.7885,
+          "executeRemoval": 98.765541,
+          "prepareCreation": 31.754916,
+          "prepareRemoval": 51.222792
+        },
+        {
+          "executeCreation": 115.645334,
+          "executeRemoval": 92.957083,
+          "prepareCreation": 33.2855,
+          "prepareRemoval": 54.036667
+        },
+        {
+          "executeCreation": 112.478584,
+          "executeRemoval": 91.6135,
+          "prepareCreation": 31.811333,
+          "prepareRemoval": 50.197834
+        },
+        {
+          "executeCreation": 115.077833,
+          "executeRemoval": 92.527791,
+          "prepareCreation": 32.334,
+          "prepareRemoval": 50.9845
+        },
+        {
+          "executeCreation": 113.670041,
+          "executeRemoval": 95.256625,
+          "prepareCreation": 33.738417,
+          "prepareRemoval": 50.553042
+        },
+        {
+          "executeCreation": 114.190958,
+          "executeRemoval": 94.468625,
+          "prepareCreation": 32.3355,
+          "prepareRemoval": 49.528417
+        },
+        {
+          "executeCreation": 113.739583,
+          "executeRemoval": 93.164666,
+          "prepareCreation": 31.928917,
+          "prepareRemoval": 48.346042
+        },
+        {
+          "executeCreation": 117.452459,
+          "executeRemoval": 95.596583,
+          "prepareCreation": 32.072208,
+          "prepareRemoval": 49.480875
+        },
+        {
+          "executeCreation": 115.3375,
+          "executeRemoval": 91.488833,
+          "prepareCreation": 32.383208,
+          "prepareRemoval": 49.135292
+        },
+        {
+          "executeCreation": 115.5955,
+          "executeRemoval": 92.759583,
+          "prepareCreation": 31.622167,
+          "prepareRemoval": 52.460125
+        },
+        {
+          "executeCreation": 111.669458,
+          "executeRemoval": 95.418792,
+          "prepareCreation": 32.261625,
+          "prepareRemoval": 53.387458
+        },
+        {
+          "executeCreation": 118.971792,
+          "executeRemoval": 98.488833,
+          "prepareCreation": 32.026125,
+          "prepareRemoval": 53.562125
+        },
+        {
+          "executeCreation": 120.60725,
+          "executeRemoval": 95.036458,
+          "prepareCreation": 33.151334,
+          "prepareRemoval": 53.040625
+        },
+        {
+          "executeCreation": 114.000791,
+          "executeRemoval": 97.488375,
+          "prepareCreation": 32.17325,
+          "prepareRemoval": 50.822041
+        },
+        {
+          "executeCreation": 120.393125,
+          "executeRemoval": 93.387917,
+          "prepareCreation": 33.109125,
+          "prepareRemoval": 53.5495
+        },
+        {
+          "executeCreation": 113.479083,
+          "executeRemoval": 94.7395,
+          "prepareCreation": 31.181,
+          "prepareRemoval": 50.262958
+        },
+        {
+          "executeCreation": 113.994084,
+          "executeRemoval": 92.098667,
+          "prepareCreation": 31.669083,
+          "prepareRemoval": 50.450542
+        },
+        {
+          "executeCreation": 114.012833,
+          "executeRemoval": 93.943,
+          "prepareCreation": 33.713958,
+          "prepareRemoval": 49.793875
+        },
+        {
+          "executeCreation": 114.842792,
+          "executeRemoval": 91.604542,
+          "prepareCreation": 31.443625,
+          "prepareRemoval": 50.491708
+        },
+        {
+          "executeCreation": 113.739041,
+          "executeRemoval": 94.837709,
+          "prepareCreation": 31.843167,
+          "prepareRemoval": 55.076916
+        },
+        {
+          "executeCreation": 116.751333,
+          "executeRemoval": 95.727667,
+          "prepareCreation": 31.757167,
+          "prepareRemoval": 56.02675
+        },
+        {
+          "executeCreation": 126.838292,
+          "executeRemoval": 91.793417,
+          "prepareCreation": 32.579125,
+          "prepareRemoval": 50.150208
+        },
+        {
+          "executeCreation": 126.512333,
+          "executeRemoval": 93.045167,
+          "prepareCreation": 31.652875,
+          "prepareRemoval": 52.096
+        },
+        {
+          "executeCreation": 113.787167,
+          "executeRemoval": 92.990542,
+          "prepareCreation": 31.923958,
+          "prepareRemoval": 50.455333
+        },
+        {
+          "executeCreation": 124.149125,
+          "executeRemoval": 97.245042,
+          "prepareCreation": 32.217917,
+          "prepareRemoval": 53.140292
+        },
+        {
+          "executeCreation": 121.930959,
+          "executeRemoval": 94.23525,
+          "prepareCreation": 33.633875,
+          "prepareRemoval": 51.33025
+        },
+        {
+          "executeCreation": 113.23225,
+          "executeRemoval": 95.844,
+          "prepareCreation": 31.291167,
+          "prepareRemoval": 49.993792
+        },
+        {
+          "executeCreation": 116.197917,
+          "executeRemoval": 93.631792,
+          "prepareCreation": 31.583541,
+          "prepareRemoval": 51.041167
+        },
+        {
+          "executeCreation": 120.22325,
+          "executeRemoval": 94.537791,
+          "prepareCreation": 32.2695,
+          "prepareRemoval": 52.265959
+        },
+        {
+          "executeCreation": 114.626333,
+          "executeRemoval": 93.949916,
+          "prepareCreation": 32.27425,
+          "prepareRemoval": 50.806959
+        }
+      ],
+      "verifiedSamples": 30
+    },
+    {
+      "fileCount": 5000,
+      "p95Milliseconds": {
+        "executeCreation": 747.226667,
+        "executeRemoval": 314.31425,
+        "prepareCreation": 118.552583,
+        "prepareRemoval": 135.581375
+      },
+      "passed": true,
+      "sampleCount": 30,
+      "samples": [
+        {
+          "executeCreation": 680.576667,
+          "executeRemoval": 223.944541,
+          "prepareCreation": 111.778375,
+          "prepareRemoval": 96.368084
+        },
+        {
+          "executeCreation": 729.562666,
+          "executeRemoval": 305.734209,
+          "prepareCreation": 114.5205,
+          "prepareRemoval": 132.46825
+        },
+        {
+          "executeCreation": 673.045417,
+          "executeRemoval": 240.327209,
+          "prepareCreation": 118.99925,
+          "prepareRemoval": 106.163541
+        },
+        {
+          "executeCreation": 742.833041,
+          "executeRemoval": 312.234625,
+          "prepareCreation": 117.118584,
+          "prepareRemoval": 136.234542
+        },
+        {
+          "executeCreation": 723.114708,
+          "executeRemoval": 290.640833,
+          "prepareCreation": 114.766375,
+          "prepareRemoval": 122.278667
+        },
+        {
+          "executeCreation": 726.803167,
+          "executeRemoval": 306.858,
+          "prepareCreation": 117.921208,
+          "prepareRemoval": 130.915375
+        },
+        {
+          "executeCreation": 729.309334,
+          "executeRemoval": 314.31425,
+          "prepareCreation": 113.770625,
+          "prepareRemoval": 135.367125
+        },
+        {
+          "executeCreation": 600.042209,
+          "executeRemoval": 189.617417,
+          "prepareCreation": 117.619458,
+          "prepareRemoval": 85.474416
+        },
+        {
+          "executeCreation": 723.40525,
+          "executeRemoval": 316.091083,
+          "prepareCreation": 115.239,
+          "prepareRemoval": 132.289834
+        },
+        {
+          "executeCreation": 602.368334,
+          "executeRemoval": 167.704084,
+          "prepareCreation": 114.559291,
+          "prepareRemoval": 79.950916
+        },
+        {
+          "executeCreation": 720.053166,
+          "executeRemoval": 308.327417,
+          "prepareCreation": 116.670167,
+          "prepareRemoval": 130.613542
+        },
+        {
+          "executeCreation": 727.917042,
+          "executeRemoval": 309.952291,
+          "prepareCreation": 111.809792,
+          "prepareRemoval": 133.82575
+        },
+        {
+          "executeCreation": 745.727875,
+          "executeRemoval": 311.3165,
+          "prepareCreation": 116.165875,
+          "prepareRemoval": 130.521625
+        },
+        {
+          "executeCreation": 623.514208,
+          "executeRemoval": 208.80625,
+          "prepareCreation": 115.565792,
+          "prepareRemoval": 94.180291
+        },
+        {
+          "executeCreation": 745.274167,
+          "executeRemoval": 311.852917,
+          "prepareCreation": 113.519666,
+          "prepareRemoval": 129.469583
+        },
+        {
+          "executeCreation": 608.668083,
+          "executeRemoval": 196.799583,
+          "prepareCreation": 111.024459,
+          "prepareRemoval": 88.696084
+        },
+        {
+          "executeCreation": 714.609791,
+          "executeRemoval": 312.689875,
+          "prepareCreation": 111.9345,
+          "prepareRemoval": 131.797917
+        },
+        {
+          "executeCreation": 568.732416,
+          "executeRemoval": 160.252417,
+          "prepareCreation": 115.356792,
+          "prepareRemoval": 73.029166
+        },
+        {
+          "executeCreation": 685.50175,
+          "executeRemoval": 279.577958,
+          "prepareCreation": 114.009875,
+          "prepareRemoval": 118.206167
+        },
+        {
+          "executeCreation": 711.137333,
+          "executeRemoval": 313.622,
+          "prepareCreation": 115.422083,
+          "prepareRemoval": 135.581375
+        },
+        {
+          "executeCreation": 750.415417,
+          "executeRemoval": 307.42425,
+          "prepareCreation": 116.348,
+          "prepareRemoval": 133.973959
+        },
+        {
+          "executeCreation": 548.764584,
+          "executeRemoval": 140.590917,
+          "prepareCreation": 117.28225,
+          "prepareRemoval": 68.4015
+        },
+        {
+          "executeCreation": 644.848541,
+          "executeRemoval": 229.37675,
+          "prepareCreation": 116.033709,
+          "prepareRemoval": 102.39975
+        },
+        {
+          "executeCreation": 737.289166,
+          "executeRemoval": 309.160333,
+          "prepareCreation": 114.7085,
+          "prepareRemoval": 129.462292
+        },
+        {
+          "executeCreation": 673.133917,
+          "executeRemoval": 258.077458,
+          "prepareCreation": 118.552583,
+          "prepareRemoval": 111.1365
+        },
+        {
+          "executeCreation": 719.918709,
+          "executeRemoval": 305.747833,
+          "prepareCreation": 117.614458,
+          "prepareRemoval": 131.639
+        },
+        {
+          "executeCreation": 714.651833,
+          "executeRemoval": 305.255417,
+          "prepareCreation": 115.324167,
+          "prepareRemoval": 133.353916
+        },
+        {
+          "executeCreation": 747.226667,
+          "executeRemoval": 313.413416,
+          "prepareCreation": 115.931083,
+          "prepareRemoval": 133.733334
+        },
+        {
+          "executeCreation": 708.514167,
+          "executeRemoval": 309.127542,
+          "prepareCreation": 114.393875,
+          "prepareRemoval": 133.107416
+        },
+        {
+          "executeCreation": 626.731917,
+          "executeRemoval": 216.336042,
+          "prepareCreation": 112.846,
+          "prepareRemoval": 95.844208
+        }
+      ],
+      "verifiedSamples": 30
+    }
+  ],
+  "configuration": "Swift package Release CLI",
+  "sourceHashes": {
+    "WeGitCore/Domain/WorktreeModels.swift": "5c642e8301928aaf50eb931996d9357b8e218b6d242e6bceae56ad0f8d45134f",
+    "WeGitCore/GitCore/WorktreeService.swift": "9cbe51f7b90d225795d771e524b30abe3eea1d337e8d8657e25925400269d9e8",
+    "WeGitCore/Infrastructure/WorktreePreservationDirectory.swift": "7d806dcd1626cdaceacb607caf7f8199d3ec7ea140996256c7d91f1e45df4761",
+    "WeGitCore/GitCore/GitEngine.swift": "697ea7ca85021a290c4a1dbb8381a2a585c9fb6bffdb9d74533fb924de23b120",
+    "Package.swift": "4bc9cd8c0424369e6607b0d3c0222f67062c3f88038a8fd08e1e06ef03c98055",
+    "scripts/WorktreeManagementPerformance.swift": "c479064cdc48c9f3825f57e52bd26a1d90e30fc645b37475558374135ef0a076"
+  }
+}

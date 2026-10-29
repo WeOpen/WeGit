@@ -1232,6 +1232,19 @@
 "逐行归属记录无法与文件内容对应" = "Blame records do not match the file content";
 "该版本的 Git 对象不可用，请先手动获取所需对象再重试。" = "Git objects for this version are unavailable. Fetch the required objects explicitly, then retry.";
 
+"工作树操作需核对。已保留目录，请先检查结果再操作。" = "The worktree operation needs review. The directory was kept; inspect the result before taking another action.";
+"工作树列表超出读取上限。" = "The worktree list exceeds the reading limit.";
+"创建工作树需要现有提交且没有进行中的 Git 操作。" = "Creating a worktree requires an existing commit and no Git operation in progress.";
+"此入口暂不移动含子模块的工作树。" = "This workflow cannot move worktrees that contain submodules.";
+"工作树目标必须是尚不存在的目录。" = "The worktree destination must be a directory that does not exist yet.";
+"工作树目录不能嵌套在仓库或 Git 数据目录中。" = "A worktree directory cannot be nested inside a repository or Git data directory.";
+"同名分支已存在。" = "A branch with this name already exists.";
+"分支不存在或已被其他工作树使用。" = "The branch is missing or already used by another worktree.";
+"主工作树、锁定或陈旧登记不能从此入口移除。" = "The primary worktree, a locked worktree or a stale registration cannot be removed here.";
+"不能移除当前工作树。" = "The current worktree cannot be removed.";
+"工作树有未保存内容或进行中的操作，请先处理。" = "The worktree has unsaved changes or an operation in progress. Resolve them first.";
+"此工作树包含特殊索引标记或子模块，已停止移除。" = "This worktree contains special index flags or submodules. Removal was stopped.";
+"Detached HEAD 含没有引用保护的提交，请先创建分支或标签。" = "Detached HEAD contains a commit without a protecting reference. Create a branch or tag first.";
 "选择此行" = "Select this line";
 "选择第 %1$@ 行" = "Select line %1$@";
 "暂存所选行…" = "Stage selected lines…";
@@ -1242,3 +1255,26 @@
 "所选行预览过大，请缩小选择范围。" = "The selection is too large to preview. Select fewer lines.";
 "暂存区可能已更新。请刷新并核对文件；不会自动重复操作。" = "The index may have changed. Refresh and inspect the file; the operation will not be repeated automatically.";
 "暂存区更新完成" = "Index updated";
+
+"工作树" = "Worktrees";
+"工作树…" = "Worktrees…";
+"读取工作树…" = "Reading worktrees…";
+"创建工作树" = "Create worktree";
+"创建工作树…" = "Create worktree…";
+"已有分支" = "Existing branch";
+"工作树路径" = "Worktree path";
+"创建方式" = "Creation mode";
+"移除工作树" = "Remove worktree";
+"工作树已创建" = "Worktree created";
+"工作树登记已移除，目录已保留。" = "Worktree registration removed. The directory was kept.";
+"主工作树" = "Primary worktree";
+"已锁定" = "Locked";
+"登记已过期" = "Stale registration";
+"登记将移除，全部文件和 Git 状态会保留在私有目录。" = "The registration will be removed. All files and Git state will be kept in a private directory.";
+
+"新分支" = "New branch";
+"预览" = "Preview";
+"Detached HEAD" = "Detached HEAD";
+
+"在 Finder 中查看" = "Show in Finder";
+"选择" = "Choose";

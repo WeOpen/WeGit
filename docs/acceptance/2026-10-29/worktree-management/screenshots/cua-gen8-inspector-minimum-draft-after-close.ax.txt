@@ -1,0 +1,90 @@
+Window: "main", App: WeGit.
+0 标准窗口 main – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 边栏
+						6 row (selectable) 工作区
+						7 row (selected) 更改
+2
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 储藏
+						11 row (selectable) 标签
+						12 row (selectable) 仓库
+						13 row (selectable) main、main
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 210
+			17 分离组
+				18 container
+					19 分离组
+						20 container
+							21 text 更改 2
+							22 菜单按钮 显示方式, Help: 切换文件列表或按文件夹显示, ID: changes-display-mode
+							23 菜单按钮 更多, ID: ellipsis
+							24 文本栏 (settable) Description: 筛选文件路径, ID: changes-filter
+							25 弹出式按钮 Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							26 滚动区
+								27 列表 changes-list
+									28 row (selectable) Value: 已展开, Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存
+已暂存（1）
+										29 复选框 Description: 取消暂存所显示的文件 已暂存、取消暂存所显示的文件 已暂存, Help: 取消暂存所显示的文件 已暂存, Value: 1, ID: stage-group:staged
+									30 row (selectable) Description: 取消暂存 other.txt、取消暂存 other.txt, Value: other.txt
+状态：修改
+										31 复选框 Description: 取消暂存 other.txt、取消暂存 other.txt, Help: 取消暂存 other.txt, Value: 1, ID: stage:staged:other.txt
+									32 row (selectable) Value: 已展开, Description: 暂存所显示的文件 未暂存、暂存所显示的文件 未暂存
+未暂存（1）
+										33 复选框 Description: 暂存所显示的文件 未暂存、暂存所显示的文件 未暂存, Help: 暂存所显示的文件 未暂存, Value: 0, ID: stage-group:unstaged
+									34 row (selectable) Description: 暂存 file.txt、暂存 file.txt, Value: file.txt
+状态：修改
+										35 复选框 Description: 暂存 file.txt、暂存 file.txt, Help: 暂存 file.txt, Value: 0, ID: stage:unstaged:file.txt
+						36 分离器 (disabled, settable, float) 510
+						37 container
+							38 text 选择一个文件 查看工作区与暂存区的差异，整理下一次提交。
+					39 文本栏 (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Value: Worktree 窄窗口验收草稿 alpha, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					40 按钮 Description: 提交（1 个文件）, Help: 提交已暂存内容 ⌘↩, ID: commit-button
+					41 按钮 (disabled) Description: 提交并推送…, Help: 尚未配置远端，请先添加 Remote, ID: commit-push-button
+					42 unknown Description: 已暂存 1 个文件, ID: commit-staged-count
+					43 复选框 Description: 修改上次提交（Amend）, Value: 0
+					44 unknown Description: ⌥↩ 换行 · ⌘↩ 提交, Details: idle, ID: operation-feedback
+				45 分离器 (disabled, settable, float) 931
+				46 container Description: 检查器, ID: repository-inspector
+					47 Description: 检查器, ID: inspector-tabs
+						48 单选按钮 Description: 文件信息, Value: 1
+						49 单选按钮 Description: 提交信息, Value: 0
+					50 滚动区
+						51 text main /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/main
+						52 按钮 Description: 在 Finder 中显示, ID: inspector-open-finder
+						53 按钮 Description: 在 Terminal 中打开, ID: inspector-open-terminal
+						54 按钮 Description: 复制仓库路径, ID: inspector-copy-path
+						55 text 当前, Value: main 未设置 同步状态：无上游
+	56 工具栏
+		57 container 隐藏边栏
+			58 按钮 Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		59 按钮 Description: main, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/worktree-narrow-gen7-8nczunf8/fixture/main
+切换仓库 ⌘K
+		60 菜单按钮 当前分支：main, Value: 同步状态：无上游, ID: current-branch
+		61 菜单按钮 (disabled) 获取, Help: 尚未配置 Remote, ID: toolbar-fetch
+		62 按钮 (disabled) Description: 拉取, Help: 尚未配置远端，请先添加 Remote, Value: 待核对, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		63 按钮 (disabled) Description: 推送, Help: 尚未配置远端，请先添加 Remote, Value: 待核对, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		64 按钮 Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		65 按钮 Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		66 按钮 Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		67 菜单按钮 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	68 关闭按钮
+	69 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	70 最小化按钮
+	71 text main main
+72 menu bar
+	73 WeGit, ID: native-menu-app
+	74 文件, ID: native-menu-file
+	75 编辑, ID: native-menu-edit
+	76 显示, ID: native-menu-view
+	77 仓库, ID: native-menu-repository
+	78 工作区, ID: native-menu-workspace
+	79 窗口, ID: native-menu-window
+	80 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 main – main, ID: main, Secondary Actions: Raise
