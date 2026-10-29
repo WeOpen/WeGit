@@ -18,3 +18,7 @@
 - 第二轮原生 40810107371：smoke 1/1，专项 0/1、1 失败、0 跳过；已越过 checkbox 1/0 与单行暂存检查，失败是查询不存在的 SegmentedControl 容器。现沿用既有原生用例的 RadioButton「统一/分栏/Unified」切换，不改产品布局或删掉后续范围、重开及陈旧确认断言。
 - 固定 82b56dc 的 Swift package Release CLI 30 个有效样本全部逐字节核对：5000 行、三处替换，只选择一处，其他已暂存内容、工作文件和 HEAD 不变。prepare/execute p95 93.140583/121.103875 ms，预先沿用后台入口 2000 ms 预算。该结果仅为后台 CLI 诊断，不能代表原生界面或完整 Release 性能通过；初次临时测量表达式触发 Swift 类型检查超时，拆分为显式循环后编译和运行完成。
 - #75 的移除预研确认 Git 2.54 默认 worktree remove 会以成功状态删除 ignored 内容，不能凭普通 status 干净直接删除。私有同卷目录先经 Git move 更新登记，再保留文件、移除私有空路径登记，九项保护断言通过，原路径后来出现的外来目录与晚到 ignored 文件均保留；单次 22.55 ms 只作预研。首个夹具路径断言受 /var 与 /private/var 别名影响，改用规范路径后 NUL/中文/换行检查通过，不改产品或放宽身份保护。
+
+
+- 第三轮 40813349194 的 smoke 1/1，selected-lines 0/1、1失败、0跳过。外部编辑后 Core 拒绝陈旧快照，但局部确认 sheet 随差异刷新销毁，第90行的 Close 等待失败；最后的字节/草稿断言尚未执行。原报告和 xcresult 保留。
+- 确认请求已迁到稳定 AppState/WorkspaceView，绑定原仓库会话与 UUID。失败反馈留在原确认窗口，成功按 UUID 关闭，切仓库清理旧请求。本机 Debug build-for-testing、严格格式/策略与4项 Git helper 通过，171项源码输入匹配，详情 stable-sheet-build.json；实际托管重验仍待运行。

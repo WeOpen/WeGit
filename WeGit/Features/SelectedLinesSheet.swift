@@ -1,8 +1,9 @@
 import SwiftUI
 import WeGitCore
 
-private struct SelectedLinesRequest: Identifiable {
+struct SelectedLinesRequest: Identifiable {
     let id = UUID()
+    let session: RepositorySession
     let diff: FileDiff
     let lineIDs: Set<Int>
 }
@@ -11,7 +12,6 @@ struct SelectedLinesControl: View {
     let app: AppState
     let session: RepositorySession
     let display: DiffDisplayState
-    @State private var request: SelectedLinesRequest?
 
     var body: some View {
         let diff = display.diff
@@ -21,24 +21,20 @@ struct SelectedLinesControl: View {
                 Spacer()
                 Button(diff.layer == .staged ? L10n.text("取消暂存所选行…") : L10n.text("暂存所选行…")) {
                     guard app.session === session else { return }
-                    request = SelectedLinesRequest(diff: diff, lineIDs: ids)
+                    app.selectedLinesRequest = SelectedLinesRequest(
+                        session: session, diff: diff, lineIDs: ids)
                 }.disabled(ids.isEmpty || !session.canWrite || session.isBusy)
                     .accessibilityIdentifier("diff-selected-lines-preview")
             }.padding(.horizontal, 12).padding(.vertical, 6)
-                .sheet(item: $request) { value in
-                    SelectedLinesSheet(app: app, session: session, request: value)
-                        .workbenchSheet(app.preferences)
-                }
         }
     }
 }
 
-private struct SelectedLinesSheet: View {
+struct SelectedLinesSheet: View {
     @Environment(\.themeColors) private var colors
-    @Environment(\.dismiss) private var dismiss
     let app: AppState
-    let session: RepositorySession
     let request: SelectedLinesRequest
+    private var session: RepositorySession { request.session }
     @State private var plan: SelectedLinesPlan?
     @State private var error: String?
     @State private var preparing = true
@@ -72,7 +68,7 @@ private struct SelectedLinesSheet: View {
             HStack {
                 Spacer()
                 Button(session.isBusy ? L10n.text("取消操作") : attempted ? L10n.text("关闭") : L10n.text("取消")) {
-                    if session.isBusy { session.cancel() } else { dismiss() }
+                    if session.isBusy { session.cancel() } else { close() }
                 }.keyboardShortcut(.cancelAction).accessibilityIdentifier("selected-lines-cancel")
                 if !attempted {
                     Button(title) { execute() }.keyboardShortcut(.defaultAction)
@@ -82,31 +78,30 @@ private struct SelectedLinesSheet: View {
             }.workbenchControlFamily()
         }.padding(24).frame(width: 620, height: 470).interactiveDismissDisabled(session.isBusy)
             .task { await prepare() }
-            .onChange(of: app.session?.id) { _, _ in if app.session !== session { dismiss() } }
     }
 
     private func prepare() async {
-        guard app.session === session else { return }
+        guard isCurrentRequest else { return }
         do {
             let result = try await session.service.prepareSelectedLines(
                 diff: request.diff, lineIDs: request.lineIDs)
-            guard !Task.isCancelled, app.session === session else { return }
+            guard !Task.isCancelled, isCurrentRequest else { return }
             guard result.patch.count <= 64 * 1024 else {
                 throw ModelFailure.unsupported(L10n.text("所选行预览过大，请缩小选择范围。"))
             }
             plan = result
         } catch {
-            guard !Task.isCancelled else { return }
+            guard !Task.isCancelled, isCurrentRequest else { return }
             self.error = error.localizedDescription
         }
         preparing = false
     }
 
     private func execute() {
-        guard app.session === session, let plan, !attempted else { return }
+        guard isCurrentRequest, let plan, !attempted, session.canWrite, !session.isBusy else { return }
         attempted = true
         session.performResult(
-            title, onSuccess: { dismiss() },
+            title, onSuccess: { close() },
             operation: { service in
                 do {
                     try await service.executeSelectedLines(plan)
@@ -115,6 +110,15 @@ private struct SelectedLinesSheet: View {
                     return .needsReview(message: uncertain.localizedDescription)
                 }
             })
+    }
+
+    private var isCurrentRequest: Bool {
+        app.session === session && app.selectedLinesRequest?.id == request.id
+    }
+
+    private func close() {
+        guard app.selectedLinesRequest?.id == request.id else { return }
+        app.selectedLinesRequest = nil
     }
 
     /// The preview describes the actual index direction; reversing a staged

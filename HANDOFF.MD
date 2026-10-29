@@ -451,3 +451,27 @@
 - 第二轮原生 40810107371：smoke 1/1，专项 0/1、1 失败、0 跳过；已越过 checkbox 1/0 与单行暂存检查，失败是查询不存在的 SegmentedControl 容器。现沿用既有原生用例的 RadioButton「统一/分栏/Unified」切换，不改产品布局或删掉后续范围、重开及陈旧确认断言。
 - 固定 82b56dc 的 Swift package Release CLI 30 个有效样本全部逐字节核对：5000 行、三处替换，只选择一处，其他已暂存内容、工作文件和 HEAD 不变。prepare/execute p95 93.140583/121.103875 ms，预先沿用后台入口 2000 ms 预算。该结果仅为后台 CLI 诊断，不能代表原生界面或完整 Release 性能通过；初次临时测量表达式触发 Swift 类型检查超时，拆分为显式循环后编译和运行完成。
 - #75 的移除预研确认 Git 2.54 默认 worktree remove 会以成功状态删除 ignored 内容，不能凭普通 status 干净直接删除。私有同卷目录先经 Git move 更新登记，再保留文件、移除私有空路径登记，九项保护断言通过，原路径后来出现的外来目录与晚到 ignored 文件均保留；单次 22.55 ms 只作预研。首个夹具路径断言受 /var 与 /private/var 别名影响，改用规范路径后 NUL/中文/换行检查通过，不改产品或放宽身份保护。
+
+
+## 2026-10-29 自动接续移交
+
+- 04:03:14 UTC 的滚动 30 分钟已记录 5 次独立失败，触发用户指定的新会话条件；包括一个外部可选 Workers 检查、一个工作树工具调用、第三轮原生诊断和两次错误路径查询。按 call/run ID 去重，已修复或已过期的旧失败不会在每次轮询再累计。触发回执保存在主检出 `.build/v1-2-continuation/state.json`。
+- 选中行工作树 `/Users/willxue/.codex/worktrees/selected-lines/WeGit`，分支 `codex/v1.2-selected-lines`，已推送 HEAD `4217901e76d624d8275167ca7f74246070f229d9`，草稿 PR #74。99 项独立检查通过；82b56dc 的 Apple / Git 2.46 / Homebrew 核心各 226 项、41 suites 通过，CLI Release 30 有效样本 prepare/execute p95 93.14/121.10 ms。当前 HEAD 的最终必需检查仍以 GitHub 实际状态为准。
+- 原生第三轮 40813349194 smoke 1/1，专项 0/1、1 失败、0 跳过；已执行单行暂存、Split 取消暂存、Unified 跨行两方向及英文深色重开。第90行等关闭按钮失败，之后的最终字节/草稿断言未执行。UI hierarchy 显示 external edit 和 Failed: repository/file changed，但 sheet 已消失。Core 拒绝了陈旧确认，产品确认界面却随 keyed DiffContentView 重建而失去状态。
+- 下一步在选中行分支修复真实 UI 生命周期：将 SelectedLinesRequest 从 SelectedLinesControl 的局部 State 迁到稳定的 AppState/WorkspaceView sheet 宿主，使用明确会话身份；成功仍关闭，失败保持反馈与 Close，切仓库清理旧请求。保持原全部断言、Core 锁/快照保护与可信 main 单方法门禁。真实入口是 `WeGit/Features/WorkspaceView.swift`，sheet 集中在190行附近；不要再猜 WorkbenchView/WorkbenchRootView 文件名，先用 rg --files 核对。
+- 最新已知原生 run 40813349194 已结束，不要重复旧 SHA 的 dispatch；修复、提交和确认新 head 后串行重跑一个 smoke + selected-lines。4217901 对应必需 CI run 40812824684，PR policy run 40812824717；按实际结果保存计数/源码回执。Cloudflare Workers Builds 为可选外部检查，main 的必需门禁实际只有 PR policy / Repository policy / Native macOS。
+- #75 的新管理工作树 `/Users/willxue/.codex/worktrees/worktree-management/WeGit` 已准备，分支 `codex/v1.2-worktree-management`，起点2e99036；未改产品。移除预研证明默认 git worktree remove 会删除 ignored 内容；先 Git move 到同卷私有目录、保留文件、再移除私有缺失路径登记可以保留晚到文件及原路径外来目录。九项保护断言通过，22.55ms仅单次预研；真实实现与托管验收待开展，跨卷/锁定/脏内容/孤立 detached 提交需保护。
+- create_worktree 的 sourceRoot 必须是当前会话 workspace folder；通过主根 `/Users/willxue/will/WeOpen/WeGit` 创建固定 ref，不会复制主根未提交网站内容。新会话使用已有工作树的明确 exec working directory，不重建、不重置或强行附加其他会话拥有的工作树。
+- 主检出的官网改动保留。核对时两开发树无 Git 序列或 index.lock，无其他活跃开发会话；专用 SelectedLinesPreviewV2 进程86120仍存在，未退出，不把只运行的预览当作重复开发任务。需要新预览时用唯一包路径，保留既有应用/草稿。
+- 全目标继续 V12-01～V12-09 与真实最终验收；不把本批 PR、诊断通过或当前移交当作 v1.2 完成。本机不执行 XCTest，Git 写入验收只用隔离临时仓库；生产交付保留性能、安装/Beta/发布门禁实际限制。
+
+- 按第5次错误规则已创建接续会话 `01a185eb-2412-7bd0-b893-576e75d4e6c4`（WeGit v1.2 持续开发接续），正在迁移同一 `wegit-v1-2` heartbeat；责任与完成状态以主根私有 state.json 为准。旧会话停止产品/Git写入，保留本轮错误和交接证据。
+
+
+## 2026-10-29 选中行确认的稳定宿主
+
+- 第三轮 40813349194 的 smoke 1/1、专项 0/1 和第90行失败保留在原报告；其最后字节/草稿断言没有执行，不能当作通过。确认请求曾由会随 DiffDisplayState 身份重建的局部控件持有，Core 拒绝陈旧文件后弹窗消失。
+- 请求现由 AppState 持有，固定 RepositorySession 和请求 UUID；WorkspaceView 统一呈现。成功只关闭匹配请求，失败保留反馈和 Close；取消/切仓库取消旧预览，旧成功回调不会关闭后来请求。Core 快照/索引锁及原全部 UI 断言保持。
+- 本机严格格式、仓库策略、4项原生 Git helper 检查与 Debug build-for-testing 通过；171项实际应用输入逐项匹配。没有本地执行 XCTest。此处只报告编译和输入核对，可信 main 的新候选 smoke/selected-lines 与必需 CI 仍需实际通过。
+- 新 worktree 不会复制其他树的 ignored .build 资料；查询前用 rg --files 核对实际目录与脚本名，不能将猜测的 Sources/WeGitCore 或 test-policy.sh 当作已存在路径。两次迁移后的查询错误已按真实调用 ID 进入滚动审计。
+- 本会话责任与同一五分钟 heartbeat 已匹配 01a185eb-2412-7bd0-b893-576e75d4e6c4、generation=1；旧会话停止产品/Git 写入，主根官网未提交内容和原预览86120保留。
