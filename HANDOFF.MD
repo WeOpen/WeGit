@@ -799,3 +799,10 @@
 - 责任从 01a18a1a-3b48-7913-a8d7-cd2387f3e9c9 迁到 01a18ad0-b804-7762-8563-c3e603388b0a，第十一代。旧会话后续四次 heartbeat 因不同 Azure resource 错误未执行产品操作；最后工作停在未提交的受限不同普通文件预演优化。原 52 项真实 Git 通过、Core/native compile-only 及 185 输入一致证据已读取；单次935.392ms只是profile，完整90样本和新源码可信native仍须验证。
 - 主根、实际rebase树、selected-lines、rebase入口的HEAD/index/locks/序列/binary patches/untracked/HANDOFF已保存在 .build/v1-2-continuation/manual-resume-gen11；原树与主根33项外部改动不回退。PR80附在本会话。
 - 先按实际清单定位 automation 持久化；本轮旧约定 ~/.codex/automations/wegit-v1-2/automation.toml 已不存在，目录仅 .run-jitter-salt。首次硬读此路径失败已保留；view仅返回渲染卡片，不能作为文件存在或迁移成功证明。后续用purpose-built automation工具更新同一ID，实读返回字段/合法持久化再确认，不新增重复任务。
+
+## 2026-10-30 d75ddb2 本机完整90样本通过与五分钟接续恢复
+
+- 固定d75ddb27bd2d681633aee311ef5cd35d1831ce03的12性能输入逐SHA核验；普通/5000文件30提交large-loose/同规模large-packed三类各30全部有效且原2000ms读取、500ms取消/RSS预算全过。普通first166.239/steady159.475/recovered162.065/cancel0.421ms；loose498.457/499.085/494.318/cancel0.350ms/RSS67420160；packed315.684/328.739/320.363/cancel0.339ms/RSS68009984。loose5095松散对象无pack、packed5095对象1pack，完整数组和统计保留。此为本机Release CLI，不代表VM/Core XCTest或原生完整接受。
+- 用户明确答复恢复五分钟自动接续；旧ID的update真实失败，随后仅一次create重新创建同ID wegit-v1-2。实际TOML已读取并核验ACTIVE/heartbeat/五分钟/本会话target，保存恢复副本。state唯一责任保持当前。
+- 本轮两个zsh查询误把未引用的路径通配符和REST问号当glob：旧RepositoryModel路径no matches被pipeline末尾0掩盖，另一次runs?per_page=5直接退出1。已改为实际rg清单和引用完整REST参数；两个真实调用保留，不改作产品失败。后续网络读须等待session真正退出0再读取结果。
+- 下步仅补本机证据文档并确认新头部与d75的产品/12性能/52CLI/185原生输入等价，正常push现有PR80，调度新可信smoke+Rebase并读取完整新required。旧37成功只属旧输入；issue78和完整v1.2继续。
