@@ -32,7 +32,7 @@ extension RepositoryService {
         }
         let completed =
             snapshot.backend == .merge ? try count(done) : max(0, (Int(text("next") ?? "") ?? 1) - 1)
-        let remainingCount =
+        var remainingCount =
             snapshot.backend == .merge ? try count(todo) : max(0, (Int(text("last") ?? "") ?? 0) - completed)
         guard completed + remainingCount <= RebaseBudget.steps else { throw RebaseBudget.exceeded }
         var restriction: String?
@@ -49,7 +49,28 @@ extension RepositoryService {
                     seen.insert($0).inserted
                 }
                 if stopped == nil, let first = remaining.first, first == completedSteps.last {
+                    // Git 2.54 leaves a failed pick in both done and todo.
+                    // Newer Git records the same retry as stopped-sha and
+                    // clears todo, so normalize both layouts here.
                     rescheduled = first.object
+                } else if snapshot.files["gpg_sign_opt"] != nil, let stopped,
+                    snapshot.markers["CHERRY_PICK_HEAD"].flatMap({
+                        String(data: $0.bytes, encoding: .utf8)?.removingLastNewline
+                    }) == stopped,
+                    case .pick(let lastObject)? = completedSteps.last, lastObject == stopped
+                {
+                    // Git 2.56 records a failed signed pick in stopped-sha.
+                    // A conflict can have the same marker, so only classify it
+                    // as a retry when a read-only replay is clean.
+                    let retry = try await rebaseReplayPreview(
+                        steps: [.pick(lastObject)], head: head, onto: onto)
+                    if retry.conflicts.isEmpty {
+                        guard completed + remainingCount < RebaseBudget.steps else {
+                            throw RebaseBudget.exceeded
+                        }
+                        rescheduled = lastObject
+                        remainingCount += 1
+                    }
                 }
                 let history = Set(
                     try rebaseObjectIDs(

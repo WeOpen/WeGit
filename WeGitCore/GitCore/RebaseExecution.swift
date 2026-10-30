@@ -74,7 +74,13 @@ extension RepositoryService {
         let resultTree: String?
         var resetBeforeRetry = false
         if action == .continueOperation {
-            if expected.rescheduledCommit != nil, let first = expected.remaining.first {
+            if let rescheduled = expected.rescheduledCommit,
+                expected.remaining.first == .pick(rescheduled)
+            {
+                // Git 2.54 keeps the failed pick in todo. The staged result is
+                // only accepted when it exactly matches that replay; then the
+                // explicit Continue resets and lets Git replay the duplicate.
+                let first = expected.remaining[0]
                 let generated = try await rebaseReplayPreview(
                     steps: [first], head: expected.head, onto: expected.onto, labels: expected.rewritten)
                 let staged = try await rebaseReplayPreview(
@@ -88,12 +94,37 @@ extension RepositoryService {
                     resetBeforeRetry = true
                 }
                 paths.formUnion(generated.paths)
+                let preview = try await rebaseReplayPreview(
+                    steps: expected.remaining, head: expected.head, onto: expected.onto,
+                    labels: expected.rewritten, stagedResolution: false)
+                paths.formUnion(preview.paths)
+                resultTree = preview.resultTree
+            } else if let rescheduled = expected.rescheduledCommit {
+                // Git 2.56 removes the failed pick from todo and leaves its
+                // generated result staged. Verify that exact stage, then
+                // preview the remaining todo from the staged result.
+                let generated = try await rebaseReplayPreview(
+                    steps: [.pick(rescheduled)], head: expected.head, onto: expected.onto,
+                    labels: expected.rewritten)
+                let staged = try await rebaseReplayPreview(
+                    steps: [], head: expected.head, onto: expected.onto, stagedResolution: true)
+                guard staged.resultTree == generated.resultTree else {
+                    throw ModelFailure.unsupported(
+                        L10n.text("此提交已重新排队，暂存区还有额外编辑。请先保存这些内容并在 Terminal 中处理。"))
+                }
+                paths.formUnion(generated.paths)
+                let preview = try await rebaseReplayPreview(
+                    steps: expected.remaining, head: expected.head, onto: expected.onto,
+                    labels: expected.rewritten, stagedResolution: true)
+                paths.formUnion(preview.paths)
+                resultTree = preview.resultTree
+            } else {
+                let preview = try await rebaseReplayPreview(
+                    steps: expected.remaining, head: expected.head, onto: expected.onto,
+                    labels: expected.rewritten, stagedResolution: true)
+                paths.formUnion(preview.paths)
+                resultTree = preview.resultTree
             }
-            let preview = try await rebaseReplayPreview(
-                steps: expected.remaining, head: expected.head, onto: expected.onto,
-                labels: expected.rewritten, stagedResolution: expected.rescheduledCommit == nil)
-            paths.formUnion(preview.paths)
-            resultTree = preview.resultTree
         } else {
             resultTree = try await singleCommitTree(expected.originalHead, engine: singleCommitEngine)
         }

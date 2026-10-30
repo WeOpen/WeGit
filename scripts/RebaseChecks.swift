@@ -30,6 +30,51 @@ struct LostRebaseReceipt: ProcessRunning {
         print("PASS: " + text)
     }
 
+    static func rebaseStateSnapshot(_ root: URL) throws -> [String: Data] {
+        let git = root.appending(path: ".git")
+        var result: [String: Data] = [:]
+        func capture(_ url: URL, relative: String) throws {
+            let values = try url.resourceValues(forKeys: [
+                .isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey,
+            ])
+            if values.isDirectory == true {
+                result[relative] = Data("directory".utf8)
+                for case let child as URL in FileManager.default.enumerator(
+                    at: url,
+                    includingPropertiesForKeys: [.isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey])!
+                {
+                    let path = String(child.path.dropFirst(git.path.count + 1))
+                    let childValues = try child.resourceValues(
+                        forKeys: [.isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey])
+                    if childValues.isDirectory == true {
+                        result[path] = Data("directory".utf8)
+                    } else if childValues.isSymbolicLink == true {
+                        result[path] = Data(
+                            ("symlink:"
+                                + (try FileManager.default.destinationOfSymbolicLink(
+                                    atPath: child.path)))
+                                .utf8)
+                    } else if childValues.isRegularFile == true {
+                        result[path] = Data("file:".utf8) + (try Data(contentsOf: child))
+                    }
+                }
+            } else if values.isSymbolicLink == true {
+                result[relative] = Data(
+                    ("symlink:"
+                        + (try FileManager.default.destinationOfSymbolicLink(
+                            atPath: url.path)))
+                        .utf8)
+            } else if values.isRegularFile == true {
+                result[relative] = Data("file:".utf8) + (try Data(contentsOf: url))
+            }
+        }
+        for name in ["HEAD", "index", "packed-refs", "refs", "rebase-merge"] {
+            let url = git.appending(path: name)
+            if FileManager.default.fileExists(atPath: url.path) { try capture(url, relative: name) }
+        }
+        return result
+    }
+
     static func main() async {
         do { try await run() } catch {
             let details = (error as? GitFailure)?.details ?? String(describing: error)
@@ -298,7 +343,53 @@ struct LostRebaseReceipt: ProcessRunning {
             try Data(contentsOf: conflict.location.root.appending(path: "file")) == Data("feature\n".utf8),
             "Abort restores original tracked bytes")
 
-        let (signing, _, signingOriginal) = try await fixture("signing-failure", conflict: false)
+        let (signedConflict, _, signedConflictOriginal) = try await fixture(
+            "signed-conflict", conflict: true)
+        _ = try await engine.run(["config", "commit.gpgsign", "true"], in: signedConflict.location.root)
+        _ = try await engine.run(
+            ["config", "gpg.program", "/usr/bin/false"], in: signedConflict.location.root)
+        let signedConflictTarget = try await signedConflict.branches().first { $0.name == "main" }!
+        guard
+            case .conflicts = try await signedConflict.executeRebase(
+                signedConflict.prepareRebase(target: signedConflictTarget))
+        else {
+            throw Failure.assertion("Signed rebase fixture did not stop at its ordinary conflict")
+        }
+        let signedConflictRecovery = try await signedConflict.rebaseRecovery()!
+        try require(
+            signedConflictRecovery.rescheduledCommit == nil
+                && signedConflictRecovery.stoppedCommit == signedConflictOriginal,
+            "A signed conflict is not confused with a failed signed commit")
+        try Data("resolved signed conflict\n".utf8)
+            .write(to: signedConflict.location.root.appending(path: "file"))
+        try await signedConflict.markResolved(path: "file", expectedHead: signedConflictRecovery.head)
+        let resolvedSignedConflict = try await signedConflict.rebaseRecovery()!
+        let conflictReady = try await signedConflict.prepareRebaseRecovery(
+            .continueOperation, expected: resolvedSignedConflict)
+        let signingKey = parent.appending(path: "private-conflict-signing-key")
+        _ = try await ProcessRunner().run(
+            ProcessRequest(
+                executable: URL(fileURLWithPath: "/usr/bin/ssh-keygen"),
+                arguments: ["-q", "-t", "ed25519", "-N", "", "-f", signingKey.path], environment: environment)
+        )
+        _ = try await engine.run(["config", "gpg.format", "ssh"], in: signedConflict.location.root)
+        _ = try await engine.run(
+            ["config", "user.signingkey", signingKey.path], in: signedConflict.location.root)
+        guard case .completed = try await signedConflict.executeRebaseRecovery(conflictReady) else {
+            throw Failure.assertion("Signed conflict could not continue after its resolution")
+        }
+        let signedConflictStatus = try await signedConflict.status()
+        try require(
+            signedConflictStatus.conflicts.isEmpty && signedConflictStatus.sequencer == .none,
+            "A signed conflict keeps the ordinary resolved-conflict Continue path")
+
+        let (signing, _, _) = try await fixture("signing-failure", conflict: false)
+        try Data("later feature\n".utf8).write(to: signing.location.root.appending(path: "later"))
+        _ = try await engine.run(["add", "later"], in: signing.location.root)
+        _ = try await engine.run(["commit", "-m", "Later Feature"], in: signing.location.root)
+        let signingOriginal = try await signing.head()!
+        let signingFirstCommit = try await engine.run(["rev-parse", "HEAD~1"], in: signing.location.root)
+            .text.trimmingCharacters(in: .newlines)
         _ = try await engine.run(["config", "commit.gpgsign", "true"], in: signing.location.root)
         _ = try await engine.run(["config", "gpg.program", "/usr/bin/false"], in: signing.location.root)
         let signingTarget = try await signing.branches().first { $0.name == "main" }!
@@ -312,14 +403,37 @@ struct LostRebaseReceipt: ProcessRunning {
         try require(
             signingRecovery.originalHead == signingOriginal && !signingDetails.isEmpty,
             "A real signing failure reports a recoverable pause and retains original HEAD")
-        let signingKey = parent.appending(path: "private-rebase-signing-key")
+        try require(
+            signingRecovery.rescheduledCommit == signingFirstCommit
+                && signingRecovery.remainingSteps == 2,
+            "A signing failure identifies the failed commit across Git rebase metadata layouts")
+        let rebaseSigningKey = parent.appending(path: "private-rebase-signing-key")
+        let manualBytes = Data("feature with manual edits\n".utf8)
+        try manualBytes.write(to: signing.location.root.appending(path: "feature"))
+        try await signing.markResolved(path: "feature", expectedHead: signingRecovery.head)
+        let protected = try rebaseStateSnapshot(signing.location.root)
+        let editedIndex = try Data(contentsOf: signing.location.gitDirectory.appending(path: "index"))
+        let manualRecovery = try await signing.rebaseRecovery()!
+        do {
+            _ = try await signing.prepareRebaseRecovery(.continueOperation, expected: manualRecovery)
+            throw Failure.assertion("Manual edits after a failed signing attempt were accepted")
+        } catch is ModelFailure {}
+        try require(
+            try Data(contentsOf: signing.location.root.appending(path: "feature")) == manualBytes
+                && Data(contentsOf: signing.location.gitDirectory.appending(path: "index")) == editedIndex
+                && rebaseStateSnapshot(signing.location.root) == protected,
+            "A signing retry refuses extra edits without changing files, index, refs or rebase metadata")
+        try Data("feature\n".utf8).write(to: signing.location.root.appending(path: "feature"))
+        try await signing.markResolved(path: "feature", expectedHead: signingRecovery.head)
         _ = try await ProcessRunner().run(
             ProcessRequest(
                 executable: URL(fileURLWithPath: "/usr/bin/ssh-keygen"),
-                arguments: ["-q", "-t", "ed25519", "-N", "", "-f", signingKey.path], environment: environment)
+                arguments: ["-q", "-t", "ed25519", "-N", "", "-f", rebaseSigningKey.path],
+                environment: environment)
         )
         _ = try await engine.run(["config", "gpg.format", "ssh"], in: signing.location.root)
-        _ = try await engine.run(["config", "user.signingkey", signingKey.path], in: signing.location.root)
+        _ = try await engine.run(
+            ["config", "user.signingkey", rebaseSigningKey.path], in: signing.location.root)
         let repairedSigning = try await signing.rebaseRecovery()!
         guard
             case .completed = try await signing.recoverRebase(
@@ -327,9 +441,13 @@ struct LostRebaseReceipt: ProcessRunning {
         else {
             throw Failure.assertion("Signing failure could not be continued")
         }
+        let completedSigningStatus = try await signing.status()
+        let rebasedCommitCount = try await engine.run(
+            ["rev-list", "--count", "main..HEAD"], in: signing.location.root
+        ).text.trimmingCharacters(in: .newlines)
         try require(
-            (try await signing.status()).files.isEmpty,
-            "Explicit continuation finishes after correcting private signing configuration")
+            completedSigningStatus.files.isEmpty && rebasedCommitCount == "2",
+            "Explicit continuation commits the staged retry and remaining todo after repairing signing")
 
         for external in [false, true] {
             let (receipt, _, receiptOriginal) = try await fixture(

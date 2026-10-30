@@ -828,3 +828,9 @@
 - CoreTests-only修正当前185App/UI/两可信入口文件及12性能输入与6dc/d75逐SHA等价，可以保留该新native通过证据；仍必须新固定候选的全部required CI。旧required41013758617的247中246pass/1fail及其余跳过保持原记录，不能当新Core测试成功；本机90性能通过也不替代尚未运行的VM性能。
 - 本代两个真实模型rate-limit失败和一次查询不存在docs/CONTRIBUTING.md的I/O已去重留在ledger；实际贡献入口是仓库根CONTRIBUTING.md。后续先rg清单再读，不把查询输出里的其他成功匹配掩盖I/O失败。
 - 同一全目标仍需78/80最新CI/reviews后正常集成，再05/07/08/09及最终M5；不提前关78或删除五分钟任务。
+
+## 2026-10-30 Rebase Git 2.54/2.56 签名恢复修复复核
+
+- Git 2.54 在签名失败时会把失败 pick 同时留在 `done` 和 `git-rebase-todo`；继续操作必须验证暂存树只包含该 pick 的生成结果，重置后让 Git 重放 todo。Git 2.56 会清空 todo、把失败对象写入 `stopped-sha`，并留下生成结果暂存；此布局通过 `gpg_sign_opt`、匹配的 `CHERRY_PICK_HEAD`、匹配的最后一个已完成 pick，以及只读重放无冲突来识别。普通签名冲突没有匹配的 `CHERRY_PICK_HEAD`，不能误判为重排。
+- Git 2.56 的继续路径先精确比较生成树和暂存树，再从该暂存结果预演剩余 todo；暂存区有额外手工编辑时抛出 `ModelFailure`，不写文件、索引、引用或 rebase 元数据。Git 2.54 仍保留原有 reset/replay 路径。
+- 本次最新工作树修改已通过 `xcrun swift-format lint --strict`。独立私有检查器在 Apple Git 2.54.0 与 Homebrew Git 2.56.0 各完成 56/56 项，结果 JSON 与完整日志保存在主根 `.build/v1-2-continuation/rebase-apple-git254-gen13-rerun.log` 和 `rebase-git256-gen13-rerun.log`；这些是 CLI/Core 行为证据，不是 XCTest 或完整 Rebase 版本验收。
