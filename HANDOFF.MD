@@ -806,3 +806,25 @@
 - 用户明确答复恢复五分钟自动接续；旧ID的update真实失败，随后仅一次create重新创建同ID wegit-v1-2。实际TOML已读取并核验ACTIVE/heartbeat/五分钟/本会话target，保存恢复副本。state唯一责任保持当前。
 - 本轮两个zsh查询误把未引用的路径通配符和REST问号当glob：旧RepositoryModel路径no matches被pipeline末尾0掩盖，另一次runs?per_page=5直接退出1。已改为实际rg清单和引用完整REST参数；两个真实调用保留，不改作产品失败。后续网络读须等待session真正退出0再读取结果。
 - 下步仅补本机证据文档并确认新头部与d75的产品/12性能/52CLI/185原生输入等价，正常push现有PR80，调度新可信smoke+Rebase并读取完整新required。旧37成功只属旧输入；issue78和完整v1.2继续。
+
+## 2026-10-30 第十一代第五真实错误阈值与完整接续现场
+
+- 人类原始授权已实际读取：2026-10-29来源01a184da的用户消息要求每五分钟继续到完成，半小时报错超过4次新开会话；本轮仍按该规则。真实5事件是旧automation update不存在、两个不同zsh glob查询、required41013758617/job123925417820的Core失败、查询不存在ProcessCapacity.swift的真实I/O。只读JSON回显误计已标notAnError，不算第六；warning/pending/重复poll不算。原5阈值完整保留，不因稍后过期抹掉。
+- 当前产品固定6dcf5142492348d87b93a22e3d425999d5de3e4a已正常push/remote-ref及PR80 head核验，PR body更新。12性能/52独立CLI/185应用输入与d75实测候选等价。完整90本机有效原预算通过：ordinary166/159/162ms，large-loose498/499/494ms，large-packed316/329/320ms，取消均<0.5ms、RSS约67-68MB，大型5000文件30commit，两种对象存储真实统计已提交。新VM性能尚未运行，不能据本机说托管性能过。
+- required41013758617/job123925417820在Formatting, core tests and Debug build真实失败：Swift Testing247/43 suites，246pass/1fail，唯一ProcessTests.executingGroupCancellationDeliversTermAndReturnsCapacity CoreTests.swift182读取ready只有1PID。其余最低Git/Homebrew/GPG/feature性能/native编译/打包均skip。完整93968bytes job log和artifact12959345006/274bytes/digest686814d02c1f6fe4332678d089da09ef31dd6538d7cbf2d8bbda1c87d0b1adad元数据保留，未把小artifact当完整Core日志。
+- CoreTests.swift已仅把两PID printf写入pending再mv发布就绪，原500ms取消、alive IDs、TERM回执、整组消失、capacity1下一请求断言均保留；此两行修正未提交/未编译/未本机XCTest，先独立真实ProcessRunner检查及Core compile-only，再新fixed candidate/新required。不要改产品ProcessRunner或降预算，不重复native当产品/UI输入未变。ProcessCapacity实际在ProcessRunner.swift内部，绝不存在独立ProcessCapacity.swift；今后先rg清单。
+- 新可信main507f03b的native41013988280/job123926004898实际所有步骤返回success，candidate6dcf514；完整artifact12958029726/name native-ui-smoke-rebase-workflow-6dcf514.../64547405bytes/digestb1d155086b0ab52784a63b28718a54d8531102fb7c5481203b363d031d819243已取元数据，尚未下载/CRC/185inputs/xcresult真实1/1 counts/原120/180方法时长/四图四AX核验，不能先当全验收。此native不重复dispatch，先完整取证。CoreTests-only修正需证明185 App/UItests/可信脚本等价后复用该成功，不把旧37成功替代新Core。
+- 源码/四树HEAD/index/locks/sequences/binary patches/index copies/untracked/HANDOFF/automation/state与最新网络回执保存transfer-gen11-process-ready。当前旧会话所有产品/Git写入停止；建立下一本地默认聊天后迁移同一ACTIVE五分钟wegit-v1-2及唯一state责任。完整目标仍有78/80正常集成、05/07/08/09及最终M5，不提前关闭78或称整版完成。
+
+- 第十二代接续会话已实际创建：01a18b88-383c-79e1-b2f5-55e1ae92fa3c（WeGit v1.2 原子取消夹具修复与完整接续）。同ID wegit-v1-2 的 ACTIVE/heartbeat/五分钟/新target 与 state.generation12 实读核验一致；state-after-transfer/automation-after-transfer副本已保存。来源本会话产品/Git写入停止，下一会话按同一全目标继续。
+
+- 新会话第十二代首轮因gpt-6.1-sol token rate limit失败，尚无产品/Git写入；真实新代1错误已保存snapshot及ledger。同ID五分钟heartbeat仍ACTIVE且指新target，后续自动重试。不能把创建和调度当成后续功能完成。
+
+## 2026-10-30 第十二代原子取消夹具和新原生取证
+
+- 同一个ACTIVE五分钟wegit-v1-2与state唯一责任已核验到01a18b88-383c-79e1-b2f5-55e1ae92fa3c；四树HEAD/index与交接副本逐项匹配。产品继续原树，不attach/reset/重建。第十一代原第五阈值与全部旧失败保留。
+- CoreTests取消夹具两行修正只把完整两PID写到pending后mv发布，两个I/O均显式失败退出。直接链接实际WeGitCore/ProcessRunner的独立诊断：原夹具32次、原子发布间隙1次、拒绝错误就绪后取消并等待清理1次，共34通过，最慢取消0.636792ms；原500ms、两PID存活、TERM回执、整个进程组退出、capacity1下一请求断言保留。ProcessRunner SHA12138f0689f0965f348b93c08926a1416e1b8a8372dfe736b2b89cfa54b06310未改。swift build --build-tests与CoreTests严格格式成功，仅编译，无本机XCTest。
+- 新可信main507f03b的native41013988280/job123926004898完整job38425bytes、制品12958029726/64547405bytes/SHAb1d155086b0ab52784a63b28718a54d8531102fb7c5481203b363d031d819243/2048CRC与185个实际构建输入已核验。直接xcresult smoke/Rebase各1总1pass0fail0skip，唯一方法95.353318秒<120，outer106.097<180；所有实际job步骤success。四个980×692原图与AX已实看并保存，固定SHA/发布确认、目标移动拒绝、重开第二冲突、Abort恢复分支/clean/草稿及同源Tab/Return/Escape/筛选续写和两轮继续已执行。QoS warning完整保留，不表示完整VoiceOver或整版接受。
+- CoreTests-only修正当前185App/UI/两可信入口文件及12性能输入与6dc/d75逐SHA等价，可以保留该新native通过证据；仍必须新固定候选的全部required CI。旧required41013758617的247中246pass/1fail及其余跳过保持原记录，不能当新Core测试成功；本机90性能通过也不替代尚未运行的VM性能。
+- 本代两个真实模型rate-limit失败和一次查询不存在docs/CONTRIBUTING.md的I/O已去重留在ledger；实际贡献入口是仓库根CONTRIBUTING.md。后续先rg清单再读，不把查询输出里的其他成功匹配掩盖I/O失败。
+- 同一全目标仍需78/80最新CI/reviews后正常集成，再05/07/08/09及最终M5；不提前关78或删除五分钟任务。

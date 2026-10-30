@@ -1,0 +1,87 @@
+{
+  "scope": "Private actual ProcessRunner diagnostics and Core compile-only; no local XCTest",
+  "passed": true,
+  "source": {
+    "coreTestsSha256": "43ec53836bf98eea700599b30de70bfdf4c0dd539c7a86cfba289be180063eec",
+    "processRunnerSha256": "12138f0689f0965f348b93c08926a1416e1b8a8372dfe736b2b89cfa54b06310",
+    "fixtureLiteralSha256": "a335d6de7801bd7dbfd99e6b81db60d8f1ef81f12dfccefb91ee60b13aa71b79",
+    "diagnosticSourceSha256": "aad8f4a2b1f71d6ab433175f814d170714c8706f9c2e3349642b724a1aed22fd",
+    "actualFixtureExtractedWithoutTestFramework": true
+  },
+  "coreTestsCompileOnly": {
+    "command": "swift build --build-tests",
+    "exitCode": 0,
+    "logSha256": "9e139fdbb361bc111185e0f09442842f554b97688dfed9ab98b9fe71d3a0b36b"
+  },
+  "strictFormatting": {
+    "command": "swift format lint --strict WeGitTests/CoreTests.swift",
+    "exitCode": 0
+  },
+  "diagnostics": {
+    "exactCoreFixtureIterations": 32,
+    "atomicPublicationGapIterations": 1,
+    "failedReadinessCleanupIterations": 1,
+    "total": 34,
+    "cancelBudgetMilliseconds": 500,
+    "maximumCancelMilliseconds": 0.636792,
+    "cancelMilliseconds": [
+      0.56575,
+      0.445875,
+      0.440166,
+      0.562583,
+      0.504292,
+      0.454333,
+      0.451541,
+      0.50075,
+      0.58075,
+      0.538,
+      0.588584,
+      0.51725,
+      0.532375,
+      0.532042,
+      0.478875,
+      0.636792,
+      0.569334,
+      0.568708,
+      0.498875,
+      0.4835,
+      0.564875,
+      0.481417,
+      0.558166,
+      0.507833,
+      0.503833,
+      0.490042,
+      0.5055,
+      0.467542,
+      0.596958,
+      0.444791,
+      0.504834,
+      0.408125,
+      0.572042,
+      0.456959
+    ],
+    "allExecutingPIDsAliveBeforeCancellation": true,
+    "allTermReceiptsMatched": true,
+    "allProcessGroupsGone": true,
+    "allCapacityOneRequestsRecovered": true,
+    "invalidReadinessRejectedAndAwaited": true
+  },
+  "previousRequiredFailure": {
+    "runId": 41013758617,
+    "jobId": 123925417820,
+    "total": 247,
+    "passed": 246,
+    "failed": 1,
+    "failedMethod": "ProcessTests.executingGroupCancellationDeliversTermAndReturnsCapacity",
+    "reason": "The consumer observed ready after only the first PID had been written",
+    "laterStagesSkipped": true,
+    "fullJobLogBytes": 93968
+  },
+  "nativeInputsUnchanged": {
+    "testedCandidate": "6dcf5142492348d87b93a22e3d425999d5de3e4a",
+    "inputCount": 185,
+    "allHashesMatched": true,
+    "runId": 41013988280
+  },
+  "newRequiredCi": "Pending a newly committed fixed candidate"
+}

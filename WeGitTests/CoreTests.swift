@@ -159,7 +159,8 @@ struct ProcessTests {
                         /bin/sleep 30 &
                         child=$!
                         trap 'wait "$child" 2>/dev/null; printf handled > "$WEGIT_PROCESS_TERM"; exit 143' TERM
-                        printf '%s\\n%s\\n' "$$" "$child" > "$WEGIT_PROCESS_READY"
+                        printf '%s\\n%s\\n' "$$" "$child" > "${WEGIT_PROCESS_READY}.pending" || exit 1
+                        /bin/mv "${WEGIT_PROCESS_READY}.pending" "$WEGIT_PROCESS_READY" || exit 1
                         wait "$child"
                         """,
                     ], environment: environment, timeout: 5))
