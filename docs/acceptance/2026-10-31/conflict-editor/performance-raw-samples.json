@@ -1,0 +1,718 @@
+{
+  "allPassed" : true,
+  "budgetsMilliseconds" : {
+    "markResolved" : 2000,
+    "queuedSaveCancellation" : 500,
+    "read" : 2000,
+    "save" : 2000
+  },
+  "compilerMode" : "Release optimization with -enable-testing for internal queue waiter observation; no XCTest execution",
+  "requiredSamplesPerWorkload" : 30,
+  "residentMemoryBudgetsBytes" : {
+    "large" : 536870912,
+    "ordinary" : 268435456
+  },
+  "scope" : "Release Core conflict read\/save\/resolve with isolated disposable Git fixtures",
+  "workloads" : [
+    {
+      "name" : "ordinary",
+      "objectsAtStart" : {
+        "count" : 19,
+        "garbage" : 0,
+        "in-pack" : 0,
+        "packs" : 0,
+        "prune-packable" : 0,
+        "size" : 76,
+        "size-garbage" : 0,
+        "size-pack" : 0
+      },
+      "objectStatisticsBeforeMeasurement" : "count: 19\nsize: 76\nin-pack: 0\npacks: 0\nsize-pack: 0\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n",
+      "p95MarkResolvedMilliseconds" : 145.71466699999999,
+      "p95QueuedSaveCancelMilliseconds" : 0.012541,
+      "p95ReadMilliseconds" : 144.15774999999999,
+      "p95SaveMilliseconds" : 49.856458000000003,
+      "passed" : true,
+      "peakResidentBytes" : 14188544,
+      "samples" : [
+        {
+          "iteration" : 0,
+          "markResolvedMilliseconds" : 139.24879200000001,
+          "queuedSaveCancelMilliseconds" : 0.048000000000000001,
+          "readMilliseconds" : 138.791042,
+          "saveMilliseconds" : 48.245542
+        },
+        {
+          "iteration" : 1,
+          "markResolvedMilliseconds" : 147.51970800000001,
+          "queuedSaveCancelMilliseconds" : 0.0078329999999999997,
+          "readMilliseconds" : 140.476584,
+          "saveMilliseconds" : 49.223166999999997
+        },
+        {
+          "iteration" : 2,
+          "markResolvedMilliseconds" : 140.07879199999999,
+          "queuedSaveCancelMilliseconds" : 0.0074999999999999997,
+          "readMilliseconds" : 149.418375,
+          "saveMilliseconds" : 49.617874999999998
+        },
+        {
+          "iteration" : 3,
+          "markResolvedMilliseconds" : 139.53566699999999,
+          "queuedSaveCancelMilliseconds" : 0.0082089999999999993,
+          "readMilliseconds" : 143.03591599999999,
+          "saveMilliseconds" : 48.544584
+        },
+        {
+          "iteration" : 4,
+          "markResolvedMilliseconds" : 137.866208,
+          "queuedSaveCancelMilliseconds" : 0.0081250000000000003,
+          "readMilliseconds" : 140.73566600000001,
+          "saveMilliseconds" : 48.402042000000002
+        },
+        {
+          "iteration" : 5,
+          "markResolvedMilliseconds" : 137.94954200000001,
+          "queuedSaveCancelMilliseconds" : 0.0080000000000000002,
+          "readMilliseconds" : 140.69733400000001,
+          "saveMilliseconds" : 48.187624999999997
+        },
+        {
+          "iteration" : 6,
+          "markResolvedMilliseconds" : 138.55954199999999,
+          "queuedSaveCancelMilliseconds" : 0.0078750000000000001,
+          "readMilliseconds" : 136.849042,
+          "saveMilliseconds" : 48.556417000000003
+        },
+        {
+          "iteration" : 7,
+          "markResolvedMilliseconds" : 140.079083,
+          "queuedSaveCancelMilliseconds" : 0.010666999999999999,
+          "readMilliseconds" : 140.25341700000001,
+          "saveMilliseconds" : 47.785666999999997
+        },
+        {
+          "iteration" : 8,
+          "markResolvedMilliseconds" : 139.21620799999999,
+          "queuedSaveCancelMilliseconds" : 0.0095409999999999991,
+          "readMilliseconds" : 140.20458400000001,
+          "saveMilliseconds" : 49.856458000000003
+        },
+        {
+          "iteration" : 9,
+          "markResolvedMilliseconds" : 140.10166599999999,
+          "queuedSaveCancelMilliseconds" : 0.012541,
+          "readMilliseconds" : 143.943375,
+          "saveMilliseconds" : 48.991083000000003
+        },
+        {
+          "iteration" : 10,
+          "markResolvedMilliseconds" : 141.48083299999999,
+          "queuedSaveCancelMilliseconds" : 0.008208,
+          "readMilliseconds" : 140.49254099999999,
+          "saveMilliseconds" : 48.019125000000003
+        },
+        {
+          "iteration" : 11,
+          "markResolvedMilliseconds" : 140.18199999999999,
+          "queuedSaveCancelMilliseconds" : 0.0079170000000000004,
+          "readMilliseconds" : 139.62587500000001,
+          "saveMilliseconds" : 48.329166999999998
+        },
+        {
+          "iteration" : 12,
+          "markResolvedMilliseconds" : 140.19495800000001,
+          "queuedSaveCancelMilliseconds" : 0.0098750000000000001,
+          "readMilliseconds" : 138.599042,
+          "saveMilliseconds" : 47.900083000000002
+        },
+        {
+          "iteration" : 13,
+          "markResolvedMilliseconds" : 140.459125,
+          "queuedSaveCancelMilliseconds" : 0.0098750000000000001,
+          "readMilliseconds" : 139.519667,
+          "saveMilliseconds" : 49.434083000000001
+        },
+        {
+          "iteration" : 14,
+          "markResolvedMilliseconds" : 138.72825,
+          "queuedSaveCancelMilliseconds" : 0.0078750000000000001,
+          "readMilliseconds" : 140.31045800000001,
+          "saveMilliseconds" : 49.028208999999997
+        },
+        {
+          "iteration" : 15,
+          "markResolvedMilliseconds" : 140.30504199999999,
+          "queuedSaveCancelMilliseconds" : 0.0087080000000000005,
+          "readMilliseconds" : 143.02570800000001,
+          "saveMilliseconds" : 49.746625000000002
+        },
+        {
+          "iteration" : 16,
+          "markResolvedMilliseconds" : 140.170917,
+          "queuedSaveCancelMilliseconds" : 0.0094999999999999998,
+          "readMilliseconds" : 138.46991600000001,
+          "saveMilliseconds" : 49.351875
+        },
+        {
+          "iteration" : 17,
+          "markResolvedMilliseconds" : 138.96145799999999,
+          "queuedSaveCancelMilliseconds" : 0.0074580000000000002,
+          "readMilliseconds" : 140.17129199999999,
+          "saveMilliseconds" : 48.372334000000002
+        },
+        {
+          "iteration" : 18,
+          "markResolvedMilliseconds" : 141.24533299999999,
+          "queuedSaveCancelMilliseconds" : 0.0085000000000000006,
+          "readMilliseconds" : 140.36266699999999,
+          "saveMilliseconds" : 49.264167
+        },
+        {
+          "iteration" : 19,
+          "markResolvedMilliseconds" : 140.60133400000001,
+          "queuedSaveCancelMilliseconds" : 0.0077499999999999999,
+          "readMilliseconds" : 139.77166700000001,
+          "saveMilliseconds" : 48.518459
+        },
+        {
+          "iteration" : 20,
+          "markResolvedMilliseconds" : 139.857541,
+          "queuedSaveCancelMilliseconds" : 0.0079579999999999998,
+          "readMilliseconds" : 139.27825000000001,
+          "saveMilliseconds" : 49.817500000000003
+        },
+        {
+          "iteration" : 21,
+          "markResolvedMilliseconds" : 144.091917,
+          "queuedSaveCancelMilliseconds" : 0.0080000000000000002,
+          "readMilliseconds" : 139.765916,
+          "saveMilliseconds" : 48.406834000000003
+        },
+        {
+          "iteration" : 22,
+          "markResolvedMilliseconds" : 140.05866700000001,
+          "queuedSaveCancelMilliseconds" : 0.0072919999999999999,
+          "readMilliseconds" : 140.743833,
+          "saveMilliseconds" : 48.548166999999999
+        },
+        {
+          "iteration" : 23,
+          "markResolvedMilliseconds" : 138.86000000000001,
+          "queuedSaveCancelMilliseconds" : 0.007208,
+          "readMilliseconds" : 139.456209,
+          "saveMilliseconds" : 48.403416999999997
+        },
+        {
+          "iteration" : 24,
+          "markResolvedMilliseconds" : 140.80449999999999,
+          "queuedSaveCancelMilliseconds" : 0.010791,
+          "readMilliseconds" : 140.29425000000001,
+          "saveMilliseconds" : 48.435791999999999
+        },
+        {
+          "iteration" : 25,
+          "markResolvedMilliseconds" : 138.88716700000001,
+          "queuedSaveCancelMilliseconds" : 0.010749999999999999,
+          "readMilliseconds" : 139.713166,
+          "saveMilliseconds" : 48.036040999999997
+        },
+        {
+          "iteration" : 26,
+          "markResolvedMilliseconds" : 142.74083300000001,
+          "queuedSaveCancelMilliseconds" : 0.0077499999999999999,
+          "readMilliseconds" : 138.393542,
+          "saveMilliseconds" : 47.797583000000003
+        },
+        {
+          "iteration" : 27,
+          "markResolvedMilliseconds" : 145.71466699999999,
+          "queuedSaveCancelMilliseconds" : 0.0070419999999999996,
+          "readMilliseconds" : 144.15774999999999,
+          "saveMilliseconds" : 50.427624999999999
+        },
+        {
+          "iteration" : 28,
+          "markResolvedMilliseconds" : 139.00708299999999,
+          "queuedSaveCancelMilliseconds" : 0.0080000000000000002,
+          "readMilliseconds" : 140.73041599999999,
+          "saveMilliseconds" : 49.556874999999998
+        },
+        {
+          "iteration" : 29,
+          "markResolvedMilliseconds" : 138.346958,
+          "queuedSaveCancelMilliseconds" : 0.0073749999999999996,
+          "readMilliseconds" : 140.22241700000001,
+          "saveMilliseconds" : 49.129541000000003
+        }
+      ],
+      "trackedFiles" : 10
+    },
+    {
+      "name" : "large-loose",
+      "objectsAtStart" : {
+        "count" : 5009,
+        "garbage" : 0,
+        "in-pack" : 0,
+        "packs" : 0,
+        "prune-packable" : 0,
+        "size" : 20396,
+        "size-garbage" : 0,
+        "size-pack" : 0
+      },
+      "objectStatisticsBeforeMeasurement" : "count: 5009\nsize: 20396\nin-pack: 0\npacks: 0\nsize-pack: 0\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n",
+      "p95MarkResolvedMilliseconds" : 235.40716699999999,
+      "p95QueuedSaveCancelMilliseconds" : 0.010709,
+      "p95ReadMilliseconds" : 174.99087499999999,
+      "p95SaveMilliseconds" : 79.318916000000002,
+      "passed" : true,
+      "peakResidentBytes" : 29556736,
+      "samples" : [
+        {
+          "iteration" : 0,
+          "markResolvedMilliseconds" : 224.20708300000001,
+          "queuedSaveCancelMilliseconds" : 0.0075830000000000003,
+          "readMilliseconds" : 165.60033300000001,
+          "saveMilliseconds" : 70.550416999999996
+        },
+        {
+          "iteration" : 1,
+          "markResolvedMilliseconds" : 222.124,
+          "queuedSaveCancelMilliseconds" : 0.0086250000000000007,
+          "readMilliseconds" : 168.20133300000001,
+          "saveMilliseconds" : 71.137416999999999
+        },
+        {
+          "iteration" : 2,
+          "markResolvedMilliseconds" : 229.40366700000001,
+          "queuedSaveCancelMilliseconds" : 0.0081670000000000006,
+          "readMilliseconds" : 165.104208,
+          "saveMilliseconds" : 71.830332999999996
+        },
+        {
+          "iteration" : 3,
+          "markResolvedMilliseconds" : 221.86824999999999,
+          "queuedSaveCancelMilliseconds" : 0.0090419999999999997,
+          "readMilliseconds" : 168.07737499999999,
+          "saveMilliseconds" : 72.058833000000007
+        },
+        {
+          "iteration" : 4,
+          "markResolvedMilliseconds" : 224.40783300000001,
+          "queuedSaveCancelMilliseconds" : 0.0081250000000000003,
+          "readMilliseconds" : 166.299542,
+          "saveMilliseconds" : 70.540875
+        },
+        {
+          "iteration" : 5,
+          "markResolvedMilliseconds" : 222.42916600000001,
+          "queuedSaveCancelMilliseconds" : 0.0087089999999999997,
+          "readMilliseconds" : 165.98804200000001,
+          "saveMilliseconds" : 70.536375000000007
+        },
+        {
+          "iteration" : 6,
+          "markResolvedMilliseconds" : 224.70137500000001,
+          "queuedSaveCancelMilliseconds" : 0.010709,
+          "readMilliseconds" : 174.99087499999999,
+          "saveMilliseconds" : 79.318916000000002
+        },
+        {
+          "iteration" : 7,
+          "markResolvedMilliseconds" : 224.45474999999999,
+          "queuedSaveCancelMilliseconds" : 0.0078329999999999997,
+          "readMilliseconds" : 164.97262499999999,
+          "saveMilliseconds" : 71.272082999999995
+        },
+        {
+          "iteration" : 8,
+          "markResolvedMilliseconds" : 224.85537500000001,
+          "queuedSaveCancelMilliseconds" : 0.0097090000000000006,
+          "readMilliseconds" : 166.42320900000001,
+          "saveMilliseconds" : 72.138334
+        },
+        {
+          "iteration" : 9,
+          "markResolvedMilliseconds" : 223.34733299999999,
+          "queuedSaveCancelMilliseconds" : 0.0084589999999999995,
+          "readMilliseconds" : 166.75024999999999,
+          "saveMilliseconds" : 71.525334000000001
+        },
+        {
+          "iteration" : 10,
+          "markResolvedMilliseconds" : 222.94125,
+          "queuedSaveCancelMilliseconds" : 0.009417,
+          "readMilliseconds" : 170.004875,
+          "saveMilliseconds" : 70.951834000000005
+        },
+        {
+          "iteration" : 11,
+          "markResolvedMilliseconds" : 224.214833,
+          "queuedSaveCancelMilliseconds" : 0.0086250000000000007,
+          "readMilliseconds" : 166.77533399999999,
+          "saveMilliseconds" : 70.940832999999998
+        },
+        {
+          "iteration" : 12,
+          "markResolvedMilliseconds" : 228.275541,
+          "queuedSaveCancelMilliseconds" : 0.0079590000000000008,
+          "readMilliseconds" : 167.93829199999999,
+          "saveMilliseconds" : 71.703083000000007
+        },
+        {
+          "iteration" : 13,
+          "markResolvedMilliseconds" : 222.85933299999999,
+          "queuedSaveCancelMilliseconds" : 0.010125,
+          "readMilliseconds" : 164.446,
+          "saveMilliseconds" : 71.268000000000001
+        },
+        {
+          "iteration" : 14,
+          "markResolvedMilliseconds" : 256.71600000000001,
+          "queuedSaveCancelMilliseconds" : 0.009417,
+          "readMilliseconds" : 165.41620800000001,
+          "saveMilliseconds" : 71.150041000000002
+        },
+        {
+          "iteration" : 15,
+          "markResolvedMilliseconds" : 223.706917,
+          "queuedSaveCancelMilliseconds" : 0.0089160000000000003,
+          "readMilliseconds" : 167.16874999999999,
+          "saveMilliseconds" : 72.3035
+        },
+        {
+          "iteration" : 16,
+          "markResolvedMilliseconds" : 225.97591600000001,
+          "queuedSaveCancelMilliseconds" : 0.0082089999999999993,
+          "readMilliseconds" : 168.67504099999999,
+          "saveMilliseconds" : 70.600042000000002
+        },
+        {
+          "iteration" : 17,
+          "markResolvedMilliseconds" : 223.45108300000001,
+          "queuedSaveCancelMilliseconds" : 0.0084580000000000002,
+          "readMilliseconds" : 169.23070799999999,
+          "saveMilliseconds" : 71.034666999999999
+        },
+        {
+          "iteration" : 18,
+          "markResolvedMilliseconds" : 222.27420799999999,
+          "queuedSaveCancelMilliseconds" : 0.0091249999999999994,
+          "readMilliseconds" : 164.40279200000001,
+          "saveMilliseconds" : 71.285207999999997
+        },
+        {
+          "iteration" : 19,
+          "markResolvedMilliseconds" : 226.065291,
+          "queuedSaveCancelMilliseconds" : 0.0098329999999999997,
+          "readMilliseconds" : 165.097542,
+          "saveMilliseconds" : 72.326999999999998
+        },
+        {
+          "iteration" : 20,
+          "markResolvedMilliseconds" : 222.806084,
+          "queuedSaveCancelMilliseconds" : 0.0077499999999999999,
+          "readMilliseconds" : 166.69204099999999,
+          "saveMilliseconds" : 70.664167000000006
+        },
+        {
+          "iteration" : 21,
+          "markResolvedMilliseconds" : 222.295042,
+          "queuedSaveCancelMilliseconds" : 0.0088330000000000006,
+          "readMilliseconds" : 166.423542,
+          "saveMilliseconds" : 70.579291999999995
+        },
+        {
+          "iteration" : 22,
+          "markResolvedMilliseconds" : 230.66287500000001,
+          "queuedSaveCancelMilliseconds" : 0.0077089999999999997,
+          "readMilliseconds" : 165.673541,
+          "saveMilliseconds" : 71.193083000000001
+        },
+        {
+          "iteration" : 23,
+          "markResolvedMilliseconds" : 224.793542,
+          "queuedSaveCancelMilliseconds" : 0.0093749999999999997,
+          "readMilliseconds" : 167.18966599999999,
+          "saveMilliseconds" : 71.265040999999997
+        },
+        {
+          "iteration" : 24,
+          "markResolvedMilliseconds" : 235.40716699999999,
+          "queuedSaveCancelMilliseconds" : 0.0086660000000000001,
+          "readMilliseconds" : 196.55137500000001,
+          "saveMilliseconds" : 82.068040999999994
+        },
+        {
+          "iteration" : 25,
+          "markResolvedMilliseconds" : 225.45991599999999,
+          "queuedSaveCancelMilliseconds" : 0.010167000000000001,
+          "readMilliseconds" : 171.46799999999999,
+          "saveMilliseconds" : 72.880250000000004
+        },
+        {
+          "iteration" : 26,
+          "markResolvedMilliseconds" : 225.01245800000001,
+          "queuedSaveCancelMilliseconds" : 0.0093749999999999997,
+          "readMilliseconds" : 173.45500000000001,
+          "saveMilliseconds" : 71.917541
+        },
+        {
+          "iteration" : 27,
+          "markResolvedMilliseconds" : 223.24962500000001,
+          "queuedSaveCancelMilliseconds" : 0.0076670000000000002,
+          "readMilliseconds" : 174.20504199999999,
+          "saveMilliseconds" : 71.160666000000006
+        },
+        {
+          "iteration" : 28,
+          "markResolvedMilliseconds" : 224.22283400000001,
+          "queuedSaveCancelMilliseconds" : 0.0067920000000000003,
+          "readMilliseconds" : 166.11837499999999,
+          "saveMilliseconds" : 72.381208000000001
+        },
+        {
+          "iteration" : 29,
+          "markResolvedMilliseconds" : 224.02241599999999,
+          "queuedSaveCancelMilliseconds" : 0.010792,
+          "readMilliseconds" : 168.26675,
+          "saveMilliseconds" : 72.984707999999998
+        }
+      ],
+      "trackedFiles" : 5000
+    },
+    {
+      "name" : "large-packed",
+      "objectsAtStart" : {
+        "count" : 0,
+        "garbage" : 0,
+        "in-pack" : 5009,
+        "packs" : 1,
+        "prune-packable" : 0,
+        "size" : 0,
+        "size-garbage" : 0,
+        "size-pack" : 407
+      },
+      "objectStatisticsBeforeMeasurement" : "count: 0\nsize: 0\nin-pack: 5009\npacks: 1\nsize-pack: 407\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n",
+      "p95MarkResolvedMilliseconds" : 252.86220800000001,
+      "p95QueuedSaveCancelMilliseconds" : 0.011542,
+      "p95ReadMilliseconds" : 199.46087499999999,
+      "p95SaveMilliseconds" : 75.212417000000002,
+      "passed" : true,
+      "peakResidentBytes" : 31670272,
+      "samples" : [
+        {
+          "iteration" : 0,
+          "markResolvedMilliseconds" : 224.49283299999999,
+          "queuedSaveCancelMilliseconds" : 0.0098329999999999997,
+          "readMilliseconds" : 165.177708,
+          "saveMilliseconds" : 71.195708999999994
+        },
+        {
+          "iteration" : 1,
+          "markResolvedMilliseconds" : 224.39233300000001,
+          "queuedSaveCancelMilliseconds" : 0.0080839999999999992,
+          "readMilliseconds" : 168.675667,
+          "saveMilliseconds" : 74.843999999999994
+        },
+        {
+          "iteration" : 2,
+          "markResolvedMilliseconds" : 228.78966600000001,
+          "queuedSaveCancelMilliseconds" : 0.0076670000000000002,
+          "readMilliseconds" : 167.67045899999999,
+          "saveMilliseconds" : 72.788499999999999
+        },
+        {
+          "iteration" : 3,
+          "markResolvedMilliseconds" : 224.918375,
+          "queuedSaveCancelMilliseconds" : 0.0077920000000000003,
+          "readMilliseconds" : 167.37845899999999,
+          "saveMilliseconds" : 71.419416999999996
+        },
+        {
+          "iteration" : 4,
+          "markResolvedMilliseconds" : 224.17795899999999,
+          "queuedSaveCancelMilliseconds" : 0.0086669999999999994,
+          "readMilliseconds" : 167.401084,
+          "saveMilliseconds" : 71.809875000000005
+        },
+        {
+          "iteration" : 5,
+          "markResolvedMilliseconds" : 223.35158300000001,
+          "queuedSaveCancelMilliseconds" : 0.007417,
+          "readMilliseconds" : 166.00454099999999,
+          "saveMilliseconds" : 70.727625000000003
+        },
+        {
+          "iteration" : 6,
+          "markResolvedMilliseconds" : 225.88900000000001,
+          "queuedSaveCancelMilliseconds" : 0.0092919999999999999,
+          "readMilliseconds" : 165.78104099999999,
+          "saveMilliseconds" : 72.036625000000001
+        },
+        {
+          "iteration" : 7,
+          "markResolvedMilliseconds" : 224.44399999999999,
+          "queuedSaveCancelMilliseconds" : 0.0096249999999999999,
+          "readMilliseconds" : 166.145917,
+          "saveMilliseconds" : 71.731542000000005
+        },
+        {
+          "iteration" : 8,
+          "markResolvedMilliseconds" : 227.48654199999999,
+          "queuedSaveCancelMilliseconds" : 0.009417,
+          "readMilliseconds" : 166.44187500000001,
+          "saveMilliseconds" : 71.429292000000004
+        },
+        {
+          "iteration" : 9,
+          "markResolvedMilliseconds" : 223.77025,
+          "queuedSaveCancelMilliseconds" : 0.0087080000000000005,
+          "readMilliseconds" : 171.16570899999999,
+          "saveMilliseconds" : 74.135582999999997
+        },
+        {
+          "iteration" : 10,
+          "markResolvedMilliseconds" : 225.99137500000001,
+          "queuedSaveCancelMilliseconds" : 0.0089999999999999993,
+          "readMilliseconds" : 168.41520800000001,
+          "saveMilliseconds" : 70.972875000000002
+        },
+        {
+          "iteration" : 11,
+          "markResolvedMilliseconds" : 222.53550000000001,
+          "queuedSaveCancelMilliseconds" : 0.0096249999999999999,
+          "readMilliseconds" : 164.69720799999999,
+          "saveMilliseconds" : 71.209041999999997
+        },
+        {
+          "iteration" : 12,
+          "markResolvedMilliseconds" : 226.85033300000001,
+          "queuedSaveCancelMilliseconds" : 0.011542,
+          "readMilliseconds" : 167.30279200000001,
+          "saveMilliseconds" : 70.910832999999997
+        },
+        {
+          "iteration" : 13,
+          "markResolvedMilliseconds" : 222.38220899999999,
+          "queuedSaveCancelMilliseconds" : 0.010208999999999999,
+          "readMilliseconds" : 167.23724999999999,
+          "saveMilliseconds" : 72.294875000000005
+        },
+        {
+          "iteration" : 14,
+          "markResolvedMilliseconds" : 271.36799999999999,
+          "queuedSaveCancelMilliseconds" : 0.00975,
+          "readMilliseconds" : 246.97466700000001,
+          "saveMilliseconds" : 86.729709
+        },
+        {
+          "iteration" : 15,
+          "markResolvedMilliseconds" : 225.23654199999999,
+          "queuedSaveCancelMilliseconds" : 0.012166,
+          "readMilliseconds" : 172.66537500000001,
+          "saveMilliseconds" : 72.580624999999998
+        },
+        {
+          "iteration" : 16,
+          "markResolvedMilliseconds" : 225.905542,
+          "queuedSaveCancelMilliseconds" : 0.0083339999999999994,
+          "readMilliseconds" : 168.07829100000001,
+          "saveMilliseconds" : 75.212417000000002
+        },
+        {
+          "iteration" : 17,
+          "markResolvedMilliseconds" : 224.14441600000001,
+          "queuedSaveCancelMilliseconds" : 0.0091669999999999998,
+          "readMilliseconds" : 167.400417,
+          "saveMilliseconds" : 72.063167000000007
+        },
+        {
+          "iteration" : 18,
+          "markResolvedMilliseconds" : 225.01658399999999,
+          "queuedSaveCancelMilliseconds" : 0.010416999999999999,
+          "readMilliseconds" : 169.49745799999999,
+          "saveMilliseconds" : 71.871791999999999
+        },
+        {
+          "iteration" : 19,
+          "markResolvedMilliseconds" : 228.028583,
+          "queuedSaveCancelMilliseconds" : 0.0096249999999999999,
+          "readMilliseconds" : 168.80375000000001,
+          "saveMilliseconds" : 72.012708000000003
+        },
+        {
+          "iteration" : 20,
+          "markResolvedMilliseconds" : 226.86441600000001,
+          "queuedSaveCancelMilliseconds" : 0.0085000000000000006,
+          "readMilliseconds" : 199.46087499999999,
+          "saveMilliseconds" : 72.172957999999994
+        },
+        {
+          "iteration" : 21,
+          "markResolvedMilliseconds" : 252.86220800000001,
+          "queuedSaveCancelMilliseconds" : 0.0094999999999999998,
+          "readMilliseconds" : 185.72604200000001,
+          "saveMilliseconds" : 74.617417000000003
+        },
+        {
+          "iteration" : 22,
+          "markResolvedMilliseconds" : 226.905125,
+          "queuedSaveCancelMilliseconds" : 0.0087500000000000008,
+          "readMilliseconds" : 172.806083,
+          "saveMilliseconds" : 72.058290999999997
+        },
+        {
+          "iteration" : 23,
+          "markResolvedMilliseconds" : 236.629042,
+          "queuedSaveCancelMilliseconds" : 0.0094999999999999998,
+          "readMilliseconds" : 167.66287500000001,
+          "saveMilliseconds" : 73.930250000000001
+        },
+        {
+          "iteration" : 24,
+          "markResolvedMilliseconds" : 229.167,
+          "queuedSaveCancelMilliseconds" : 0.0086250000000000007,
+          "readMilliseconds" : 168.363125,
+          "saveMilliseconds" : 71.871834000000007
+        },
+        {
+          "iteration" : 25,
+          "markResolvedMilliseconds" : 228.39254099999999,
+          "queuedSaveCancelMilliseconds" : 0.0095409999999999991,
+          "readMilliseconds" : 172.64500000000001,
+          "saveMilliseconds" : 72.028499999999994
+        },
+        {
+          "iteration" : 26,
+          "markResolvedMilliseconds" : 226.94654199999999,
+          "queuedSaveCancelMilliseconds" : 0.0097090000000000006,
+          "readMilliseconds" : 170.47300000000001,
+          "saveMilliseconds" : 71.871375
+        },
+        {
+          "iteration" : 27,
+          "markResolvedMilliseconds" : 226.474209,
+          "queuedSaveCancelMilliseconds" : 0.010333999999999999,
+          "readMilliseconds" : 168.95629199999999,
+          "saveMilliseconds" : 72.456541999999999
+        },
+        {
+          "iteration" : 28,
+          "markResolvedMilliseconds" : 229.88841600000001,
+          "queuedSaveCancelMilliseconds" : 0.010500000000000001,
+          "readMilliseconds" : 167.86000000000001,
+          "saveMilliseconds" : 71.766208000000006
+        },
+        {
+          "iteration" : 29,
+          "markResolvedMilliseconds" : 225.78983299999999,
+          "queuedSaveCancelMilliseconds" : 0.0078750000000000001,
+          "readMilliseconds" : 166.023709,
+          "saveMilliseconds" : 74.079707999999997
+        }
+      ],
+      "trackedFiles" : 5000
+    }
+  ],
+  "xctestExecuted" : false
+}
