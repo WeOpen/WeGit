@@ -768,3 +768,8 @@
 - 新Core仅在已核对每步单父且连续接上共同起点的线性原序列，先读取目标/起点，然后有界解析树ID及一次批量raw差异；校验逐对比较OID头、NUL边界、mode/旧OID/新OID/路径与缺对象。沿用同一derive和原changed-blob、metadata/entry上限、路径/全身份/index/原HEAD保护，不跨prepare缓存。复杂/有空缺父线继续原读取路径。已Release编译，正在真实CLI/Core编译与单次profile；尚不当新源码XCTest或90样本通过。
 
 - 第十代线性batch当前48项实际私有Git通过，包括批次中的空提交、源增删/mode/换行路径和空目标，以及原全部签名/恢复/外部/取消/merge driver/index保护。Core与native build-for-testing实际成功（只编译，未本机XCTest）；真实app build receipt全部185输入SHA与当前源码一致。单次large-loose1822.833ms/111命令/2ls-tree，原HEAD/index保持；这不是30样本结论。现在固定新candidate再普通/loose/packed各30原预算，同源新Core必须托管重新验。
+
+## 2026-10-30 固定8590566全部90样本原预算实际通过
+
+- 固定8590566e16323ae5bfc9be3f09bd0e429e217a5e普通10文件/5commit、大型loose与packed各5000文件/30commit、三类各30全部有效，12项performance inputs与该commit逐SHA核验，原2000ms读/500ms取消/RSS256-512MiB不变。ordinary first319.708/steady316.765/recovered323.855/cancel0.585ms/RSS14254080；large-loose1435.944/1442.452/1474.454/cancel0.374ms/RSS93765632；packed1251.917/1294.662/1268.202/cancel0.382ms/RSS95944704全部过。全部raw数组、原源输入和旧失败/原tar/NoMacMetadata归档保留。
+- 当前48项真实CLI和Core/native compile-only通过，实际app185输入匹配；新Core/UI受测输入与ec874e2成功源不同，不能复用旧成功当新源码运行。现仅补docs，再确认源输入等价、正常push既有PR80并新required/trusted smoke+Rebase；原120/180秒/总1pass1fail0skip0/完整源制品/截图门禁不改。Issue78不提前关，全部后续与M5继续。
