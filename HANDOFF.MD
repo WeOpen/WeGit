@@ -773,3 +773,17 @@
 
 - 固定8590566e16323ae5bfc9be3f09bd0e429e217a5e普通10文件/5commit、大型loose与packed各5000文件/30commit、三类各30全部有效，12项performance inputs与该commit逐SHA核验，原2000ms读/500ms取消/RSS256-512MiB不变。ordinary first319.708/steady316.765/recovered323.855/cancel0.585ms/RSS14254080；large-loose1435.944/1442.452/1474.454/cancel0.374ms/RSS93765632；packed1251.917/1294.662/1268.202/cancel0.382ms/RSS95944704全部过。全部raw数组、原源输入和旧失败/原tar/NoMacMetadata归档保留。
 - 当前48项真实CLI和Core/native compile-only通过，实际app185输入匹配；新Core/UI受测输入与ec874e2成功源不同，不能复用旧成功当新源码运行。现仅补docs，再确认源输入等价、正常push既有PR80并新required/trusted smoke+Rebase；原120/180秒/总1pass1fail0skip0/完整源制品/截图门禁不改。Issue78不提前关，全部后续与M5继续。
+
+## 2026-10-30 新Core37eeb89可信原生完整实际通过
+
+- main507f03b正常一次dispatch40985742422/job123836220852；artifact12947027640完整118049012bytes/SHAfa0ac6611670dfa01b55cc8e5ccf4c2d7f5a9b7d68bcf565cb67ada0935f5782/2113CRC全部通过，185个实际app源输入与37eeb89逐SHA匹配。smoke/唯一Rebase直接summary各1总1pass0fail0skip。直接tests节点方法108.379461秒<120，outer119.782<180；QoS warning完整留存。不代表整版、完整VoiceOver或安装发布验收。
+- 同源4图/4AX已实际查看：980×692点窗口，托管PNG本轮实际980×692像素；中文浅色固定SHA/发布确认、移动目标拒绝、英文深色重开第二冲突、Abort恢复feature/clean和原草稿，Tab/Return/Escape及筛选焦点在实际用例通过。首次归档脚本误套本机Retina1960×1384断言，读PNG后已纠正；此真实exec进ledger，不修改/插值原截图。完整xcresult/日志/zip与4图4AX均保留。
+- CUA本轮只inventory读，旧60670已退出，不getApp普通重开。6个当前用户文件SHA保持，历史sharedUITest/shm限制不抹。UIUX仅Platform All通用Focus States匹配，无Mac焦点恢复专项匹配，不套Web/iOS像素规定。下一步最新必需CI/reviews后正常集成80；所有05/07/08/09及最终M5持续。
+
+## 2026-10-30 新required37eeb89完整失败：取得托管profile后再决定Core优化
+
+- required40985314561/job123834985464真实failure在Native feature behavior checks。Apple与最低Git两套各245/43 Core实际过，CLI48过；随后90有效样本ordinary638.696/589.826/596.611ms过，loose2696.365/2806.447/3139.467超原2000，packed2001.171/2120.586/1885.311首次/稳态超。cancel/RSS均过，后续Homebrew/GPG/native/打包跳过，不当三Git全部通过。原本机859/37的90通过不覆盖这次失败。
+- 完整artifact12947941151（5080663bytes/SHAb520ccd653c27c520b44ae34cb33d37ff9fab60ff6d1cc34529861f8020a8f18/4CRC）含全部90数组与无AppleDouble私有fixture，15544成员、16MiB/20000上限和12输入与37eeb89逐SHA核验。主根解包fixture/evidence与旧失败完整保留。
+- 新checker只在allPassed=false之后，对各失败存储做一次总30秒/2000命令有界的ProfileRunner诊断，保留每命令args/输入输出bytes/时间与原HEAD/index验证。30原样本/2000/500/RSS、测量阶段与成功路径不改。新方法已编译，复制的托管fixture独立两类实际probe成功且HEAD/index保持；这不是VM profile或新的30样本通过。下一正常CI读取VM真实瓶颈；产品/Core/App/UItests/trusted入口未改，37eeb89成功原生同源不重复dispatch。
+
+- 复制VM归档到本机后，index中stat节点来自VM。独立profile最初status两调用约635ms，不能据此当作VM瓶颈。已仅备份并刷新私有解包副本index（原archive/report/user索引未改），再profile对照，原字节/新index SHA和结果留receipt。托管判定仍需要下一CI真实post-failure profile，不用本机副本替代。

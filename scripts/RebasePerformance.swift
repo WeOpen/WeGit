@@ -3,6 +3,42 @@ import Darwin
 import Foundation
 import WeGitCore
 
+private struct RebaseReadProfileRecord: Codable, Sendable {
+    let command: String
+    let arguments: [String]
+    let milliseconds: Double
+    let inputBytes: Int
+    let outputBytes: Int
+}
+
+private actor RebaseReadProfilingRunner: ProcessRunning {
+    private let base = ProcessRunner()
+    private let clock = ContinuousClock()
+    private var deadline: ContinuousClock.Instant?
+    private var records: [RebaseReadProfileRecord] = []
+    func reset() {
+        records = []
+        deadline = clock.now.advanced(by: .seconds(30))
+    }
+    func snapshot() -> [RebaseReadProfileRecord] { records }
+    func run(_ request: ProcessRequest) async throws -> ProcessResult {
+        var bounded = request
+        if let deadline {
+            let time = clock.now.duration(to: deadline).components
+            let remaining = Double(time.seconds) + Double(time.attoseconds) / 1e18
+            guard remaining > 0, records.count < 2_000 else { throw ProcessFailure.timedOut }
+            bounded.timeout = min(request.timeout, remaining)
+        }
+        let result = try await base.run(bounded)
+        records.append(
+            RebaseReadProfileRecord(
+                command: request.arguments.drop(while: { $0.hasPrefix("--") }).first ?? "unknown",
+                arguments: request.arguments, milliseconds: result.duration * 1_000,
+                inputBytes: request.input?.count ?? 0, outputBytes: result.stdout.count))
+        return result
+    }
+}
+
 @main struct RebasePerformance {
     struct Sample: Codable {
         let iteration: Int
@@ -114,6 +150,48 @@ import WeGitCore
                 environment: archiveEnvironment, timeout: 30))
         try require(result.exitCode == 0, "Failure fixture archive failed")
         return archive.lastPathComponent
+    }
+    static func profileFailureRead(
+        name: String, replayCommits: Int, parent: URL, executable: URL, environment: [String: String]
+    ) async throws -> [String: Any] {
+        let root = parent.appending(path: name)
+        let runner = RebaseReadProfilingRunner()
+        let engine = GitEngine(executable: executable, runner: runner, environment: environment)
+        let location = try await RepositoryService.discover(root, engine: engine)
+        let service = RepositoryService(location: location, engine: engine)
+        guard let target = try await service.branches().first(where: { $0.name == "main" }) else {
+            throw Failure.assertion("Profile target disappeared")
+        }
+        let indexPath = location.gitDirectory.appending(path: "index")
+        let index = try Data(contentsOf: indexPath)
+        let head = try await service.head()
+        await runner.reset()
+        let clock = ContinuousClock()
+        let start = clock.now
+        let preview = try await service.prepareRebase(target: target)
+        let elapsed = milliseconds(start.duration(to: clock.now))
+        let records = await runner.snapshot()
+        let afterHead = try await service.head()
+        try require(
+            head == afterHead && preview.head == head && preview.commits.count == replayCommits
+                && (try Data(contentsOf: indexPath)) == index,
+            "Post-failure profile changed HEAD, index or fixed replay")
+        var grouped: [String: [String: Double]] = [:]
+        for record in records {
+            var group = grouped[record.command] ?? [:]
+            group["count", default: 0] += 1
+            group["milliseconds", default: 0] += record.milliseconds
+            group["inputBytes", default: 0] += Double(record.inputBytes)
+            group["outputBytes", default: 0] += Double(record.outputBytes)
+            grouped[record.command] = group
+        }
+        return [
+            "workload": name, "milliseconds": elapsed, "commandCount": records.count,
+            "processMilliseconds": records.reduce(0) { $0 + $1.milliseconds }, "grouped": grouped,
+            "records": try JSONSerialization.jsonObject(with: JSONEncoder().encode(records)),
+            "headAndIndexPreserved": true,
+            "scope": "One bounded post-failure diagnostic, excluded from all 30-sample budget measurements",
+        ]
     }
     static func main() async {
         do { try await run() } catch {
@@ -317,6 +395,18 @@ import WeGitCore
                 "CLI fixed-range preparation with explicit loose/packed object storage and fixture-only automatic maintenance disabled; cancellation after a delay wrapper and child are alive; no claim about unmodified Git's large-repo cancellation or native/version acceptance",
         ]
         if !reports.allSatisfy(\.passed) {
+            var profiles: [[String: Any]] = []
+            for failed in reports where !failed.passed {
+                do {
+                    profiles.append(
+                        try await profileFailureRead(
+                            name: failed.name, replayCommits: failed.replayCommits, parent: parent,
+                            executable: executable, environment: environment))
+                } catch {
+                    profiles.append(["workload": failed.name, "error": String(describing: error)])
+                }
+            }
+            report["failureReadProfiles"] = profiles
             do {
                 report["failureFixtureArchive"] = try await retainFailureFixture(
                     parent: parent, output: output, identity: parentIdentity)
