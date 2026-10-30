@@ -1,0 +1,74 @@
+{
+  "scope": "Release Core conflict read/save/resolve with isolated disposable Git fixtures",
+  "allPassed": true,
+  "requiredSamplesPerWorkload": 30,
+  "budgetsMilliseconds": {
+    "markResolved": 2000,
+    "queuedSaveCancellation": 500,
+    "read": 2000,
+    "save": 2000
+  },
+  "workloads": [
+    {
+      "name": "ordinary",
+      "trackedFiles": 10,
+      "objectsAtStart": {
+        "count": 19,
+        "garbage": 0,
+        "in-pack": 0,
+        "packs": 0,
+        "prune-packable": 0,
+        "size": 76,
+        "size-garbage": 0,
+        "size-pack": 0
+      },
+      "p95ReadMilliseconds": 190.552208,
+      "p95SaveMilliseconds": 59.262833,
+      "p95MarkResolvedMilliseconds": 155.629875,
+      "p95QueuedSaveCancelMilliseconds": 0.01175,
+      "peakResidentBytes": 14204928,
+      "passed": true
+    },
+    {
+      "name": "large-loose",
+      "trackedFiles": 5000,
+      "objectsAtStart": {
+        "count": 5009,
+        "garbage": 0,
+        "in-pack": 0,
+        "packs": 0,
+        "prune-packable": 0,
+        "size": 20396,
+        "size-garbage": 0,
+        "size-pack": 0
+      },
+      "p95ReadMilliseconds": 182.585125,
+      "p95SaveMilliseconds": 75.950333,
+      "p95MarkResolvedMilliseconds": 231.885375,
+      "p95QueuedSaveCancelMilliseconds": 0.011208,
+      "peakResidentBytes": 29556736,
+      "passed": true
+    },
+    {
+      "name": "large-packed",
+      "trackedFiles": 5000,
+      "objectsAtStart": {
+        "count": 0,
+        "garbage": 0,
+        "in-pack": 5009,
+        "packs": 1,
+        "prune-packable": 0,
+        "size": 0,
+        "size-garbage": 0,
+        "size-pack": 407
+      },
+      "p95ReadMilliseconds": 171.739709,
+      "p95SaveMilliseconds": 73.491916,
+      "p95MarkResolvedMilliseconds": 226.203583,
+      "p95QueuedSaveCancelMilliseconds": 0.011375,
+      "peakResidentBytes": 31244288,
+      "passed": true
+    }
+  ],
+  "xctestExecuted": false
+}

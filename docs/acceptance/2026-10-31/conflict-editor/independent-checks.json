@@ -1,0 +1,15 @@
+{
+  "checker": "scripts/ConflictEditorChecks.swift",
+  "checks": 27,
+  "passed": true,
+  "scope": [
+    "parser CRLF, final newline and malformed markers",
+    "Merge, Cherry-pick, Revert and Rebase source provenance",
+    "save result without changing index",
+    "mark resolved and preserve unrelated index entries",
+    "external working file, index, HEAD, operation metadata, mode and parent replacement rejection",
+    "merge driver, content filter, invalid UTF-8, symlink and foreign index lock rejection"
+  ],
+  "gitConfig": "private disposable repositories with isolated global/system configuration",
+  "xctestExecuted": false
+}

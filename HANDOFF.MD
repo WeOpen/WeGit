@@ -834,3 +834,39 @@
 - Git 2.54 在签名失败时会把失败 pick 同时留在 `done` 和 `git-rebase-todo`；继续操作必须验证暂存树只包含该 pick 的生成结果，重置后让 Git 重放 todo。Git 2.56 会清空 todo、把失败对象写入 `stopped-sha`，并留下生成结果暂存；此布局通过 `gpg_sign_opt`、匹配的 `CHERRY_PICK_HEAD`、匹配的最后一个已完成 pick，以及只读重放无冲突来识别。普通签名冲突没有匹配的 `CHERRY_PICK_HEAD`，不能误判为重排。
 - Git 2.56 的继续路径先精确比较生成树和暂存树，再从该暂存结果预演剩余 todo；暂存区有额外手工编辑时抛出 `ModelFailure`，不写文件、索引、引用或 rebase 元数据。Git 2.54 仍保留原有 reset/replay 路径。
 - 本次最新工作树修改已通过 `xcrun swift-format lint --strict`。独立私有检查器在 Apple Git 2.54.0 与 Homebrew Git 2.56.0 各完成 56/56 项，结果 JSON 与完整日志保存在主根 `.build/v1-2-continuation/rebase-apple-git254-gen13-rerun.log` 和 `rebase-git256-gen13-rerun.log`；这些是 CLI/Core 行为证据，不是 XCTest 或完整 Rebase 版本验收。
+
+## 2026-10-30 V12-05 内置三方冲突编辑器独立实现
+
+- 实现位于独立 worktree `/Users/willxue/.codex/worktrees/conflict-editor/WeGit`、分支 `codex/v1.2-conflict-editor`，基于 PR80 候选基线；尚未提交、push 或创建/更新 PR，不得混入 PR80。主 checkout 与 PR80 worktree 的用户改动未触碰。
+- Core 新增 `ConflictEditorModels` / `ConflictEditorService`，支持 Merge、Rebase、Cherry-pick、Revert 的 stage 1/2/3 文本冲突读取，固定实际来源对象并拒绝多共同起点、无法映射、二进制、非 UTF-8、符号链接和不支持 mode。`RepositoryFileReader` 额外记录 mode 与父目录身份，`RepositoryService.add` 为内部冲突流程开放。
+- Changes 冲突文件行和右键菜单新增“编辑冲突…”。`ConflictEditorSheet` 展示 BASE/OURS/THEIRS/RESULT，RESULT 可编辑，支持块导航、接受 OURS/THEIRS/两侧、保存与标记解决分离；关闭未保存结果会要求确认。BASE 仅在私有临时目录中用 `git merge-file --diff3` 生成结果并逐块匹配 OURS/THEIRS 后启用，无法唯一匹配时保持禁用。
+- 保存只原子替换工作文件，不改 index；标记解决前重验 repository persistence identity、HEAD、sequencer、操作 marker/recovery、`check-attr`、完整 index、目标 stage entries、文件 bytes/inode/time/mode、父目录身份，之后核对 `hash-object --path` 与 stage-0 对象以及其他 index 路径字节等价。外部变化均拒绝覆盖。
+- 验证结果：`xcrun swift-format lint --strict` 通过；`swift build --target WeGitCore` 通过；应用 `xcodebuild ... -scheme WeGit ... build CODE_SIGNING_ALLOWED=NO` 通过。独立私有真实 Git checker `20/20`：parser 3 项、Merge/Cherry-pick/Revert/Rebase 读写解决、外部工作文件变化，以及 index/属性/HEAD/操作 metadata/mode/父目录替换拒绝。checker 只使用临时仓库与 `GIT_CONFIG_GLOBAL/SYSTEM=/dev/null`，本机未执行 XCTest。
+- 当前剩余：补独立 Issue/PR、可信原生白名单入口与托管 required CI；补更广的复杂冲突/编码/rename/add-delete/custom-driver 边界后，再按 `plans/V1_2_EXECUTION.md` 的 V12-05/M5 门禁集成。14/14、编译或本地 UI 接线不代表 V12.05 或整版 v1.2 完成。
+
+## 2026-10-30 冲突编辑器 BASE、原子暂存与交互复核
+
+- 已查到并复用 Issue81（12:25UTC已创建）；尚无功能PR，分支HEAD仍8474d620，不将本树改动加入PR80。实现仍须补可信原生入口、实际原生方法、required CI、Release性能和取消/重开草稿等验收。
+- 新的后续Cherry-pick/第二轮Rebase真实夹具先失败，证明BASE应是被重放提交的唯一父提交，不能用当前HEAD与原提交的merge-base；现通过rev-list核对仅一个父，再逐对象验证stage1/2/3来源。完整检查27/27成功，先失败/后成功日志保存在主根 `.build/v1-2-continuation/conflict-editor-parent-before-gen14.log`、`conflict-editor-parent-after-gen14.log` 和 `conflict-editor-guarded-index-gen14.log`。
+- 标记解决现在用确认RESULT写content-addressed blob、原index私有副本、update-index明确替换单一路径，再用既有SelectedIndexLease取得index.lock、完整原index/HEAD/属性/序列/文件重验并原子安装；不再git add实时重读工作文件。自定义merge driver、内容filter、split index、无效UTF-8、符号链接与外部index.lock均保守拒绝；锁和其他索引记录保持。保存仍与暂存分离，原子文件明确fchmod保留模式。
+- 保存失败时保留RESULT编辑区；解决成功直接dismiss，不被saving guard阻止。未保存或忙碌时阻止隐式关闭；移除重复“接受”标签并缓存一次文本变化的marker分析，避免同一body重复全文解析。59项英中资源已补，本地化1358 strings/8 plurals、严格swift-format、diff检查和应用Debug编译均过，完整构建日志在主根 `conflict-editor-app-build-gen14.log`；没有本机XCTest运行。
+- GitHub/主树状态及本轮五错误自动接续原因见Rebase工作树HANDOFF最新条目；产品尚未固定提交、性能/原生验收未完成，不能标V12-05或v1.2完成。
+
+## 2026-10-31 第十六代冲突编辑器 Core 与原生入口准备
+
+- 用户已删除五分钟 automation；不得新建或恢复。PR80 与本树继续隔离，Issue81 为产品追踪，另新建 Issue83 专用于可信原生诊断入口。
+- 新增 `WeGitTests/ConflictEditorTests.swift`：parser、Merge 保存时 index 不变、显式标记解决、外部工作文件变化拒绝。`swift build --build-tests` 通过，仅编译；本机未运行 XCTest。
+- 真实 Git checker `scripts/verify-conflict-editor.sh` 27/27 通过，覆盖 Merge/Cherry-pick/Revert/Rebase、索引快照、属性/HEAD/操作 metadata/mode/父目录替换、驱动/filter/编码/符号链接/外部锁。日志在主根 `.build/v1-2-continuation/conflict-editor-required-wiring-gen15.log`，本轮又重跑通过。
+- 新增固定 UI 方法 `WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose`，覆盖 BASE/OURS/THEIRS/RESULT、草稿关闭确认、保存不写 index、重开读取已保存结果、标记解决精确结果。后续扩展覆盖外部文件变化后保存失败且保留编辑草稿。`xcodebuild ... build-for-testing` 通过，只编译，未执行 XCTest。
+- Issue83 `test(ci): register trusted conflict editor native diagnostic` 已建，要求固定 `conflict-editor` focus 经 smoke 后只运行该方法，保留 120/180 秒限时与证据。native-entry 工作树待增加白名单和策略测试；必须先通过 PR 正常集成 main，再由 Issue81 candidate 使用。
+- 产品树尚未提交/push/PR；Acceptance 初始报告在 `docs/acceptance/2026-10-31/conflict-editor/`。尚需托管 Core/Native、Release 性能、复杂编码/rename/add-delete 边界与实际界面交互证据，不能标 V12-05 完成。全部后续 V12-07/08/09 和 M5 保持开放。
+- Release WeGitCore checker 已用同一私有夹具重跑通过 27/27：wall 6.82s，最大 RSS 14,417,920 bytes。首次因资源 bundle 未放在隔离 checker 目录旁退出，随后复制同一 Release bundle 重跑；该夹具启动问题已在 receipt 标明，不算产品行为失败。
+- 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
+
+## 2026-10-30 第十五代完整 Rebase 制品核验与冲突 CI 接线
+
+- 同ID ACTIVE五分钟heartbeat与state第15代实际匹配本聊天，四树HEAD/index/status与gen14现场逐项一致。主checkout用户改动未触碰。Rebase原生制品12983944467完整118762895bytes/SHA ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9/2087 CRC通过；required制品12971828885完整12369893bytes/SHA 38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b/35 CRC通过，原超时前缀和retry保持。
+- required性能报告sourceRevision为PR合成源47441110，但12个性能输入逐SHA与8474d620完全匹配；普通/5000文件30提交loose/同规模packed各30完整有效数组按原2000ms读取/500ms取消/256-512MiB预算重算全部通过。p95 first/steady/recovered分别434.441/418.052/393.055、926.386/984.225/947.460、563.819/567.540/528.872ms；取消均低于1ms。源报告/验证回执留主根.build/v1-2-continuation/rebase-8474d62-verified-gen15.json与完整解包目录。
+- native实际185个构建输入与8474逐SHA一致；直接xcresult smoke/Rebase均total1/pass1/fail0/skip0，唯一Rebase方法91.836653秒<120、outer98.432秒<180。四个980x692原图及四份AX已实际查看，固定完整OID和已发布确认、目标变化拒绝、重开第二冲突、Abort恢复feature/clean/中文草稿均保留；QoS warning原样保留，不代表完整VoiceOver或整版接受。无重复dispatch/本机XCTest。
+- 独立conflict-editor树已把ConflictEditorService→verify-conflict-editor.sh接入scripts/ci/native-behavior.sh，并将ConflictEditorChecks格式接入scripts/verify.sh；shell语法/可执行位/严格格式/diff检查及独立27项真实Git再次通过，日志conflict-editor-required-wiring-gen15.log。未提交/push/PR，仍需Core/native/可信入口、Release性能/保存失败/取消/重开草稿和复杂边界。
+- 本代实际三次429重试耗尽，加上错误automation参数和zsh保留path变量，14:41:02UTC达到第五真实错误；之后另一次错误cwd/猜测证据后缀已完整留存。工具schema应先读ALL_TOOLS完整description；zsh禁止复用path变量；证据一律按实际清单定位。现场failure-events.json留完整时间和工具ID。按原授权保存现场后转移同一完整v1.2目标；PR80仍draft/open、head8474、required全success、reviews0、mergeState BEHIND，未ready/合并/关闭78。后续需先补证据文档和当前PR描述，再正常最新CI/review集成；所有05/07/08/09与M5保持开放。
