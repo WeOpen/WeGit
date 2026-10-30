@@ -49,6 +49,24 @@ class NativeProcessDeadlineTests(unittest.TestCase):
 
 
 class NativeScopeSelectionTests(unittest.TestCase):
+    def test_conflict_editor_diagnostic_is_fixed_and_bounded(self):
+        root = Path(__file__).resolve().parents[3]
+        target = "WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose"
+        self.assertEqual(ui_probe.FOCUSED_TESTS["conflict-editor"], target)
+        self.assertIn("conflict-editor", (root / ".github/workflows/native-ui.yml").read_text())
+        source = (root / "WeGitUITests" / "WorkflowRecoveryTests.swift").read_text()
+        self.assertIn("func testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose(", source)
+        summary = {"totalTestCount": 1, "passedTests": 1, "failedTests": 0, "skippedTests": 0}
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(sys, "argv", ["ui_probe.py", "--mode", "smoke", "--focus", "conflict-editor", "--output", folder]), \
+                 patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                 patch.object(ui_probe, "run_logged", return_value={"exitCode": 0, "timedOut": False}) as runner, \
+                 patch.object(ui_probe, "result_summary", return_value=summary), \
+                 redirect_stdout(StringIO()):
+                ui_probe.main()
+            self.assertEqual(runner.call_count, 2)
+            self.assertIn("-only-testing:WeGitUITests/" + target, runner.call_args_list[1].args[0])
+            self.assertLessEqual(runner.call_args_list[1].args[2], 300)
     def test_independent_rebase_requires_smoke_and_one_fixed_method(self):
         root = Path(__file__).resolve().parents[3]
         target = "RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch"

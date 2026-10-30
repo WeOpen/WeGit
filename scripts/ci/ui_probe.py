@@ -39,6 +39,7 @@ FOCUSED_TESTS = {
     "diff-options": "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState",
     "large-diff": "WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset",
     "rebase-conflicts": "WorkflowRecoveryTests/testPullRebaseHandlesTwoConflictRoundsAndAbort",
+    "conflict-editor": "WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose",
 }
 
 
