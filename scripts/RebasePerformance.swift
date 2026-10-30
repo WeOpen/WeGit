@@ -304,7 +304,7 @@ import WeGitCore
             throw error
         }
         let data = try JSONEncoder().encode(reports)
-        let report: [String: Any] = [
+        var report: [String: Any] = [
             "sourceRevision": revision, "gitVersion": version, "inputs": inputs,
             "configuration": "ordinary Release Core", "fixture": parent.path, "samplesPerWorkload": 30,
             "budgetsMilliseconds": ["first": 2_000, "steady": 2_000, "cancel": 500, "recovered": 2_000],
@@ -313,6 +313,12 @@ import WeGitCore
             "scope":
                 "CLI fixed-range preparation with explicit loose/packed object storage and fixture-only automatic maintenance disabled; cancellation after a delay wrapper and child are alive; no claim about unmodified Git's large-repo cancellation or native/version acceptance",
         ]
+        if !reports.allSatisfy(\.passed) {
+            do {
+                report["failureFixtureArchive"] = try await retainFailureFixture(
+                    parent: parent, output: output, identity: parentIdentity)
+            } catch { report["failureFixtureArchiveError"] = String(describing: error) }
+        }
         try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]).write(
             to: output, options: .atomic)
         guard reports.allSatisfy(\.passed) else {

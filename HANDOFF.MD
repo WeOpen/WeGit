@@ -753,3 +753,5 @@
 - 第十代最新buffered Core已有45项真实私有Git通过、swift build --build-tests及native build-for-testing实际成功（只编译，不是XCTest运行）；当前将这批输入固定为新candidate，随后按原预算完整90样本，测量期间不编译App。3b08 required完整90样本/输入等价核验与所有profile已加入acceptance，旧失败不覆盖。
 
 - 第十代提交前guard把git status --porcelain全输出strip()，删掉首行状态前导空格，使line[3:]误读HANDOFF文件名；真实assert失败在git add前发生，HEAD/index未写。已改为仅rstrip换行，保留porcelain的两列状态，继续显式允许文件清单，不关闭保护。真实exec进入ledger，不把此误解析当外部改动。
+
+- 3b08的完整预算失败artifact仅3CRC/6477bytes，实际没有failure-fixture.tar.gz。代码确认建仓/采样catch会归档，但最终allPassed=false在catch外抛出，漏掉完整健康夹具。已仅给最终预算失败结果添加同一有界归档/明确归档错误字段；30样本、2000/500/RSS、测量阶段和成功路径不改。补丁在90新测量启动前固定新commit，避免运行中改变inputs。
