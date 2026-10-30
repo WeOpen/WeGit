@@ -720,3 +720,36 @@
 - 实读MIDX header为v1且packCount3，PNAM引用已不存在的.tmp-69550-pack-0030...idx；其余两个真实pack自身verify-pack过但不含base file-1原blob，完整fsck确认原始提交/许多blob缺失。禁用MIDX查询仍找不到这些blob，不能仅重建MIDX宣称恢复。ProcessRunner成功路径没有发SIGTERM/KILL，不能凭本症状改正常进程策略。原归档不修改，诊断解包位于主根continuation。
 - 新检查器仅私有fixture禁用gc.auto/maintenance.auto，并明确保留ordinary loose、large loose、large foreground-gc packed三类各30、同2000/500/RSS预算；打包路径先wait并fsck，统计真实pack/loose状态，避免一边建仓一边detached维护。产品Git配置/自动维护不改。新字段加入memberwise initializer时未按字段声明顺序传参，真实compile失败已记录，随后实读编译诊断修正；最新编译/90样本尚待完成。
 - Native40969583341已job success且完整121494486bytes制品12940410836/SHA712565ad/185输入与ec874e2全匹配，smoke及唯一Rebase方法均1/1/0/0。完整xcresult/源回执已核验，四图/AX实看继续；不是整版或发布验收。后续Core/App/UItests/trusted脚本若完全等价，不重复同一成功native输入；真实产品输入变更仍需新候选重验。
+
+- 3b08ea3正常push已返回成功，紧接PR API仍返回旧ec874e2，脚本把短暂PR元数据延迟误当assert失败，真实exec错误保留。后续直接读取remote Git ref并复读PR核对，不重复push；不要以即时PR页面缓存触发重试。角色/真实HEAD以state及实际ref为准。
+
+## 2026-10-30 散装对象真实读预算失败
+
+- 3b08ea3标准90有效样本与三套固定健康存储全部记录：ordinary first258.088/steady264.519/recovered270.274ms过；large-packed1981.615/1966.095/1951.087ms过；large-loose5445.521/5477.301/5528.880ms超过原2000ms。三类cancel0.480/0.383/0.368ms及RSS均过。原90数组、源input hash与未清理私有fixture均保留，不能用packed通过覆盖loose失败，不降预算或删样本。
+- 下一步从同一个5000文件/30commit散装fixture实际profile，定位重复blob元数据读取；产品Core真正变动后需固定新源码、CLI/Core/native及最新必需CI重新验证，旧ec874e2成功保留但不替代新输入。当前没有Core修改。
+- 3b08ea3已正常推送，远端ref和稍后PR head均实读匹配；PR仍draft。一次audit手抄rollout path漏UUID段，真实I/O失败保留；改由已核验state.rolloutOffsets和当前CODEX_THREAD_ID选择实际文件再调用主根audit.py，不再手拼路径。滚动计数以实际代次/时间ID为准。
+
+## 2026-10-30 第十代接续准备：保持完整 v1.2 目标
+
+- 本代真实rolling30min已达到5：storage Workload initializer字段顺序compile错误、成功push后即时PR旧head触发assert、3b08ea3可选Workers独立failure、90有效样本large-loose原2000ms失败、手抄audit rollout path的真实I/O。实际ID/time在state.lastTransferTrigger，warning/pending/negative/旧回显不计。当前从此停止产品/Git写入，只保存及迁移同一个五分钟任务与唯一责任，不代表版本完成。
+- 管理树HEAD3b08ea3927671ca4d4c36ba1a38c8795e2fbeceb，codex/v1.2-rebase；产品Core/App/UItests/trusted脚本与已实际成功的ec874e2等价。现HANDOFF与最新90样本failed验收JSON未提交，其他源码clean；下一代用绝对workdir继续，不attach/reset/重建旧树。Issue78仍open/PR80仍draft且该源已推送。新required40975050643/job123801038683实际pending/inprogress，以最新回执核对，不重复push/dispatch旧source。
+- 成功native40969583341/job123782672216，artifact12940410836完整121494486bytes/SHA712565ade5ef8bc0593b695ff2f46ae136ec2d7c0099d628b60a2c17ee3b0d1f/2081CRC/185inputs/每test1/1/0/0和四图四AX已核验实看，方法114.874<120秒、outer125.912<180秒。原49秒失败、所有QoS warning仍留；同成功输入不重复下载或dispatch。但后续优化Core真正变动则必须新candidate/Core/native/CI重新验证。
+- 90样本固定ordinary loose、large loose、large packed，每类30全有效，自动维护仅私有fixture禁用/packed前台GC等完并fsck，storage统计齐全。ordinary258ms/packed1981ms过，large loose首次5445.521/稳态5477.301/恢复5528.880ms超原2000，cancel/RSS三类均过。全部90样本/输入hash/原fixture保留；不能packed代替loose或降预算。先实际profile同一个large-loose，再优化一轮内重复blob元数据读取。现RebaseTreeMetadata.entries仍每原树ls-tree -l，sizes缓存不能阻止Git重复读取同OID大小；仅是定位方向，尚未新profile或产品修改。原profile脚本在主根rebase-read-profile-gen8.swift，可编译/独立CLI，不本机XCTest。
+- 上轮CI失败已完整定位到fixture.feature-commit.8，MIDX引用丢失.tmp pack且原Blob/commit真的缺失；完整1096724byte/4CRC制品12939977128、健康检查和原包保留。仅新fixture禁用自动维护，无产品Git设置变化。不要把此建仓错误当Rebase算法失败。
+- 后续先真实收口78/80，再V12-05三方编辑器、07InteractiveRebase、08Submodule、09LFS、最终同一源码所有功能/性能/安装/更新/迁移/回退/Beta/发布门禁。主根three-way-next-contract-gen9.md仅只读契约，没有新Issue/产品实施。一个原生专项/PR/迁移不代表全部完成，全部实际完成才删除同一heartbeat。
+
+## 2026-10-30 第十代 loose 对象读取的实际 profile
+
+- 唯一责任和同一ACTIVE五分钟heartbeat已实读匹配01a18a1a，四树HEAD/index与gen9现场一致；PR80已附加复用，无重复push/dispatch。先对同一5000文件/30commit large-loose夹具、3b08等价Release做独立profile：5157.945ms，137命令，其中32次ls-tree -l累计3734.364ms/11,324,480bytes；HEAD/index逐字节保持。此前仅缓存sizes不能阻止Git逐树解压重复blob。
+- 首轮改为无-l树元数据与本轮新增OID批查，实际单次2327.467ms仍高于原2000；原报告和源SHA保存，不当预算通过。34次cat-file累计716.512ms反映逐树小批量的额外开销。现收集本次原始树后合并缺少的OID查询、每批100000项/32MiB输出，128MiB元数据/100万条缓存上限和mode/OID/path/changed-blob/index/覆盖保护保留；缓存不跨prepare。编译与真实CLI/90有效样本正在重验。
+- 当前Core真实变动，旧ec874e2的成功原生输入不再等价；新固定candidate必须重新托管Core和可信smoke/Rebase，旧成功/失败完整证据保留。整版V12-05/07/08/09和最终M5仍开放，不把profile或本专项当版本完成。
+
+## 2026-10-30 批查顺序对照与第十代验证边界
+
+- 新Core/新增Core tests已swift build --build-tests成功，只是编译；最新buffered输入45项真实私有Git检查实际通过，含共享binary/empty/symlink/literal newline保存及跨prepare丢对象拒绝，原HEAD/index不变。未本机XCTest。现原生build-for-testing后固定新candidate，再原规则ordinary loose/large loose/large packed各30。
+- 独立ProcessRunner先unbuffered498.970、后buffered108.525的顺序对照不能充分证明buffer收益。新buffered各flag对照首次none515.485、其余110.397/111.357/111.693，说明顺序/首次大输入因素尚未分离；最新完整profile2491.837和2122.463ms仍高于2000，实际argv带--buffer且保留NO_LAZY_FETCH/NO_REPLACE。原始JSON/源码/所有样本保留，不能挑较快第二次或修改预算宣称通过。
+- 原3b08必需run40975050643/job123801038683实际00:07:50UTC failure，完整601500byte job log和artifact12943486462（6477bytes/SHA89cd2fd6/3CRC）已核验：两Git各241 Core/CLI42过，90有效Release ordinary483.652ms通过，large-loose6469.809ms、packed3030.627ms均失败；后续Homebrew/GPG/native/打包跳过。原report全数组已保存，不把同job/check重复算失败。本代ledger仅一个该新CI事件。
+
+- 第十代最新buffered Core已有45项真实私有Git通过、swift build --build-tests及native build-for-testing实际成功（只编译，不是XCTest运行）；当前将这批输入固定为新candidate，随后按原预算完整90样本，测量期间不编译App。3b08 required完整90样本/输入等价核验与所有profile已加入acceptance，旧失败不覆盖。
+
+- 第十代提交前guard把git status --porcelain全输出strip()，删掉首行状态前导空格，使line[3:]误读HANDOFF文件名；真实assert失败在git add前发生，HEAD/index未写。已改为仅rstrip换行，保留porcelain的两列状态，继续显式允许文件清单，不关闭保护。真实exec进入ledger，不把此误解析当外部改动。

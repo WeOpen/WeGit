@@ -4,6 +4,51 @@ import Testing
 @testable import WeGitCore
 
 struct RebaseTests {
+    @Test func sharedBlobMetadataRetainsEmptyBinarySymlinkAndLiteralPaths() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let bytes = Data([0, 255, 10, 13, 1, 128])
+        let copy = "copy\n中文"
+        try bytes.write(to: f.root.appending(path: "binary"))
+        try bytes.write(to: f.root.appending(path: copy))
+        try f.write("empty", "")
+        try FileManager.default.createSymbolicLink(
+            atPath: f.root.appending(path: "link").path, withDestinationPath: "binary")
+        let base = try await f.commit("Shared binary metadata")
+        let metadata = RebaseTreeMetadata(root: f.root)
+        let entries = try await metadata.entries(base, engine: f.engine)
+        #expect(entries.count == 4)
+        #expect(entries["binary"]?.bytes == bytes.count && entries[copy] == entries["binary"])
+        #expect(entries["empty"]?.bytes == 0 && entries["empty"]?.mode == "100644")
+        #expect(entries["link"]?.mode == "120000")
+        let destination = try FileManager.default.destinationOfSymbolicLink(
+            atPath: f.root.appending(path: "link").path)
+        #expect(entries["link"]?.bytes == destination.utf8.count)
+        var changed = bytes
+        changed.append(contentsOf: [2, 3, 4])
+        try changed.write(to: f.root.appending(path: "binary"))
+        let next = try await f.commit("New blob alongside reused objects")
+        let refreshed = try await metadata.entries(next, engine: f.engine)
+        #expect(refreshed["binary"]?.bytes == changed.count)
+        #expect(refreshed[copy] == entries[copy] && refreshed["link"] == entries["link"])
+    }
+
+    @Test func freshPreparationRefusesMissingPreviouslyReadBlobWithoutWrites() async throws {
+        let (f, target, original, _) = try await fork()
+        defer { f.remove() }
+        _ = try await f.service.prepareRebase(target: target)
+        let object = try await f.engine.run(["rev-parse", original + ":file"], in: f.root)
+            .text.removingLastNewline
+        let objectPath = f.root.appending(path: ".git/objects")
+            .appending(path: String(object.prefix(2))).appending(path: String(object.dropFirst(2)))
+        try FileManager.default.removeItem(at: objectPath)
+        let index = try Data(contentsOf: f.root.appending(path: ".git/index"))
+        await #expect(throws: ModelFailure.self) { _ = try await f.service.prepareRebase(target: target) }
+        #expect(try await f.service.head() == original)
+        #expect(try Data(contentsOf: f.root.appending(path: ".git/index")) == index)
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("base\n".utf8))
+    }
+
     @Test func boundedTreeDeltaMatchesFreshMetadataForAddDeleteAndModeChanges() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }

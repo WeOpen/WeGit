@@ -491,6 +491,56 @@ struct LostRebaseReceipt: ProcessRunning {
             try FileManager.default.attributesOfItem(
                 atPath: delta.location.root.appending(path: "feature").path)[.posixPermissions] as? NSNumber
         try require(mode?.intValue == 0o755, "Derived tree metadata preserves actual executable mode")
+        let (blobMetadata, _, _) = try await fixture("shared-blob-metadata", conflict: false)
+        let binary = Data([0, 255, 10, 13, 1, 128])
+        let copiedPath = "copy\n中文"
+        try binary.write(to: blobMetadata.location.root.appending(path: "feature"))
+        try binary.write(to: blobMetadata.location.root.appending(path: copiedPath))
+        try Data().write(to: blobMetadata.location.root.appending(path: "empty"))
+        try FileManager.default.createSymbolicLink(
+            atPath: blobMetadata.location.root.appending(path: "link").path, withDestinationPath: "feature")
+        _ = try await engine.run(["add", "-A"], in: blobMetadata.location.root)
+        _ = try await engine.run(
+            ["commit", "-m", "Shared binary, empty and symlink"], in: blobMetadata.location.root)
+        let blobTarget = try await blobMetadata.branches().first { $0.name == "main" }!
+        let blobIndex = try Data(contentsOf: blobMetadata.location.gitDirectory.appending(path: "index"))
+        let blobPlan = try await blobMetadata.prepareRebase(target: blobTarget)
+        try require(
+            try Data(contentsOf: blobMetadata.location.gitDirectory.appending(path: "index")) == blobIndex,
+            "Batched shared blob metadata preparation preserves original index bytes")
+        guard case .completed = try await blobMetadata.executeRebase(blobPlan) else {
+            throw Failure.assertion("Shared blob metadata replay did not complete")
+        }
+        try require(
+            try Data(contentsOf: blobMetadata.location.root.appending(path: "feature")) == binary
+                && Data(contentsOf: blobMetadata.location.root.appending(path: copiedPath)) == binary
+                && Data(contentsOf: blobMetadata.location.root.appending(path: "empty")).isEmpty
+                && FileManager.default.destinationOfSymbolicLink(
+                    atPath: blobMetadata.location.root.appending(path: "link").path) == "feature",
+            "Actual replay preserves shared binary blobs, empty files, symlinks and literal newline paths")
+        let (missingBlob, _, missingHead) = try await fixture("missing-previously-read-blob", conflict: false)
+        let missingTarget = try await missingBlob.branches().first { $0.name == "main" }!
+        _ = try await missingBlob.prepareRebase(target: missingTarget)
+        let missingID = try await engine.run(
+            ["rev-parse", missingHead + ":file"], in: missingBlob.location.root
+        )
+        .text.trimmingCharacters(in: .newlines)
+        let missingPath = missingBlob.location.commonDirectory.appending(path: "objects")
+            .appending(path: String(missingID.prefix(2))).appending(path: String(missingID.dropFirst(2)))
+        try FileManager.default.removeItem(at: missingPath)
+        let missingIndex = try Data(contentsOf: missingBlob.location.gitDirectory.appending(path: "index"))
+        do {
+            _ = try await missingBlob.prepareRebase(target: missingTarget)
+            throw Failure.assertion("Preparation reused stale metadata for a missing blob")
+        } catch is ModelFailure {}
+        let observedMissingHead = try await missingBlob.head()
+        try require(
+            observedMissingHead == missingHead
+                && (try Data(contentsOf: missingBlob.location.gitDirectory.appending(path: "index")))
+                    == missingIndex
+                && (try Data(contentsOf: missingBlob.location.root.appending(path: "file")))
+                    == Data("base\n".utf8),
+            "Fresh preparation rejects a previously read but removed blob without HEAD, index or file writes")
         let report: [String: Any] = [
             "checks": checks, "passed": true,
             "scope":

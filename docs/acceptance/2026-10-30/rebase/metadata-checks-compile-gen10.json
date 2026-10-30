@@ -1,0 +1,33 @@
+{
+  "base": "3b08ea3927671ca4d4c36ba1a38c8795e2fbeceb",
+  "inputs": {
+    "WeGitCore/GitCore/RebaseTreeMetadata.swift": "eeca694a9e39f7c2c2cb7d82427730ca70b234b10debebacaf33118246381e30",
+    "WeGitCore/GitCore/RebaseService.swift": "3a7b44616d4d44e70adfad90b8ea1ef53ebbb74082d2d9069405d1a150a1a4b8",
+    "WeGitTests/RebaseTests.swift": "41446986316e8e62c60ec4754bc4e311c3efa97c72ab396d6adfcc4e6ebb2386",
+    "scripts/RebaseChecks.swift": "cf82419a2e07241cb659ae455abd238566f2e3d09a93ffa4190de0fa574f8ce1"
+  },
+  "independentChecks": {
+    "checks": 45,
+    "passed": true,
+    "scope": "Private actual Git preview/execution/recovery checks; not XCTest or complete Rebase acceptance."
+  },
+  "coreBuildForTests": {
+    "passed": true,
+    "execution": "compile-only",
+    "logSha256": "3309d465a6c7f529e14561ae0d582c1ad8200202135be6adc25498335f530176"
+  },
+  "nativeBuildForTesting": {
+    "passed": true,
+    "execution": "compile-only",
+    "logSha256": "d367788f5672dd667476a9249ad24087158f201a215bf3706abd051141e1b7b6"
+  },
+  "releaseReady": false,
+  "currentCoreXCTest": {
+    "executed": false,
+    "passed": null
+  },
+  "currentNativeXCTest": {
+    "executed": false,
+    "passed": null
+  }
+}
