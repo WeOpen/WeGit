@@ -861,6 +861,7 @@
 - Issue83 `test(ci): register trusted conflict editor native diagnostic` 已建，要求固定 `conflict-editor` focus 经 smoke 后只运行该方法，保留 120/180 秒限时与证据。native-entry 工作树待增加白名单和策略测试；必须先通过 PR 正常集成 main，再由 Issue81 candidate 使用。
 - 产品树尚未提交/push/PR；Acceptance 初始报告在 `docs/acceptance/2026-10-31/conflict-editor/`。尚需托管 Core/Native、Release 性能、复杂编码/rename/add-delete 边界与实际界面交互证据，不能标 V12-05 完成。全部后续 V12-07/08/09 和 M5 保持开放。
 - Release WeGitCore checker 已用同一私有夹具重跑通过 27/27：wall 6.82s，最大 RSS 14,417,920 bytes。首次因资源 bundle 未放在隔离 checker 目录旁退出，随后复制同一 Release bundle 重跑；该夹具启动问题已在 receipt 标明，不算产品行为失败。
+- 为等待真正进入 FIFO 的取消测试，`RepositoryOperationQueue.pendingOperationCountForTesting` 仅作 module-internal 诊断观察；Release checker 通过 `-enable-testing` 编译优化 Core 供 checker 链接，不运行 Release XCTest。原始 `swift build -c release --build-tests` 的 testability module 错误保留，不作为产品源码失败。
 - 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
 
 ## 2026-10-30 第十五代完整 Rebase 制品核验与冲突 CI 接线

@@ -1,5 +1,6 @@
 {
   "scope": "Release Core conflict read/save/resolve with isolated disposable Git fixtures",
+  "compilerMode": "Release optimization with -enable-testing for internal queue waiter observation; no XCTest execution",
   "allPassed": true,
   "requiredSamplesPerWorkload": 30,
   "budgetsMilliseconds": {
@@ -22,11 +23,11 @@
         "size-garbage": 0,
         "size-pack": 0
       },
-      "p95ReadMilliseconds": 190.552208,
-      "p95SaveMilliseconds": 59.262833,
-      "p95MarkResolvedMilliseconds": 155.629875,
-      "p95QueuedSaveCancelMilliseconds": 0.01175,
-      "peakResidentBytes": 14204928,
+      "p95ReadMilliseconds": 144.15775,
+      "p95SaveMilliseconds": 49.856458,
+      "p95MarkResolvedMilliseconds": 145.714667,
+      "p95QueuedSaveCancelMilliseconds": 0.012541,
+      "peakResidentBytes": 14188544,
       "passed": true
     },
     {
@@ -42,10 +43,10 @@
         "size-garbage": 0,
         "size-pack": 0
       },
-      "p95ReadMilliseconds": 182.585125,
-      "p95SaveMilliseconds": 75.950333,
-      "p95MarkResolvedMilliseconds": 231.885375,
-      "p95QueuedSaveCancelMilliseconds": 0.011208,
+      "p95ReadMilliseconds": 174.990875,
+      "p95SaveMilliseconds": 79.318916,
+      "p95MarkResolvedMilliseconds": 235.407167,
+      "p95QueuedSaveCancelMilliseconds": 0.010709,
       "peakResidentBytes": 29556736,
       "passed": true
     },
@@ -62,11 +63,11 @@
         "size-garbage": 0,
         "size-pack": 407
       },
-      "p95ReadMilliseconds": 171.739709,
-      "p95SaveMilliseconds": 73.491916,
-      "p95MarkResolvedMilliseconds": 226.203583,
-      "p95QueuedSaveCancelMilliseconds": 0.011375,
-      "peakResidentBytes": 31244288,
+      "p95ReadMilliseconds": 199.460875,
+      "p95SaveMilliseconds": 75.212417,
+      "p95MarkResolvedMilliseconds": 252.862208,
+      "p95QueuedSaveCancelMilliseconds": 0.011542,
+      "peakResidentBytes": 31670272,
       "passed": true
     }
   ],

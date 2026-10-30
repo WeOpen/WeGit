@@ -101,7 +101,13 @@ struct ConflictEditorTests {
         let save = Task {
             try await service.saveConflictResult(document, text: "cancelled draft\n")
         }
-        try await Task.sleep(for: .milliseconds(20))
+        let queueDeadline = ContinuousClock.now.advanced(by: .seconds(2))
+        while await service.queue.pendingOperationCountForTesting == 0,
+            ContinuousClock.now < queueDeadline
+        {
+            try await Task.sleep(for: .milliseconds(1))
+        }
+        #expect(await service.queue.pendingOperationCountForTesting == 1)
         save.cancel()
         await #expect(throws: CancellationError.self) { _ = try await save.value }
         await gate.release()

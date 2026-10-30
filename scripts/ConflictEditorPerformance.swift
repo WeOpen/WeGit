@@ -1,6 +1,7 @@
 import Darwin
 import Foundation
-import WeGitCore
+
+@testable import WeGitCore
 
 private actor QueueGate {
     private(set) var started = false
@@ -36,6 +37,8 @@ private actor QueueGate {
             let passed = workloads.allSatisfy { $0["passed"] as? Bool == true }
             let report: [String: Any] = [
                 "scope": "Release Core conflict read/save/resolve with isolated disposable Git fixtures",
+                "compilerMode":
+                    "Release optimization with -enable-testing for internal queue waiter observation; no XCTest execution",
                 "requiredSamplesPerWorkload": sampleCount,
                 "budgetsMilliseconds": [
                     "read": operationBudgetMilliseconds,
@@ -148,7 +151,15 @@ private actor QueueGate {
             let queued = Task {
                 try await service.saveConflictResult(saved, text: "cancelled queued draft\n")
             }
-            try await Task.sleep(for: .milliseconds(2))
+            let queueDeadline = clock.now.advanced(by: .seconds(2))
+            while await service.queue.pendingOperationCountForTesting == 0,
+                clock.now < queueDeadline
+            {
+                try await Task.sleep(for: .milliseconds(1))
+            }
+            try require(
+                await service.queue.pendingOperationCountForTesting == 1,
+                "Cancelled save did not enter the FIFO queue")
             let cancelStart = clock.now
             queued.cancel()
             do {

@@ -14,7 +14,7 @@
 | Core tests | `swift build --build-tests` 通过；新增 `ConflictEditorTests` 覆盖 parser、Merge 保存/index 保持、标记解决和外部工作文件变化拒绝；本机未执行 XCTest |
 | 原生 UI 编译 | `xcodebuild ... build-for-testing` 通过；新增的固定 `WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose` 编译进入现有 UI test target；本机未运行 XCTest |
 | 可信入口 | 独立 Issue83 注册固定 focus `conflict-editor`，指向上述方法；`scripts/ci/tests/test_ui_probe.py` 17/17 通过。Issue83 必须先正常进入 trusted main，Issue81 才能使用该入口 |
-| Release checker | Release WeGitCore + 私有 disposable Git fixtures：27/27 通过，wall `6.82 s`，峰值 RSS `14,417,920` bytes；资源 bundle 在隔离运行目录内。该检查器是 Core 行为/开销证据，不是托管 XCTest 或版本性能验收 |
+| Release checker | 优化 Release WeGitCore（仅为观察内部 queue waiter 加 `-enable-testing`）+ 私有 disposable Git fixtures：27/27 通过，wall `6.82 s`，峰值 RSS `14,417,920` bytes；资源 bundle 在隔离运行目录内。该检查器是 Core 行为/开销证据，不是托管 XCTest 或版本性能验收 |
 
 ## 未完成门禁
 
