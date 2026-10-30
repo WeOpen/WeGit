@@ -12,6 +12,10 @@ required 性能的 90 个有效样本也已按原预算重算通过：ordinary�
 
 当前回执：[`source-equivalence-8474d620.json`](source-equivalence-8474d620.json)、[`required-41042286905-verified.json`](required-41042286905-verified.json)、[`native-41070593781-verified.json`](native-41070593781-verified.json)、[`native-41070593781-tests.json`](native-41070593781-tests.json)。
 
+## 实施范围与历史候选记录
+
+以下实现边界仍用于说明当前 Rebase 行为；后续数字、待办状态和运行结果属于早期候选历史，均由上面的 `8474d620` 回执取代。
+
 当前为草稿 PR #80。固定6dcf514的新可信原生制品、185输入、smoke/Rebase各1/1、四图四AX已核验，方法95.353秒、外层106.097秒在原120/180秒内；完整证据见 `hosted-41013988280-passed.json`。Core取消夹具仅增加原子就绪发布，34项真实ProcessRunner诊断、Core测试编译与严格格式通过，见 `process-atomic-readiness-gen12.json`；新候选的全部必需CI和托管90性能仍待执行。可信入口PR #79/main `507f03b4240d2fb8987cd214eed94d50ffda2d84`保持固定smoke后唯一方法，整版门禁继续。
 
 `ec874e2` 已实际通过可信原生 `40969583341`：smoke 和 Rebase 均 1 总/1 通过/0 失败/0 跳过，方法 114.874 秒，外层执行 125.912 秒。完整制品 12940410836、121494486 bytes、SHA `712565ade5ef8bc0593b695ff2f46ae136ec2d7c0099d628b60a2c17ee3b0d1f`、2081 CRC 和 185 个构建输入核验；四张关键截图及其 AX 已实看，详见 `hosted-40969583341-passed.json`、`screenshots/`、`accessibility/`。实际键盘路径保留 Tab/Return/Escape、关闭后筛选续写、草稿、两轮冲突、重开和确认中止。QoS warning 保留；本机 CUA 仍待解锁，整版验收未完成。

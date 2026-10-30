@@ -856,4 +856,5 @@
 - 用户明确要求去掉定时任务。应用工具确认同一 `wegit-v1-2` heartbeat 已删除，`~/.codex/automations` 没有残留 TOML；后续只在当前聊天手动继续，不创建替代任务。产品与 Git 工作仍复用现有树。
 - `docs/acceptance/2026-10-30/rebase/` 已补当前 `8474d620` 的源输入等价、required `41042286905` / job `124017905991` 和可信 native `41070593781` / job `124113328352` 回执。required 制品 12971828885 为 12,369,893 bytes / SHA `38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b` / 35 CRC；native 制品 12983944467 为 118,762,895 bytes / SHA `ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9` / 2,087 CRC，185 输入与四图四 AX 已核验。
 - README 当前结果记录 required 90 样本及逐 SHA 等价，不把合成源 `47441110` 写成产品源码；PR 描述仍需同步当前证据。文档提交不能继承旧 required/native，推送后必须按新 head 读取新的 required/review，再正常集成 #80；Issue78 不提前关闭。
+- 随后为避免 README 的旧候选待办状态与最新回执混淆，已在当前结果下加入“实施范围与历史候选记录”标记；这也是文档-only 更新，新的 head 仍需完整必需 CI。
 - Rebase 树中两份未跟踪 `ConflictEditorModels.swift` / `ConflictEditorService.swift` 与独立 Issue81 树内容不同，属于隔离草稿；本轮未改动或加入 PR80。V12-05、07、08、09 与最终 M5 继续开放。
