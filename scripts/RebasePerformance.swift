@@ -105,10 +105,13 @@ import WeGitCore
     static func retainFailureFixture(parent: URL, output: URL, identity: stat) async throws -> String {
         try validateFailureFixture(parent: parent, identity: identity)
         let archive = output.deletingLastPathComponent().appending(path: "failure-fixture.tar.gz")
+        var archiveEnvironment = ProcessInfo.processInfo.environment
+        archiveEnvironment["COPYFILE_DISABLE"] = "1"
         let result = try await ProcessRunner().run(
             ProcessRequest(
                 executable: URL(fileURLWithPath: "/usr/bin/tar"),
-                arguments: ["-czf", archive.path, "-C", parent.path, "."], timeout: 30))
+                arguments: ["-czf", archive.path, "-C", parent.path, "."],
+                environment: archiveEnvironment, timeout: 30))
         try require(result.exitCode == 0, "Failure fixture archive failed")
         return archive.lastPathComponent
     }

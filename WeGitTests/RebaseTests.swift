@@ -4,6 +4,31 @@ import Testing
 @testable import WeGitCore
 
 struct RebaseTests {
+    @Test func batchedLinearTreesMatchFreshMetadataIncludingEmptyChanges() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("a", "original\n")
+        let base = try await f.commit("Base")
+        try f.write("a", "changed\n")
+        let path = "中文\nsource"
+        try f.write(path, "new bytes\n")
+        let added = try await f.commit("Add and modify")
+        try FileManager.default.removeItem(at: f.root.appending(path: "a"))
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755], ofItemAtPath: f.root.appending(path: path).path)
+        let removed = try await f.commit("Delete and change mode")
+        _ = try await f.engine.run(["commit", "--allow-empty", "-m", "Empty changes"], in: f.root)
+        let empty = try #require(try await f.service.head())
+        let ids = [added, removed, empty]
+        let commits = try await f.service.rebaseCommits(ids)
+        let metadata = RebaseTreeMetadata(root: f.root)
+        #expect(try await metadata.preloadLinear(commits, base: base, target: base, engine: f.engine))
+        let fresh = RebaseTreeMetadata(root: f.root)
+        for id in [base] + ids {
+            #expect(try await metadata.entries(id, engine: f.engine) == fresh.entries(id, engine: f.engine))
+        }
+    }
+
     @Test func sharedBlobMetadataRetainsEmptyBinarySymlinkAndLiteralPaths() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }
@@ -47,6 +72,26 @@ struct RebaseTests {
         #expect(try await f.service.head() == original)
         #expect(try Data(contentsOf: f.root.appending(path: ".git/index")) == index)
         #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("base\n".utf8))
+    }
+
+    @Test func emptyTargetTreeCanReplayAnAdditionWithoutChangingPreviewIndex() async throws {
+        let (f, _, original, _) = try await fork()
+        defer { f.remove() }
+        _ = try await f.engine.run(["switch", "main"], in: f.root)
+        _ = try await f.engine.run(["rm", "-r", "--", "."], in: f.root)
+        _ = try await f.engine.run(["commit", "-m", "Empty target tree"], in: f.root)
+        _ = try await f.engine.run(["switch", "feature"], in: f.root)
+        let target = try #require(try await f.service.branches().first { $0.name == "main" })
+        let index = try Data(contentsOf: f.root.appending(path: ".git/index"))
+        let plan = try await f.service.prepareRebase(target: target)
+        #expect(plan.head == original && plan.commits.count == 1 && plan.conflictPaths.isEmpty)
+        #expect(try Data(contentsOf: f.root.appending(path: ".git/index")) == index)
+        guard case .completed(let head) = try await f.service.executeRebase(plan) else {
+            throw ModelFailure.changed
+        }
+        #expect(try await f.service.readCommit(head).parents == [target.oid])
+        #expect(try Data(contentsOf: f.root.appending(path: "feature")) == Data("feature\n".utf8))
+        #expect(!FileManager.default.fileExists(atPath: f.root.appending(path: "file").path))
     }
 
     @Test func boundedTreeDeltaMatchesFreshMetadataForAddDeleteAndModeChanges() async throws {

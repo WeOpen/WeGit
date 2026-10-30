@@ -43,8 +43,12 @@ extension RepositoryService {
         let index = try await singleCommitIndex()
         let commits = try await rebaseCommits(ids)
         let metadata = RebaseTreeMetadata(root: location.root)
-        try await metadata.preload(
-            [target.oid] + commits.flatMap { [$0.id] + $0.parents }, engine: singleCommitEngine)
+        let loadedLinear = try await metadata.preloadLinear(
+            commits, base: base, target: target.oid, engine: singleCommitEngine)
+        if !loadedLinear {
+            try await metadata.preload(
+                [target.oid] + commits.flatMap { [$0.id] + $0.parents }, engine: singleCommitEngine)
+        }
         var paths = try await metadata.paths(target.oid, engine: singleCommitEngine)
         var scanned: Set<String> = [target.oid]
         for commit in commits {

@@ -755,3 +755,16 @@
 - 第十代提交前guard把git status --porcelain全输出strip()，删掉首行状态前导空格，使line[3:]误读HANDOFF文件名；真实assert失败在git add前发生，HEAD/index未写。已改为仅rstrip换行，保留porcelain的两列状态，继续显式允许文件清单，不关闭保护。真实exec进入ledger，不把此误解析当外部改动。
 
 - 3b08的完整预算失败artifact仅3CRC/6477bytes，实际没有failure-fixture.tar.gz。代码确认建仓/采样catch会归档，但最终allPassed=false在catch外抛出，漏掉完整健康夹具。已仅给最终预算失败结果添加同一有界归档/明确归档错误字段；30样本、2000/500/RSS、测量阶段和成功路径不改。补丁在90新测量启动前固定新commit，避免运行中改变inputs。
+
+## 2026-10-30 macOS tar的AppleDouble成员超出归档条目上限
+
+- 850593e完整90有效样本已保留：ordinary299.731/303.068/306.184ms过，loose2216.395/2174.446/2176.519与packed2021.617/2027.139/2066.874超原2000；取消/RSS均过。850未push/dispatch，缓存没有跨prepare。
+- 实际原tar有31092成员，其中15546个AppleDouble/2533998bytes，原文件仅15546条/约5.5MiB。文件系统fixture验证满足20k/16MiB，但macOS tar默认附带元数据把归档条目翻倍；此前归档上限assert是真实失败，不是文件内容丢失。只对子进程加COPYFILE_DISABLE=1后的真实新tar全部原路径/type/mode/文件bytes一致、15546条且16MiB内，原tar完整保留，新receipt明确记录。无需更改用户或fixture的xattrs。
+- 一次手抄随机目录dcCm1j的大小写出错导致读档assert；后续由rg实际清单/sourceRevision选择路径。该I/O guard与AppleDouble上限是两个真实不同错误，本代rolling ledger已记录，重复读取不重算。Core种入一次树大小的变更已Release编译，正在独立profile/CLI/Core/native重验；旧45与编译证据只属850输入，不能套用到新Core。
+
+## 2026-10-30 线性原树的批量raw delta读取
+
+- 种入一次大小的单次profile2311.608ms仍非原2000通过。当前只读新fixture/raw协议诊断确认diff-tree --stdin两tree输入会保留两个OID加换行头，含空diff也有头；raw -z的mode/path成对NUL不能按行切路径。独立实际Git诊断HEAD/index保持，官方当前Git文档与输出一致。
+- 新Core仅在已核对每步单父且连续接上共同起点的线性原序列，先读取目标/起点，然后有界解析树ID及一次批量raw差异；校验逐对比较OID头、NUL边界、mode/旧OID/新OID/路径与缺对象。沿用同一derive和原changed-blob、metadata/entry上限、路径/全身份/index/原HEAD保护，不跨prepare缓存。复杂/有空缺父线继续原读取路径。已Release编译，正在真实CLI/Core编译与单次profile；尚不当新源码XCTest或90样本通过。
+
+- 第十代线性batch当前48项实际私有Git通过，包括批次中的空提交、源增删/mode/换行路径和空目标，以及原全部签名/恢复/外部/取消/merge driver/index保护。Core与native build-for-testing实际成功（只编译，未本机XCTest）；真实app build receipt全部185输入SHA与当前源码一致。单次large-loose1822.833ms/111命令/2ls-tree，原HEAD/index保持；这不是30样本结论。现在固定新candidate再普通/loose/packed各30原预算，同源新Core必须托管重新验。

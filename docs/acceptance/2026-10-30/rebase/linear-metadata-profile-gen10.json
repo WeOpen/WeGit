@@ -1,0 +1,5118 @@
+{
+  "scope": "Single private diagnostic; not 30-sample performance acceptance",
+  "profile": {
+    "commandCount": 111,
+    "commits": 30,
+    "fixture": "/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitRebasePerformance-BC29400E-39A7-423E-84F7-921953C57337/large-loose",
+    "grouped": {
+      "cat-file": {
+        "bytes": 20091,
+        "count": 6,
+        "milliseconds": 86.03370189666748
+      },
+      "check-ref-format": {
+        "bytes": 8,
+        "count": 1,
+        "milliseconds": 7.588982582092285
+      },
+      "commit-tree": {
+        "bytes": 1230,
+        "count": 30,
+        "milliseconds": 268.0478096008301
+      },
+      "config": {
+        "bytes": 0,
+        "count": 1,
+        "milliseconds": 8.663058280944824
+      },
+      "diff-tree": {
+        "bytes": 8820,
+        "count": 31,
+        "milliseconds": 313.04705142974854
+      },
+      "for-each-ref": {
+        "bytes": 522,
+        "count": 2,
+        "milliseconds": 17.019987106323242
+      },
+      "ls-files": {
+        "bytes": 617780,
+        "count": 2,
+        "milliseconds": 17.030000686645508
+      },
+      "ls-tree": {
+        "bytes": 667780,
+        "count": 2,
+        "milliseconds": 432.6329231262207
+      },
+      "merge-base": {
+        "bytes": 41,
+        "count": 1,
+        "milliseconds": 12.569069862365723
+      },
+      "merge-tree": {
+        "bytes": 1230,
+        "count": 30,
+        "milliseconds": 467.0959711074829
+      },
+      "rev-list": {
+        "bytes": 2460,
+        "count": 2,
+        "milliseconds": 18.970012664794922
+      },
+      "rev-parse": {
+        "bytes": 41,
+        "count": 1,
+        "milliseconds": 8.420944213867188
+      },
+      "status": {
+        "bytes": 152,
+        "count": 2,
+        "milliseconds": 41.33892059326172
+      }
+    },
+    "head": "931f61ae789355df7850716d3be498a6fe6c6ed2",
+    "processMilliseconds": 1698.4584331512451,
+    "records": [
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--branch",
+          "--untracked-files=all"
+        ],
+        "bytes": 76,
+        "command": "status",
+        "inputBytes": 0,
+        "milliseconds": 26.29399299621582,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "check-ref-format",
+          "--branch",
+          "feature"
+        ],
+        "bytes": 8,
+        "command": "check-ref-format",
+        "inputBytes": 0,
+        "milliseconds": 7.588982582092285,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "for-each-ref",
+          "--format=%(refname)%00%(objectname)%00%(HEAD)%00%(upstream)%00%(upstream:short)%00%(upstream:track,nobracket)%00%(worktreepath)%00%(symref)%00",
+          "refs/heads",
+          "refs/remotes"
+        ],
+        "bytes": 261,
+        "command": "for-each-ref",
+        "inputBytes": 0,
+        "milliseconds": 8.587002754211426,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "-t",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 7,
+        "command": "cat-file",
+        "inputBytes": 0,
+        "milliseconds": 8.050918579101562,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-base",
+          "--all",
+          "931f61ae789355df7850716d3be498a6fe6c6ed2",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 41,
+        "command": "merge-base",
+        "inputBytes": 0,
+        "milliseconds": 12.569069862365723,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-list",
+          "--reverse",
+          "--topo-order",
+          "--max-count=2001",
+          "--no-merges",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0..931f61ae789355df7850716d3be498a6fe6c6ed2",
+          "--"
+        ],
+        "bytes": 1230,
+        "command": "rev-list",
+        "inputBytes": 0,
+        "milliseconds": 9.171009063720703,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-files",
+          "--stage",
+          "-v",
+          "-z"
+        ],
+        "bytes": 308890,
+        "command": "ls-files",
+        "inputBytes": 0,
+        "milliseconds": 8.337020874023438,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch"
+        ],
+        "bytes": 8570,
+        "command": "cat-file",
+        "inputBytes": 1230,
+        "milliseconds": 10.209918022155762,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "-l",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 353890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 421.921968460083,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "4052f1bed5b3069b1c811ab94b02c4a47bb64194"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.710954666137695,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch-check=%(objectname) %(objecttype) %(objectsize)",
+          "--buffer"
+        ],
+        "bytes": 48,
+        "command": "cat-file",
+        "inputBytes": 41,
+        "milliseconds": 8.394956588745117,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch-check=%(objectname) %(objecttype)",
+          "--buffer"
+        ],
+        "bytes": 1426,
+        "command": "cat-file",
+        "inputBytes": 1488,
+        "milliseconds": 38.56396675109863,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "--stdin",
+          "-r",
+          "--raw",
+          "--no-abbrev",
+          "--no-commit-id",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv"
+        ],
+        "bytes": 5640,
+        "command": "diff-tree",
+        "inputBytes": 2460,
+        "milliseconds": 37.34409809112549,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch-check=%(objectname) %(objecttype) %(objectsize)",
+          "--buffer"
+        ],
+        "bytes": 1470,
+        "command": "cat-file",
+        "inputBytes": 1230,
+        "milliseconds": 11.819005012512207,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "config",
+          "-z",
+          "--name-only",
+          "--get-regexp",
+          "^merge\\..*\\.driver$"
+        ],
+        "bytes": 0,
+        "command": "config",
+        "inputBytes": 0,
+        "milliseconds": 8.663058280944824,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch"
+        ],
+        "bytes": 8570,
+        "command": "cat-file",
+        "inputBytes": 1230,
+        "milliseconds": 8.9949369430542,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=4052f1bed5b3069b1c811ab94b02c4a47bb64194",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0",
+          "1e0b19e055158294cb663a03ba54b8d26d94c800"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.331029891967773,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0",
+          "82d2d05e7a9d96244c29aad505123e5d89a2507d",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.672999382019043,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "82d2d05e7a9d96244c29aad505123e5d89a2507d",
+          "-p",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.798003196716309,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=1e0b19e055158294cb663a03ba54b8d26d94c800",
+          "ad97d8b50f2e4479ba37d6d568b533186df2025a",
+          "5ee1d2ef251466f176de69f5b09bcf79b5fd84e6"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.693068504333496,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "ad97d8b50f2e4479ba37d6d568b533186df2025a",
+          "8319bb191e6e52de83911f82a8438d1446153695",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.086966514587402,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "8319bb191e6e52de83911f82a8438d1446153695",
+          "-p",
+          "ad97d8b50f2e4479ba37d6d568b533186df2025a"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.112000465393066,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=5ee1d2ef251466f176de69f5b09bcf79b5fd84e6",
+          "e6956dbafd9068e5936410a5f27f7dec3d1e872e",
+          "be34c5c231a71ad656e852133db82906b4e44bb8"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.850067138671875,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "e6956dbafd9068e5936410a5f27f7dec3d1e872e",
+          "a14be542e4434484af6cd1c5cf6b637c6fb3dcfb",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.127974510192871,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "a14be542e4434484af6cd1c5cf6b637c6fb3dcfb",
+          "-p",
+          "e6956dbafd9068e5936410a5f27f7dec3d1e872e"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.476972579956055,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=be34c5c231a71ad656e852133db82906b4e44bb8",
+          "1cbf77e4160baba45d850dcd3acc6ef889cfdc0d",
+          "f17447e42903f9889982451d973cd1aada9cae52"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.064047813415527,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "1cbf77e4160baba45d850dcd3acc6ef889cfdc0d",
+          "40ec235c9858558df5161215f860665c35531ed9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.047985076904297,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "40ec235c9858558df5161215f860665c35531ed9",
+          "-p",
+          "1cbf77e4160baba45d850dcd3acc6ef889cfdc0d"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.635997772216797,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=f17447e42903f9889982451d973cd1aada9cae52",
+          "6df92fc38b416e46871e5ec79a9122dd27ad7327",
+          "3e0fe9c7c1c0331074e2f0c653590e497268b2ac"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.067028045654297,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "6df92fc38b416e46871e5ec79a9122dd27ad7327",
+          "c3817195a696efd80f021da1a52900a8a4783fee",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.828925132751465,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "c3817195a696efd80f021da1a52900a8a4783fee",
+          "-p",
+          "6df92fc38b416e46871e5ec79a9122dd27ad7327"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.544014930725098,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=3e0fe9c7c1c0331074e2f0c653590e497268b2ac",
+          "4004d59887129f66eff50b3ec30461c4920ba58b",
+          "1ad2d59dc27c94b0c863f2b84b0d51fe974bc2e7"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.376972198486328,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "4004d59887129f66eff50b3ec30461c4920ba58b",
+          "38155868437c0b8d68332b18041a95f49a2533c6",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.318947792053223,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "38155868437c0b8d68332b18041a95f49a2533c6",
+          "-p",
+          "4004d59887129f66eff50b3ec30461c4920ba58b"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.245991706848145,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=1ad2d59dc27c94b0c863f2b84b0d51fe974bc2e7",
+          "a8b71334698ad92a8201f68e14f3b99267e0777c",
+          "c641c79f4bd6e160f42e0a9b6238b3f790875b75"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.15893840789795,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "a8b71334698ad92a8201f68e14f3b99267e0777c",
+          "21d89cbbf720e74ace4cb47566633ee5aef0c5c4",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.622050285339355,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "21d89cbbf720e74ace4cb47566633ee5aef0c5c4",
+          "-p",
+          "a8b71334698ad92a8201f68e14f3b99267e0777c"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.64100456237793,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=c641c79f4bd6e160f42e0a9b6238b3f790875b75",
+          "421f57d9b852d3f30029b415d17ce5a65b7f8b0f",
+          "f08405eefd7505c83cc8a81f3250db457817a405"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.540003776550293,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "421f57d9b852d3f30029b415d17ce5a65b7f8b0f",
+          "e21a862fcda8f846101c25f87f4a7004e763767c",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.611010551452637,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "e21a862fcda8f846101c25f87f4a7004e763767c",
+          "-p",
+          "421f57d9b852d3f30029b415d17ce5a65b7f8b0f"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.285926818847656,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=f08405eefd7505c83cc8a81f3250db457817a405",
+          "1d60a6c51eb2cc57d48676bb3b861632b0761071",
+          "0e9790438c568bbd78dd5e8e2fd70b89b7049aef"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.761017799377441,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "1d60a6c51eb2cc57d48676bb3b861632b0761071",
+          "eea4b1ffc980c84f341fe12469f41519a1cf9feb",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.568048477172852,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "eea4b1ffc980c84f341fe12469f41519a1cf9feb",
+          "-p",
+          "1d60a6c51eb2cc57d48676bb3b861632b0761071"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.173942565917969,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0e9790438c568bbd78dd5e8e2fd70b89b7049aef",
+          "4996ba4f79578a5c5553a76675a399713fe98a11",
+          "9897d51bf02aa910fa5a611f1591f65c10ae9f3e"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.425920486450195,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "4996ba4f79578a5c5553a76675a399713fe98a11",
+          "5608760a42a91914079a0f20b7725768ecec2a10",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.364962577819824,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "5608760a42a91914079a0f20b7725768ecec2a10",
+          "-p",
+          "4996ba4f79578a5c5553a76675a399713fe98a11"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.533047676086426,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=9897d51bf02aa910fa5a611f1591f65c10ae9f3e",
+          "8d8dca9fb4c3d66be848c382d029b594b5f47da7",
+          "ae2a6236e1be8b7ca37a6a8c73709c96da02e312"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.51198959350586,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "8d8dca9fb4c3d66be848c382d029b594b5f47da7",
+          "ddb574ec5db16276df65fe229eaaaf0bd3f666f9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.499979972839355,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "ddb574ec5db16276df65fe229eaaaf0bd3f666f9",
+          "-p",
+          "8d8dca9fb4c3d66be848c382d029b594b5f47da7"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.312987327575684,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=ae2a6236e1be8b7ca37a6a8c73709c96da02e312",
+          "d67affca63929ac7b67828e7104cd75969426712",
+          "770f3175e383097ed8eabec42437779d53b3f4e6"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.836000442504883,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "d67affca63929ac7b67828e7104cd75969426712",
+          "ecb6c45e34e91e75e2dd01ecbef6c8b1d13b4ce9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.06991958618164,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "ecb6c45e34e91e75e2dd01ecbef6c8b1d13b4ce9",
+          "-p",
+          "d67affca63929ac7b67828e7104cd75969426712"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.08505916595459,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=770f3175e383097ed8eabec42437779d53b3f4e6",
+          "1f105f410ca0e76f81a21300cdbd5925504bb31d",
+          "c7b51e11e53df97282746a8dc102f21af7911af4"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.423893928527832,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "1f105f410ca0e76f81a21300cdbd5925504bb31d",
+          "3645f4d64b31f9544ba6d8cf31f8733c324b3a30",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.065985679626465,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "3645f4d64b31f9544ba6d8cf31f8733c324b3a30",
+          "-p",
+          "1f105f410ca0e76f81a21300cdbd5925504bb31d"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.190917015075684,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=c7b51e11e53df97282746a8dc102f21af7911af4",
+          "d7d5876783aed2ad78cdce321b771547f4160cb2",
+          "9efe22415665707114351f17193d0bb6ad2abd0a"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.01607894897461,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "d7d5876783aed2ad78cdce321b771547f4160cb2",
+          "952e7854c9f9e625f18aa4ddf8e1f556c48931ff",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.250998497009277,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "952e7854c9f9e625f18aa4ddf8e1f556c48931ff",
+          "-p",
+          "d7d5876783aed2ad78cdce321b771547f4160cb2"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 7.945060729980469,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=9efe22415665707114351f17193d0bb6ad2abd0a",
+          "aba6cc3f9ffe68ce1114cc933e072b75b5a9c33a",
+          "802fa2bcdea1e3d6728c7269b7c0cd2af621c6d9"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.022993087768555,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "aba6cc3f9ffe68ce1114cc933e072b75b5a9c33a",
+          "4839b7f26bac5a7a62c7e76f26585a5d86fab580",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.582996368408203,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "4839b7f26bac5a7a62c7e76f26585a5d86fab580",
+          "-p",
+          "aba6cc3f9ffe68ce1114cc933e072b75b5a9c33a"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.297966957092285,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=802fa2bcdea1e3d6728c7269b7c0cd2af621c6d9",
+          "255c516387b0f24ad2a4155b29238ead6c7215f3",
+          "c0786f4ec4f688ba8677228dd8016afd7e62b5b3"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.669941902160645,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "255c516387b0f24ad2a4155b29238ead6c7215f3",
+          "7dc291d6316ce92e30448fec01133c2754fb26f6",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.322047233581543,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "7dc291d6316ce92e30448fec01133c2754fb26f6",
+          "-p",
+          "255c516387b0f24ad2a4155b29238ead6c7215f3"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.636951446533203,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=c0786f4ec4f688ba8677228dd8016afd7e62b5b3",
+          "ba5f6c52c1cf25246c9ccff8c0d3d1047b5e053b",
+          "0108f6b3b1a464f50821db0ec42c2245bac671b7"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.928030014038086,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "ba5f6c52c1cf25246c9ccff8c0d3d1047b5e053b",
+          "8bd4726c98a4f9e0431f90c0a5915878496810d8",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.151101112365723,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "8bd4726c98a4f9e0431f90c0a5915878496810d8",
+          "-p",
+          "ba5f6c52c1cf25246c9ccff8c0d3d1047b5e053b"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.973956108093262,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0108f6b3b1a464f50821db0ec42c2245bac671b7",
+          "f97035d2b85081d1cece0bb39fdf5a13e169e2b0",
+          "f0c331edbefa0cf7d83cb92225d1e09a9febaa06"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.6480073928833,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "f97035d2b85081d1cece0bb39fdf5a13e169e2b0",
+          "4a0dc62aa5bdd4aaeff9df8d4edebca5cb74ab70",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.474992752075195,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "4a0dc62aa5bdd4aaeff9df8d4edebca5cb74ab70",
+          "-p",
+          "f97035d2b85081d1cece0bb39fdf5a13e169e2b0"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.183956146240234,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=f0c331edbefa0cf7d83cb92225d1e09a9febaa06",
+          "c2a68af71712e747a72b93e070e4b68285f69741",
+          "a28ff6f26e721fb6bb6ad273a379a0bdb340a216"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.781998634338379,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "c2a68af71712e747a72b93e070e4b68285f69741",
+          "d98995e41b314caca2e0b278dc6326bbf504b28e",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.124994277954102,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "d98995e41b314caca2e0b278dc6326bbf504b28e",
+          "-p",
+          "c2a68af71712e747a72b93e070e4b68285f69741"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.335041046142578,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=a28ff6f26e721fb6bb6ad273a379a0bdb340a216",
+          "d8cb25b391722370f5fb1a536e7fa53c980b8b55",
+          "216b72d6474fcfad6a51ae9b3c23fcd6a0aaf272"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.643954277038574,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "d8cb25b391722370f5fb1a536e7fa53c980b8b55",
+          "1753c1b86ddab08e5392e04eb554b22c90885f09",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.996963500976562,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "1753c1b86ddab08e5392e04eb554b22c90885f09",
+          "-p",
+          "d8cb25b391722370f5fb1a536e7fa53c980b8b55"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.762955665588379,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=216b72d6474fcfad6a51ae9b3c23fcd6a0aaf272",
+          "2febe23ad615b636054e23e6e8e0330ccf95a4a0",
+          "ef8a4a431b8fcbe628de67f36f32badafc2cff5c"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.51198959350586,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "2febe23ad615b636054e23e6e8e0330ccf95a4a0",
+          "6e85b3979b337473ba91a2ff6a64d21954bef385",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.95702838897705,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "6e85b3979b337473ba91a2ff6a64d21954bef385",
+          "-p",
+          "2febe23ad615b636054e23e6e8e0330ccf95a4a0"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.925914764404297,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=ef8a4a431b8fcbe628de67f36f32badafc2cff5c",
+          "da0c76159596ddb63ea74e912b201b4b4a89da0b",
+          "0ba202ff7962d3db883a5c4adacfb3dc25bbc6ab"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.229940414428711,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "da0c76159596ddb63ea74e912b201b4b4a89da0b",
+          "bc5619b40ec1c2ba0972ae72bec968201aae38a2",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.758068084716797,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "bc5619b40ec1c2ba0972ae72bec968201aae38a2",
+          "-p",
+          "da0c76159596ddb63ea74e912b201b4b4a89da0b"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.05299186706543,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0ba202ff7962d3db883a5c4adacfb3dc25bbc6ab",
+          "a0f84ba5d670f7311f3a7da1d87e5731cbaf5843",
+          "d18980474fc8a3dc0b620b725c5d83823a77fc59"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.45703411102295,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "a0f84ba5d670f7311f3a7da1d87e5731cbaf5843",
+          "707d21bd023476537c9274f51d02ff1cecc13d7e",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.374022483825684,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "707d21bd023476537c9274f51d02ff1cecc13d7e",
+          "-p",
+          "a0f84ba5d670f7311f3a7da1d87e5731cbaf5843"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.864045143127441,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=d18980474fc8a3dc0b620b725c5d83823a77fc59",
+          "c2af022388274abf15aebf3d7cceb503e9a3a944",
+          "3eb79fbb5fd3c5ca4a607ead81e9036df46ea00c"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.980958938598633,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "c2af022388274abf15aebf3d7cceb503e9a3a944",
+          "f8d55df0f0bd80ca767252ebcb6c308cab1277d9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.000062942504883,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "f8d55df0f0bd80ca767252ebcb6c308cab1277d9",
+          "-p",
+          "c2af022388274abf15aebf3d7cceb503e9a3a944"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.507013320922852,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=3eb79fbb5fd3c5ca4a607ead81e9036df46ea00c",
+          "8ed431e07e8544e0f9ae06884fa8b00c1a1714d2",
+          "0fd06b31929562f892577993e41fc76f4de81f0e"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.347003936767578,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "8ed431e07e8544e0f9ae06884fa8b00c1a1714d2",
+          "84553f8ae863130eb2d5c76df5931da626b14344",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.028911590576172,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "84553f8ae863130eb2d5c76df5931da626b14344",
+          "-p",
+          "8ed431e07e8544e0f9ae06884fa8b00c1a1714d2"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.54802131652832,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0fd06b31929562f892577993e41fc76f4de81f0e",
+          "f66f30061fbfd3e4b2a7f4998678f989c159860d",
+          "537f24e821fd6157420a116616bfe586f4843d1a"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.737056732177734,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "f66f30061fbfd3e4b2a7f4998678f989c159860d",
+          "bde30e5cacbadffd33d41076e01314f554cef934",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.744955062866211,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "bde30e5cacbadffd33d41076e01314f554cef934",
+          "-p",
+          "f66f30061fbfd3e4b2a7f4998678f989c159860d"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.779048919677734,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=537f24e821fd6157420a116616bfe586f4843d1a",
+          "6eec551b5da26618519313b5e3af3099909db5f8",
+          "6dc52a133790c2debd7ee5e711fee461a1429490"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.136003494262695,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "6eec551b5da26618519313b5e3af3099909db5f8",
+          "00f072dff5fda08a0fec4c6f028c2bab20e757a8",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.690999984741211,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "00f072dff5fda08a0fec4c6f028c2bab20e757a8",
+          "-p",
+          "6eec551b5da26618519313b5e3af3099909db5f8"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.19198989868164,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=6dc52a133790c2debd7ee5e711fee461a1429490",
+          "a77583b3a9cdbfdc9ab900b0b91b56cec5c6916f",
+          "7d7304b1f054988de7d5d5853b4fcf110a5c2b9e"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.637040138244629,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "a77583b3a9cdbfdc9ab900b0b91b56cec5c6916f",
+          "f8303d60274dbc629a0895b323378b795aa2cb2c",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.52005386352539,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "f8303d60274dbc629a0895b323378b795aa2cb2c",
+          "-p",
+          "a77583b3a9cdbfdc9ab900b0b91b56cec5c6916f"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.469032287597656,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=7d7304b1f054988de7d5d5853b4fcf110a5c2b9e",
+          "861ac6febd1c1d9dd7a09681229ef2cefb62c1a3",
+          "b48e92cb92c65209cb53577f713a723cadfac47f"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.002965927124023,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "861ac6febd1c1d9dd7a09681229ef2cefb62c1a3",
+          "434ee57b3640ef5677add074a19643b3e14a55a8",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.240984916687012,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "434ee57b3640ef5677add074a19643b3e14a55a8",
+          "-p",
+          "861ac6febd1c1d9dd7a09681229ef2cefb62c1a3"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.238958358764648,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=b48e92cb92c65209cb53577f713a723cadfac47f",
+          "46c5703b2ab92cb79d52e4ccf5c8f6903df8765c",
+          "931f61ae789355df7850716d3be498a6fe6c6ed2"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 14.3049955368042,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "46c5703b2ab92cb79d52e4ccf5c8f6903df8765c",
+          "9cd9e0c1f44d89a9abe6732c019df3836e14d0fb",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.598016738891602,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "9cd9e0c1f44d89a9abe6732c019df3836e14d0fb",
+          "-p",
+          "46c5703b2ab92cb79d52e4ccf5c8f6903df8765c"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.299039840698242,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-parse",
+          "--verify",
+          "c75a7194ef4f328a16a444a79f7c936babc00136^{tree}"
+        ],
+        "bytes": 41,
+        "command": "rev-parse",
+        "inputBytes": 0,
+        "milliseconds": 8.420944213867188,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-list",
+          "--max-count=2001",
+          "931f61ae789355df7850716d3be498a6fe6c6ed2",
+          "--not",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0",
+          "--remotes",
+          "--"
+        ],
+        "bytes": 1230,
+        "command": "rev-list",
+        "inputBytes": 0,
+        "milliseconds": 9.799003601074219,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--branch",
+          "--untracked-files=all"
+        ],
+        "bytes": 76,
+        "command": "status",
+        "inputBytes": 0,
+        "milliseconds": 15.044927597045898,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-files",
+          "--stage",
+          "-v",
+          "-z"
+        ],
+        "bytes": 308890,
+        "command": "ls-files",
+        "inputBytes": 0,
+        "milliseconds": 8.69297981262207,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "for-each-ref",
+          "--format=%(refname)%00%(objectname)%00%(HEAD)%00%(upstream)%00%(upstream:short)%00%(upstream:track,nobracket)%00%(worktreepath)%00%(symref)%00",
+          "refs/heads",
+          "refs/remotes"
+        ],
+        "bytes": 261,
+        "command": "for-each-ref",
+        "inputBytes": 0,
+        "milliseconds": 8.432984352111816,
+        "noLazyFetch": false,
+        "noReplacements": false
+      }
+    ],
+    "totalMilliseconds": 1822.83275
+  },
+  "identity": {
+    "fixture": "/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitRebasePerformance-BC29400E-39A7-423E-84F7-921953C57337/large-loose",
+    "head": "931f61ae789355df7850716d3be498a6fe6c6ed2",
+    "indexSha256": "ae70969273ef1c0ff116c2d39d8602f2f39eb84d6f0b906d974de8e171373f68",
+    "preserved": true
+  },
+  "seededProfile": {
+    "commandCount": 138,
+    "commits": 30,
+    "fixture": "/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitRebasePerformance-BC29400E-39A7-423E-84F7-921953C57337/large-loose",
+    "grouped": {
+      "cat-file": {
+        "bytes": 18665,
+        "count": 4,
+        "milliseconds": 39.7721529006958
+      },
+      "check-ref-format": {
+        "bytes": 8,
+        "count": 1,
+        "milliseconds": 7.8591108322143555
+      },
+      "commit-tree": {
+        "bytes": 1230,
+        "count": 30,
+        "milliseconds": 271.0750102996826
+      },
+      "config": {
+        "bytes": 0,
+        "count": 1,
+        "milliseconds": 7.549047470092773
+      },
+      "diff-tree": {
+        "bytes": 3180,
+        "count": 30,
+        "milliseconds": 273.03028106689453
+      },
+      "for-each-ref": {
+        "bytes": 522,
+        "count": 2,
+        "milliseconds": 14.466047286987305
+      },
+      "ls-files": {
+        "bytes": 617780,
+        "count": 2,
+        "milliseconds": 17.22896099090576
+      },
+      "ls-tree": {
+        "bytes": 10084480,
+        "count": 32,
+        "milliseconds": 685.6367588043213
+      },
+      "merge-base": {
+        "bytes": 41,
+        "count": 1,
+        "milliseconds": 13.077974319458008
+      },
+      "merge-tree": {
+        "bytes": 1230,
+        "count": 30,
+        "milliseconds": 467.19157695770264
+      },
+      "rev-list": {
+        "bytes": 2460,
+        "count": 2,
+        "milliseconds": 18.298983573913574
+      },
+      "rev-parse": {
+        "bytes": 41,
+        "count": 1,
+        "milliseconds": 7.771968841552734
+      },
+      "status": {
+        "bytes": 152,
+        "count": 2,
+        "milliseconds": 32.775044441223145
+      }
+    },
+    "head": "931f61ae789355df7850716d3be498a6fe6c6ed2",
+    "processMilliseconds": 1855.7329177856445,
+    "records": [
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--branch",
+          "--untracked-files=all"
+        ],
+        "bytes": 76,
+        "command": "status",
+        "inputBytes": 0,
+        "milliseconds": 16.662001609802246,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "check-ref-format",
+          "--branch",
+          "feature"
+        ],
+        "bytes": 8,
+        "command": "check-ref-format",
+        "inputBytes": 0,
+        "milliseconds": 7.8591108322143555,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "for-each-ref",
+          "--format=%(refname)%00%(objectname)%00%(HEAD)%00%(upstream)%00%(upstream:short)%00%(upstream:track,nobracket)%00%(worktreepath)%00%(symref)%00",
+          "refs/heads",
+          "refs/remotes"
+        ],
+        "bytes": 261,
+        "command": "for-each-ref",
+        "inputBytes": 0,
+        "milliseconds": 6.832003593444824,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "-t",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 7,
+        "command": "cat-file",
+        "inputBytes": 0,
+        "milliseconds": 7.467985153198242,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-base",
+          "--all",
+          "931f61ae789355df7850716d3be498a6fe6c6ed2",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 41,
+        "command": "merge-base",
+        "inputBytes": 0,
+        "milliseconds": 13.077974319458008,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-list",
+          "--reverse",
+          "--topo-order",
+          "--max-count=2001",
+          "--no-merges",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0..931f61ae789355df7850716d3be498a6fe6c6ed2",
+          "--"
+        ],
+        "bytes": 1230,
+        "command": "rev-list",
+        "inputBytes": 0,
+        "milliseconds": 8.877992630004883,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-files",
+          "--stage",
+          "-v",
+          "-z"
+        ],
+        "bytes": 308890,
+        "command": "ls-files",
+        "inputBytes": 0,
+        "milliseconds": 8.543014526367188,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch"
+        ],
+        "bytes": 8570,
+        "command": "cat-file",
+        "inputBytes": 1230,
+        "milliseconds": 9.746074676513672,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "-l",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 353890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 370.15795707702637,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "1e0b19e055158294cb663a03ba54b8d26d94c800"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.043025016784668,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "4052f1bed5b3069b1c811ab94b02c4a47bb64194"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.506033897399902,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "5ee1d2ef251466f176de69f5b09bcf79b5fd84e6"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.479927062988281,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "be34c5c231a71ad656e852133db82906b4e44bb8"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.235071182250977,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "f17447e42903f9889982451d973cd1aada9cae52"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.786009788513184,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "3e0fe9c7c1c0331074e2f0c653590e497268b2ac"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 11.184096336364746,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "1ad2d59dc27c94b0c863f2b84b0d51fe974bc2e7"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.915947914123535,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "c641c79f4bd6e160f42e0a9b6238b3f790875b75"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.719060897827148,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "f08405eefd7505c83cc8a81f3250db457817a405"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.927034378051758,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "0e9790438c568bbd78dd5e8e2fd70b89b7049aef"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.239005088806152,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "9897d51bf02aa910fa5a611f1591f65c10ae9f3e"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.141968727111816,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "ae2a6236e1be8b7ca37a6a8c73709c96da02e312"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.898066520690918,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "770f3175e383097ed8eabec42437779d53b3f4e6"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.471940040588379,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "c7b51e11e53df97282746a8dc102f21af7911af4"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.239005088806152,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "9efe22415665707114351f17193d0bb6ad2abd0a"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.92894172668457,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "802fa2bcdea1e3d6728c7269b7c0cd2af621c6d9"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.845972061157227,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "c0786f4ec4f688ba8677228dd8016afd7e62b5b3"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.303020477294922,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "0108f6b3b1a464f50821db0ec42c2245bac671b7"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.074973106384277,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "f0c331edbefa0cf7d83cb92225d1e09a9febaa06"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.579943656921387,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "a28ff6f26e721fb6bb6ad273a379a0bdb340a216"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.765982627868652,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "216b72d6474fcfad6a51ae9b3c23fcd6a0aaf272"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.069966316223145,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "ef8a4a431b8fcbe628de67f36f32badafc2cff5c"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.703993797302246,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "0ba202ff7962d3db883a5c4adacfb3dc25bbc6ab"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.829044342041016,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "d18980474fc8a3dc0b620b725c5d83823a77fc59"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.38503646850586,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "3eb79fbb5fd3c5ca4a607ead81e9036df46ea00c"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.85097885131836,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "0fd06b31929562f892577993e41fc76f4de81f0e"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.13493537902832,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "537f24e821fd6157420a116616bfe586f4843d1a"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.949922561645508,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "6dc52a133790c2debd7ee5e711fee461a1429490"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.34402847290039,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "7d7304b1f054988de7d5d5853b4fcf110a5c2b9e"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.463953018188477,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "b48e92cb92c65209cb53577f713a723cadfac47f"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.097026824951172,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "931f61ae789355df7850716d3be498a6fe6c6ed2"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 10.364890098571777,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch-check=%(objectname) %(objecttype) %(objectsize)",
+          "--buffer"
+        ],
+        "bytes": 1518,
+        "command": "cat-file",
+        "inputBytes": 1271,
+        "milliseconds": 12.697100639343262,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "config",
+          "-z",
+          "--name-only",
+          "--get-regexp",
+          "^merge\\..*\\.driver$"
+        ],
+        "bytes": 0,
+        "command": "config",
+        "inputBytes": 0,
+        "milliseconds": 7.549047470092773,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch"
+        ],
+        "bytes": 8570,
+        "command": "cat-file",
+        "inputBytes": 1230,
+        "milliseconds": 9.860992431640625,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=4052f1bed5b3069b1c811ab94b02c4a47bb64194",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0",
+          "1e0b19e055158294cb663a03ba54b8d26d94c800"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.267895698547363,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0",
+          "82d2d05e7a9d96244c29aad505123e5d89a2507d",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.498953819274902,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "82d2d05e7a9d96244c29aad505123e5d89a2507d",
+          "-p",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.309053421020508,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=1e0b19e055158294cb663a03ba54b8d26d94c800",
+          "ad97d8b50f2e4479ba37d6d568b533186df2025a",
+          "5ee1d2ef251466f176de69f5b09bcf79b5fd84e6"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.775084495544434,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "ad97d8b50f2e4479ba37d6d568b533186df2025a",
+          "8319bb191e6e52de83911f82a8438d1446153695",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.855104446411133,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "8319bb191e6e52de83911f82a8438d1446153695",
+          "-p",
+          "ad97d8b50f2e4479ba37d6d568b533186df2025a"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.130073547363281,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=5ee1d2ef251466f176de69f5b09bcf79b5fd84e6",
+          "e6956dbafd9068e5936410a5f27f7dec3d1e872e",
+          "be34c5c231a71ad656e852133db82906b4e44bb8"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.613913536071777,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "e6956dbafd9068e5936410a5f27f7dec3d1e872e",
+          "a14be542e4434484af6cd1c5cf6b637c6fb3dcfb",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.093046188354492,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "a14be542e4434484af6cd1c5cf6b637c6fb3dcfb",
+          "-p",
+          "e6956dbafd9068e5936410a5f27f7dec3d1e872e"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.631991386413574,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=be34c5c231a71ad656e852133db82906b4e44bb8",
+          "1cbf77e4160baba45d850dcd3acc6ef889cfdc0d",
+          "f17447e42903f9889982451d973cd1aada9cae52"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.617012977600098,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "1cbf77e4160baba45d850dcd3acc6ef889cfdc0d",
+          "40ec235c9858558df5161215f860665c35531ed9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.665084838867188,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "40ec235c9858558df5161215f860665c35531ed9",
+          "-p",
+          "1cbf77e4160baba45d850dcd3acc6ef889cfdc0d"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.466005325317383,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=f17447e42903f9889982451d973cd1aada9cae52",
+          "6df92fc38b416e46871e5ec79a9122dd27ad7327",
+          "3e0fe9c7c1c0331074e2f0c653590e497268b2ac"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.722036361694336,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "6df92fc38b416e46871e5ec79a9122dd27ad7327",
+          "c3817195a696efd80f021da1a52900a8a4783fee",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.059906005859375,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "c3817195a696efd80f021da1a52900a8a4783fee",
+          "-p",
+          "6df92fc38b416e46871e5ec79a9122dd27ad7327"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.627938270568848,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=3e0fe9c7c1c0331074e2f0c653590e497268b2ac",
+          "4004d59887129f66eff50b3ec30461c4920ba58b",
+          "1ad2d59dc27c94b0c863f2b84b0d51fe974bc2e7"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.38991928100586,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "4004d59887129f66eff50b3ec30461c4920ba58b",
+          "38155868437c0b8d68332b18041a95f49a2533c6",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.51893424987793,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "38155868437c0b8d68332b18041a95f49a2533c6",
+          "-p",
+          "4004d59887129f66eff50b3ec30461c4920ba58b"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.390950202941895,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=1ad2d59dc27c94b0c863f2b84b0d51fe974bc2e7",
+          "a8b71334698ad92a8201f68e14f3b99267e0777c",
+          "c641c79f4bd6e160f42e0a9b6238b3f790875b75"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.542984008789062,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "a8b71334698ad92a8201f68e14f3b99267e0777c",
+          "21d89cbbf720e74ace4cb47566633ee5aef0c5c4",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.024977684020996,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "21d89cbbf720e74ace4cb47566633ee5aef0c5c4",
+          "-p",
+          "a8b71334698ad92a8201f68e14f3b99267e0777c"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.973002433776855,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=c641c79f4bd6e160f42e0a9b6238b3f790875b75",
+          "421f57d9b852d3f30029b415d17ce5a65b7f8b0f",
+          "f08405eefd7505c83cc8a81f3250db457817a405"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.460014343261719,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "421f57d9b852d3f30029b415d17ce5a65b7f8b0f",
+          "e21a862fcda8f846101c25f87f4a7004e763767c",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.52203369140625,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "e21a862fcda8f846101c25f87f4a7004e763767c",
+          "-p",
+          "421f57d9b852d3f30029b415d17ce5a65b7f8b0f"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.356975555419922,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=f08405eefd7505c83cc8a81f3250db457817a405",
+          "1d60a6c51eb2cc57d48676bb3b861632b0761071",
+          "0e9790438c568bbd78dd5e8e2fd70b89b7049aef"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.088081359863281,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "1d60a6c51eb2cc57d48676bb3b861632b0761071",
+          "eea4b1ffc980c84f341fe12469f41519a1cf9feb",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.279966354370117,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "eea4b1ffc980c84f341fe12469f41519a1cf9feb",
+          "-p",
+          "1d60a6c51eb2cc57d48676bb3b861632b0761071"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.816003799438477,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0e9790438c568bbd78dd5e8e2fd70b89b7049aef",
+          "4996ba4f79578a5c5553a76675a399713fe98a11",
+          "9897d51bf02aa910fa5a611f1591f65c10ae9f3e"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.053033828735352,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "4996ba4f79578a5c5553a76675a399713fe98a11",
+          "5608760a42a91914079a0f20b7725768ecec2a10",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.050965309143066,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "5608760a42a91914079a0f20b7725768ecec2a10",
+          "-p",
+          "4996ba4f79578a5c5553a76675a399713fe98a11"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.919000625610352,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=9897d51bf02aa910fa5a611f1591f65c10ae9f3e",
+          "8d8dca9fb4c3d66be848c382d029b594b5f47da7",
+          "ae2a6236e1be8b7ca37a6a8c73709c96da02e312"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.002965927124023,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "8d8dca9fb4c3d66be848c382d029b594b5f47da7",
+          "ddb574ec5db16276df65fe229eaaaf0bd3f666f9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.1630220413208,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "ddb574ec5db16276df65fe229eaaaf0bd3f666f9",
+          "-p",
+          "8d8dca9fb4c3d66be848c382d029b594b5f47da7"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.198022842407227,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=ae2a6236e1be8b7ca37a6a8c73709c96da02e312",
+          "d67affca63929ac7b67828e7104cd75969426712",
+          "770f3175e383097ed8eabec42437779d53b3f4e6"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 14.660000801086426,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "d67affca63929ac7b67828e7104cd75969426712",
+          "ecb6c45e34e91e75e2dd01ecbef6c8b1d13b4ce9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.881973266601562,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "ecb6c45e34e91e75e2dd01ecbef6c8b1d13b4ce9",
+          "-p",
+          "d67affca63929ac7b67828e7104cd75969426712"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.299039840698242,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=770f3175e383097ed8eabec42437779d53b3f4e6",
+          "1f105f410ca0e76f81a21300cdbd5925504bb31d",
+          "c7b51e11e53df97282746a8dc102f21af7911af4"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.14391803741455,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "1f105f410ca0e76f81a21300cdbd5925504bb31d",
+          "3645f4d64b31f9544ba6d8cf31f8733c324b3a30",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.361028671264648,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "3645f4d64b31f9544ba6d8cf31f8733c324b3a30",
+          "-p",
+          "1f105f410ca0e76f81a21300cdbd5925504bb31d"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.980082511901855,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=c7b51e11e53df97282746a8dc102f21af7911af4",
+          "d7d5876783aed2ad78cdce321b771547f4160cb2",
+          "9efe22415665707114351f17193d0bb6ad2abd0a"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.323996543884277,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "d7d5876783aed2ad78cdce321b771547f4160cb2",
+          "952e7854c9f9e625f18aa4ddf8e1f556c48931ff",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.073019027709961,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "952e7854c9f9e625f18aa4ddf8e1f556c48931ff",
+          "-p",
+          "d7d5876783aed2ad78cdce321b771547f4160cb2"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.36491584777832,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=9efe22415665707114351f17193d0bb6ad2abd0a",
+          "aba6cc3f9ffe68ce1114cc933e072b75b5a9c33a",
+          "802fa2bcdea1e3d6728c7269b7c0cd2af621c6d9"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.174912452697754,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "aba6cc3f9ffe68ce1114cc933e072b75b5a9c33a",
+          "4839b7f26bac5a7a62c7e76f26585a5d86fab580",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.635090827941895,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "4839b7f26bac5a7a62c7e76f26585a5d86fab580",
+          "-p",
+          "aba6cc3f9ffe68ce1114cc933e072b75b5a9c33a"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.173942565917969,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=802fa2bcdea1e3d6728c7269b7c0cd2af621c6d9",
+          "255c516387b0f24ad2a4155b29238ead6c7215f3",
+          "c0786f4ec4f688ba8677228dd8016afd7e62b5b3"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.632987022399902,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "255c516387b0f24ad2a4155b29238ead6c7215f3",
+          "7dc291d6316ce92e30448fec01133c2754fb26f6",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.177923202514648,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "7dc291d6316ce92e30448fec01133c2754fb26f6",
+          "-p",
+          "255c516387b0f24ad2a4155b29238ead6c7215f3"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.831024169921875,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=c0786f4ec4f688ba8677228dd8016afd7e62b5b3",
+          "ba5f6c52c1cf25246c9ccff8c0d3d1047b5e053b",
+          "0108f6b3b1a464f50821db0ec42c2245bac671b7"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.702009201049805,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "ba5f6c52c1cf25246c9ccff8c0d3d1047b5e053b",
+          "8bd4726c98a4f9e0431f90c0a5915878496810d8",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.744001388549805,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "8bd4726c98a4f9e0431f90c0a5915878496810d8",
+          "-p",
+          "ba5f6c52c1cf25246c9ccff8c0d3d1047b5e053b"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.818984031677246,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0108f6b3b1a464f50821db0ec42c2245bac671b7",
+          "f97035d2b85081d1cece0bb39fdf5a13e169e2b0",
+          "f0c331edbefa0cf7d83cb92225d1e09a9febaa06"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 14.895081520080566,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "f97035d2b85081d1cece0bb39fdf5a13e169e2b0",
+          "4a0dc62aa5bdd4aaeff9df8d4edebca5cb74ab70",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.854985237121582,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "4a0dc62aa5bdd4aaeff9df8d4edebca5cb74ab70",
+          "-p",
+          "f97035d2b85081d1cece0bb39fdf5a13e169e2b0"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.089946746826172,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=f0c331edbefa0cf7d83cb92225d1e09a9febaa06",
+          "c2a68af71712e747a72b93e070e4b68285f69741",
+          "a28ff6f26e721fb6bb6ad273a379a0bdb340a216"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.87800884246826,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "c2a68af71712e747a72b93e070e4b68285f69741",
+          "d98995e41b314caca2e0b278dc6326bbf504b28e",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.998990058898926,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "d98995e41b314caca2e0b278dc6326bbf504b28e",
+          "-p",
+          "c2a68af71712e747a72b93e070e4b68285f69741"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.088993072509766,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=a28ff6f26e721fb6bb6ad273a379a0bdb340a216",
+          "d8cb25b391722370f5fb1a536e7fa53c980b8b55",
+          "216b72d6474fcfad6a51ae9b3c23fcd6a0aaf272"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.6019926071167,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "d8cb25b391722370f5fb1a536e7fa53c980b8b55",
+          "1753c1b86ddab08e5392e04eb554b22c90885f09",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.207010269165039,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "1753c1b86ddab08e5392e04eb554b22c90885f09",
+          "-p",
+          "d8cb25b391722370f5fb1a536e7fa53c980b8b55"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.405970573425293,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=216b72d6474fcfad6a51ae9b3c23fcd6a0aaf272",
+          "2febe23ad615b636054e23e6e8e0330ccf95a4a0",
+          "ef8a4a431b8fcbe628de67f36f32badafc2cff5c"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.147924423217773,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "2febe23ad615b636054e23e6e8e0330ccf95a4a0",
+          "6e85b3979b337473ba91a2ff6a64d21954bef385",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.700013160705566,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "6e85b3979b337473ba91a2ff6a64d21954bef385",
+          "-p",
+          "2febe23ad615b636054e23e6e8e0330ccf95a4a0"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.787989616394043,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=ef8a4a431b8fcbe628de67f36f32badafc2cff5c",
+          "da0c76159596ddb63ea74e912b201b4b4a89da0b",
+          "0ba202ff7962d3db883a5c4adacfb3dc25bbc6ab"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.796065330505371,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "da0c76159596ddb63ea74e912b201b4b4a89da0b",
+          "bc5619b40ec1c2ba0972ae72bec968201aae38a2",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.130001068115234,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "bc5619b40ec1c2ba0972ae72bec968201aae38a2",
+          "-p",
+          "da0c76159596ddb63ea74e912b201b4b4a89da0b"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.222030639648438,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0ba202ff7962d3db883a5c4adacfb3dc25bbc6ab",
+          "a0f84ba5d670f7311f3a7da1d87e5731cbaf5843",
+          "d18980474fc8a3dc0b620b725c5d83823a77fc59"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.336990356445312,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "a0f84ba5d670f7311f3a7da1d87e5731cbaf5843",
+          "707d21bd023476537c9274f51d02ff1cecc13d7e",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.888959884643555,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "707d21bd023476537c9274f51d02ff1cecc13d7e",
+          "-p",
+          "a0f84ba5d670f7311f3a7da1d87e5731cbaf5843"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.23299789428711,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=d18980474fc8a3dc0b620b725c5d83823a77fc59",
+          "c2af022388274abf15aebf3d7cceb503e9a3a944",
+          "3eb79fbb5fd3c5ca4a607ead81e9036df46ea00c"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.47694206237793,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "c2af022388274abf15aebf3d7cceb503e9a3a944",
+          "f8d55df0f0bd80ca767252ebcb6c308cab1277d9",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.44507122039795,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "f8d55df0f0bd80ca767252ebcb6c308cab1277d9",
+          "-p",
+          "c2af022388274abf15aebf3d7cceb503e9a3a944"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.286999702453613,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=3eb79fbb5fd3c5ca4a607ead81e9036df46ea00c",
+          "8ed431e07e8544e0f9ae06884fa8b00c1a1714d2",
+          "0fd06b31929562f892577993e41fc76f4de81f0e"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.05403423309326,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "8ed431e07e8544e0f9ae06884fa8b00c1a1714d2",
+          "84553f8ae863130eb2d5c76df5931da626b14344",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.40406322479248,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "84553f8ae863130eb2d5c76df5931da626b14344",
+          "-p",
+          "8ed431e07e8544e0f9ae06884fa8b00c1a1714d2"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.43601131439209,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=0fd06b31929562f892577993e41fc76f4de81f0e",
+          "f66f30061fbfd3e4b2a7f4998678f989c159860d",
+          "537f24e821fd6157420a116616bfe586f4843d1a"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.21401309967041,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "f66f30061fbfd3e4b2a7f4998678f989c159860d",
+          "bde30e5cacbadffd33d41076e01314f554cef934",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.968996047973633,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "bde30e5cacbadffd33d41076e01314f554cef934",
+          "-p",
+          "f66f30061fbfd3e4b2a7f4998678f989c159860d"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 10.07997989654541,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=537f24e821fd6157420a116616bfe586f4843d1a",
+          "6eec551b5da26618519313b5e3af3099909db5f8",
+          "6dc52a133790c2debd7ee5e711fee461a1429490"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 16.170978546142578,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "6eec551b5da26618519313b5e3af3099909db5f8",
+          "00f072dff5fda08a0fec4c6f028c2bab20e757a8",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.844064712524414,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "00f072dff5fda08a0fec4c6f028c2bab20e757a8",
+          "-p",
+          "6eec551b5da26618519313b5e3af3099909db5f8"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 9.693026542663574,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=6dc52a133790c2debd7ee5e711fee461a1429490",
+          "a77583b3a9cdbfdc9ab900b0b91b56cec5c6916f",
+          "7d7304b1f054988de7d5d5853b4fcf110a5c2b9e"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.541911125183105,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "a77583b3a9cdbfdc9ab900b0b91b56cec5c6916f",
+          "f8303d60274dbc629a0895b323378b795aa2cb2c",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.688092231750488,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "f8303d60274dbc629a0895b323378b795aa2cb2c",
+          "-p",
+          "a77583b3a9cdbfdc9ab900b0b91b56cec5c6916f"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.442997932434082,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=7d7304b1f054988de7d5d5853b4fcf110a5c2b9e",
+          "861ac6febd1c1d9dd7a09681229ef2cefb62c1a3",
+          "b48e92cb92c65209cb53577f713a723cadfac47f"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 15.497922897338867,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "861ac6febd1c1d9dd7a09681229ef2cefb62c1a3",
+          "434ee57b3640ef5677add074a19643b3e14a55a8",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.965015411376953,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "434ee57b3640ef5677add074a19643b3e14a55a8",
+          "-p",
+          "861ac6febd1c1d9dd7a09681229ef2cefb62c1a3"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.687019348144531,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=b48e92cb92c65209cb53577f713a723cadfac47f",
+          "46c5703b2ab92cb79d52e4ccf5c8f6903df8765c",
+          "931f61ae789355df7850716d3be498a6fe6c6ed2"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 14.40894603729248,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "-r",
+          "--no-commit-id",
+          "--raw",
+          "--no-abbrev",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv",
+          "46c5703b2ab92cb79d52e4ccf5c8f6903df8765c",
+          "9cd9e0c1f44d89a9abe6732c019df3836e14d0fb",
+          "--"
+        ],
+        "bytes": 106,
+        "command": "diff-tree",
+        "inputBytes": 0,
+        "milliseconds": 8.329987525939941,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "commit-tree",
+          "9cd9e0c1f44d89a9abe6732c019df3836e14d0fb",
+          "-p",
+          "46c5703b2ab92cb79d52e4ccf5c8f6903df8765c"
+        ],
+        "bytes": 41,
+        "command": "commit-tree",
+        "inputBytes": 24,
+        "milliseconds": 8.334040641784668,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-parse",
+          "--verify",
+          "c75a7194ef4f328a16a444a79f7c936babc00136^{tree}"
+        ],
+        "bytes": 41,
+        "command": "rev-parse",
+        "inputBytes": 0,
+        "milliseconds": 7.771968841552734,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-list",
+          "--max-count=2001",
+          "931f61ae789355df7850716d3be498a6fe6c6ed2",
+          "--not",
+          "773a191dd92db625165cde2ad4f46cf3302f35a0",
+          "--remotes",
+          "--"
+        ],
+        "bytes": 1230,
+        "command": "rev-list",
+        "inputBytes": 0,
+        "milliseconds": 9.420990943908691,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--branch",
+          "--untracked-files=all"
+        ],
+        "bytes": 76,
+        "command": "status",
+        "inputBytes": 0,
+        "milliseconds": 16.1130428314209,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-files",
+          "--stage",
+          "-v",
+          "-z"
+        ],
+        "bytes": 308890,
+        "command": "ls-files",
+        "inputBytes": 0,
+        "milliseconds": 8.685946464538574,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "for-each-ref",
+          "--format=%(refname)%00%(objectname)%00%(HEAD)%00%(upstream)%00%(upstream:short)%00%(upstream:track,nobracket)%00%(worktreepath)%00%(symref)%00",
+          "refs/heads",
+          "refs/remotes"
+        ],
+        "bytes": 261,
+        "command": "for-each-ref",
+        "inputBytes": 0,
+        "milliseconds": 7.6340436935424805,
+        "noLazyFetch": false,
+        "noReplacements": false
+      }
+    ],
+    "totalMilliseconds": 2311.607875
+  },
+  "rawStdinDiagnostic": {
+    "fixture": "/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitRebasePerformance-BC29400E-39A7-423E-84F7-921953C57337/large-loose",
+    "pairs": [
+      [
+        "5b5fe359526c3ce583735b8f42ffe7213610b71a",
+        "5b5fe359526c3ce583735b8f42ffe7213610b71a"
+      ],
+      [
+        "5b5fe359526c3ce583735b8f42ffe7213610b71a",
+        "088d44f7ca177284b7288b33f101109341d5c80e"
+      ],
+      [
+        "088d44f7ca177284b7288b33f101109341d5c80e",
+        "e7fba504fd9ffc61f2ebb5acc95eab4c960002a0"
+      ]
+    ],
+    "rawBytes": 458,
+    "rawRepr": "b'5b5fe359526c3ce583735b8f42ffe7213610b71a 5b5fe359526c3ce583735b8f42ffe7213610b71a\\n5b5fe359526c3ce583735b8f42ffe7213610b71a 088d44f7ca177284b7288b33f101109341d5c80e\\n:100644 100644 f6e1de2020b996bd59506d312df44a06c7864577 8c2639680ba7deaf143dd42d7e5159cf1f6177d9 M\\x00file-0\\x00088d44f7ca177284b7288b33f101109341d5c80e e7fba504fd9ffc61f2ebb5acc95eab4c960002a0\\n:100644 100644 8c2639680ba7deaf143dd42d7e5159cf1f6177d9 1a40689ba0df9150c24b25a2312a714b2d14ff61 M\\x00file-0\\x00'",
+    "headAndIndexPreserved": true
+  }
+}

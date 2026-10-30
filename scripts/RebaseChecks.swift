@@ -477,8 +477,12 @@ struct LostRebaseReceipt: ProcessRunning {
         try Data("new delta bytes\n".utf8).write(to: delta.location.root.appending(path: deltaPath))
         _ = try await engine.run(["add", "-A"], in: delta.location.root)
         _ = try await engine.run(["commit", "-m", "Delete, add and mode"], in: delta.location.root)
+        _ = try await engine.run(
+            ["commit", "--allow-empty", "-m", "Empty source delta"], in: delta.location.root)
         let deltaTarget = try await delta.branches().first { $0.name == "main" }!
         let deltaPlan = try await delta.prepareRebase(target: deltaTarget)
+        try require(
+            deltaPlan.commits.count == 3, "Batched source metadata pins an empty commit in the fixed replay")
         guard case .completed = try await delta.executeRebase(deltaPlan) else {
             throw Failure.assertion("Tree delta result did not match actual Git")
         }
@@ -541,6 +545,28 @@ struct LostRebaseReceipt: ProcessRunning {
                 && (try Data(contentsOf: missingBlob.location.root.appending(path: "file")))
                     == Data("base\n".utf8),
             "Fresh preparation rejects a previously read but removed blob without HEAD, index or file writes")
+        let (emptyTarget, _, emptyOriginal) = try await fixture("empty-target-tree", conflict: false)
+        _ = try await engine.run(["switch", "main"], in: emptyTarget.location.root)
+        _ = try await engine.run(["rm", "-r", "--", "."], in: emptyTarget.location.root)
+        _ = try await engine.run(["commit", "-m", "Empty target tree"], in: emptyTarget.location.root)
+        _ = try await engine.run(["switch", "feature"], in: emptyTarget.location.root)
+        let emptyBranch = try await emptyTarget.branches().first { $0.name == "main" }!
+        let emptyIndex = try Data(contentsOf: emptyTarget.location.gitDirectory.appending(path: "index"))
+        let emptyPlan = try await emptyTarget.prepareRebase(target: emptyBranch)
+        try require(
+            emptyPlan.head == emptyOriginal && emptyPlan.conflictPaths.isEmpty
+                && (try Data(contentsOf: emptyTarget.location.gitDirectory.appending(path: "index")))
+                    == emptyIndex,
+            "An empty first target tree preserves original HEAD and index during preparation")
+        guard case .completed = try await emptyTarget.executeRebase(emptyPlan) else {
+            throw Failure.assertion("Empty target addition replay did not complete")
+        }
+        try require(
+            (try Data(contentsOf: emptyTarget.location.root.appending(path: "feature")))
+                == Data("feature\n".utf8)
+                && !FileManager.default.fileExists(
+                    atPath: emptyTarget.location.root.appending(path: "file").path),
+            "Actual replay onto an empty target retains the addition and target deletion")
         let report: [String: Any] = [
             "checks": checks, "passed": true,
             "scope":

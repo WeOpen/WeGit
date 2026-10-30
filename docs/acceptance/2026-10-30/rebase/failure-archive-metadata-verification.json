@@ -1,0 +1,12 @@
+{
+  "source": "850593e5e8e5df94406f3b7977e56197c4525d20",
+  "originalArchive": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/rebase-performance-dcCm1j/failure-fixture.tar.gz",
+  "archive": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-failure-fixture-without-metadata-gen10.tar.gz",
+  "originalMembers": 31092,
+  "members": 15546,
+  "uncompressedRegularBytes": 5455365,
+  "bytes": 5588737,
+  "sha256": "ca89bd57e6ee63ab39118ff2811adbe0ff0b9fcc10ef4aa11cc3a008ecee2546",
+  "sameAllOriginalPathsModesTypesAndBytes": true,
+  "withinBounds": true
+}
