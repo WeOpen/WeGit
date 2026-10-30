@@ -4,13 +4,15 @@
 
 本节对应 PR #80 当前 head `8474d620c7607678921fcfb91d13dae68572b26c`，并取代本文件中较早候选的状态描述。required run `41042286681` 的 PR policy 与 run `41042286905` 的 Repository policy、Native macOS 均为 success；Native macOS job `124017905991` 的格式、两套 Git 核心回归、原生行为、签名、完整 Homebrew 回归、UI 编译、Release 预览和制品保留步骤均完成。run `41042286905` 的完整制品 `12971828885` 为 `12,369,893` bytes，SHA-256 `38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b`，35 个 CRC；其性能报告来自 PR 合成源 `47441110`，但 12 个输入逐 SHA 与 `8474d620` 匹配。
 
+文档-only head `20d233766c11d6d9ff41c06aaccfe1115ca9af2e` 的最新 required run `41078351082` 也已成功：Repository policy job `124141209977` 与 Native macOS job `124141430656` 的全部步骤均 success。最新制品 `12989648330` 为 `12,369,835` bytes，SHA-256 `357859fbaf350b541eeb73a0731e7c209511480f0d812aa3cc3762e326530401`；ZIP 35 个成员均通过完整性检查。私有 Rebase 检查为 56/56，三类 30 样本均通过原 2,000 ms 读取、500 ms 取消和 RSS 预算：ordinary p95 first/steady/recovered `301.528/307.479/303.040 ms`，large-loose `1016.120/1037.671/1259.088 ms`，large-packed `862.078/887.276/838.270 ms`；取消 p95 均低于 1.1 ms。
+
 同一可信 main `507f03b` 的 native run `41070593781` / job `124113328352` 已成功：smoke 与唯一 Rebase 方法均 `total=1 / passed=1 / failed=0 / skipped=0`，方法 `91.836653` 秒（<120），外层 `98.432` 秒（<180）。制品 `12983944467` 为 `118,762,895` bytes，SHA-256 `ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9`，2,087 个 CRC；185 个构建输入、四张 980×692 原图和四份 AX 已逐项核验。QoS warning 原样保留，不将其扩大为 VoiceOver 或整版发布通过。
 
 required 性能的 90 个有效样本也已按原预算重算通过：ordinary、large-loose、large-packed 各 30；p95 first/steady/recovered 分别为 `434.441/418.052/393.055 ms`、`926.386/984.225/947.460 ms`、`563.819/567.540/528.872 ms`，取消均 <1 ms，RSS 在预算内。报告 source revision 是合成提交，但输入等价回执记录了 12 个性能输入的逐 SHA 匹配，不能把这项证据误写成另一个源码候选。
 
 本批仍不是 v1.2 完成：PR 需要最新 head 的 required CI 与 review 后正常集成；V12-05、V12-07、V12-08、V12-09 及最终固定源码回归、安装/更新/迁移/回退、Beta 和发布门禁保持开放。
 
-当前回执：[`source-equivalence-8474d620.json`](source-equivalence-8474d620.json)、[`required-41042286905-verified.json`](required-41042286905-verified.json)、[`native-41070593781-verified.json`](native-41070593781-verified.json)、[`native-41070593781-tests.json`](native-41070593781-tests.json)。
+当前回执：[`source-equivalence-8474d620.json`](source-equivalence-8474d620.json)、[`required-41042286905-verified.json`](required-41042286905-verified.json)、[`required-41078351082-verified.json`](required-41078351082-verified.json)、[`native-41070593781-verified.json`](native-41070593781-verified.json)、[`native-41070593781-tests.json`](native-41070593781-tests.json)。
 
 ## 实施范围与历史候选记录
 
