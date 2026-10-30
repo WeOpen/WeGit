@@ -567,6 +567,73 @@ struct LostRebaseReceipt: ProcessRunning {
                 && !FileManager.default.fileExists(
                     atPath: emptyTarget.location.root.appending(path: "file").path),
             "Actual replay onto an empty target retains the addition and target deletion")
+        let (differentFiles, differentBase, _) = try await fixture("disjoint-modifications", conflict: false)
+        let differentRoot = differentFiles.location.root
+        _ = try await engine.run(["switch", "main"], in: differentRoot)
+        _ = try await engine.run(["reset", "--hard", differentBase], in: differentRoot)
+        try Data("target only change\n".utf8).write(to: differentRoot.appending(path: "file"))
+        _ = try await engine.run(["commit", "-am", "Target modification"], in: differentRoot)
+        _ = try await engine.run(["switch", "feature"], in: differentRoot)
+        _ = try await engine.run(["reset", "--hard", differentBase], in: differentRoot)
+        for text in ["first\n", "second\n", "target\n", "final\n"] {
+            try Data(text.utf8).write(to: differentRoot.appending(path: ".gitignore"))
+            _ = try await engine.run(["commit", "-am", "Source modification"], in: differentRoot)
+        }
+        _ = try await engine.run(["commit", "--allow-empty", "-m", "Empty source"], in: differentRoot)
+        let differentOriginal = try await differentFiles.head()
+        let differentTarget = try await differentFiles.branches().first { $0.name == "main" }!
+        let differentIndex = try Data(
+            contentsOf: differentFiles.location.gitDirectory.appending(path: "index"))
+        let objectFolder = differentFiles.location.commonDirectory.appending(path: "objects").path
+        let objectsBefore = (FileManager.default.enumerator(atPath: objectFolder)?.allObjects as? [String])?
+            .sorted()
+        let differentPlan = try await differentFiles.prepareRebase(target: differentTarget)
+        let objectsAfter = (FileManager.default.enumerator(atPath: objectFolder)?.allObjects as? [String])?
+            .sorted()
+        try require(
+            differentPlan.head == differentOriginal && differentPlan.commits.count == 5
+                && differentPlan.conflictPaths.isEmpty
+                && (try Data(contentsOf: differentFiles.location.gitDirectory.appending(path: "index")))
+                    == differentIndex
+                && objectsBefore == objectsAfter,
+            "Different regular-file modifications preserve source undo, empty commits and all user index/object entries in preview"
+        )
+        guard case .completed = try await differentFiles.executeRebase(differentPlan) else {
+            throw Failure.assertion("Disjoint ordinary-file replay did not complete")
+        }
+        let differentCount = try await engine.run(
+            ["rev-list", "--count", differentTarget.oid + "..HEAD"], in: differentRoot
+        ).text.trimmingCharacters(in: .newlines)
+        try require(
+            differentCount == "5"
+                && (try Data(contentsOf: differentRoot.appending(path: ".gitignore"))) == Data("final\n".utf8)
+                && (try Data(contentsOf: differentRoot.appending(path: "file")))
+                    == Data("target only change\n".utf8),
+            "Actual sequential Git replay matches the different-file preview and preserves all five commits")
+        let (hiddenConflict, _, _) = try await fixture("earlier-conflict-before-convergence", conflict: true)
+        let hiddenRoot = hiddenConflict.location.root
+        try Data("target bytes\n".utf8).write(to: hiddenRoot.appending(path: "file"))
+        _ = try await engine.run(["commit", "-am", "Later source matches target"], in: hiddenRoot)
+        let hiddenOriginal = try await hiddenConflict.head()
+        let hiddenTarget = try await hiddenConflict.branches().first { $0.name == "main" }!
+        let hiddenPlan = try await hiddenConflict.prepareRebase(target: hiddenTarget)
+        try require(
+            hiddenPlan.commits.count == 2 && hiddenPlan.conflictPaths == ["file"],
+            "A later source matching the target never hides the earlier overlapping conflict")
+        guard case .conflicts(let hiddenRecovery, 1) = try await hiddenConflict.executeRebase(hiddenPlan)
+        else {
+            throw Failure.assertion("Earlier overlapping conflict was incorrectly skipped")
+        }
+        guard
+            case .aborted(let hiddenHead) = try await hiddenConflict.recoverRebase(
+                continueOperation: false, expected: hiddenRecovery)
+        else {
+            throw Failure.assertion("Overlapping conflict abort did not complete")
+        }
+        try require(
+            hiddenHead == hiddenOriginal
+                && (try Data(contentsOf: hiddenRoot.appending(path: "file"))) == Data("target bytes\n".utf8),
+            "Real first conflict and confirmed abort preserve the later original source contents")
         let report: [String: Any] = [
             "checks": checks, "passed": true,
             "scope":

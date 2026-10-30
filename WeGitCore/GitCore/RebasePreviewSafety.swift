@@ -7,6 +7,88 @@ struct RebaseReplayPreview: Sendable {
 }
 
 extension RepositoryService {
+    private func rebaseModifiedPaths(
+        before: [String: RebaseTreeEntry], after: [String: RebaseTreeEntry]
+    ) throws -> Set<String>? {
+        guard before.count == after.count else { return nil }
+        var changed: Set<String> = []
+        for (path, original) in before {
+            try Task.checkCancellation()
+            guard let current = after[path] else { return nil }
+            if current != original {
+                guard current.mode == original.mode, ["100644", "100755"].contains(current.mode) else {
+                    return nil
+                }
+                changed.insert(path)
+            }
+        }
+        return changed
+    }
+
+    /// Different ordinary-file modifications cannot create an intermediate
+    /// content or structural conflict. Verify Git's aggregate tree against the
+    /// per-step byte-budgeted composition before using this bounded shortcut.
+    func rebaseDisjointPreview(
+        commits: [GitCommit], base: String?, target: String, metadata: RebaseTreeMetadata
+    ) async throws -> RebaseReplayPreview? {
+        guard let base, let last = commits.last else { return nil }
+        let ancestor = try await metadata.entries(base, engine: singleCommitEngine)
+        var expected = try await metadata.entries(target, engine: singleCommitEngine)
+        guard let targetPaths = try rebaseModifiedPaths(before: ancestor, after: expected) else { return nil }
+        var prior = ancestor
+        var parent = base
+        var paths: Set<String> = []
+        for commit in commits {
+            try Task.checkCancellation()
+            guard commit.parents == [parent] else { return nil }
+            let incoming = try await metadata.entries(commit.id, engine: singleCommitEngine)
+            guard let changed = try rebaseModifiedPaths(before: prior, after: incoming),
+                changed.isDisjoint(with: targetPaths)
+            else { return nil }
+            paths.formUnion(try rebaseInputPaths(ancestor: prior, current: expected, incoming: incoming))
+            for path in changed { expected[path] = incoming[path] }
+            guard paths.count <= RebaseBudget.entries else { throw RebaseBudget.exceeded }
+            prior = incoming
+            parent = commit.id
+        }
+        let renormalize = try await singleCommitEngine.run(
+            ["config", "--bool", "--get", "merge.renormalize"], in: location.root, accepted: [0, 1]
+        ).text.removingLastNewline
+        guard renormalize != "true" else { return nil }
+        let directory = try await SnapshotIO.run { _ in try SnapshotDirectory() }
+        defer { withExtendedLifetime(directory) {} }
+        let scratch = try await rebasePreviewEngine(directory: directory)
+        let merge = try SingleCommitMergePreview(
+            await scratch.run(
+                ["merge-tree", "--write-tree", "--name-only", "-z", "--merge-base=" + base, target, last.id],
+                in: location.root, accepted: [0, 1], outputLimit: RebaseBudget.metadataBytes))
+        guard merge.conflicts.isEmpty,
+            try await metadata.matches(merge.tree, expected: expected, engine: scratch)
+        else { return nil }
+        return RebaseReplayPreview(paths: paths, conflicts: [], resultTree: merge.tree)
+    }
+
+    private func rebasePreviewEngine(directory: SnapshotDirectory) async throws -> GitEngine {
+        var scratch = singleCommitEngine
+        scratch.environment["GIT_OBJECT_DIRECTORY"] = directory.url.path
+        scratch.environment["GIT_ALTERNATE_OBJECT_DIRECTORIES"] = singleCommitAlternatePath(
+            location.commonDirectory.appending(path: "objects").path)
+        let drivers = try await rebasePreviewDrivers()
+        if !drivers.isEmpty {
+            scratch.environment["GIT_CONFIG_COUNT"] = String(drivers.count)
+            for (index, key) in drivers.enumerated() {
+                scratch.environment["GIT_CONFIG_KEY_\(index)"] = key
+                scratch.environment["GIT_CONFIG_VALUE_\(index)"] = "/usr/bin/false"
+            }
+        }
+        for role in ["AUTHOR", "COMMITTER"] {
+            scratch.environment["GIT_\(role)_NAME"] = "WeGit Preview"
+            scratch.environment["GIT_\(role)_EMAIL"] = "preview@example.invalid"
+            scratch.environment["GIT_\(role)_DATE"] = "2000-01-01T00:00:00 +0000"
+        }
+        return scratch
+    }
+
     func rebaseCommits(_ ids: [String]) async throws -> [GitCommit] {
         guard ids.count <= RebaseBudget.commits, ids.allSatisfy(GitObjectID.valid) else {
             throw RebaseBudget.exceeded
@@ -30,23 +112,7 @@ extension RepositoryService {
         let directory = try await SnapshotIO.run { _ in try SnapshotDirectory() }
         let metadata = treeMetadata ?? RebaseTreeMetadata(root: location.root)
         defer { withExtendedLifetime(directory) {} }
-        var scratch = singleCommitEngine
-        scratch.environment["GIT_OBJECT_DIRECTORY"] = directory.url.path
-        scratch.environment["GIT_ALTERNATE_OBJECT_DIRECTORIES"] = singleCommitAlternatePath(
-            location.commonDirectory.appending(path: "objects").path)
-        let drivers = try await rebasePreviewDrivers()
-        if !drivers.isEmpty {
-            scratch.environment["GIT_CONFIG_COUNT"] = String(drivers.count)
-            for (index, key) in drivers.enumerated() {
-                scratch.environment["GIT_CONFIG_KEY_\(index)"] = key
-                scratch.environment["GIT_CONFIG_VALUE_\(index)"] = "/usr/bin/false"
-            }
-        }
-        for role in ["AUTHOR", "COMMITTER"] {
-            scratch.environment["GIT_\(role)_NAME"] = "WeGit Preview"
-            scratch.environment["GIT_\(role)_EMAIL"] = "preview@example.invalid"
-            scratch.environment["GIT_\(role)_DATE"] = "2000-01-01T00:00:00 +0000"
-        }
+        var scratch = try await rebasePreviewEngine(directory: directory)
         let ids = Array(Set(steps.compactMap(\.object))).sorted()
         let commits = Dictionary(uniqueKeysWithValues: try await rebaseCommits(ids).map { ($0.id, $0) })
         func commit(tree: String, parents: [String]) async throws -> String {

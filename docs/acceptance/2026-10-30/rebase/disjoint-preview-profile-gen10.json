@@ -1,0 +1,477 @@
+{
+  "scope": "Single private copied-fixture diagnostic, not 30-sample acceptance",
+  "profile": {
+    "commandCount": 22,
+    "commits": 30,
+    "fixture": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-hosted-storage-fixture-gen10/large-loose",
+    "grouped": {
+      "cat-file": {
+        "bytes": 11521,
+        "count": 5,
+        "milliseconds": 86.4781141281128
+      },
+      "check-ref-format": {
+        "bytes": 8,
+        "count": 1,
+        "milliseconds": 8.193016052246094
+      },
+      "config": {
+        "bytes": 0,
+        "count": 2,
+        "milliseconds": 16.853928565979004
+      },
+      "diff-tree": {
+        "bytes": 5640,
+        "count": 1,
+        "milliseconds": 37.85097599029541
+      },
+      "for-each-ref": {
+        "bytes": 476,
+        "count": 2,
+        "milliseconds": 16.249895095825195
+      },
+      "ls-files": {
+        "bytes": 617780,
+        "count": 2,
+        "milliseconds": 17.54307746887207
+      },
+      "ls-tree": {
+        "bytes": 981670,
+        "count": 3,
+        "milliseconds": 534.3101024627686
+      },
+      "merge-base": {
+        "bytes": 41,
+        "count": 1,
+        "milliseconds": 14.575004577636719
+      },
+      "merge-tree": {
+        "bytes": 41,
+        "count": 1,
+        "milliseconds": 14.851927757263184
+      },
+      "rev-list": {
+        "bytes": 2460,
+        "count": 2,
+        "milliseconds": 18.035054206848145
+      },
+      "status": {
+        "bytes": 152,
+        "count": 2,
+        "milliseconds": 50.762057304382324
+      }
+    },
+    "head": "ce55312be072cc39255ea87bcb432ff73c6fba7b",
+    "processMilliseconds": 815.7031536102295,
+    "records": [
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--branch",
+          "--untracked-files=all"
+        ],
+        "bytes": 76,
+        "command": "status",
+        "inputBytes": 0,
+        "milliseconds": 35.63404083251953,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "check-ref-format",
+          "--branch",
+          "feature"
+        ],
+        "bytes": 8,
+        "command": "check-ref-format",
+        "inputBytes": 0,
+        "milliseconds": 8.193016052246094,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "for-each-ref",
+          "--format=%(refname)%00%(objectname)%00%(HEAD)%00%(upstream)%00%(upstream:short)%00%(upstream:track,nobracket)%00%(worktreepath)%00%(symref)%00",
+          "refs/heads",
+          "refs/remotes"
+        ],
+        "bytes": 238,
+        "command": "for-each-ref",
+        "inputBytes": 0,
+        "milliseconds": 7.709980010986328,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "-t",
+          "44ff476a3e66dec4238b5d69d81b3505f8c08a60"
+        ],
+        "bytes": 7,
+        "command": "cat-file",
+        "inputBytes": 0,
+        "milliseconds": 9.976983070373535,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-base",
+          "--all",
+          "ce55312be072cc39255ea87bcb432ff73c6fba7b",
+          "44ff476a3e66dec4238b5d69d81b3505f8c08a60"
+        ],
+        "bytes": 41,
+        "command": "merge-base",
+        "inputBytes": 0,
+        "milliseconds": 14.575004577636719,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-list",
+          "--reverse",
+          "--topo-order",
+          "--max-count=2001",
+          "--no-merges",
+          "44ff476a3e66dec4238b5d69d81b3505f8c08a60..ce55312be072cc39255ea87bcb432ff73c6fba7b",
+          "--"
+        ],
+        "bytes": 1230,
+        "command": "rev-list",
+        "inputBytes": 0,
+        "milliseconds": 8.517026901245117,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-files",
+          "--stage",
+          "-v",
+          "-z"
+        ],
+        "bytes": 308890,
+        "command": "ls-files",
+        "inputBytes": 0,
+        "milliseconds": 8.66401195526123,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch"
+        ],
+        "bytes": 8570,
+        "command": "cat-file",
+        "inputBytes": 1230,
+        "milliseconds": 9.567022323608398,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "-l",
+          "44ff476a3e66dec4238b5d69d81b3505f8c08a60"
+        ],
+        "bytes": 353890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 511.6540193557739,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "d40e6609b13950c152f0961b335bf98cca7703f6"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 12.948036193847656,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch-check=%(objectname) %(objecttype) %(objectsize)",
+          "--buffer"
+        ],
+        "bytes": 48,
+        "command": "cat-file",
+        "inputBytes": 41,
+        "milliseconds": 10.887980461120605,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch-check=%(objectname) %(objecttype)",
+          "--buffer"
+        ],
+        "bytes": 1426,
+        "command": "cat-file",
+        "inputBytes": 1488,
+        "milliseconds": 43.615102767944336,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "diff-tree",
+          "--stdin",
+          "-r",
+          "--raw",
+          "--no-abbrev",
+          "--no-commit-id",
+          "-z",
+          "--no-renames",
+          "--no-ext-diff",
+          "--no-textconv"
+        ],
+        "bytes": 5640,
+        "command": "diff-tree",
+        "inputBytes": 2460,
+        "milliseconds": 37.85097599029541,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "cat-file",
+          "--batch-check=%(objectname) %(objecttype) %(objectsize)",
+          "--buffer"
+        ],
+        "bytes": 1470,
+        "command": "cat-file",
+        "inputBytes": 1230,
+        "milliseconds": 12.431025505065918,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "config",
+          "--bool",
+          "--get",
+          "merge.renormalize"
+        ],
+        "bytes": 0,
+        "command": "config",
+        "inputBytes": 0,
+        "milliseconds": 8.714914321899414,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "config",
+          "-z",
+          "--name-only",
+          "--get-regexp",
+          "^merge\\..*\\.driver$"
+        ],
+        "bytes": 0,
+        "command": "config",
+        "inputBytes": 0,
+        "milliseconds": 8.13901424407959,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "merge-tree",
+          "--write-tree",
+          "--name-only",
+          "-z",
+          "--merge-base=d40e6609b13950c152f0961b335bf98cca7703f6",
+          "44ff476a3e66dec4238b5d69d81b3505f8c08a60",
+          "ce55312be072cc39255ea87bcb432ff73c6fba7b"
+        ],
+        "bytes": 41,
+        "command": "merge-tree",
+        "inputBytes": 0,
+        "milliseconds": 14.851927757263184,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-tree",
+          "-r",
+          "-z",
+          "--full-tree",
+          "9cd9e0c1f44d89a9abe6732c019df3836e14d0fb"
+        ],
+        "bytes": 313890,
+        "command": "ls-tree",
+        "inputBytes": 0,
+        "milliseconds": 9.708046913146973,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "rev-list",
+          "--max-count=2001",
+          "ce55312be072cc39255ea87bcb432ff73c6fba7b",
+          "--not",
+          "44ff476a3e66dec4238b5d69d81b3505f8c08a60",
+          "--remotes",
+          "--"
+        ],
+        "bytes": 1230,
+        "command": "rev-list",
+        "inputBytes": 0,
+        "milliseconds": 9.518027305603027,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--branch",
+          "--untracked-files=all"
+        ],
+        "bytes": 76,
+        "command": "status",
+        "inputBytes": 0,
+        "milliseconds": 15.128016471862793,
+        "noLazyFetch": false,
+        "noReplacements": false
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "ls-files",
+          "--stage",
+          "-v",
+          "-z"
+        ],
+        "bytes": 308890,
+        "command": "ls-files",
+        "inputBytes": 0,
+        "milliseconds": 8.87906551361084,
+        "noLazyFetch": true,
+        "noReplacements": true
+      },
+      {
+        "arguments": [
+          "--no-pager",
+          "--literal-pathspecs",
+          "--no-optional-locks",
+          "for-each-ref",
+          "--format=%(refname)%00%(objectname)%00%(HEAD)%00%(upstream)%00%(upstream:short)%00%(upstream:track,nobracket)%00%(worktreepath)%00%(symref)%00",
+          "refs/heads",
+          "refs/remotes"
+        ],
+        "bytes": 238,
+        "command": "for-each-ref",
+        "inputBytes": 0,
+        "milliseconds": 8.539915084838867,
+        "noLazyFetch": false,
+        "noReplacements": false
+      }
+    ],
+    "totalMilliseconds": 935.392208
+  },
+  "independentGitControl": {
+    "parent": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-disjoint-git-control-gen10-gax6ar51",
+    "base": "baa78933cc2ab3b2624a8a353ec9dec9c9becdbe",
+    "target": "a70344ab9aadccc6d91d7af7bb63c699f23ad441",
+    "original": "d7cd157e1bbd4b6ae14b22dc3ad940f9a21e7022",
+    "sourceCommits": [
+      "288d9113e2d1d7abf2e48b5d7a9d78c2a37c539c",
+      "6271258c2ccddeb935d1f0ebf2620923d7e95550",
+      "93501bcd95daf5ae685995c5a14112e0c6e8e566",
+      "b861fdebd30e612a05c22677a241595252c33394",
+      "d7cd157e1bbd4b6ae14b22dc3ad940f9a21e7022"
+    ],
+    "oneMergeTree": "77356a82eb2e82354088a39a996b2cd543e8fa81",
+    "actualRebaseTree": "77356a82eb2e82354088a39a996b2cd543e8fa81",
+    "identicalFinalTree": true,
+    "previewIndexPreserved": true,
+    "scope": "Independent actual Git fixture including source undo and empty commit, not product acceptance"
+  }
+}

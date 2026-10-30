@@ -195,6 +195,22 @@ actor RebaseTreeMetadata {
         Set(try await entries(revision, engine: engine).keys)
     }
 
+    func matches(_ revision: String, expected: [String: RebaseTreeEntry], engine: GitEngine) async throws
+        -> Bool
+    {
+        let tree = try await readTree(revision, includeSizes: false, engine: engine)
+        guard tree.bytes <= 128 * 1024 * 1024 - metadataBytes else { throw RebaseBudget.exceeded }
+        metadataBytes += tree.bytes
+        guard tree.records.count == expected.count else { return false }
+        for (path, record) in tree.records {
+            try Task.checkCancellation()
+            guard expected[path]?.object == record.object, expected[path]?.mode == record.mode else {
+                return false
+            }
+        }
+        return true
+    }
+
     func alias(_ revision: String, tree: String) throws {
         guard GitObjectID.valid(revision), let value = trees[tree] else { throw ModelFailure.changed }
         trees[revision] = value
@@ -316,6 +332,13 @@ extension RepositoryService {
         let ancestor = try await metadata.entries(base, engine: engine)
         let current = try await metadata.entries(head, engine: engine)
         let incoming = try await metadata.entries(other, engine: engine)
+        return try rebaseInputPaths(ancestor: ancestor, current: current, incoming: incoming)
+    }
+
+    func rebaseInputPaths(
+        ancestor: [String: RebaseTreeEntry], current: [String: RebaseTreeEntry],
+        incoming: [String: RebaseTreeEntry]
+    ) throws -> Set<String> {
         let all = Set(ancestor.keys).union(current.keys).union(incoming.keys)
         var paths: Set<String> = []
         var seen: Set<String> = []

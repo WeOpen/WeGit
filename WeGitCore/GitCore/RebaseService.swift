@@ -58,9 +58,19 @@ extension RepositoryService {
             }
             guard paths.count <= RebaseBudget.entries else { throw RebaseBudget.exceeded }
         }
-        let preview = try await rebaseReplayPreview(
-            steps: rebasePreviewSteps(commits, base: base, preserveMerges: preserveMerges),
-            head: target.oid, onto: target.oid, treeMetadata: metadata)
+        let disjoint =
+            loadedLinear && !preserveMerges
+            ? try await rebaseDisjointPreview(
+                commits: commits, base: base, target: target.oid, metadata: metadata)
+            : nil
+        let preview: RebaseReplayPreview
+        if let disjoint {
+            preview = disjoint
+        } else {
+            preview = try await rebaseReplayPreview(
+                steps: rebasePreviewSteps(commits, base: base, preserveMerges: preserveMerges),
+                head: target.oid, onto: target.oid, treeMetadata: metadata)
+        }
         paths.formUnion(preview.paths)
         // A clean porcelain status omits ignored content. Git's initial reset onto
         // the target can overwrite it before the first commit is replayed.

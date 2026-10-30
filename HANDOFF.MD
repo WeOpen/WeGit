@@ -787,3 +787,15 @@
 - 新checker只在allPassed=false之后，对各失败存储做一次总30秒/2000命令有界的ProfileRunner诊断，保留每命令args/输入输出bytes/时间与原HEAD/index验证。30原样本/2000/500/RSS、测量阶段与成功路径不改。新方法已编译，复制的托管fixture独立两类实际probe成功且HEAD/index保持；这不是VM profile或新的30样本通过。下一正常CI读取VM真实瓶颈；产品/Core/App/UItests/trusted入口未改，37eeb89成功原生同源不重复dispatch。
 
 - 复制VM归档到本机后，index中stat节点来自VM。独立profile最初status两调用约635ms，不能据此当作VM瓶颈。已仅备份并刷新私有解包副本index（原archive/report/user索引未改），再profile对照，原字节/新index SHA和结果留receipt。托管判定仍需要下一CI真实post-failure profile，不用本机副本替代。
+
+## 2026-10-30 托管实际profile定位及受限单树预演
+
+- 52ad28a required40989478755/job123848323551失败，完整artifact12948818497（5095688bytes/SHA89cad9fd944f13e86209a9a93138edb5400a434e31f720fa10e1bf1fbe265284/4CRC）有完整90数组/fixture/post-failure profile。loose2448.932/2474.139/2544.666、packed3550.377/2779.863/3164.874ms超原2000，cancel/RSS过。VM profile loose3467.255/packed3256.825ms、各111命令：30merge约1032/1114ms、31diff约717/701ms、30commit约672/693ms，status仅79/71ms；不能把本机复制index失效导致635ms status当VM瓶颈。
+- 先独立私有Git控制验证source不同文件修改、内容撤回和空提交：一次aggregate merge-tree最终tree与真实逐提交rebase完全一致、原预览index保持。当前新Core只在连续单父、双方所有变化为原普通文件内容修改、路径不重叠、无merge.renormalize且各步原64MiB变更预算仍成立时，组合期望元数据，用一次Git merge-tree，再完整mode/OID/path核对输出树。新增/删除/模式/符号链接/重叠或复杂源历史继续原逐提交预演，不能用最终收敛掩盖早期冲突。私有objects、全索引/身份/ignored保护和返回前复验不删。
+- 新Core真改，旧37成功Native输入不再等价，必须固定新candidate/正常CI/新可信native，原120/180与2000/500/RSS预算不变。Release已编译，正在真实CLI/Core编译/受限与重叠回归，新来源还未当90样本或Native通过。
+
+## 2026-10-30 人类指定本会话继续 v1.2 全目标
+
+- 责任从 01a18a1a-3b48-7913-a8d7-cd2387f3e9c9 迁到 01a18ad0-b804-7762-8563-c3e603388b0a，第十一代。旧会话后续四次 heartbeat 因不同 Azure resource 错误未执行产品操作；最后工作停在未提交的受限不同普通文件预演优化。原 52 项真实 Git 通过、Core/native compile-only 及 185 输入一致证据已读取；单次935.392ms只是profile，完整90样本和新源码可信native仍须验证。
+- 主根、实际rebase树、selected-lines、rebase入口的HEAD/index/locks/序列/binary patches/untracked/HANDOFF已保存在 .build/v1-2-continuation/manual-resume-gen11；原树与主根33项外部改动不回退。PR80附在本会话。
+- 先按实际清单定位 automation 持久化；本轮旧约定 ~/.codex/automations/wegit-v1-2/automation.toml 已不存在，目录仅 .run-jitter-salt。首次硬读此路径失败已保留；view仅返回渲染卡片，不能作为文件存在或迁移成功证明。后续用purpose-built automation工具更新同一ID，实读返回字段/合法持久化再确认，不新增重复任务。

@@ -4,6 +4,57 @@ import Testing
 @testable import WeGitCore
 
 struct RebaseTests {
+    @Test func disjointModificationsReplayUndoAndEmptyCommitsWithoutPreviewWrites() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("source", "base source\n")
+        try f.write("target", "base target\n")
+        _ = try await f.commit("Base")
+        _ = try await f.engine.run(["switch", "-c", "feature"], in: f.root)
+        var ids: [String] = []
+        for text in ["first\n", "second\n", "base source\n", "final\n"] {
+            try f.write("source", text)
+            ids.append(try await f.commit("Source change"))
+        }
+        _ = try await f.engine.run(["commit", "--allow-empty", "-m", "Empty source"], in: f.root)
+        ids.append(try #require(try await f.service.head()))
+        _ = try await f.engine.run(["switch", "main"], in: f.root)
+        try f.write("target", "target only\n")
+        _ = try await f.commit("Target change")
+        _ = try await f.engine.run(["switch", "feature"], in: f.root)
+        let target = try #require(try await f.service.branches().first { $0.name == "main" })
+        let index = try Data(contentsOf: f.root.appending(path: ".git/index"))
+        let plan = try await f.service.prepareRebase(target: target)
+        #expect(plan.commits.map(\.id) == ids && plan.conflictPaths.isEmpty)
+        #expect(try Data(contentsOf: f.root.appending(path: ".git/index")) == index)
+        guard case .completed = try await f.service.executeRebase(plan) else { throw ModelFailure.changed }
+        #expect(try Data(contentsOf: f.root.appending(path: "source")) == Data("final\n".utf8))
+        #expect(try Data(contentsOf: f.root.appending(path: "target")) == Data("target only\n".utf8))
+        #expect(
+            try await f.engine.run(["rev-list", "--count", target.oid + "..HEAD"], in: f.root).text
+                .removingLastNewline == "5")
+    }
+
+    @Test func earlierConflictIsNotHiddenByLaterSourceMatchingTarget() async throws {
+        let (f, target, _, _) = try await fork(conflict: true)
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let original = try await f.commit("Later source matches target")
+        let plan = try await f.service.prepareRebase(target: target)
+        #expect(plan.commits.count == 2 && plan.conflictPaths == ["file"])
+        guard case .conflicts(let recovery, 1) = try await f.service.executeRebase(plan) else {
+            throw ModelFailure.changed
+        }
+        guard
+            case .aborted(let head) = try await f.service.recoverRebase(
+                continueOperation: false, expected: recovery)
+        else {
+            throw ModelFailure.changed
+        }
+        #expect(head == original)
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("target\n".utf8))
+    }
+
     @Test func batchedLinearTreesMatchFreshMetadataIncludingEmptyChanges() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }
