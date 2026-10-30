@@ -1,0 +1,24 @@
+{
+  "runId": 41070593781,
+  "jobId": 124113328352,
+  "trustedMain": "507f03b4240d2fb8987cd214eed94d50ffda2d84",
+  "testedCandidate": "8474d620c7607678921fcfb91d13dae68572b26c",
+  "artifact": {
+    "id": 12983944467,
+    "bytes": 118762895,
+    "sha256": "ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9",
+    "crcEntries": 2087
+  },
+  "tests": {
+    "smoke": {"total": 1, "passed": 1, "failed": 0, "skipped": 0},
+    "rebase": {"total": 1, "passed": 1, "failed": 0, "skipped": 0}
+  },
+  "methodSeconds": 91.83665299415588,
+  "methodBudgetSeconds": 120,
+  "outerSeconds": 98.432,
+  "outerBudgetSeconds": 180,
+  "sourceInputsVerified": 185,
+  "screenshotsAndAccessibilityReviewed": true,
+  "runtimeWarningsRetained": true,
+  "scope": "Trusted native evidence; not full VoiceOver or final v1.2 acceptance"
+}

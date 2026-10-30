@@ -1,0 +1,35 @@
+{
+  "runId": 41070593781,
+  "jobId": 124113328352,
+  "windowPixels": [980, 692],
+  "attachments": [
+    {
+      "state": "abort-restores-head-draft",
+      "screenshot": "screenshots/hosted-41070593781-abort-restores-head-draft.png",
+      "screenshotSha256": "ddf968302ecf7ac683792d89dfc6b2966fa792ee763d0e915b6fb314c7ec98c8",
+      "ax": "accessibility/hosted-41070593781-abort-restores-head-draft.txt",
+      "axSha256": "06ce00fca4341cc438e365cb5efd518cc5406cc22c3363bebe8afe51372dd77b"
+    },
+    {
+      "state": "changed-target-refused",
+      "screenshot": "screenshots/hosted-41070593781-changed-target-refused.png",
+      "screenshotSha256": "96e186057a322e476b32485d22a94761f493beaf73c57dc48a3e416e4082e923",
+      "ax": "accessibility/hosted-41070593781-changed-target-refused.txt",
+      "axSha256": "ae4d338be423f972f1ad18c0d6b117ace42846e1fa095a273c406144af5e1fc9"
+    },
+    {
+      "state": "chinese-light-preview-published",
+      "screenshot": "screenshots/hosted-41070593781-chinese-light-preview-published.png",
+      "screenshotSha256": "bab4026906bcaf3c5601b6abf3a357d1868cad8ca352e4a53cfe9c3c9cc0868d",
+      "ax": "accessibility/hosted-41070593781-chinese-light-preview-published.txt",
+      "axSha256": "736e424971e12ff24a5c3bd595e25ed93daaffd0fd3cd6f9cd84d3f0849cfb6f"
+    },
+    {
+      "state": "english-dark-conflict-reopened",
+      "screenshot": "screenshots/hosted-41070593781-english-dark-conflict-reopened.png",
+      "screenshotSha256": "73e5f50ef0c32a505a76e2dde1df68be8c909847a1be0a3454098771247f7961",
+      "ax": "accessibility/hosted-41070593781-english-dark-conflict-reopened.txt",
+      "axSha256": "2e42e7e0af84d666b9afd0afc6091c1fa58c6ae2e033a77dc0b6acc6bb02ce08"
+    }
+  ]
+}
