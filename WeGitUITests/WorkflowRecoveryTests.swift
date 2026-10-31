@@ -133,9 +133,9 @@ final class WorkflowRecoveryTests: XCTestCase {
         let unsaved = app.descendants(matching: .any)
             .matching(identifier: "conflict-editor-unsaved").firstMatch
         XCTAssertTrue(
-            unsaved.exists || app.buttons["Continue Editing"].waitForExistence(timeout: 5),
+            unsaved.exists || app.buttons["继续编辑"].waitForExistence(timeout: 5),
             app.debugDescription)
-        if app.buttons["Continue Editing"].exists { app.buttons["Continue Editing"].click() }
+        if app.buttons["继续编辑"].exists { app.buttons["继续编辑"].click() }
         app.buttons["conflict-editor-save"].click()
         let saved = XCTNSPredicateExpectation(
             predicate: NSPredicate(format: "enabled == true"),
