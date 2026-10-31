@@ -1,0 +1,67 @@
+{
+  "scope": "Read-only health of the exact hosted failed private fixture after safe extraction; not a replay of the original concurrent maintenance timing",
+  "extractedRoot": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-hosted-failed-fixture-ec874e2-gen9",
+  "events": [
+    {
+      "arguments": [
+        "cat-file",
+        "-t",
+        "592d62413a8302301a1900f70a997050e41ff92b"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: git cat-file: could not get object info\n"
+    },
+    {
+      "arguments": [
+        "cat-file",
+        "-s",
+        "592d62413a8302301a1900f70a997050e41ff92b"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: git cat-file: could not get object info\n"
+    },
+    {
+      "arguments": [
+        "fsck",
+        "--full",
+        "--no-reflogs"
+      ],
+      "exitCode": 34,
+      "stdout": "broken link from  commit 3168cbaacc3026ca122bde9a08dd41b22998eb39\n              to  commit 425ba93913a51aef671c0470edde4d1cea84c5b1\nmissing blob 0000e7fa224d254e43b9a45fd17e0aa4d45b0ddf\nmissing blob 0d00056e9ad91a8700d0a4213bf9e29e4bc7dc9c\nmissing blob 0e401d1e9bd440d711235d75d5ae9472a2b1905c\nmissing blob 1000c6cdcd5c2786faf6c2c3bcd2df83a875526d\nmissing blob 1a00aa6dd807b57c3315ab7446f6f4caaee57cc8\nmissing blob 1b00c7c0d9354e951ab474ad7b26274a58f06a38\nmissing blob 1c80140c83d29b53bd58de6f2e0e47445ae88eb4\nmissing blob 1d805608c53090a3ffcfe4504deec5b5a6b08493\nmissing blob 1e00401f16a22e896320a56b619a3f3a81b5fdec\nmissing blob 1e4038793f35a18c0282330df7f67e9be3b9ab7e\nmissing blob 1a0001326e75bbfed0d8eef2853469e6dc9ecaf6\nmissing blob 23004ff7b30d472a09c81b546b0fff65c195e51f\nmissing blob 2500b4b92dc5c883a24eda87f2eb8a325bdb9981\nmissing blob 26001f6adb78648aae6310e065f9741b24877166\nmissing blob 25c0113738f2949f2f9ea1248a325859a5199e92\nmissing blob 2840a45516f7def889211f78fc19b6c988111a7b\nmissing blob 2980a3bcdb59549138add63fc281ac29999e231d\nmissing blob 2dc0e6e51d37c685cd5cd07e0438dfb149adabfc\nmissing blob 2f80103649a08463c23d49950c880a523d23f39b\nmissing blob 36c0e185072f51c0a9105a5413561b3753572129\nmissing blob 3bc0e0905d1035aa118247391d849a79f82560ba\nmissing blob 3d80254fa19828ad60a1a418de2a78b4a7044e4d\nmissing blob 3e80e7fa1c2325456c231f44e5b95dd69045c67d\nmissing blob 3ec0338c1cd288fb07ed77e4f9e57dc48f30373d\nmissing blob 44c08cb1bde893c9c387dcb012b0f2072650dba2\nmissing blob 4540d95a7d1844d5938fc0d6336aa522f6b1b914\nmissing blob 50c056be54e2d78c39a6312b7be46d4757f9cae1\nmissing blob 52401c985e470bcfa581bf6a28a32a5d0cc73bd2\nmissing blob 5380d47f2289c56cc1da18b93c86f2c9eabffe82\nmissing blob 54001e3a1fc254539294f58ccaddf253039c2eb2\nmissing blob 58808ac9d7ebec56c6d51372902da9b406d2c12b\nmissing blob 6880ac60e62d458f3853bbf0521257a2b63f3fb0\nmissing blob 698089d3f31154c94387b3f9cb9eb180817610c3\nmissing blob 73c0bab65fe2383b126e0fc8d113e20dcb51e664\nmissing blob 73403e59db41e396980b95e8e95a74b149752a28\nmissing blob 75807899dbbcf240bb176c4dcfdbb040aa39c18d\nmissing blob 764002a40c9f990d55764cd5727c9cc209997af3\nmissing blob 78c03a556696470782370489f90112496fc20d64\nmissing blob 7c808c078f099f3ed00b41ed07afef2279c428aa\nmissing blob 808013075713472ada70067c7836769258cb7d18\nmissing blob 84008fa4476010aa085e17682a5e0ec229b94545\nmissing blob 8d4095356f927c91ff9117a5db9de89374c38236\nmissing blob 8f4054c755d2deff09a5339190d4ded0cd84ff31\nmissing blob 90409e84041654a8dba49753a55dd338491d17a4\nmissing blob 910040cc36aa8ad73006fc3dd6f3f1fac4655840\nmissing blob 8f00d691db14eb1ea131ea61900fa6a262204ac5\nmissing blob 9580874c14fd9e2988b2a96a97887b4f1256fa16\nmissing blob 9500a851bdfa5b21a58e74191a81a24dda0c7510\nmissing blob 9b80bfc5db598c358398ddaa175629bca0e3e571\nmissing blob a18079723bb6398a4be14cffb32c46d71c4f14ed\nmissing blob a240e5ed5ad22952a3f338f975861f7ab1ab70a9\nmissing blob a4405c62c8849bbeee1de3a385efc4a790d89c6e\nmissing blob ac403fd41e82b16df9b09c2a9f4be7e907815440\nmissin",
+      "stderr": "error: refs/heads/main: invalid sha1 pointer 425ba93913a51aef671c0470edde4d1cea84c5b1\nfailed to load pack in position 0\nfailed to load pack entry for oid[13] = 00826d3b2dfa91f4218c51a14af6dab9198b1285\nfailed to load pack entry for oid[14] = 0087136d9415d0016ef303401f900d5dccb2cdae\nfailed to load pack entry for oid[15] = 008d7588c1a8f358a1c2a56c0f66e30e57cb212b\nfailed to load pack entry for oid[16] = 00a17e7d3b835139cb3529687780b53457d69dd9\nfailed to load pack entry for oid[17] = 00a3bb93c518874c51fd0f8a75b4954e124cc7a5\nfailed to load pack entry for oid[18] = 00a711062539ba2676d5b7e21fd87294120c2626\nfailed to load pack entry for oid[19] = 00cf75831a89428a04d16f8a245bc678a8830201\nfailed to load pack entry for oid[20] = 00e3d703a7adce3bd46780254e36921cad6afc57\nfailed to load pack entry for oid[21] = 00eb219dc5e0d5c4d1a2211316aa94a3ccbc401e\nfailed to load pack entry for oid[22] = 00ee6626a8a3082a1b58ff11a52c0ef6ce288f73\nfailed to load pack entry for oid[23] = 00f95358cdf4ff53f0cac8cf072ca24a7ef93dd2\nfailed to load pack entry for oid[24] = 00fb5ee72ae95912d3f1c72764170371f6a01537\nfailed to load pack entry for oid[25] = 010700ad4e282d6d4ab8521a82c0768d71c32abe\nfailed to load pack entry for oid[26] = 013f8c5d2596b32c4648ed7f7f2c8def4403085c\nfailed to load pack entry for oid[27] = 0143d90f09dba1abcb9fdaa4f8ed9a49e7dec0bb\nfailed to load pack entry for oid[28] = 01625adf3c7d5b8b29d38f7177be7569b5afafb0\nfailed to load pack entry for oid[29] = 0165f111bc681ce7d9faf63e767e0fd45a4239ec\nfailed to load pack entry for oid[30] = 0172b1811e551667b7fec21e0c8cba8f96d5394a\nfailed to load pack entry for oid[31] = 0174c620b40a10b9f7ed91d9d17d7821740d61e1\nfailed to load pack entry for oid[32] = 017987bcd4b43c72c05c68f30f00c731508070e2\nfailed to load pack entry for oid[33] = 017b92543c35bd5450e5377e10af0f226bcb1d7f\nfailed to load pack entry for oid[34] = 01817be5ba3947d04927a32665375eecc0b6fe89\nfailed to load pack entry for oid[35] = 018fba6fb4cbc99c145f84d4381e60eca31eb58a\nfailed to load pack entry for oid[36] = 01a68b72d805a3ae5e9324496eca18b22e303123\nfailed to load pack entry for oid[37] = 01a70ce8eed032863fecdc18fa29e9e7ba9a21df\nfailed to load pack entry for oid[38] = 01b09932ba5d33f448ba45b4aafdc2e5c60b48ad\nfailed to load pack entry for oid[39] = 01b460aeb660666648afe1b0fa6bb51ed7c48732\nfailed to load pack entry for oid[40] = 01bc61584a0e29c2c5e4c42becd68e63d4f2da67\nfailed to load pack entry for oid[41] = 01ca382b4791b638f4769f98d04d0b2ca1ea2b4f\nfailed to load pack entry for oid[42] = 01d862a61abf2af3cc7743dd7a0eea539d77b9e5\nfailed to load pack entry for oid[43] = 01e9f056d38bcb2aa5e4fc8a56a831047724dd44\nfailed to load pack entry for oid[44] = 01edaf9f1699710e7d8db4c877b661dd5ff64e5e\nfailed to load pack entry for oid[45] = 01ede1cd9a82d648bb97eb64a9c713c93b06d4de\nfailed to load pack entry for oid[46] = 01f454d2ddbc81e6663db048c42ad41ec8c69261\nfailed to load pack entry for oid[47] = 01fa1c245619c2c3094cf066ba18380d2080deff\nfailed to load pack entry for oid[48] = 01fb3"
+    },
+    {
+      "arguments": [
+        "multi-pack-index",
+        "verify"
+      ],
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "failed to load pack in position 0\nfailed to load pack entry for oid[13] = 00826d3b2dfa91f4218c51a14af6dab9198b1285\nfailed to load pack entry for oid[14] = 0087136d9415d0016ef303401f900d5dccb2cdae\nfailed to load pack entry for oid[15] = 008d7588c1a8f358a1c2a56c0f66e30e57cb212b\nfailed to load pack entry for oid[16] = 00a17e7d3b835139cb3529687780b53457d69dd9\nfailed to load pack entry for oid[17] = 00a3bb93c518874c51fd0f8a75b4954e124cc7a5\nfailed to load pack entry for oid[18] = 00a711062539ba2676d5b7e21fd87294120c2626\nfailed to load pack entry for oid[19] = 00cf75831a89428a04d16f8a245bc678a8830201\nfailed to load pack entry for oid[20] = 00e3d703a7adce3bd46780254e36921cad6afc57\nfailed to load pack entry for oid[21] = 00eb219dc5e0d5c4d1a2211316aa94a3ccbc401e\nfailed to load pack entry for oid[22] = 00ee6626a8a3082a1b58ff11a52c0ef6ce288f73\nfailed to load pack entry for oid[23] = 00f95358cdf4ff53f0cac8cf072ca24a7ef93dd2\nfailed to load pack entry for oid[24] = 00fb5ee72ae95912d3f1c72764170371f6a01537\nfailed to load pack entry for oid[25] = 010700ad4e282d6d4ab8521a82c0768d71c32abe\nfailed to load pack entry for oid[26] = 013f8c5d2596b32c4648ed7f7f2c8def4403085c\nfailed to load pack entry for oid[27] = 0143d90f09dba1abcb9fdaa4f8ed9a49e7dec0bb\nfailed to load pack entry for oid[28] = 01625adf3c7d5b8b29d38f7177be7569b5afafb0\nfailed to load pack entry for oid[29] = 0165f111bc681ce7d9faf63e767e0fd45a4239ec\nfailed to load pack entry for oid[30] = 0172b1811e551667b7fec21e0c8cba8f96d5394a\nfailed to load pack entry for oid[31] = 0174c620b40a10b9f7ed91d9d17d7821740d61e1\nfailed to load pack entry for oid[32] = 017987bcd4b43c72c05c68f30f00c731508070e2\nfailed to load pack entry for oid[33] = 017b92543c35bd5450e5377e10af0f226bcb1d7f\nfailed to load pack entry for oid[34] = 01817be5ba3947d04927a32665375eecc0b6fe89\nfailed to load pack entry for oid[35] = 018fba6fb4cbc99c145f84d4381e60eca31eb58a\nfailed to load pack entry for oid[36] = 01a68b72d805a3ae5e9324496eca18b22e303123\nfailed to load pack entry for oid[37] = 01a70ce8eed032863fecdc18fa29e9e7ba9a21df\nfailed to load pack entry for oid[38] = 01b09932ba5d33f448ba45b4aafdc2e5c60b48ad\nfailed to load pack entry for oid[39] = 01b460aeb660666648afe1b0fa6bb51ed7c48732\nfailed to load pack entry for oid[40] = 01bc61584a0e29c2c5e4c42becd68e63d4f2da67\nfailed to load pack entry for oid[41] = 01ca382b4791b638f4769f98d04d0b2ca1ea2b4f\nfailed to load pack entry for oid[42] = 01d862a61abf2af3cc7743dd7a0eea539d77b9e5\nfailed to load pack entry for oid[43] = 01e9f056d38bcb2aa5e4fc8a56a831047724dd44\nfailed to load pack entry for oid[44] = 01edaf9f1699710e7d8db4c877b661dd5ff64e5e\nfailed to load pack entry for oid[45] = 01ede1cd9a82d648bb97eb64a9c713c93b06d4de\nfailed to load pack entry for oid[46] = 01f454d2ddbc81e6663db048c42ad41ec8c69261\nfailed to load pack entry for oid[47] = 01fa1c245619c2c3094cf066ba18380d2080deff\nfailed to load pack entry for oid[48] = 01fb33816971c8f17523e3742b5984ad0313adf1\nfailed to load pack entry for oid[49] = 01ff3cc125"
+    },
+    {
+      "arguments": [
+        "rev-list",
+        "--count",
+        "HEAD"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "error: Could not read 425ba93913a51aef671c0470edde4d1cea84c5b1\nfatal: Failed to traverse parents of commit 3168cbaacc3026ca122bde9a08dd41b22998eb39\n"
+    },
+    {
+      "arguments": [
+        "ls-files",
+        "--stage",
+        "--",
+        "file-1"
+      ],
+      "exitCode": 0,
+      "stdout": "100644 592d62413a8302301a1900f70a997050e41ff92b 0\tfile-1\n",
+      "stderr": ""
+    }
+  ],
+  "tarSha256": "9fbe27ecf569c32066450064209ac155362c0c2399fdbf7baf6799acf018bc05"
+}

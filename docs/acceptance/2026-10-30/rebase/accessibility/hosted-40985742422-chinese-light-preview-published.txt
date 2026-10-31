@@ -1,0 +1,126 @@
+Attributes: Window (Main), 0x7996fc6bc0, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Disabled
+Element subtree:
+ →Window (Main), 0x7996fc6bc0, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Disabled
+    Group, 0x7996fc6080, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+      Group, 0x7996fc7480, {{70.0, 318.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+        SplitGroup, 0x7996fc7e80, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+          Group, 0x7996fc61c0, {{70.0, 318.0}, {210.0, 692.0}}, Disabled
+            ScrollView, 0x7996fc6800, {{70.0, 370.0}, {210.0, 566.0}}, Disabled
+              Outline, 0x7996fc7340, {{69.0, 369.0}, {212.0, 568.0}}, label: '边栏'
+                OutlineRow, 0x7996fc7700, {{70.0, 370.0}, {210.0, 19.0}}, Disabled
+                  Cell, 0x7996fc66c0, {{80.0, 370.0}, {190.0, 19.0}}, Keyboard Focused
+                    Group, 0x7996fc6a80, {{84.0, 370.0}, {194.0, 19.0}}, Disabled
+                      StaticText, 0x7996fc7840, {{84.0, 372.5}, {33.0, 14.0}}, label: '工作区'
+                OutlineRow, 0x7996fc7980, {{70.0, 389.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x7996fc7ac0, {{80.0, 389.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x7996fc6d00, {{130.0, 406.0}, {26.0, 16.0}}, identifier: 'route-更改', value: 更改
+                    StaticText, 0x7996fc4f00, {{240.0, 407.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 0
+                OutlineRow, 0x7996fc48c0, {{70.0, 439.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x7996fc4b40, {{80.0, 439.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x7996fc4c80, {{94.0, 451.0}, {88.0, 26.0}}, identifier: 'route-提交历史', value: 提交历史
+                OutlineRow, 0x7996fc6300, {{70.0, 489.0}, {210.0, 50.0}}, Selected, Disabled
+                  Cell, 0x7996fc4140, {{80.0, 489.0}, {190.0, 50.0}}, Keyboard Focused, Selected
+                    StaticText, 0x7996fc52c0, {{86.0, 493.0}, {178.0, 42.0}}, identifier: 'route-分支', value: 分支
+                OutlineRow, 0x7996fc5e00, {{70.0, 539.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x7996fc6440, {{80.0, 539.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x7996fc75c0, {{94.0, 551.0}, {62.0, 26.0}}, identifier: 'route-暂存记录', value: 储藏
+                OutlineRow, 0x7996dba800, {{70.0, 589.0}, {210.0, 50.0}}, Disabled
+                  Cell, 0x7996dbb340, {{80.0, 589.0}, {190.0, 50.0}}, Keyboard Focused
+                    StaticText, 0x7996dbabc0, {{94.0, 601.0}, {62.0, 26.0}}, identifier: 'route-标签', value: 标签
+                OutlineRow, 0x7996dbad00, {{70.0, 652.0}, {210.0, 19.0}}, Disabled
+                  Cell, 0x7996dbae40, {{80.0, 652.0}, {190.0, 19.0}}, Keyboard Focused
+                    Group, 0x7996dbb700, {{84.0, 652.0}, {194.0, 19.0}}, Disabled
+                      StaticText, 0x7996dbb980, {{84.0, 654.5}, {22.0, 14.0}}, label: '仓库'
+                OutlineRow, 0x7996dbb5c0, {{70.0, 671.0}, {210.0, 56.0}}, Disabled
+                  Cell, 0x7996db9900, {{80.0, 671.0}, {190.0, 56.0}}, Keyboard Focused
+                    Button, 0x7996dba940, {{86.0, 675.0}, {178.0, 48.0}}, identifier: 'sidebar-repository:/Users/runner/Library/Containers/com.willxue.wegit.UITests.xctrunner/Data/tmp/WeGitIndependentRebaseUI-FEFD2584-9F39-4F0A-9C8F-0A23A8E82B26/repo', label: 'repo、feature'
+                TableColumn, 0x7996dbb840, {{80.0, 370.0}, {190.0, 566.0}}, identifier: 'ListColumn', Disabled
+            StaticText, 0x7996dbbd40, {{130.0, 962.5}, {40.0, 17.0}}, identifier: 'sidebar-brand', value: WeGit
+            Button, 0x7996dba1c0, {{226.0, 956.0}, {30.0, 30.0}}, identifier: 'sidebar-add-repository', label: '打开仓库'
+          Splitter, 0x7996dbb0c0, {{280.0, 370.0}, {1.0, 640.0}}, value: 210, Disabled
+          Group, 0x7996dbaf80, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+            SplitGroup, 0x7996dbaa80, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+              Group, 0x7996dbb200, {{70.0, 318.0}, {980.0, 692.0}}, Disabled
+                StaticText, 0x7996dbbac0, {{331.0, 387.0}, {26.0, 16.0}}, value: 分支
+                Button, 0x7996dbbc00, {{830.0, 380.0}, {88.0, 30.0}}, identifier: 'branches-rebase', label: '变基…'
+                Button, 0x7996dbbe80, {{927.0, 380.0}, {109.0, 30.0}}, label: '新建分支…'
+                TextField, 0x7996828000, {{322.0, 426.0}, {675.0, 18.0}}, identifier: 'branches-filter', label: '筛选分支名称或上游', placeholderValue: '筛选分支名称或上游', value: main
+                Button, 0x7996828140, {{1003.0, 423.0}, {24.0, 24.0}}, identifier: 'branches-filter-clear', label: '清除筛选分支名称或上游'
+                ScrollView, 0x7996828280, {{280.0, 463.0}, {770.0, 547.0}}, Disabled
+                  Outline, 0x79968283c0, {{69.0, 462.0}, {982.0, 549.0}}, identifier: 'branches-list'
+                    OutlineRow, 0x7996828500, {{280.0, 473.0}, {770.0, 24.0}}, Disabled
+                      Cell, 0x7996828640, {{290.0, 473.0}, {750.0, 24.0}}, Keyboard Focused
+                        StaticText, 0x7996828780, {{296.0, 478.5}, {40.0, 13.0}}, label: '本地分支'
+                    OutlineRow, 0x79968288c0, {{280.0, 497.0}, {770.0, 76.0}}, Disabled
+                      Cell, 0x7996828a00, {{290.0, 497.0}, {750.0, 76.0}}, Keyboard Focused
+                        Group, 0x7996828b40, {{298.0, 509.0}, {736.0, 52.0}}, identifier: 'branch-row:refs/heads/main'
+                          Image, 0x7996828c80, {{298.0, 529.0}, {12.0, 12.0}}, identifier: 'arrow.triangle.branch', label: '分开'
+                          StaticText, 0x7996828dc0, {{324.0, 509.0}, {32.0, 16.0}}, value: main
+                          StaticText, 0x7996828f00, {{324.0, 530.0}, {101.0, 13.0}}, value: d81c36a · 未设置上游
+                          StaticText, 0x7996829040, {{324.0, 548.0}, {119.0, 13.0}}, value: Target · 2026年10月30日
+                          Button, 0x7996829180, {{804.0, 520.0}, {88.0, 30.0}}, label: '切换'
+                          Button, 0x79968292c0, {{904.0, 520.0}, {88.0, 30.0}}, identifier: 'branch-merge:refs/heads/main', label: '合并…'
+                          MenuButton, 0x7996829400, {{1008.0, 527.0}, {22.0, 16.0}}, identifier: 'branch-actions:refs/heads/main', title: '更多', label: 'More'
+                    OutlineRow, 0x7996829540, {{280.0, 573.0}, {770.0, 24.0}}, Disabled
+                      Cell, 0x7996829680, {{290.0, 573.0}, {750.0, 24.0}}, Keyboard Focused
+                        StaticText, 0x79968297c0, {{296.0, 578.5}, {60.0, 13.0}}, label: '远端跟踪分支'
+                    TableColumn, 0x7996829900, {{290.0, 463.0}, {750.0, 547.0}}, identifier: 'ListColumn', Disabled
+    Toolbar, 0x7996829a40, {{70.0, 318.0}, {980.0, 52.0}}, Disabled
+      Group, 0x7996829b80, {{232.0, 318.0}, {44.0, 52.0}}, Disabled
+        Group, 0x7996829cc0, {{236.0, 326.0}, {36.0, 36.0}}, label: '隐藏边栏', Disabled
+          Button, 0x7996829e00, {{236.0, 326.0}, {36.0, 36.0}}, identifier: 'toolbar-sidebar', label: '侧栏', value: 已打开
+      Button, 0x7996829f40, {{284.0, 318.0}, {44.0, 52.0}}, identifier: 'toolbar-repository', label: 'repo'
+      Group, 0x799682a080, {{623.0, 318.0}, {154.0, 52.0}}, Disabled
+        MenuButton, 0x799682a1c0, {{694.0, 335.0}, {12.0, 18.0}}, identifier: 'current-branch', title: '当前分支：feature', value: 同步状态：无上游
+      Group, 0x799682a300, {{777.0, 318.0}, {93.0, 52.0}}, Disabled
+        MenuButton, 0x799682a440, {{790.0, 335.0}, {67.0, 18.0}}, identifier: 'toolbar-sync', title: '同步', label: 'Two clockwise triangle-headed arrows rotated 90 degrees'
+      Button, 0x799682a580, {{870.0, 318.0}, {44.0, 52.0}}, identifier: 'arrow.trianglehead.2.clockwise.rotate.90', label: '刷新'
+      Button, 0x799682a6c0, {{914.0, 318.0}, {44.0, 52.0}}, identifier: 'toolbar-search', label: '搜索仓库'
+      Button, 0x799682a800, {{958.0, 318.0}, {44.0, 52.0}}, identifier: 'toolbar-inspector', label: '检查器', value: 已关闭
+      Group, 0x799682a940, {{1002.0, 318.0}, {44.0, 52.0}}, Disabled
+        MenuButton, 0x799682aa80, {{1013.0, 336.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'
+    Button, 0x799682abc0, {{88.0, 336.0}, {16.0, 16.0}}, identifier: '_XCUI:CloseWindow', Disabled
+    Button, 0x799682ad00, {{134.0, 336.0}, {16.0, 16.0}}, identifier: '_XCUI:ZoomWindow'
+      Group, 0x799682ae40, {{135.0, 337.0}, {14.0, 14.0}}, Disabled
+        Group, 0x799682af80, {{135.0, 337.0}, {14.0, 14.0}}, Disabled
+    Button, 0x799682b0c0, {{111.0, 336.0}, {16.0, 16.0}}, identifier: '_XCUI:MinimizeWindow'
+    StaticText, 0x799682b200, {{328.0, 318.0}, {295.0, 52.0}}, value: repo
+    StaticText, 0x799682b340, {{328.0, 318.0}, {295.0, 52.0}}, value: feature
+    Sheet, 0x799682b480, {{250.0, 389.0}, {620.0, 550.0}}, Keyboard Focused, Disabled
+      Group, 0x799682b5c0, {{250.0, 389.0}, {620.0, 550.0}}, Disabled
+        StaticText, 0x799682b700, {{318.0, 420.5}, {30.0, 19.0}}, value: 变基
+        ScrollView, 0x799682b840, {{274.0, 463.0}, {572.0, 406.0}}, identifier: 'rebase-preview', Disabled
+          StaticText, 0x799682b980, {{274.0, 466.9}, {52.0, 16.0}}, value: 目标分支
+          PopUpButton, 0x799682bac0, {{334.0, 463.0}, {144.0, 24.0}}, identifier: 'rebase-target-picker', value: main
+          CheckBox, 0x799682bc00, {{274.0, 503.0}, {99.0, 16.0}}, identifier: 'rebase-preserve-merges', label: '保留合并结构', value: 0
+          Other, 0x799682bd40, {{274.0, 535.0}, {149.0, 16.0}}, identifier: 'rebase-current-branch', label: '当前分支: feature'
+          Other, 0x799682be80, {{274.0, 559.0}, {354.0, 16.0}}, identifier: 'rebase-head', label: 'HEAD: 25466fd856a6c62706e38c3eb6c0820eee099b60'
+          Other, 0x799682c000, {{274.0, 583.0}, {354.0, 16.0}}, identifier: 'rebase-target-oid', label: '目标提交: d81c36a30fe3a386c24497cf42bb71371bdb2984'
+          Other, 0x799682c140, {{274.0, 607.0}, {354.0, 16.0}}, identifier: 'rebase-base', label: '共同起点: eda1b68181d08d39d0ddde3dea4c8de4338ab3b7'
+          StaticText, 0x799682c280, {{274.0, 642.0}, {66.0, 14.0}}, value: 待重放的提交
+          StaticText, 0x799682c3c0, {{830.0, 642.0}, {8.0, 14.0}}, value: 1
+          Other, 0x799682c500, {{274.0, 675.0}, {219.0, 15.0}}, identifier: 'rebase-commits'
+            StaticText, 0x799682c640, {{274.0, 677.0}, {75.0, 13.0}}, value: 25466fd856a6, Disabled
+              StaticText, 0x799682c780, {{274.0, 677.0}, {75.0, 13.0}}, value: 25466fd856a6
+            StaticText, 0x799682c8c0, {{361.0, 675.0}, {132.0, 15.0}}, value: 中文提交与固定重放范围, Disabled
+              StaticText, 0x799682ca00, {{361.0, 675.0}, {132.0, 15.0}}, value: 中文提交与固定重放范围
+          StaticText, 0x799682cb40, {{274.0, 706.0}, {427.0, 16.0}}, identifier: 'rebase-published-warning', value: 此范围包含已发布提交；变基会改写历史...
+          CheckBox, 0x799682cc80, {{274.0, 738.0}, {138.0, 16.1}}, identifier: 'rebase-published-confirm', label: '确认改写已发布提交', value: 1
+        Button, 0x799682cdc0, {{662.0, 885.0}, {88.0, 30.0}}, identifier: 'rebase-cancel', label: '取消'
+        Button, 0x799682cf00, {{758.0, 885.0}, {88.0, 30.0}}, identifier: 'rebase-execute', label: '开始变基'
+Path to element:
+ →Application, 0x7996fc5f40, pid: 14178, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7996fc6bc0, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x799683a440, pid: 14178, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendants matching type Window
+    Output: {
+      Window (Main), 0x799683a580, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Disabled
+    }
+    ↪︎Find: Elements matching predicate '"main" IN identifiers'
+      Output: {
+        Window (Main), 0x799683a580, {{70.0, 318.0}, {980.0, 692.0}}, identifier: 'main', title: 'repo – feature', Disabled
+      }

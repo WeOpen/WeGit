@@ -629,3 +629,234 @@
 - 新候选8b2bce79adb86c0654b3201c566f83d5b3fe94b0正常推送77。CI40898235020三套Git各233项/42suites全通过，新增TERM信号和执行中取消/容量用例每套执行；托管三类各30读性能样本全部达标。完整1,293,499字节日志SHA保存在core-ci-40898235020.json。
 - 可信main20c21de调度40899951262/job123539209559：直接xcresult smoke/专项各1/1、0失败/跳过，专项108.818961秒，176应用输入逐项匹配。12909880739完整118,781,670字节ZIP/SHA5d42c6fe.../全部2089CRC已核验，四张新源码截图已实看；QoS runtime warning保留。完整回执hosted-40899951262-passed.json，旧失败/旧成功不删。
 - 当前只追加最终文档；需确认与8b2bce7全部产品/Core/UI测试/可信脚本输入等价，再最新头部三项CI及review conversations核对后正常squash集成77，不使用admin/绕过检查，不提前关闭75。NativeUI已成功的相同输入不重复dispatch。全部V12-06/05/07/08/09与同一最终源码完整验收继续，五分钟唯一责任仍当前01a187c5。
+
+## 2026-10-30 V12-06 独立 Rebase 实施开始
+
+- Worktree管理77正常squash7564925、75已实际closed后，重新查询全量开放Issue无Rebase，已创建78。复用clean管理树从origin/main新建codex/v1.2-rebase，不attach/reset或重建旧树。当前已写有界固定OID/提交范围/索引/目标树路径的准备接口，使用原StashWorktreeGuard阻止ignored和父路径覆盖；正在实现可核对的实际序列恢复。完整功能/执行/UI/性能/托管验收仍未完成。
+- 新核心模型与rebase-merge/apply metadata读取编译通过；状态文件固定原HEAD/head-name/onto/todo/done及节点身份，真实恢复操作不能只检查.rebase枚举。首个独立checker编译失败是外部脚本调用Core internal String.removingLastNewline；不扩大产品API，仅将脚本OID换成Foundation trim，原编译日志保留。此处是准备阶段，不以编译或接口代替Rebase完成。
+
+## 2026-10-30 Rebase 执行与恢复契约继续
+
+- 唯一责任仍为01a187c5、Issue78、codex/v1.2-rebase基线7564925。新增真实执行/原HEAD可达引用、失败后独立观察、完整序列文件与根marker/重写标签指纹、确认后继续/中止；正在编译与私有真实Git重验，尚未证明产品完成。预览通过私有object directory/alternates模拟至下一次冲突，继续从已暂存解决内容重新保护未来写入；不把未来未知冲突解决当作已经模拟。
+- 新增读取误猜BranchesView.swift/SingleCommitState.swift的真实两项I/O失败，实际BranchesView在HistoryView.swift，单提交请求在SingleCommitSheet.swift；日志保留。后续读取前先rg --files。另一次AGENTS.md清单无匹配是成功负查询，混合命令exit1不能当成源码/I/O错误。
+- 当前Apply后端仍仅允许核对后中止，未证明继续，完整应用接入/托管/Core/性能/原生验证均继续；9项旧基础诊断不代表此新增源码验收。全部版本目标和原失败记录持续保留。
+
+## 2026-10-30 Rebase 暂存区预览的真实写入陷阱
+
+- 新执行代码初次编译通过。独立checker随后因四处&&的非async自动闭包内调用await编译失败（同一源码错误/同一run），已将读取移到布尔比较前；原rebase-execution-checks-gen8.log保留。
+- 修正脚本后的实际私有检查推进到第一轮冲突解决预览，随后Git128：b40a5238...不是有效object。独立实读保留夹具证实原index偏移249含此只在私有objects中存在的tree，工作文件仍是第一轮解决/第二目标内容，原branch/onto和序列保留。根因是write-tree即使--no-optional-locks仍会写原index的cache-tree；仅隔离GIT_OBJECT_DIRECTORY不够。原日志/夹具及主根rebase-private-index-diagnostic-gen8.json保留。
+- 现从已核对的stage记录在私有目录重建GIT_INDEX_FILE，再write-tree；不把私有对象引用写入用户index。新增逐字节原index不变断言，尚待实际重验。本轮未执行本机XCTest、用户仓库写入、PR/push/dispatch；v1.2继续开放。
+
+## 2026-10-30 Rebase 签名失败后的已重新排队提交
+
+- UI入口/固定范围/恢复控件已接入，Core测试目标swift build --build-tests与原生build-for-testing成功；只有编译，没有本机XCTest。47项新增文案的1295keys/8plurals覆盖校验通过。当前输入之后又改恢复逻辑，最终源码仍需重新核对。
+- 扩展真实检查在签名恢复处失败，rebase-recovery-boundaries-checks-gen8.log和原85E1AB0E私有夹具保留。Git把失败pick同时留在done与重新排队todo，暂存的是已经生成但尚未提交的内容；直接rebase --continue报staged changes，不能将签名配置修复等同于恢复成功。
+- 主根rebase-signing-diagnostic-gen8.json保存独立副本实证：原index tree与原提交merge-tree预演均92d9aa930288e30b8ee44cebad210e622acf2746，副本reset到固定HEAD后continue成功，仅生成一个Feature，SSH签名配置私有。原失败夹具未动。现仅在显式Continue、完整序列/HEAD/index重验且暂存树为纯生成内容时reset-and-replay；额外手工编辑拒绝且保留。原HEAD另有可达ref，不依赖reset会改写的ORIG_HEAD。新的完整重验尚在进行。
+- 一次恢复比对补丁未匹配格式化后的上下文，apply_patch无改动；已先实读当前文件再修正，真实失败进入审计。warning/负查询/同一签名失败副本诊断不重复计数。完整版本/性能/托管/native/M5仍开放。
+
+## 2026-10-30 独立 Rebase 可信入口 PR79
+
+- 新入口工作树已由主根origin/main7564925创建并登记，路径/分支为/Users/willxue/.codex/worktrees/rebase-native-entry/WeGit、codex/78-rebase-native-entry。create_worktree的sourceRoot必须是当前聊天workspace主根；管理树虽可CLI使用但不在可选workspace，本次首次sourceRoot验证被拒且未创建。没有强制attach/重建或reset管理树。
+- PR79真实创建并附加，commit3c895f099982f10838ade2997caf30180ccad232，只改可信scope/白名单/16项Python测试及HANDOFF，产品/Core/实际XCTest输入不变；注册rebase-workflow→RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch。smoke失败或跳过即停止，固定120/180秒与制品要求不变。16Python测试与repository policy通过；最新必需CI/reviews及正常集成尚待核对，Issue78保持open。
+- 管理树37项真实Git独立检查通过，包含有私有签名工具的失败/正确继续、支持的双父合并、丢失回执/外部额外提交区分、Git/hook/child实际启动后的取消和整个进程组退出。这里只覆盖CLI行为；Release30样本、最新Core/原生输入/完整制品和界面实看仍待完成。整版后续与M5保持开放。
+
+## 2026-10-30 Rebase 只读安全与当前审计
+
+- 新CLI检查40项全部通过。外部author-script只能是与原提交作者/时间对应的三个安全单引号赋值；任意额外命令禁用Continue且保留冲突/Abort。merge-tree预览会启动配置的merge driver，因此新预览在子进程配置中禁用这些程序，真实已确认的Git执行仍保留正常配置；实际私有driver marker未创建，原index字节不变。
+- 新WeGitTests/RebaseTests.swift已写固定预览/objects/index、目标/分支/特殊索引过期、ignored、重开冲突、外部作者脚本、merge driver、签名重新排队手工编辑保护，尚只待编译/托管执行，不能宣布Core XCTest已通过。Native实际方法和Release30样本仍在准备。
+- 一次更新独立checker补丁因格式化上下文未匹配，未写文件，随后实读尾部正确更新。另一次混合命令rg错误猜WeGit/UI/OperationFeedback.swift，实际为WeGit/DesignSystem/OperationFeedback.swift；最后命令exit0不掩盖该真实I/O，已单独按exec7436.../时间计入。
+- PR79初次回执：PR policy/Repository policy与独立scene controls success，Native macOS仍pending，必需run40949384573/job123713373768。可选Workers Builds实际failure/check123712820191保留并进入独立审计，不混作必需检查。正常合入前重新查最新head/三必需项/review；不重复push/create/dispatch。
+
+## 2026-10-30 Rebase Release 预算与首次测量
+
+- 在执行测量前固定普通10文件/5重放提交、大型5000文件/30重放提交各30有效样本：first/steady/post-cancel各P95≤2000ms，实际启动delay wrapper和child后取消P95≤500ms；普通/大型RSS P95≤256/512MiB。保留既有Shell500/Status300/Diff150/History300/启动1000预算，不能以此专项替代整版性能。
+- 新scripts/RebasePerformance.swift/verify-rebase-performance.sh只用ordinary Release Core和私有null-global/system配置仓库；保持原HEAD/index，先确认wrapper+child活着再取消并等全组退出，重新执行全量准备，不使用缓存后的页作为首次读。wrapper延迟模型不等于未修改Git大型仓库真实取消，报告明确限定；全部有效原始样本/输入hash/RSS保留。当前新测量启动中，尚无预算通过结论。
+- 实际原生RebaseWorkflowTests方法已写，覆盖已发布确认/完整SHA起点、Escape与筛选焦点续写、目标移动拒绝、真实重放、两轮冲突、重开、中英浅深与中止/草稿。新Core测试/原生方法均编译成功，1299keys/8plurals覆盖通过，本机没有XCTest运行。新不可变产品候选、Core托管/可信原生/完整xcresult仍未完成。
+
+## 2026-10-30 Rebase 大型读预算先失败后优化
+
+- 初始Release各30有效样本全部保留于rebase-read-budget-failed-gen8.json/原result。普通first/steady/recovered P95309.436/335.137/316.769ms、cancel0.490ms/RSS14.1MB通过；大型first/steady/recovered3558.648/3595.703/3551.122ms超过2000预算，cancel0.411ms/RSS31.1MB通过，allPassed=false。没有放宽预算或删样本。原夹具保留。
+- 独立一次真实profile：197命令、122ls-tree读取41,894,580bytes，耗1493.47ms，整体3408.07ms。现单次prepare内共享有界树元数据，按raw delta更新私有合并树，严格mode/OID/path/64MB changed-blob与index/ignored/作者指纹保护保留；不把缓存带到下一次确认。优化40项CLI重验通过；新tree delta Core回归只待编译/托管，未本机XCTest。
+- 优化后同一私有大型夹具单次profile1629.52ms、137命令、32ls-tree/11,324,480bytes、30diff-tree/3180bytes；此单次诊断不是30样本达标。现在按原2000/500/RSS256-512MiB与相同10/5000文件、5/30commit、每类30样本重新测量。测量期间不并行App构建。
+
+## 2026-10-30 Rebase 固定产品候选准备
+
+- 原生窄窗口方法已补volatile window frame980×692（workspace min640）与Tab/Return/Escape路径，最新Core/native build-for-testing成功，本机未执行XCTest。外部CLI42项真实Git检查及Release每类30全部通过；full最终原生/托管Core尚待候选PR。
+- 严格格式lint对RebaseSheet混合onSuccess闭包与trailing operation报真实error，后一个命令exit0不掩盖；现用显式operation参数修正并全量strict lint通过。实际WorkspaceState在AppState.swift，误猜Domain路径的I/O单独计入。全部真实失败按实际ID/time审计。
+- CUA报告Mac锁定且自动解锁失败，已请求人类手动解锁，未改系统安全或辅助访问。正确privateSuite/bundleID的预览60670后来不存活，launch.log0bytes，退出归因未明，不自动重开普通模式。六个当前用户prefs/DB/WAL/shm SHA与启动前保持；原历史shm变化与sharedUITest不明更新仍保留。Local渲染验证继续等待解锁，托管验证可继续。
+- 接下来正常固定本批产品/Core/UItests/scripts/evidence提交及draft PR，trusted main507f03b仅smoke后一方法。不可提前关78；所有V12-05/07/08/09与固定最终源码M5继续，不能把入口79或CLI通过当完成。
+
+## 2026-10-30 第九代接续准备：Rebase PR80 托管运行中
+
+- 用户已授权滚动30分钟第5个真实独立错误时新本地WeGit聊天继续同一个全目标。实际窗口在21:45:56UTC跨过5：CUA锁屏/自动解锁失败call9CQM...，混合错误猜Domain/WorkspaceState真实I/Oexec56a...，新原生用例补丁上下文失败callhfj...，RebaseSheet严格格式源错误exec2e081...（已修复且全量strict lint过），PR80新可选Workers failure/check123751715524。全部真实ID/time保留，负查询/旧回显/pending/重复poll不计；可选失败不混作required CI。当前从此停止产品/Git写入，仅保存/迁移同一任务。
+- 产品候选61ae6f57ad09480cbefdf171663ab46f582700eb已正常提交/推送，draft PR80实际创建并附加，Issue78仍open；管理树除了本交接文档无产品未提交。42项真实私有Git检查通过，旧失败均保存；原大型60有效样本首次3558.648ms失败完整保留，真实profile197命令/122ls-tree/41.9MB定位。优化单次prepare有界元数据与raw delta，源/路径/索引/指纹保护保留；新普通/大型各30全部通过，large first1725.879/steady1711.533/recovered1724.315ms、cancel0.397ms、RSS104022016。全部报表/源inputHash在acceptance2026-10-30/rebase和主根continuation。
+- 新Core原生方法均编译成功，不在本机XCTest。native方法已有980×692 volatile窗口配置及Tab/Return/Escape/筛选焦点、目标移动、发布确认、真实执行、两轮冲突/重开/中止/草稿断言，仍未实际通过。Local私有preview正确bundleID与不同.tests suite，曾启动60670后不存活/launch.log0，退出归因未明，Mac锁屏阻止CUA；六个当前user files SHA未变，旧shm改变和共享UITest不明更新仍保留，不宣称历史五文件零变化。等待人类解锁，getApp前重新实查PID/argv，禁止普通自动重开。
+- PR79可信入口已正常squash507f03b4240d2fb8987cd214eed94d50ffda2d84，16Python/3required/reviews0，无admin。入口树rebase-native-entry/WeGit、codex/78-rebase-native-entry HEAD3c895f0保持；由主根创建，可继续复用，不强制attach管理旧树。
+- 新PR80 required run40960676026/job123752503941：两policy实际success，Native macOS仍in_progress，最新checks按真实回执核对。新可信main原生40960942390已实际dispatch一次、source507f03b，focus rebase-workflow/candidate_pr80/smoke，原120/180秒；job与输入以主根rebase-native-jobs-gen8.json为准。不要再次dispatch相同61ae候选，先读实际run/job，必要时取完整新制品/xcresult/每测试计数/源输入和截图；旧Worktree成功SHA不重复下载/dispatch。
+- 实现细节：原HEAD有refs/wegit/rebase/<worktree identity>/<SHA>可达保存；全metadata/根markers/rewritten refs/index绑定。私有write-tree必须私有GIT_INDEX_FILE，不可再次污染原index。签名失败会done/todo重复重排，显式Continue仅纯生成stage验证后reset/replay一次；额外手工stage拒绝保留。Preview不运行外部merge drivers，author-script只允许匹配原作者/时间的安全三赋值。外部Apply仅有限Abort，既有Pull Rebase正常Merge后端继续/中止保留，不能宣称所有backend完成。
+- 接续先完成PR80/Core/原生回执与实际UI，必要变更固定新SHA才重验，最后docs与成功源等价及最新required/reviews后正常squash，不能提前关78。之后V12-05/07/08/09与固定最终源码完整功能/性能/安装/更新/迁移/回退/Beta/发布门禁继续；入口/一个PR/交接不代表完成。保护主根HEAD71b1b29/indexe57与33外部改动（含DiskDiff）、selected-lines5334a59/indexbfd clean。所有helpers主根绝对路径，跨聊天不复用exec session。
+
+## 2026-10-30 第九代首次托管失败的完整证据
+
+- 唯一责任及同一个 ACTIVE 五分钟 heartbeat 已核对为01a189ab，四树HEAD/index与交接一致。复用PR80且已附加，没有重复dispatch。
+- 原生40960942390完整制品12935377335：118512561bytes/SHA b37e64f84d6f36d9ff9c74e810e6ee910ac42a02846c2a4e80cb65138cb20e37/2133CRC、185构建输入与61ae候选逐字节匹配。直接xcresult smoke1/1/0/0，Rebase方法1总/0通过/1失败/0跳过，48.016秒在104行目标移动反馈value空字符串断言失败；QoS warning保留。完整xcresult、42导出附件和录屏保留，不把部分路径通过当专项完成。
+- required40960676026两次实际核心各241项通过（Apple默认/最低2.46）；42 CLI Rebase过。随后large性能夹具base file-1对象592d624缺失，尚无有效large样本，Homebrew完整核心/GPG/native编译等后续被跳过，不能称三Git全过。小制品12936163207的1856bytes/SHA608a843d/3CRC完整保留。原partial仅存completed workload数量，丢失先前ordinary样本数组；需修正失败报告保留所有已完成样本，不能凭计数补造旧样本。
+- 先隔离真实Git夹具与预演路径定位，错误log回显/重读不重复审计；Native失败完成时间早于第九代开始，按原source ID记录，required失败按当前代次和实际完成时间记录。所有新回执在主根continuation；原失败及旧成功制品不覆盖。
+
+## 2026-10-30 Rebase 取消就绪标记和失败采样保留
+
+- 61ae Core的本机私有逐命令Release追踪未复现托管592d624缺对象；44条纯Git大型夹具建立/完整fsck也通过，不能先猜产品修复。追踪在第29大型样本触发进程就绪断言，30普通+28大型有效诊断样本、15183命令、原夹具和错误log均保留；有追踪开销，不作为普通Release预算验收。该真实后台失败按实际execID计入本代，旧回显不再计。
+- 原printf重定向会先创建ready，再写两PID，存在完整性窗口。现先写pending再原子mv发布；实际wrapper/child存活与全进程组消失断言保持。失败验证也取消并等待原Task和已知进程组，不带着延迟child退出。
+- 性能失败报告保留所有completed workloads和active样本，带明确fixture/sample phase、Git版本及16MiB/20000项有界私有失败夹具归档；CI只新增该失败归档的保留路径，原2000/500/RSS预算不变。原报告丢失ordinary数组的缺口仍记录，不补造。
+- 原生目标移动断言改为限定main sheet并核对反馈已提供的可访问失败名称，断言前保留截图/AX；HEAD/index保护断言和全部真实流程不删，120/180秒不变。waitEnabled仅移除同一就绪条件的重复AX读取。最新编译/严格格式和固定新候选正常重验仍在进行，未修改Core/App产品源码。
+
+## 2026-10-30 固定 ec874e2 正常 Release 与一次调度等待错误
+
+- ec874e2f014266a01824c7aaa5fe724f0089904b 已正常提交/推送，Core/App/CoreTests产品输入185项不变，仅实际native用例、性能检查器和失败证据/策略保留路径变动。严格格式、策略与native build-for-testing通过，本机未XCTest。原预算下正常60样本全部通过，large first1737.124/steady1716.076/recovered1693.693ms、cancel0.352ms、RSS103546880。报告rebase-performance-tawlvV/result.json和主根副本保留（实际路径以state为准）。
+- 真实malformed-ready检查从活着的wrapper+child开始，异常后整个进程组消失、公共队列重验和HEAD/index字节保持，readiness-failure-cleanup-passed.json保留。
+- 调度前REST进程返回running session52837时过早读取尚不存在的native-runs-before文件，真实I/O失败；随后未按guard结果停止而发出了dispatch。已等待52837/89263真实完成；原队列快照20项全部completed，无旧active/pending被覆盖，新运行根据服务器created/source independently核验，未重复dispatch。该顺序错误进ledger；以后所有依赖读写都要等进程完成并检查exit_code，不把yield当结果。当前同源新的Native运行与required编号以state为准，完整Goal/M5仍未完成。
+
+## 2026-10-30 托管私有夹具自动维护损坏定位
+
+- required40968600683还是失败，源ec874e2，两套Core各241/CLI42过但后续被跳过。1,096,724bytes制品12939977128/SHAf2269663/4CRC完整，报告保留ordinary30全部样本、失败phase fixture.feature-commit.8及16MiB内完整私有夹具。大型Rebase准备尚未执行，不能当产品预演失败。
+- 实读MIDX header为v1且packCount3，PNAM引用已不存在的.tmp-69550-pack-0030...idx；其余两个真实pack自身verify-pack过但不含base file-1原blob，完整fsck确认原始提交/许多blob缺失。禁用MIDX查询仍找不到这些blob，不能仅重建MIDX宣称恢复。ProcessRunner成功路径没有发SIGTERM/KILL，不能凭本症状改正常进程策略。原归档不修改，诊断解包位于主根continuation。
+- 新检查器仅私有fixture禁用gc.auto/maintenance.auto，并明确保留ordinary loose、large loose、large foreground-gc packed三类各30、同2000/500/RSS预算；打包路径先wait并fsck，统计真实pack/loose状态，避免一边建仓一边detached维护。产品Git配置/自动维护不改。新字段加入memberwise initializer时未按字段声明顺序传参，真实compile失败已记录，随后实读编译诊断修正；最新编译/90样本尚待完成。
+- Native40969583341已job success且完整121494486bytes制品12940410836/SHA712565ad/185输入与ec874e2全匹配，smoke及唯一Rebase方法均1/1/0/0。完整xcresult/源回执已核验，四图/AX实看继续；不是整版或发布验收。后续Core/App/UItests/trusted脚本若完全等价，不重复同一成功native输入；真实产品输入变更仍需新候选重验。
+
+- 3b08ea3正常push已返回成功，紧接PR API仍返回旧ec874e2，脚本把短暂PR元数据延迟误当assert失败，真实exec错误保留。后续直接读取remote Git ref并复读PR核对，不重复push；不要以即时PR页面缓存触发重试。角色/真实HEAD以state及实际ref为准。
+
+## 2026-10-30 散装对象真实读预算失败
+
+- 3b08ea3标准90有效样本与三套固定健康存储全部记录：ordinary first258.088/steady264.519/recovered270.274ms过；large-packed1981.615/1966.095/1951.087ms过；large-loose5445.521/5477.301/5528.880ms超过原2000ms。三类cancel0.480/0.383/0.368ms及RSS均过。原90数组、源input hash与未清理私有fixture均保留，不能用packed通过覆盖loose失败，不降预算或删样本。
+- 下一步从同一个5000文件/30commit散装fixture实际profile，定位重复blob元数据读取；产品Core真正变动后需固定新源码、CLI/Core/native及最新必需CI重新验证，旧ec874e2成功保留但不替代新输入。当前没有Core修改。
+- 3b08ea3已正常推送，远端ref和稍后PR head均实读匹配；PR仍draft。一次audit手抄rollout path漏UUID段，真实I/O失败保留；改由已核验state.rolloutOffsets和当前CODEX_THREAD_ID选择实际文件再调用主根audit.py，不再手拼路径。滚动计数以实际代次/时间ID为准。
+
+## 2026-10-30 第十代接续准备：保持完整 v1.2 目标
+
+- 本代真实rolling30min已达到5：storage Workload initializer字段顺序compile错误、成功push后即时PR旧head触发assert、3b08ea3可选Workers独立failure、90有效样本large-loose原2000ms失败、手抄audit rollout path的真实I/O。实际ID/time在state.lastTransferTrigger，warning/pending/negative/旧回显不计。当前从此停止产品/Git写入，只保存及迁移同一个五分钟任务与唯一责任，不代表版本完成。
+- 管理树HEAD3b08ea3927671ca4d4c36ba1a38c8795e2fbeceb，codex/v1.2-rebase；产品Core/App/UItests/trusted脚本与已实际成功的ec874e2等价。现HANDOFF与最新90样本failed验收JSON未提交，其他源码clean；下一代用绝对workdir继续，不attach/reset/重建旧树。Issue78仍open/PR80仍draft且该源已推送。新required40975050643/job123801038683实际pending/inprogress，以最新回执核对，不重复push/dispatch旧source。
+- 成功native40969583341/job123782672216，artifact12940410836完整121494486bytes/SHA712565ade5ef8bc0593b695ff2f46ae136ec2d7c0099d628b60a2c17ee3b0d1f/2081CRC/185inputs/每test1/1/0/0和四图四AX已核验实看，方法114.874<120秒、outer125.912<180秒。原49秒失败、所有QoS warning仍留；同成功输入不重复下载或dispatch。但后续优化Core真正变动则必须新candidate/Core/native/CI重新验证。
+- 90样本固定ordinary loose、large loose、large packed，每类30全有效，自动维护仅私有fixture禁用/packed前台GC等完并fsck，storage统计齐全。ordinary258ms/packed1981ms过，large loose首次5445.521/稳态5477.301/恢复5528.880ms超原2000，cancel/RSS三类均过。全部90样本/输入hash/原fixture保留；不能packed代替loose或降预算。先实际profile同一个large-loose，再优化一轮内重复blob元数据读取。现RebaseTreeMetadata.entries仍每原树ls-tree -l，sizes缓存不能阻止Git重复读取同OID大小；仅是定位方向，尚未新profile或产品修改。原profile脚本在主根rebase-read-profile-gen8.swift，可编译/独立CLI，不本机XCTest。
+- 上轮CI失败已完整定位到fixture.feature-commit.8，MIDX引用丢失.tmp pack且原Blob/commit真的缺失；完整1096724byte/4CRC制品12939977128、健康检查和原包保留。仅新fixture禁用自动维护，无产品Git设置变化。不要把此建仓错误当Rebase算法失败。
+- 后续先真实收口78/80，再V12-05三方编辑器、07InteractiveRebase、08Submodule、09LFS、最终同一源码所有功能/性能/安装/更新/迁移/回退/Beta/发布门禁。主根three-way-next-contract-gen9.md仅只读契约，没有新Issue/产品实施。一个原生专项/PR/迁移不代表全部完成，全部实际完成才删除同一heartbeat。
+
+## 2026-10-30 第十代 loose 对象读取的实际 profile
+
+- 唯一责任和同一ACTIVE五分钟heartbeat已实读匹配01a18a1a，四树HEAD/index与gen9现场一致；PR80已附加复用，无重复push/dispatch。先对同一5000文件/30commit large-loose夹具、3b08等价Release做独立profile：5157.945ms，137命令，其中32次ls-tree -l累计3734.364ms/11,324,480bytes；HEAD/index逐字节保持。此前仅缓存sizes不能阻止Git逐树解压重复blob。
+- 首轮改为无-l树元数据与本轮新增OID批查，实际单次2327.467ms仍高于原2000；原报告和源SHA保存，不当预算通过。34次cat-file累计716.512ms反映逐树小批量的额外开销。现收集本次原始树后合并缺少的OID查询、每批100000项/32MiB输出，128MiB元数据/100万条缓存上限和mode/OID/path/changed-blob/index/覆盖保护保留；缓存不跨prepare。编译与真实CLI/90有效样本正在重验。
+- 当前Core真实变动，旧ec874e2的成功原生输入不再等价；新固定candidate必须重新托管Core和可信smoke/Rebase，旧成功/失败完整证据保留。整版V12-05/07/08/09和最终M5仍开放，不把profile或本专项当版本完成。
+
+## 2026-10-30 批查顺序对照与第十代验证边界
+
+- 新Core/新增Core tests已swift build --build-tests成功，只是编译；最新buffered输入45项真实私有Git检查实际通过，含共享binary/empty/symlink/literal newline保存及跨prepare丢对象拒绝，原HEAD/index不变。未本机XCTest。现原生build-for-testing后固定新candidate，再原规则ordinary loose/large loose/large packed各30。
+- 独立ProcessRunner先unbuffered498.970、后buffered108.525的顺序对照不能充分证明buffer收益。新buffered各flag对照首次none515.485、其余110.397/111.357/111.693，说明顺序/首次大输入因素尚未分离；最新完整profile2491.837和2122.463ms仍高于2000，实际argv带--buffer且保留NO_LAZY_FETCH/NO_REPLACE。原始JSON/源码/所有样本保留，不能挑较快第二次或修改预算宣称通过。
+- 原3b08必需run40975050643/job123801038683实际00:07:50UTC failure，完整601500byte job log和artifact12943486462（6477bytes/SHA89cd2fd6/3CRC）已核验：两Git各241 Core/CLI42过，90有效Release ordinary483.652ms通过，large-loose6469.809ms、packed3030.627ms均失败；后续Homebrew/GPG/native/打包跳过。原report全数组已保存，不把同job/check重复算失败。本代ledger仅一个该新CI事件。
+
+- 第十代最新buffered Core已有45项真实私有Git通过、swift build --build-tests及native build-for-testing实际成功（只编译，不是XCTest运行）；当前将这批输入固定为新candidate，随后按原预算完整90样本，测量期间不编译App。3b08 required完整90样本/输入等价核验与所有profile已加入acceptance，旧失败不覆盖。
+
+- 第十代提交前guard把git status --porcelain全输出strip()，删掉首行状态前导空格，使line[3:]误读HANDOFF文件名；真实assert失败在git add前发生，HEAD/index未写。已改为仅rstrip换行，保留porcelain的两列状态，继续显式允许文件清单，不关闭保护。真实exec进入ledger，不把此误解析当外部改动。
+
+- 3b08的完整预算失败artifact仅3CRC/6477bytes，实际没有failure-fixture.tar.gz。代码确认建仓/采样catch会归档，但最终allPassed=false在catch外抛出，漏掉完整健康夹具。已仅给最终预算失败结果添加同一有界归档/明确归档错误字段；30样本、2000/500/RSS、测量阶段和成功路径不改。补丁在90新测量启动前固定新commit，避免运行中改变inputs。
+
+## 2026-10-30 macOS tar的AppleDouble成员超出归档条目上限
+
+- 850593e完整90有效样本已保留：ordinary299.731/303.068/306.184ms过，loose2216.395/2174.446/2176.519与packed2021.617/2027.139/2066.874超原2000；取消/RSS均过。850未push/dispatch，缓存没有跨prepare。
+- 实际原tar有31092成员，其中15546个AppleDouble/2533998bytes，原文件仅15546条/约5.5MiB。文件系统fixture验证满足20k/16MiB，但macOS tar默认附带元数据把归档条目翻倍；此前归档上限assert是真实失败，不是文件内容丢失。只对子进程加COPYFILE_DISABLE=1后的真实新tar全部原路径/type/mode/文件bytes一致、15546条且16MiB内，原tar完整保留，新receipt明确记录。无需更改用户或fixture的xattrs。
+- 一次手抄随机目录dcCm1j的大小写出错导致读档assert；后续由rg实际清单/sourceRevision选择路径。该I/O guard与AppleDouble上限是两个真实不同错误，本代rolling ledger已记录，重复读取不重算。Core种入一次树大小的变更已Release编译，正在独立profile/CLI/Core/native重验；旧45与编译证据只属850输入，不能套用到新Core。
+
+## 2026-10-30 线性原树的批量raw delta读取
+
+- 种入一次大小的单次profile2311.608ms仍非原2000通过。当前只读新fixture/raw协议诊断确认diff-tree --stdin两tree输入会保留两个OID加换行头，含空diff也有头；raw -z的mode/path成对NUL不能按行切路径。独立实际Git诊断HEAD/index保持，官方当前Git文档与输出一致。
+- 新Core仅在已核对每步单父且连续接上共同起点的线性原序列，先读取目标/起点，然后有界解析树ID及一次批量raw差异；校验逐对比较OID头、NUL边界、mode/旧OID/新OID/路径与缺对象。沿用同一derive和原changed-blob、metadata/entry上限、路径/全身份/index/原HEAD保护，不跨prepare缓存。复杂/有空缺父线继续原读取路径。已Release编译，正在真实CLI/Core编译与单次profile；尚不当新源码XCTest或90样本通过。
+
+- 第十代线性batch当前48项实际私有Git通过，包括批次中的空提交、源增删/mode/换行路径和空目标，以及原全部签名/恢复/外部/取消/merge driver/index保护。Core与native build-for-testing实际成功（只编译，未本机XCTest）；真实app build receipt全部185输入SHA与当前源码一致。单次large-loose1822.833ms/111命令/2ls-tree，原HEAD/index保持；这不是30样本结论。现在固定新candidate再普通/loose/packed各30原预算，同源新Core必须托管重新验。
+
+## 2026-10-30 固定8590566全部90样本原预算实际通过
+
+- 固定8590566e16323ae5bfc9be3f09bd0e429e217a5e普通10文件/5commit、大型loose与packed各5000文件/30commit、三类各30全部有效，12项performance inputs与该commit逐SHA核验，原2000ms读/500ms取消/RSS256-512MiB不变。ordinary first319.708/steady316.765/recovered323.855/cancel0.585ms/RSS14254080；large-loose1435.944/1442.452/1474.454/cancel0.374ms/RSS93765632；packed1251.917/1294.662/1268.202/cancel0.382ms/RSS95944704全部过。全部raw数组、原源输入和旧失败/原tar/NoMacMetadata归档保留。
+- 当前48项真实CLI和Core/native compile-only通过，实际app185输入匹配；新Core/UI受测输入与ec874e2成功源不同，不能复用旧成功当新源码运行。现仅补docs，再确认源输入等价、正常push既有PR80并新required/trusted smoke+Rebase；原120/180秒/总1pass1fail0skip0/完整源制品/截图门禁不改。Issue78不提前关，全部后续与M5继续。
+
+## 2026-10-30 新Core37eeb89可信原生完整实际通过
+
+- main507f03b正常一次dispatch40985742422/job123836220852；artifact12947027640完整118049012bytes/SHAfa0ac6611670dfa01b55cc8e5ccf4c2d7f5a9b7d68bcf565cb67ada0935f5782/2113CRC全部通过，185个实际app源输入与37eeb89逐SHA匹配。smoke/唯一Rebase直接summary各1总1pass0fail0skip。直接tests节点方法108.379461秒<120，outer119.782<180；QoS warning完整留存。不代表整版、完整VoiceOver或安装发布验收。
+- 同源4图/4AX已实际查看：980×692点窗口，托管PNG本轮实际980×692像素；中文浅色固定SHA/发布确认、移动目标拒绝、英文深色重开第二冲突、Abort恢复feature/clean和原草稿，Tab/Return/Escape及筛选焦点在实际用例通过。首次归档脚本误套本机Retina1960×1384断言，读PNG后已纠正；此真实exec进ledger，不修改/插值原截图。完整xcresult/日志/zip与4图4AX均保留。
+- CUA本轮只inventory读，旧60670已退出，不getApp普通重开。6个当前用户文件SHA保持，历史sharedUITest/shm限制不抹。UIUX仅Platform All通用Focus States匹配，无Mac焦点恢复专项匹配，不套Web/iOS像素规定。下一步最新必需CI/reviews后正常集成80；所有05/07/08/09及最终M5持续。
+
+## 2026-10-30 新required37eeb89完整失败：取得托管profile后再决定Core优化
+
+- required40985314561/job123834985464真实failure在Native feature behavior checks。Apple与最低Git两套各245/43 Core实际过，CLI48过；随后90有效样本ordinary638.696/589.826/596.611ms过，loose2696.365/2806.447/3139.467超原2000，packed2001.171/2120.586/1885.311首次/稳态超。cancel/RSS均过，后续Homebrew/GPG/native/打包跳过，不当三Git全部通过。原本机859/37的90通过不覆盖这次失败。
+- 完整artifact12947941151（5080663bytes/SHAb520ccd653c27c520b44ae34cb33d37ff9fab60ff6d1cc34529861f8020a8f18/4CRC）含全部90数组与无AppleDouble私有fixture，15544成员、16MiB/20000上限和12输入与37eeb89逐SHA核验。主根解包fixture/evidence与旧失败完整保留。
+- 新checker只在allPassed=false之后，对各失败存储做一次总30秒/2000命令有界的ProfileRunner诊断，保留每命令args/输入输出bytes/时间与原HEAD/index验证。30原样本/2000/500/RSS、测量阶段与成功路径不改。新方法已编译，复制的托管fixture独立两类实际probe成功且HEAD/index保持；这不是VM profile或新的30样本通过。下一正常CI读取VM真实瓶颈；产品/Core/App/UItests/trusted入口未改，37eeb89成功原生同源不重复dispatch。
+
+- 复制VM归档到本机后，index中stat节点来自VM。独立profile最初status两调用约635ms，不能据此当作VM瓶颈。已仅备份并刷新私有解包副本index（原archive/report/user索引未改），再profile对照，原字节/新index SHA和结果留receipt。托管判定仍需要下一CI真实post-failure profile，不用本机副本替代。
+
+## 2026-10-30 托管实际profile定位及受限单树预演
+
+- 52ad28a required40989478755/job123848323551失败，完整artifact12948818497（5095688bytes/SHA89cad9fd944f13e86209a9a93138edb5400a434e31f720fa10e1bf1fbe265284/4CRC）有完整90数组/fixture/post-failure profile。loose2448.932/2474.139/2544.666、packed3550.377/2779.863/3164.874ms超原2000，cancel/RSS过。VM profile loose3467.255/packed3256.825ms、各111命令：30merge约1032/1114ms、31diff约717/701ms、30commit约672/693ms，status仅79/71ms；不能把本机复制index失效导致635ms status当VM瓶颈。
+- 先独立私有Git控制验证source不同文件修改、内容撤回和空提交：一次aggregate merge-tree最终tree与真实逐提交rebase完全一致、原预览index保持。当前新Core只在连续单父、双方所有变化为原普通文件内容修改、路径不重叠、无merge.renormalize且各步原64MiB变更预算仍成立时，组合期望元数据，用一次Git merge-tree，再完整mode/OID/path核对输出树。新增/删除/模式/符号链接/重叠或复杂源历史继续原逐提交预演，不能用最终收敛掩盖早期冲突。私有objects、全索引/身份/ignored保护和返回前复验不删。
+- 新Core真改，旧37成功Native输入不再等价，必须固定新candidate/正常CI/新可信native，原120/180与2000/500/RSS预算不变。Release已编译，正在真实CLI/Core编译/受限与重叠回归，新来源还未当90样本或Native通过。
+
+## 2026-10-30 人类指定本会话继续 v1.2 全目标
+
+- 责任从 01a18a1a-3b48-7913-a8d7-cd2387f3e9c9 迁到 01a18ad0-b804-7762-8563-c3e603388b0a，第十一代。旧会话后续四次 heartbeat 因不同 Azure resource 错误未执行产品操作；最后工作停在未提交的受限不同普通文件预演优化。原 52 项真实 Git 通过、Core/native compile-only 及 185 输入一致证据已读取；单次935.392ms只是profile，完整90样本和新源码可信native仍须验证。
+- 主根、实际rebase树、selected-lines、rebase入口的HEAD/index/locks/序列/binary patches/untracked/HANDOFF已保存在 .build/v1-2-continuation/manual-resume-gen11；原树与主根33项外部改动不回退。PR80附在本会话。
+- 先按实际清单定位 automation 持久化；本轮旧约定 ~/.codex/automations/wegit-v1-2/automation.toml 已不存在，目录仅 .run-jitter-salt。首次硬读此路径失败已保留；view仅返回渲染卡片，不能作为文件存在或迁移成功证明。后续用purpose-built automation工具更新同一ID，实读返回字段/合法持久化再确认，不新增重复任务。
+
+## 2026-10-30 d75ddb2 本机完整90样本通过与五分钟接续恢复
+
+- 固定d75ddb27bd2d681633aee311ef5cd35d1831ce03的12性能输入逐SHA核验；普通/5000文件30提交large-loose/同规模large-packed三类各30全部有效且原2000ms读取、500ms取消/RSS预算全过。普通first166.239/steady159.475/recovered162.065/cancel0.421ms；loose498.457/499.085/494.318/cancel0.350ms/RSS67420160；packed315.684/328.739/320.363/cancel0.339ms/RSS68009984。loose5095松散对象无pack、packed5095对象1pack，完整数组和统计保留。此为本机Release CLI，不代表VM/Core XCTest或原生完整接受。
+- 用户明确答复恢复五分钟自动接续；旧ID的update真实失败，随后仅一次create重新创建同ID wegit-v1-2。实际TOML已读取并核验ACTIVE/heartbeat/五分钟/本会话target，保存恢复副本。state唯一责任保持当前。
+- 本轮两个zsh查询误把未引用的路径通配符和REST问号当glob：旧RepositoryModel路径no matches被pipeline末尾0掩盖，另一次runs?per_page=5直接退出1。已改为实际rg清单和引用完整REST参数；两个真实调用保留，不改作产品失败。后续网络读须等待session真正退出0再读取结果。
+- 下步仅补本机证据文档并确认新头部与d75的产品/12性能/52CLI/185原生输入等价，正常push现有PR80，调度新可信smoke+Rebase并读取完整新required。旧37成功只属旧输入；issue78和完整v1.2继续。
+
+## 2026-10-30 第十一代第五真实错误阈值与完整接续现场
+
+- 人类原始授权已实际读取：2026-10-29来源01a184da的用户消息要求每五分钟继续到完成，半小时报错超过4次新开会话；本轮仍按该规则。真实5事件是旧automation update不存在、两个不同zsh glob查询、required41013758617/job123925417820的Core失败、查询不存在ProcessCapacity.swift的真实I/O。只读JSON回显误计已标notAnError，不算第六；warning/pending/重复poll不算。原5阈值完整保留，不因稍后过期抹掉。
+- 当前产品固定6dcf5142492348d87b93a22e3d425999d5de3e4a已正常push/remote-ref及PR80 head核验，PR body更新。12性能/52独立CLI/185应用输入与d75实测候选等价。完整90本机有效原预算通过：ordinary166/159/162ms，large-loose498/499/494ms，large-packed316/329/320ms，取消均<0.5ms、RSS约67-68MB，大型5000文件30commit，两种对象存储真实统计已提交。新VM性能尚未运行，不能据本机说托管性能过。
+- required41013758617/job123925417820在Formatting, core tests and Debug build真实失败：Swift Testing247/43 suites，246pass/1fail，唯一ProcessTests.executingGroupCancellationDeliversTermAndReturnsCapacity CoreTests.swift182读取ready只有1PID。其余最低Git/Homebrew/GPG/feature性能/native编译/打包均skip。完整93968bytes job log和artifact12959345006/274bytes/digest686814d02c1f6fe4332678d089da09ef31dd6538d7cbf2d8bbda1c87d0b1adad元数据保留，未把小artifact当完整Core日志。
+- CoreTests.swift已仅把两PID printf写入pending再mv发布就绪，原500ms取消、alive IDs、TERM回执、整组消失、capacity1下一请求断言均保留；此两行修正未提交/未编译/未本机XCTest，先独立真实ProcessRunner检查及Core compile-only，再新fixed candidate/新required。不要改产品ProcessRunner或降预算，不重复native当产品/UI输入未变。ProcessCapacity实际在ProcessRunner.swift内部，绝不存在独立ProcessCapacity.swift；今后先rg清单。
+- 新可信main507f03b的native41013988280/job123926004898实际所有步骤返回success，candidate6dcf514；完整artifact12958029726/name native-ui-smoke-rebase-workflow-6dcf514.../64547405bytes/digestb1d155086b0ab52784a63b28718a54d8531102fb7c5481203b363d031d819243已取元数据，尚未下载/CRC/185inputs/xcresult真实1/1 counts/原120/180方法时长/四图四AX核验，不能先当全验收。此native不重复dispatch，先完整取证。CoreTests-only修正需证明185 App/UItests/可信脚本等价后复用该成功，不把旧37成功替代新Core。
+- 源码/四树HEAD/index/locks/sequences/binary patches/index copies/untracked/HANDOFF/automation/state与最新网络回执保存transfer-gen11-process-ready。当前旧会话所有产品/Git写入停止；建立下一本地默认聊天后迁移同一ACTIVE五分钟wegit-v1-2及唯一state责任。完整目标仍有78/80正常集成、05/07/08/09及最终M5，不提前关闭78或称整版完成。
+
+- 第十二代接续会话已实际创建：01a18b88-383c-79e1-b2f5-55e1ae92fa3c（WeGit v1.2 原子取消夹具修复与完整接续）。同ID wegit-v1-2 的 ACTIVE/heartbeat/五分钟/新target 与 state.generation12 实读核验一致；state-after-transfer/automation-after-transfer副本已保存。来源本会话产品/Git写入停止，下一会话按同一全目标继续。
+
+- 新会话第十二代首轮因gpt-6.1-sol token rate limit失败，尚无产品/Git写入；真实新代1错误已保存snapshot及ledger。同ID五分钟heartbeat仍ACTIVE且指新target，后续自动重试。不能把创建和调度当成后续功能完成。
+
+## 2026-10-30 第十二代原子取消夹具和新原生取证
+
+- 同一个ACTIVE五分钟wegit-v1-2与state唯一责任已核验到01a18b88-383c-79e1-b2f5-55e1ae92fa3c；四树HEAD/index与交接副本逐项匹配。产品继续原树，不attach/reset/重建。第十一代原第五阈值与全部旧失败保留。
+- CoreTests取消夹具两行修正只把完整两PID写到pending后mv发布，两个I/O均显式失败退出。直接链接实际WeGitCore/ProcessRunner的独立诊断：原夹具32次、原子发布间隙1次、拒绝错误就绪后取消并等待清理1次，共34通过，最慢取消0.636792ms；原500ms、两PID存活、TERM回执、整个进程组退出、capacity1下一请求断言保留。ProcessRunner SHA12138f0689f0965f348b93c08926a1416e1b8a8372dfe736b2b89cfa54b06310未改。swift build --build-tests与CoreTests严格格式成功，仅编译，无本机XCTest。
+- 新可信main507f03b的native41013988280/job123926004898完整job38425bytes、制品12958029726/64547405bytes/SHAb1d155086b0ab52784a63b28718a54d8531102fb7c5481203b363d031d819243/2048CRC与185个实际构建输入已核验。直接xcresult smoke/Rebase各1总1pass0fail0skip，唯一方法95.353318秒<120，outer106.097<180；所有实际job步骤success。四个980×692原图与AX已实看并保存，固定SHA/发布确认、目标移动拒绝、重开第二冲突、Abort恢复分支/clean/草稿及同源Tab/Return/Escape/筛选续写和两轮继续已执行。QoS warning完整保留，不表示完整VoiceOver或整版接受。
+- CoreTests-only修正当前185App/UI/两可信入口文件及12性能输入与6dc/d75逐SHA等价，可以保留该新native通过证据；仍必须新固定候选的全部required CI。旧required41013758617的247中246pass/1fail及其余跳过保持原记录，不能当新Core测试成功；本机90性能通过也不替代尚未运行的VM性能。
+- 本代两个真实模型rate-limit失败和一次查询不存在docs/CONTRIBUTING.md的I/O已去重留在ledger；实际贡献入口是仓库根CONTRIBUTING.md。后续先rg清单再读，不把查询输出里的其他成功匹配掩盖I/O失败。
+- 同一全目标仍需78/80最新CI/reviews后正常集成，再05/07/08/09及最终M5；不提前关78或删除五分钟任务。
+
+## 2026-10-30 Rebase Git 2.54/2.56 签名恢复修复复核
+
+- Git 2.54 在签名失败时会把失败 pick 同时留在 `done` 和 `git-rebase-todo`；继续操作必须验证暂存树只包含该 pick 的生成结果，重置后让 Git 重放 todo。Git 2.56 会清空 todo、把失败对象写入 `stopped-sha`，并留下生成结果暂存；此布局通过 `gpg_sign_opt`、匹配的 `CHERRY_PICK_HEAD`、匹配的最后一个已完成 pick，以及只读重放无冲突来识别。普通签名冲突没有匹配的 `CHERRY_PICK_HEAD`，不能误判为重排。
+- Git 2.56 的继续路径先精确比较生成树和暂存树，再从该暂存结果预演剩余 todo；暂存区有额外手工编辑时抛出 `ModelFailure`，不写文件、索引、引用或 rebase 元数据。Git 2.54 仍保留原有 reset/replay 路径。
+- 本次最新工作树修改已通过 `xcrun swift-format lint --strict`。独立私有检查器在 Apple Git 2.54.0 与 Homebrew Git 2.56.0 各完成 56/56 项，结果 JSON 与完整日志保存在主根 `.build/v1-2-continuation/rebase-apple-git254-gen13-rerun.log` 和 `rebase-git256-gen13-rerun.log`；这些是 CLI/Core 行为证据，不是 XCTest 或完整 Rebase 版本验收。
+
+## 2026-10-30 第十四代最新 CI、原生重验与冲突编辑器
+
+- Rebase 修复已是提交 `8474d620c7607678921fcfb91d13dae68572b26c`；2026-10-30 14:16 UTC 实际 `ls-remote` 与 PR80 head 均匹配。PR80 仍 draft/open，Issue78 open，reviews/inline threads 为 0。required `41042286681` 的 PR policy、`41042286905` 的 Repository policy 与 Native macOS 全部成功，后者格式/Core/最低 Git/feature 行为/GPG/Homebrew/native compile/Release 打包各阶段均成功；完整日志 1,322,375 bytes，三套 Git 各 247 tests/43 suites 实际通过。VM 原始 90 性能数组仍须从完整 artifact12971828885 核验，不能只由阶段成功代替。
+- `8474d620` 改了 Rebase 产品输入，旧 `6dcf514` 原生成功不能继承。已在可信 main `507f03b`、空队列下一次 dispatch `41070593781`/job124113328352，smoke + 唯一 rebase-workflow，整个 run 实际 success。制品12983944467/name含8474d620，118,762,895 bytes，期望 SHA256 `ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9`。完整分段下载仍在进行；未完成 CRC/185 inputs/直接 xcresult 计数/120-180 秒及四图四 AX 核验，不提前 ready/合并或关闭78，也不重复调度同一候选。
+- GitHub ZIP 单次下载180秒超时，9,895,936-byte前缀原样保留；已有 `.build/resume-native-artifact.py` 支持有界 Range/重定向不带凭据/短签名更新/摘要与 CRC，继续复用。不得读取跨聊天旧 exec session；按真实进程、文件与 range receipt 判断是否仍在下载。
+- Issue81 已存在，冲突编辑器独立树 `/Users/willxue/.codex/worktrees/conflict-editor/WeGit`、分支 `codex/v1.2-conflict-editor` 基于8474d620。本轮新回归先复现后续 Cherry-pick/Rebase BASE 错映射，改为原提交唯一父对象并逐 blob 核验后27项真实 Git 检查通过；补私有 index+SelectedIndexLease 原子安装、完整原 index 快照、驱动/过滤器/无效编码/符号链接/外部锁拒绝、原子保存显式fchmod、保存失败保留编辑区/解决成功关闭/未保存禁止隐式dismiss和单次解析缓存。59项双语目录已补，本地化1358 strings/8 plurals、严格格式与App Debug编译通过；未本机执行XCTest，未提交/push/PR/原生入口或性能验收。Rebase树内原两份untracked冲突草稿保留，不加入PR80。
+- 已从原始用户消息核实“半小时内报错超过4次新开会话继续”授权；本轮14:29:38UTC达到第五个独立真实错误：误猜native-ui-smoke.yml、误猜Localization/L10n.swift、新增真实BASE回归首次失败、ZIP180秒超时、误猜Infrastructure/GitEngine.swift。实际文件应先rg清单，工作流为native-ui.yml、语言为Domain/Localization.swift、引擎为GitCore/GitEngine.swift。五项原输出/时间与新旧失败均保留；这不是版本或功能完成，源会话保存现场后按同一目标移交。
+
+## 2026-10-30 第十五代完整 Rebase 制品核验与冲突 CI 接线
+
+- 同ID ACTIVE五分钟heartbeat与state第15代实际匹配本聊天，四树HEAD/index/status与gen14现场逐项一致。主checkout用户改动未触碰。Rebase原生制品12983944467完整118762895bytes/SHA ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9/2087 CRC通过；required制品12971828885完整12369893bytes/SHA 38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b/35 CRC通过，原超时前缀和retry保持。
+- required性能报告sourceRevision为PR合成源47441110，但12个性能输入逐SHA与8474d620完全匹配；普通/5000文件30提交loose/同规模packed各30完整有效数组按原2000ms读取/500ms取消/256-512MiB预算重算全部通过。p95 first/steady/recovered分别434.441/418.052/393.055、926.386/984.225/947.460、563.819/567.540/528.872ms；取消均低于1ms。源报告/验证回执留主根.build/v1-2-continuation/rebase-8474d62-verified-gen15.json与完整解包目录。
+- native实际185个构建输入与8474逐SHA一致；直接xcresult smoke/Rebase均total1/pass1/fail0/skip0，唯一Rebase方法91.836653秒<120、outer98.432秒<180。四个980x692原图及四份AX已实际查看，固定完整OID和已发布确认、目标变化拒绝、重开第二冲突、Abort恢复feature/clean/中文草稿均保留；QoS warning原样保留，不代表完整VoiceOver或整版接受。无重复dispatch/本机XCTest。
+- 独立conflict-editor树已把ConflictEditorService→verify-conflict-editor.sh接入scripts/ci/native-behavior.sh，并将ConflictEditorChecks格式接入scripts/verify.sh；shell语法/可执行位/严格格式/diff检查及独立27项真实Git再次通过，日志conflict-editor-required-wiring-gen15.log。未提交/push/PR，仍需Core/native/可信入口、Release性能/保存失败/取消/重开草稿和复杂边界。
+- 本代实际三次429重试耗尽，加上错误automation参数和zsh保留path变量，14:41:02UTC达到第五真实错误；之后另一次错误cwd/猜测证据后缀已完整留存。工具schema应先读ALL_TOOLS完整description；zsh禁止复用path变量；证据一律按实际清单定位。现场failure-events.json留完整时间和工具ID。按原授权保存现场后转移同一完整v1.2目标；PR80仍draft/open、head8474、required全success、reviews0、mergeState BEHIND，未ready/合并/关闭78。后续需先补证据文档和当前PR描述，再正常最新CI/review集成；所有05/07/08/09与M5保持开放。
+
+## 2026-10-30 第十六代停止定时接续并补齐当前证据
+
+- 用户明确要求去掉定时任务。应用工具确认同一 `wegit-v1-2` heartbeat 已删除，`~/.codex/automations` 没有残留 TOML；后续只在当前聊天手动继续，不创建替代任务。产品与 Git 工作仍复用现有树。
+- `docs/acceptance/2026-10-30/rebase/` 已补当前 `8474d620` 的源输入等价、required `41042286905` / job `124017905991` 和可信 native `41070593781` / job `124113328352` 回执。required 制品 12971828885 为 12,369,893 bytes / SHA `38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b` / 35 CRC；native 制品 12983944467 为 118,762,895 bytes / SHA `ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9` / 2,087 CRC，185 输入与四图四 AX 已核验。
+- README 当前结果记录 required 90 样本及逐 SHA 等价，不把合成源 `47441110` 写成产品源码；PR 描述仍需同步当前证据。文档提交不能继承旧 required/native，推送后必须按新 head 读取新的 required/review，再正常集成 #80；Issue78 不提前关闭。
+- 随后为避免 README 的旧候选待办状态与最新回执混淆，已在当前结果下加入“实施范围与历史候选记录”标记；这也是文档-only 更新，新的 head 仍需完整必需 CI。
+- Rebase 树中两份未跟踪 `ConflictEditorModels.swift` / `ConflictEditorService.swift` 与独立 Issue81 树内容不同，属于隔离草稿；本轮未改动或加入 PR80。V12-05、07、08、09 与最终 M5 继续开放。

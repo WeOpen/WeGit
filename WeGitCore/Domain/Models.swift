@@ -86,6 +86,8 @@ public struct RepositoryStatus: Sendable {
     public var files: [FileChange] = []
     public var sequencer: Sequencer = .none
     public var singleCommitRecovery: SingleCommitRecovery?
+    public var rebaseRecovery: RebaseRecovery?
+    public var rebaseRecoveryUnavailable: String?
     public var conflicts: [FileChange] { files.filter(\.conflict) }
     public var isDetached: Bool { branch == "(detached)" }
     public var displayBranch: String { isDetached ? "Detached · \(head?.prefix(7) ?? "")" : branch }

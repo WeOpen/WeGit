@@ -1,0 +1,53 @@
+{
+  "candidate": "61ae6f57ad09480cbefdf171663ab46f582700eb",
+  "runId": 40960942390,
+  "artifactId": 12935377335,
+  "completeArtifact": {
+    "runId": 40960942390,
+    "artifactId": 12935377335,
+    "bytes": 118512561,
+    "sha256": "b37e64f84d6f36d9ff9c74e810e6ee910ac42a02846c2a4e80cb65138cb20e37",
+    "allCRCValid": true,
+    "zipEntries": 2133,
+    "extractedDirectory": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-artifact-12935377335-gen9"
+  },
+  "verifiedSourceInputs": 185,
+  "smoke": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "focused": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0,
+    "seconds": 48.016,
+    "failureAt": "RebaseWorkflowTests.swift:104",
+    "failureText": "XCTAssertEqual failed: (\"Optional(\"\")\") is not equal to (\"Optional(\"failure\")\")"
+  },
+  "runtimeWarnings": [
+    {
+      "issueType": "Runtime Warning",
+      "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    }
+  ],
+  "releaseReady": false,
+  "requiredRun": 40960676026,
+  "requiredCoreRuns": [
+    {
+      "git": "Apple default",
+      "tests": 241,
+      "passed": true
+    },
+    {
+      "git": "minimum2.46.0",
+      "tests": 241,
+      "passed": true
+    }
+  ],
+  "requiredBehaviorRebaseChecks": 42,
+  "requiredFailure": "large Release fixture invalid base file-1 blob before the first valid large sample; completed ordinary sample array was not serialized by original partial reporter",
+  "diagnosis": "pending"
+}

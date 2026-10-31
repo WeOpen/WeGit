@@ -1,0 +1,10 @@
+{
+  "childPID": 43728,
+  "fixture": "/var/folders/h4/_dnvr_4x4t93j64lvqrndtb40000gn/T/WeGitRebaseReadinessCleanup-22D2B3E9-AB73-40BD-A713-4D2AC243AC06",
+  "headAndIndexPreserved": true,
+  "passed": true,
+  "processGroupGone": true,
+  "queueRecovered": true,
+  "scope": "Private actual-process failed readiness cleanup; not XCTest or performance acceptance",
+  "wrapperPID": 43727
+}

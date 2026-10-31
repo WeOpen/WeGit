@@ -13,8 +13,8 @@
 | V12-02 · 单提交 Cherry-pick/Revert | 实现和托管专项已集成，完整最终验收继续 | #62 / PR #64，main `596bec6`；三套 Git 各 218 项通过，smoke/专项各 1/1；`docs/acceptance/2026-10-26/single-commit-operations/` |
 | V12-03 · Blame | 实现和托管专项已集成，完整最终验收继续 | #65 / PR #69，main `d8a0d1a`；固定提交/路径、200 行分页、跨行选择、提交/原路径历史导航；`docs/acceptance/2026-10-27/blame/` |
 | V12-04 · 选中行暂存/取消暂存 | 实现与可信原生专项已集成，完整最终验收继续 | #70 / PR #74，main `ee6d025`；smoke/专项各 1/1，171 项输入匹配，三套各 226 核心检查；`docs/acceptance/2026-10-28/selected-lines/` |
-| V12-01b · Worktree 管理 | 新产品候选可信原生与必需 CI 已通过，最后文档 CI 与集成待收口；完整最终验收继续 | #75 / PR #77；可信入口 #76 / main `20c21de`；21 独立检查、原写入与三类各 30 Release CLI 样本；`8b2bce7` smoke/专项各 1/1、176 输入与完整制品匹配，专项108.819秒；CI40898235020三套各233核心检查，取消/焦点新增断言执行。`docs/acceptance/2026-10-29/worktree-management/` |
-| V12-06 · 独立 Rebase | 待实施 | 明确目标/提交范围、干净工作区、继续/中止/未知回执恢复 |
+| V12-01b · Worktree 管理 | 实现、可信原生专项和最新必需 CI 已正常集成，完整最终验收继续 | #75 / PR #77，main `7564925`；可信入口 #76 / main `20c21de`；21 独立检查、三类各30有效Release读/取消样本原250/500/250ms通过。`8b2bce7` smoke/专项各1/1、176输入与完整制品匹配，专项108.819秒；三套Git各233核心检查；Ready CI40914687041/reviews0后正常squash。`docs/acceptance/2026-10-29/worktree-management/` |
+| V12-06 · 独立 Rebase | 草稿 PR80；当前原生通过，Core取消夹具修正已独立验证，最新必需CI待重验 | #78；固定目标/范围、私有index/objects、可达原HEAD、执行/继续/中止/重开及外部状态保护已实现。受限不同普通文件线性预演52项真实Git通过；d75/6dc本机ordinary/5000文件30提交loose/同规模packed各30原2000/500ms/RSS预算全部通过，12输入一致。可信main507f03b/native41013988280的完整64547405bytes/2048CRC/185输入与四图四AX核验，smoke/Rebase各1/1/0/0，方法95.353秒、outer106.097秒。CoreTests原子就绪修正34项实际ProcessRunner检查与编译/格式通过；旧required41013758617的247中246pass/1fail保留，新的全部CI和VM90样本待执行。`docs/acceptance/2026-10-30/rebase/` |
 | V12-05 · 内置三方冲突编辑器 | 待实施 | BASE/OURS/THEIRS/RESULT、逐块接受、保存与标记解决分开、外部改动重验 |
 | V12-07 · Interactive Rebase | 待实施 | 线性序列的 pick/reword/edit/squash/fixup/drop/排序与完整恢复 |
 | V12-08 · Submodule 管理 | 待实施 | 已配置模块状态、打开、初始化/按记录 OID 更新与嵌套工作区隔离 |

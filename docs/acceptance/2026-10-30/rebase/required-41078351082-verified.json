@@ -1,0 +1,27 @@
+{
+  "runId": 41078351082,
+  "candidate": "20d233766c11d6d9ff41c06aaccfe1115ca9af2e",
+  "jobs": {
+    "Repository policy": {"jobId": 124141209977, "conclusion": "success"},
+    "Native macOS": {"jobId": 124141430656, "conclusion": "success"}
+  },
+  "artifact": {
+    "id": 12989648330,
+    "bytes": 12369835,
+    "sha256": "357859fbaf350b541eeb73a0731e7c209511480f0d812aa3cc3762e326530401",
+    "zipEntries": 35,
+    "zipIntegrityPassed": true
+  },
+  "rebaseChecks": {"count": 56, "passed": true},
+  "performance": {
+    "sourceRevision": "b26bd4ba67fd032b6975f6ecd1c7894bb4a72c98",
+    "allPassed": true,
+    "inputHashesMatchCandidate": true,
+    "workloads": {
+      "ordinary": {"samples": 30, "p95FirstMs": 301.528292, "p95SteadyMs": 307.478833, "p95RecoveredMs": 303.039875, "p95CancelMs": 0.635167},
+      "large-loose": {"samples": 30, "p95FirstMs": 1016.120417, "p95SteadyMs": 1037.670583, "p95RecoveredMs": 1259.087584, "p95CancelMs": 0.972417},
+      "large-packed": {"samples": 30, "p95FirstMs": 862.077917, "p95SteadyMs": 887.275709, "p95RecoveredMs": 838.269709, "p95CancelMs": 0.921625}
+    }
+  },
+  "scope": "Current head required artifact; not final v1.2 acceptance"
+}

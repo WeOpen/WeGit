@@ -269,6 +269,8 @@ struct BranchesView: View {
     @Bindable var session: RepositorySession
     @State private var editor: BranchEditRequest?
     @State private var deletion: BranchDeletionPlan?
+    @State private var rebase: RebaseRequest?
+    @State private var rebaseFocus: WorktreeFocusRestoration?
     @State private var preparing = false
     @State private var prepareTask: Task<Void, Never>?
     var body: some View {
@@ -276,6 +278,9 @@ struct BranchesView: View {
             PanelHeader(title: L10n.text("分支"), symbol: "arrow.triangle.branch") {
                 if preparing { ProgressView().controlSize(.small) }
                 Spacer()
+                Button(L10n.text("变基…")) { presentRebase() }
+                    .disabled(!session.canRebase).help(session.rebaseReason ?? L10n.text("选择目标并预览变基范围"))
+                    .accessibilityIdentifier("branches-rebase")
                 Button(L10n.text("新建分支…"), systemImage: "plus") { app.branchPresented = true }.disabled(
                     !session.canWrite || session.status.head == nil)
             }
@@ -354,6 +359,12 @@ struct BranchesView: View {
                                         .accessibilityIdentifier("branch-merge:" + branch.id)
                                 }
                                 Menu {
+                                    if !branch.current && branch.symbolicTarget == nil {
+                                        Button(L10n.text("变基到此分支…")) { presentRebase(target: branch) }
+                                            .disabled(!session.canRebase)
+                                            .accessibilityIdentifier("branch-rebase:" + branch.id)
+                                        Divider()
+                                    }
                                     if branch.remote {
                                         Button(L10n.text("创建本地跟踪分支…")) {
                                             editor = BranchEditRequest(branch: branch, mode: .tracking)
@@ -405,7 +416,20 @@ struct BranchesView: View {
         .sheet(item: $deletion) {
             BranchDeletionSheet(app: app, session: session, plan: $0).workbenchSheet(app.preferences)
         }
+        .sheet(
+            item: $rebase,
+            onDismiss: {
+                rebaseFocus?.restore(sessionID: app.session?.id)
+                rebaseFocus = nil
+            }
+        ) { RebaseSheet(app: app, request: $0).workbenchSheet(app.preferences) }
         .onDisappear { prepareTask?.cancel() }
+    }
+
+    private func presentRebase(target: GitBranch? = nil) {
+        guard app.session === session, session.canRebase else { return }
+        rebaseFocus = WorktreeFocusRestoration(sessionID: session.id)
+        rebase = RebaseRequest(session: session, target: target)
     }
 
     private func trackingText(_ branch: GitBranch) -> String {

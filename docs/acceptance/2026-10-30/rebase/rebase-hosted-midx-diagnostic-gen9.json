@@ -1,0 +1,84 @@
+{
+  "midxHeader": "4d4944580101040000000003",
+  "chunks": [
+    [
+      "PNAM",
+      72
+    ],
+    [
+      "OIDF",
+      236
+    ],
+    [
+      "OIDL",
+      1260
+    ],
+    [
+      "OOFF",
+      101560
+    ],
+    [
+      "\u0000\u0000\u0000\u0000",
+      141680
+    ]
+  ],
+  "packNames": [
+    ".tmp-69550-pack-0030a4b7213a2f81855d6de3048477c497c63b8b.idx",
+    "pack-4cb8f57031e3d9d2ed23275a01f294093707b36d.idx",
+    "pack-f615eee5ff8e081f2899fb7cb40a55cc2aa1c992.idx"
+  ],
+  "events": [
+    {
+      "command": [
+        "verify-pack",
+        "pack-4cb8f57031e3d9d2ed23275a01f294093707b36d.idx"
+      ],
+      "exitCode": 0,
+      "containsOriginalFile1": false,
+      "tail": [
+        "fde4f27d81522ceaab51ac5380c1c601a9f471df commit 232 156 117991",
+        "non delta: 4 objects",
+        "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-hosted-failed-fixture-ec874e2-gen9/large/.git/objects/pack/pack-4cb8f57031e3d9d2ed23275a01f294093707b36d.pack: ok"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "verify-pack",
+        "pack-f615eee5ff8e081f2899fb7cb40a55cc2aa1c992.idx"
+      ],
+      "exitCode": 0,
+      "containsOriginalFile1": false,
+      "tail": [
+        "non delta: 7 objects",
+        "chain length = 1: 2 objects",
+        "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-hosted-failed-fixture-ec874e2-gen9/large/.git/objects/pack/pack-f615eee5ff8e081f2899fb7cb40a55cc2aa1c992.pack: ok"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "-c",
+        "core.multiPackIndex=false",
+        "cat-file",
+        "-s",
+        "592d62413a8302301a1900f70a997050e41ff92b"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: git cat-file: could not get object info\n"
+    },
+    {
+      "command": [
+        "-c",
+        "core.multiPackIndex=false",
+        "fsck",
+        "--full",
+        "--no-reflogs"
+      ],
+      "exitCode": 2,
+      "stdout": "broken link from  commit 3168cbaacc3026ca122bde9a08dd41b22998eb39\n              to  commit 425ba93913a51aef671c0470edde4d1cea84c5b1\nmissing blob 0000e7fa224d254e43b9a45fd17e0aa4d45b0ddf\nmissing blob 0d00056e9ad91a8700d0a4213bf9e29e4bc7dc9c\nmissing blob 0e401d1e9bd440d711235d75d5ae9472a2b1905c\nmissing blob 1000c6cdcd5c2786faf6c2c3bcd2df83a875526d\nmissing blob 1a00aa6dd807b57c3315ab7446f6f4caaee57cc8\nmissing blob 1b00c7c0d9354e951ab474ad7b26274a58f06a38\nmissing blob 1c80140c83d29b53bd58de6f2e0e47445ae88eb4\nmissing blob 1d805608c53090a3ffcfe4504deec5b5a6b08493\nmissing blob 1e00401f16a22e896320a56b619a3f3a81b5fdec\nmissing blob 1e4038793f35a18c0282330df7f67e9be3b9ab7e\nmissing blob 1a0001326e75bbfed0d8eef2853469e6dc9ecaf6\nmissing blob 23004ff7b30d472a09c81b546b0fff65c195e51f\nmissing blob 2500b4b92dc5c883a24eda87f2eb8a325bdb9981\nmissing blob 26001f6adb78648aae6310e065f9741b24877166\nmissing blob 25c0113738f2949f2f9ea1248a325859a5199e92\nmissing blob 2840a45516f7def889211f78fc19b6c988111a7b\nmissing blob 2980a3bcdb59549138add63fc281ac29999e231d\nmissing blob 2dc0e6e51d37c685cd5cd07e0438dfb149adabfc\nmissing blob 2f80103649a08463c23d49950c880a523d23f39b\nmissing blob 36c0e185072f51c0a9105a5413561b3753572129\nmissing blob 3bc0e0905d1035aa118247391d849a79f82560ba\nmissing blob 3d80254fa19828ad60a1a418de2a78b4a7044e4d\nmissing blob 3e80e7fa1c2325456c231f44e5b95dd69045c67d\nmissing blob 3ec0338c1cd288fb07ed77e4f9e57dc48f30373d\nmissing blob 44c08cb1bde893c9c387dcb012b0f2072650dba2\nmissing blob 4540d95a7d1844d5938fc0d6336aa522f6b1b914\nmissing blob 50c056be54e2d78c39a6312b7be46d4757f9cae1\nmissing blob 52401c985e470bcfa581bf6a28a32a5d0cc73bd2\nmissing blob 5380d47f2289c56cc1da18b93c86f2c9eabffe82\nmissing blob 54001e3a1fc254539294f58ccaddf253039c2eb2\nmissing blob 58808ac9d7ebec56c6d51372902da9b406d2c12b\nmissing blob 6880ac60e62d458f3853bbf0521257a2b63f3fb0\nmissing blob 698089d3f31154c94387b3f9cb9eb180817610c3\nmissing blob 73c0bab65fe2383b126e0fc8d113e20dcb51e664\nmissing blob 73403e59db41e396980",
+      "stderr": "error: refs/heads/main: invalid sha1 pointer 425ba93913a51aef671c0470edde4d1cea84c5b1\n"
+    }
+  ]
+}

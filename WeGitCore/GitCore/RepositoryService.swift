@@ -91,6 +91,24 @@ public struct RepositoryService: Sendable {
         } else if FileManager.default.fileExists(atPath: base.appending(path: "sequencer").path) {
             value.sequencer = .unknown
         }
+        if value.sequencer == .rebase {
+            do {
+                value.rebaseRecovery = try await readRebaseRecovery(for: value)
+                if value.rebaseRecovery == nil {
+                    value.rebaseRecoveryUnavailable = L10n.text("此变基来源无法完整核对，请在 Terminal 中处理。")
+                }
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch ProcessFailure.cancelled {
+                throw ProcessFailure.cancelled
+            } catch ModelFailure.repositoryReplaced {
+                throw ModelFailure.repositoryReplaced
+            } catch {
+                // An unsupported/external todo must not hide the working files
+                // and conflicts. It only disables automatic recovery controls.
+                value.rebaseRecoveryUnavailable = error.localizedDescription
+            }
+        }
         return value
     }
 

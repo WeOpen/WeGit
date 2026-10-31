@@ -111,6 +111,8 @@ jobs:
             .build/ci/
             .build/*-checks-*/result.json
             .build/worktree-read-performance-*/result.json
+            .build/rebase-performance-*/result.json
+            .build/rebase-performance-*/failure-fixture.tar.gz
             .build/appearance-icons-*/result.json
             .build/native-application-menu-*/result.json
             .build/releases/package-*/*.zip

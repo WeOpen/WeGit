@@ -1,0 +1,37 @@
+{
+  "base": "850593e5e8e5df94406f3b7977e56197c4525d20",
+  "inputs": {
+    "WeGitCore/GitCore/RebaseTreeMetadata.swift": "e22576bb19548f8985edcc00c4f04f22cbf129a11d0c5d51540dbbfad7c7f40a",
+    "WeGitCore/GitCore/RebaseService.swift": "fa8815c9de644f3622d4ab652735d258b63779d1482b1309937014b57bbce6b7",
+    "WeGitTests/RebaseTests.swift": "f5f6649a0591b3a11deb64529f944cb655fd5118192523386c940422b1fb2e84",
+    "scripts/RebaseChecks.swift": "79a667db0a2ee0b3d9625d62ac7741491f78ad12ded1f9b5971324cc5285dc66",
+    "scripts/RebasePerformance.swift": "6d151cb5d1c7107cccc7635bedc77ce596a71db148e261d858822c6922ce4bf6"
+  },
+  "independentChecks": {
+    "checks": 48,
+    "passed": true,
+    "scope": "Private actual Git preview/execution/recovery checks; not XCTest or complete Rebase acceptance."
+  },
+  "originalCliReport": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/.build/rebase-checks-nmyfKo/result.json",
+  "coreBuildTests": {
+    "execution": "compile-only",
+    "passed": true,
+    "logSha256": "3591f298eb085718beb4d21c1ff6ee50005c07855ccefd6a268d41d4bb236ca1"
+  },
+  "nativeBuildTests": {
+    "execution": "compile-only",
+    "passed": true,
+    "allApplicationInputHashesMatch": true,
+    "applicationInputs": 185,
+    "logSha256": "4751a82df8dd80931d1dd5534c845b52a35b0a6ad16317cd823521ab003fd4c4"
+  },
+  "coreXCTest": {
+    "executed": false,
+    "passed": null
+  },
+  "nativeXCTest": {
+    "executed": false,
+    "passed": null
+  },
+  "releaseReady": false
+}
