@@ -874,6 +874,10 @@
 - Acceptance is in `docs/acceptance/2026-10-31/interactive-rebase/`. Edit pause/recovery, squash/fixup correctness, repeated conflicts, cancel/unknown replies, native entry, Release performance and normal PR/required CI remain open. Do not mark V12-07 complete.
 - 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
 
+## 2026-10-31 Interactive Rebase localization guard
+
+- PR87 上一轮托管 CI 在 Core build 前由 `verify-localization.py` 报错：`InteractiveRebaseService` 的失败和前置校验路径新增了 4 个 `L10n.text` keys，但只补了 UI 文案。英/中 catalog 必须同时覆盖 `交互式变基未完成`、干净工作区/祖先/线性序列校验文案；补齐后本地化审计通过，独立 checker 4/4 与 Core 编译通过。
+
 ## 2026-10-30 第十四代最新 CI、原生重验与冲突编辑器
 
 - Rebase 修复已是提交 `8474d620c7607678921fcfb91d13dae68572b26c`；2026-10-30 14:16 UTC 实际 `ls-remote` 与 PR80 head 均匹配。PR80 仍 draft/open，Issue78 open，reviews/inline threads 为 0。required `41042286681` 的 PR policy、`41042286905` 的 Repository policy 与 Native macOS 全部成功，后者格式/Core/最低 Git/feature 行为/GPG/Homebrew/native compile/Release 打包各阶段均成功；完整日志 1,322,375 bytes，三套 Git 各 247 tests/43 suites 实际通过。VM 原始 90 性能数组仍须从完整 artifact12971828885 核验，不能只由阶段成功代替。
