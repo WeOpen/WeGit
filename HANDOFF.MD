@@ -866,7 +866,18 @@
 - 为等待真正进入 FIFO 的取消测试，`RepositoryOperationQueue.pendingOperationCountForTesting` 仅作 module-internal 诊断观察；Release checker 通过 `-enable-testing` 编译优化 Core 供 checker 链接，不运行 Release XCTest。原始 `swift build -c release --build-tests` 的 testability module 错误保留，不作为产品源码失败。
 - 产品分支已提交 `2d2dfb5`（功能/Core/UI/checker/acceptance）与 `ad019c6`（queue waiter 观察与 Release 性能）；已 push `codex/v1.2-conflict-editor` 并创建 draft PR #85，base 暂为 `codex/v1.2-rebase`，只展示相对 PR80 的 26 个文件。PR80/PR85 均不合并，Issue81 仍需 Issue83 入口先正常进入 trusted main。
 - Release 性能 receipt 已更新：ordinary/large-loose/large-packed 各30，p95 read `144.158/174.991/199.461 ms`，save `49.856/79.319/75.212 ms`，mark `145.715/235.407/252.862 ms`，真正排队取消 `0.0125/0.0107/0.0115 ms`，RSS `14.2/29.6/31.7 MB`，loose/packed 对象统计均满足。该结果是 `-enable-testing` 优化 Core checker，不是 XCTest/发布性能签核。
+
+## 2026-10-31 Interactive Rebase development increment
+
+- Interactive Rebase is developed on `codex/v1.2-interactive-rebase`, separate from PR85's feature branch. Core adds a bounded linear sequence plan and private sequence/message editors; Branches adds a fixed Interactive Rebase sheet with action/order controls. Existing Rebase recovery remains the recovery boundary.
+- Private checker `scripts/verify-interactive-rebase.sh` passes 4/4 for linear prepare, drop, reword, commit count/message/content and clean worktree. Core build-for-tests and macOS UI build-for-testing pass; no local XCTest.
+- Acceptance is in `docs/acceptance/2026-10-31/interactive-rebase/`. Edit pause/recovery, squash/fixup correctness, repeated conflicts, cancel/unknown replies, native entry, Release performance and normal PR/required CI remain open. Do not mark V12-07 complete.
 - 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
+
+## 2026-10-31 Interactive Rebase localization guard
+
+- PR87 上一轮托管 CI 在 Core build 前由 `verify-localization.py` 报错：`InteractiveRebaseService` 的失败和前置校验路径新增了 4 个 `L10n.text` keys，但只补了 UI 文案。英/中 catalog 必须同时覆盖 `交互式变基未完成`、干净工作区/祖先/线性序列校验文案；补齐后本地化审计通过，独立 checker 4/4 与 Core 编译通过。
+- 当前未提交 Interactive Rebase WIP 将首版 Picker 收窄为已验证的 `pick`、`reword`、`drop`；尚无暂停恢复和 squash/fixup message semantics 时不向 UI 暴露这些动作。私有 Git checker 已扩展并通过 9 项断言，覆盖 all-drop 在写入前拒绝、重排独立提交、reword/drop 的最终对象及干净工作区。对应 XCTest 已补，仍只编译不在本机执行；V12-07 的其他验收门继续开放。
 
 ## 2026-10-30 第十四代最新 CI、原生重验与冲突编辑器
 

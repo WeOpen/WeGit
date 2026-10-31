@@ -107,6 +107,22 @@ extension RebaseOutcome {
     }
 }
 
+extension InteractiveRebaseOutcome {
+    var feedback: OperationFeedbackOutcome {
+        switch self {
+        case .completed: .completed(message: L10n.text("交互式变基完成"))
+        case .unchanged: .completed(message: L10n.text("当前提交序列没有可执行的变化"))
+        case .conflicts(_, let count):
+            .needsReview(message: L10n.text("产生 \(count) 个冲突，请在更改页面解决后继续或中止。"))
+        case .paused(let recovery):
+            .needsReview(
+                message: L10n.text("交互式变基已暂停，请核对序列后继续或中止。"),
+                details: [recovery.originalHead, recovery.onto, recovery.originalReference].joined(
+                    separator: "\n\n"))
+        }
+    }
+}
+
 /// Success decoration is tied to the actual operation, never to translated copy.
 enum OperationFeedbackContext: String, Equatable, Sendable {
     case standard, commit, stashSave
