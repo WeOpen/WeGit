@@ -113,7 +113,6 @@ final class WorkflowRecoveryTests: XCTestCase {
             XCTAssertTrue(try fixture.git(["status", "--porcelain"]).contains("UU file.txt"))
         }
         let indexBefore = try fixture.git(["ls-files", "--stage", "-z"])
-
         let app = application(fixture)
         defer { app.terminate() }
         app.staticTexts["route-更改"].firstMatch.click()

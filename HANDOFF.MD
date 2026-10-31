@@ -4,6 +4,8 @@
 
 ## v1.2 原生诊断入口准备
 
+- #78 的独立 Rebase 入口只注册 `rebase-workflow` → `RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch`。可信 main 必须先实际通过一次 smoke，随后最多运行这一个方法；失败/跳过时停止，120/180秒和原有制品要求保持。产品与实际方法留在功能分支，这个入口本身不表示 Rebase 或整版验收完成。
+
 - #70 的 `selected-lines` 只注册 `SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation`。必须先经过一次真实 smoke，失败时停止；实际产品与 UI 用例留在功能 PR。
 
 - #65 的 Blame 诊断先将 `BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation` 注册到可信 main。应用与实际 UI 用例留在功能分支；只在一次真实 smoke 通过后执行这一个固定方法，保留原有超时与制品要求。
@@ -872,6 +874,14 @@
 - Acceptance is in `docs/acceptance/2026-10-31/interactive-rebase/`. Edit pause/recovery, squash/fixup correctness, repeated conflicts, cancel/unknown replies, native entry, Release performance and normal PR/required CI remain open. Do not mark V12-07 complete.
 - 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
 
+## 2026-10-30 第十四代最新 CI、原生重验与冲突编辑器
+
+- Rebase 修复已是提交 `8474d620c7607678921fcfb91d13dae68572b26c`；2026-10-30 14:16 UTC 实际 `ls-remote` 与 PR80 head 均匹配。PR80 仍 draft/open，Issue78 open，reviews/inline threads 为 0。required `41042286681` 的 PR policy、`41042286905` 的 Repository policy 与 Native macOS 全部成功，后者格式/Core/最低 Git/feature 行为/GPG/Homebrew/native compile/Release 打包各阶段均成功；完整日志 1,322,375 bytes，三套 Git 各 247 tests/43 suites 实际通过。VM 原始 90 性能数组仍须从完整 artifact12971828885 核验，不能只由阶段成功代替。
+- `8474d620` 改了 Rebase 产品输入，旧 `6dcf514` 原生成功不能继承。已在可信 main `507f03b`、空队列下一次 dispatch `41070593781`/job124113328352，smoke + 唯一 rebase-workflow，整个 run 实际 success。制品12983944467/name含8474d620，118,762,895 bytes，期望 SHA256 `ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9`。完整分段下载仍在进行；未完成 CRC/185 inputs/直接 xcresult 计数/120-180 秒及四图四 AX 核验，不提前 ready/合并或关闭78，也不重复调度同一候选。
+- GitHub ZIP 单次下载180秒超时，9,895,936-byte前缀原样保留；已有 `.build/resume-native-artifact.py` 支持有界 Range/重定向不带凭据/短签名更新/摘要与 CRC，继续复用。不得读取跨聊天旧 exec session；按真实进程、文件与 range receipt 判断是否仍在下载。
+- Issue81 已存在，冲突编辑器独立树 `/Users/willxue/.codex/worktrees/conflict-editor/WeGit`、分支 `codex/v1.2-conflict-editor` 基于8474d620。本轮新回归先复现后续 Cherry-pick/Rebase BASE 错映射，改为原提交唯一父对象并逐 blob 核验后27项真实 Git 检查通过；补私有 index+SelectedIndexLease 原子安装、完整原 index 快照、驱动/过滤器/无效编码/符号链接/外部锁拒绝、原子保存显式fchmod、保存失败保留编辑区/解决成功关闭/未保存禁止隐式dismiss和单次解析缓存。59项双语目录已补，本地化1358 strings/8 plurals、严格格式与App Debug编译通过；未本机执行XCTest，未提交/push/PR/原生入口或性能验收。Rebase树内原两份untracked冲突草稿保留，不加入PR80。
+- 已从原始用户消息核实“半小时内报错超过4次新开会话继续”授权；本轮14:29:38UTC达到第五个独立真实错误：误猜native-ui-smoke.yml、误猜Localization/L10n.swift、新增真实BASE回归首次失败、ZIP180秒超时、误猜Infrastructure/GitEngine.swift。实际文件应先rg清单，工作流为native-ui.yml、语言为Domain/Localization.swift、引擎为GitCore/GitEngine.swift。五项原输出/时间与新旧失败均保留；这不是版本或功能完成，源会话保存现场后按同一目标移交。
+
 ## 2026-10-30 第十五代完整 Rebase 制品核验与冲突 CI 接线
 
 - 同ID ACTIVE五分钟heartbeat与state第15代实际匹配本聊天，四树HEAD/index/status与gen14现场逐项一致。主checkout用户改动未触碰。Rebase原生制品12983944467完整118762895bytes/SHA ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9/2087 CRC通过；required制品12971828885完整12369893bytes/SHA 38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b/35 CRC通过，原超时前缀和retry保持。
@@ -879,3 +889,11 @@
 - native实际185个构建输入与8474逐SHA一致；直接xcresult smoke/Rebase均total1/pass1/fail0/skip0，唯一Rebase方法91.836653秒<120、outer98.432秒<180。四个980x692原图及四份AX已实际查看，固定完整OID和已发布确认、目标变化拒绝、重开第二冲突、Abort恢复feature/clean/中文草稿均保留；QoS warning原样保留，不代表完整VoiceOver或整版接受。无重复dispatch/本机XCTest。
 - 独立conflict-editor树已把ConflictEditorService→verify-conflict-editor.sh接入scripts/ci/native-behavior.sh，并将ConflictEditorChecks格式接入scripts/verify.sh；shell语法/可执行位/严格格式/diff检查及独立27项真实Git再次通过，日志conflict-editor-required-wiring-gen15.log。未提交/push/PR，仍需Core/native/可信入口、Release性能/保存失败/取消/重开草稿和复杂边界。
 - 本代实际三次429重试耗尽，加上错误automation参数和zsh保留path变量，14:41:02UTC达到第五真实错误；之后另一次错误cwd/猜测证据后缀已完整留存。工具schema应先读ALL_TOOLS完整description；zsh禁止复用path变量；证据一律按实际清单定位。现场failure-events.json留完整时间和工具ID。按原授权保存现场后转移同一完整v1.2目标；PR80仍draft/open、head8474、required全success、reviews0、mergeState BEHIND，未ready/合并/关闭78。后续需先补证据文档和当前PR描述，再正常最新CI/review集成；所有05/07/08/09与M5保持开放。
+
+## 2026-10-30 第十六代停止定时接续并补齐当前证据
+
+- 用户明确要求去掉定时任务。应用工具确认同一 `wegit-v1-2` heartbeat 已删除，`~/.codex/automations` 没有残留 TOML；后续只在当前聊天手动继续，不创建替代任务。产品与 Git 工作仍复用现有树。
+- `docs/acceptance/2026-10-30/rebase/` 已补当前 `8474d620` 的源输入等价、required `41042286905` / job `124017905991` 和可信 native `41070593781` / job `124113328352` 回执。required 制品 12971828885 为 12,369,893 bytes / SHA `38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b` / 35 CRC；native 制品 12983944467 为 118,762,895 bytes / SHA `ebf1471089ec5424950d80567bfecc66936afa61a1632e9e696566c21e82d5c9` / 2,087 CRC，185 输入与四图四 AX 已核验。
+- README 当前结果记录 required 90 样本及逐 SHA 等价，不把合成源 `47441110` 写成产品源码；PR 描述仍需同步当前证据。文档提交不能继承旧 required/native，推送后必须按新 head 读取新的 required/review，再正常集成 #80；Issue78 不提前关闭。
+- 随后为避免 README 的旧候选待办状态与最新回执混淆，已在当前结果下加入“实施范围与历史候选记录”标记；这也是文档-only 更新，新的 head 仍需完整必需 CI。
+- Rebase 树中两份未跟踪 `ConflictEditorModels.swift` / `ConflictEditorService.swift` 与独立 Issue81 树内容不同，属于隔离草稿；本轮未改动或加入 PR80。V12-05、07、08、09 与最终 M5 继续开放。
