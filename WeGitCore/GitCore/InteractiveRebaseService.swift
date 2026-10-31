@@ -160,13 +160,7 @@ extension RepositoryService {
             steps.allSatisfy({ GitObjectID.valid($0.id) }),
             Set(steps.map(\.id)) == sourceIDs, Set(steps.map(\.id)).count == steps.count
         else { throw ModelFailure.changed }
-        var hasSurvivingParent = false
         for step in steps {
-            if step.action == .squash || step.action == .fixup {
-                guard hasSurvivingParent else {
-                    throw ModelFailure.unsupported(L10n.text("首个保留提交不能 squash 或 fixup。"))
-                }
-            }
             if step.action == .reword {
                 guard let message = step.message, !message.isEmpty,
                     !message.utf8.contains(0), message.utf8.count <= 1024 * 1024
@@ -174,9 +168,8 @@ extension RepositoryService {
             } else if step.message != nil {
                 throw ModelFailure.changed
             }
-            if step.action != .drop { hasSurvivingParent = true }
         }
-        guard hasSurvivingParent else {
+        guard steps.contains(where: { $0.action != .drop }) else {
             throw ModelFailure.unsupported(L10n.text("至少保留一个提交。"))
         }
     }

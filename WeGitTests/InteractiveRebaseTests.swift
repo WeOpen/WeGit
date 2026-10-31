@@ -61,6 +61,47 @@ struct InteractiveRebaseTests {
         _ = second
     }
 
+    @Test func rejectsDropAllThenReordersIndependentCommits() async throws {
+        let fixture = try await Fixture.create()
+        defer { fixture.remove() }
+        try fixture.write("base.txt", "base\n")
+        _ = try await fixture.commit("Base")
+        _ = try await fixture.engine.run(["switch", "-c", "topic"], in: fixture.root)
+        try fixture.write("first.txt", "first\n")
+        _ = try await fixture.commit("First")
+        try fixture.write("second.txt", "second\n")
+        _ = try await fixture.commit("Second")
+        _ = try await fixture.engine.run(["switch", "main"], in: fixture.root)
+        let upstream = try #require(try await fixture.service.branches().first { $0.name == "main" })
+        _ = try await fixture.engine.run(["switch", "topic"], in: fixture.root)
+        let originalHead = try #require(try await fixture.service.head())
+        let plan = try await fixture.service.prepareInteractiveRebase(upstream: upstream)
+        let allDropped = plan.replacing(
+            steps: plan.steps.map {
+                InteractiveRebaseStep(id: $0.id, subject: $0.subject, author: $0.author, action: .drop)
+            })
+        await #expect(throws: ModelFailure.self) {
+            _ = try await fixture.service.executeInteractiveRebase(allDropped)
+        }
+        #expect(try await fixture.service.head() == originalHead)
+        #expect(try await fixture.service.status().sequencer == .none)
+        #expect(try await fixture.engine.run(["status", "--porcelain"], in: fixture.root).text.isEmpty)
+
+        guard
+            case .completed = try await fixture.service.executeInteractiveRebase(
+                plan.replacing(steps: Array(plan.steps.reversed())))
+        else { throw ModelFailure.changed }
+        #expect(
+            try await fixture.engine.run(
+                ["log", "--reverse", "--format=%s", upstream.oid + "..HEAD"], in: fixture.root
+            )
+            .text.trimmingCharacters(in: .whitespacesAndNewlines) == "Second\nFirst")
+        #expect(try await fixture.engine.run(["show", "HEAD:first.txt"], in: fixture.root).text == "first\n")
+        #expect(
+            try await fixture.engine.run(["show", "HEAD:second.txt"], in: fixture.root).text == "second\n")
+        #expect(try await fixture.engine.run(["status", "--porcelain"], in: fixture.root).text.isEmpty)
+    }
+
     @Test func staleHeadAndIndexRejectAnEditedSequenceBeforeExecution() async throws {
         let fixture = try await Fixture.create()
         defer { fixture.remove() }

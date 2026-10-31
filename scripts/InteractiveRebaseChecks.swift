@@ -24,18 +24,20 @@ import WeGitCore
         ] {
             try await git(["config", key, value])
         }
-        func write(_ text: String) throws {
-            try Data(text.utf8).write(to: root.appending(path: "file"))
+        func write(_ path: String, _ text: String) throws {
+            try Data(text.utf8).write(to: root.appending(path: path))
         }
-        try write("base\n")
+        try write("base.txt", "base\n")
         try await git(["add", "."])
         try await git(["commit", "-m", "Base"])
         try await git(["switch", "-c", "topic"])
-        try write("first\n")
-        try await git(["commit", "-am", "First"])
+        try write("first.txt", "first\n")
+        try await git(["add", "first.txt"])
+        try await git(["commit", "-m", "First"])
         let first = try await git(["rev-parse", "HEAD"]).text.trimmingCharacters(in: .whitespacesAndNewlines)
-        try write("second\n")
-        try await git(["commit", "-am", "Second"])
+        try write("second.txt", "second\n")
+        try await git(["add", "second.txt"])
+        try await git(["commit", "-m", "Second"])
         let second = try await git(["rev-parse", "HEAD"]).text.trimmingCharacters(in: .whitespacesAndNewlines)
         try await git(["switch", "main"])
         let location = try await RepositoryService.discover(root, engine: engine)
@@ -54,12 +56,40 @@ import WeGitCore
         }
         let preparedIDs = prepared.steps.map { $0.id }
         try require(preparedIDs == [first, second], "prepare did not capture linear steps")
-        let adjusted = prepared.replacing(
-            steps: prepared.steps.map { step in
+        let allDropped = prepared.replacing(
+            steps: prepared.steps.map {
+                InteractiveRebaseStep(id: $0.id, subject: $0.subject, author: $0.author, action: .drop)
+            })
+        do {
+            _ = try await service.executeInteractiveRebase(allDropped)
+            throw Failure.assertion("all-drop sequence was accepted")
+        } catch is ModelFailure {}
+        try require(
+            try await git(["rev-parse", "HEAD"]).text.trimmingCharacters(in: .whitespacesAndNewlines)
+                == prepared.head,
+            "all-drop rejection changed HEAD")
+        try require(
+            try await git(["status", "--porcelain"]).text.isEmpty, "all-drop rejection changed files")
+
+        let reordered = prepared.replacing(steps: Array(prepared.steps.reversed()))
+        guard case .completed = try await service.executeInteractiveRebase(reordered) else {
+            throw Failure.assertion("reordered picks did not complete")
+        }
+        let reorderedMessages = try await git(
+            ["log", "--reverse", "--format=%s", upstream.oid + "..HEAD"])
+            .text.trimmingCharacters(in: .whitespacesAndNewlines)
+        try require(reorderedMessages == "Second\nFirst", "pick order was not preserved")
+        try require(try await git(["show", "HEAD:first.txt"]).text == "first\n", "first path was lost")
+        try require(try await git(["show", "HEAD:second.txt"]).text == "second\n", "second path was lost")
+
+        let reorderedPlan = try await service.prepareInteractiveRebase(upstream: upstream)
+        let firstInSequence = try requireValue(reorderedPlan.steps.first?.id, "missing reordered step")
+        let adjusted = reorderedPlan.replacing(
+            steps: reorderedPlan.steps.map { step in
                 InteractiveRebaseStep(
                     id: step.id, subject: step.subject, author: step.author,
-                    action: step.id == first ? .reword : .drop,
-                    message: step.id == first ? "Renamed First\n" : nil)
+                    action: step.id == firstInSequence ? .reword : .drop,
+                    message: step.id == firstInSequence ? "Renamed Second\n" : nil)
             })
         do {
             guard case .completed = try await service.executeInteractiveRebase(adjusted) else {
@@ -78,14 +108,24 @@ import WeGitCore
             "drop did not remove the selected commit")
         try require(
             try await git(["log", "-1", "--format=%s"]).text
-                .trimmingCharacters(in: .whitespacesAndNewlines) == "Renamed First",
+                .trimmingCharacters(in: .whitespacesAndNewlines) == "Renamed Second",
             "reword did not update the commit message")
-        try require(try await git(["show", "HEAD:file"]).text == "first\n", "replayed file content changed")
+        try require(
+            try await git(["show", "HEAD:second.txt"]).text == "second\n", "replayed content changed")
+        try require(
+            try await git(["ls-tree", "-r", "--name-only", "HEAD"]).text
+                .trimmingCharacters(in: .whitespacesAndNewlines) == "base.txt\nsecond.txt",
+            "drop retained the dropped path")
         try require(try await git(["status", "--porcelain"]).text.isEmpty, "worktree is not clean")
-        print("PASS interactive rebase prepare/drop/reword/clean state (4 checks)")
+        print("PASS interactive rebase prepare/reject-all-drop/reorder/drop/reword/clean state (9 checks)")
     }
 
     private static func require(_ condition: Bool, _ message: String) throws {
         guard condition else { throw Failure.assertion(message) }
+    }
+
+    private static func requireValue<T>(_ value: T?, _ message: String) throws -> T {
+        guard let value else { throw Failure.assertion(message) }
+        return value
     }
 }

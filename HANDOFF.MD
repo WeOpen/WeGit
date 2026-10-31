@@ -877,6 +877,7 @@
 ## 2026-10-31 Interactive Rebase localization guard
 
 - PR87 上一轮托管 CI 在 Core build 前由 `verify-localization.py` 报错：`InteractiveRebaseService` 的失败和前置校验路径新增了 4 个 `L10n.text` keys，但只补了 UI 文案。英/中 catalog 必须同时覆盖 `交互式变基未完成`、干净工作区/祖先/线性序列校验文案；补齐后本地化审计通过，独立 checker 4/4 与 Core 编译通过。
+- 当前未提交 Interactive Rebase WIP 将首版 Picker 收窄为已验证的 `pick`、`reword`、`drop`；尚无暂停恢复和 squash/fixup message semantics 时不向 UI 暴露这些动作。私有 Git checker 已扩展并通过 9 项断言，覆盖 all-drop 在写入前拒绝、重排独立提交、reword/drop 的最终对象及干净工作区。对应 XCTest 已补，仍只编译不在本机执行；V12-07 的其他验收门继续开放。
 
 ## 2026-10-30 第十四代最新 CI、原生重验与冲突编辑器
 

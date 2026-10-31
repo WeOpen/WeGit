@@ -3,9 +3,6 @@ import Foundation
 public enum InteractiveRebaseAction: String, CaseIterable, Sendable {
     case pick
     case reword
-    case edit
-    case squash
-    case fixup
     case drop
 
     var gitCommand: String { rawValue }
