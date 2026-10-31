@@ -891,3 +891,9 @@
 - README 当前结果记录 required 90 样本及逐 SHA 等价，不把合成源 `47441110` 写成产品源码；PR 描述仍需同步当前证据。文档提交不能继承旧 required/native，推送后必须按新 head 读取新的 required/review，再正常集成 #80；Issue78 不提前关闭。
 - 随后为避免 README 的旧候选待办状态与最新回执混淆，已在当前结果下加入“实施范围与历史候选记录”标记；这也是文档-only 更新，新的 head 仍需完整必需 CI。
 - Rebase 树中两份未跟踪 `ConflictEditorModels.swift` / `ConflictEditorService.swift` 与独立 Issue81 树内容不同，属于隔离草稿；本轮未改动或加入 PR80。V12-05、07、08、09 与最终 M5 继续开放。
+
+## 2026-10-31 Release checker object-file guard
+
+- PR85 的托管 required 运行中，251 项 Core tests、最低 Git 回归和冲突编辑器 27/27 checker 均通过；失败只发生在 `verify-conflict-editor-performance.sh` 的 Release checker。Release 构建已生成 `WeGitCore.o` 与 `WeGit_WeGitCore.bundle`，但 checker 用 `test -x` 检查 `.o`，把普通可链接对象误判为不可执行并提前退出。对象文件必须用 `test -s`（或 `test -f`）检查，bundle 仍单独检查目录；不要把该 shell guard 失败归因于产品/Core 行为。
+- 独立运行还要求 checker 自己先创建 `.build`，否则干净 checkout 会在 `mktemp` 前因父目录不存在退出；该目录创建不改变构建输出或性能预算。
+- 修复后从空 `.build` 运行 Release checker，结果 JSON `allPassed=true`、ordinary/large-loose/large-packed 各30样本、`xctestExecuted=false`。本机最高 P95 read 225.593 ms、mark-resolved 286.315 ms、queued-cancel 0.0241 ms，最高 RSS 31,899,648 bytes；均低于原预算。此为本机 Release Core checker 证据，托管 required CI 仍需在新 head 重跑。
