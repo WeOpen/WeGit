@@ -1,0 +1,14 @@
+{
+  "runId": 41070593781,
+  "smoke": {"total": 1, "passed": 1, "failed": 0, "skipped": 0},
+  "focusedRebase": {
+    "testIdentifier": "RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch()",
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "methodSeconds": 91.83665299415588
+  },
+  "runtimeWarning": "User-interactive QoS waiting on a lower QoS thread",
+  "source": "Direct xcresult summaries from the complete native artifact"
+}
