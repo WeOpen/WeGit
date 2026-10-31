@@ -1,0 +1,11 @@
+{
+  "configuration": "Release WeGitCore",
+  "checker": "scripts/ConflictEditorChecks.swift",
+  "checks": 27,
+  "passed": true,
+  "wallSeconds": 6.82,
+  "maximumResidentBytes": 14417920,
+  "fixtures": "private disposable Git repositories with isolated global/system configuration",
+  "xctestExecuted": false,
+  "note": "The first invocation stopped before fixtures because the resource bundle was not beside the checker; the same release binary was rerun with the bundle in the isolated directory and passed."
+}

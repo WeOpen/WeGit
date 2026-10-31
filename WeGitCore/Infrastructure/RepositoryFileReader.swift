@@ -26,10 +26,19 @@ final class RepositoryFileReader {
     private let folderIdentities: [DirectoryStamp]
     private let name: String
     private let stamp: SnapshotFileStamp
+    private let stampMode: UInt16
     private let cancellation: IOCancellation
     let symbolicLink: Bool
+    var mode: UInt16 { UInt16(stampMode) }
     var size: Int64 { stamp.size }
     var version: SnapshotFileStamp { stamp }
+    var directoryIdentities: [ConflictEditorDirectoryIdentity] {
+        folderIdentities.map {
+            ConflictEditorDirectoryIdentity(
+                device: UInt64($0.device), inode: UInt64($0.inode),
+                bornSeconds: Int64($0.bornSeconds), bornNanoseconds: Int64($0.bornNanoseconds))
+        }
+    }
 
     init(location: RepositoryLocation, path: String, cancellation: IOCancellation, openContents: Bool = true)
         throws
@@ -99,6 +108,7 @@ final class RepositoryFileReader {
         folderIdentities = identities
         name = last
         stamp = SnapshotFileStamp(info)
+        stampMode = UInt16(info.st_mode & UInt16(0o777))
         symbolicLink = kind == UInt16(S_IFLNK)
         self.cancellation = cancellation
         transferred = true

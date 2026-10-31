@@ -14,6 +14,7 @@ struct ChangesFileList<Context: View>: View {
     @Binding var collapsedGroups: Set<String>
     @Binding var collapsedFolders: Set<String>
     let stage: ([FileChange], DiffLayer) -> Void
+    let editConflict: (FileChange) -> Void
     @ViewBuilder let context: (FileChange, DiffLayer) -> Context
 
     var body: some View {
@@ -123,6 +124,15 @@ struct ChangesFileList<Context: View>: View {
     private func fileRow(_ file: FileChange, layer: DiffLayer, tree: Bool) -> some View {
         HStack(spacing: 8) {
             if layer == .conflict {
+                Button {
+                    editConflict(file)
+                } label: {
+                    Image(systemName: "square.and.pencil")
+                }
+                .buttonStyle(.borderless).frame(width: 18).disabled(!canWrite)
+                .help(canWrite ? L10n.text("编辑冲突") : writeReason)
+                .accessibilityLabel(L10n.text("编辑冲突") + " " + file.filename)
+                .accessibilityIdentifier("edit-conflict:\(file.path)")
                 Button {
                     stage([file], layer)
                 } label: {

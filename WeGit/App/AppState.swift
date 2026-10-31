@@ -450,6 +450,7 @@ final class AppState {
     var session: RepositorySession? {
         didSet {
             if selectedLinesRequest?.session !== session { selectedLinesRequest = nil }
+            if conflictEditorRequest?.session !== session { conflictEditorRequest = nil }
         }
     }
     var sessions: [String: RepositorySession] = [:]
@@ -475,6 +476,7 @@ final class AppState {
     var tagCreationRequest: TagCreationRequest?
     var singleCommitRequest: SingleCommitRequest?
     var selectedLinesRequest: SelectedLinesRequest?
+    var conflictEditorRequest: ConflictEditorRequest?
     var blameRequest: BlameRequest?
     var fileHistoryRequest: FileHistoryRequest?
     var branchSwitchRequest: BranchSwitchRequest?
