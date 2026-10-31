@@ -1,0 +1,8 @@
+{
+  "checker": "scripts/InteractiveRebaseChecks.swift",
+  "checks": 4,
+  "passed": true,
+  "cases": ["prepare linear sequence", "drop", "reword", "clean result reconciliation"],
+  "xctestExecuted": false,
+  "scope": "Development increment; not full V12-07 acceptance"
+}

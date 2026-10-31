@@ -270,6 +270,7 @@ struct BranchesView: View {
     @State private var editor: BranchEditRequest?
     @State private var deletion: BranchDeletionPlan?
     @State private var rebase: RebaseRequest?
+    @State private var interactiveRebase: InteractiveRebaseRequest?
     @State private var rebaseFocus: WorktreeFocusRestoration?
     @State private var preparing = false
     @State private var prepareTask: Task<Void, Never>?
@@ -281,6 +282,9 @@ struct BranchesView: View {
                 Button(L10n.text("变基…")) { presentRebase() }
                     .disabled(!session.canRebase).help(session.rebaseReason ?? L10n.text("选择目标并预览变基范围"))
                     .accessibilityIdentifier("branches-rebase")
+                Button(L10n.text("交互式变基…")) { presentInteractiveRebase() }
+                    .disabled(!session.canRebase)
+                    .accessibilityIdentifier("branches-interactive-rebase")
                 Button(L10n.text("新建分支…"), systemImage: "plus") { app.branchPresented = true }.disabled(
                     !session.canWrite || session.status.head == nil)
             }
@@ -423,6 +427,9 @@ struct BranchesView: View {
                 rebaseFocus = nil
             }
         ) { RebaseSheet(app: app, request: $0).workbenchSheet(app.preferences) }
+        .sheet(item: $interactiveRebase) {
+            InteractiveRebaseSheet(app: app, request: $0).workbenchSheet(app.preferences)
+        }
         .onDisappear { prepareTask?.cancel() }
     }
 
@@ -430,6 +437,15 @@ struct BranchesView: View {
         guard app.session === session, session.canRebase else { return }
         rebaseFocus = WorktreeFocusRestoration(sessionID: session.id)
         rebase = RebaseRequest(session: session, target: target)
+    }
+
+    private func presentInteractiveRebase() {
+        guard app.session === session, session.canRebase else { return }
+        interactiveRebase = InteractiveRebaseRequest(
+            session: session,
+            upstream: session.branches.first {
+                !$0.current && !$0.remote && $0.symbolicTarget == nil
+            })
     }
 
     private func trackingText(_ branch: GitBranch) -> String {
