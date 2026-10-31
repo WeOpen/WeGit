@@ -124,7 +124,8 @@ final class WorkflowRecoveryTests: XCTestCase {
                 .matching(identifier: "conflict-editor-" + side).firstMatch
             XCTAssertTrue(panel.exists || panel.waitForExistence(timeout: 10), side)
         }
-        let result = app.textViews["conflict-editor-result"]
+        let result = app.descendants(matching: .any)
+            .matching(identifier: "conflict-editor-result").firstMatch
         XCTAssertTrue(result.exists || result.waitForExistence(timeout: 10))
         result.click()
         result.typeKey("a", modifierFlags: .command)
@@ -145,7 +146,8 @@ final class WorkflowRecoveryTests: XCTestCase {
         app.buttons["conflict-editor-close"].click()
         XCTAssertTrue(edit.waitForExistence(timeout: 10))
         edit.click()
-        let reopenedResult = app.textViews["conflict-editor-result"]
+        let reopenedResult = app.descendants(matching: .any)
+            .matching(identifier: "conflict-editor-result").firstMatch
         XCTAssertTrue(reopenedResult.waitForExistence(timeout: 10))
         XCTAssertEqual(reopenedResult.value as? String, "resolved from UI\n")
         app.buttons["conflict-editor-mark-resolved"].click()
