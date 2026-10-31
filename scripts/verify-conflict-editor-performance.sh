@@ -3,7 +3,10 @@ set -euo pipefail
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
 run_dir="$(mktemp -d "$project_root/.build/conflict-editor-performance-XXXXXX")"
-release_bin="$(swift build -c release -Xswiftc -enable-testing --product WeGitAskPass --show-bin-path)"
+swift build -c release -Xswiftc -enable-testing --product WeGitCore
+release_bin="$(swift build -c release -Xswiftc -enable-testing --show-bin-path)"
+test -x "$release_bin/WeGitCore.o"
+test -d "$release_bin/WeGit_WeGitCore.bundle"
 ditto "$release_bin/WeGit_WeGitCore.bundle" "$run_dir/WeGit_WeGitCore.bundle"
 xcrun swiftc -parse-as-library -O -I "$release_bin" "$release_bin/WeGitCore.o" \
   scripts/ConflictEditorPerformance.swift -o "$run_dir/performance"
