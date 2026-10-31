@@ -11,6 +11,7 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "rebase-workflow": "RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch",
     "worktree-management": "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees",
     "selected-lines": "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
     "blame": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
@@ -38,6 +39,7 @@ FOCUSED_TESTS = {
     "diff-options": "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState",
     "large-diff": "WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset",
     "rebase-conflicts": "WorkflowRecoveryTests/testPullRebaseHandlesTwoConflictRoundsAndAbort",
+    "conflict-editor": "WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose",
 }
 
 
