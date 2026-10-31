@@ -866,7 +866,6 @@
 - 为等待真正进入 FIFO 的取消测试，`RepositoryOperationQueue.pendingOperationCountForTesting` 仅作 module-internal 诊断观察；Release checker 通过 `-enable-testing` 编译优化 Core 供 checker 链接，不运行 Release XCTest。原始 `swift build -c release --build-tests` 的 testability module 错误保留，不作为产品源码失败。
 - 产品分支已提交 `2d2dfb5`（功能/Core/UI/checker/acceptance）与 `ad019c6`（queue waiter 观察与 Release 性能）；已 push `codex/v1.2-conflict-editor` 并创建 draft PR #85，base 暂为 `codex/v1.2-rebase`，只展示相对 PR80 的 26 个文件。PR80/PR85 均不合并，Issue81 仍需 Issue83 入口先正常进入 trusted main。
 - Release 性能 receipt 已更新：ordinary/large-loose/large-packed 各30，p95 read `144.158/174.991/199.461 ms`，save `49.856/79.319/75.212 ms`，mark `145.715/235.407/252.862 ms`，真正排队取消 `0.0125/0.0107/0.0115 ms`，RSS `14.2/29.6/31.7 MB`，loose/packed 对象统计均满足。该结果是 `-enable-testing` 优化 Core checker，不是 XCTest/发布性能签核。
-
 ## 2026-10-31 Interactive Rebase development increment
 
 - Interactive Rebase is developed on `codex/v1.2-interactive-rebase`, separate from PR85's feature branch. Core adds a bounded linear sequence plan and private sequence/message editors; Branches adds a fixed Interactive Rebase sheet with action/order controls. Existing Rebase recovery remains the recovery boundary.
@@ -878,7 +877,7 @@
 
 - PR87 上一轮托管 CI 在 Core build 前由 `verify-localization.py` 报错：`InteractiveRebaseService` 的失败和前置校验路径新增了 4 个 `L10n.text` keys，但只补了 UI 文案。英/中 catalog 必须同时覆盖 `交互式变基未完成`、干净工作区/祖先/线性序列校验文案；补齐后本地化审计通过，独立 checker 4/4 与 Core 编译通过。
 - 当前未提交 Interactive Rebase WIP 将首版 Picker 收窄为已验证的 `pick`、`reword`、`drop`；尚无暂停恢复和 squash/fixup message semantics 时不向 UI 暴露这些动作。私有 Git checker 已扩展并通过 9 项断言，覆盖 all-drop 在写入前拒绝、重排独立提交、reword/drop 的最终对象及干净工作区。对应 XCTest 已补，仍只编译不在本机执行；V12-07 的其他验收门继续开放。
-
+- 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
 ## 2026-10-30 第十四代最新 CI、原生重验与冲突编辑器
 
 - Rebase 修复已是提交 `8474d620c7607678921fcfb91d13dae68572b26c`；2026-10-30 14:16 UTC 实际 `ls-remote` 与 PR80 head 均匹配。PR80 仍 draft/open，Issue78 open，reviews/inline threads 为 0。required `41042286681` 的 PR policy、`41042286905` 的 Repository policy 与 Native macOS 全部成功，后者格式/Core/最低 Git/feature 行为/GPG/Homebrew/native compile/Release 打包各阶段均成功；完整日志 1,322,375 bytes，三套 Git 各 247 tests/43 suites 实际通过。VM 原始 90 性能数组仍须从完整 artifact12971828885 核验，不能只由阶段成功代替。
@@ -902,3 +901,12 @@
 - README 当前结果记录 required 90 样本及逐 SHA 等价，不把合成源 `47441110` 写成产品源码；PR 描述仍需同步当前证据。文档提交不能继承旧 required/native，推送后必须按新 head 读取新的 required/review，再正常集成 #80；Issue78 不提前关闭。
 - 随后为避免 README 的旧候选待办状态与最新回执混淆，已在当前结果下加入“实施范围与历史候选记录”标记；这也是文档-only 更新，新的 head 仍需完整必需 CI。
 - Rebase 树中两份未跟踪 `ConflictEditorModels.swift` / `ConflictEditorService.swift` 与独立 Issue81 树内容不同，属于隔离草稿；本轮未改动或加入 PR80。V12-05、07、08、09 与最终 M5 继续开放。
+
+## 2026-10-31 Release checker object-file guard
+
+- PR85 的托管 required 运行中，251 项 Core tests、最低 Git 回归和冲突编辑器 27/27 checker 均通过；失败只发生在 `verify-conflict-editor-performance.sh` 的 Release checker。Release 构建已生成 `WeGitCore.o` 与 `WeGit_WeGitCore.bundle`，但 checker 用 `test -x` 检查 `.o`，把普通可链接对象误判为不可执行并提前退出。对象文件必须用 `test -s`（或 `test -f`）检查，bundle 仍单独检查目录；不要把该 shell guard 失败归因于产品/Core 行为。
+- 独立运行还要求 checker 自己先创建 `.build`，否则干净 checkout 会在 `mktemp` 前因父目录不存在退出；该目录创建不改变构建输出或性能预算。
+- 修复后从空 `.build` 运行 Release checker，结果 JSON `allPassed=true`、ordinary/large-loose/large-packed 各30样本、`xctestExecuted=false`。本机最高 P95 read 225.593 ms、mark-resolved 286.315 ms、queued-cancel 0.0241 ms，最高 RSS 31,899,648 bytes；均低于原预算。此为本机 Release Core checker 证据，托管 required CI 仍需在新 head 重跑。
+- 可信 main 的 `smoke + conflict-editor` run `41186119769` 实际 smoke `1/1/0/0` 通过；focused XCTest 在 `WorkflowRecoveryTests.swift:125` 找不到 RESULT。完整 AX 附件显示父 VStack 的 `conflict-editor-result-panel` identifier 覆盖了 `TextView` 自身的 `conflict-editor-result` id。下一修正给父组设置 `.accessibilityElement(children: .contain)`，让父容器和编辑器拥有独立 AX 元素，并恢复直接 `textViews` 查询；先前通用 descendant 查询也未能发现被覆盖的子 id。该失败是可访问性标识树缺陷，不是冲突读写失败。
+- 最终 head `87a49db` 的 UI run `41191163511` 已证明 RESULT TextView 查询通过；新失败在保存前的确认对话框：测试查找英文 `Continue Editing`，但运行语言为中文，实际按钮为 `继续编辑`，导致 Save 点击未离开 dialog，`mark-resolved` 一直 disabled。改为本地化按钮后重跑，不调整产品保存/索引逻辑。
+- 新 run `41193656280` 的 smoke 1/1 通过；中文按钮已出现但全局 `app.buttons` 同时命中 Touch Bar 和确认 sheet 两个元素，测试失败于多匹配。改用 `app.windows["main"].sheets.buttons["继续编辑"].firstMatch` 将操作限定在对话框内；此轮尚未触发后续保存/索引断言。

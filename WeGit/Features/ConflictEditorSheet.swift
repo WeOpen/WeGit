@@ -242,6 +242,7 @@ struct ConflictEditorSheet: View {
         }
         .frame(minHeight: 220, maxHeight: .infinity)
         .overlay(RoundedRectangle(cornerRadius: AppStyle.controlRadius).stroke(colors.controlBorder))
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("conflict-editor-result-panel")
         .onChange(of: buffer.text) { _, value in
             if !hasUnsavedResult { updateResult(value) }
