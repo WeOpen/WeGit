@@ -207,6 +207,9 @@ struct WorkspaceView: View {
         .sheet(item: $app.selectedLinesRequest) {
             SelectedLinesSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
+        .sheet(item: $app.conflictEditorRequest) {
+            ConflictEditorSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
         .sheet(item: $app.blameRequest) {
             BlameSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }

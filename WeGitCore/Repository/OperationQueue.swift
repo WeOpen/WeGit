@@ -15,6 +15,8 @@ public actor RepositoryOperationQueue {
     private var waiters: [(UUID, CheckedContinuation<Void, Error>)] = []
     public init() {}
 
+    var pendingOperationCountForTesting: Int { waiters.count }
+
     public func perform<T: Sendable>(_ operation: @Sendable () async throws -> T) async throws -> T {
         try await acquire()
         defer { release() }

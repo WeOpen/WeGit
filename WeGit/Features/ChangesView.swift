@@ -84,7 +84,8 @@ struct ChangesView: View {
                             writeReason: session.writeReason, selection: $app.workspace.selectedFile,
                             collapsedGroups: $app.workspace.collapsedChangeGroups,
                             collapsedFolders: $app.workspace.collapsedChangeFolders,
-                            stage: stageFiles
+                            stage: stageFiles,
+                            editConflict: editConflict
                         ) { file, layer in fileMenu(file, layer: layer) }
                     }
                 }.frame(minWidth: 260, idealWidth: 320, maxWidth: 380)
@@ -117,6 +118,12 @@ struct ChangesView: View {
     }
 
     @ViewBuilder private func fileMenu(_ file: FileChange, layer: DiffLayer) -> some View {
+        if layer == .conflict {
+            Button(L10n.text("编辑冲突…"), systemImage: "square.and.pencil") {
+                editConflict(file)
+            }.disabled(!session.canWrite)
+            Divider()
+        }
         Button(
             layer == .staged
                 ? L10n.text("取消暂存")
@@ -180,6 +187,12 @@ struct ChangesView: View {
         } else {
             session.perform(L10n.text("暂存文件")) { try await $0.stage(paths: [file.path], expectedHead: head) }
         }
+    }
+
+    private func editConflict(_ file: FileChange) {
+        guard app.session === session, session.canWrite, file.conflict else { return }
+        app.conflictEditorRequest = ConflictEditorRequest(
+            session: session, path: file.path, expectedHead: session.status.head)
     }
 
     private func clearHiddenSelection() {
