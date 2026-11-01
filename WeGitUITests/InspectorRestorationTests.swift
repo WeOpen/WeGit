@@ -252,6 +252,7 @@ final class InspectorRestorationTests: XCTestCase {
         try Data(pointer.utf8).write(to: fixture.root.appending(path: "large.bin"))
         try fixture.git(["add", "."])
         try fixture.git(["commit", "-m", "Resources fixture"])
+        try Data("visible change\n".utf8).write(to: fixture.root.appending(path: "visible.txt"))
         let before = try fixture.git(["status", "--porcelain=v1"])
 
         let app = XCUIApplication()
@@ -261,9 +262,12 @@ final class InspectorRestorationTests: XCTestCase {
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launchWeGit()
         defer { app.terminate() }
+        XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10), app.debugDescription)
         XCTAssertTrue(app.outlines["changes-list"].waitForExistence(timeout: 10))
         app.buttons["toolbar-inspector"].click()
-        XCTAssertTrue(app.scrollViews["repository-inspector"].waitForExistence(timeout: 5))
+        let inspector = app.descendants(matching: .any)
+            .matching(identifier: "repository-inspector").firstMatch
+        XCTAssertTrue(inspector.waitForExistence(timeout: 5), app.debugDescription)
         let resourcesTab = app.radioButtons["仓库资源"].firstMatch
         XCTAssertTrue(resourcesTab.waitForExistence(timeout: 5), app.debugDescription)
         resourcesTab.click()
