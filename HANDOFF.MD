@@ -900,3 +900,10 @@
 - 可信 main 的 `smoke + conflict-editor` run `41186119769` 实际 smoke `1/1/0/0` 通过；focused XCTest 在 `WorkflowRecoveryTests.swift:125` 找不到 RESULT。完整 AX 附件显示父 VStack 的 `conflict-editor-result-panel` identifier 覆盖了 `TextView` 自身的 `conflict-editor-result` id。下一修正给父组设置 `.accessibilityElement(children: .contain)`，让父容器和编辑器拥有独立 AX 元素，并恢复直接 `textViews` 查询；先前通用 descendant 查询也未能发现被覆盖的子 id。该失败是可访问性标识树缺陷，不是冲突读写失败。
 - 最终 head `87a49db` 的 UI run `41191163511` 已证明 RESULT TextView 查询通过；新失败在保存前的确认对话框：测试查找英文 `Continue Editing`，但运行语言为中文，实际按钮为 `继续编辑`，导致 Save 点击未离开 dialog，`mark-resolved` 一直 disabled。改为本地化按钮后重跑，不调整产品保存/索引逻辑。
 - 新 run `41193656280` 的 smoke 1/1 通过；中文按钮已出现但全局 `app.buttons` 同时命中 Touch Bar 和确认 sheet 两个元素，测试失败于多匹配。改用 `app.windows["main"].sheets.buttons["继续编辑"].firstMatch` 将操作限定在对话框内；此轮尚未触发后续保存/索引断言。
+
+## 2026-11-01 V12-08/V12-09 Submodule 与 Git LFS 实现接续
+
+- 当前工作树为 `/Users/willxue/.codex/worktrees/submodule-management/WeGit`、分支 `codex/v1.2-submodule`、基于 `cc866d3`，主 checkout 的网站/文档改动未触碰。此前私有 checker 崩溃的根因是 LFS 扫描把 gitlink mode `160000` 的子模块目录当普通文件读取；`LFSService` 现用 `git ls-files --stage -z` 跳过 gitlink/符号链接，并从索引 blob 读取 LFS pointer，工作树读取使用 `RepositoryFileReader` 的有界、不可跟随符号链接路径。
+- LFS 状态现区分索引 pointer、对象路径可用性、指针文件/真实水合文件、缺失/损坏/大小或 SHA 不匹配；对象目录按 common Git directory 查找，读取上限为 16 MiB。`git lfs version` 缺失时返回不可用状态而不是把工具缺失误报为产品崩溃；fetch 路径和超时有边界。子模块实现仍保留 HEAD/index/gitlink 快照、`.gitmodules` 配置核对、脏/ignored 内容拒绝覆盖、外来未初始化目录保护和更新后的父快照复核。
+- `scripts/verify-submodule-lfs.sh` 私有临时仓库检查已扩展为 15 项并通过：clean/child drift/dirty/ignored/deinit、外来目录保护、父 HEAD/index 保持、malformed/missing `.gitmodules`、missing LFS object、hydrated object、malformed pointer、无 Git LFS fetch 拒绝。全程设置 `GIT_CONFIG_GLOBAL/SYSTEM=/dev/null`；本机未执行 XCTest。
+- `WeGitTests/CoreTests.swift` 新增 Submodule/LFS Core 测试，`swift build --build-tests` 通过；应用检查器新增第三个“仓库资源”标签，显示子模块和 LFS 状态，并把初始化/更新与按路径 fetch 走既有 `RepositorySession.perform`。严格格式、本地化（1390 strings/8 plurals）、`xcodebuild ... CODE_SIGNING_ALLOWED=NO build` 均通过；`Core`、UI、CI、PR/Issue、可信 Native 和 M5 验收仍未完成，不能标 V12-08/V12-09 或整版 v1.2 完成。

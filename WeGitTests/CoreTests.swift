@@ -1,3 +1,4 @@
+import CryptoKit
 import Darwin
 import Foundation
 import Testing
@@ -483,5 +484,102 @@ struct CompatibilityTests {
         _ = try await f.commit("Signed test commit")
         let object = try await f.engine.run(["cat-file", "-p", "HEAD"], in: f.root).text
         #expect(object.contains("gpgsig -----BEGIN SSH SIGNATURE-----"))
+    }
+}
+
+struct SubmoduleLFSCoreTests {
+    private func addSubmodule(to fixture: Fixture) async throws -> (child: URL, recorded: String) {
+        let child = fixture.root.deletingLastPathComponent().appending(path: "WeGitChild-\(UUID())")
+        try FileManager.default.createDirectory(at: child, withIntermediateDirectories: false)
+        _ = try await fixture.engine.run(["init", "-b", "main"], in: child)
+        _ = try await fixture.engine.run(["config", "user.name", "Nested Tests"], in: child)
+        _ = try await fixture.engine.run(["config", "user.email", "nested@example.invalid"], in: child)
+        try Data("child\n".utf8).write(to: child.appending(path: "file"))
+        _ = try await fixture.engine.run(["add", "."], in: child)
+        _ = try await fixture.engine.run(["commit", "-m", "Child"], in: child)
+        _ = try await fixture.engine.run(
+            ["submodule", "add", child.path, "modules/child"], in: fixture.root,
+            configuration: [("protocol.file.allow", "always")])
+        _ = try await fixture.engine.run(["commit", "-am", "Add submodule"], in: fixture.root)
+        let recorded = try await fixture.service.submodules().first?.recordedOID
+        return (child, try #require(recorded))
+    }
+
+    @Test func submoduleStatesCoverCleanDriftDirtyAndDeinit() async throws {
+        let fixture = try await Fixture.create()
+        let child = try await addSubmodule(to: fixture)
+        defer {
+            fixture.remove()
+            try? FileManager.default.removeItem(at: child.child)
+        }
+        #expect(try await fixture.service.submodules().first?.state == .clean)
+        let module = fixture.root.appending(path: "modules/child")
+        try Data("later\n".utf8).write(to: module.appending(path: "later"))
+        _ = try await fixture.engine.run(["add", "later"], in: module)
+        _ = try await fixture.engine.run(["commit", "-m", "Later"], in: module)
+        #expect(try await fixture.service.submodules().first?.state == .childChanged)
+        try Data("dirty\n".utf8).write(to: module.appending(path: "file"))
+        #expect(try await fixture.service.submodules().first?.state == .dirty)
+        _ = try await fixture.engine.run(
+            ["submodule", "deinit", "-f", "--", "modules/child"], in: fixture.root)
+        #expect(try await fixture.service.submodules().first?.state == .uninitialized)
+        try await fixture.service.initializeOrUpdateSubmodule(
+            path: "modules/child", expectedOID: child.recorded)
+        #expect(try await fixture.service.submodules().first?.state == .clean)
+    }
+
+    @Test func submoduleUpdateRefusesForeignDirectoryAndPreservesParentSnapshots() async throws {
+        let fixture = try await Fixture.create()
+        let child = try await addSubmodule(to: fixture)
+        defer {
+            fixture.remove()
+            try? FileManager.default.removeItem(at: child.child)
+        }
+        let module = fixture.root.appending(path: "modules/child")
+        _ = try await fixture.engine.run(
+            ["submodule", "deinit", "-f", "--", "modules/child"], in: fixture.root)
+        try FileManager.default.createDirectory(at: module, withIntermediateDirectories: true)
+        try Data("keep\n".utf8).write(to: module.appending(path: "foreign"))
+        do {
+            try await fixture.service.initializeOrUpdateSubmodule(
+                path: "modules/child", expectedOID: child.recorded)
+            Issue.record("A foreign uninitialized module directory was overwritten")
+        } catch is ModelFailure {}
+        #expect(try Data(contentsOf: module.appending(path: "foreign")) == Data("keep\n".utf8))
+        try FileManager.default.removeItem(at: module)
+        let beforeHead = try await fixture.service.head()
+        let beforeIndex = try await fixture.engine.run(["ls-files", "--stage", "-z"], in: fixture.root).stdout
+        try await fixture.service.initializeOrUpdateSubmodule(
+            path: "modules/child", expectedOID: child.recorded)
+        #expect(try await fixture.service.head() == beforeHead)
+        #expect(
+            try await fixture.engine.run(["ls-files", "--stage", "-z"], in: fixture.root).stdout
+                == beforeIndex)
+    }
+
+    @Test func lfsReportsMissingHydratedAndMalformedPointers() async throws {
+        let fixture = try await Fixture.create()
+        defer { fixture.remove() }
+        let content = Data("hydrated\n".utf8)
+        let oid = SHA256.hash(data: content).map { String(format: "%02x", $0) }.joined()
+        let pointer = "version https://git-lfs.github.com/spec/v1\noid sha256:\(oid)\nsize \(content.count)\n"
+        try Data(pointer.utf8).write(to: fixture.root.appending(path: "large.bin"))
+        _ = try await fixture.engine.run(["add", "large.bin"], in: fixture.root)
+        _ = try await fixture.engine.run(["commit", "-m", "Pointer"], in: fixture.root)
+        var status = try await fixture.service.lfsObjects()
+        #expect(status.first?.isPointer == true && status.first?.workingTreeHydrated == false)
+        let objectDirectory = fixture.root.appending(
+            path: ".git/lfs/objects/\(oid.prefix(2))/\(oid.dropFirst(2).prefix(2))")
+        try FileManager.default.createDirectory(at: objectDirectory, withIntermediateDirectories: true)
+        try content.write(to: objectDirectory.appending(path: oid))
+        try content.write(to: fixture.root.appending(path: "large.bin"))
+        status = try await fixture.service.lfsObjects()
+        #expect(status.first?.objectAvailable == true && status.first?.workingTreeHydrated == true)
+        let malformed = "version https://git-lfs.github.com/spec/v1\noid sha256:bad\nsize 1\n"
+        try Data(malformed.utf8).write(to: fixture.root.appending(path: "malformed.bin"))
+        _ = try await fixture.engine.run(["add", "malformed.bin"], in: fixture.root)
+        _ = try await fixture.engine.run(["commit", "-m", "Malformed"], in: fixture.root)
+        let malformedStatus = try await fixture.service.lfsObjects().first { $0.path == "malformed.bin" }
+        #expect(malformedStatus?.isPointer == false && malformedStatus?.detail != nil)
     }
 }
