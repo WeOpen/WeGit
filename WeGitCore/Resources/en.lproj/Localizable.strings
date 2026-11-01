@@ -1456,3 +1456,6 @@
 "初始化/更新" = "Initialize / update";
 "工作树中的 LFS 指针格式无效" = "The worktree LFS pointer is invalid.";
 "当前 Git 未安装 Git LFS。" = "Git LFS is not installed for the current Git.";
+"对象已缓存" = "Object cached";
+"LFS 状态读取超过上限，请在 Terminal 核对。" = "LFS inspection exceeded the read limit. Review it in Terminal.";
+"无法确认 LFS 对象已进入缓存，请刷新后核对。" = "The LFS object could not be confirmed in the cache. Refresh and review it.";

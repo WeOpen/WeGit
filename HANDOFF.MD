@@ -25,6 +25,15 @@
 - 新动作、辅助访问名称与恢复失败分支遗漏18条资源，`verify-localization.py` 实际失败后一次列出并补齐中英文，1392字符串/8复数通过。UI-only 名称也必须进入 catalog；目录名或 enum raw value 不能替代可访问名称的翻译。
 - `github.com:443` 连接实际多次超时，`api.github.com` 可用；使用任务私有 `github_git_objects.py` 通过认证 REST 同步 Git 对象。签名 commit 必须保留 signature 的末尾换行后重建 gpgsig，逐 blob/tree/commit 校验真实 Git SHA 并验证完整可达对象，最后以旧 tracking ref 为条件更新；没有改用户全局 Git/DNS 设置。当前 main 的4131个可达对象和两份新签名 commit 已精确核对。此路径是传输替代，不绕过分支保护或强推。
 - 不猜源文件路径：工具栏在 `WeGit/Features/WorkspaceToolbar.swift`，不是 `WeGit/App/ToolbarItems.swift`。性能脚本的 DirectoryEnumerator 放在同步 helper，避免 async 上下文的 Swift 6 警告。取消测量先原子发布完整 wrapper/child PID；所有就绪失败都 cancel 并 await 任务清理，RSS 明确包含进程终身高水位，未包含子 Git RSS。
+## 2026-11-02 LFS 读取与固定缓存获取收口
+
+- 当前树从已核对的main a9ae826建立 `codex/96-lfs-scan-and-fetch`，追踪Issue96。5000普通文件/0指针的真实Debug诊断为5000cat-file和35103.010ms；不能把该单次诊断叫Release P95。新读取使用批量metadata/content、规范<1024字节指针、512结果与16MiB聚合内容/工作文件上限，禁用隐式lazy fetch，原始index与仓库身份重验。
+- 获取对象改为确认index指针后，仅构建私有objects中的单指针commit；使用真实Git LFS fetch该固定范围，固定Remote与读取的LFS endpoint，关闭recent/include/exclude扩张与prune，不执行checkout。私有mktree避免write-tree污染用户index；alternates使用已有C-style转义，SnapshotDirectory显式延长生命周期到命令完成。真实LFS服务与外部账号仍属用户确认延期的#5，不能用夹具冒充服务协议验收。
+- 原39项独立检查（15既有+24边界）实际通过：5000文件仅两次cat-file、逗号/glob/中文/换行路径、仅固定cache bytes、其他对象未取、工作文件/HEAD/raw index/user Git objects不变、外部index/HEAD拒绝、真启动取消/超时和16MiB/512上限。3个新增Core测试目标编译，通过不等于XCTest执行；本机未运行XCTest。
+- Inspector按当前session/status与取消状态整体发布结果，缓存成功单独刷新，已有对象不重复显示获取按钮，状态值显示对象已缓存；未新增解释性标签或轮询。版本检测与读取在后台且有输出上限。
+- 首轮Release检查在ordinary第13次的全进程组退出断言失败，只保留12有效样本；原JSON和私有夹具未覆盖。Shell TERM trap须终止并wait自己启动的child再退出；新fixture修正不改变ProcessRunner、500ms/2000ms/256-512MiB预算与存活PID/整个group退出要求。重新完整90样本前不能称性能通过。
+- 独立swiftc调用不能访问Core内部String.removingLastNewline，使用公开trimmingCharacters处理CLI输出。GitHub API同步工具在主根 `.build/v1-2-closeout-2026-11-01/github_git_objects.py`，Helper必须等running session真正退出0后才依赖其新refs/文件；正文/临时签名URL不经shell插值或日志回显。
+- #4/#5已由本轮用户明确同意延期归档，#3/#6/#7/#9沿用原归档；条件在Interactive分支的 `docs/acceptance/2026-11-01/v1-2-closeout/README.md`。功能/必需CI/可信原生/有效性能源与最终分支清理继续，GitHub issue关闭不表示整版发布。
 
 ## 2026-11-01 当前聊天收口与 Submodule/LFS 附件补齐
 
