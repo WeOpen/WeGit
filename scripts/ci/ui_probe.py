@@ -11,6 +11,7 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "interactive-rebase": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch",
     "rebase-workflow": "RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch",
     "worktree-management": "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees",
     "selected-lines": "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
