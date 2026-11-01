@@ -1,5 +1,11 @@
 # V12-08 / V12-09 Submodule and Git LFS implementation increment
 
+## Trusted native follow-up · 2026-11-01
+
+PR #93 reached main `7494bf55886379f4b77523e4ec62c0c707c07bd0` after all three required checks passed. Trusted-main run [41301529397](https://github.com/WeOpen/WeGit/actions/runs/41301529397) actually passed the minimal smoke and allowlisted Submodule/LFS Inspector test, each with `total=1/passed=1/failed=0/skipped=0`. The focused outer command took 19.191 seconds. Its 191 application inputs match that commit, the ZIP digest/73 CRC entries pass, and the temporary display was restored.
+
+The focused xcresult has no retained screenshot attachments. This follow-up adds a screenshot and accessibility-tree attachment on success; Issue #92 stays open until a new trusted run on the changed test retains reviewable artifacts. Counts alone do not complete its visual evidence requirement. The previous failed native runs and implementation-only receipt below remain historical evidence.
+
 This branch adds configured submodule discovery and bounded Git LFS inspection to the Core service, plus a repository-resources tab in the existing Inspector. The implementation keeps all Git writes behind the existing repository session state checks.
 
 ## Verified locally
