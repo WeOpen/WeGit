@@ -1,5 +1,15 @@
 # WeGit 开发交接
 
+## 2026-11-01 当前聊天接续收口
+
+- 继续来源聊天 `01a196cd-71aa-74a1-a339-8e0f405c5238` 的同一目标：完成剩余功能与证据，清空 Issue/PR，最后清理已完成分支。只在当前聊天手动继续；沿用已停止的定时接续安排。主检出的网站等既有改动和功能树 WIP 已保存到主根 `.build/v1-2-closeout-2026-11-01/current-session-snapshot/`，提交只列明本批文件。
+- 用户本轮明确同意 #4/#5 沿用 #3/#6/#7/#9 的延期归档方式。最终整版 Release 性能、硬件签名/其他 Helper/GitLab、完整 VoiceOver、专用验收机、受保护 Mac 安装/迁移/回退和真实 Beta 反馈都保留未验条件；不能把 not_planned 关闭当作实际通过或发布授权。新功能的性能、核心和原生验证仍须完成，汇总入口为 `docs/acceptance/2026-11-01/v1-2-closeout/README.md`。
+- PR #11 已正常 squash 为 main `a9ae82632893c0c0ac45e06dc97a4ba7e1d02d3c`；#54 已依据 PR #56 / required CI 和已有 Loading 证据关闭。#95/#94 按 strict main 基线更新，旧必需检查不能覆盖新 head，可选 Workers Builds 失败单独保留。
+- 当前 Interactive Rebase 独立 Git 检查为 9+66=75 项全部通过，Core 测试目标和 macOS build-for-testing 均编译通过；本机未执行 XCTest。实际新方法为 `RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch`，含六种动作、排序、已发布确认、取消、edit 停点重开和应用内 amend，仍需可信原生执行。首轮三类各30 Release 样本全部通过，但随后本地化和脚本输入变化，最终输入必须重新固定核验。
+- 新动作、辅助访问名称与恢复失败分支遗漏18条资源，`verify-localization.py` 实际失败后一次列出并补齐中英文，1392字符串/8复数通过。UI-only 名称也必须进入 catalog；目录名或 enum raw value 不能替代可访问名称的翻译。
+- `github.com:443` 连接实际多次超时，`api.github.com` 可用；使用任务私有 `github_git_objects.py` 通过认证 REST 同步 Git 对象。签名 commit 必须保留 signature 的末尾换行后重建 gpgsig，逐 blob/tree/commit 校验真实 Git SHA 并验证完整可达对象，最后以旧 tracking ref 为条件更新；没有改用户全局 Git/DNS 设置。当前 main 的4131个可达对象和两份新签名 commit 已精确核对。此路径是传输替代，不绕过分支保护或强推。
+- 不猜源文件路径：工具栏在 `WeGit/Features/WorkspaceToolbar.swift`，不是 `WeGit/App/ToolbarItems.swift`。性能脚本的 DirectoryEnumerator 放在同步 helper，避免 async 上下文的 Swift 6 警告。取消测量先原子发布完整 wrapper/child PID；所有就绪失败都 cancel 并 await 任务清理，RSS 明确包含进程终身高水位，未包含子 Git RSS。
+
 新任务先读本文件，再核对 Git 工作区、Issue/PR 与当前源码；历史结果只适用于其记录的源码。
 
 ## v1.2 原生诊断入口准备

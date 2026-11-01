@@ -40,12 +40,21 @@ extension RepositoryService {
         var remaining: [RebaseStep] = []
         var originals: [String] = []
         var rescheduled: String?
+        var interactiveSequence = false
+        var interactiveEditPause = false
+        var interactiveSession: InteractiveRebaseSessionDescriptor?
+        var expectedCommitCount: Int?
+        var completedReplay: [RebaseStep] = []
         if snapshot.backend == .merge {
             do {
                 let completedSteps = try await rebaseTodoSteps(done)
+                completedReplay = completedSteps
                 remaining = try await rebaseTodoSteps(todo)
+                let sequence = completedSteps + remaining
+                interactiveSequence = sequence.contains(where: \.isInteractiveTransform)
+                var commitCount = sequence.filter(\.createsCommit).count
                 var seen: Set<String> = []
-                originals = (completedSteps + remaining).compactMap(\.object).filter {
+                originals = sequence.compactMap(\.object).filter {
                     seen.insert($0).inserted
                 }
                 if stopped == nil, let first = remaining.first, first == completedSteps.last {
@@ -53,6 +62,7 @@ extension RepositoryService {
                     // Newer Git records the same retry as stopped-sha and
                     // clears todo, so normalize both layouts here.
                     rescheduled = first.object
+                    if first.createsCommit { commitCount -= 1 }
                 } else if snapshot.files["gpg_sign_opt"] != nil, let stopped,
                     snapshot.markers["CHERRY_PICK_HEAD"].flatMap({
                         String(data: $0.bytes, encoding: .utf8)?.removingLastNewline
@@ -72,6 +82,7 @@ extension RepositoryService {
                         remainingCount += 1
                     }
                 }
+                expectedCommitCount = commitCount
                 let history = Set(
                     try rebaseObjectIDs(
                         await singleCommitEngine.run(
@@ -107,6 +118,44 @@ extension RepositoryService {
         if let options = text("strategy_opts"), !options.isEmpty {
             restriction = L10n.text("此变基的作者信息或合并策略无法核对，请在 Terminal 中继续。")
         }
+        var interactiveMessageEditor: InteractiveRebaseEditorDescriptor?
+        if let marker = snapshot.files["wegit-interactive-session"] {
+            do {
+                let descriptor = try InteractiveRebaseSessionDescriptor.read(marker: marker.bytes)
+                try descriptor.validate()
+                guard descriptor.manifest.originalHead == original,
+                    descriptor.manifest.branch == branch,
+                    descriptor.manifest.upstream == onto
+                else { throw ModelFailure.changed }
+                interactiveSession = descriptor
+                var confirmedSequence = completedReplay
+                var pendingSequence = remaining
+                if rescheduled != nil, pendingSequence.first == confirmedSequence.last {
+                    pendingSequence.removeFirst()
+                }
+                confirmedSequence.append(contentsOf: pendingSequence)
+                let commands = confirmedSequence.compactMap(\.interactiveCommand)
+                guard commands.count == confirmedSequence.count,
+                    InteractiveRebaseEditorDescriptor.digest(
+                        Data((commands.joined(separator: "\n") + "\n").utf8)
+                    ) == descriptor.manifest.sequenceDigest
+                else { throw ModelFailure.changed }
+                interactiveSequence = true
+                expectedCommitCount = descriptor.manifest.expectedCommitCount
+                if let stopped, completedReplay.last == .edit(stopped), state.conflicts.isEmpty,
+                    snapshot.markers["CHERRY_PICK_HEAD"] == nil
+                {
+                    interactiveEditPause = true
+                }
+                if let editor = try descriptor.manifest.messageEditor() {
+                    interactiveMessageEditor = editor
+                }
+            } catch {
+                restriction = L10n.text("交互式变基的私有序列清单缺失，请在 Terminal 中核对。")
+            }
+        } else if interactiveSequence {
+            restriction = L10n.text("交互式变基的私有序列清单缺失，请在 Terminal 中核对。")
+        }
         let branchObject = try await singleCommitEngine.run(
             ["rev-parse", "--verify", branch], in: location.root, accepted: [0, 128]
         ).text.removingLastNewline
@@ -125,6 +174,10 @@ extension RepositoryService {
             stoppedCommit: stopped, rescheduledCommit: rescheduled,
             completedSteps: completed, remainingSteps: remainingCount, head: head,
             continuationRestriction: restriction, abortRestriction: abortRestriction,
+            interactiveSequence: interactiveSequence,
+            interactiveEditPause: interactiveEditPause, expectedCommitCount: expectedCommitCount,
+            interactiveSession: interactiveSession,
+            interactiveMessageEditor: interactiveMessageEditor,
             location: location, directoryIdentity: snapshot.identity, files: snapshot.files,
             markers: snapshot.markers, rewritten: labels, remaining: remaining, originals: originals,
             index: index)
@@ -153,6 +206,21 @@ extension RepositoryService {
             case "pick", "p":
                 guard fields.count >= 2 else { throw ModelFailure.changed }
                 steps.append(.pick(try object(fields[1])))
+            case "reword", "r":
+                guard fields.count >= 2 else { throw ModelFailure.changed }
+                steps.append(.reword(try object(fields[1])))
+            case "edit", "e":
+                guard fields.count >= 2 else { throw ModelFailure.changed }
+                steps.append(.edit(try object(fields[1])))
+            case "squash", "s":
+                guard fields.count >= 2 else { throw ModelFailure.changed }
+                steps.append(.squash(try object(fields[1])))
+            case "fixup", "f":
+                guard fields.count >= 2 else { throw ModelFailure.changed }
+                steps.append(.fixup(try object(fields[1])))
+            case "drop", "d":
+                guard fields.count >= 2 else { throw ModelFailure.changed }
+                steps.append(.drop(try object(fields[1])))
             case "label", "l":
                 guard fields.count == 2 else { throw ModelFailure.changed }
                 steps.append(.label(try label(fields[1])))
@@ -198,6 +266,11 @@ extension RepositoryService {
         return steps.map { step in
             switch step {
             case .pick(let id): .pick(full[id]!)
+            case .reword(let id): .reword(full[id]!)
+            case .edit(let id): .edit(full[id]!)
+            case .squash(let id): .squash(full[id]!)
+            case .fixup(let id): .fixup(full[id]!)
+            case .drop(let id): .drop(full[id]!)
             case .merge(let id, let labels): .merge(full[id]!, labels)
             default: step
             }

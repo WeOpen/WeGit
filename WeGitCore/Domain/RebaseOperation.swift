@@ -45,6 +45,11 @@ public struct RebaseRecovery: Hashable, Sendable {
     public let head: String
     public let continuationRestriction: String?
     public let abortRestriction: String?
+    public let interactiveSequence: Bool
+    public let interactiveEditPause: Bool
+    public let expectedCommitCount: Int?
+    let interactiveSession: InteractiveRebaseSessionDescriptor?
+    let interactiveMessageEditor: InteractiveRebaseEditorDescriptor?
     public var canContinue: Bool { continuationRestriction == nil }
     public var canAbort: Bool { abortRestriction == nil }
     public var branchName: String { String(branchRef.dropFirst("refs/heads/".count)) }
@@ -63,6 +68,11 @@ public struct RebaseRecovery: Hashable, Sendable {
 
 enum RebaseStep: Hashable, Sendable {
     case pick(String)
+    case reword(String)
+    case edit(String)
+    case squash(String)
+    case fixup(String)
+    case drop(String)
     case label(String)
     case reset(String)
     case merge(String, [String])
@@ -70,8 +80,36 @@ enum RebaseStep: Hashable, Sendable {
 
     var object: String? {
         switch self {
-        case .pick(let value), .merge(let value, _): value
+        case .pick(let value), .reword(let value), .edit(let value), .squash(let value), .fixup(let value),
+            .drop(let value), .merge(let value, _):
+            value
         default: nil
+        }
+    }
+
+    var createsCommit: Bool {
+        switch self {
+        case .pick, .reword, .edit, .merge: true
+        default: false
+        }
+    }
+
+    var interactiveCommand: String? {
+        switch self {
+        case .pick(let id): "pick \(id)"
+        case .reword(let id): "reword \(id)"
+        case .edit(let id): "edit \(id)"
+        case .squash(let id): "squash \(id)"
+        case .fixup(let id): "fixup \(id)"
+        case .drop(let id): "drop \(id)"
+        default: nil
+        }
+    }
+
+    var isInteractiveTransform: Bool {
+        switch self {
+        case .reword, .edit, .squash, .fixup, .drop: true
+        default: false
         }
     }
 }

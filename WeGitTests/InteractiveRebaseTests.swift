@@ -4,6 +4,141 @@ import Testing
 @testable import WeGitCore
 
 struct InteractiveRebaseTests {
+    @Test(arguments: [InteractiveRebaseAction.squash, .fixup])
+    func foldedCommitsPreserveBothTreesAndTheChosenMessage(_ action: InteractiveRebaseAction) async throws {
+        let fixture = try await Fixture.create()
+        defer { fixture.remove() }
+        try fixture.write("base", "base\n")
+        _ = try await fixture.commit("Base")
+        _ = try await fixture.engine.run(["switch", "-c", "topic"], in: fixture.root)
+        try fixture.write("one", "one\n")
+        _ = try await fixture.commit("First")
+        try fixture.write("two", "two\n")
+        _ = try await fixture.commit("Second")
+        let upstream = try #require(try await fixture.service.branches().first { $0.name == "main" })
+        let plan = try await fixture.service.prepareInteractiveRebase(upstream: upstream)
+        let steps = plan.steps.enumerated().map { index, step in
+            InteractiveRebaseStep(
+                id: step.id, subject: step.subject, author: step.author,
+                action: index == 0 ? .pick : action,
+                message: index == 1 && action == .squash ? "Combined message" : nil)
+        }
+        guard
+            case .completed = try await fixture.service.executeInteractiveRebase(plan.replacing(steps: steps))
+        else { throw ModelFailure.changed }
+        #expect(
+            try await fixture.engine.run(["rev-list", "--count", upstream.oid + "..HEAD"], in: fixture.root)
+                .text.removingLastNewline == "1")
+        #expect(
+            try await fixture.engine.run(["log", "-1", "--format=%s"], in: fixture.root).text
+                .removingLastNewline == (action == .squash ? "Combined message" : "First"))
+        #expect(try await fixture.engine.run(["show", "HEAD:one"], in: fixture.root).text == "one\n")
+        #expect(try await fixture.engine.run(["show", "HEAD:two"], in: fixture.root).text == "two\n")
+        #expect(try await fixture.service.status().files.isEmpty)
+    }
+
+    @Test func editAmendAndPrivateMessageEditorSurviveReopenedService() async throws {
+        let fixture = try await Fixture.create()
+        defer { fixture.remove() }
+        try fixture.write("base", "base\n")
+        _ = try await fixture.commit("Base")
+        _ = try await fixture.engine.run(["switch", "-c", "topic"], in: fixture.root)
+        try fixture.write("one", "one\n")
+        _ = try await fixture.commit("First")
+        try fixture.write("two", "two\n")
+        _ = try await fixture.commit("Second")
+        let upstream = try #require(try await fixture.service.branches().first { $0.name == "main" })
+        let plan = try await fixture.service.prepareInteractiveRebase(upstream: upstream)
+        let steps = plan.steps.enumerated().map { index, step in
+            InteractiveRebaseStep(
+                id: step.id, subject: step.subject, author: step.author,
+                action: index == 0 ? .edit : .reword, message: index == 0 ? nil : "Reword after reopen")
+        }
+        guard
+            case .paused(let paused) = try await fixture.service.executeInteractiveRebase(
+                plan.replacing(steps: steps))
+        else { throw ModelFailure.changed }
+        #expect(paused.interactiveEditPause && paused.canContinue)
+        try fixture.write("amended", "saved during edit\n")
+        try await fixture.service.stage(paths: ["amended"], expectedHead: paused.head)
+        _ = try await fixture.service.commit(message: "Amended first", amend: true, expectedHead: paused.head)
+        let reopened = RepositoryService(
+            location: try await RepositoryService.discover(fixture.root, engine: fixture.engine),
+            engine: fixture.engine)
+        let fresh = try #require(try await reopened.rebaseRecovery())
+        #expect(fresh.head != paused.head)
+        await #expect(throws: ModelFailure.self) {
+            _ = try await reopened.recoverRebase(continueOperation: true, expected: paused)
+        }
+        guard case .completed = try await reopened.recoverRebase(continueOperation: true, expected: fresh)
+        else { throw ModelFailure.changed }
+        #expect(
+            try await fixture.engine.run(
+                ["log", "--reverse", "--format=%s", upstream.oid + "..HEAD"], in: fixture.root
+            ).text.trimmingCharacters(in: .newlines) == "Amended first\nReword after reopen")
+        #expect(
+            try await fixture.engine.run(["show", "HEAD:amended"], in: fixture.root).text
+                == "saved during edit\n")
+        #expect(try await reopened.status().sequencer == .none)
+    }
+
+    @Test func externalTodoChangeRefusesContinueButStillAllowsConfirmedAbort() async throws {
+        let fixture = try await Fixture.create()
+        defer { fixture.remove() }
+        try fixture.write("base", "base\n")
+        _ = try await fixture.commit("Base")
+        _ = try await fixture.engine.run(["switch", "-c", "topic"], in: fixture.root)
+        try fixture.write("one", "one\n")
+        _ = try await fixture.commit("First")
+        try fixture.write("two", "two\n")
+        _ = try await fixture.commit("Second")
+        let upstream = try #require(try await fixture.service.branches().first { $0.name == "main" })
+        let plan = try await fixture.service.prepareInteractiveRebase(upstream: upstream)
+        let steps = plan.steps.enumerated().map { index, step in
+            InteractiveRebaseStep(
+                id: step.id, subject: step.subject, author: step.author, action: index == 0 ? .edit : .pick)
+        }
+        guard case .paused = try await fixture.service.executeInteractiveRebase(plan.replacing(steps: steps))
+        else { throw ModelFailure.changed }
+        let todo = fixture.service.location.gitDirectory.appending(path: "rebase-merge/git-rebase-todo")
+        try Data(("drop " + plan.steps[1].id + "\n").utf8).write(to: todo)
+        let changed = try #require(try await fixture.service.rebaseRecovery())
+        #expect(!changed.canContinue && changed.canAbort)
+        await #expect(throws: ModelFailure.self) {
+            _ = try await fixture.service.recoverRebase(continueOperation: true, expected: changed)
+        }
+        guard
+            case .aborted(let head) = try await fixture.service.recoverRebase(
+                continueOperation: false, expected: changed)
+        else { throw ModelFailure.changed }
+        #expect(head == plan.head)
+        #expect(try await fixture.service.status().files.isEmpty)
+    }
+
+    @Test func publishedHistoryChangeInvalidatesTheOldConfirmation() async throws {
+        let fixture = try await Fixture.create()
+        defer { fixture.remove() }
+        try fixture.write("base", "base\n")
+        _ = try await fixture.commit("Base")
+        _ = try await fixture.engine.run(["switch", "-c", "topic"], in: fixture.root)
+        try fixture.write("one", "one\n")
+        let first = try await fixture.commit("First")
+        try fixture.write("two", "two\n")
+        let second = try await fixture.commit("Second")
+        _ = try await fixture.engine.run(
+            ["update-ref", "refs/remotes/origin/topic", first], in: fixture.root)
+        let upstream = try #require(try await fixture.service.branches().first { $0.name == "main" })
+        let plan = try await fixture.service.prepareInteractiveRebase(upstream: upstream)
+        #expect(plan.publishedCommits == [first])
+        _ = try await fixture.engine.run(
+            ["update-ref", "refs/remotes/origin/topic", second], in: fixture.root)
+        await #expect(throws: ModelFailure.self) {
+            _ = try await fixture.service.executeInteractiveRebase(plan)
+        }
+        #expect(try await fixture.service.head() == plan.head)
+        #expect(try await fixture.service.status().sequencer == .none)
+    }
+
     @Test func prepareRejectsMergeHistoryAndCapturesLinearSteps() async throws {
         let fixture = try await Fixture.create()
         defer { fixture.remove() }
@@ -46,6 +181,7 @@ struct InteractiveRebaseTests {
         }
         let plan = InteractiveRebasePlan(
             branch: prepared.branch, head: prepared.head, upstream: prepared.upstream, steps: steps,
+            publishedCommits: prepared.publishedCommits,
             location: prepared.location, index: prepared.index, writePaths: prepared.writePaths)
         guard case .completed(let head) = try await fixture.service.executeInteractiveRebase(plan) else {
             throw ModelFailure.changed

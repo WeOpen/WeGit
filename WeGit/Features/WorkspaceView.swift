@@ -390,10 +390,14 @@ struct WorkspaceView: View {
             HStack {
                 let rebase = session.status.rebaseRecovery
                 Label(
-                    rebase.map { L10n.text("正在变基 \($0.branchName) · \(session.status.conflicts.count) 个冲突") }
+                    rebase.map {
+                        $0.interactiveEditPause
+                            ? L10n.text("正在编辑变基提交 \(String($0.head.prefix(12)))")
+                            : L10n.text("正在变基 \($0.branchName) · \(session.status.conflicts.count) 个冲突")
+                    }
                         ?? L10n.text(
                             "正在\(session.status.sequencer.title) · \(session.status.conflicts.count) 个冲突"),
-                    systemImage: "arrow.triangle.merge")
+                    systemImage: rebase?.interactiveEditPause == true ? "pencil" : "arrow.triangle.merge")
                 Spacer()
                 if session.status.sequencer == .merge || rebase != nil
                     || session.status.singleCommitRecovery != nil
@@ -445,7 +449,12 @@ struct WorkspaceView: View {
                     .disabled(
                         !session.status.conflicts.isEmpty || !session.canWrite || rebase?.canContinue == false
                     )
-                    .help(rebase?.continuationRestriction ?? L10n.text("提交已解决内容并继续当前操作"))
+                    .help(
+                        rebase?.continuationRestriction
+                            ?? (rebase?.interactiveEditPause == true
+                                ? L10n.text("保存并提交编辑结果后继续变基")
+                                : L10n.text("提交已解决内容并继续当前操作"))
+                    )
                     .accessibilityIdentifier("sequencer-continue")
                 } else {
                     Text(session.status.rebaseRecoveryUnavailable ?? L10n.text("请在 Terminal 完成当前操作"))

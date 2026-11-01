@@ -3,6 +3,9 @@ import Foundation
 public enum InteractiveRebaseAction: String, CaseIterable, Sendable {
     case pick
     case reword
+    case edit
+    case squash
+    case fixup
     case drop
 
     var gitCommand: String { rawValue }
@@ -32,6 +35,7 @@ public struct InteractiveRebasePlan: Sendable {
     public let head: String
     public let upstream: GitBranch
     public let steps: [InteractiveRebaseStep]
+    public let publishedCommits: Set<String>
 
     let location: RepositoryLocation
     let index: Data
@@ -40,7 +44,7 @@ public struct InteractiveRebasePlan: Sendable {
     public func replacing(steps: [InteractiveRebaseStep]) -> InteractiveRebasePlan {
         InteractiveRebasePlan(
             branch: branch, head: head, upstream: upstream, steps: steps,
-            location: location, index: index, writePaths: writePaths)
+            publishedCommits: publishedCommits, location: location, index: index, writePaths: writePaths)
     }
 }
 

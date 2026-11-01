@@ -3,6 +3,8 @@ set -euo pipefail
 # Older revisions do not contain every feature. Once a feature is present its
 # behavior check is mandatory; a missing checker is an error, not a silent skip.
 for pair in \
+  WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase.sh \
+  WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase-performance.sh \
   WeGitCore/GitCore/ConflictEditorService.swift:scripts/verify-conflict-editor.sh \
   WeGitCore/GitCore/ConflictEditorService.swift:scripts/verify-conflict-editor-performance.sh \
   WeGitCore/GitCore/RebaseService.swift:scripts/verify-rebase.sh \

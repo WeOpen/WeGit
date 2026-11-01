@@ -157,7 +157,12 @@ extension RepositoryService {
             try Task.checkCancellation()
             let originals = plan.action == .abort ? [] : try await rebaseCommits(expected.originals)
             var failure: (any Error)?
+            var commandEngine = singleCommitEngine
             do {
+                if plan.action == .continueOperation, let editor = expected.interactiveMessageEditor {
+                    try editor.validate()
+                    commandEngine.environment["GIT_EDITOR"] = editor.url.path
+                }
                 if plan.resetBeforeRetry {
                     // A failed commit can be both in done and rescheduled in
                     // todo. Only the exact generated stage is eligible for
@@ -173,16 +178,25 @@ extension RepositoryService {
                         recovery.branchRef == expected.branchRef
                     else { throw ModelFailure.changed }
                 }
-                _ = try await singleCommitEngine.run(
+                _ = try await commandEngine.run(
                     ["rebase", plan.action == .abort ? "--abort" : "--continue"],
                     in: location.root, timeout: 120, configuration: rebaseCommandConfiguration)
             } catch { failure = error }
-            return try await reconcileRebase(
+            let outcome = try await reconcileRebase(
                 original: expected.originalHead, branch: expected.branchRef, onto: expected.onto,
                 beforeHead: expected.head, beforeIndex: expected.index, resultTree: plan.resultTree,
                 originalReference: reference,
                 originals: originals,
-                abort: plan.action == .abort, failure: failure)
+                abort: plan.action == .abort, failure: failure,
+                transformedSequence: expected.interactiveSequence,
+                expectedCommitCount: expected.expectedCommitCount)
+            switch outcome {
+            case .completed, .aborted:
+                expected.interactiveSession?.removeOwnedDirectory()
+            default:
+                break
+            }
+            return outcome
         }
     }
 
@@ -238,6 +252,7 @@ extension RepositoryService {
         let recovery: RebaseRecovery?
         let index: Data
         let tree: String?
+        let commitCount: Int?
         let branchObject: String?
         let containsTarget: Bool
         let matchesOriginals: Bool
@@ -246,7 +261,8 @@ extension RepositoryService {
     private func reconcileRebase(
         original: String, branch: String, onto: String, beforeHead: String, beforeIndex: Data,
         resultTree: String?, originalReference: String, originals: [GitCommit],
-        abort: Bool, failure: (any Error)?
+        abort: Bool, failure: (any Error)?, transformedSequence: Bool = false,
+        expectedCommitCount: Int? = nil
     ) async throws -> RebaseOutcome {
         let observed = await Task.detached { () -> RebaseObservation? in
             do {
@@ -254,10 +270,18 @@ extension RepositoryService {
                 let recovery = state.rebaseRecovery
                 let index = try await rebaseIndexSnapshot()
                 let tree: String?
+                let commitCount: Int?
                 if let head = state.head {
                     tree = try await singleCommitTree(head, engine: singleCommitEngine)
+                    let count = try await singleCommitEngine.run(
+                        ["rev-list", "--count", onto + ".." + head], in: location.root, accepted: [0, 128],
+                        outputLimit: 1024)
+                    commitCount =
+                        count.exitCode == 0
+                        ? Int(count.text.trimmingCharacters(in: .whitespacesAndNewlines)) : nil
                 } else {
                     tree = nil
+                    commitCount = nil
                 }
                 let branchResult = try await singleCommitEngine.run(
                     ["rev-parse", "--verify", branch], in: location.root, accepted: [0, 128])
@@ -270,14 +294,17 @@ extension RepositoryService {
                         ).exitCode == 0
                     matches =
                         state.sequencer == .none && !abort
-                        ? try await rebaseMatchesOriginals(originals, head: head, onto: onto) : false
+                        ? transformedSequence
+                            ? expectedCommitCount.map { $0 == commitCount } ?? true
+                            : try await rebaseMatchesOriginals(originals, head: head, onto: onto)
+                        : false
                 } else {
                     related = false
                     matches = false
                 }
                 guard try await self.head() == state.head else { return nil }
                 return RebaseObservation(
-                    status: state, recovery: recovery, index: index, tree: tree,
+                    status: state, recovery: recovery, index: index, tree: tree, commitCount: commitCount,
                     branchObject: branchResult.exitCode == 0 ? branchResult.text.removingLastNewline : nil,
                     containsTarget: related, matchesOriginals: matches)
             } catch { return nil }

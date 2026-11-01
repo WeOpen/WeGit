@@ -169,8 +169,11 @@ final class RepositorySession {
         if !hasLoaded { return L10n.text("请先读取仓库状态") }
         return ""
     }
+    var isEditingRebase: Bool {
+        status.rebaseRecovery?.interactiveEditPause == true && status.rebaseRecovery?.canContinue == true
+    }
     var canCommit: Bool {
-        canWrite && status.conflicts.isEmpty && status.sequencer == .none
+        canWrite && status.conflicts.isEmpty && (status.sequencer == .none || isEditingRebase)
             && !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && (amend ? status.head != nil : status.files.contains(where: \.staged))
     }
@@ -190,7 +193,8 @@ final class RepositorySession {
         return nil
     }
     var canCommitAndPush: Bool {
-        canCommit && !status.isDetached && !remotes.isEmpty && pendingPush?.verification == nil
+        canCommit && status.sequencer == .none && !status.isDetached && !remotes.isEmpty
+            && pendingPush?.verification == nil
     }
     var canVerifyPendingPush: Bool { canWrite && pendingPush?.verification != nil }
     var syncReason: String {
@@ -208,7 +212,7 @@ final class RepositorySession {
         if isBusy { return L10n.text("正在执行 \(activityLabel)") }
         if isStale { return L10n.text("请先刷新仓库状态") }
         if !status.conflicts.isEmpty { return L10n.text("请先解决冲突") }
-        if status.sequencer != .none { return L10n.text("请先完成当前 Git 操作") }
+        if status.sequencer != .none && !isEditingRebase { return L10n.text("请先完成当前 Git 操作") }
         if message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return L10n.text("填写提交消息") }
         return L10n.text("选择需要提交的内容并暂存")
     }

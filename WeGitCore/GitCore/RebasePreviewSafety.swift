@@ -162,7 +162,9 @@ extension RepositoryService {
                 guard let target = rewritten[name] else { throw ModelFailure.changed }
                 paths.formUnion(try await metadata.paths(target, engine: scratch))
                 current = target
-            case .pick(let id):
+            case .drop:
+                continue
+            case .pick(let id), .reword(let id), .edit(let id), .squash(let id), .fixup(let id):
                 guard let source = commits[id], source.parents.count <= 1 else {
                     throw ModelFailure.unsupported(L10n.text("此重放步骤需要明确的合并父线，请在 Terminal 中处理。"))
                 }

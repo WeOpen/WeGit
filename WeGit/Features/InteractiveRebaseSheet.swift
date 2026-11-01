@@ -19,6 +19,7 @@ struct InteractiveRebaseSheet: View {
     @State private var attempted = false
     @State private var refreshID = UUID()
     @State private var error: String?
+    @State private var acknowledgePublished = false
 
     private var session: RepositorySession { request.session }
 
@@ -41,41 +42,71 @@ struct InteractiveRebaseSheet: View {
             .disabled(preparing || attempted || session.isBusy)
             if preparing { ProgressView(L10n.text("读取提交序列…")) }
             if !steps.isEmpty {
-                Text(L10n.text("调整提交动作和顺序后执行")).font(.caption)
-                    .foregroundStyle(colors.secondaryText)
+                if plan?.publishedCommits.isEmpty == false {
+                    Text(L10n.text("此范围包含已发布提交；变基会改写历史，后续推送需要重新确认 Lease。"))
+                        .font(.caption).foregroundStyle(colors.negative)
+                        .accessibilityIdentifier("interactive-rebase-published-warning")
+                    Toggle(L10n.text("确认改写已发布提交"), isOn: $acknowledgePublished)
+                        .accessibilityIdentifier("interactive-rebase-published-confirm")
+                }
                 List {
                     ForEach(Array(steps.enumerated()), id: \.element.id) { index, step in
-                        HStack(spacing: 8) {
-                            Text(String(index + 1)).font(.caption.monospacedDigit())
-                                .foregroundStyle(colors.secondaryText).frame(width: 24)
-                            Picker("", selection: actionBinding(index)) {
-                                ForEach(InteractiveRebaseAction.allCases, id: \.self) { action in
-                                    Text(action.rawValue).tag(action)
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 8) {
+                                Text(String(index + 1)).font(.caption.monospacedDigit())
+                                    .foregroundStyle(colors.secondaryText).frame(width: 24)
+                                Picker("", selection: actionBinding(index)) {
+                                    ForEach(InteractiveRebaseAction.allCases, id: \.self) { action in
+                                        Text(actionTitle(action)).tag(action)
+                                    }
                                 }
+                                .labelsHidden().frame(width: 145)
+                                .accessibilityLabel(L10n.text("提交动作"))
+                                .accessibilityIdentifier("interactive-rebase-action-\(step.id)")
+                                VStack(alignment: .leading) {
+                                    Text(String(step.id.prefix(10))).font(.caption.monospaced())
+                                    Text(step.subject).lineLimit(1)
+                                }
+                                Spacer()
+                                Button {
+                                    move(index, by: -1)
+                                } label: {
+                                    Image(systemName: "chevron.up")
+                                }
+                                .buttonStyle(.borderless).disabled(index == 0)
+                                .accessibilityLabel(L10n.text("上移提交"))
+                                .accessibilityIdentifier("interactive-rebase-up-\(step.id)")
+                                Button {
+                                    move(index, by: 1)
+                                } label: {
+                                    Image(systemName: "chevron.down")
+                                }
+                                .buttonStyle(.borderless).disabled(index == steps.count - 1)
+                                .accessibilityLabel(L10n.text("下移提交"))
+                                .accessibilityIdentifier("interactive-rebase-down-\(step.id)")
                             }
-                            .labelsHidden().frame(width: 100)
-                            VStack(alignment: .leading) {
-                                Text(String(step.id.prefix(10))).font(.caption.monospaced())
-                                Text(step.subject).lineLimit(1)
+                            if step.action == .reword || step.action == .squash {
+                                TextEditor(text: messageBinding(index))
+                                    .font(.system(.caption, design: .monospaced))
+                                    .frame(height: 64)
+                                    .accessibilityLabel(L10n.text("提交说明"))
+                                    .accessibilityIdentifier("interactive-rebase-message-\(step.id)")
+                                    .overlay(alignment: .topLeading) {
+                                        if step.action == .squash && (step.message ?? "").isEmpty {
+                                            Text(L10n.text("留空以保留 Git 生成的组合消息"))
+                                                .font(.caption).foregroundStyle(colors.secondaryText)
+                                                .padding(.leading, 5).padding(.top, 8)
+                                                .allowsHitTesting(false)
+                                        }
+                                    }
                             }
-                            Spacer()
-                            Button {
-                                move(index, by: -1)
-                            } label: {
-                                Image(systemName: "chevron.up")
-                            }
-                            .buttonStyle(.borderless).disabled(index == 0)
-                            Button {
-                                move(index, by: 1)
-                            } label: {
-                                Image(systemName: "chevron.down")
-                            }
-                            .buttonStyle(.borderless).disabled(index == steps.count - 1)
                         }
+                        .accessibilityElement(children: .contain)
                         .accessibilityIdentifier("interactive-rebase-step-\(step.id)")
                     }
                 }
-                .frame(minHeight: 240)
+                .frame(minHeight: 200)
+                .disabled(preparing || attempted || session.isBusy)
             }
             if let error { Text(error).foregroundStyle(colors.negative).textSelection(.enabled) }
             if attempted {
@@ -85,13 +116,18 @@ struct InteractiveRebaseSheet: View {
             }
             HStack {
                 Spacer()
-                Button(attempted ? L10n.text("关闭") : L10n.text("取消")) {
-                    if !session.isBusy { dismiss() }
+                Button(session.isBusy ? L10n.text("取消操作") : attempted ? L10n.text("关闭") : L10n.text("取消")) {
+                    if session.isBusy { session.cancel() } else { dismiss() }
                 }.keyboardShortcut(.cancelAction)
+                    .accessibilityIdentifier("interactive-rebase-cancel")
                 if !attempted {
                     Button(L10n.text("执行交互式变基")) { execute() }
                         .workbenchPrimaryAction().tint(colors.primaryAction)
-                        .disabled(preparing || steps.isEmpty || session.isBusy || !session.canWrite)
+                        .keyboardShortcut(.defaultAction)
+                        .disabled(
+                            preparing || steps.isEmpty || session.isBusy || !session.canWrite
+                                || (plan?.publishedCommits.isEmpty == false && !acknowledgePublished)
+                        )
                         .accessibilityIdentifier("interactive-rebase-execute")
                 }
             }.workbenchControlFamily()
@@ -106,10 +142,38 @@ struct InteractiveRebaseSheet: View {
             get: { steps[index].action },
             set: { value in
                 let current = steps[index]
+                let message: String?
+                switch value {
+                case .reword: message = current.message ?? current.subject
+                case .squash: message = current.message
+                default: message = nil
+                }
                 steps[index] = InteractiveRebaseStep(
                     id: current.id, subject: current.subject, author: current.author,
-                    action: value, message: value == .reword ? (current.message ?? current.subject) : nil)
+                    action: value, message: message)
             })
+    }
+
+    private func messageBinding(_ index: Int) -> Binding<String> {
+        Binding(
+            get: { steps[index].message ?? "" },
+            set: { value in
+                let current = steps[index]
+                steps[index] = InteractiveRebaseStep(
+                    id: current.id, subject: current.subject, author: current.author,
+                    action: current.action, message: value.isEmpty && current.action == .squash ? nil : value)
+            })
+    }
+
+    private func actionTitle(_ action: InteractiveRebaseAction) -> String {
+        switch action {
+        case .pick: L10n.text("保留提交")
+        case .reword: L10n.text("重写提交消息")
+        case .edit: L10n.text("编辑后暂停")
+        case .squash: L10n.text("压缩并编辑消息")
+        case .fixup: L10n.text("压缩并保留前一消息")
+        case .drop: L10n.text("丢弃提交")
+        }
     }
 
     private func move(_ index: Int, by offset: Int) {
@@ -126,6 +190,7 @@ struct InteractiveRebaseSheet: View {
             return
         }
         preparing = true
+        acknowledgePublished = false
         error = nil
         do {
             let value = try await session.service.prepareInteractiveRebase(upstream: upstream)
@@ -143,6 +208,12 @@ struct InteractiveRebaseSheet: View {
 
     private func execute() {
         guard let plan, !steps.isEmpty, !attempted else { return }
+        do {
+            try session.service.validateInteractiveSteps(steps, sourceIDs: Set(plan.steps.map(\.id)))
+        } catch {
+            self.error = error.localizedDescription
+            return
+        }
         attempted = true
         let adjusted = plan.replacing(steps: steps)
         session.performResult(
