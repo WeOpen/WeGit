@@ -1,5 +1,10 @@
 # WeGit 开发交接
 
+## 2026-11-01 Interactive Rebase 可信原生入口
+
+- #86/PR #87 尚未完成 V12-07。本分支只注册 trusted-main 的 interactive-rebase focus：smoke 必须实际 1/1/0/0，随后只运行 RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch，并保留原 120/180 秒及外层300秒界限。
+- 功能与该实际 XCTest 方法留在 PR #87；入口先正常合入 main 后才调度候选。白名单注册或 mock 的策略检查不表示功能或原生验收完成。本机不执行 XCTest。
+
 新任务先读本文件，再核对 Git 工作区、Issue/PR 与当前源码；历史结果只适用于其记录的源码。
 
 ## v1.2 原生诊断入口准备
