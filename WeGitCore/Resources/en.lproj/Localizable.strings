@@ -1422,3 +1422,6 @@
 "已水合" = "Hydrated";
 "指针文件" = "Pointer file";
 "状态未知" = "State unknown";
+"对象已缓存" = "Object cached";
+"LFS 状态读取超过上限，请在 Terminal 核对。" = "LFS inspection exceeded the read limit. Review it in Terminal.";
+"无法确认 LFS 对象已进入缓存，请刷新后核对。" = "The LFS object could not be confirmed in the cache. Refresh and review it.";
