@@ -34,6 +34,7 @@ FOCUSED_TESTS = {
     "window-restoration": "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen",
     "inspector-boundary": "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets",
     "inspector-restoration": "InspectorRestorationTests/testOpenInspectorRestoresAcrossBothSplitWorkspaces",
+    "submodule-lfs": "InspectorRestorationTests/testSubmoduleAndLFSResourcesAppearInInspector",
     "search-keyboard": "InterfacePolishTests/testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes",
     "sync-recovery": "WeGitUITests/testLostPushReplyRestoresVerificationAfterLocalHeadMoves",
     "diff-options": "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState",
