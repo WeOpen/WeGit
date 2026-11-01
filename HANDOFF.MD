@@ -2,6 +2,10 @@
 
 ## 2026-11-02 当前聊天继续收口与原生确认框定位
 
+- 最后两个开发PR统一收口到既有PR87：本树保留PR97原始head bc1c06b作为merge parent，功能源码和旧证据均进入同一最终候选。两份HANDOFF和本地化增量的冲突已逐块核对并保留两边，1427字符串/8复数验证通过；未引入网站等主根改动。PR97在最终候选正常合入main并核对源码之前保持开放，不提前关闭96。
+- LFS候选bc1c06b的可信run41359676150实际smoke/专项各1/1/0/0，制品13104608627为588345bytes/SHAe1cf0525beb7a89bdd00b36e450feba78cf33ff290b78a7c8a162e439da23196/77CRC，191输入匹配。截图/AX已实看，子模块clean、固定指针/missing对象/获取按钮可见，VM显示恢复原1024×768。required41328717734完整1387080bytes日志保留，三套Git各257/46 suites通过，39独立检查和92输入的本机90原始性能样本已核验。合并后的新产品输入仍须两项新可信原生及完整CI。
+- 必需CI此前执行了性能脚本，但artifact只列Worktree/Rebase结果，遗漏Conflict/Interactive/Submodule-LFS的原始数组。最终候选增加这三种result.json白名单，只有数百KB JSON增量，不扩大fixture/源码上传；先核验真实artifact里的90数组和sourceFiles，不能把步骤success当原始样本取证完成。
+
 - 用户在当前聊天继续 `01a197a0-e3be-7800-ba2e-71c489c4d95d` 的同一目标：完成开发和当前可执行证据，清空 Issue/PR，最后清理已完成分支。此前 #3/#4/#5/#6/#7/#9 的延期归档决定继续有效；不恢复已暂停的 heartbeat，不新开聊天。主根和两功能树 HEAD/index/HANDOFF、binary patch、untracked SHA 清单保存在主根 `.build/v1-2-closeout-2026-11-02/snapshot/`；主根网站等用户改动保留。
 - 第三轮可信原生 run41328698625/job124914005919 的完整制品13092003329为126979867bytes/SHA4b1ced49c67c34704b5a8c7c373930145bf22d5f91bdaa0ec4dc082bb5572172，2197 ZIP 条目 CRC、194构建输入与d73c6e6逐SHA匹配。smoke1/1/0/0，Interactive1总0pass1fail0skip，92.962秒，失败在RebaseWorkflowTests.swift150。原失败制品和录屏保留。
 - AX 明确显示原生NSAlert已经打开，动作按钮为 `action-button-2`、title `Amend commit`，主窗和Touch Bar另有同名按钮。按全应用 `label == ...` 查找会漏掉该原生title。新用例限定 `app.dialogs.firstMatch` 和实际系统动作identifier，核对enabled/hittable并保存确认框截图/AX；应用内暂存、实际amend树/HEAD、继续后的顺序/消息/远端引用断言保持。修正仍须新编译和可信原生通过，不把旧失败改作成功。
