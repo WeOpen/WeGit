@@ -131,7 +131,7 @@ public struct GitEngine: Sendable {
         let safeCommands: Set<String> = [
             "status", "for-each-ref", "remote", "rev-parse", "symbolic-ref", "diff", "config", "log",
             "show", "cat-file", "add", "commit", "switch", "fetch", "push", "merge", "rebase", "cherry-pick",
-            "revert", "worktree",
+            "revert", "worktree", "submodule", "lfs",
         ]
         let operation = arguments.first.flatMap { safeCommands.contains($0) ? $0 : nil } ?? "git"
         let interval = Self.signposter.beginInterval(

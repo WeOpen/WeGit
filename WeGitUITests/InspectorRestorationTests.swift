@@ -223,4 +223,69 @@ final class InspectorRestorationTests: XCTestCase {
         XCTAssertEqual(try fixture.git(["log", "-1", "--format=%s"]), "Inspector fixture\n")
         XCTAssertEqual(try String(contentsOf: file, encoding: .utf8), "let inspector = 2\n")
     }
+
+    @MainActor func testSubmoduleAndLFSResourcesAppearInInspector() throws {
+        continueAfterFailure = false
+        let fixture = try UITestGit(prefix: "WeGitSubmoduleLFSUI")
+        let child = fixture.root.deletingLastPathComponent().appending(path: "WeGitSubmoduleChild-\(UUID())")
+        defer {
+            fixture.remove()
+            try? FileManager.default.removeItem(at: child)
+        }
+        try FileManager.default.createDirectory(at: child, withIntermediateDirectories: false)
+        try UITestGit.run(["init", "-b", "main"], in: child)
+        try UITestGit.run(["config", "user.name", "UI Fixture"], in: child)
+        try UITestGit.run(["config", "user.email", "ui@example.invalid"], in: child)
+        try Data("child\n".utf8).write(to: child.appending(path: "child.txt"))
+        try UITestGit.run(["add", "."], in: child)
+        try UITestGit.run(["commit", "-m", "Child"], in: child)
+
+        try fixture.git(["init", "-b", "main"])
+        try fixture.git(["config", "user.name", "UI Fixture"])
+        try fixture.git(["config", "user.email", "ui@example.invalid"])
+        try fixture.git(["config", "commit.gpgsign", "false"])
+        try fixture.git([
+            "-c", "protocol.file.allow=always", "submodule", "add", child.path, "modules/child",
+        ])
+        let pointer =
+            "version https://git-lfs.github.com/spec/v1\noid sha256:\(String(repeating: "a", count: 64))\nsize 12\n"
+        try Data(pointer.utf8).write(to: fixture.root.appending(path: "large.bin"))
+        try fixture.git(["add", "."])
+        try fixture.git(["commit", "-m", "Resources fixture"])
+        try Data("visible change\n".utf8).write(to: fixture.root.appending(path: "visible.txt"))
+        let before = try fixture.git(["status", "--porcelain=v1"])
+
+        let app = XCUIApplication()
+        app.launchArguments = ["--uitesting"]
+        app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = fixture.root.path
+        app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
+        app.launchWeGit()
+        defer { app.terminate() }
+        XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(app.outlines["changes-list"].waitForExistence(timeout: 10))
+        app.buttons["toolbar-inspector"].click()
+        let inspector = app.descendants(matching: .any)
+            .matching(identifier: "repository-inspector").firstMatch
+        XCTAssertTrue(inspector.waitForExistence(timeout: 5), app.debugDescription)
+        let resourcesTab = app.radioButtons["仓库资源"].firstMatch
+        XCTAssertTrue(resourcesTab.waitForExistence(timeout: 5), app.debugDescription)
+        resourcesTab.click()
+        let resources = app.descendants(matching: .any).matching(identifier: "inspector-resources").firstMatch
+        XCTAssertTrue(resources.waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(
+            app.descendants(matching: .any)
+                .matching(identifier: "inspector-submodule:modules/child").firstMatch
+                .waitForExistence(timeout: 10),
+            app.debugDescription)
+        XCTAssertTrue(
+            app.descendants(matching: .any)
+                .matching(identifier: "inspector-lfs:large.bin").firstMatch
+                .waitForExistence(timeout: 10),
+            app.debugDescription)
+        XCTAssertTrue(
+            app.buttons["inspector-lfs-fetch:large.bin"].waitForExistence(timeout: 5),
+            app.debugDescription)
+        XCTAssertEqual(try fixture.git(["status", "--porcelain=v1"]), before)
+    }
 }

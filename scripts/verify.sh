@@ -24,6 +24,7 @@ swift format lint --strict scripts/RebaseChecks.swift scripts/RebasePerformance.
 swift format lint --strict scripts/InteractiveRebaseChecks.swift scripts/InteractiveRebaseExtendedChecks.swift
 swift format lint --strict scripts/InteractiveRebasePerformance.swift
 swift format lint --strict scripts/ConflictEditorChecks.swift
+swift format lint --strict scripts/SubmoduleLFSChecks.swift
 swift format lint --strict scripts/ConflictEditorPerformance.swift
 swift format lint --strict scripts/SelectedLinePatchChecks.swift scripts/SelectedLineSafetyChecks.swift scripts/SelectedLineFileChecks.swift
 swift format lint --strict scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift

@@ -200,7 +200,7 @@ class NativeScopeSelectionTests(unittest.TestCase):
 
     def test_v1_1_focused_diagnostics_resolve_real_bounded_test_methods(self):
         root = Path(__file__).resolve().parents[3]
-        for focus in ("stash-workflow", "stash-recovery", "changes-groups", "toolbar-heights", "sidebar-surface"):
+        for focus in ("stash-workflow", "stash-recovery", "changes-groups", "toolbar-heights", "sidebar-surface", "submodule-lfs"):
             target = ui_probe.FOCUSED_TESTS[focus]
             suite, method = target.split("/")
             source = (root / "WeGitUITests" / (suite + ".swift")).read_text()
