@@ -134,9 +134,11 @@ final class RebaseWorkflowTests: XCTestCase {
         waitEnabled(next)
         expectValue(draft, "Keep interactive draft 中文")
         try write("file-1.txt", "amended 中文\n")
-        let stage = app.buttons["stage:unstaged:file-1.txt"]
+        let stage = app.checkBoxes["stage:unstaged:file-1.txt"]
         waitEnabled(stage)
         stage.click()
+        waitEnabled(app.checkBoxes["stage:staged:file-1.txt"])
+        XCTAssertEqual(try git(["show", ":file-1.txt"]), "amended 中文")
         let amend = app.checkBoxes["commit-amend"]
         waitEnabled(amend)
         amend.click()

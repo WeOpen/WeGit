@@ -18,6 +18,14 @@
 - `github.com:443` 连接实际多次超时，`api.github.com` 可用；使用任务私有 `github_git_objects.py` 通过认证 REST 同步 Git 对象。签名 commit 必须保留 signature 的末尾换行后重建 gpgsig，逐 blob/tree/commit 校验真实 Git SHA 并验证完整可达对象，最后以旧 tracking ref 为条件更新；没有改用户全局 Git/DNS 设置。当前 main 的4131个可达对象和两份新签名 commit 已精确核对。此路径是传输替代，不绕过分支保护或强推。
 - 不猜源文件路径：工具栏在 `WeGit/Features/WorkspaceToolbar.swift`，不是 `WeGit/App/ToolbarItems.swift`。性能脚本的 DirectoryEnumerator 放在同步 helper，避免 async 上下文的 Swift 6 警告。取消测量先原子发布完整 wrapper/child PID；所有就绪失败都 cancel 并 await 任务清理，RSS 明确包含进程终身高水位，未包含子 Git RSS。
 
+## 2026-11-01 当前聊天收口与 Submodule/LFS 附件补齐
+
+- 在当前聊天继续原 v1.2 全目标；原 `wegit-v1-2` heartbeat 实际为 PAUSED，本轮没有恢复或创建定时任务。用户明确将 #3/#6/#7/#9 延期并归档，使用 not_planned，原未通过条件保留，不构成发布签核。
+- PR #93 正常 squash 到 main `7494bf55886379f4b77523e4ec62c0c707c07bd0`；最新三项 required success、reviews/未解决线程为0。可信 `submodule-lfs` run41301529397/job124833265834 的 smoke/focus 直接 xcresult 均 1/1/0/0，191 应用输入逐 SHA 匹配，临时显示已恢复，制品13081876636为355312bytes/SHA3d612b30510d0cf10de9c217a9a3030a08e59e88a075f9b9c36e44529a1566f5/73CRC。
+- 实际导出发现通过用例没有 focused 截图附件，不能凭计数关闭 #92。本分支补 keepAlways 的 Inspector 截图和 AX 文本；仍需新 required CI、可信原生重跑与实际查看附件。所有旧失败保留。
+- 新提交 SHA 的文件校验先 fetch 并用 cat-file 确认本地已有该 commit，再 git show SHA:path；不能只凭远端 merge 返回值对未 fetch 对象逐文件核验。read_thread 每页最多10 turns；PR policy 只识别 Closes/Refs，Related to 不合格。文件与证据先 rg 清单，不猜文件名。
+- 主 checkout 与各功能树已经保存 HEAD/index/status、binary patch 和 untracked SHA 清单到主根 .build/v1-2-closeout-2026-11-01/snapshot/；网站等用户改动不纳入本次产品提交。Interactive Rebase 原 WIP 在独立树继续；不能清理占用未完成工作或用户改动的分支。
+
 ## 2026-11-01 Interactive Rebase 可信原生入口
 
 - #86/PR #87 尚未完成 V12-07。本分支只注册 trusted-main 的 interactive-rebase focus：smoke 必须实际 1/1/0/0，随后只运行 RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch，并保留原 120/180 秒及外层300秒界限。
