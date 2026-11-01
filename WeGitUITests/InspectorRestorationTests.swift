@@ -286,6 +286,14 @@ final class InspectorRestorationTests: XCTestCase {
         XCTAssertTrue(
             app.buttons["inspector-lfs-fetch:large.bin"].waitForExistence(timeout: 5),
             app.debugDescription)
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "Submodule and LFS resources"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+        let accessibility = XCTAttachment(string: app.debugDescription)
+        accessibility.name = "Submodule and LFS resources accessibility"
+        accessibility.lifetime = .keepAlways
+        add(accessibility)
         XCTAssertEqual(try fixture.git(["status", "--porcelain=v1"]), before)
     }
 }
