@@ -49,6 +49,30 @@ class NativeProcessDeadlineTests(unittest.TestCase):
 
 
 class NativeScopeSelectionTests(unittest.TestCase):
+    def test_interactive_rebase_requires_smoke_and_one_bounded_method(self):
+        target = "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch"
+        self.assertEqual(ui_probe.FOCUSED_TESTS["interactive-rebase"], target)
+        for passed, failed, skipped in ((1, 0, 0), (0, 1, 0), (0, 0, 1)):
+            summary = {"totalTestCount": 1, "passedTests": passed, "failedTests": failed, "skippedTests": skipped}
+            with self.subTest(summary=summary), tempfile.TemporaryDirectory() as folder:
+                with patch.object(sys, "argv", ["ui_probe.py", "--mode", "smoke", "--focus", "interactive-rebase", "--output", folder]), \
+                     patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                     patch.object(ui_probe, "run_logged", return_value={"exitCode": 0, "timedOut": False}) as runner, \
+                     patch.object(ui_probe, "result_summary", return_value=summary), \
+                     redirect_stdout(StringIO()):
+                    if passed:
+                        ui_probe.main()
+                    else:
+                        with self.assertRaises(ValueError):
+                            ui_probe.main()
+                self.assertEqual(runner.call_count, 2 if passed else 1)
+                if passed:
+                    command = runner.call_args_list[1].args[0]
+                    self.assertEqual([x for x in command if x.startswith("-only-testing:")], ["-only-testing:WeGitUITests/" + target])
+                    self.assertEqual(command[command.index("-default-test-execution-time-allowance") + 1], "120")
+                    self.assertEqual(command[command.index("-maximum-test-execution-time-allowance") + 1], "180")
+                    self.assertLessEqual(runner.call_args_list[1].args[2], 300)
+
     def test_conflict_editor_diagnostic_is_fixed_and_bounded(self):
         root = Path(__file__).resolve().parents[3]
         target = "WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose"

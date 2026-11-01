@@ -10,6 +10,11 @@
 - 独立swiftc调用不能访问Core内部String.removingLastNewline，使用公开trimmingCharacters处理CLI输出。GitHub API同步工具在主根 `.build/v1-2-closeout-2026-11-01/github_git_objects.py`，Helper必须等running session真正退出0后才依赖其新refs/文件；正文/临时签名URL不经shell插值或日志回显。
 - #4/#5已由本轮用户明确同意延期归档，#3/#6/#7/#9沿用原归档；条件在Interactive分支的 `docs/acceptance/2026-11-01/v1-2-closeout/README.md`。功能/必需CI/可信原生/有效性能源与最终分支清理继续，GitHub issue关闭不表示整版发布。
 
+## 2026-11-01 Interactive Rebase 可信原生入口
+
+- #86/PR #87 尚未完成 V12-07。本分支只注册 trusted-main 的 interactive-rebase focus：smoke 必须实际 1/1/0/0，随后只运行 RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch，并保留原 120/180 秒及外层300秒界限。
+- 功能与该实际 XCTest 方法留在 PR #87；入口先正常合入 main 后才调度候选。白名单注册或 mock 的策略检查不表示功能或原生验收完成。本机不执行 XCTest。
+
 新任务先读本文件，再核对 Git 工作区、Issue/PR 与当前源码；历史结果只适用于其记录的源码。
 
 ## v1.2 原生诊断入口准备
