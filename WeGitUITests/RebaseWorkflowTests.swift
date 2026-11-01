@@ -138,7 +138,11 @@ final class RebaseWorkflowTests: XCTestCase {
         replace(draft, text: "Amended first")
         waitEnabled(app.buttons["commit-button"])
         app.buttons["commit-button"].click()
-        let confirmation = app.buttons["Amend commit"].firstMatch
+        let confirmations = app.buttons.matching(
+            NSPredicate(format: "label == %@ AND identifier != %@", "Amend commit", "commit-button"))
+        XCTAssertTrue(confirmations.firstMatch.waitForExistence(timeout: 5))
+        let confirmation = try XCTUnwrap(
+            confirmations.allElementsBoundByIndex.first(where: \.isHittable))
         waitEnabled(confirmation)
         confirmation.click()
         expectValue(draft, "")
