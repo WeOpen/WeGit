@@ -13,7 +13,7 @@ This branch adds configured submodule discovery and bounded Git LFS inspection t
 | Localization | `python3 scripts/verify-localization.py` passed: 1390 strings / 8 plurals |
 | Private Git checker | `scripts/verify-submodule-lfs.sh` passed 15 checks |
 
-The checker uses disposable repositories, a local child repository and `GIT_CONFIG_GLOBAL=/dev/null`, `GIT_CONFIG_SYSTEM=/dev/null`. It covers clean, child-commit drift, tracked and ignored child changes, deinitialization, foreign-directory protection, parent HEAD/index preservation, malformed and missing `.gitmodules`, missing and hydrated LFS objects, malformed pointers, and missing-tool fetch refusal.
+The checker uses disposable repositories, a local child repository and `GIT_CONFIG_GLOBAL=/dev/null`, `GIT_CONFIG_SYSTEM=/dev/null`. It covers clean, child-commit drift, tracked and ignored child changes, deinitialization, foreign-directory protection, parent HEAD/index preservation, malformed and missing `.gitmodules`, missing and hydrated LFS objects, malformed pointers, and tool-aware fetch refusal (missing-tool or invalid-timeout before any network operation).
 
 ## Implementation boundary
 

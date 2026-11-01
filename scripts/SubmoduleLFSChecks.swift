@@ -174,11 +174,18 @@ import WeGitCore
         try require(
             malformedStatus?.isPointer == false && malformedStatus?.detail != nil,
             "malformed LFS pointer was accepted")
-        do {
-            try await service.fetchLFS(path: "large.bin", timeout: 1)
-            throw Failure.assertion("LFS fetch succeeded without Git LFS")
-        } catch is ModelFailure {}
         let installation = try await service.lfsInstallation()
+        if installation.available {
+            do {
+                try await service.fetchLFS(path: "large.bin", timeout: 0)
+                throw Failure.assertion("invalid LFS timeout was accepted")
+            } catch is ModelFailure {}
+        } else {
+            do {
+                try await service.fetchLFS(path: "large.bin", timeout: 1)
+                throw Failure.assertion("LFS fetch succeeded without Git LFS")
+            } catch is ModelFailure {}
+        }
         print(
             "PASS submodule discovery/dirty state and LFS pointer/tool probe (15 checks; lfs=\(installation.available))"
         )
