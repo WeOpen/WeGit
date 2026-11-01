@@ -265,7 +265,8 @@ final class InspectorRestorationTests: XCTestCase {
         XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10), app.debugDescription)
         XCTAssertTrue(app.outlines["changes-list"].waitForExistence(timeout: 10))
         app.buttons["toolbar-inspector"].click()
-        let inspector = app.descendants(matching: .any).matching(identifier: "repository-inspector").firstMatch
+        let inspector = app.descendants(matching: .any)
+            .matching(identifier: "repository-inspector").firstMatch
         XCTAssertTrue(inspector.waitForExistence(timeout: 5), app.debugDescription)
         let resourcesTab = app.radioButtons["仓库资源"].firstMatch
         XCTAssertTrue(resourcesTab.waitForExistence(timeout: 5), app.debugDescription)
