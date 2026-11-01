@@ -76,10 +76,15 @@ final class RebaseWorkflowTests: XCTestCase {
         func action(_ position: Int, _ title: String) {
             let picker = app.popUpButtons["interactive-rebase-action-" + objects[position]]
             waitEnabled(picker)
+            expectValue(picker, "保留提交")
             picker.click()
             let item = app.menuItems[title].firstMatch
             waitEnabled(item)
-            item.click()
+            let titles = ["保留提交", "重写提交消息", "编辑后暂停", "压缩并编辑消息", "压缩并保留前一消息", "丢弃提交"]
+            for _ in 0..<titles.firstIndex(of: title)! { app.typeKey(.downArrow, modifierFlags: []) }
+            app.typeKey(.return, modifierFlags: [])
+            waitGone(item)
+            expectValue(picker, title)
         }
         previewSequence()
         XCTAssertFalse(app.buttons["interactive-rebase-execute"].isEnabled)
@@ -403,11 +408,16 @@ final class RebaseWorkflowTests: XCTestCase {
         confirm.click()
     }
     @MainActor private func replace(_ element: XCUIElement, text: String) {
-        waitEnabled(element)
+        if element.elementType == .textView {
+            XCTAssertTrue(element.exists || element.waitForExistence(timeout: 10))
+        } else {
+            waitEnabled(element)
+        }
         element.click()
         element.typeKey("a", modifierFlags: .command)
         element.typeKey(.delete, modifierFlags: [])
         element.typeText(text)
+        expectValue(element, text)
     }
     @MainActor private func waitEnabled(_ element: XCUIElement) {
         let predicate = NSPredicate(format: "exists == true AND enabled == true")

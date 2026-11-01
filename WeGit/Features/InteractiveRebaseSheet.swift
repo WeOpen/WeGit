@@ -65,9 +65,11 @@ struct InteractiveRebaseSheet: View {
                                 .accessibilityIdentifier("interactive-rebase-action-\(step.id)")
                                 VStack(alignment: .leading) {
                                     Text(String(step.id.prefix(10))).font(.caption.monospaced())
-                                    Text(step.subject).lineLimit(1)
-                                }
-                                Spacer()
+                                    Text(
+                                        step.subject.components(separatedBy: .newlines).first ?? step.subject
+                                    )
+                                    .lineLimit(1)
+                                }.frame(maxWidth: .infinity, alignment: .leading)
                                 Button {
                                     move(index, by: -1)
                                 } label: {

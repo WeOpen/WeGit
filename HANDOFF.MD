@@ -1,5 +1,13 @@
 # WeGit 开发交接
 
+## 2026-11-02 原生菜单跟踪与取消夹具修正
+
+- 可信 main540c29b 的 run41324005469 实际 smoke1/1/0/0，Interactive方法1总0pass1fail0skip，43.932秒；完整115950359bytes ZIP/6cb22268 SHA/2193CRC及194受测输入逐SHA匹配。失败、73附件与录屏保持；没有本机XCTest。
+- 录屏实际40秒帧仍打开第二行原生动作菜单；XCTest对动态List内MenuItem的click走了inf矩形后备menuAction路径，TextView虽暂时出现但菜单跟踪未结束。新用例用原生方向键/Return选择，必须核对菜单关闭和Picker真实值；TextView编辑还要逐值回显，再核对最终真实Git消息/树。不能把叶节点click返回当选择完成，也不能只删掉disabled断言宣布成功。
+- LFS真实Debug诊断5000普通文件/0指针为5000cat-file进程和35103.010ms。独立Issue96在submodule-management树实施批量/全量上限、固定缓存获取和陈旧结果保护；39项独立检查已实际通过，Core目标编译，不运行本机XCTest。性能与可信原生仍待收口。
+- 新LFS性能首轮只完成12个有效ordinary样本，取消进程组检查在第13个失败；原数组/夹具保持。退出trap须显式终止并wait自己启动的child后再exit，避免遗留子进程或短暂僵尸组；新fixture修正不修改ProcessRunner、500ms预算、存活PID与全组退出断言。全部90样本必须重新运行。
+- 外部swiftc checker不能访问Core内部String.removingLastNewline；用公开的trimmingCharacters等处理CLI输出，不改Core访问级别。GitHub ZIP本机慢传输的前缀保留；首选GitHub连接器download_workflow_artifact返回的文件引用，实下载后仍独立核验摘要/CRC，不打印临时签名地址。
+
 ## 2026-11-01 当前聊天接续收口
 
 - 继续来源聊天 `01a196cd-71aa-74a1-a339-8e0f405c5238` 的同一目标：完成剩余功能与证据，清空 Issue/PR，最后清理已完成分支。只在当前聊天手动继续；沿用已停止的定时接续安排。主检出的网站等既有改动和功能树 WIP 已保存到主根 `.build/v1-2-closeout-2026-11-01/current-session-snapshot/`，提交只列明本批文件。
@@ -9,6 +17,11 @@
 - 新动作、辅助访问名称与恢复失败分支遗漏18条资源，`verify-localization.py` 实际失败后一次列出并补齐中英文，1392字符串/8复数通过。UI-only 名称也必须进入 catalog；目录名或 enum raw value 不能替代可访问名称的翻译。
 - `github.com:443` 连接实际多次超时，`api.github.com` 可用；使用任务私有 `github_git_objects.py` 通过认证 REST 同步 Git 对象。签名 commit 必须保留 signature 的末尾换行后重建 gpgsig，逐 blob/tree/commit 校验真实 Git SHA 并验证完整可达对象，最后以旧 tracking ref 为条件更新；没有改用户全局 Git/DNS 设置。当前 main 的4131个可达对象和两份新签名 commit 已精确核对。此路径是传输替代，不绕过分支保护或强推。
 - 不猜源文件路径：工具栏在 `WeGit/Features/WorkspaceToolbar.swift`，不是 `WeGit/App/ToolbarItems.swift`。性能脚本的 DirectoryEnumerator 放在同步 helper，避免 async 上下文的 Swift 6 警告。取消测量先原子发布完整 wrapper/child PID；所有就绪失败都 cancel 并 await 任务清理，RSS 明确包含进程终身高水位，未包含子 Git RSS。
+
+## 2026-11-01 Interactive Rebase 可信原生入口
+
+- #86/PR #87 尚未完成 V12-07。本分支只注册 trusted-main 的 interactive-rebase focus：smoke 必须实际 1/1/0/0，随后只运行 RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch，并保留原 120/180 秒及外层300秒界限。
+- 功能与该实际 XCTest 方法留在 PR #87；入口先正常合入 main 后才调度候选。白名单注册或 mock 的策略检查不表示功能或原生验收完成。本机不执行 XCTest。
 
 新任务先读本文件，再核对 Git 工作区、Issue/PR 与当前源码；历史结果只适用于其记录的源码。
 

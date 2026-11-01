@@ -172,7 +172,7 @@ import WeGitCore
                     matching=0
                     for word in "$@"; do test "$word" = merge-base && matching=1; done
                     if test "$matching" = 1; then
-                      trap 'exit 143' TERM
+                      trap 'kill -TERM "$child" 2>/dev/null || true; wait "$child" 2>/dev/null || true; exit 143' TERM
                       /bin/sleep 10 &
                       child=$!
                       printf '%s %s\\n' "$$" "$child" > \(quote(pending.path)) || exit 1
