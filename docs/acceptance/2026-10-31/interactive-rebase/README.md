@@ -1,5 +1,7 @@
 # V12-07 Interactive Rebase
 
+The final combined implementation and complete ordinary Release Core arrays are in [the 2026-11-02 report](../../2026-11-02/interactive-rebase/README.md). The increments and failures below retain their historical source and scope.
+
 ## Preserved third native failure · 2026-11-02
 
 Trusted-main run [41328698625](https://github.com/WeOpen/WeGit/actions/runs/41328698625), candidate `d73c6e610996a82a712c805a25572ef7fe82a33f`, actually passed smoke (1 total, 1 passed, 0 failed, 0 skipped). The Interactive method executed once and failed after 92.962 seconds at the application amend confirmation lookup. Its full artifact 13092003329 is 126,979,867 bytes, SHA256 `4b1ced49c67c34704b5a8c7c373930145bf22d5f91bdaa0ec4dc082bb5572172`; all 2197 ZIP entries pass CRC and all 194 build inputs match the candidate.

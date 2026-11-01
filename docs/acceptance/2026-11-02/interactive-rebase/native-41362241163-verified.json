@@ -1,0 +1,171 @@
+{
+  "source": "38dca23915362c3ca51f6bddd643a31a06b15c37",
+  "run": 41362241163,
+  "artifact": 13106116402,
+  "artifactBytes": 116302263,
+  "artifactSHA256": "e464ae56957f59d5a8341a93d7938253d59fdf10509d90b819610f2c127ccc07",
+  "crcEntries": 2021,
+  "sourceInputCount": 194,
+  "sourceMismatches": [],
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-interactive-rebase": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 12.047,
+      "summarySeconds": 14.765999794006348
+    },
+    "focused-interactive-rebase": {
+      "methodSeconds": 74.719,
+      "summarySeconds": 78.62000012397766
+    }
+  },
+  "displayRestored": true,
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "574993F2-E5B3-444F-B386-6A4AE59C2CC4.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Completed reordered sequence preserves the confirmed tree and remote reference AX_0_653312EF-02A5-4747-BA2F-8232BD310F50.txt",
+      "timestamp": 1793575869.561,
+      "publishedFile": "accessibility/completed-sequence-dark.txt",
+      "sha256": "dddba3a96edade916cdc69a185f03d26fa030414b189e6b71378f0dd4a5b43f3"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "3B6A8F3C-85E0-48CA-86B0-EA70ECD13B02.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Completed reordered sequence preserves the confirmed tree and remote reference_0_2576A993-EFD2-40D7-85E7-95C2803128C7.png",
+      "timestamp": 1793575869.338,
+      "publishedFile": "screenshots/completed-sequence-dark.png",
+      "sha256": "958b8393aff58626506f4ac4cad83dfaf3f60d403c735c2f7279fc99711a9f2e"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "74DC65E1-DDA3-4386-B86A-9B27E787DBB2.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "English dark restored edit pause after application amend AX_0_53D7C02C-593D-4F78-BC28-F17B819F5D56.txt",
+      "timestamp": 1793575865.351,
+      "publishedFile": "accessibility/restored-edit-after-amend-dark.txt",
+      "sha256": "60ddd0db9ad969a3064742aaafc1b48ed27aee18e4a24149a687bcc4adad4ae6"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "A9C49532-341A-46D1-A212-03CA49F2A108.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "English dark restored edit pause after application amend_0_AFDD3AC9-ACC7-40C7-808A-FA3BC360F213.png",
+      "timestamp": 1793575865.112,
+      "publishedFile": "screenshots/restored-edit-after-amend-dark.png",
+      "sha256": "793ba313228ebb95efc51d1db663a368f3b15a81a6e591f2d2dbdbc77bce2968"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "0A46350C-E178-4FB0-8682-3AAA999649EB.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "English native amend confirmation AX_0_38937610-C855-470C-836D-15E9EF9F58FD.txt",
+      "timestamp": 1793575862.442,
+      "publishedFile": "accessibility/amend-confirmation-dark.txt",
+      "sha256": "99f8027ee11b454b4e35d4c036262da3892481b6b7057804488604f87341a212"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "72B23C1C-02D7-4550-9AFE-089CB6B0FD17.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "English native amend confirmation_0_2FC4ADD0-4C3B-4CDB-91EB-29E5B99D21EE.png",
+      "timestamp": 1793575862.184,
+      "publishedFile": "screenshots/amend-confirmation-dark.png",
+      "sha256": "56b0b9539476615c4b64a13dc9e9b8b232ba1fcbd281bdd8d51a7ced35d9d2c1"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "730649B3-DABB-49D3-B000-419380FAA3B6.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Edit pause preserves the independent draft AX_0_26E73418-FE61-4660-A0FF-A403834EC9C1.txt",
+      "timestamp": 1793575849.048,
+      "publishedFile": "accessibility/edit-pause-draft-light.txt",
+      "sha256": "43e542494a3243644fc22133033670896cb41d11e13b9e6d70a0f8931d8f009b"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "9168F1A2-246A-4AD1-A0EF-4ADB0CAEF207.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Edit pause preserves the independent draft_0_2E98F61A-7663-498E-8DA3-6128F9510953.png",
+      "timestamp": 1793575848.84,
+      "publishedFile": "screenshots/edit-pause-draft-light.png",
+      "sha256": "467fb4ac7cc4eb2b36d70e53c1a87d7ca8869eb9885bc628d32ddce7d3cadb43"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "913B1CF1-AE01-47C3-BDB1-4BF497636180.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Six actions and explicit message editors before execution AX_0_CF030DB6-75F6-4AE9-AA1B-94A20FBA8CC0.txt",
+      "timestamp": 1793575844.274,
+      "publishedFile": "accessibility/actions-and-messages-light.txt",
+      "sha256": "c2e6fc4996dc4f5709b1480fe262112cf15133f3b43e6e5dd51e00c32a57337c"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "15058F65-9CD7-4D62-8028-0A9C65E2FAC5.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Six actions and explicit message editors before execution_0_BE4F53D4-E591-460F-AB00-047C6619586A.png",
+      "timestamp": 1793575843.944,
+      "publishedFile": "screenshots/actions-and-messages-light.png",
+      "sha256": "f0a4af91df9b2bbf4cb0b7679f95e157a481fde465012f4f80578ad9e94c9089"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "11D274B3-9377-48CC-A33B-2B14FDCC7C9A.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Chinese light fixed interactive range and native keyboard focus AX_0_4AA22822-1D1F-4BCF-B989-E4C29DD99C83.txt",
+      "timestamp": 1793575813.029,
+      "publishedFile": "accessibility/fixed-range-light.txt",
+      "sha256": "b1840b470a731fc04330fd238a2b5739af4e4c93e1f9aebfc8126eb05baa91a5"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "a5b99a1222960a71ff84d3572c1bc09276874c92",
+      "deviceName": "My Mac",
+      "exportedFileName": "F79AEDEB-46E7-45DB-8A93-0816F62A4017.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Chinese light fixed interactive range and native keyboard focus_0_64D56C55-B3DE-4A2F-908E-88A31943FA3D.png",
+      "timestamp": 1793575812.762,
+      "publishedFile": "screenshots/fixed-range-light.png",
+      "sha256": "10865a447870b8a342b6a92c792243a626aa284f7953d30fcebd7497b1a0d1a1"
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true
+}

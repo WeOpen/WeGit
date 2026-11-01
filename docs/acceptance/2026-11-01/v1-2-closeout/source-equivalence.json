@@ -1,0 +1,34 @@
+{
+  "productSource": "38dca23915362c3ca51f6bddd643a31a06b15c37",
+  "evidenceOnlyChanges": true,
+  "changedTrackedFiles": [
+    "HANDOFF.MD",
+    "docs/acceptance/2026-10-31/interactive-rebase/README.md",
+    "docs/acceptance/2026-11-01/v1-2-closeout/README.md",
+    "docs/acceptance/2026-11-02/lfs-reading/README.md",
+    "docs/acceptance/2026-11-02/lfs-reading/performance.json",
+    "plans/V1_2_EXECUTION.md"
+  ],
+  "verifiedInputs": {
+    "native-interactive-38": {
+      "source": "38dca23915362c3ca51f6bddd643a31a06b15c37",
+      "inputCount": 194,
+      "mismatches": []
+    },
+    "native-lfs-38": {
+      "source": "38dca23915362c3ca51f6bddd643a31a06b15c37",
+      "inputCount": 194,
+      "mismatches": []
+    },
+    "interactive": {
+      "inputCount": 94,
+      "mismatches": [],
+      "validSamples": 90
+    },
+    "lfs": {
+      "inputCount": 94,
+      "mismatches": [],
+      "validSamples": 90
+    }
+  }
+}

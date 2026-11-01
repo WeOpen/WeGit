@@ -17,11 +17,29 @@
 
 上述项目以 `not_planned` 归档，并在重新安排验收时恢复跟踪。v1.1/v1.1.1 历史总任务中的发布与整版验收依赖同样保留在此表；开发实现、已执行验证及延期验收分别记载。
 
-## 当前可执行工作
+## 最终开发候选
 
-- Interactive Rebase：完成六种动作、组合消息、edit 暂停与应用内 amend、冲突/重开恢复、取消和不确定回执。独立检查已执行75项；最终原生与性能结果按固定输入补充。
-- Submodule/LFS：核对已集成实现、受信任原生方法、成功截图和 AX 附件。#92 在新实际截图/AX 审阅完成前保持开放。
-- 所有 PR 通过当前 head 的 `PR policy`、`Repository policy`、`Native macOS`，处理未解决 review，再正常 squash。最终重新核对开发源码、制品来源及可执行回归。
-- 已完成分支在源码/未推送提交/工作区状态核对后清理；网站等既有未提交工作保留。
+V12-01～V12-09 的实现状态已在 [执行表](../../../../plans/V1_2_EXECUTION.md) 更新。已集成能力包括已有 Worktree 打开/切换/恢复、Worktree 管理、Cherry-pick/Revert、Blame、选中行暂存、三方冲突编辑器、独立 Rebase、Submodule 与 LFS 状态。最后的 Interactive Rebase 完整动作和 LFS 批量读取/固定对象获取合并为 [PR #87](https://github.com/WeOpen/WeGit/pull/87) 的同一候选，保留 PR #97 原始来源。
 
-本文件将补充最终 Issue/PR、原生测试计数、性能源输入及清理回执。当前待执行项不会因准备此记录被标为通过。
+| 本轮实际证据 | 结果与范围 |
+| --- | --- |
+| 组合 Core 独立行为 | 75 Interactive + 39 Submodule/LFS，114项通过；私有真实Git夹具 |
+| 编译 | Core测试目标与原生build-for-testing通过；本机未运行XCTest |
+| Interactive Release Core | 普通、5000文件松散对象、打包对象各30，90有效；first P95 113.296/686.773/676.317ms，execute 1173.377/4399.962/3787.132ms，cancel均<1ms；[完整数组](../../2026-11-02/interactive-rebase/performance.json) |
+| LFS Release Core | 同三种负载各30，90有效；first P95 94.420/689.663/326.827ms，cancel均<1ms；[完整数组](../../2026-11-02/lfs-reading/performance.json) |
+| 精确性能输入 | 两份报告各94个实际输入逐SHA匹配组合Core；sourceRevision和workspaceDirty保留真实运行值 |
+| Interactive 原生 | 最终UI输入38dca23，run41362241163；smoke/专项各1/1/0/0，74.719秒<120、summary78.620秒<180；194输入、2021CRC、六图六AX与显示恢复核验；[回执](../../2026-11-02/interactive-rebase/native-41362241163-verified.json) |
+| LFS 原生 | 最终同源Submodule/LFS专项及成功截图/AX，随同本轮原生回执保存；早期bc1c06b的1/1/0/0记录保留各自来源 |
+| 必需CI/开发包 | 当前head的PR policy、Repository policy、Native macOS、三套Git全Core、原始性能数组和固定源码开发包；只在当前结果通过且无未解决review后正常squash |
+| main功能回归 | 由可信main执行smoke后完整functional，按实际计数、源码、xcresult与制品收口；排除官方functional范围已明确分开的手工/audit项 |
+
+原2000ms读取、10000ms变基执行、500ms live取消、256/512MiB Core resident预算保持。Core测量的内存不包含子Git，专项性能不代替本页延期的最终整版UI性能。三项新性能result.json已加入CI制品白名单；必须核对真实数组，不能只引用步骤success。
+
+## Issue、PR与分支收尾规则
+
+- #59/#70 的开发能力和原生专项已正常集成；关闭原因使用 completed。其完整发布性能条件随 #4/#35 延期保留。
+- #35/#57 的实现阶段与已执行证据保留；对应正式M5/整版验收条件按维护者确认归档为 not_planned，不宣称完成安装、完整VoiceOver或Beta。
+- #86/#96 在最终候选通过当前门禁并正常合入main后完成；#97在源码已包含且逐项核对后关闭。
+- 已完成分支先保存来源、核对已集成提交与HEAD/index/工作区，再清理。主检出的站点等改动和旧Rebase检出的三项修改/两份草稿保持；承载它们的两个分支保留。编译/原生证据目录不随分支删除而丢失。
+
+最新CI、main functional计数、源码等价与清理回执由PR #87收口评论及项目HANDOFF记录。GitHub可选Workers Builds的失败另行保留；它不是上述三项必需检查，也不构成官网生产环境验收。
