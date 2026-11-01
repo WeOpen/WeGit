@@ -60,7 +60,7 @@ struct InteractiveRebaseSheet: View {
                                         Text(actionTitle(action)).tag(action)
                                     }
                                 }
-                                .labelsHidden().frame(width: 145)
+                                .labelsHidden().frame(width: 224)
                                 .accessibilityLabel(L10n.text("提交动作"))
                                 .accessibilityIdentifier("interactive-rebase-action-\(step.id)")
                                 VStack(alignment: .leading) {
