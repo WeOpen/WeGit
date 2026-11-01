@@ -1,0 +1,147 @@
+name: Native performance diagnostics
+on:
+  workflow_dispatch:
+    inputs:
+      samples:
+        description: One sample smoke, or 30 serial UI samples after smoke
+        type: choice
+        options: ['1', '30']
+        default: '1'
+      compare_baseline:
+        description: Also measure fixed v1.0.0 on this VM before the 30-sample candidate
+        type: boolean
+        default: false
+      collection_scope:
+        description: Independent launch/scroll diagnostics require 30 samples; they never replace the full collection
+        type: choice
+        options: ['full', 'launch', 'scroll']
+        default: 'full'
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: native-performance-diagnostics
+  cancel-in-progress: false
+env:
+  WEGIT_SKIP_PROJECT_GENERATION: '1'
+jobs:
+  performance:
+    name: Hosted Release performance diagnostics
+    if: github.ref == 'refs/heads/main'
+    runs-on: xcode-27
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Isolate Git configuration
+        run: scripts/ci/isolate-git.sh
+      - name: Check toolchain and actual interactive session
+        id: environment
+        env:
+          COLLECTION_SCOPE: ${{ inputs.collection_scope }}
+          SAMPLE_COUNT: ${{ inputs.samples }}
+        run: |
+          if [[ "$COLLECTION_SCOPE" != full && "$SAMPLE_COUNT" != 30 ]]; then exit 2; fi
+          mkdir -p .build/ci/performance
+          scripts/ci/check-toolchain.sh > .build/ci/performance/toolchain.txt
+          python3 scripts/ci/ui_probe.py --mode environment --require-interactive
+          xcrun swiftc -parse-as-library scripts/ci/DisplaySession.swift -o "$RUNNER_TEMP/wegit-performance-display"
+      - name: Minimal native smoke gate
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+            build-for-testing > .build/ci/performance/smoke-build.log 2>&1
+          python3 scripts/verify-ui-git-wrapper.py .build-app/Build/Products/Debug/WeGitTestGit --report .build/ci/ui/git-wrapper.json
+          cp .build-app/Build/Products/Debug/WeGit.app/Contents/Resources/build-source.json .build/ci/ui/build-source.json
+          "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/smoke-display.json -- \
+            python3 scripts/ci/ui_probe.py --mode smoke
+      - name: Thirty serial Release backend samples and private fixtures
+        run: scripts/benchmark.sh "$PWD/.build/benchmarks/native" > .build/ci/performance/backend.log 2>&1
+      - name: Release UI smoke on normal and large repositories
+        run: |
+          "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/ui-smoke-display.json -- \
+            bash scripts/ci/run-native-performance.sh 1 > .build/ci/performance/ui-smoke.log 2>&1
+      - name: Check out immutable released application for the control
+        if: inputs.samples == '30' && inputs.compare_baseline && inputs.collection_scope == 'full'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: 2d1cb2a1e5a5b52f7ba45232e1f0b2a20530120a
+          path: .build/performance-baseline
+          persist-credentials: false
+      - name: Fixed v1.0 control with the same measurement harness and VM
+        if: inputs.samples == '30' && inputs.compare_baseline && inputs.collection_scope == 'full'
+        run: |
+          "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/baseline-display.json -- \
+            python3 scripts/ci/compare_native_baseline.py --baseline .build/performance-baseline \
+            > .build/ci/performance/baseline.log 2>&1
+      - name: Thirty UI samples, launch and fixed scrolling trajectory
+        if: inputs.samples == '30'
+        env:
+          COLLECTION_SCOPE: ${{ inputs.collection_scope }}
+        run: |
+          "$RUNNER_TEMP/wegit-performance-display" --report .build/ci/performance/ui-full-display.json -- \
+            bash scripts/ci/run-native-performance.sh 30 "$COLLECTION_SCOPE" > .build/ci/performance/ui-full.log 2>&1
+      - name: Rebuild ordinary Release after XCTest instrumentation
+        if: (success() || failure()) && steps.environment.outcome == 'success'
+        run: scripts/build.sh Release > .build/ci/performance/ordinary-release-build.log 2>&1
+      - name: Preserve measurements in logs before artifact networking
+        if: always()
+        env:
+          EXPECTED_SAMPLES: ${{ inputs.samples }}
+        run: python3 scripts/ci/retain_performance.py --samples "$EXPECTED_SAMPLES"
+      - name: Retain lightweight essential reports
+        id: essential
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-essential-${{ github.sha }}-${{ inputs.samples }}
+          path: .build/ci/performance/essential/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retry essential report upload after a service failure
+        if: always() && steps.essential.outcome == 'failure'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-essential-retry-${{ github.sha }}-${{ inputs.samples }}
+          path: .build/ci/performance/essential/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retain raw samples, failures, environment and source receipts
+        id: raw
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-${{ github.sha }}-${{ inputs.samples }}
+          path: |
+            .build/ci/performance/
+            .build/ci/ui/
+            .build/benchmarks/native/normal.json
+            .build/benchmarks/native/large.json
+            .build/ui-benchmarks/
+            .build/performance-baseline/.build/ci/performance/
+            .build/performance-baseline/.build/ui-benchmarks/
+            .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json
+          include-hidden-files: true
+          retention-days: 30
+      - name: Retry raw evidence upload after a service failure
+        if: always() && steps.raw.outcome == 'failure'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-performance-raw-retry-${{ github.sha }}-${{ inputs.samples }}
+          path: |
+            .build/ci/performance/
+            .build/ci/ui/
+            .build/benchmarks/native/normal.json
+            .build/benchmarks/native/large.json
+            .build/ui-benchmarks/
+            .build/performance-baseline/.build/ci/performance/
+            .build/performance-baseline/.build/ui-benchmarks/
+            .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json
+          include-hidden-files: true
+          retention-days: 30

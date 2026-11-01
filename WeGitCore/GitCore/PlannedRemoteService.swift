@@ -8,14 +8,14 @@ extension RepositoryService {
         pushURLIndex: Int = 0, setUpstream: Bool = false, expectedHead: String?,
         onCommit: @Sendable (String) async -> Void = { _ in }
     ) async throws -> CommitPushResult {
-        let localBranch = try await queue.perform {
+        let localBranch = try await withSharedOperation {
             try await verifyHead(expectedHead)
             try await validateBranchName(branch)
             guard remote.pushURLs.indices.contains(pushURLIndex) else { throw ModelFailure.invalidPath }
             try await verifyRemote(remote)
             let state = try await status()
             guard !state.isDetached else {
-                throw ModelFailure.unsupported("提交并推送前请切换到本地分支。")
+                throw ModelFailure.unsupported(L10n.text("提交并推送前请切换到本地分支。"))
             }
             return state.branch
         }
@@ -39,12 +39,12 @@ extension RepositoryService {
         remote name: String, branch: String, pushURLIndex: Int = 0,
         forceWithLease: Bool = false, setUpstream: Bool = false, expectedHead: String?
     ) async throws -> PushPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard let head = state.head, !state.isDetached, state.sequencer == .none, state.conflicts.isEmpty
             else {
-                throw ModelFailure.unsupported("推送前请回到本地分支并完成当前 Git 操作。")
+                throw ModelFailure.unsupported(L10n.text("推送前请回到本地分支并完成当前 Git 操作。"))
             }
             try await validateBranchName(branch)
             let remote = try await remoteDetails(name: name)
@@ -67,14 +67,14 @@ extension RepositoryService {
         guard output.stdout.isEmpty || output.stdout.last == 10,
             let text = String(data: output.stdout, encoding: .utf8)
         else {
-            throw ModelFailure.invalidOutput("远端引用查询被截断")
+            throw ModelFailure.invalidOutput(L10n.text("远端引用查询被截断"))
         }
         var result: String?
         for row in text.split(separator: "\n") {
             let fields = row.split(separator: "\t", maxSplits: 1)
             guard fields.count == 2, fields[1] == ref, GitObjectID.valid(String(fields[0])), result == nil
             else {
-                throw ModelFailure.invalidOutput("远端引用查询结果不匹配")
+                throw ModelFailure.invalidOutput(L10n.text("远端引用查询结果不匹配"))
             }
             result = String(fields[0])
         }
@@ -82,7 +82,7 @@ extension RepositoryService {
     }
 
     public func push(_ plan: PushPlan) async throws -> PushResult {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.repositoryReplaced }
             try await verifyHead(plan.head)
             let state = try await status()
@@ -118,21 +118,23 @@ extension RepositoryService {
                 guard current == plan.head,
                     let tracking = trackingRef(for: plan.targetRef, remote: plan.remote)
                 else {
-                    return PushResult(upstreamConfigured: false, warning: "推送已完成；本地分支或跟踪映射已变化，上游未修改。")
+                    return PushResult(
+                        upstreamConfigured: false, warning: L10n.text("推送已完成；本地分支或跟踪映射已变化，上游未修改。"))
                 }
                 _ = try await engine.run(
                     ["branch", "--set-upstream-to=" + tracking, "--", plan.localBranch], in: location.root)
                 return PushResult(upstreamConfigured: true, warning: nil)
             } catch {
                 return PushResult(
-                    upstreamConfigured: false, warning: "推送已完成，上游设置未完成：\(error.localizedDescription)")
+                    upstreamConfigured: false,
+                    warning: L10n.text("推送已完成，上游设置未完成：\(error.localizedDescription)"))
             }
         }
     }
 
     /// Reconstruct only an unchanged destination, without persisting URL credentials.
     public func restorePushPlan(_ receipt: PushReceipt) async throws -> PushPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try location.validateIdentity()
             guard receipt.repositoryID == location.persistenceID,
                 GitObjectID.valid(receipt.head), receipt.targetRef.hasPrefix("refs/heads/"),
@@ -142,14 +144,14 @@ extension RepositoryService {
             try await validateBranchName(receipt.localBranch)
             guard let fingerprint = receipt.destinationFingerprint else {
                 throw ModelFailure.unsupported(
-                    "此前地址包含凭据或查询参数，无法从保存记录恢复。请手动核对原目标后标记已处理。")
+                    L10n.text("此前地址包含凭据或查询参数，无法从保存记录恢复。请手动核对原目标后标记已处理。"))
             }
             let remote = try await remoteDetails(name: receipt.remoteName)
             guard remote.pushURLs.indices.contains(receipt.pushURLIndex),
                 PushReceipt.fingerprint(remote.pushURLs[receipt.pushURLIndex], in: location.root)
                     == fingerprint
             else {
-                throw ModelFailure.unsupported("此前推送地址已变化。请恢复原地址后核对，或手动核对原目标后标记已处理。")
+                throw ModelFailure.unsupported(L10n.text("此前推送地址已变化。请恢复原地址后核对，或手动核对原目标后标记已处理。"))
             }
             return PushPlan(
                 remote: remote, pushURLIndex: receipt.pushURLIndex, targetRef: receipt.targetRef,
@@ -161,7 +163,7 @@ extension RepositoryService {
 
     /// Only read the originally confirmed endpoint and ref. Local HEAD may have moved.
     public func verifyPushOutcome(_ plan: PushPlan) async throws -> PushVerification {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.repositoryReplaced }
             try location.validateIdentity()
             let observed = try await remoteOID(plan.remote, index: plan.pushURLIndex, ref: plan.targetRef)
@@ -197,12 +199,12 @@ extension RepositoryService {
         createMergeCommit: Bool = false,
         expectedHead: String?
     ) async throws -> PullPlan {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard let head = state.head, !state.isDetached, state.sequencer == .none, state.conflicts.isEmpty
             else {
-                throw ModelFailure.unsupported("拉取前请回到本地分支并完成当前 Git 操作。")
+                throw ModelFailure.unsupported(L10n.text("拉取前请回到本地分支并完成当前 Git 操作。"))
             }
             try await validateBranchName(branch)
             let remote = try await remoteDetails(name: name)
@@ -214,7 +216,7 @@ extension RepositoryService {
     }
 
     public func pull(_ plan: PullPlan) async throws -> PullResult {
-        try await queue.perform {
+        try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.repositoryReplaced }
             try await verifyHead(plan.head)
             let state = try await status()
@@ -244,7 +246,9 @@ extension RepositoryService {
                     ["rev-parse", "--verify", "--end-of-options", temporaryRef + "^{commit}"],
                     in: location.root
                 ).text.removingLastNewline
-                guard GitObjectID.valid(fetchedOID) else { throw ModelFailure.invalidOutput("获取结果不是有效提交") }
+                guard GitObjectID.valid(fetchedOID) else {
+                    throw ModelFailure.invalidOutput(L10n.text("获取结果不是有效提交"))
+                }
                 let arguments: [String]
                 switch plan.strategy {
                 case .fastForwardOnly:
@@ -269,7 +273,8 @@ extension RepositoryService {
                 let cleanupWarning = await removePullReference(temporaryRef)
                 throw PullFailure(
                     fetched: fetched,
-                    message: (fetched ? "获取已完成，整合未完成：" : "获取未完成：") + error.localizedDescription,
+                    message: (fetched ? L10n.text("获取已完成，整合未完成：") : L10n.text("获取未完成："))
+                        + error.localizedDescription,
                     details: [(error as? GitFailure)?.details, cleanupWarning].compactMap { $0 }.joined(
                         separator: "\n"))
             }
@@ -287,12 +292,12 @@ extension RepositoryService {
                     ["rev-parse", "--verify", "--end-of-options", ref], in: location.root, accepted: [0, 128])
                 guard current.exitCode == 0 else { return nil as String? }
                 let oid = current.text.removingLastNewline
-                guard GitObjectID.valid(oid) else { throw ModelFailure.invalidOutput("临时引用无效") }
+                guard GitObjectID.valid(oid) else { throw ModelFailure.invalidOutput(L10n.text("临时引用无效")) }
                 try location.validateIdentity()
                 _ = try await engine.run(["update-ref", "-d", ref, oid], in: location.root)
                 return nil
             } catch {
-                return "临时拉取引用未清理（\(ref)）：\(error.localizedDescription)"
+                return L10n.text("临时拉取引用未清理（\(ref)）：\(error.localizedDescription)")
             }
         }.value
     }

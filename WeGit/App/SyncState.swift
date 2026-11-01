@@ -13,9 +13,9 @@ extension AppState {
         else { return }
         if kind == .commitAndPush && session.amend,
             !confirm(
-                title: "修改上次提交并推送？",
-                message: "将改写 \(session.status.head?.prefix(12) ?? "")，然后尝试普通推送。远端拒绝时本地新提交仍会保留。",
-                action: "选择推送目标")
+                title: L10n.text("修改上次提交并推送？"),
+                message: L10n.text("将改写 \(session.status.head?.prefix(12) ?? "")，然后尝试普通推送。远端拒绝时本地新提交仍会保留。"),
+                action: L10n.text("选择推送目标"))
         {
             return
         }
@@ -129,7 +129,7 @@ final class SyncState {
             strategy = values.2.strategy
             preserveMerges = values.2.preserveMerges
             createMergeCommit = values.2.createMergeCommit
-            if remotes.isEmpty { error = "尚未配置远端，请先在 Git 中添加 Remote。" }
+            if remotes.isEmpty { error = L10n.text("尚未配置远端，请先在 Git 中添加 Remote。") }
         } catch is CancellationError {} catch { show(error) }
     }
 
@@ -168,7 +168,7 @@ final class SyncState {
         else { return }
         error = nil
         session.performResult(
-            "推送", onSuccess: { self.completed = true },
+            L10n.text("推送"), onSuccess: { self.completed = true },
             operation: { service in
                 do {
                     let result = try await service.push(plan)
@@ -178,7 +178,7 @@ final class SyncState {
                             self.session.pendingPush = nil
                         }
                     }
-                    return result.warning
+                    return .completed(message: L10n.text("推送完成"), warning: result.warning)
                 } catch {
                     await MainActor.run {
                         self.pushPlan = nil
@@ -194,7 +194,7 @@ final class SyncState {
         error = nil
         details = ""
         let originalPlan = verificationPlan
-        session.performResult("核对远端结果") { service in
+        session.performResult(L10n.text("核对远端结果")) { service in
             do {
                 let plan: PushPlan
                 if let originalPlan {
@@ -209,13 +209,14 @@ final class SyncState {
                     self.warning = result.message
                     if result.matches {
                         self.completed = true
-                        self.completionTitle = "远端目标已确认"
+                        self.completionTitle = L10n.text("远端目标已确认")
                         if self.session.pendingPush?.verification == receipt {
                             self.session.pendingPush = nil
                         }
                     }
                 }
-                return result.message
+                if result.matches { return .completed(message: result.message) }
+                return .needsReview(message: result.message, details: plan.feedbackTargetDetails)
             } catch {
                 await MainActor.run { self.show(error) }
                 throw error
@@ -253,7 +254,7 @@ final class SyncState {
         let head = initialHead
         let localBranch = localBranch
         session.performResult(
-            "提交并推送", onSuccess: { self.completed = true },
+            L10n.text("提交并推送"), context: .commit, onSuccess: { self.completed = true },
             operation: { service in
                 do {
                     let result = try await service.expectingBranch(localBranch).commitAndPush(
@@ -266,7 +267,7 @@ final class SyncState {
                                 commit: oid, localBranch: localBranch,
                                 remote: remote.name, branch: branch, pushIndex: index)
                             self.session.completeCommit(message: text)
-                            self.session.activityLabel = "推送"
+                            self.session.activityLabel = L10n.text("推送")
                         }
                     }
                     if let failure = result.failure { throw failure }
@@ -274,7 +275,8 @@ final class SyncState {
                         self.warning = result.push?.warning
                         self.session.pendingPush = nil
                     }
-                    return result.push?.warning
+                    return .completed(
+                        message: L10n.text("\(L10n.text("提交并推送"))完成"), warning: result.push?.warning)
                 } catch {
                     await MainActor.run { self.show(error) }
                     throw error
@@ -292,7 +294,7 @@ final class SyncState {
         let preserve = preserveMerges
         let mergeCommit = createMergeCommit
         session.performResult(
-            "拉取（\(strategy.title)）", onSuccess: { self.completed = true },
+            L10n.text("拉取（\(strategy.title)）"), onSuccess: { self.completed = true },
             operation: { service in
                 do {
                     let pinned = service.expectingBranch(localBranch)
@@ -301,7 +303,7 @@ final class SyncState {
                         preserveMerges: preserve, createMergeCommit: mergeCommit, expectedHead: head)
                     let result = try await pinned.pull(plan)
                     await MainActor.run { self.warning = result.warning }
-                    return result.warning
+                    return .completed(message: L10n.text("拉取完成"), warning: result.warning)
                 } catch {
                     await MainActor.run { self.show(error) }
                     throw error
@@ -317,9 +319,7 @@ final class SyncState {
 
     private func show(_ failure: any Error) {
         error = failure.localizedDescription
-        details =
-            (failure as? GitFailure)?.details ?? (failure as? PullFailure)?.details
-            ?? (failure as? PushOutcomeUnknown)?.details ?? ""
+        details = OperationFeedbackResult.from(failure).details ?? ""
         if let unknown = failure as? PushOutcomeUnknown {
             pushPlan = nil
             verificationPlan = unknown.plan

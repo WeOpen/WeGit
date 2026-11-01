@@ -1,0 +1,35 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 radio button Description: 通用, Value: 0
+			4 radio button Description: Git, Value: 0
+			5 radio button Description: 外观, Value: 0
+			6 radio button Description: 差异, Value: 0
+			7 radio button Description: 提交, Value: 0
+			8 radio button Description: 高级, Value: 1
+		9 scroll area
+			10 heading 活动记录
+			11 container
+				12 pop up button 最多保留, Value: 100 条
+				13 pop up button 最长保留时间, Value: 24 小时
+				14 text 活动摘要仅在本次运行的内存中保存，退出后清空；保留规则同时受数量与时间限制。
+				15 button 导出诊断摘要…
+				16 button 清空活动记录
+				17 text 诊断摘要包含版本、命令名称、时间与结果，不包含仓库路径、代码、Diff、提交消息、输出或凭证。
+			18 heading 界面状态
+			19 button 重置界面偏好…
+	20 close button
+	21 zoom button (disabled)
+	22 text WeGit Settings
+23 menu bar
+	24 WeGit
+	25 File
+	26 Edit
+	27 View
+	28 仓库
+	29 工作区
+	30 Window
+	31 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

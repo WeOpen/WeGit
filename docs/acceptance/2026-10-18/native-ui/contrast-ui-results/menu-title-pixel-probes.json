@@ -1,0 +1,170 @@
+[
+  {
+    "theme": "light",
+    "control": "scope",
+    "roiWithoutMenuArrow": [
+      510,
+      186,
+      574,
+      198
+    ],
+    "background": [
+      242,
+      247,
+      251
+    ],
+    "strongestRepeatedInk": [
+      0,
+      88,
+      183
+    ],
+    "ratio": 6.323004981353294
+  },
+  {
+    "theme": "light",
+    "control": "field",
+    "roiWithoutMenuArrow": [
+      618,
+      186,
+      652,
+      198
+    ],
+    "background": [
+      242,
+      247,
+      251
+    ],
+    "strongestRepeatedInk": [
+      0,
+      88,
+      183
+    ],
+    "ratio": 6.323004981353294
+  },
+  {
+    "theme": "light",
+    "control": "operations",
+    "roiWithoutMenuArrow": [
+      1236,
+      260,
+      1270,
+      272
+    ],
+    "background": [
+      242,
+      247,
+      251
+    ],
+    "strongestRepeatedInk": [
+      0,
+      88,
+      183
+    ],
+    "ratio": 6.323004981353294
+  },
+  {
+    "theme": "light",
+    "control": "reading",
+    "roiWithoutMenuArrow": [
+      1039,
+      381,
+      1099,
+      393
+    ],
+    "background": [
+      242,
+      247,
+      251
+    ],
+    "strongestRepeatedInk": [
+      0,
+      88,
+      183
+    ],
+    "ratio": 6.323004981353294
+  },
+  {
+    "theme": "dark",
+    "control": "scope",
+    "roiWithoutMenuArrow": [
+      510,
+      186,
+      574,
+      198
+    ],
+    "background": [
+      35,
+      38,
+      41
+    ],
+    "strongestRepeatedInk": [
+      136,
+      193,
+      255
+    ],
+    "ratio": 8.052869872548554
+  },
+  {
+    "theme": "dark",
+    "control": "field",
+    "roiWithoutMenuArrow": [
+      618,
+      186,
+      652,
+      198
+    ],
+    "background": [
+      35,
+      38,
+      41
+    ],
+    "strongestRepeatedInk": [
+      136,
+      193,
+      255
+    ],
+    "ratio": 8.052869872548554
+  },
+  {
+    "theme": "dark",
+    "control": "operations",
+    "roiWithoutMenuArrow": [
+      1236,
+      260,
+      1270,
+      272
+    ],
+    "background": [
+      35,
+      38,
+      41
+    ],
+    "strongestRepeatedInk": [
+      136,
+      193,
+      255
+    ],
+    "ratio": 8.052869872548554
+  },
+  {
+    "theme": "dark",
+    "control": "reading",
+    "roiWithoutMenuArrow": [
+      1039,
+      381,
+      1099,
+      393
+    ],
+    "background": [
+      35,
+      38,
+      41
+    ],
+    "strongestRepeatedInk": [
+      136,
+      193,
+      255
+    ],
+    "ratio": 8.052869872548554
+  }
+]

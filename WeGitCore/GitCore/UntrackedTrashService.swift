@@ -19,9 +19,9 @@ public struct UntrackedTrashFailure: Error, LocalizedError, Sendable {
     public let trashURL: URL?
     public var errorDescription: String? {
         if let trashURL {
-            return "废纸篓操作的结果无法完整核对。请在 Finder 检查原路径和此位置：\(trashURL.path)"
+            return L10n.text("废纸篓操作的结果无法完整核对。请在 Finder 检查原路径和此位置：\(trashURL.path)")
         }
-        return "废纸篓操作的结果无法完整核对。请在 Finder 检查原路径和废纸篓后再操作。"
+        return L10n.text("废纸篓操作的结果无法完整核对。请在 Finder 检查原路径和废纸篓后再操作。")
     }
 }
 
@@ -33,7 +33,7 @@ extension RepositoryService {
             try await verifyHead(expectedHead)
             let current = try await status()
             guard current.files.contains(where: { $0.path == path && $0.untracked }) else {
-                throw ModelFailure.unsupported("只能从此入口移除当前未跟踪的文件。请刷新后检查文件状态。")
+                throw ModelFailure.unsupported(L10n.text("只能从此入口移除当前未跟踪的文件。请刷新后检查文件状态。"))
             }
             return try await SnapshotIO.run { cancellation in
                 let reader = try RepositoryFileReader(

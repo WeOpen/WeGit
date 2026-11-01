@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "name": "Dusk",
+  "controls": "dark",
+  "colors": {
+    "accent": "#CEB4ED",
+    "canvas": "#24202C",
+    "chrome": "#24202C",
+    "sidebar": "#1B1822",
+    "surface": "#302A3A",
+    "border": "#6A587C",
+    "text": "#F5EFFB",
+    "secondaryText": "#CABBD7",
+    "positive": "#ADDCB7",
+    "negative": "#F4B1C2",
+    "modified": "#EBD39F",
+    "diffAdded": "#2A3A30",
+    "diffRemoved": "#422C39",
+    "keyword": "#DEC0F3",
+    "string": "#A8DECE",
+    "number": "#B3C9F4",
+    "comment": "#C4B6D0"
+  }
+}

@@ -1,0 +1,18 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: PopUpButton, 0x795a8d1f40, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch
+Element subtree:
+ →PopUpButton, 0x795a8d1f40, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch
+Path to element:
+ →Application, 0x795a8d1e00, pid: 77682, title: 'AuditHostedApp', Disabled
+  ↳Window (Main), 0x795a8d17c0, {{700.0, 176.0}, {520.0, 392.0}}, title: 'Independent accessibility control', Keyboard Focused, Disabled
+   ↳Group, 0x795a8d1a40, {{700.0, 208.0}, {520.0, 360.0}}, Disabled
+    ↳PopUpButton, 0x795a8d1f40, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.auditcontrol.hosted'
+  Output: {
+    Application, 0x795a8a8780, pid: 77682, title: 'AuditHostedApp', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 77682, token: ci8BAAAAAABvY29jNQAAAAAAAAA=
+    Output: {
+      PopUpButton, 0x795a8a8640, {{730.0, 340.0}, {140.0, 24.0}}, identifier: 'control-scope', label: 'Browse scope, Browse scope', value: Current branch
+    }

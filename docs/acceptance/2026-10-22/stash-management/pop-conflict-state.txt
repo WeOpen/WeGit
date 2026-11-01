@@ -1,0 +1,79 @@
+Window: "Stash Preview", App: StashPreview.
+0 standard window Stash Preview, ID: stash-preview, Secondary Actions: Raise
+	1 container
+		2 split group
+			3 container
+				4 text 暂存记录
+				5 button (disabled) Description: 保存改动…, Help: 请先完成当前 Git 操作, ID: stash-save
+				6 scroll area
+					7 list Description: 暂存记录列表, ID: stash-list
+						8 row (selected) On main: 冲突验收记录
+stash@{0}
+2026年10月22日
+			9 splitter (disabled, settable, float) 380
+			10 container
+				11 text On main: 冲突验收记录 main · bab2e7796b27
+				12 checkbox Description: 恢复原暂存状态, Value: 0, ID: stash-restore-index
+				13 button (disabled) Description: 应用, Help: 请先提交或保存已跟踪文件的改动。, ID: stash-apply
+				14 button (disabled) Description: 取出…, Help: 请先提交或保存已跟踪文件的改动。, ID: stash-pop
+				15 button Description: 删除…, ID: stash-delete
+				16 text 应用会保留记录；取出会在应用成功后删除。请先处理已跟踪文件的现有改动。
+				17 button Description: 前往更改解决冲突, ID: stash-show-conflicts
+				18 记录内容, ID: stash-content-part
+					19 radio button Description: 原未暂存内容, Value: 1
+					20 radio button Description: 原暂存区内容, Value: 0
+					21 radio button Description: 未跟踪内容, Value: 0
+				22 scroll area
+					23 text diff --git a/Feature.swift b/Feature.swift
+index 6392506b28889f613a5bb6a7fc4daacd59ae0f17..e1b898c18817cdabefcdd11dd63fcc07326dba9f 100644
+--- a/Feature.swift
++++ b/Feature.swift
+@@ -1 +1 @@
+-let value = 2
++let value = 3
+
+diff --git a/README.md b/README.md
+index a46c0c7cd9c462641a5976e68666e3731f03da3d..db911923b9518cee0e49da4128c379d204061151 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1,2 @@
+ # Private fixture
++Updated documentation
+
+						24 text diff --git a/Feature.swift b/Feature.swift
+index 6392506b28889f613a5bb6a7fc4daacd59ae0f17..e1b898c18817cdabefcdd11dd63fcc07326dba9f 100644
+--- a/Feature.swift
++++ b/Feature.swift
+@@ -1 +1 @@
+-let value = 2
++let value = 3
+
+diff --git a/README.md b/README.md
+index a46c0c7cd9c462641a5976e68666e3731f03da3d..db911923b9518cee0e49da4128c379d204061151 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1,2 @@
+ # Private fixture
++Updated documentation
+
+		25 text 恢复产生冲突，暂存记录已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。 工作区 3 项
+		26 button 仅清理夹具已跟踪改动
+		27 button 刷新夹具
+	28 toolbar
+		29 text Stash · 私有原生组件预览
+		30 button Description: 浅色, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		31 button Description: 深色, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		32 button Description: English, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		33 button Description: 中文, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Remove from toolbar
+	34 close button
+	35 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	36 minimize button
+	37 text Stash Preview
+38 menu bar
+	39 StashPreview
+	40 Edit
+	41 View
+	42 Window
+	43 Help
+
+The focused UI element is 0 standard window Stash Preview, ID: stash-preview, Secondary Actions: Raise

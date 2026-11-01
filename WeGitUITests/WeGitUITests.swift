@@ -215,7 +215,7 @@ final class WeGitUITests: XCTestCase {
 
     @MainActor private func pushUntilReplyIsLost(_ app: XCUIApplication) throws {
         XCTAssertTrue(app.staticTexts["工作区干净"].waitForExistence(timeout: 10))
-        app.buttons["toolbar-push"].click()
+        app.toolbarSyncAction("toolbar-push").click()
         let check = app.buttons["sync-check-target"]
         XCTAssertTrue(check.waitForExistence(timeout: 5))
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: check)
@@ -505,7 +505,7 @@ final class WeGitUITests: XCTestCase {
         app.launchWeGit()
         defer { app.terminate() }
         XCTAssertTrue(app.staticTexts["工作区干净"].waitForExistence(timeout: 10))
-        app.buttons["toolbar-push"].click()
+        app.toolbarSyncAction("toolbar-push").click()
         let check = app.buttons["sync-check-target"]
         XCTAssertTrue(check.waitForExistence(timeout: 5))
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: check)
@@ -530,7 +530,7 @@ final class WeGitUITests: XCTestCase {
         try fixture.git(["-C", peer.path, "push", "origin", "main"])
         // Exercise the application's action without a desktop-wide hotkey handler
         // intercepting this remote workflow (keyboard paths have separate coverage).
-        app.buttons["toolbar-pull"].click()
+        app.toolbarSyncAction("toolbar-pull").click()
         let pull = app.buttons["sync-pull-confirm"]
         XCTAssertTrue(pull.waitForExistence(timeout: 5))
         expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: pull)
@@ -831,10 +831,11 @@ final class WeGitUITests: XCTestCase {
         reopen.click()
         XCTAssertTrue(app.staticTexts["replacement.swift"].firstMatch.waitForExistence(timeout: 10))
         XCTAssertFalse(app.staticTexts["original.swift"].firstMatch.exists)
-        XCTAssertTrue(app.buttons["stage:untracked:replacement.swift"].isEnabled)
+        XCTAssertTrue(app.checkBoxes["stage:untracked:replacement.swift"].isEnabled)
     }
 
-    @MainActor func testWelcomeAndCloneForm() {
+    @MainActor func testWelcomeAndCloneForm() throws {
+        continueAfterFailure = false
         let app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
         app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
@@ -850,6 +851,29 @@ final class WeGitUITests: XCTestCase {
         XCTAssertEqual(app.textFields["clone-folder"].value as? String, "repository")
         app.buttons["clone-cancel"].click()
         XCTAssertTrue(app.buttons["open-repository"].exists)
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "Welcome after Clone cancellation"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+        let fixture = try UITestGit(prefix: "WeGitSmokeGit")
+        defer { fixture.remove() }
+        let version = try fixture.git(["--version"])
+        XCTAssertTrue(version.hasPrefix("git version "))
+        let helper = Process()
+        helper.executableURL = try XCTUnwrap(
+            Bundle(for: Self.self).url(forResource: "WeGitTestGit", withExtension: nil))
+        helper.arguments = ["--version"]
+        helper.environment = [
+            "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_SYSTEM": "/dev/null", "LC_ALL": "C",
+        ]
+        let output = Pipe()
+        helper.standardOutput = output
+        helper.standardError = output
+        try helper.run()
+        let actual = output.fileHandleForReading.readDataToEndOfFile()
+        helper.waitUntilExit()
+        XCTAssertEqual(helper.terminationStatus, 0, String(decoding: actual, as: UTF8.self))
+        XCTAssertEqual(String(decoding: actual, as: UTF8.self), version)
     }
     @MainActor func testStageCommitAndHistory() throws {
         continueAfterFailure = false
@@ -872,11 +896,11 @@ final class WeGitUITests: XCTestCase {
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launchWeGit()
         defer { app.terminate() }
-        let stage = app.buttons["stage:untracked:sample.swift"]
+        let stage = app.checkBoxes["stage:untracked:sample.swift"]
         XCTAssertTrue(stage.waitForExistence(timeout: 10), app.windows.debugDescription)
         app.staticTexts["sample.swift"].firstMatch.click()
         stage.click()
-        let unstage = app.buttons["stage:staged:sample.swift"]
+        let unstage = app.checkBoxes["stage:staged:sample.swift"]
         XCTAssertTrue(unstage.waitForExistence(timeout: 5))
         XCTAssertTrue(app.checkBoxes["diff-ignore-whitespace"].waitForExistence(timeout: 5))
         let message = app.descendants(matching: .any).matching(identifier: "commit-message").firstMatch
@@ -924,9 +948,24 @@ final class WeGitUITests: XCTestCase {
         app.buttons["克隆仓库…"].firstMatch.click()
         func fill(_ identifier: String, _ value: String) {
             let field = app.textFields[identifier]
+            let before = field.frame
             field.click()
             field.typeKey("a", modifierFlags: .command)
             field.typeText(value)
+            let complete = XCTNSPredicateExpectation(
+                predicate: NSPredicate(format: "value == %@", value), object: field)
+            let result = XCTWaiter.wait(for: [complete], timeout: 2)
+            if result != .completed {
+                let evidence = XCTAttachment(
+                    string: "Before: \(before); after: \(field.frame)\n" + app.debugDescription)
+                evidence.name = "Long clone input state"
+                evidence.lifetime = .keepAlways
+                add(evidence)
+                let screenshot = XCTAttachment(screenshot: app.screenshot())
+                screenshot.name = "Long clone input layout"
+                screenshot.lifetime = .keepAlways
+                add(screenshot)
+            }
             XCTAssertEqual(field.value as? String, value, "输入字段 \(identifier) 未保留完整内容")
         }
         fill("clone-url", source.path)
@@ -996,7 +1035,8 @@ final class WeGitUITests: XCTestCase {
                 .waitForExistence(timeout: 5))
         XCTAssertEqual(app.descendants(matching: .any).matching(identifier: "split-diff-row").count, 14)
         let headers = app.descendants(matching: .any).matching(identifier: "diff-column-headers").firstMatch
-        XCTAssertTrue(headers.label.contains("原始内容") && headers.label.contains("修改后"))
+        XCTAssertTrue(headers.staticTexts["原始内容"].exists)
+        XCTAssertTrue(headers.staticTexts["修改后"].exists)
         app.radioButtons["统一"].click()
         XCTAssertTrue(app.buttons.matching(identifier: "暂存此块").firstMatch.waitForExistence(timeout: 5))
         XCTAssertFalse(
@@ -1154,12 +1194,23 @@ final class WeGitUITests: XCTestCase {
         let progress = app.staticTexts["diff-page-progress"]
         func waitForProgress(_ shown: Int, total: Int) {
             let predicate = NSPredicate { object, _ in
-                guard let element = object as? XCUIElement else { return false }
+                guard let element = object as? XCUIElement, element.exists else { return false }
                 let text = (element.value as? String) ?? element.label
                 return text.filter(\.isNumber) == "\(shown)\(total)"
             }
-            expectation(for: predicate, evaluatedWith: progress)
-            waitForExpectations(timeout: 5)
+            let ready = XCTWaiter.wait(
+                for: [XCTNSPredicateExpectation(predicate: predicate, object: progress)], timeout: 5)
+            if ready != .completed {
+                let screenshot = XCTAttachment(screenshot: app.screenshot())
+                screenshot.name = "Paging did not reach \(shown) of \(total)"
+                screenshot.lifetime = .keepAlways
+                add(screenshot)
+                let state = XCTAttachment(string: app.debugDescription)
+                state.name = "Paging accessibility state"
+                state.lifetime = .keepAlways
+                add(state)
+            }
+            XCTAssertEqual(ready, .completed, "Expected \(shown) of \(total) within five seconds")
         }
         waitForProgress(399, total: 2_400)
         XCTAssertFalse(app.buttons["暂存此块"].exists)
@@ -1168,7 +1219,8 @@ final class WeGitUITests: XCTestCase {
         app.radioButtons["分栏"].click()
         waitForProgress(399, total: 1_200)
         let headers = app.descendants(matching: .any).matching(identifier: "diff-column-headers").firstMatch
-        XCTAssertTrue(headers.label.contains("原始内容") && headers.label.contains("修改后"))
+        XCTAssertTrue(headers.staticTexts["原始内容"].exists)
+        XCTAssertTrue(headers.staticTexts["修改后"].exists)
         app.staticTexts["small.swift"].firstMatch.click()
         XCTAssertTrue(app.buttons["暂存此块"].firstMatch.waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["diff-load-more"].exists)

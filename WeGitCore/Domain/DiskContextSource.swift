@@ -28,7 +28,7 @@ struct DiskContextSource: Sendable {
             }
             try reader.validate()
             guard !reader.containsNUL && reader.validUTF8 else {
-                throw ModelFailure.unsupported("此对象不支持文本上下文。")
+                throw ModelFailure.unsupported(L10n.text("此对象不支持文本上下文。"))
             }
             return DiskContextSource(file: file, lineCount: count, checkpoints: checkpoints)
         }
@@ -49,7 +49,7 @@ struct DiskContextSource: Sendable {
                     let oldNumber = start + read
                     let delta = oldNumber - gap.oldStart
                     guard delta >= 0, gap.newStart <= Int.max - delta else {
-                        throw ModelFailure.invalidOutput("上下文行号超出范围")
+                        throw ModelFailure.invalidOutput(L10n.text("上下文行号超出范围"))
                     }
                     lines.append(
                         DiffLine(
@@ -67,7 +67,9 @@ struct DiskContextSource: Sendable {
                 }
                 try reader.validate()
             }
-            if gap.count != nil && read != count { throw ModelFailure.invalidOutput("上下文范围与补丁对象不一致") }
+            if gap.count != nil && read != count {
+                throw ModelFailure.invalidOutput(L10n.text("上下文范围与补丁对象不一致"))
+            }
             return DiffContextPage(
                 lines: lines, consumedLines: read,
                 hasMore: gap.count.map { consumed + read < $0 } ?? (start + read <= lineCount))

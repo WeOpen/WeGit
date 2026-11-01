@@ -1,0 +1,17 @@
+{
+  "main": {
+    "head": "5c842de7e50181dc33befc2df4b259e377193dfd",
+    "index": "base\n",
+    "status": ""
+  },
+  "first": {
+    "head": "5c842de7e50181dc33befc2df4b259e377193dfd",
+    "index": "first worktree\n",
+    "status": "M  file.txt\n"
+  },
+  "second": {
+    "head": "5c842de7e50181dc33befc2df4b259e377193dfd",
+    "index": "base\n",
+    "status": "?? second-only.txt\n"
+  }
+}

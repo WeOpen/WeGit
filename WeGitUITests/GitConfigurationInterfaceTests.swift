@@ -17,7 +17,7 @@ final class GitConfigurationInterfaceTests: XCTestCase {
         app.launchWeGit()
         defer { app.terminate() }
         app.menuBars.menuBarItems["WeGit"].click()
-        app.menuItems["Settings…"].click()
+        app.menuItems["native-command-settings"].click()
         let tab = app.buttons["Git"].firstMatch
         if tab.waitForExistence(timeout: 3) { tab.click() } else { app.radioButtons["Git"].click() }
         let scope = app.popUpButtons["git-setting-scope"]

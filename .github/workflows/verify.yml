@@ -26,6 +26,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
       - name: Install checksum-pinned tools and policy dependency
         run: |
           python3 -m venv "$RUNNER_TEMP/wegit-python"
@@ -37,6 +40,11 @@ jobs:
           "$RUNNER_TEMP/wegit-tools/actionlint" -color
           python3 scripts/ci/check_policy.py
           python3 -m unittest discover -s scripts/ci/tests -v
+          if [[ -f site/src/pages/index.html ]]; then
+            python3 scripts/build_website.py
+            node --test site/tests/*.test.mjs
+          fi
+          python3 scripts/ci/verify_secret_policy.py --gitleaks "$RUNNER_TEMP/wegit-tools/gitleaks"
           git diff --check
       - name: Scan committed history for credentials
         run: |
@@ -76,11 +84,19 @@ jobs:
           env WEGIT_TEST_GIT="$(cat .build/git-246-path)" swift test --no-parallel
       - name: Native feature behavior checks
         run: scripts/ci/native-behavior.sh
+      - name: Apple and Homebrew Git with isolated OpenPGP signing
+        run: scripts/verify-gpg-compatibility.sh
+      - name: Complete core regression with actual Homebrew Git
+        run: |
+          env WEGIT_TEST_GIT="$(brew --prefix git)/bin/git" swift test --no-parallel | tee .build/ci/homebrew-core.log
       - name: Compile native UI regressions
         run: |
           xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
             -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
             -resultBundlePath .build/ci/native-build.xcresult build-for-testing
+          if [[ -f scripts/verify-ui-git-wrapper.py ]]; then
+            python3 scripts/verify-ui-git-wrapper.py .build-app/Build/Products/Debug/WeGitTestGit
+          fi
       - name: Ordinary Release and preview package
         run: |
           scripts/build.sh Release
@@ -94,6 +110,9 @@ jobs:
           path: |
             .build/ci/
             .build/*-checks-*/result.json
+            .build/worktree-read-performance-*/result.json
+            .build/rebase-performance-*/result.json
+            .build/rebase-performance-*/failure-fixture.tar.gz
             .build/appearance-icons-*/result.json
             .build/native-application-menu-*/result.json
             .build/releases/package-*/*.zip

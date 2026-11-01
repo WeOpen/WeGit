@@ -1,0 +1,8 @@
+Window: "fixture", App: WeGit.
+0 File, Secondary Actions: Cancel, Pick
+	1 menu Secondary Actions: Cancel
+		2 Open repository…, ID: menuAction:
+		3 Clone repository…, ID: menuAction:
+		4 Switch repository…, ID: menuAction:
+		5 Close, ID: performClose:
+		6 Close All, ID: closeAll:

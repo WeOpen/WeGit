@@ -1,0 +1,113 @@
+Window: "", App: WeGit.
+0 表单 Secondary Actions: Raise
+	1 container
+		2 文本 Custom theme
+		3 转换 Live preview, Value: on, ID: theme-live-preview
+		4 分离组
+			5 滚动区 Secondary Actions: Scroll Up, Scroll Down
+				6 文本栏 (settable) Value: Sea Glass · 海玻璃, Placeholder: Theme name, ID: theme-name
+				7 弹出式按钮 Control appearance, Value: Light, ID: theme-controls
+				8 文本 Control appearance chooses light or dark system controls and the running app icon. Set the colors below.
+				9 标题 Surfaces
+				10 container
+					11 文本 Content background
+					12 文本栏 (settable) Description: Content background, Value: #EFF8F5, Placeholder: #RRGGBB, ID: theme-color-canvas
+					13 颜色池 Description: Content background, Content background color picker, Value: rgb 0.937255 0.972549 0.960784 1, ID: theme-well-canvas, Secondary Actions: 显示颜色面板
+				14 container
+					15 文本 Toolbar and panel headers
+					16 文本栏 (settable) Description: Toolbar and panel headers, Value: #EFF8F5, Placeholder: #RRGGBB, ID: theme-color-chrome
+					17 颜色池 Description: Toolbar and panel headers, Toolbar and panel headers color picker, Value: rgb 0.937255 0.972549 0.960784 1, ID: theme-well-chrome, Secondary Actions: 显示颜色面板
+				18 container
+					19 文本 Sidebar background
+					20 文本栏 (settable) Description: Sidebar background, Value: #DFECE8, Placeholder: #RRGGBB, ID: theme-color-sidebar
+					21 颜色池 Description: Sidebar background, Sidebar background color picker, Value: rgb 0.87451 0.92549 0.909804 1, ID: theme-well-sidebar, Secondary Actions: 显示颜色面板
+				22 container
+					23 文本 Cards and input areas
+					24 文本栏 (settable) Description: Cards and input areas, Value: #F6FFFC, Placeholder: #RRGGBB, ID: theme-color-surface
+					25 颜色池 Description: Cards and input areas, Cards and input areas color picker, Value: rgb 0.964706 1 0.988235 1, ID: theme-well-surface, Secondary Actions: 显示颜色面板
+				26 container
+					27 文本 Borders and dividers
+					28 文本栏 (settable) Description: Borders and dividers, Value: #A3BEB4, Placeholder: #RRGGBB, ID: theme-color-border
+					29 颜色池 Description: Borders and dividers, Borders and dividers color picker, Value: rgb 0.639216 0.745098 0.705882 1, ID: theme-well-border, Secondary Actions: 显示颜色面板
+				30 标题 Text and accent
+				31 container
+					32 文本 Accent color
+					33 文本栏 (settable) Description: Accent color, Value: #0A7660, Placeholder: #RRGGBB, ID: theme-color-accent
+					34 颜色池 Description: Accent color, Accent color color picker, Value: rgb 0.0392157 0.462745 0.376471 1, ID: theme-well-accent, Secondary Actions: 显示颜色面板
+				35 container
+					36 文本 Primary text
+					37 文本栏 (settable) Description: Primary text, Value: #163D36, Placeholder: #RRGGBB, ID: theme-color-text
+					38 颜色池 Description: Primary text, Primary text color picker, Value: rgb 0.0862745 0.239216 0.211765 1, ID: theme-well-text, Secondary Actions: 显示颜色面板
+				39 container
+					40 文本 Secondary text
+					41 文本栏 (settable) Description: Secondary text, Value: #46665D, Placeholder: #RRGGBB, ID: theme-color-secondaryText
+					42 颜色池 Description: Secondary text, Secondary text color picker, Value: rgb 0.27451 0.4 0.364706 1, ID: theme-well-secondaryText, Secondary Actions: 显示颜色面板
+				43 标题 Git status and diff
+				44 container
+					45 文本 Added and success
+					46 文本栏 (settable) Description: Added and success, Value: #176944, Placeholder: #RRGGBB, ID: theme-color-positive
+					47 颜色池 Description: Added and success, Added and success color picker, Value: rgb 0.0901961 0.411765 0.266667 1, ID: theme-well-positive, Secondary Actions: 显示颜色面板
+				48 container
+					49 文本 Removed and errors
+					50 文本栏 (settable) Description: Removed and errors, Value: #A7364D, Placeholder: #RRGGBB, ID: theme-color-negative
+					51 颜色池 Description: Removed and errors, Removed and errors color picker, Value: rgb 0.654902 0.211765 0.301961 1, ID: theme-well-negative, Secondary Actions: 显示颜色面板
+				52 container
+					53 文本 Modified and warnings
+					54 文本栏 (settable) Description: Modified and warnings, Value: #855A10, Placeholder: #RRGGBB, ID: theme-color-modified
+					55 颜色池 Description: Modified and warnings, Modified and warnings color picker, Value: rgb 0.521569 0.352941 0.0627451 1, ID: theme-well-modified, Secondary Actions: 显示颜色面板
+				56 container
+					57 文本 Added-line background
+					58 文本栏 (settable) Description: Added-line background, Value: #D7EFE3, Placeholder: #RRGGBB, ID: theme-color-diffAdded
+					59 颜色池 Description: Added-line background, Added-line background color picker, Value: rgb 0.843137 0.937255 0.890196 1, ID: theme-well-diffAdded, Secondary Actions: 显示颜色面板
+				60 container
+					61 文本 Removed-line background
+					62 文本栏 (settable) Description: Removed-line background, Value: #F7E0E5, Placeholder: #RRGGBB, ID: theme-color-diffRemoved
+					63 颜色池 Description: Removed-line background, Removed-line background color picker, Value: rgb 0.968627 0.878431 0.898039 1, ID: theme-well-diffRemoved, Secondary Actions: 显示颜色面板
+				64 标题 Syntax highlighting
+				65 container
+					66 文本 Keywords
+					67 文本栏 (settable) Description: Keywords, Value: #7053A5, Placeholder: #RRGGBB, ID: theme-color-keyword
+					68 颜色池 Description: Keywords, Keywords color picker, Value: rgb 0.439216 0.32549 0.647059 1, ID: theme-well-keyword, Secondary Actions: 显示颜色面板
+				69 container
+					70 文本 Strings
+					71 文本栏 (settable) Description: Strings, Value: #825122, Placeholder: #RRGGBB, ID: theme-color-string
+					72 颜色池 Description: Strings, Strings color picker, Value: rgb 0.509804 0.317647 0.133333 1, ID: theme-well-string, Secondary Actions: 显示颜色面板
+				73 container
+					74 文本 Numbers and links
+					75 文本栏 (settable) Description: Numbers and links, Value: #1B5D91, Placeholder: #RRGGBB, ID: theme-color-number
+					76 颜色池 Description: Numbers and links, Numbers and links color picker, Value: rgb 0.105882 0.364706 0.568627 1, ID: theme-well-number, Secondary Actions: 显示颜色面板
+				77 container
+					78 文本 Comments
+					79 文本栏 (settable) Description: Comments, Value: #4F6B61, Placeholder: #RRGGBB, ID: theme-color-comment
+					80 颜色池 Description: Comments, Comments color picker, Value: rgb 0.309804 0.419608 0.380392 1, ID: theme-well-comment, Secondary Actions: 显示颜色面板
+				81 滚动条 (settable, float) 0
+					82 值指示器 (settable, float) 0
+					83 增箭头按钮
+					84 减箭头按钮
+					85 增页面按钮
+					86 减页面按钮
+			87 分离器 (disabled, settable, float) 429.5
+			88 滚动区
+				89 文本 Value: Sea Glass · 海玻璃, ID: theme-preview
+				90 图像 Description: Split View Horizontally Right, ID: theme-preview
+				91 text ID: theme-preview, Value: Changes main History Added Deleted Modified // WeGit let  branch =  "main" + count = 42 − count = 41 Custom colors are stored separately. Built-in Light and Dark stay unchanged.
+		92 按钮 Description: Import…, ID: theme-import
+		93 按钮 Description: Export…, ID: theme-export
+		94 按钮 Description: Reset colors, ID: theme-reset
+		95 按钮 Description: Cancel, ID: theme-cancel
+		96 按钮 Description: Apply theme, ID: theme-apply
+97 menu bar
+	98 WeGit, ID: native-menu-app
+	99 File, ID: native-menu-file
+	100 Edit, ID: native-menu-edit
+	101 View, ID: native-menu-view
+	102 Repository, ID: native-menu-repository
+	103 Workspace, ID: native-menu-workspace
+	104 Window, ID: native-menu-window
+	105 Help, ID: native-menu-help
+
+Selected text: ```
+Sea Glass · 海玻璃
+```
+
+Note: Pay special attention to the content selected by the user. If the user asks a question or refers to the content they are looking at on-screen, they might be referring to the selected content (but they might be referring to something else that's visible, too).

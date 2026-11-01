@@ -5,14 +5,25 @@ public struct RepositoryService: Sendable {
     public let location: RepositoryLocation
     public let engine: GitEngine
     public let queue: RepositoryOperationQueue
+    public let sharedQueue: RepositoryOperationQueue
     private var expectedBranch: String?
     public init(
         location: RepositoryLocation, engine: GitEngine,
-        queue: RepositoryOperationQueue = RepositoryOperationQueue()
+        queue: RepositoryOperationQueue? = nil
     ) {
         self.location = location
         self.engine = engine
-        self.queue = queue
+        self.queue = queue ?? RepositoryOperationQueue.worktree(for: location)
+        self.sharedQueue = RepositoryOperationQueue.shared(for: location)
+    }
+
+    /// A common-first lock order serializes shared writes without blocking local
+    /// work in sibling worktrees. No worktree-local operation may acquire common.
+    func withSharedOperation<T: Sendable>(_ operation: @Sendable () async throws -> T) async throws -> T {
+        try await sharedQueue.perform {
+            if queue === sharedQueue { return try await operation() }
+            return try await queue.perform(operation)
+        }
     }
 
     public func expectingBranch(_ branch: String) -> RepositoryService {
@@ -24,7 +35,9 @@ public struct RepositoryService: Sendable {
     public static func discover(_ directory: URL, engine: GitEngine) async throws -> RepositoryLocation {
         let bare = try await engine.run(["rev-parse", "--is-bare-repository"], in: directory).text
             .trimmingCharacters(in: .whitespacesAndNewlines)
-        guard bare == "false" else { throw ModelFailure.unsupported("此版本尚不支持打开 Bare 仓库，请选择含工作区的仓库。") }
+        guard bare == "false" else {
+            throw ModelFailure.unsupported(L10n.text("此版本尚不支持打开 Bare 仓库，请选择含工作区的仓库。"))
+        }
         let root = try await engine.run(["rev-parse", "--show-toplevel"], in: directory).text
             .removingLastNewline
         let git = try await engine.run(["rev-parse", "--absolute-git-dir"], in: directory).text
@@ -32,23 +45,31 @@ public struct RepositoryService: Sendable {
         let common = try await engine.run(
             ["rev-parse", "--path-format=absolute", "--git-common-dir"], in: directory
         ).text.removingLastNewline
-        guard git == common else {
-            throw ModelFailure.unsupported("已识别 linked worktree。共享引用写入支持计划在 V1.2 提供，请打开主仓库。")
-        }
         let rootURL = URL(fileURLWithPath: root).resolvingSymlinksInPath()
         let gitURL = URL(fileURLWithPath: git).resolvingSymlinksInPath()
-        return RepositoryLocation(
+        let commonURL = URL(fileURLWithPath: common).resolvingSymlinksInPath()
+        let location = RepositoryLocation(
             root: rootURL, gitDirectory: gitURL,
-            commonDirectory: URL(fileURLWithPath: common).resolvingSymlinksInPath(),
+            commonDirectory: commonURL,
             rootIdentity: try RepositoryNodeIdentity.read(rootURL, directory: true),
             gitIdentity: try RepositoryNodeIdentity.read(gitURL, directory: true),
-            markerIdentity: try RepositoryNodeIdentity.read(rootURL.appending(path: ".git")))
+            markerIdentity: try RepositoryNodeIdentity.read(rootURL.appending(path: ".git")),
+            commonIdentity: try RepositoryNodeIdentity.read(commonURL, directory: true),
+            commonMarkerIdentity: try RepositoryNodeIdentity.readIfPresent(
+                gitURL.appending(path: "commondir")),
+            worktreeLinkIdentity: try RepositoryNodeIdentity.readIfPresent(gitURL.appending(path: "gitdir")))
+        try location.validateLayout()
+        return location
     }
 
     public func status() async throws -> RepositoryStatus {
         try location.validateIdentity()
+        // Background reads must not refresh the index stat cache and generate
+        // their own filesystem events or contend with real index writes.
+        var readEngine = engine
+        readEngine.environment["GIT_OPTIONAL_LOCKS"] = "0"
         var value = try StatusParser.parse(
-            await engine.run(
+            await readEngine.run(
                 ["status", "--porcelain=v2", "-z", "--branch", "--untracked-files=all"], in: location.root
             ).stdout)
         let base = location.gitDirectory
@@ -63,10 +84,30 @@ public struct RepositoryService: Sendable {
             value.sequencer = .merge
         } else if FileManager.default.fileExists(atPath: base.appending(path: "CHERRY_PICK_HEAD").path) {
             value.sequencer = .cherryPick
+            value.singleCommitRecovery = try singleCommitRecovery(for: value, operation: .cherryPick)
         } else if FileManager.default.fileExists(atPath: base.appending(path: "REVERT_HEAD").path) {
             value.sequencer = .revert
+            value.singleCommitRecovery = try singleCommitRecovery(for: value, operation: .revert)
         } else if FileManager.default.fileExists(atPath: base.appending(path: "sequencer").path) {
             value.sequencer = .unknown
+        }
+        if value.sequencer == .rebase {
+            do {
+                value.rebaseRecovery = try await readRebaseRecovery(for: value)
+                if value.rebaseRecovery == nil {
+                    value.rebaseRecoveryUnavailable = L10n.text("此变基来源无法完整核对，请在 Terminal 中处理。")
+                }
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch ProcessFailure.cancelled {
+                throw ProcessFailure.cancelled
+            } catch ModelFailure.repositoryReplaced {
+                throw ModelFailure.repositoryReplaced
+            } catch {
+                // An unsupported/external todo must not hide the working files
+                // and conflicts. It only disables automatic recovery controls.
+                value.rebaseRecoveryUnavailable = error.localizedDescription
+            }
         }
         return value
     }
@@ -85,12 +126,12 @@ public struct RepositoryService: Sendable {
     )
         async throws -> FileDiff
     {
-        guard layer != .commit else { throw ModelFailure.unsupported("提交差异需要明确的提交和父提交。") }
+        guard layer != .commit else { throw ModelFailure.unsupported(L10n.text("提交差异需要明确的提交和父提交。")) }
         guard (1...DiffReadBudget.patchBytes).contains(outputLimit) else {
-            throw ModelFailure.unsupported("差异读取上限无效。")
+            throw ModelFailure.unsupported(L10n.text("差异读取上限无效。"))
         }
         guard (0...200).contains(options.contextLines) else {
-            throw ModelFailure.unsupported("上下文行数须在 0～200 之间。")
+            throw ModelFailure.unsupported(L10n.text("上下文行数须在 0～200 之间。"))
         }
         try validate(path)
         let current = try await head()
@@ -139,10 +180,12 @@ public struct RepositoryService: Sendable {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard !paths.contains(where: { path in state.conflicts.contains { $0.path == path } }) else {
-                throw ModelFailure.unsupported("冲突文件必须通过“标记已解决”单独确认。")
+                throw ModelFailure.unsupported(L10n.text("冲突文件必须通过“标记已解决”单独确认。"))
             }
+            let expanded = expandingRenames(paths, in: state)
+            try validateExactEntryScope(expanded, in: state)
             try await verifyHead(expectedHead)
-            try await add(expandingRenames(paths, in: state))
+            try await add(expanded)
         }
     }
 
@@ -169,16 +212,20 @@ public struct RepositoryService: Sendable {
             guard !paths.isEmpty else { return }
             let state = try await status()
             guard !state.conflicts.contains(where: { paths.contains($0.path) }) else {
-                throw ModelFailure.unsupported("请通过当前冲突流程处理未合并文件。")
+                throw ModelFailure.unsupported(L10n.text("请通过当前冲突流程处理未合并文件。"))
             }
             let expanded = expandingRenames(paths, in: state)
             try expanded.forEach(validate)
+            try validateExactEntryScope(expanded, in: state, stagedOnly: true)
             let args =
                 expectedHead == nil
                 ? ["rm", "--cached", "-f", "--pathspec-from-file=-", "--pathspec-file-nul"]
                 : ["restore", "--staged", "--pathspec-from-file=-", "--pathspec-file-nul"]
             try await verifyHead(expectedHead)
-            _ = try await engine.run(args, in: location.root, input: nulPaths(expanded))
+            // Git restore rejects a child path that is absent from HEAD even
+            // when its selected parent already covers the whole replacement.
+            let specifications = minimalPathspecs(expanded)
+            _ = try await engine.run(args, in: location.root, input: nulPaths(specifications))
         }
     }
 
@@ -186,9 +233,9 @@ public struct RepositoryService: Sendable {
         try await queue.perform {
             try await verifyHead(diff.head)
             guard !discard || diff.layer == .unstaged else {
-                throw ModelFailure.unsupported("只能丢弃未暂存的差异块。")
+                throw ModelFailure.unsupported(L10n.text("只能丢弃未暂存的差异块。"))
             }
-            guard diff.canApplyHunk else { throw ModelFailure.unsupported("此差异只支持文件级操作。") }
+            guard diff.canApplyHunk else { throw ModelFailure.unsupported(L10n.text("此差异只支持文件级操作。")) }
             let fresh = try await self.diff(path: diff.path, layer: diff.layer, options: diff.options)
             guard fresh.raw == diff.raw, fresh.head == diff.head else { throw ModelFailure.changed }
             guard fresh.hunks.contains(hunk) else { throw ModelFailure.changed }
@@ -207,7 +254,7 @@ public struct RepositoryService: Sendable {
         try await queue.perform {
             try await verifyHead(diff.head)
             guard diff.layer == .unstaged && !diff.options.ignoreWhitespace else {
-                throw ModelFailure.unsupported("此入口只丢弃未暂存的已跟踪文件改动。")
+                throw ModelFailure.unsupported(L10n.text("此入口只丢弃未暂存的已跟踪文件改动。"))
             }
             let fresh = try await self.diff(path: diff.path, layer: diff.layer, options: diff.options)
             guard fresh.raw == diff.raw, fresh.head == diff.head else { throw ModelFailure.changed }
@@ -217,15 +264,17 @@ public struct RepositoryService: Sendable {
     }
 
     public func commit(message: String, amend: Bool, expectedHead: String?) async throws -> String {
-        try await queue.perform {
+        try await withSharedOperation {
             try await verifyHead(expectedHead)
             let state = try await status()
             guard !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                throw ModelFailure.unsupported("请填写提交消息。")
+                throw ModelFailure.unsupported(L10n.text("请填写提交消息。"))
             }
-            guard state.conflicts.isEmpty else { throw ModelFailure.unsupported("请先解决所有冲突。") }
-            guard state.sequencer == .none else { throw ModelFailure.unsupported("请使用当前操作的继续入口。") }
-            guard !amend || state.head != nil else { throw ModelFailure.unsupported("没有可以修改的上次提交。") }
+            guard state.conflicts.isEmpty else { throw ModelFailure.unsupported(L10n.text("请先解决所有冲突。")) }
+            guard state.sequencer == .none else { throw ModelFailure.unsupported(L10n.text("请使用当前操作的继续入口。")) }
+            guard !amend || state.head != nil else {
+                throw ModelFailure.unsupported(L10n.text("没有可以修改的上次提交。"))
+            }
             var args = ["commit", "--file=-"]
             if amend { args.append("--amend") }
             try await verifyHead(expectedHead)
@@ -257,6 +306,38 @@ public struct RepositoryService: Sendable {
                 actual == "refs/heads/" + expectedBranch || (actual.isEmpty && expectedBranch == "(detached)")
             else { throw ModelFailure.changed }
         }
+    }
+
+    /// Literal pathspecs still recurse into directories. A deleted file can share
+    /// a name with a new directory, so reject a selection that would also touch
+    /// changed descendants the user did not select.
+    private func validateExactEntryScope(
+        _ paths: [String], in state: RepositoryStatus, stagedOnly: Bool = false
+    ) throws {
+        let selected = Set(paths)
+        for file in state.files
+        where !selected.contains(file.path) && (!stagedOnly || file.staged || file.conflict) {
+            var ancestor = (file.path as NSString).deletingLastPathComponent
+            while !ancestor.isEmpty && ancestor != "." {
+                guard !selected.contains(ancestor) else {
+                    throw ModelFailure.unsupported(
+                        L10n.text("文件与目录替换包含未选中的子路径，请分别处理差异或同时选择这些路径。"))
+                }
+                ancestor = (ancestor as NSString).deletingLastPathComponent
+            }
+        }
+    }
+
+    private func minimalPathspecs(_ paths: [String]) -> [String] {
+        let selected = Set(paths)
+        return selected.filter { path in
+            var ancestor = (path as NSString).deletingLastPathComponent
+            while !ancestor.isEmpty && ancestor != "." {
+                if selected.contains(ancestor) { return false }
+                ancestor = (ancestor as NSString).deletingLastPathComponent
+            }
+            return true
+        }.sorted()
     }
 
     private func expandingRenames(_ paths: [String], in state: RepositoryStatus) -> [String] {

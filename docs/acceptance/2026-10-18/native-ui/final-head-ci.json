@@ -1,0 +1,207 @@
+{
+  "conclusion": "success",
+  "databaseId": 39010946472,
+  "headSha": "84df3ed49635fa0e8bc35c8d723e821816954b81",
+  "jobs": [
+    {
+      "completedAt": "2026-10-17T06:43:41Z",
+      "conclusion": "success",
+      "databaseId": 117333189869,
+      "name": "Repository policy",
+      "startedAt": "2026-10-17T06:43:21Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-17T06:43:23Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-17T06:43:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:25Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-17T06:43:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:31Z",
+          "conclusion": "success",
+          "name": "Install checksum-pinned tools and policy dependency",
+          "number": 3,
+          "startedAt": "2026-10-17T06:43:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:37Z",
+          "conclusion": "success",
+          "name": "Workflow lint, repository contracts and tooling tests",
+          "number": 4,
+          "startedAt": "2026-10-17T06:43:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:39Z",
+          "conclusion": "success",
+          "name": "Scan committed history for credentials",
+          "number": 5,
+          "startedAt": "2026-10-17T06:43:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:40Z",
+          "conclusion": "success",
+          "name": "Retain policy evidence",
+          "number": 6,
+          "startedAt": "2026-10-17T06:43:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:40Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 12,
+          "startedAt": "2026-10-17T06:43:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:40Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-17T06:43:40Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/WeOpen/WeGit/actions/runs/39010946472/job/117333189869"
+    },
+    {
+      "completedAt": "2026-10-17T06:51:21Z",
+      "conclusion": "success",
+      "databaseId": 117333258665,
+      "name": "Native macOS",
+      "startedAt": "2026-10-17T06:43:48Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-17T06:43:49Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-17T06:43:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:53Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 2,
+          "startedAt": "2026-10-17T06:43:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:53Z",
+          "conclusion": "success",
+          "name": "Isolate Git configuration without affecting checkout cleanup",
+          "number": 3,
+          "startedAt": "2026-10-17T06:43:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:43:56Z",
+          "conclusion": "success",
+          "name": "Verify actual OS, architecture and Xcode",
+          "number": 4,
+          "startedAt": "2026-10-17T06:43:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:47:04Z",
+          "conclusion": "success",
+          "name": "Formatting, core tests and Debug build",
+          "number": 5,
+          "startedAt": "2026-10-17T06:43:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:48:42Z",
+          "conclusion": "success",
+          "name": "Minimum Git 2.46 core regression",
+          "number": 6,
+          "startedAt": "2026-10-17T06:47:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:49:00Z",
+          "conclusion": "success",
+          "name": "Native feature behavior checks",
+          "number": 7,
+          "startedAt": "2026-10-17T06:48:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:49:05Z",
+          "conclusion": "success",
+          "name": "Apple and Homebrew Git with isolated OpenPGP signing",
+          "number": 8,
+          "startedAt": "2026-10-17T06:49:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:50:05Z",
+          "conclusion": "success",
+          "name": "Complete core regression with actual Homebrew Git",
+          "number": 9,
+          "startedAt": "2026-10-17T06:49:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:50:15Z",
+          "conclusion": "success",
+          "name": "Compile native UI regressions",
+          "number": 10,
+          "startedAt": "2026-10-17T06:50:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:51:16Z",
+          "conclusion": "success",
+          "name": "Ordinary Release and preview package",
+          "number": 11,
+          "startedAt": "2026-10-17T06:50:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:51:18Z",
+          "conclusion": "success",
+          "name": "Retain native evidence and preview",
+          "number": 12,
+          "startedAt": "2026-10-17T06:51:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:51:18Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "number": 24,
+          "startedAt": "2026-10-17T06:51:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T06:51:19Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-17T06:51:18Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/WeOpen/WeGit/actions/runs/39010946472/job/117333258665"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/WeOpen/WeGit/actions/runs/39010946472"
+}

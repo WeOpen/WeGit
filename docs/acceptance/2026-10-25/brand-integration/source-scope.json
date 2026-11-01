@@ -1,0 +1,11 @@
+{
+  "branch": "codex/v1-1-1-polish",
+  "sourceInputs": 156,
+  "previewSourceEquivalent": true,
+  "diagnosticOnly": true,
+  "fixtureHead": "71ac19c3e5ee1c8e70c73b5e83fdf307718a7394",
+  "previewBranchCreated": false,
+  "localXCTestExecuted": false,
+  "hostedRegressionExecuted": false,
+  "performanceAcceptance": false
+}

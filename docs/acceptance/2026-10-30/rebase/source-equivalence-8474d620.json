@@ -1,0 +1,13 @@
+{
+  "candidate": "8474d620c7607678921fcfb91d13dae68572b26c",
+  "requiredReportSourceRevision": "47441110b4e04ba84129f2040790a32babd54863",
+  "performanceInputCount": 12,
+  "nativeInputCount": 185,
+  "allInputHashesMatchCandidate": true,
+  "performanceSamples": {
+    "ordinary": 30,
+    "large-loose": 30,
+    "large-packed": 30
+  },
+  "scope": "Input equivalence and evidence receipt; not a release or full v1.2 acceptance"
+}

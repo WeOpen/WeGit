@@ -22,13 +22,15 @@ final class CommitDetailState {
     private var fileTask: Task<Void, Never>?
     private var requestedCommit: GitCommit?
     private var requestedParent: String?
+    private var requestedPaths: [String]?
 
     init(service: RepositoryService) { self.service = service }
 
-    func select(_ commit: GitCommit?, parent: String?) async {
+    func select(_ commit: GitCommit?, parent: String?, paths: [String]? = nil) async {
         cancel()
         requestedCommit = commit
         requestedParent = parent
+        requestedPaths = paths
         comparison = nil
         selectedPath = nil
         display = nil
@@ -43,7 +45,7 @@ final class CommitDetailState {
         let work = Task {
             defer { if requestID == request { loading = false } }
             do {
-                let result = try await service.commitComparison(id: commit.id, parent: parent)
+                let result = try await service.commitComparison(id: commit.id, parent: parent, paths: paths)
                 guard requestID == request, !Task.isCancelled else { return }
                 comparison = result
                 selectedPath = result.files.first?.id
@@ -132,19 +134,19 @@ final class CommitDetailState {
         fileID = UUID()
         fileTask?.cancel()
         loadingFile = false
-        fileError = "已取消读取，可重新选择文件或重试。"
+        fileError = L10n.text("已取消读取，可重新选择文件或重试。")
         display?.cancelAll()
         diskDisplay?.cancelAll()
     }
 
-    func retry() { Task { await select(requestedCommit, parent: requestedParent) } }
+    func retry() { Task { await select(requestedCommit, parent: requestedParent, paths: requestedPaths) } }
 
     func cancel(userInitiated: Bool = false) {
         requestID = UUID()
         task?.cancel()
         loading = false
         cancelFile()
-        if userInitiated { error = "已取消读取，可随时重试。" }
+        if userInitiated { error = L10n.text("已取消读取，可随时重试。") }
     }
 
     func releaseCache() {
@@ -157,5 +159,6 @@ final class CommitDetailState {
         selectedPath = nil
         requestedCommit = nil
         requestedParent = nil
+        requestedPaths = nil
     }
 }

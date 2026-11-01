@@ -1,0 +1,22 @@
+[
+  "Pagination follows modify, rename and deletion without duplicates",
+  "Each historical filename is retained including newline and Unicode",
+  "Rename entry preserves both exact paths",
+  "Deleted file diff uses its real parent and removal status",
+  "Rename diff uses the old\/new paths instead of a current worktree file",
+  "Rename following can be disabled",
+  "Literal author filter still reaches history before the rename",
+  "Literal message filtering tracks an excluded rename",
+  "Date bounds use commit time and preserve rename traversal",
+  "A cursor cannot cross query snapshots",
+  "External HEAD movement does not shift an anchored page",
+  "A nonexistent file has an empty result",
+  "Parent traversal cannot become a path argument",
+  "Merge history retains both integration and feature commits",
+  "Merge file comparison uses the actual first parent",
+  "Binary history uses the existing binary diff state",
+  "A directory with one changed child is not treated as a single file",
+  "All scale samples return one bounded page",
+  "All five thousand records paginate exactly once",
+  "Five thousand commit file query p95 meets two-second budget"
+]

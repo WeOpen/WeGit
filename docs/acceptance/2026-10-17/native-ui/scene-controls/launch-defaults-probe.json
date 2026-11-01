@@ -1,0 +1,20 @@
+{
+  "scope": "Foundation command-line argument-domain parsing only, no UI launch",
+  "cases": {
+    "combined": {
+      "language": "zh-Hans",
+      "testSwitchConsumesAppleLanguagesOption": false,
+      "testSwitchConsumesLanguageOption": false
+    },
+    "reordered": {
+      "language": "zh-Hans",
+      "testSwitchConsumesAppleLanguagesOption": false,
+      "testSwitchConsumesLanguageOption": false
+    },
+    "appleLanguages": {
+      "language": "<missing>",
+      "testSwitchConsumesAppleLanguagesOption": false,
+      "testSwitchConsumesLanguageOption": false
+    }
+  }
+}

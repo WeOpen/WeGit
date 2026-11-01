@@ -1,0 +1,12 @@
+{
+  "runId": 40274310004,
+  "candidate": "67ad681e818bcf1a30feceb0d151eac999ec61b1",
+  "failedQuery": "main window > Sheet > button titled 中止",
+  "actualDialog": "Application > Dialog > action-button-2, title 中止",
+  "duplicateInTouchBar": true,
+  "mainWindowSize": [
+    980,
+    692
+  ],
+  "correction": "Scope NSAlert confirmations to app.dialogs.firstMatch; retain the SwiftUI Sheet scope for previews."
+}

@@ -1,0 +1,1 @@
+value=Optional(24) label= frame=(928.0, 706.0, 352.0, 16.0)

@@ -1,0 +1,29 @@
+Window: "", App: WeGit.
+0 弹出窗口 Secondary Actions: Cancel
+	1 container
+		2 text fixture 快速访问
+		3 按钮 Description: 打开主窗口, Help: 打开 WeGit 主窗口, ID: menu-bar-open-main
+		4 text main 同步状态：无上游 1 个文件有改动 · 0 个已暂存
+		5 按钮 Description: 更改, Help: 打开更改, ID: menu-bar-route-更改
+		6 按钮 Description: 提交历史, Help: 打开提交历史, ID: menu-bar-route-提交历史
+		7 按钮 Description: 分支, Help: 打开分支, ID: menu-bar-route-分支
+		8 按钮 Description: 刷新, ID: menu-bar-refresh
+		9 按钮 (disabled) Description: 拉取…, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: menu-bar-pull
+		10 按钮 (disabled) Description: 推送…, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: menu-bar-push
+		11 文本 最近与收藏
+		12 按钮 Description: fixture, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture, ID: menu-bar-recent:/Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture
+		13 按钮 打开…
+		14 按钮 克隆…
+		15 按钮 Description: 设置…, ID: menu-bar-settings
+		16 按钮 Description: 退出 WeGit, ID: menu-bar-quit
+17 menu bar
+	18 WeGit, ID: native-menu-app
+	19 文件, ID: native-menu-file
+	20 编辑, ID: native-menu-edit
+	21 显示, ID: native-menu-view
+	22 仓库, ID: native-menu-repository
+	23 工作区, ID: native-menu-workspace
+	24 窗口, ID: native-menu-window
+	25 帮助, ID: native-menu-help
+
+The focused UI element is 0 弹出窗口 Secondary Actions: Cancel

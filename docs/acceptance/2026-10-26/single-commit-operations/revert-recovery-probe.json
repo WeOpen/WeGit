@@ -1,0 +1,28 @@
+[
+  {
+    "abort": false,
+    "applyExit": 0,
+    "signingExit": 128,
+    "files": {
+      "REVERT_HEAD": "def7adbb22add49a1353917d88fa87dec5c8fac6\n",
+      "MERGE_MSG": "Revert \"Addition\"\n\nThis reverts commit def7adbb22add49a1353917d88fa87dec5c8fac6.\n"
+    },
+    "recoveryExit": 0,
+    "recoveryError": "",
+    "headChanged": true,
+    "cleanAfter": true
+  },
+  {
+    "abort": true,
+    "applyExit": 0,
+    "signingExit": 128,
+    "files": {
+      "REVERT_HEAD": "85d9fd8cd69a77a285dc4e8c96da64c6a3a6926e\n",
+      "MERGE_MSG": "Revert \"Addition\"\n\nThis reverts commit 85d9fd8cd69a77a285dc4e8c96da64c6a3a6926e.\n"
+    },
+    "recoveryExit": 0,
+    "recoveryError": "",
+    "headChanged": false,
+    "cleanAfter": true
+  }
+]

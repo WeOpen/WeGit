@@ -1,0 +1,7 @@
+{
+  "rev-parse HEAD": "b415734009d0d99fd279ab3fbfa1be7561c0ceaa\n",
+  "status --porcelain=v1": " M A.swift\n",
+  "ls-files --stage": "100644 3c37c33b59a926df259bd6478214f20de71b9f63 0\tA.swift\n",
+  "diff HEAD": "diff --git a/A.swift b/A.swift\nindex 3c37c33..6392506 100644\n--- a/A.swift\n+++ b/A.swift\n@@ -1 +1 @@\n-let value = 1\n+let value = 2\n",
+  "fixtureContentsExpected": true
+}

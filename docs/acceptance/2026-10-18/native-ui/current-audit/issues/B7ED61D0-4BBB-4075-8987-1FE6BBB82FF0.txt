@@ -1,0 +1,25 @@
+Contrast failed for 1
+Attributes: StaticText, 0x75a245bc00, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1
+Element subtree:
+ →StaticText, 0x75a245bc00, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1
+Path to element:
+ →Application, 0x75a2467d40, pid: 9441, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a2467200, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Group, 0x75a2467340, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x75a2467480, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x75a24675c0, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x75a2467700, {{280.0, 77.0}, {210.0, 692.0}}, Disabled
+       ↳ScrollView, 0x75a2467840, {{280.0, 129.0}, {210.0, 562.0}}, Disabled
+        ↳Outline, 0x75a2467ac0, {{279.0, 128.0}, {212.0, 564.0}}, label: '边栏'
+         ↳OutlineRow, 0x75a245bac0, {{280.0, 148.0}, {210.0, 50.0}}, Disabled
+          ↳Cell, 0x75a245b840, {{290.0, 148.0}, {190.0, 50.0}}, Keyboard Focused
+           ↳StaticText, 0x75a245bc00, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a2466f80, pid: 9441, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jdgAAAAAAAAA=
+    Output: {
+      StaticText, 0x75a2466080, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1
+    }

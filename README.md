@@ -1,111 +1,163 @@
-# WeGit
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="branding/wegit-v2/mark-dark.png">
+    <img src="branding/wegit-v2/mark.png" width="104" height="104" alt="WeGit logo">
+  </picture>
+  <h1>WeGit</h1>
+  <p><strong>A native Git workspace for macOS.</strong></p>
+  <p>Read changes clearly. Shape your commits. Keep your workflow close.</p>
+  <p>
+    <img src="https://img.shields.io/badge/status-public_release-green?style=flat" alt="Public release">
+    <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat" alt="Version 1.0.0">
+    <img src="https://img.shields.io/badge/macOS-27%2B-111111?style=flat&amp;logo=apple&amp;logoColor=white" alt="macOS 27 or later">
+    <img src="https://img.shields.io/badge/Swift-6-F05138?style=flat&amp;logo=swift&amp;logoColor=white" alt="Swift 6">
+    <img src="https://img.shields.io/badge/Git-2.46%2B-F05032?style=flat&amp;logo=git&amp;logoColor=white" alt="Git 2.46 or later">
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3DA639?style=flat" alt="MIT license"></a>
+  </p>
+  <p><strong>English</strong> · <a href="README.zh-CN.md">简体中文</a></p>
+  <p><a href="https://github.com/WeOpen/WeGit/releases">📦 Releases</a> · <a href="https://github.com/WeOpen/WeGit/issues">🐛 Report an issue</a> · <a href="docs/README.md">📚 Documentation</a></p>
+</div>
 
-面向 macOS 27 的原生 Git 工作台，使用 SwiftUI、SwiftData 和系统 Git CLI。
+---
 
-当前为 **0.1.0 开发预览**，按 [执行计划](docs/PLAN.md) 推进。已经建立可运行工程与「打开仓库 → 查看差异 → 暂存 → 提交」闭环；不等同于完成 V1.0。阶段证据、范围和待办见 [开发进度](docs/DEVELOPMENT.md)。
+## 👋 Meet WeGit
 
-## 环境
+WeGit is a SwiftUI Git client built around the work you do every day: inspect a diff, stage the right changes, create a commit, browse history, manage branches, and sync with a remote.
 
-- macOS 27 或更新版本。
-- Xcode 27，Swift 6.4（本地已验证）。
-- Git 2.46 或更新版本，启动时检查配置隔离与远端地址重置能力；已验证 Apple Git 2.54.0 和独立编译的 Git 2.46.0，见 [兼容性记录](docs/COMPATIBILITY.md)。
-- XcodeGen 2.43 或更新版本，仅修改 `project.yml` 后重新生成工程时需要。
+It uses your existing Git installation, configuration, credential helpers, and SSH agent. Native windows, keyboard shortcuts, a menu bar panel, and light, dark, and custom themes keep the experience at home on macOS. The Git core has no third-party runtime dependencies.
 
-Git 核心没有第三方运行时依赖。当前使用系统自带 `swift format`，无需额外安装格式化工具。
+> **WeGit 1.0.0** · [Download](https://github.com/WeOpen/WeGit/releases/tag/v1.0.0) · [Website](https://weopen.github.io/WeGit/). Ad-hoc signed, not notarized by Apple. Accessibility acceptance is deferred; see the [release notes and remaining validation limits](docs/releases/v1.0.0.md).
 
-## 构建与运行
+## ✨ Features
+
+| | What you can do |
+| --- | --- |
+| 📂 **Repositories** | Open or clone repositories, drop folders into the app, and switch between recent and favorite repositories. |
+| 🔍 **Diffs** | Read unified or split diffs with syntax highlighting, word changes, hunk navigation, expandable context, and exact source-text selection and copying. Large diffs use paged disk snapshots. |
+| 🧩 **Commits** | Stage or unstage files and hunks, discard changes with confirmation, amend a commit, and keep a draft for each repository. |
+| 🌿 **Branches & history** | Browse a paginated commit graph, compare commit files, copy a SHA, create a branch from a commit, or check out a detached HEAD. |
+| 🔄 **Remotes & conflicts** | Fetch, pull, and push to explicit targets; choose merge, rebase, or fast-forward-only pulls; continue or abort supported merge/rebase conflicts. |
+| 🛡️ **Operation recovery** | Reject stale changes, coordinate repository operations, preserve drafts on failures, and verify an uncertain push result before retrying. |
+| 🎨 **Appearance** | Use native light/dark themes or save a separate custom palette with 17 color roles, live preview, contrast hints, and JSON import/export. |
+| ⌨️ **Native workflow** | Use keyboard navigation, repository search, a command palette, configurable panels, and a menu bar quick-access panel. |
+| 🌍 **Languages** | Switch between English, Simplified Chinese, and the system language without restarting the app. |
+
+See the [product specification](docs/WeGit_PRD.md), [interface notes](docs/INTERFACE_POLISH.md), and [compatibility record](docs/COMPATIBILITY.md) for scope and evidence. Product capabilities and completed release acceptance are tracked separately.
+
+**Development branch, 2026-10-20:** the v1.1 M0 baseline adds collapsible change groups, staging checkboxes, a folder display mode, a clickable change map for multi-hunk in-memory diffs, paired pane surfaces, and upstream commit counts on Pull/Push. These additions have been integrated into main and are not part of the published 1.0.0 download. See the [usage and verification notes](docs/INTERFACE_POLISH.md#v11-m0-baseline--2026-10-20).
+
+## 🖥️ Requirements
+
+- **macOS 27 or later**. Current builds and acceptance evidence cover **Apple Silicon / arm64**.
+- **Git 2.46 or later**. WeGit checks the required configuration-isolation and remote-address behavior at startup.
+- To build: **Xcode 27**, including the macOS 27 SDK. The verified local toolchain is Swift 6.4.
+- **XcodeGen 2.43+** is optional for normal builds; it is needed to regenerate the project after changing `project.yml`. The generated Xcode project is included.
+
+## 📦 Downloads & distribution
+
+WeGit is distributed through **GitHub Releases and the project website**. It is not planned for the Mac App Store or TestFlight.
+
+Download [WeGit 1.0.0](https://github.com/WeOpen/WeGit/releases/tag/v1.0.0), including the ZIP, SHA-256 checksum and source manifest. The website links to these same versioned assets. See the [installation, data and rollback notes](docs/releases/v1.0.0.md).
+
+There is currently no Apple Developer Program account for this project. Public packages use **ad-hoc signing** and are **not notarized by Apple**. Ad-hoc signing does not provide a verified developer identity, and macOS may block a downloaded build. For an app you have chosen to trust, consult [Apple’s guidance on opening apps safely](https://support.apple.com/102445). Downloaded-package installation on a clean Mac is still pending validation.
+
+## 🚀 Build & run
 
 ```bash
+git clone https://github.com/WeOpen/WeGit.git
+cd WeGit
 scripts/build.sh Debug
 open .build-app/Build/Products/Debug/WeGit.app
 ```
 
-也可以直接用 Xcode 打开 `WeGit.xcodeproj`，选择 WeGit scheme 后运行。`project.yml` 是工程配置源，生成的 Xcode 工程保留在仓库中。
+You can also open `WeGit.xcodeproj` in Xcode, select the **WeGit** scheme, and run it. Local ad-hoc builds do not require Developer ID credentials.
 
-当前开发包采用本机 ad-hoc 签名，Bundle ID 为 `org.weopen.WeGit.development`，不启用 App Sandbox。项目使用 [MIT 许可证](LICENSE)，仅通过 GitHub Releases＋项目网站直接分发，目前没有开发者账号，采用明确标识为未公证的 ad-hoc 制品；Developer ID／公证为未来可选。
-
-## 验证
+To create a local Release preview:
 
 ```bash
-# Swift 核心单元测试及真实临时仓库集成测试
+scripts/build.sh Release
+scripts/package-release.sh --preview
+```
+
+The package script checks the app’s build-source receipt, embedded AskPass helper, license, signature integrity, and exclusion of test entry points. It writes a ZIP, checksum, and manifest to `.build/releases/package-*`. This command creates a local development package; it does not publish a GitHub Release.
+
+## ⌨️ Handy shortcuts
+
+| Action | Shortcut |
+| --- | --- |
+| Open a repository | `⌘O` |
+| Changes / History / Branches | `⌘1` / `⌘2` / `⌘3` |
+| Refresh | `⌘R` |
+| Commit staged changes | `⌘↩` |
+| Pull / Push target form | `⌘⇧L` / `⌘⇧U` |
+| Menu bar quick-access panel | `⌘⇧M` |
+| Settings | `⌘,` |
+
+🌍 Choose **Settings → General → Interface language** to change the app language. Repository names, paths, branches, commit messages, code, and patches retain their original content.
+
+🎨 Choose **Settings → Appearance → Edit custom theme…** to create a full custom scheme. Built-in Light and Dark remain unchanged.
+
+## 🧪 Development & validation
+
+```bash
+# Core unit tests and integration tests using real temporary repositories
 swift test
 
-# 格式、核心测试、应用构建
+# Strict formatting, migration/localization checks, core tests, and Debug build
 scripts/verify.sh
 
-# 增加原生 UI 测试；需要可交互的 macOS 登录会话
+# Also run native UI, appearance/menu/theme checks, and accessibility audit
+# Requires a working interactive macOS login session
 scripts/verify.sh --ui
-
-# 格式化源码
-swift format format --in-place --recursive WeGitCore WeGit WeGitAskPass WeGitTests WeGitUITests WeGitPerformanceTests Benchmarks Package.swift
 ```
 
-测试仓库、签名测试密钥和测试身份均在临时目录中创建并清理。核心与 UI 夹具先验证配置隔离；全局配置编辑测试强制写入私有临时文件。旧 Git 隔离失效事件、恢复和回归见 [兼容性记录](docs/COMPATIBILITY.md)。UI 测试使用独立偏好与内存数据库。
+Historical verification before M0 passed **183 tests in 32 suites** with both **Apple Git 2.54.0** and an isolated **Git 2.46.0** build. The 2026-10-18 record includes **278 theme checks** (including 216 role/background contrast pairs), alongside earlier **18 appearance/icon behaviors**, **27 native menu behaviors**, and **6 restored-startup combinations**. Dates and source boundaries remain in the [development record](docs/DEVELOPMENT.md); these results do not establish acceptance of the current development source.
 
-最新核心测试为 175 项、31 个套件，在上述两个 Git 版本下全部通过。已有 33 项原生 UI 功能用例曾在一次完整运行中全部通过，包含配置保存时退出保护、多轮冲突、真实回收、窗口恢复、原文选区复制和八种上下文操作组合；新增字号、密度与窗口尺寸矩阵仍在收尾，最终稳定源码需再次完整验证。独立的辅助访问审查仍未通过，详见 [辅助访问验收](docs/ACCESSIBILITY.md) 和 [开发记录](docs/DEVELOPMENT.md)。普通与十万级仓库均有 30 次 Release 后台样本；另有 30 次原生新进程启动样本，P95 为 468.98 ms。这些性能数据保留各自源码和测量边界，见 [性能记录](docs/PERFORMANCE.md)。
+The [2026-10-20 M0 checks](docs/acceptance/2026-10-20/v1-1-baseline/README.md) passed **14 sync-count, 30 file-tree/staging, 13 map, 290 theme, 18 icon, and 27 menu checks**, plus **30 Python policy tests**. Localization covered **1015 string keys, 7 plural keys, and 1325 source literals**. Core tests were compiled with `swift build --build-tests`; Debug and native UI tests were compiled with `xcodebuild build-for-testing`. No local XCTest ran, and the new `SelectionScopeTests` still needs hosted execution.
 
-`scripts/verify.sh --ui` 包含尚未通过的辅助访问审查，目前会因该用例返回失败。复现已通过的功能套件时，使用同一 Debug 工程并显式排除该审查：
+Hosted smoke **1/1**, the full native functional suite **45/45** (zero failures/skips), and the reading matrix **144/144** passed at `2c2533c` in [run 39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756). This is functional evidence on the recorded source, not same-commit full acceptance of the release. Accessibility acceptance is deferred; final-source performance, protected-Mac installation and real Beta feedback remain incomplete. See the [release notes](docs/releases/v1.0.0.md) and [current checklist](docs/V1_RELEASE_CHECKLIST.md) for the retained limits.
 
-```bash
-xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
-  -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
-  -skip-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes test
-```
+Tests use isolated configuration files, temporary repositories, and separate preferences. Never run write tests against a repository you cannot afford to change.
 
-CI 工作流使用 `wegit-macos27` 标签的自托管 macOS 27 Runner；需要配置该 Runner 后才能运行，当前不声称远端 CI 已通过。此工作流不运行来自 fork 的 PR 代码。
+## 🗺️ Scope & roadmap
 
-## 当前操作
+V1.0 focuses on daily Git workflows and readable diffs. **Stash and Tag management, an integrated conflict editor, interactive rebase, Blame, linked worktree/submodule management, and hosting-provider integrations** remain outside the first release. The published V1.0 build does not support opening linked worktrees or bare repositories. Development for v1.2 has started with [existing-worktree opening](https://github.com/WeOpen/WeGit/issues/59); validation and release remain pending.
 
-- 打开本地仓库、拖入目录、最近仓库与收藏；克隆阶段进度、取消与失败恢复。
-- 查看已暂存、未暂存、未跟踪和冲突文件；按路径和状态筛选，菜单提供外部打开、路径复制和整文件操作。
-- Unified/Split 文本差异、后台词法高亮、词级差异、3/20/80/200 行上下文、忽略空白只读模式。
-- 前后差异块导航、原文选区/跨行/完整行复制，保留空格、Tab、Unicode、CRLF 与无末尾换行；按区域展开/折叠上下文。
-- 大差异先显示摘要，再显式读取、按页显示，可取消。
-- 超过内存上限后使用私有磁盘快照，支持统一/分栏分页、完整导出和经过完整快照校验的块级操作。
-- 磁盘与普通差异均可按区间展开上下文；分栏长行按列宽换行。未跟踪文件可经确认移到废纸篓。
-- 文件与差异块暂存/取消暂存、未暂存差异块丢弃；过期或不属于当前差异的块会被拒绝。
-- 普通提交、Amend、提交草稿、Hook/签名错误反馈。
-- 固定引用快照的原生历史表格、可调整列宽、跨页提交图、分支/Tag 徽标、浅克隆边界、完整提交信息及可选父提交的文件差异。
-- 从历史提交创建分支或检出 Detached HEAD；分支创建/切换/重命名/删除、跟踪和上游设置，保护其他工作树占用的分支。
-- 明确远端与目标引用的 Fetch/Pull/Push、首次推送上游设置、三种 Pull 策略和固定预期提交的 Force Push With Lease。
-- Merge/Pull Rebase 冲突的继续与中止；“提交并推送”在推送失败后保留本地提交，只重试同步。
-- 推送回执丢失、超时或取消时保留原目标，只读核对后再决定下一步；重启后校验仓库实体和地址指纹，目标不同需要重新确认推送。
-- 系统 Helper/SSH Agent 优先，缺少凭证时通过内置 AskPass 通道显示原生认证窗口；可取消、有限时，不绕过 SSH 主机检查。
-- 按事件范围合并刷新，停用仓库释放监听和历史缓存；过期读取不会覆盖新会话，失败状态明确标记。
-- 消息/作者/SHA 搜索、文件与分支筛选、可搜索的键盘分支切换器、命令面板及共享菜单动作。
-- 六类原生设置：启动、窗口/分栏恢复、外观与密度、差异阅读、草稿、作用域明确的 Git 身份/策略、活动保留与主动诊断导出。
-- 草稿和待推送结果按仓库实体保存，移动目录保持身份；同路径替换不会复用原仓库草稿。
-- 会话绑定仓库目录及 `.git` 标记身份；目录替换或 Git 指向变化后拒绝旧会话写入，并允许重新打开。
+The four required features in the [v1.1 plan](docs/V1_1_PLAN.md)—Stash, Remote and Tag management, plus file history with targeted search—are implemented and integrated. Application source `835b8c4` passed 54/54 functional tests with zero failures/skips and retained 144 reading-matrix screenshots; the Beta 1 draft package is verified. Performance, protected-Mac installation, real Beta feedback and stable-release acceptance remain open. See the [source-pinned Beta record](docs/acceptance/2026-10-24/v1-1-beta/README.md).
 
-使用 `⌘O` 打开仓库，`⌘1/2/3` 切换页面，`⌘R` 刷新，`⌘↩` 普通提交，`⌘⇧L/U` 打开 Pull/Push 目标表单。危险操作有独立确认。Git 配置与凭证继续复用现有环境。
+The [v1.2 requirements](docs/V1_2_PLAN.md) cover linked-worktree opening/management, the deferred single-commit Cherry-pick/Revert workflows, Blame, selected-line staging, the conflict editor, standalone/interactive Rebase, Submodule management and LFS status. Priorities and delivery batches are recommendations; implementation and release dates follow individual requirements.
 
-## 已知边界
+The development branch now includes single-commit Cherry-pick/Revert previews and recovery. It checks the actual merge destinations, protects ignored content, preserves drafts, and keeps recovery available after a failed commit. Hosted acceptance is tracked separately in the [development record](docs/acceptance/2026-10-26/single-commit-operations/README.md).
 
-后续尚需完成真实远端写入与认证矩阵、字号/密度/辅助技术验收、大型完整应用性能，以及 CI、Beta 和干净机器下载安装。显式加载超过 8 MiB 补丁、2 MiB 预览或 100,000 行的内容时会转入磁盘分页；超过 256 MiB、2,000,000 行或 100,000 个差异区间时保留摘要并提示外部查看。完整 UI 规范是目标，不应视为当前全部已验收。
+The app can hand conflicts to an external editor and continue or abort supported operations. It does not yet include an integrated three-way merge editor. Homebrew Git core and isolated noninteractive OpenPGP checks have passed. GitLab, interactive Pinentry/hardware keys, additional credential-helper setups, and other untested environments remain explicitly pending in the [compatibility matrix](docs/COMPATIBILITY.md).
 
-尚不开放 linked worktree、Bare 仓库、Stash/Tag 管理、内置冲突编辑器和 Interactive Rebase。克隆失败后保留本次新建目录，用户确认后可移到废纸篓；目录被替换、内容改变或无法完整核对时停止清理。超过 20,000 个目录项的失败目录通过 Finder 手动处理。
+## 📚 Explore the project
 
-推送待核对记录不保存 URL 或凭据。地址含嵌入式凭据、查询参数或片段时，当前窗口可用原计划核对；重启后需要手动核对原目标并明确标记已处理。普通地址发生配置变化或相对路径移动时，恢复会在网络查询前拒绝，避免核对到新的目标。
-
-## 工程结构
-
-| 路径 | 内容 |
+| Path | Contents |
 | --- | --- |
-| `WeGit/` | SwiftUI 应用、窗口状态、SwiftData 最近记录、页面与组件 |
-| `WeGitCore/` | 可独立构建测试的模型、Git 命令、进程、队列与文件事件监听 |
-| `WeGitAskPass/` | 随应用构建和签名的认证辅助可执行文件，通过私有 Unix Socket 传递输入 |
-| `WeGitTests/` | Swift Testing 与真实临时仓库测试 |
-| `WeGitUITests/` | XCUITest 的提交、差异、历史、分支、同步、设置与恢复验证 |
-| `docs/` | 产品、设计、架构、执行计划与开发证据 |
+| `WeGit/` | SwiftUI app, state, native presentation, design system, and features |
+| `WeGitCore/` | Git domain services, process runner, repository queue, snapshots, and watchers |
+| `WeGitAskPass/` | Bundled authentication helper |
+| `WeGitTests/` · `WeGitUITests/` | Core/integration tests and native UI regression suites |
+| `branding/` | Current logo/icon sources and retained earlier resources |
+| `docs/` | Product, design, architecture, plans, and acceptance evidence; primarily in Chinese |
 
-产品和技术设计从 [文档索引](docs/README.md) 开始阅读。
+- 🧭 [Documentation index](docs/README.md)
+- ✅ [V1.0 release checklist](docs/V1_RELEASE_CHECKLIST.md)
+- 🏗️ [Architecture](docs/WeGit_Architecture.md)
+- 📈 [Performance](docs/PERFORMANCE.md) · ♿ [Accessibility](docs/ACCESSIBILITY.md)
+- 📋 [Changelog](CHANGELOG.md) · 📦 [Release procedure](docs/RELEASE.md)
 
-后台性能复现使用 `scripts/benchmark.sh`，原生启动使用 `scripts/benchmark-ui-launch.sh`，工作区首屏使用 `scripts/benchmark-ui-workbench.sh`，需 Python 3 标准库；安装包准备见 [分发与发布操作](docs/RELEASE.md)。`scripts/package-release.sh --preview` 只生成本机开发包，且要求构建回执匹配当前源码并排除测试签名权限；`scripts/package-release.sh --adhoc` 可生成正式 Bundle ID 的无账号制品；仍须如实说明未公证状态并完成实际下载安装验收。
+## 🤝 Issue-driven development
 
-## 反馈与帮助
+Start with an [Issue](https://github.com/WeOpen/WeGit/issues/new/choose), define acceptance criteria, and deliver through a linked PR. See [CONTRIBUTING](CONTRIBUTING.md) and the [GitHub workflow guide](docs/GITHUB_WORKFLOW.md) for labels, CI and gated draft releases.
 
-遇到问题可到 [项目 Issues](https://github.com/WeOpen/WeGit/issues) 提供复现步骤、系统/Git 版本和实际结果；仓库已公开，欢迎通过 Issue 管理需求与问题。设置中的高级页面可主动导出诊断摘要，其范围不包含代码、Diff、提交消息、路径或凭证。不要把敏感内容直接贴进反馈。
+## 💬 Feedback & contributions
 
-### GitHub 协作与 CI/CD
+Use [GitHub Issues](https://github.com/WeOpen/WeGit/issues) to report a problem with reproduction steps, the app/macOS/Git versions, and the expected and actual results. For changes, describe the workflow and validation evidence in your pull request.
 
-需求先开 [Issue](https://github.com/WeOpen/WeGit/issues/new/choose)，再通过关联 PR 交付；见 [贡献说明](CONTRIBUTING.md)和 [CI/CD 方案](docs/GITHUB_WORKFLOW.md)。常规 CI 使用托管 macOS 27；专用完整验收及无账号 ad-hoc Draft Release 分别设置门槛，公开发布由维护者最终确认。
+🔒 Diagnostic summaries are exported only when you request them in Settings. They exclude code, diffs, commit messages, repository paths, and credentials. Review any additional screenshots or logs before sharing them.
+
+## 📄 License
+
+[MIT](LICENSE) © 2026 WeOpen.

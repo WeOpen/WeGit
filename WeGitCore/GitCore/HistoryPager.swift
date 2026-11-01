@@ -7,19 +7,19 @@ extension RepositoryService {
     ) async throws -> HistoryAnchor {
         try location.validateIdentity()
         guard query.utf8.count <= 4096, !query.contains("\0") else {
-            throw ModelFailure.unsupported("历史搜索内容过长或包含无效字符。")
+            throw ModelFailure.unsupported(L10n.text("历史搜索内容过长或包含无效字符。"))
         }
         let currentHead = try await head()
         let output = try await engine.run(
             ["show-ref", "--head", "--dereference"], in: location.root, accepted: [0, 1])
         guard output.stdout.isEmpty || output.stdout.last == 10,
             let text = String(data: output.stdout, encoding: .utf8)
-        else { throw ModelFailure.invalidOutput("引用列表被截断或包含不支持的编码") }
+        else { throw ModelFailure.invalidOutput(L10n.text("引用列表被截断或包含不支持的编码")) }
         var objects: [String: String] = [:]
         for row in text.split(separator: "\n") {
             let parts = row.split(separator: " ", maxSplits: 1)
             guard parts.count == 2, GitObjectID.valid(String(parts[0])) else {
-                throw ModelFailure.invalidOutput("引用记录无效")
+                throw ModelFailure.invalidOutput(L10n.text("引用记录无效"))
             }
             objects[String(parts[1])] = String(parts[0])
         }
@@ -46,15 +46,17 @@ extension RepositoryService {
                 ["cat-file", "--batch-check=%(objectname) %(objecttype)"], in: location.root,
                 input: Data((candidates.joined(separator: "\n") + "\n").utf8))
             guard checked.stdout.last == 10, let text = String(data: checked.stdout, encoding: .utf8) else {
-                throw ModelFailure.invalidOutput("引用对象类型记录被截断")
+                throw ModelFailure.invalidOutput(L10n.text("引用对象类型记录被截断"))
             }
             let rows = text.split(separator: "\n")
-            guard rows.count == candidates.count else { throw ModelFailure.invalidOutput("引用对象数量不匹配") }
+            guard rows.count == candidates.count else {
+                throw ModelFailure.invalidOutput(L10n.text("引用对象数量不匹配"))
+            }
             var commits: Set<String> = []
             for (index, row) in rows.enumerated() {
                 let fields = row.split(separator: " ")
                 guard fields.count == 2, fields[0] == candidates[index], fields[1] != "missing" else {
-                    throw ModelFailure.invalidOutput("引用指向缺失或无效对象")
+                    throw ModelFailure.invalidOutput(L10n.text("引用指向缺失或无效对象"))
                 }
                 if fields[1] == "commit" { commits.insert(candidates[index]) }
             }
@@ -104,7 +106,7 @@ extension RepositoryService {
                 commits: try CommitParser.batch(objects.stdout, expected: [oid], shallow: shallow), next: nil)
         }
         let offset = cursor?.offset ?? 0
-        guard offset <= Int.max - count else { throw ModelFailure.invalidOutput("历史分页范围超出上限") }
+        guard offset <= Int.max - count else { throw ModelFailure.invalidOutput(L10n.text("历史分页范围超出上限")) }
         var arguments = [
             "rev-list", "--topo-order", "--parents", "--max-count=\(count + 1)", "--skip=\(offset)",
         ]
@@ -119,19 +121,19 @@ extension RepositoryService {
         guard result.stdout.isEmpty || result.stdout.last == 10,
             let text = String(data: result.stdout, encoding: .utf8)
         else {
-            throw ModelFailure.invalidOutput("历史标识记录被截断")
+            throw ModelFailure.invalidOutput(L10n.text("历史标识记录被截断"))
         }
         var ids: [String] = []
         var shallow: Set<String> = []
         for line in text.split(separator: "\n") {
             let fields = line.split(separator: " ").map(String.init)
             guard let id = fields.first, fields.allSatisfy(GitObjectID.valid), !ids.contains(id) else {
-                throw ModelFailure.invalidOutput("历史标识或父提交记录无效")
+                throw ModelFailure.invalidOutput(L10n.text("历史标识或父提交记录无效"))
             }
             ids.append(id)
             if anchor.isShallow && fields.count == 1 { shallow.insert(id) }
         }
-        guard ids.count <= count + 1 else { throw ModelFailure.invalidOutput("历史页超出请求范围") }
+        guard ids.count <= count + 1 else { throw ModelFailure.invalidOutput(L10n.text("历史页超出请求范围")) }
         let hasMore = ids.count > count
         let selected = Array(ids.prefix(count))
         if selected.isEmpty { return HistoryPage(commits: [], next: nil) }
@@ -150,7 +152,7 @@ extension RepositoryService {
         guard (4...64).contains(prefix.utf8.count),
             prefix.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) })
         else {
-            throw ModelFailure.unsupported("请输入至少 4 位的十六进制提交 SHA。")
+            throw ModelFailure.unsupported(L10n.text("请输入至少 4 位的十六进制提交 SHA。"))
         }
         let output = try await engine.run(
             ["rev-parse", "--disambiguate=" + prefix], in: location.root, outputLimit: 64 * 1024)
@@ -158,7 +160,7 @@ extension RepositoryService {
         guard output.stdout.isEmpty || output.stdout.last == 10,
             ids.allSatisfy(GitObjectID.valid), ids.count <= 1024
         else {
-            throw ModelFailure.unsupported("SHA 前缀匹配过多对象，请输入更多位数。")
+            throw ModelFailure.unsupported(L10n.text("SHA 前缀匹配过多对象，请输入更多位数。"))
         }
         if ids.isEmpty { return nil }
         let checked = try await engine.run(
@@ -166,17 +168,17 @@ extension RepositoryService {
             input: Data((ids.joined(separator: "\n") + "\n").utf8))
         let rows = checked.text.split(separator: "\n")
         guard rows.count == ids.count, checked.stdout.last == 10 else {
-            throw ModelFailure.invalidOutput("SHA 查询结果被截断")
+            throw ModelFailure.invalidOutput(L10n.text("SHA 查询结果被截断"))
         }
         var commits: [String] = []
         for (id, row) in zip(ids, rows) {
             let fields = row.split(separator: " ")
             guard fields.count == 2, fields[0] == id, fields[1] != "missing" else {
-                throw ModelFailure.invalidOutput("SHA 查询对象无效")
+                throw ModelFailure.invalidOutput(L10n.text("SHA 查询对象无效"))
             }
             if fields[1] == "commit" { commits.append(id) }
         }
-        guard commits.count <= 1 else { throw ModelFailure.unsupported("SHA 前缀匹配多个提交，请输入更多位数。") }
+        guard commits.count <= 1 else { throw ModelFailure.unsupported(L10n.text("SHA 前缀匹配多个提交，请输入更多位数。")) }
         return commits.first
     }
 }

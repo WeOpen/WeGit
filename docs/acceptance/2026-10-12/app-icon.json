@@ -1,0 +1,94 @@
+{
+  "format": 1,
+  "verifiedAt": "2026-10-12T04:35:19.087338+00:00",
+  "scope": "Native application icon replacement with Default/Dark appearances",
+  "system": "macOS 27.0.1 (26A434)",
+  "xcode": "27.0 (27A266a)",
+  "iconComposer": "27.0 (129)",
+  "xcodegen": "2.43.0",
+  "sourceSHA256": "b210464f30df707e22fcc85fa1feff20d4fc758001e2b1cb3b528498c113ce25",
+  "previousPerformanceSourceSHA256": "a67ade06585ea10b4e001677c63743701f4904fb47ea4080ab231ef1c18d7f9c",
+  "changedApplicationInputs": [
+    "WeGit.xcodeproj/project.pbxproj",
+    "WeGit/Resources/AppIcon.icon/Assets/mark.svg",
+    "WeGit/Resources/AppIcon.icon/icon.json",
+    "project.yml"
+  ],
+  "iconSourceFiles": {
+    "WeGit/Resources/AppIcon.icon/Assets/mark.svg": "b87b3d15bc325e900b41e015f2ea29ebaf5dfdf3eb7e755c300b6014c79870e4",
+    "WeGit/Resources/AppIcon.icon/icon.json": "b455a41607fe051ee96c833eed239aa04061db6640c29c230fdd1cb3c671fe24"
+  },
+  "builds": {
+    "Debug": {
+      "passed": true,
+      "log": "docs/acceptance/2026-10-12/icon-debug-build.log",
+      "iconName": "AppIcon",
+      "stacks": [
+        {
+          "name": "AppIcon",
+          "appearance": "NSAppearanceNameDarkAqua"
+        },
+        {
+          "name": "AppIcon",
+          "appearance": "NSAppearanceNameAqua"
+        },
+        {
+          "name": "AppIcon",
+          "appearance": "ISAppearanceTintable"
+        }
+      ]
+    },
+    "Release": {
+      "passed": true,
+      "log": "docs/acceptance/2026-10-12/icon-release-build.log",
+      "iconName": "AppIcon",
+      "stacks": [
+        {
+          "name": "AppIcon",
+          "appearance": "NSAppearanceNameDarkAqua"
+        },
+        {
+          "name": "AppIcon",
+          "appearance": "NSAppearanceNameAqua"
+        },
+        {
+          "name": "AppIcon",
+          "appearance": "ISAppearanceTintable"
+        }
+      ]
+    }
+  },
+  "nativeRenders": {
+    "Default": "branding/wegit-v1/app-icon-native-light.png",
+    "Dark": "branding/wegit-v1/app-icon-native-dark.png",
+    "renderedBy": "Xcode Icon Composer ictool, macOS, design generation 27, 1024 px"
+  },
+  "manualInspection": {
+    "releaseProcessStarted": "2026-10-12 12:31:37 Asia/Shanghai",
+    "aboutPanelNewIconVisible": true,
+    "accessibilityImageLabel": "WeGit icon",
+    "systemAppearancePreferencesModified": false,
+    "dockFinderAppearanceToggleTested": false,
+    "xctestInitializationRetested": false
+  },
+  "package": {
+    "archive": ".build/releases/package-TP7DrV/WeGit-0.1.0-development.zip",
+    "manifest": ".build/releases/package-TP7DrV/manifest.json",
+    "sha256": "c9b5af94bf779e8428dceaf8ce91fe527be1bf1dd33ea2dd5a191b76e1004255",
+    "sourceReceiptVerified": true,
+    "iconAssetsPackaged": true,
+    "zipCRCVerified": true,
+    "signatureVerified": true,
+    "unsafeEntitlements": [],
+    "configuration": "Release",
+    "bundleIdentifier": "org.weopen.WeGit.development",
+    "workspaceDirty": true,
+    "notarized": false
+  },
+  "validationBoundary": {
+    "newFullFunctionalUIRun": false,
+    "newAccessibilityAudit": false,
+    "new30SamplePerformanceRun": false,
+    "releaseReady": false
+  }
+}

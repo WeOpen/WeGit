@@ -1,0 +1,1750 @@
+[
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast is not high enough for + unless font size is larger.",
+    "attributes": "Attributes: StaticText, 0x7c40bfda40, {{937.5, 486.0}, {9.0, 16.0}}, value: +",
+    "evidence": "5428FBC7-5474-487C-87F6-192496FB4BB5.txt",
+    "crop": "C2B47BAB-F019-49BD-814F-4D86DC199588.png",
+    "size": [
+      10,
+      16
+    ],
+    "background": [
+      32,
+      47,
+      36
+    ],
+    "strongestRepeatedInkSample": [
+      58,
+      156,
+      82
+    ],
+    "inkSamplePixelCount": 8,
+    "rasterRatio": 4.055674090027899,
+    "rasterRatioBelow4p5": true,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          32,
+          47,
+          36
+        ],
+        "count": 132
+      },
+      {
+        "rgb": [
+          58,
+          156,
+          82
+        ],
+        "count": 8
+      },
+      {
+        "rgb": [
+          56,
+          151,
+          80
+        ],
+        "count": 4
+      },
+      {
+        "rgb": [
+          54,
+          142,
+          76
+        ],
+        "count": 4
+      },
+      {
+        "rgb": [
+          45,
+          101,
+          59
+        ],
+        "count": 2
+      },
+      {
+        "rgb": [
+          46,
+          105,
+          61
+        ],
+        "count": 2
+      },
+      {
+        "rgb": [
+          66,
+          192,
+          97
+        ],
+        "count": 1
+      },
+      {
+        "rgb": [
+          67,
+          194,
+          99
+        ],
+        "count": 1
+      }
+    ]
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for +1 −0",
+    "attributes": "Attributes: StaticText, 0x7c40bcd2c0, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0",
+    "evidence": "C84B1CCC-3B2E-4EAB-A475-F34B78277183.txt",
+    "crop": "D2C658C5-4334-4B2D-BF8F-3D525380371E.png",
+    "size": [
+      27,
+      14
+    ],
+    "background": [
+      70,
+      70,
+      70
+    ],
+    "strongestRepeatedInkSample": [
+      159,
+      159,
+      159
+    ],
+    "inkSamplePixelCount": 7,
+    "rasterRatio": 3.5660056358410688,
+    "rasterRatioBelow4p5": true,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          70,
+          70,
+          70
+        ],
+        "count": 288
+      },
+      {
+        "rgb": [
+          159,
+          159,
+          159
+        ],
+        "count": 7
+      },
+      {
+        "rgb": [
+          151,
+          151,
+          151
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          119,
+          119,
+          119
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          111,
+          111,
+          111
+        ],
+        "count": 5
+      },
+      {
+        "rgb": [
+          97,
+          97,
+          97
+        ],
+        "count": 3
+      },
+      {
+        "rgb": [
+          110,
+          110,
+          110
+        ],
+        "count": 3
+      },
+      {
+        "rgb": [
+          81,
+          81,
+          81
+        ],
+        "count": 2
+      }
+    ]
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for file.swift",
+    "attributes": "Attributes: StaticText, 0x7c40bfd680, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift",
+    "evidence": "3C912DB1-2EEC-4006-B667-CDCF05CF97AC.txt",
+    "crop": "C1809279-2592-4470-B9CA-F7517C921B3B.png",
+    "size": [
+      42,
+      14
+    ],
+    "background": [
+      70,
+      70,
+      70
+    ],
+    "strongestRepeatedInkSample": [
+      227,
+      227,
+      227
+    ],
+    "inkSamplePixelCount": 17,
+    "rasterRatio": 7.354428459494769,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          70,
+          70,
+          70
+        ],
+        "count": 352
+      },
+      {
+        "rgb": [
+          227,
+          227,
+          227
+        ],
+        "count": 17
+      },
+      {
+        "rgb": [
+          85,
+          85,
+          85
+        ],
+        "count": 8
+      },
+      {
+        "rgb": [
+          151,
+          151,
+          151
+        ],
+        "count": 8
+      },
+      {
+        "rgb": [
+          81,
+          81,
+          81
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          159,
+          159,
+          159
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          179,
+          179,
+          179
+        ],
+        "count": 5
+      },
+      {
+        "rgb": [
+          135,
+          135,
+          135
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd",
+    "attributes": "Attributes: StaticText, 0x7c40bfe580, {{858.0, 259.5}, {248.0, 13.0}}, value: 97b9c7429bbeaa4d55...",
+    "evidence": "F33EA222-C298-4F2F-AE67-660A6F1E4959.txt",
+    "crop": "BB4B3D8A-75DA-41D5-965D-954CDC6FCA01.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      30,
+      30,
+      30
+    ],
+    "strongestRepeatedInkSample": [
+      221,
+      221,
+      221
+    ],
+    "inkSamplePixelCount": 90,
+    "rasterRatio": 12.274022068707811,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          30,
+          30,
+          30
+        ],
+        "count": 2050
+      },
+      {
+        "rgb": [
+          221,
+          221,
+          221
+        ],
+        "count": 90
+      },
+      {
+        "rgb": [
+          99,
+          99,
+          99
+        ],
+        "count": 31
+      },
+      {
+        "rgb": [
+          206,
+          206,
+          206
+        ],
+        "count": 26
+      },
+      {
+        "rgb": [
+          191,
+          191,
+          191
+        ],
+        "count": 25
+      },
+      {
+        "rgb": [
+          41,
+          41,
+          41
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          118,
+          118,
+          118
+        ],
+        "count": 23
+      },
+      {
+        "rgb": [
+          218,
+          218,
+          218
+        ],
+        "count": 23
+      }
+    ]
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd",
+    "attributes": "Attributes: StaticText, 0x7c40bce080, {{858.0, 259.5}, {248.0, 13.0}}, value: 97b9c7429bbeaa4d55..., Disabled",
+    "evidence": "A8A3F60E-99C9-4C04-A408-3D565A9D9F90.txt",
+    "crop": "A40BEFB5-5B7E-464C-A27B-9D27A1540405.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      30,
+      30,
+      30
+    ],
+    "strongestRepeatedInkSample": [
+      221,
+      221,
+      221
+    ],
+    "inkSamplePixelCount": 90,
+    "rasterRatio": 12.274022068707811,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          30,
+          30,
+          30
+        ],
+        "count": 2050
+      },
+      {
+        "rgb": [
+          221,
+          221,
+          221
+        ],
+        "count": 90
+      },
+      {
+        "rgb": [
+          99,
+          99,
+          99
+        ],
+        "count": 31
+      },
+      {
+        "rgb": [
+          206,
+          206,
+          206
+        ],
+        "count": 26
+      },
+      {
+        "rgb": [
+          191,
+          191,
+          191
+        ],
+        "count": 25
+      },
+      {
+        "rgb": [
+          41,
+          41,
+          41
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          118,
+          118,
+          118
+        ],
+        "count": 23
+      },
+      {
+        "rgb": [
+          218,
+          218,
+          218
+        ],
+        "count": 23
+      }
+    ]
+  },
+  {
+    "theme": "dark",
+    "kind": "contrast",
+    "summary": "Contrast failed for 提交 97b9c7429bbe，作者 UI Test，0 个父提交",
+    "attributes": "Attributes: StaticText, 0x7c40bd0780, {{559.0, 291.0}, {143.0, 52.0}}, label: 'Layout fixture', value: 提交 97b9c7429bbe，作者...",
+    "evidence": "506EC813-CE96-4BB8-B5BA-A7E15CDF0CEE.txt",
+    "crop": "B9315794-121D-421D-B76B-A7D38E629A03.png",
+    "size": [
+      143,
+      52
+    ],
+    "background": [
+      70,
+      70,
+      70
+    ],
+    "strongestRepeatedInkSample": [
+      228,
+      228,
+      228
+    ],
+    "inkSamplePixelCount": 7,
+    "rasterRatio": 7.423384353012979,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          70,
+          70,
+          70
+        ],
+        "count": 5335
+      },
+      {
+        "rgb": [
+          77,
+          77,
+          77
+        ],
+        "count": 551
+      },
+      {
+        "rgb": [
+          227,
+          227,
+          227
+        ],
+        "count": 188
+      },
+      {
+        "rgb": [
+          74,
+          74,
+          74
+        ],
+        "count": 36
+      },
+      {
+        "rgb": [
+          71,
+          71,
+          71
+        ],
+        "count": 36
+      },
+      {
+        "rgb": [
+          79,
+          79,
+          79
+        ],
+        "count": 35
+      },
+      {
+        "rgb": [
+          211,
+          211,
+          211
+        ],
+        "count": 28
+      },
+      {
+        "rgb": [
+          193,
+          193,
+          193
+        ],
+        "count": 21
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for +",
+    "attributes": "Attributes: StaticText, 0x7c40a975c0, {{937.5, 486.0}, {9.0, 16.0}}, value: +",
+    "evidence": "8BD49BB8-F182-4860-9306-8672E8443961.txt",
+    "crop": "BFCF4AAD-D508-493E-8381-D544637F8872.png",
+    "size": [
+      10,
+      16
+    ],
+    "background": [
+      235,
+      249,
+      238
+    ],
+    "strongestRepeatedInkSample": [
+      109,
+      161,
+      122
+    ],
+    "inkSamplePixelCount": 4,
+    "rasterRatio": 2.7481458212211254,
+    "rasterRatioBelow4p5": true,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          235,
+          249,
+          238
+        ],
+        "count": 132
+      },
+      {
+        "rgb": [
+          120,
+          169,
+          132
+        ],
+        "count": 4
+      },
+      {
+        "rgb": [
+          113,
+          164,
+          125
+        ],
+        "count": 4
+      },
+      {
+        "rgb": [
+          109,
+          161,
+          122
+        ],
+        "count": 4
+      },
+      {
+        "rgb": [
+          128,
+          174,
+          140
+        ],
+        "count": 4
+      },
+      {
+        "rgb": [
+          180,
+          211,
+          188
+        ],
+        "count": 2
+      },
+      {
+        "rgb": [
+          177,
+          209,
+          185
+        ],
+        "count": 1
+      },
+      {
+        "rgb": [
+          63,
+          129,
+          80
+        ],
+        "count": 1
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for @@ -0,0 +1 @@",
+    "attributes": "Attributes: StaticText, 0x7c40a97d40, {{852.0, 457.0}, {89.0, 14.0}}, value: @@ -0,0 +1 @@",
+    "evidence": "3641A7C8-3874-4B86-B5D4-6836714ABDF2.txt",
+    "crop": "34B26DB5-D559-4454-AAB3-0828A1EE6F78.png",
+    "size": [
+      89,
+      14
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      90,
+      90,
+      90
+    ],
+    "inkSamplePixelCount": 3,
+    "rasterRatio": 6.896926215312931,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 876
+      },
+      {
+        "rgb": [
+          252,
+          252,
+          252
+        ],
+        "count": 12
+      },
+      {
+        "rgb": [
+          254,
+          254,
+          254
+        ],
+        "count": 12
+      },
+      {
+        "rgb": [
+          236,
+          236,
+          236
+        ],
+        "count": 10
+      },
+      {
+        "rgb": [
+          117,
+          117,
+          117
+        ],
+        "count": 10
+      },
+      {
+        "rgb": [
+          114,
+          114,
+          114
+        ],
+        "count": 9
+      },
+      {
+        "rgb": [
+          130,
+          130,
+          130
+        ],
+        "count": 9
+      },
+      {
+        "rgb": [
+          253,
+          253,
+          253
+        ],
+        "count": 8
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 差异块 1 / 1",
+    "attributes": "Attributes: StaticText, 0x7c40a97840, {{1193.0, 422.0}, {55.0, 13.0}}, identifier: 'diff-hunk-position', value: 差异块 1 / 1",
+    "evidence": "70BE67ED-A624-4ECD-B520-2738C93B843D.txt",
+    "crop": "B20E5315-BB59-4696-BA19-984C3C4D4976.png",
+    "size": [
+      55,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      39,
+      39,
+      39
+    ],
+    "inkSamplePixelCount": 6,
+    "rasterRatio": 14.938418916797357,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 443
+      },
+      {
+        "rgb": [
+          230,
+          230,
+          230
+        ],
+        "count": 12
+      },
+      {
+        "rgb": [
+          104,
+          104,
+          104
+        ],
+        "count": 11
+      },
+      {
+        "rgb": [
+          245,
+          245,
+          245
+        ],
+        "count": 8
+      },
+      {
+        "rgb": [
+          191,
+          191,
+          191
+        ],
+        "count": 7
+      },
+      {
+        "rgb": [
+          113,
+          113,
+          113
+        ],
+        "count": 7
+      },
+      {
+        "rgb": [
+          39,
+          39,
+          39
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          50,
+          50,
+          50
+        ],
+        "count": 6
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for +1 −0",
+    "attributes": "Attributes: StaticText, 0x7c40a95900, {{1200.0, 339.5}, {27.0, 13.0}}, identifier: 'commit-file:file.swift', value: +1 −0",
+    "evidence": "62F4D50E-4B4F-4583-A345-5699DCA0A131.txt",
+    "crop": "1714F58E-CF5B-4FD6-9D8F-ACEB9A29AA35.png",
+    "size": [
+      27,
+      14
+    ],
+    "background": [
+      220,
+      220,
+      220
+    ],
+    "strongestRepeatedInkSample": [
+      109,
+      109,
+      109
+    ],
+    "inkSamplePixelCount": 4,
+    "rasterRatio": 3.773261814578769,
+    "rasterRatioBelow4p5": true,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          220,
+          220,
+          220
+        ],
+        "count": 290
+      },
+      {
+        "rgb": [
+          181,
+          181,
+          181
+        ],
+        "count": 9
+      },
+      {
+        "rgb": [
+          129,
+          129,
+          129
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          138,
+          138,
+          138
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          171,
+          171,
+          171
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          109,
+          109,
+          109
+        ],
+        "count": 4
+      },
+      {
+        "rgb": [
+          217,
+          217,
+          217
+        ],
+        "count": 2
+      },
+      {
+        "rgb": [
+          196,
+          196,
+          196
+        ],
+        "count": 2
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for file.swift",
+    "attributes": "Attributes: StaticText, 0x7c4049c140, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift",
+    "evidence": "43ED8277-9638-4916-B7EA-EB4BCBE3DE43.txt",
+    "crop": "046D0863-593B-4BDF-B493-9B456D8637C2.png",
+    "size": [
+      42,
+      14
+    ],
+    "background": [
+      220,
+      220,
+      220
+    ],
+    "strongestRepeatedInkSample": [
+      39,
+      39,
+      39
+    ],
+    "inkSamplePixelCount": 6,
+    "rasterRatio": 10.89357168803314,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          220,
+          220,
+          220
+        ],
+        "count": 383
+      },
+      {
+        "rgb": [
+          211,
+          211,
+          211
+        ],
+        "count": 8
+      },
+      {
+        "rgb": [
+          39,
+          39,
+          39
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          179,
+          179,
+          179
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          91,
+          91,
+          91
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          218,
+          218,
+          218
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          80,
+          80,
+          80
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          48,
+          48,
+          48
+        ],
+        "count": 5
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 根提交 · 相对于空树",
+    "attributes": "Attributes: StaticText, 0x7c40be9540, {{858.0, 289.0}, {89.0, 13.0}}, value: 根提交 · 相对于空树",
+    "evidence": "F9631518-2465-46DF-AD1C-A20774279A70.txt",
+    "crop": "53743B2D-8D3F-47C3-ACE5-04DEA24169B2.png",
+    "size": [
+      89,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      97,
+      97,
+      97
+    ],
+    "inkSamplePixelCount": 4,
+    "rasterRatio": 6.193286162073998,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 600
+      },
+      {
+        "rgb": [
+          251,
+          251,
+          251
+        ],
+        "count": 14
+      },
+      {
+        "rgb": [
+          230,
+          230,
+          230
+        ],
+        "count": 13
+      },
+      {
+        "rgb": [
+          236,
+          236,
+          236
+        ],
+        "count": 11
+      },
+      {
+        "rgb": [
+          125,
+          125,
+          125
+        ],
+        "count": 11
+      },
+      {
+        "rgb": [
+          143,
+          143,
+          143
+        ],
+        "count": 11
+      },
+      {
+        "rgb": [
+          254,
+          254,
+          254
+        ],
+        "count": 10
+      },
+      {
+        "rgb": [
+          150,
+          150,
+          150
+        ],
+        "count": 10
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd",
+    "attributes": "Attributes: StaticText, 0x7c40be8500, {{858.0, 259.5}, {248.0, 13.0}}, value: 97b9c7429bbeaa4d55...",
+    "evidence": "C6B3E593-F061-450A-9C97-8A314DEEDA68.txt",
+    "crop": "AE491CE7-5AEE-487A-A5F4-820C299F3431.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      39,
+      39,
+      39
+    ],
+    "inkSamplePixelCount": 7,
+    "rasterRatio": 14.938418916797357,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 2153
+      },
+      {
+        "rgb": [
+          242,
+          242,
+          242
+        ],
+        "count": 28
+      },
+      {
+        "rgb": [
+          220,
+          220,
+          220
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          127,
+          127,
+          127
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          172,
+          172,
+          172
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          64,
+          64,
+          64
+        ],
+        "count": 22
+      },
+      {
+        "rgb": [
+          61,
+          61,
+          61
+        ],
+        "count": 22
+      },
+      {
+        "rgb": [
+          55,
+          55,
+          55
+        ],
+        "count": 21
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 97b9c7429bbeaa4d55b94ddec05bbd4162325cbd",
+    "attributes": "Attributes: StaticText, 0x7c40bff700, {{858.0, 259.5}, {248.0, 13.0}}, value: 97b9c7429bbeaa4d55..., Disabled",
+    "evidence": "BCDF6F2A-D5B8-4DF5-8F95-332BC51E9922.txt",
+    "crop": "E3D04BB3-7293-4188-9E1E-E42C1B0AE02A.png",
+    "size": [
+      248,
+      14
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      39,
+      39,
+      39
+    ],
+    "inkSamplePixelCount": 7,
+    "rasterRatio": 14.938418916797357,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 2153
+      },
+      {
+        "rgb": [
+          242,
+          242,
+          242
+        ],
+        "count": 28
+      },
+      {
+        "rgb": [
+          220,
+          220,
+          220
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          127,
+          127,
+          127
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          172,
+          172,
+          172
+        ],
+        "count": 24
+      },
+      {
+        "rgb": [
+          64,
+          64,
+          64
+        ],
+        "count": 22
+      },
+      {
+        "rgb": [
+          61,
+          61,
+          61
+        ],
+        "count": 22
+      },
+      {
+        "rgb": [
+          55,
+          55,
+          55
+        ],
+        "count": 21
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast is not high enough for 提交者：UI Test <ui@example.invalid> · 2026年10月18日 14:29 unless font size is larger.",
+    "attributes": "Attributes: StaticText, 0x7c40be8000, {{858.0, 199.0}, {298.0, 13.0}}, value: 提交者：UI Test <ui@ex...",
+    "evidence": "3B698F21-6079-42D6-9850-561BEFBA82AD.txt",
+    "crop": "E98CE65C-44BF-435C-9C5D-BEABC847AD3A.png",
+    "size": [
+      298,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      90,
+      90,
+      90
+    ],
+    "inkSamplePixelCount": 3,
+    "rasterRatio": 6.896926215312931,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 2409
+      },
+      {
+        "rgb": [
+          132,
+          132,
+          132
+        ],
+        "count": 42
+      },
+      {
+        "rgb": [
+          252,
+          252,
+          252
+        ],
+        "count": 37
+      },
+      {
+        "rgb": [
+          181,
+          181,
+          181
+        ],
+        "count": 29
+      },
+      {
+        "rgb": [
+          105,
+          105,
+          105
+        ],
+        "count": 28
+      },
+      {
+        "rgb": [
+          254,
+          254,
+          254
+        ],
+        "count": 27
+      },
+      {
+        "rgb": [
+          220,
+          220,
+          220
+        ],
+        "count": 27
+      },
+      {
+        "rgb": [
+          114,
+          114,
+          114
+        ],
+        "count": 23
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 2026年10月18日 14:29",
+    "attributes": "Attributes: StaticText, 0x7c40be0dc0, {{1038.0, 176.0}, {108.0, 13.0}}, value: 2026年10月18日 14:29",
+    "evidence": "A7085763-651E-4B99-A170-2BF808619552.txt",
+    "crop": "D6657CE0-A8AB-4929-8A1B-447CC00D8B67.png",
+    "size": [
+      108,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      101,
+      101,
+      101
+    ],
+    "inkSamplePixelCount": 4,
+    "rasterRatio": 5.828913828512588,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 861
+      },
+      {
+        "rgb": [
+          216,
+          216,
+          216
+        ],
+        "count": 15
+      },
+      {
+        "rgb": [
+          140,
+          140,
+          140
+        ],
+        "count": 14
+      },
+      {
+        "rgb": [
+          181,
+          181,
+          181
+        ],
+        "count": 13
+      },
+      {
+        "rgb": [
+          206,
+          206,
+          206
+        ],
+        "count": 12
+      },
+      {
+        "rgb": [
+          252,
+          252,
+          252
+        ],
+        "count": 11
+      },
+      {
+        "rgb": [
+          141,
+          141,
+          141
+        ],
+        "count": 10
+      },
+      {
+        "rgb": [
+          105,
+          105,
+          105
+        ],
+        "count": 10
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 作者：UI Test <ui@example.invalid>",
+    "attributes": "Attributes: StaticText, 0x7c40be8dc0, {{858.0, 176.0}, {172.0, 13.0}}, value: 作者：UI Test <ui@exa...",
+    "evidence": "9B2C2929-B180-4C49-A48B-EA201176B709.txt",
+    "crop": "BF958DED-E5A5-4B62-83EF-B84685C24788.png",
+    "size": [
+      172,
+      13
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      92,
+      92,
+      92
+    ],
+    "inkSamplePixelCount": 4,
+    "rasterRatio": 6.686914091522715,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 1409
+      },
+      {
+        "rgb": [
+          252,
+          252,
+          252
+        ],
+        "count": 22
+      },
+      {
+        "rgb": [
+          132,
+          132,
+          132
+        ],
+        "count": 21
+      },
+      {
+        "rgb": [
+          254,
+          254,
+          254
+        ],
+        "count": 19
+      },
+      {
+        "rgb": [
+          183,
+          183,
+          183
+        ],
+        "count": 17
+      },
+      {
+        "rgb": [
+          220,
+          220,
+          220
+        ],
+        "count": 15
+      },
+      {
+        "rgb": [
+          139,
+          139,
+          139
+        ],
+        "count": 14
+      },
+      {
+        "rgb": [
+          105,
+          105,
+          105
+        ],
+        "count": 14
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast is not high enough for 1 unless font size is larger.",
+    "attributes": "Attributes: StaticText, 0x7c40be2580, {{451.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1",
+    "evidence": "1F6B8203-661A-4D07-9498-790346E16FD4.txt",
+    "crop": "3A3BBF4D-7D5B-4429-9D71-90DDEA63946F.png",
+    "size": [
+      8,
+      14
+    ],
+    "background": [
+      240,
+      240,
+      240
+    ],
+    "strongestRepeatedInkSample": [
+      5,
+      5,
+      5
+    ],
+    "inkSamplePixelCount": 7,
+    "rasterRatio": 17.884499563497066,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          240,
+          240,
+          240
+        ],
+        "count": 91
+      },
+      {
+        "rgb": [
+          5,
+          5,
+          5
+        ],
+        "count": 7
+      },
+      {
+        "rgb": [
+          135,
+          135,
+          135
+        ],
+        "count": 6
+      },
+      {
+        "rgb": [
+          182,
+          182,
+          182
+        ],
+        "count": 1
+      },
+      {
+        "rgb": [
+          17,
+          17,
+          17
+        ],
+        "count": 1
+      },
+      {
+        "rgb": [
+          6,
+          6,
+          6
+        ],
+        "count": 1
+      },
+      {
+        "rgb": [
+          146,
+          146,
+          146
+        ],
+        "count": 1
+      },
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "count": 1
+      }
+    ]
+  },
+  {
+    "theme": "light",
+    "kind": "contrast",
+    "summary": "Contrast failed for 更改",
+    "attributes": "Attributes: StaticText, 0x7c40a961c0, {{340.0, 165.0}, {26.0, 16.0}}, identifier: 'route-更改', value: 更改",
+    "evidence": "3DF36BEF-28E8-4AEA-8E7E-B4AF669D0B11.txt",
+    "crop": "D1446607-6C82-490C-B757-8373BD33F207.png",
+    "size": [
+      26,
+      16
+    ],
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "strongestRepeatedInkSample": [
+      0,
+      0,
+      0
+    ],
+    "inkSamplePixelCount": 21,
+    "rasterRatio": 21.0,
+    "rasterRatioBelow4p5": false,
+    "notAConformanceDecision": true,
+    "mostRepeatedPixels": [
+      {
+        "rgb": [
+          255,
+          255,
+          255
+        ],
+        "count": 196
+      },
+      {
+        "rgb": [
+          0,
+          0,
+          0
+        ],
+        "count": 21
+      },
+      {
+        "rgb": [
+          231,
+          231,
+          231
+        ],
+        "count": 13
+      },
+      {
+        "rgb": [
+          253,
+          253,
+          253
+        ],
+        "count": 5
+      },
+      {
+        "rgb": [
+          42,
+          42,
+          42
+        ],
+        "count": 5
+      },
+      {
+        "rgb": [
+          5,
+          5,
+          5
+        ],
+        "count": 5
+      },
+      {
+        "rgb": [
+          19,
+          19,
+          19
+        ],
+        "count": 5
+      },
+      {
+        "rgb": [
+          101,
+          101,
+          101
+        ],
+        "count": 4
+      }
+    ]
+  }
+]

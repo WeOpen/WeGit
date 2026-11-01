@@ -1,0 +1,6 @@
+{
+  "apply_restored_working_bytes": true,
+  "apply_restored_index_bytes": true,
+  "delete_preserved_untracked_bytes": true,
+  "explicitly_deleted_stashes_empty": true
+}

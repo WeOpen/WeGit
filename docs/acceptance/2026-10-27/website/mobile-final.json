@@ -1,0 +1,16 @@
+{
+  "mobileFinal": {
+    "entry": [
+      "http://127.0.0.1:4173/assets/js/app.js?v=94a0c3a1d655"
+    ],
+    "focused": "导入 浅色主题",
+    "headerDownload": "none",
+    "mode": "light",
+    "overflow": false,
+    "title": "WeGit — 主题中心",
+    "url": "http://127.0.0.1:4173/zh/themes/",
+    "visibleLabels": 0,
+    "width": 375
+  },
+  "console": []
+}

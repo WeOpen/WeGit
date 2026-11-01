@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-18T14:44:39.536393+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "sourceCommit": "2c2533c1f0ef7e084f57eae3144f616416e4d608",
+  "workspaceDirty": false,
+  "imageVersion": "20261012.0260.1",
+  "runId": "39137123756",
+  "manager": {
+    "exitCode": 0,
+    "output": "Aqua"
+  },
+  "consoleUIDMatches": true,
+  "developerTools": {
+    "exitCode": 0,
+    "output": "Developer mode is currently enabled."
+  },
+  "interactivePrerequisites": true,
+  "sip": {
+    "exitCode": 0,
+    "output": "System Integrity Protection status: disabled."
+  },
+  "gatekeeper": {
+    "exitCode": 0,
+    "output": "assessments enabled"
+  },
+  "xcode": {
+    "exitCode": 0,
+    "output": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "firstLaunch": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "selectedGit": {
+    "exitCode": 0,
+    "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+  },
+  "osPermissionsChanged": false,
+  "mode": "functional",
+  "focus": "none",
+  "tests": [
+    {
+      "scope": "smoke",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 23.206,
+      "log": "smoke.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "3ea1f9cc19e0a6d1f887ce20bc161a03dd546935",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792334703.7,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792334683.947,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - WeGit",
+        "topInsights": [],
+        "totalTestCount": 1
+      }
+    },
+    {
+      "scope": "functional",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 3234.532,
+      "log": "functional.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "3ea1f9cc19e0a6d1f887ce20bc161a03dd546935",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 45,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792337938.084,
+        "passedTests": 45,
+        "result": "Passed",
+        "runtimeWarnings": [
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          }
+        ],
+        "skippedTests": 0,
+        "startTime": 1792334706.458,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - WeGit",
+        "topInsights": [
+          {
+            "category": "Longest Test Runs",
+            "impact": "55% of duration",
+            "text": "1 longest test run with outlier durations exceeding 852.17s (three standard deviations)"
+          }
+        ],
+        "totalTestCount": 45
+      }
+    }
+  ],
+  "releaseReady": false
+}

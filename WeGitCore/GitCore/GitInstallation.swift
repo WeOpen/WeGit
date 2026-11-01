@@ -30,7 +30,7 @@ public struct GitInstallation: Sendable {
                 executable: executable, arguments: ["config", "--get-all", key],
                 directory: directory.url, environment: environment, timeout: 5, outputLimit: 4096))
         guard result.exitCode == 0, result.text == "system\nglobal\nruntime\n" else {
-            throw ModelFailure.unsupported("所选 Git 不支持隔离的全局、系统及运行时配置。请安装更新版本。")
+            throw ModelFailure.unsupported(L10n.text("所选 Git 不支持隔离的全局、系统及运行时配置。请安装更新版本。"))
         }
     }
 
@@ -63,7 +63,8 @@ public struct GitInstallation: Sendable {
                 ["remote", "get-url", "--all"] + options + [name], in: directory.url,
                 timeout: 5, outputLimit: 4096, configuration: configuration)
             guard result.text == expected else {
-                throw ModelFailure.unsupported("所选 Git 无法固定单个远端地址。请安装 Git \(minimumVersion) 或更新版本。")
+                throw ModelFailure.unsupported(
+                    L10n.text("所选 Git 无法固定单个远端地址。请安装 Git \(minimumVersion) 或更新版本。"))
             }
         }
     }
@@ -88,19 +89,19 @@ public struct GitInstallation: Sendable {
         var preferredFailure: String?
         for candidate in candidates {
             guard FileManager.default.isExecutableFile(atPath: candidate.path) else {
-                if preferred != nil { preferredFailure = "所选文件不存在或没有执行权限。" }
+                if preferred != nil { preferredFailure = L10n.text("所选文件不存在或没有执行权限。") }
                 continue
             }
             do {
                 let result = try await runner.run(
                     ProcessRequest(executable: candidate, arguments: ["--version"], timeout: 5))
                 guard result.exitCode == 0 else {
-                    throw ModelFailure.unsupported("Git 版本查询失败（退出码 \(result.exitCode)）。")
+                    throw ModelFailure.unsupported(L10n.text("Git 版本查询失败（退出码 \(result.exitCode)）。"))
                 }
                 let version = result.text.trimmingCharacters(in: .whitespacesAndNewlines)
                 let numbers = version.split { !$0.isNumber }.compactMap { Int($0) }
                 guard numbers.count >= 2, numbers[0] > 2 || (numbers[0] == 2 && numbers[1] >= 46) else {
-                    throw ModelFailure.unsupported("所选 Git 的版本低于 \(minimumVersion)，或版本信息无法识别。")
+                    throw ModelFailure.unsupported(L10n.text("所选 Git 的版本低于 \(minimumVersion)，或版本信息无法识别。"))
                 }
                 try await verifyConfigurationIsolation(executable: candidate, runner: runner)
                 try await verifyRemoteURLReset(executable: candidate, runner: runner)
@@ -112,7 +113,8 @@ public struct GitInstallation: Sendable {
             }
         }
         throw ModelFailure.unsupported(
-            "未找到支持安全配置和远端地址隔离的 Git \(minimumVersion) 或更新版本。请安装新版 Xcode Command Line Tools，或在设置中选择 Git。"
+            L10n.text(
+                "未找到支持安全配置和远端地址隔离的 Git \(minimumVersion) 或更新版本。请安装新版 Xcode Command Line Tools，或在设置中选择 Git。")
                 + (preferredFailure.map { "\n" + $0 } ?? ""))
     }
 }

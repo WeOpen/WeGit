@@ -1,0 +1,50 @@
+{
+  "source": "ec874e2f014266a01824c7aaa5fe724f0089904b",
+  "runId": 40969583341,
+  "artifactId": 12940410836,
+  "bytes": 121494486,
+  "sha256": "712565ade5ef8bc0593b695ff2f46ae136ec2d7c0099d628b60a2c17ee3b0d1f",
+  "allCRCValid": true,
+  "entries": 2081,
+  "sourceInputsVerified": 185,
+  "tests": [
+    {
+      "scope": "smoke",
+      "counts": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "seconds": 27.146
+    },
+    {
+      "scope": "focused-rebase-workflow",
+      "counts": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "seconds": 125.912
+    }
+  ],
+  "extractedDirectory": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-artifact-12940410836-gen9",
+  "releaseReady": false,
+  "methodSeconds": 114.874,
+  "methodMaximumSeconds": 120,
+  "outerMaximumSeconds": 180,
+  "screenshotsAndAxReviewed": true,
+  "screenshotsAndAx": {
+    "screenshots/native-preview-chinese-light.png": "5ed2714c689ada6fe74c873184ec80c8e447fcff7cd5543d2986d1093acf8f56",
+    "screenshots/native-moved-target-rejected.png": "a0cb209ae6994ba263367230ddf7398f35e17f38e979cf4c9e68288204898d39",
+    "screenshots/native-conflict-reopen-english-dark.png": "ff8d574ba707a7d3c288f57134e1c9c4b34d2e15d67c150a44acc429d4165839",
+    "screenshots/native-abort-original-and-draft.png": "ddf968302ecf7ac683792d89dfc6b2966fa792ee763d0e915b6fb314c7ec98c8",
+    "accessibility/native-preview-chinese-light.txt": "187a7cd5dc9c1aee85e6f67a4f6f1b75595ef37c509e63bafc08e93a5a8c6ae1",
+    "accessibility/native-moved-target-rejected.txt": "f8888dec420cc0bf0661683ffe7cccd704c2a637939df4cadfc9e0e3d2d3c2d3",
+    "accessibility/native-conflict-reopen-english-dark.txt": "2677c77fde806dcdd269da2c343acc6eabc73f087a0ad01c5f0f7422511da06f",
+    "accessibility/native-abort-original-and-draft.txt": "574695f0c1ba7f070591987472fb003b2abf964d128461d5bae1f04cca4b012a"
+  },
+  "localCua": "still awaiting human unlock; no local XCTest or production preview claim",
+  "review": "Native 980x692 layout, full fixed OIDs/published confirmation, visible rejected target state, English dark conflict and disabled Continue, restored original branch and draft reviewed from actual screenshots and AX. Pointer controls reviewed for macOS; mobile touch sizes and iOS responder advice were not applied."
+}

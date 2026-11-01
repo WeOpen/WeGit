@@ -1,0 +1,51 @@
+{
+  "verifiedOn": "2026-10-26",
+  "checks": [
+    {
+      "file": "design/brand/logo/wegit-logo-horizontal-2400.png",
+      "width": 2400,
+      "height": 800,
+      "transparentEdges": true
+    },
+    {
+      "file": "design/brand/logo/wegit-logo-horizontal-4800.png",
+      "width": 4800,
+      "height": 1600,
+      "transparentEdges": true
+    },
+    {
+      "file": "design/brand/logo/wegit-logo-horizontal-dark-2400.png",
+      "width": 2400,
+      "height": 800,
+      "transparentEdges": true
+    },
+    {
+      "file": "design/brand/logo/wegit-logo-horizontal-dark-4800.png",
+      "width": 4800,
+      "height": 1600,
+      "transparentEdges": true
+    },
+    {
+      "file": "design/brand/logo/wegit-logo-horizontal-monochrome-2400.png",
+      "width": 2400,
+      "height": 800,
+      "transparentEdges": true
+    },
+    {
+      "file": "design/brand/logo/wegit-logo-horizontal-monochrome-4800.png",
+      "width": 4800,
+      "height": 1600,
+      "transparentEdges": true
+    },
+    {
+      "file": "WeGit/Resources/BrandAssets.xcassets/BrandAppIcon.imageset/light.png",
+      "seal": "white",
+      "maximumGreen": 255
+    },
+    {
+      "file": "WeGit/Resources/BrandAssets.xcassets/BrandAppIcon.imageset/dark.png",
+      "seal": "black",
+      "maximumGreen": 55
+    }
+  ]
+}

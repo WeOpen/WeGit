@@ -3,6 +3,7 @@ import SwiftUI
 import WeGitCore
 
 struct NewBranchView: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     var startCommit: String? = nil
     @Environment(\.dismiss) private var dismiss
@@ -20,35 +21,41 @@ struct NewBranchView: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("新建分支").font(.title2.weight(.semibold))
-            Text(startCommit == nil ? "从当前提交创建新分支。" : "从所选历史提交创建新分支。").foregroundStyle(
-                AppColors.secondaryText)
-            TextField("分支名称", text: $name).textFieldStyle(.roundedBorder).accessibilityIdentifier(
+            SheetTitle(title: L10n.text("新建分支"), symbol: "arrow.triangle.branch")
+            Text(startCommit == nil ? L10n.text("从当前提交创建新分支。") : L10n.text("从所选历史提交创建新分支。")).foregroundStyle(
+                colors.secondaryText)
+            TextField(L10n.text("分支名称"), text: $name).textFieldStyle(.roundedBorder).accessibilityIdentifier(
                 "branch-name"
             ).disabled(app.session?.isBusy == true)
             if startCommit == nil {
-                Picker("起点", selection: $startingRef) {
-                    Text("当前 HEAD").tag("")
+                Picker(L10n.text("起点"), selection: $startingRef) {
+                    Text(L10n.text("当前 HEAD")).tag("")
                     ForEach(app.session?.branches.filter { $0.symbolicTarget == nil } ?? []) { branch in
                         Text("\(branch.name) · \(branch.oid.prefix(7))").tag(branch.id)
                     }
                 }.disabled(app.session?.isBusy == true).accessibilityIdentifier("branch-start")
                 if app.session?.branches.first(where: { $0.id == startingRef })?.remote == true {
-                    Toggle("跟踪所选远端分支", isOn: $trackRemote).toggleStyle(.checkbox).disabled(
+                    Toggle(L10n.text("跟踪所选远端分支"), isOn: $trackRemote).toggleStyle(.checkbox).disabled(
                         app.session?.isBusy == true)
                 }
             }
-            Text("起点：\(startCommit.map { String($0.prefix(12)) } ?? app.session?.status.displayBranch ?? "")")
-                .font(.caption).foregroundStyle(AppColors.secondaryText)
-            Toggle("创建后立即切换", isOn: $switchAfterCreation).toggleStyle(.checkbox).disabled(
+            Text(
+                L10n.text(
+                    "起点：\(startCommit.map { String($0.prefix(12)) } ?? app.session?.status.displayBranch ?? "")"
+                )
+            )
+            .font(.caption).foregroundStyle(colors.secondaryText)
+            Toggle(L10n.text("创建后立即切换"), isOn: $switchAfterCreation).toggleStyle(.checkbox).disabled(
                 app.session?.isBusy == true)
-            if attempted, let error = app.session?.error { Text(error).font(.callout).foregroundStyle(.red) }
+            if attempted, let error = app.session?.error {
+                Text(error).font(.callout).foregroundStyle(colors.negative)
+            }
             HStack {
                 Spacer()
-                Button(app.session?.isBusy == true ? "取消操作" : "取消") {
+                Button(app.session?.isBusy == true ? L10n.text("取消操作") : L10n.text("取消")) {
                     if app.session?.isBusy == true { app.session?.cancel() } else { dismiss() }
                 }.keyboardShortcut(.cancelAction)
-                Button(switchAfterCreation ? "创建并切换" : "创建分支") {
+                Button(switchAfterCreation ? L10n.text("创建并切换") : L10n.text("创建分支")) {
                     guard let session = app.session, session.location == targetLocation else {
                         app.error = ModelFailure.repositoryReplaced.localizedDescription
                         return
@@ -65,17 +72,18 @@ struct NewBranchView: View {
                     let switchTo = switchAfterCreation
                     attempted = true
                     if startCommit == nil, let source, source.remote && trackRemote {
-                        session.perform("创建跟踪分支", onSuccess: { dismiss() }) {
+                        session.perform(L10n.text("创建跟踪分支"), onSuccess: { dismiss() }) {
                             try await $0.createTrackingBranch(
                                 from: source, name: name, switchTo: switchTo, expectedHead: head)
                         }
                     } else {
-                        session.perform("创建分支", onSuccess: { dismiss() }) {
+                        session.perform(L10n.text("创建分支"), onSuccess: { dismiss() }) {
                             try await $0.createBranch(
                                 name, start: start, switchTo: switchTo, expectedHead: head)
                         }
                     }
-                }.buttonStyle(.borderedProminent).disabled(name.isEmpty || app.session?.isBusy == true)
+                }.workbenchPrimaryAction().tint(colors.primaryAction).disabled(
+                    name.isEmpty || app.session?.isBusy == true)
             }
         }.padding(24).frame(width: 460).interactiveDismissDisabled(app.session?.isBusy == true)
     }
@@ -87,6 +95,7 @@ enum RepositoryPickerAction {
 }
 
 struct RepositoryPicker: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Environment(\.dismiss) private var dismiss
     @State private var query = ""
@@ -100,18 +109,20 @@ struct RepositoryPicker: View {
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("切换仓库").font(.title2.weight(.semibold))
-            TextField("搜索仓库名称或路径", text: $query).textFieldStyle(.roundedBorder)
-                .focused($searchFocused).accessibilityLabel("搜索仓库名称或路径")
-                .accessibilityIdentifier("repository-switch-search").onSubmit { openSelected() }
-                .onKeyPress(.downArrow) {
-                    move(1)
-                    return .handled
-                }
-                .onKeyPress(.upArrow) {
-                    move(-1)
-                    return .handled
-                }
+            SheetTitle(title: L10n.text("切换仓库"), symbol: "folder")
+            WorkbenchSearchField(
+                prompt: L10n.text("搜索仓库名称或路径"), text: $query, identifier: "repository-switch-search",
+                focus: $searchFocused
+            )
+            .onSubmit { openSelected() }
+            .onKeyPress(.downArrow) {
+                move(1)
+                return .handled
+            }
+            .onKeyPress(.upArrow) {
+                move(-1)
+                return .handled
+            }
             List(selection: $selectedPath) {
                 ForEach(records) { record in
                     Button {
@@ -120,20 +131,20 @@ struct RepositoryPicker: View {
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(record.name)
-                            Text(record.path).font(.caption).foregroundStyle(AppColors.secondaryText)
+                            Text(record.path).font(.caption).foregroundStyle(colors.secondaryText)
                                 .lineLimit(2).truncationMode(.middle).help(record.path)
                         }
                     }.buttonStyle(.plain).padding(.vertical, 6).tag(record.path)
                         .accessibilityIdentifier("repository:" + record.path)
                         .contextMenu { RepositoryContextMenu(app: app, record: record) }
                 }
-            }.frame(height: 230).accessibilityLabel("匹配的最近仓库")
+            }.frame(height: 230).accessibilityLabel(L10n.text("匹配的最近仓库"))
             HStack {
-                Button("打开仓库…") { app.dismissRepositoryPicker(perform: .browse) }
-                Button("克隆仓库…") { app.dismissRepositoryPicker(perform: .clone) }
+                Button(L10n.text("打开仓库…")) { app.dismissRepositoryPicker(perform: .browse) }
+                Button(L10n.text("克隆仓库…")) { app.dismissRepositoryPicker(perform: .clone) }
                 Spacer()
-                Button("关闭") { dismiss() }.keyboardShortcut(.cancelAction)
-                Button("打开所选仓库") { openSelected() }.keyboardShortcut(.defaultAction)
+                Button(L10n.text("关闭")) { dismiss() }.keyboardShortcut(.cancelAction)
+                Button(L10n.text("打开所选仓库")) { openSelected() }.keyboardShortcut(.defaultAction)
                     .disabled(selectedPath == nil).accessibilityIdentifier("repository-switch-open")
             }
         }.padding(22).frame(width: 550)
@@ -157,30 +168,32 @@ struct RepositoryPicker: View {
 }
 
 struct ActivityView: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Environment(\.dismiss) private var dismiss
     @State private var entries: [GitActivity] = []
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Git 活动").font(.title2.weight(.semibold))
+                SheetTitle(title: L10n.text("Git 活动"), symbol: "clock")
                 Spacer()
-                Button("关闭") { dismiss() }.keyboardShortcut(.cancelAction)
+                Button(L10n.text("关闭")) { dismiss() }.keyboardShortcut(.cancelAction)
             }
-            Text("仅记录脱敏命令摘要，不保存代码、补丁、提交消息或凭证。").font(.caption).foregroundStyle(AppColors.secondaryText)
+            Text(L10n.text("仅记录脱敏命令摘要，不保存代码、补丁、提交消息或凭证。")).font(.caption).foregroundStyle(
+                colors.secondaryText)
             List(entries) { entry in
                 HStack {
                     Image(
                         systemName: entry.state == .succeeded ? "checkmark.circle" : "exclamationmark.circle"
                     )
-                    .foregroundStyle(entry.state == .succeeded ? .green : .orange)
+                    .foregroundStyle(entry.state == .succeeded ? colors.positive : colors.modified)
                     Text(entry.command).monospaced()
                     if let repository = entry.repository {
                         Text(repository.lastPathComponent).lineLimit(1).help(repository.path)
                     } else {
-                        Text("系统 Git").foregroundStyle(AppColors.secondaryText)
+                        Text(L10n.text("系统 Git")).foregroundStyle(colors.secondaryText)
                     }
-                    Text(entry.state.title).foregroundStyle(AppColors.secondaryText)
+                    Text(entry.state.title).foregroundStyle(colors.secondaryText)
                     Spacer()
                     Text(entry.date, style: .time)
                     Text(String(format: "%.0f ms", entry.duration * 1000)).monospacedDigit().frame(

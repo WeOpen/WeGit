@@ -1,0 +1,10 @@
+Native macOS	Formatting, core tests and Debug build	2026-10-16T15:34:30.2529560Z 15 preference migration behavior checks passed.
+Native macOS	Formatting, core tests and Debug build	2026-10-16T15:34:35.3111440Z Localization verified: 998 string keys, 7 plural keys; source coverage and arguments match.
+Native macOS	Formatting, core tests and Debug build	2026-10-16T15:37:09.1409660Z ✔ Test run with 183 tests in 32 suites passed after 116.711 seconds.
+Native macOS	Formatting, core tests and Debug build	2026-10-16T15:38:10.4516480Z ** BUILD SUCCEEDED **
+Native macOS	Minimum Git 2.46 core regression	2026-10-16T15:40:34.7207340Z ✔ Test run with 183 tests in 32 suites passed after 75.364 seconds.
+Native macOS	Native feature behavior checks	2026-10-16T15:40:45.4332150Z 34 theme behavior checks passed.
+Native macOS	Native feature behavior checks	2026-10-16T15:40:50.5374130Z 18 native appearance icon checks passed.
+Native macOS	Native feature behavior checks	2026-10-16T15:40:54.8892360Z 27 native application menu checks passed.
+Native macOS	Compile native UI regressions	2026-10-16T15:41:04.7471100Z ** TEST BUILD SUCCEEDED **
+Native macOS	Ordinary Release and preview package	2026-10-16T15:42:11.9953790Z ** BUILD SUCCEEDED **

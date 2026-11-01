@@ -1,0 +1,10 @@
+{
+  "privateDebugRestoredMinimumStartupWarning": "Application performed a reentrant operation in its NSTableView delegate. This warning will become an assert in the future.",
+  "warningObservedOnce": true,
+  "sixSerialStartupCasesWithSameWarning": [],
+  "notes": [
+    "The application remained usable and passed the recorded input/layout checks.",
+    "Native XCTest execution was not retried against the unchanged automation-mode timeout environment.",
+    "Two mouse resize attempts left the window size unchanged. Minimum-size evidence uses the isolated native frame-restoration preference, not those drag attempts."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "checks" : [
+    "Supported Git and real GPG detected",
+    "Private global signing configuration inherited",
+    "RepositoryService creates a verifiable signature with the configured key",
+    "An invalid signing key leaves HEAD and staged content intact",
+    "Repository configuration can override global signing",
+    "Removing local values restores signed commits",
+    "Annotated tag inherits tag.gpgSign and verifies with the configured key",
+    "Signed tag preserves explicit annotation headings",
+    "Global configuration bytes remain unchanged"
+  ],
+  "exclusions" : [
+    "Interactive Pinentry",
+    "Hardware keys",
+    "Real service credentials",
+    "Native UI"
+  ],
+  "fixtureRemoved" : true,
+  "gitKind" : "apple",
+  "gitVersion" : "git version 2.54.0 (Apple Git-157)",
+  "gpgVersion" : "gpg (GnuPG) 2.5.24",
+  "phase" : "signed-tag",
+  "privateServicesStopped" : true,
+  "result" : "passed",
+  "scope" : "RepositoryService with an ephemeral unprotected OpenPGP key and private configuration"
+}

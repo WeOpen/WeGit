@@ -1,0 +1,91 @@
+{
+  "source": "577f10f6d786e4c2f83ecb236d356b2dcf809126",
+  "nativeRun": 40806321814,
+  "requiredCiRun": 40806104965,
+  "smoke": {
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "9593c2699229fe5f752ce3b50a2f664a8461da9d",
+          "deviceName": "My Mac",
+          "modelName": "Virtual Machine",
+          "osBuildNumber": "26A434",
+          "osVersion": "27.0.1",
+          "platform": "macOS"
+        },
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "passedTests": 1,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "WeGit · Built with macOS 27.0.1",
+    "expectedFailures": 0,
+    "failedTests": 0,
+    "finishTime": 1793240908.478,
+    "passedTests": 1,
+    "result": "Passed",
+    "runtimeWarnings": [],
+    "skippedTests": 0,
+    "startTime": 1793240889.556,
+    "statistics": [],
+    "testFailures": [],
+    "title": "Test - WeGit",
+    "topInsights": [],
+    "totalTestCount": 1
+  },
+  "focused": {
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "9593c2699229fe5f752ce3b50a2f664a8461da9d",
+          "deviceName": "My Mac",
+          "modelName": "Virtual Machine",
+          "osBuildNumber": "26A434",
+          "osVersion": "27.0.1",
+          "platform": "macOS"
+        },
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "WeGit · Built with macOS 27.0.1",
+    "expectedFailures": 0,
+    "failedTests": 1,
+    "finishTime": 1793240957.243,
+    "passedTests": 0,
+    "result": "Failed",
+    "runtimeWarnings": [],
+    "skippedTests": 0,
+    "startTime": 1793240912.292,
+    "statistics": [],
+    "testFailures": [
+      {
+        "failureText": "XCTAssertEqual failed: (\"nil\") is not equal to (\"Optional(\"1\")\")",
+        "targetName": "WeGitUITests",
+        "testIdentifier": 1,
+        "testIdentifierString": "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation()",
+        "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
+        "testName": "testPreviewCancelStageUnstageAndStaleConfirmation()"
+      }
+    ],
+    "title": "Test - WeGit",
+    "topInsights": [],
+    "totalTestCount": 1
+  },
+  "diagnosticOnly": true,
+  "requiredCiFailure": "OnlyOneTrailingClosureArgument at SelectedLinesSheet.swift:108; subsequent native CI checks did not run",
+  "followup": "Explicit operation closure parameter; checkbox values read as Int, retaining checked=1/unchecked=0 and all byte preservation assertions. New hosted run required."
+}

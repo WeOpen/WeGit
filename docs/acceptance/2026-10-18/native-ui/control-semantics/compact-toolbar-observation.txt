@@ -1,0 +1,10 @@
+Run 39094025046; source c8071e510d3b74ed35793997fb75732f5c7595c5
+Original smoke: 1/1 passed, no skips. Focus: 1/1 failed at obsolete Activity title assertion.
+Native sheet after the scoped toolbar menu action:
+    Sheet, 0x754e5dae40, {{450.0, 203.0}, {640.0, 440.0}}, Disabled <AX element pid: 21407, token: n1MAAAAAAABvY29jiQAAAAAAAAA=>
+      Group, 0x754e5daf80, {{450.0, 203.0}, {640.0, 440.0}}, Disabled <AX element pid: 21407, token: n1MAAAAAAABvY29jiwAAAAAAAAA=>
+        StaticText, 0x754e5db0c0, {{516.0, 232.5}, {55.0, 19.0}}, value: Git 活动 <AX element pid: 21407, token: n1MAAAAAAABvY29jjAAAAAAAAAA=>
+        Button, 0x754e5db200, {{1018.0, 230.0}, {50.0, 24.0}}, label: '关闭' <AX element pid: 21407, token: n1MAAAAAAABvY29jjQAAAAAAAAA=>
+        StaticText, 0x754e5db340, {{472.0, 271.0}, {269.0, 13.0}}, value: 仅记录脱敏命令摘要，不保存代码、补丁... <AX element pid: 21407, token: n1MAAAAAAABvY29jjgAAAAAAAAA=>
+        ScrollView, 0x754e5db480, {{472.0, 296.0}, {596.0, 325.0}}, Disabled <AX element pid: 21407, token: n1MAAAAAAABvY29jjwAAAAAAAAA=>
+          Outline, 0x754e5db5c0, {{471.0, 295.0}, {598.0, 327.0}}, Keyboard Focused <AX element pid: 21407, token: n1MAAAAAAABvY29jkAAAAAAAAAA=>

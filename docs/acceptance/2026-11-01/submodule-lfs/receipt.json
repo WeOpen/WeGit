@@ -1,0 +1,11 @@
+{
+  "scope": "V12-08/V12-09 implementation increment",
+  "checker": "scripts/verify-submodule-lfs.sh",
+  "checks": 15,
+  "passed": true,
+  "xctestExecuted": false,
+  "coreBuild": true,
+  "appBuild": true,
+  "localization": {"strings": 1390, "plurals": 8},
+  "openGates": ["required CI", "trusted native UI", "Release performance", "M5"]
+}

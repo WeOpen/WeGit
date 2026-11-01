@@ -1,0 +1,467 @@
+Window: "WeGit", App: WeGit.
+0 standard window WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) 工作区
+						7 row (selected) 更改
+414
+						8 row (selectable) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) WeGit, codex/v1-validation
+						12 row (selectable) repository
+						13 row (selectable) disk-snapshot-0r9jy3z6
+				14 text Value: WeGit, ID: sidebar-brand
+				15 button Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+			16 splitter (disabled, settable, float) 209.5
+			17 split group
+				18 container
+					19 split group
+						20 container
+							21 text 更改 414
+							22 menu button More
+							23 text field (settable) Description: 筛选文件路径, ID: changes-filter
+							24 pop up button Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							25 scroll area Secondary Actions: Scroll Up, Scroll Down
+								26 list changes-list (showing 0-11 of 100 items)
+									27 row (selectable) 未暂存（52）
+									28 row (selected) Description: 暂存 verify.yml, Value: verify.yml
+.github/workflows
+状态：修改
+									29 row (selectable) Description: 暂存 CHANGELOG.md, Value: CHANGELOG.md
+状态：修改
+									30 row (selectable) Description: 暂存 README.md, Value: README.md
+状态：修改
+									31 row (selectable) Description: 暂存 project.pbxproj, Value: project.pbxproj
+WeGit.xcodeproj
+状态：修改
+									32 row (selectable) Description: 暂存 AppPreferences.swift, Value: AppPreferences.swift
+WeGit/App
+状态：修改
+									33 row (selectable) Description: 暂存 AppState.swift, Value: AppState.swift
+WeGit/App
+状态：修改
+									34 row (selectable) Description: 暂存 ApplicationDelegate.swift, Value: ApplicationDelegate.swift
+WeGit/App
+状态：修改
+									35 row (selectable) Description: 暂存 ViewPerformanceJournal.swift, Value: ViewPerformanceJournal.swift
+WeGit/App
+状态：修改
+									36 row (selectable) Description: 暂存 WeGitApp.swift, Value: WeGitApp.swift
+WeGit/App
+状态：修改
+									37 row (selectable) Description: 暂存 WindowStateBridge.swift, Value: WindowStateBridge.swift
+WeGit/App
+状态：修改
+								38 scroll bar (settable, float) 0
+									39 value indicator (settable, float) 0
+									40 increment arrow button
+									41 decrement arrow button
+									42 increment page button
+									43 decrement page button
+						44 splitter (disabled, settable, float) 485.5
+						45 container
+							46 text Help: .github/workflows/verify.yml, Value: .github/workflows/verify.yml +72 −1 工作区 ↔ 暂存区
+							47 Description: 差异布局, ID: diff-layout
+								48 radio button Description: 统一, Value: 0
+								49 radio button Description: 分栏, Value: 1
+							50 menu button 差异文件操作, Description: More
+							51 pop up button 上下文, Value: 3 行, ID: diff-context
+							52 checkbox Description: 忽略空白, Value: 0, ID: diff-ignore-whitespace
+							53 checkbox Description: 词级差异, Help: 突出替换行中变化的词；长行仍保留整行差异标识。, Value: 0, ID: diff-word-highlight
+							54 button (disabled) Description: 上一差异块, ID: diff-hunk-previous
+							55 button Description: 下一差异块, ID: diff-hunk-next
+							56 text Value: 差异块 1 / 2, ID: diff-hunk-position
+							57 scroll area Description: 文本差异, ID: diff-content, Secondary Actions: Scroll Up, Scroll Down
+								58 container 文本差异内容
+									59 unknown Description: 原始内容，修改后, ID: diff-column-headers
+									60 container 上下文展开控制
+										61 button Description: 向上展开 2 行, ID: diff-context-expand-0
+										62 text 2 行未显示
+									63 container 差异块：@@ -3,17 +3,26 @@ on:
+										64 text @@ -3,17 +3,26 @@ on:
+										65 button Description: 复制此块补丁, ID: diff-hunk-copy:0
+										66 button 暂存此块
+										67 button 丢弃此块…
+									68 container Description: 原始与修改后的代码行, ID: split-diff-row
+										69 text 3
+										70 text entry area Description: 原始代码，第 3 行, Value:   push:, ID: diff-code:0
+										71 text 3
+										72 text entry area Description: 修改后的代码，第 3 行, Value:   push:, ID: diff-code:0
+									73 container Description: 原始与修改后的代码行, ID: split-diff-row
+										74 text 4
+										75 text entry area Description: 原始代码，第 4 行, Value:     branches: [main], ID: diff-code:1
+										76 text 4
+										77 text entry area Description: 修改后的代码，第 4 行, Value:     branches: [main], ID: diff-code:1
+									78 container Description: 原始与修改后的代码行, ID: split-diff-row
+										79 text 5
+										80 text entry area Description: 原始代码，第 5 行, Value:   workflow_dispatch:, ID: diff-code:2
+										81 text 5
+										82 text entry area Description: 修改后的代码，第 5 行, Value:   workflow_dispatch:, ID: diff-code:2
+									83 container Description: 原始与修改后的代码行, ID: split-diff-row
+										84 text 6
+										85 text entry area Description: 修改后的代码，第 6 行, Value:     inputs:, ID: diff-code:3
+									86 container Description: 原始与修改后的代码行, ID: split-diff-row
+										87 text 7
+										88 text entry area Description: 修改后的代码，第 7 行, Value:       full_acceptance:, ID: diff-code:4
+									89 container Description: 原始与修改后的代码行, ID: split-diff-row
+										90 text 8
+										91 text entry area Description: 修改后的代码，第 8 行, Value:         description: Run native UI, accessibility and Release performance on an interactive runner, ID: diff-code:5
+									92 container Description: 原始与修改后的代码行, ID: split-diff-row
+										93 text 9
+										94 text entry area Description: 修改后的代码，第 9 行, Value:         type: boolean, ID: diff-code:6
+									95 container Description: 原始与修改后的代码行, ID: split-diff-row
+										96 text 10
+										97 text entry area Description: 修改后的代码，第 10 行, Value:         default: false, ID: diff-code:7
+									98 container Description: 原始与修改后的代码行, ID: split-diff-row
+										99 text 6
+										100 text entry area Description: 原始代码，第 6 行, Value: permissions:, ID: diff-code:8
+										101 text 11
+										102 text entry area Description: 修改后的代码，第 11 行, Value: permissions:, ID: diff-code:8
+									103 container Description: 原始与修改后的代码行, ID: split-diff-row
+										104 text 7
+										105 text entry area Description: 原始代码，第 7 行, Value:   contents: read, ID: diff-code:9
+										106 text 12
+										107 text entry area Description: 修改后的代码，第 12 行, Value:   contents: read, ID: diff-code:9
+									108 container Description: 原始与修改后的代码行, ID: split-diff-row
+										109 text 13
+										110 text entry area Description: 修改后的代码，第 13 行, Value: concurrency:, ID: diff-code:10
+									111 container Description: 原始与修改后的代码行, ID: split-diff-row
+										112 text 14
+										113 text entry area Description: 修改后的代码，第 14 行, Value:   group: wegit-macos-validation, ID: diff-code:11
+									114 container Description: 原始与修改后的代码行, ID: split-diff-row
+										115 text 15
+										116 text entry area Description: 修改后的代码，第 15 行, Value:   cancel-in-progress: false, ID: diff-code:12
+									117 container Description: 原始与修改后的代码行, ID: split-diff-row
+										118 text 8
+										119 text entry area Description: 原始代码，第 8 行, Value: jobs:, ID: diff-code:13
+										120 text 16
+										121 text entry area Description: 修改后的代码，第 16 行, Value: jobs:, ID: diff-code:13
+									122 container Description: 原始与修改后的代码行, ID: split-diff-row
+										123 text 9
+										124 text entry area Description: 原始代码，第 9 行, Value:   verify:, ID: diff-code:14
+										125 text 17
+										126 text entry area Description: 修改后的代码，第 17 行, Value:   verify:, ID: diff-code:14
+									127 container Description: 原始与修改后的代码行, ID: split-diff-row
+										128 text 10
+										129 text entry area Description: 原始代码，第 10 行, Value:     # Provision this label on a macOS 27 / Xcode 27 runner before enabling remote CI., ID: diff-code:15
+										130 text 18
+										131 text entry area Description: 修改后的代码，第 18 行, Value:     # Provision this label on a macOS 27 / Xcode 27 runner before enabling remote CI., ID: diff-code:15
+									132 container Description: 原始与修改后的代码行, ID: split-diff-row
+										133 text 11
+										134 text entry area Description: 原始代码，第 11 行, Value:     # No pull_request trigger: untrusted fork code must not run on a personal self-hosted machine., ID: diff-code:16
+										135 text 19
+										136 text entry area Description: 修改后的代码，第 19 行, Value:     # No pull_request trigger: untrusted fork code must not run on a personal self-hosted machine., ID: diff-code:16
+									137 container Description: 原始与修改后的代码行, ID: split-diff-row
+										138 text 12
+										139 text entry area Description: 原始代码，第 12 行, Value:     runs-on: [self-hosted, macOS, ARM64, wegit-macos27], ID: diff-code:17
+										140 text 20
+										141 text entry area Description: 修改后的代码，第 20 行, Value:     runs-on: [self-hosted, macOS, ARM64, wegit-macos27], ID: diff-code:17
+									142 container Description: 原始与修改后的代码行, ID: split-diff-row
+										143 text 13
+										144 text entry area Description: 原始代码，第 13 行, Value:     timeout-minutes: 20, ID: diff-code:18
+										145 text 21
+										146 text entry area Description: 修改后的代码，第 21 行, Value:     timeout-minutes: 120, ID: diff-code:19
+									147 container Description: 原始与修改后的代码行, ID: split-diff-row
+										148 text 14
+										149 text entry area Description: 原始代码，第 14 行, Value:     steps:, ID: diff-code:20
+										150 text 22
+										151 text entry area Description: 修改后的代码，第 22 行, Value:     steps:, ID: diff-code:20
+									152 container Description: 原始与修改后的代码行, ID: split-diff-row
+										153 text 15
+										154 text entry area Description: 原始代码，第 15 行, Value:       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1; runner >= 2.327.1, ID: diff-code:21
+										155 text 23
+										156 text entry area Description: 修改后的代码，第 23 行, Value:       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1; runner >= 2.327.1, ID: diff-code:21
+									157 container Description: 原始与修改后的代码行, ID: split-diff-row
+										158 text 16
+										159 text entry area Description: 原始代码，第 16 行, Value:         with:, ID: diff-code:22
+										160 text 24
+										161 text entry area Description: 修改后的代码，第 24 行, Value:         with:, ID: diff-code:22
+									162 container Description: 原始与修改后的代码行, ID: split-diff-row
+										163 text 25
+										164 text entry area Description: 修改后的代码，第 25 行, Value:           ref: ${{ github.sha }}, ID: diff-code:23
+									165 container Description: 原始与修改后的代码行, ID: split-diff-row
+										166 text 17
+										167 text entry area Description: 原始代码，第 17 行, Value:           persist-credentials: false, ID: diff-code:24
+										168 text 26
+										169 text entry area Description: 修改后的代码，第 26 行, Value:           persist-credentials: false, ID: diff-code:24
+									170 container Description: 原始与修改后的代码行, ID: split-diff-row
+										171 text 18
+										172 text entry area Description: 原始代码，第 18 行, Value:       - name: Verify toolchain, ID: diff-code:25
+										173 text 27
+										174 text entry area Description: 修改后的代码，第 27 行, Value:       - name: Verify toolchain, ID: diff-code:25
+									175 container Description: 原始与修改后的代码行, ID: split-diff-row
+										176 text 19
+										177 text entry area Description: 原始代码，第 19 行, Value:         run: |, ID: diff-code:26
+										178 text 28
+										179 text entry area Description: 修改后的代码，第 28 行, Value:         run: |, ID: diff-code:26
+									180 container 上下文展开控制
+										181 button Description: 展开 4 行, ID: diff-context-expand-1
+										182 text 4 行未显示
+									183 container 差异块：@@ -24,3 +33,65 @@ jobs:
+										184 text @@ -24,3 +33,65 @@ jobs:
+										185 button Description: 复制此块补丁, ID: diff-hunk-copy:1
+										186 button 暂存此块
+										187 button 丢弃此块…
+									188 container Description: 原始与修改后的代码行, ID: split-diff-row
+										189 text 24
+										190 text entry area Description: 原始代码，第 24 行, Value:         run: scripts/verify.sh, ID: diff-code:27
+										191 text 33
+										192 text entry area Description: 修改后的代码，第 33 行, Value:         run: scripts/verify.sh, ID: diff-code:27
+									193 container Description: 原始与修改后的代码行, ID: split-diff-row
+										194 text 25
+										195 text entry area Description: 原始代码，第 25 行, Value:       - name: Ordinary Release build, ID: diff-code:28
+										196 text 34
+										197 text entry area Description: 修改后的代码，第 34 行, Value:       - name: Ordinary Release build, ID: diff-code:28
+									198 container Description: 原始与修改后的代码行, ID: split-diff-row
+										199 text 26
+										200 text entry area Description: 原始代码，第 26 行, Value:         run: scripts/build.sh Release, ID: diff-code:29
+										201 text 35
+										202 text entry area Description: 修改后的代码，第 35 行, Value:         run: scripts/build.sh Release, ID: diff-code:29
+									203 container Description: 原始与修改后的代码行, ID: split-diff-row
+										204 text 36
+										205 text entry area Description: 修改后的代码，第 36 行, Value:   acceptance:, ID: diff-code:30
+									206 container Description: 原始与修改后的代码行, ID: split-diff-row
+										207 text 37
+										208 text entry area Description: 修改后的代码，第 37 行, Value:     needs: verify, ID: diff-code:31
+									209 container Description: 原始与修改后的代码行, ID: split-diff-row
+										210 text 38
+										211 text entry area Description: 修改后的代码，第 38 行, Value:     if: github.event_name == 'workflow_dispatch' && inputs.full_acceptance, ID: diff-code:32
+									212 container Description: 原始与修改后的代码行, ID: split-diff-row
+										213 text 39
+										214 text entry area Description: 修改后的代码，第 39 行, Value:     # The label requires an active desktop login; never run alongside another build., ID: diff-code:33
+									215 container Description: 原始与修改后的代码行, ID: split-diff-row
+										216 text 40
+										217 text entry area Description: 修改后的代码，第 40 行, Value:     runs-on: [self-hosted, macOS, ARM64, wegit-macos27, wegit-interactive], ID: diff-code:34
+									218 container Description: 原始与修改后的代码行, ID: split-diff-row
+										219 text 41
+										220 text entry area Description: 修改后的代码，第 41 行, Value:     timeout-minutes: 120, ID: diff-code:35
+									221 container Description: 原始与修改后的代码行, ID: split-diff-row
+										222 text 42
+										223 text entry area Description: 修改后的代码，第 42 行, Value:     steps:, ID: diff-code:36
+									224 container Description: 原始与修改后的代码行, ID: split-diff-row
+										225 text 43
+										226 text entry area Description: 修改后的代码，第 43 行, Value:       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1, ID: diff-code:37
+									227 container Description: 原始与修改后的代码行, ID: split-diff-row
+										228 text 44
+										229 text entry area Description: 修改后的代码，第 44 行, Value:         with:, ID: diff-code:38
+									230 container Description: 原始与修改后的代码行, ID: split-diff-row
+										231 text 45
+										232 text entry area Description: 修改后的代码，第 45 行, Value:           ref: ${{ github.sha }}, ID: diff-code:39
+									233 container Description: 原始与修改后的代码行, ID: split-diff-row
+										234 text 46
+										235 text entry area Description: 修改后的代码，第 46 行, Value:           persist-credentials: false, ID: diff-code:40
+									236 container Description: 原始与修改后的代码行, ID: split-diff-row
+										237 text 47
+										238 text entry area Description: 修改后的代码，第 47 行, Value:       - name: Minimum supported Git core regression, ID: diff-code:41
+									239 container Description: 原始与修改后的代码行, ID: split-diff-row
+										240 text 48
+										241 text entry area Description: 修改后的代码，第 48 行, Value:         env:, ID: diff-code:42
+									242 container Description: 原始与修改后的代码行, ID: split-diff-row
+										243 text 49
+										244 text entry area Description: 修改后的代码，第 49 行, Value:           WEGIT_TEST_GIT: ${{ vars.WEGIT_TEST_GIT_246 }}, ID: diff-code:43
+									245 container Description: 原始与修改后的代码行, ID: split-diff-row
+										246 text 50
+										247 text entry area Description: 修改后的代码，第 50 行, Value:         run: |, ID: diff-code:44
+									248 container Description: 原始与修改后的代码行, ID: split-diff-row
+										249 text 51
+										250 text entry area Description: 修改后的代码，第 51 行, Value:           test -x "$WEGIT_TEST_GIT", ID: diff-code:45
+									251 container Description: 原始与修改后的代码行, ID: split-diff-row
+										252 text 52
+										253 text entry area Description: 修改后的代码，第 52 行, Value:           "$WEGIT_TEST_GIT" --version, ID: diff-code:46
+									254 container Description: 原始与修改后的代码行, ID: split-diff-row
+										255 text 53
+										256 text entry area Description: 修改后的代码，第 53 行, Value:           swift test, ID: diff-code:47
+									257 container Description: 原始与修改后的代码行, ID: split-diff-row
+										258 text 54
+										259 text entry area Description: 修改后的代码，第 54 行, Value:       - name: Functional UI and 144 reading combinations, ID: diff-code:48
+									260 container Description: 原始与修改后的代码行, ID: split-diff-row
+										261 text 55
+										262 text entry area Description: 修改后的代码，第 55 行, Value:         run: |, ID: diff-code:49
+									263 container Description: 原始与修改后的代码行, ID: split-diff-row
+										264 text 56
+										265 text entry area Description: 修改后的代码，第 56 行, Value:           scripts/build.sh Debug, ID: diff-code:50
+									266 container Description: 原始与修改后的代码行, ID: split-diff-row
+										267 text 57
+										268 text entry area Description: 修改后的代码，第 57 行, Value:           xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \, ID: diff-code:51
+									269 container Description: 原始与修改后的代码行, ID: split-diff-row
+										270 text 58
+										271 text entry area Description: 修改后的代码，第 58 行, Value:             -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \, ID: diff-code:52
+									272 container Description: 原始与修改后的代码行, ID: split-diff-row
+										273 text 59
+										274 text entry area Description: 修改后的代码，第 59 行, Value:             -skip-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes \, ID: diff-code:53
+									275 container Description: 原始与修改后的代码行, ID: split-diff-row
+										276 text 60
+										277 text entry area Description: 修改后的代码，第 60 行, Value:             -skip-testing:WeGitUITests/ManualAccessibilitySession \, ID: diff-code:54
+									278 container Description: 原始与修改后的代码行, ID: split-diff-row
+										279 text 61
+										280 text entry area Description: 修改后的代码，第 61 行, Value:             -resultBundlePath .build-app/functional.xcresult test, ID: diff-code:55
+									281 container Description: 原始与修改后的代码行, ID: split-diff-row
+										282 text 62
+										283 text entry area Description: 修改后的代码，第 62 行, Value:       - name: Accessibility audit, ID: diff-code:56
+									284 container Description: 原始与修改后的代码行, ID: split-diff-row
+										285 text 63
+										286 text entry area Description: 修改后的代码，第 63 行, Value:         if: success() || failure(), ID: diff-code:57
+									287 container Description: 原始与修改后的代码行, ID: split-diff-row
+										288 text 64
+										289 text entry area Description: 修改后的代码，第 64 行, Value:         run: |, ID: diff-code:58
+									290 container Description: 原始与修改后的代码行, ID: split-diff-row
+										291 text 65
+										292 text entry area Description: 修改后的代码，第 65 行, Value:           xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \, ID: diff-code:59
+									293 container Description: 原始与修改后的代码行, ID: split-diff-row
+										294 text 66
+										295 text entry area Description: 修改后的代码，第 66 行, Value:             -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \, ID: diff-code:60
+									296 container Description: 原始与修改后的代码行, ID: split-diff-row
+										297 text 67
+										298 text entry area Description: 修改后的代码，第 67 行, Value:             -only-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes \, ID: diff-code:61
+									299 container Description: 原始与修改后的代码行, ID: split-diff-row
+										300 text 68
+										301 text entry area Description: 修改后的代码，第 68 行, Value:             -resultBundlePath .build-app/accessibility.xcresult test, ID: diff-code:62
+									302 container Description: 原始与修改后的代码行, ID: split-diff-row
+										303 text 69
+										304 text entry area Description: 修改后的代码，第 69 行, Value:       - name: Release backend and fixture generation, ID: diff-code:63
+									305 container Description: 原始与修改后的代码行, ID: split-diff-row
+										306 text 70
+										307 text entry area Description: 修改后的代码，第 70 行, Value:         if: success() || failure(), ID: diff-code:64
+									308 container Description: 原始与修改后的代码行, ID: split-diff-row
+										309 text 71
+										310 text entry area Description: 修改后的代码，第 71 行, Value:         run: scripts/benchmark.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT", ID: diff-code:65
+									311 container Description: 原始与修改后的代码行, ID: split-diff-row
+										312 text 72
+										313 text entry area Description: 修改后的代码，第 72 行, Value:       - name: Normal repository Release UI performance, ID: diff-code:66
+									314 container Description: 原始与修改后的代码行, ID: split-diff-row
+										315 text 73
+										316 text entry area Description: 修改后的代码，第 73 行, Value:         if: success() || failure(), ID: diff-code:67
+									317 container Description: 原始与修改后的代码行, ID: split-diff-row
+										318 text 74
+										319 text entry area Description: 修改后的代码，第 74 行, Value:         run: |, ID: diff-code:68
+									320 container Description: 原始与修改后的代码行, ID: split-diff-row
+										321 text 75
+										322 text entry area Description: 修改后的代码，第 75 行, ID: diff-code:69, Value:           scripts/benchmark-ui-workbench.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/fixtures/normal" 30
+									323 container Description: 原始与修改后的代码行, ID: split-diff-row
+										324 text 76
+										325 text entry area Description: 修改后的代码，第 76 行, Value:       - name: Large repository Release UI performance, ID: diff-code:70
+									326 container Description: 原始与修改后的代码行, ID: split-diff-row
+										327 text 77
+										328 text entry area Description: 修改后的代码，第 77 行, Value:         if: success() || failure(), ID: diff-code:71
+									329 container Description: 原始与修改后的代码行, ID: split-diff-row
+										330 text 78
+										331 text entry area Description: 修改后的代码，第 78 行, Value:         run: |, ID: diff-code:72
+									332 container Description: 原始与修改后的代码行, ID: split-diff-row
+										333 text 79
+										334 text entry area Description: 修改后的代码，第 79 行, ID: diff-code:73, Value:           scripts/benchmark-ui-workbench.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/fixtures/large" 30
+									335 container Description: 原始与修改后的代码行, ID: split-diff-row
+										336 text 80
+										337 text entry area Description: 修改后的代码，第 80 行, Value:       - name: Large disk diff fixed scrolling trajectory, ID: diff-code:74
+									338 container Description: 原始与修改后的代码行, ID: split-diff-row
+										339 text 81
+										340 text entry area Description: 修改后的代码，第 81 行, Value:         if: success() || failure(), ID: diff-code:75
+									341 container Description: 原始与修改后的代码行, ID: split-diff-row
+										342 text 82
+										343 text entry area Description: 修改后的代码，第 82 行, Value:         run: |, ID: diff-code:76
+									344 container Description: 原始与修改后的代码行, ID: split-diff-row
+										345 text 83
+										346 text entry area Description: 修改后的代码，第 83 行, ID: diff-code:77, Value:           scripts/benchmark-ui-large-scroll.sh "$PWD/.build/benchmarks/ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/fixtures/large"
+									347 container Description: 原始与修改后的代码行, ID: split-diff-row
+										348 text 84
+										349 text entry area Description: 修改后的代码，第 84 行, Value:       - name: Rebuild ordinary Release after test instrumentation, ID: diff-code:78
+									350 container Description: 原始与修改后的代码行, ID: split-diff-row
+										351 text 85
+										352 text entry area Description: 修改后的代码，第 85 行, Value:         if: success() || failure(), ID: diff-code:79
+									353 container Description: 原始与修改后的代码行, ID: split-diff-row
+										354 text 86
+										355 text entry area Description: 修改后的代码，第 86 行, Value:         run: scripts/build.sh Release, ID: diff-code:80
+									356 container Description: 原始与修改后的代码行, ID: split-diff-row
+										357 text 87
+										358 text entry area Description: 修改后的代码，第 87 行, Value:       - name: Retain acceptance evidence, including failed rounds, ID: diff-code:81
+									359 container Description: 原始与修改后的代码行, ID: split-diff-row
+										360 text 88
+										361 text entry area Description: 修改后的代码，第 88 行, Value:         if: always(), ID: diff-code:82
+									362 container Description: 原始与修改后的代码行, ID: split-diff-row
+										363 text 89
+										364 text entry area Description: 修改后的代码，第 89 行, Value:         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4, ID: diff-code:83
+									365 container Description: 原始与修改后的代码行, ID: split-diff-row
+										366 text 90
+										367 text entry area Description: 修改后的代码，第 90 行, Value:         with:, ID: diff-code:84
+									368 container Description: 原始与修改后的代码行, ID: split-diff-row
+										369 text 91
+										370 text entry area Description: 修改后的代码，第 91 行, Value:           name: acceptance-${{ github.sha }}, ID: diff-code:85
+									371 container Description: 原始与修改后的代码行, ID: split-diff-row
+										372 text 92
+										373 text entry area Description: 修改后的代码，第 92 行, Value:           path: |, ID: diff-code:86
+									374 container Description: 原始与修改后的代码行, ID: split-diff-row
+										375 text 93
+										376 text entry area Description: 修改后的代码，第 93 行, Value:             .build-app/*.xcresult, ID: diff-code:87
+									377 container Description: 原始与修改后的代码行, ID: split-diff-row
+										378 text 94
+										379 text entry area Description: 修改后的代码，第 94 行, Value:             .build/ui-benchmarks/, ID: diff-code:88
+									380 container Description: 原始与修改后的代码行, ID: split-diff-row
+										381 text 95
+										382 text entry area Description: 修改后的代码，第 95 行, Value:             .build/benchmarks/*/normal.json, ID: diff-code:89
+									383 container Description: 原始与修改后的代码行, ID: split-diff-row
+										384 text 96
+										385 text entry area Description: 修改后的代码，第 96 行, Value:             .build/benchmarks/*/large.json, ID: diff-code:90
+									386 container Description: 原始与修改后的代码行, ID: split-diff-row
+										387 text 97
+										388 text entry area Description: 修改后的代码，第 97 行, Value:             .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json, ID: diff-code:91
+									389 container 上下文展开控制
+										390 button Description: 展开 20 行, ID: diff-context-expand-2
+										391 text 后续上下文
+								392 scroll bar (settable, float) 0
+									393 value indicator (settable, float) 0
+									394 increment arrow button
+									395 decrement arrow button
+									396 increment page button
+									397 decrement page button
+					398 unknown Description: 已暂存 0 个文件, ID: commit-staged-count
+					399 text field (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					400 button (disabled) Description: 提交（0 个文件）, Help: 填写提交消息, ID: commit-button
+					401 button (disabled) Description: 提交并推送…, Help: 填写提交消息, ID: commit-push-button
+					402 checkbox Description: 修改上次提交（Amend）, Value: 0
+					403 text Value: 填写提交消息, ID: operation-feedback
+				404 splitter (disabled, settable, float) 971
+				405 scroll area Description: 检查器, ID: repository-inspector
+					406 heading 仓库
+					407 container
+						408 text 名称, Value: WeGit /Users/willxue/will/WeOpen/WeGit
+						409 button 在 Finder 中显示
+						410 button 在 Terminal 中打开
+						411 button 在 Xcode 中打开…
+						412 button 复制仓库路径
+					413 heading 分支
+					414 container
+						415 text 当前, Value: codex/v1-validation 未设置 — / —
+					416 heading 文件
+					417 container
+						418 text .github/workflows/verify.yml 72 1
+	419 toolbar
+		420 container Hide Sidebar
+			421 button Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		422 button Description: WeGit, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit
+切换仓库 ⌘K
+		423 menu button 当前分支：codex/v1-validation, Description: Triangle-headed arrow branching into two paths, Value: 同步状态：无上游, ID: current-branch
+		424 menu button 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		425 button Description: 拉取, Help: 选择远端、目标分支和同步方式, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		426 button Description: 推送, Help: 选择远端、目标分支和同步方式, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		427 button Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		428 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		429 button Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		430 menu button 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	431 close button
+	432 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	433 minimize button
+	434 text WeGit codex/v1-validation
+435 menu bar
+	436 WeGit
+	437 File
+	438 Edit
+	439 View
+	440 仓库
+	441 工作区
+	442 Window
+	443 Help
+
+The focused UI element is 0 standard window WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise

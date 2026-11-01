@@ -1,0 +1,3 @@
+34 theme behavior checks passed.
+18 native appearance icon checks passed.
+27 native application menu checks passed.

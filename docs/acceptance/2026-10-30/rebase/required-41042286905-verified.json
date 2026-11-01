@@ -1,0 +1,27 @@
+{
+  "runId": 41042286905,
+  "jobId": 124017905991,
+  "candidate": "8474d620c7607678921fcfb91d13dae68572b26c",
+  "jobs": {
+    "PR policy": "success",
+    "Repository policy": "success",
+    "Native macOS": "success"
+  },
+  "artifact": {
+    "id": 12971828885,
+    "bytes": 12369893,
+    "sha256": "38f562b7f57a13e3cb2dc96f3d5e997b36d1f8df76d68372ee7387f9180b2e7b",
+    "crcEntries": 35
+  },
+  "performance": {
+    "sourceRevision": "47441110b4e04ba84129f2040790a32babd54863",
+    "inputHashesMatchCandidate": true,
+    "workloads": {
+      "ordinary": {"samples": 30, "p95FirstMs": 434.441208, "p95SteadyMs": 418.052125, "p95RecoveredMs": 393.055208, "p95CancelMs": 0.9005},
+      "large-loose": {"samples": 30, "p95FirstMs": 926.385625, "p95SteadyMs": 984.225083, "p95RecoveredMs": 947.459625, "p95CancelMs": 0.912083},
+      "large-packed": {"samples": 30, "p95FirstMs": 563.819, "p95SteadyMs": 567.540167, "p95RecoveredMs": 528.872, "p95CancelMs": 0.546542}
+    },
+    "budgetsPassed": true
+  },
+  "scope": "Required CI and artifact receipt; later head-specific CI is still required after documentation changes"
+}

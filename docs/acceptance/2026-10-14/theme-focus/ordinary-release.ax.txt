@@ -1,0 +1,101 @@
+Window: "disk-snapshot-0r9jy3z6", App: WeGit.
+0 standard window disk-snapshot-0r9jy3z6 – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 text WeGit，当前仓库：disk-snapshot-0r9jy3z6
+				5 scroll area
+					6 list Sidebar
+						7 row (selectable) 工作区
+						8 row (selected) 更改
+3
+						9 row (selectable) 提交历史
+						10 row (selectable) 分支
+						11 row (selectable) 仓库
+						12 row (selectable) disk-snapshot-0r9jy3z6, main
+						13 row (selectable) repository
+						14 row (selectable) WeGit
+				15 text Value: 3 个文件有改动 main, ID: sidebar-repository-state
+				16 button Description: 打开仓库, Help: 打开仓库 ⌘O, ID: plus
+			17 splitter (disabled, settable, float) 227
+			18 split group
+				19 container
+					20 split group
+						21 container
+							22 text 更改 3
+							23 menu button More
+							24 text field (settable) Description: 筛选文件路径, ID: changes-filter
+							25 pop up button Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							26 scroll area
+								27 list changes-list
+									28 row (selectable) 未暂存（2）
+									29 row (selectable) Description: 暂存 disk.swift, Value: disk.swift
+状态：修改
+									30 row (selected) Description: 暂存 small.swift, Value: small.swift
+状态：修改
+									31 row (selectable) 未跟踪（1）
+									32 row (selectable) Description: 暂存 long.txt, Value: long.txt
+状态：未跟踪
+						33 splitter (disabled, settable, float) 607
+						34 container
+							35 text Help: small.swift, Value: small.swift +1 −1 工作区 ↔ 暂存区
+							36 Description: 差异布局, ID: diff-layout
+								37 radio button Description: 统一, Value: 0
+								38 radio button Description: 分栏, Value: 1
+							39 menu button More, Help: 差异文件操作, ID: ellipsis
+							40 pop up button 上下文, Value: 3 行, ID: diff-context
+							41 checkbox Description: 忽略空白, Value: 0, ID: diff-ignore-whitespace
+							42 checkbox Description: 词级差异, Help: 突出替换行中变化的词；长行仍保留整行差异标识。, Value: 0, ID: diff-word-highlight
+							43 button (disabled) Description: 上一差异块, ID: diff-hunk-previous
+							44 button (disabled) Description: 下一差异块, ID: diff-hunk-next
+							45 text Value: 差异块 1 / 1, ID: diff-hunk-position
+							46 scroll area Description: 文本差异, ID: diff-content
+								47 container 文本差异内容
+									48 unknown Description: 原始内容，修改后, ID: diff-column-headers
+									49 container 差异块：@@ -1 +1 @@
+										50 text @@ -1 +1 @@
+										51 button Description: 复制此块补丁, ID: diff-hunk-copy:0
+										52 button 暂存此块
+										53 button 丢弃此块…
+									54 container Description: 原始与修改后的代码行, ID: split-diff-row
+										55 text 1
+										56 text entry area Description: 原始代码，第 1 行, Value: let small = 1, ID: diff-code:0
+										57 text 1
+										58 text entry area Description: 修改后的代码，第 1 行, Value: let small = 2, ID: diff-code:1
+									59 container 上下文展开控制
+										60 button Description: 展开 20 行, ID: diff-context-expand-1
+										61 text 后续上下文
+					62 unknown Description: 已暂存 0 个文件, ID: commit-staged-count
+					63 text field (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message, Value: Disk snapshot fixture
+
+					64 button (disabled) Description: 提交（0 个文件）, Help: 选择需要提交的内容并暂存, ID: commit-button
+					65 button (disabled) Description: 提交并推送…, Help: 选择需要提交的内容并暂存, ID: commit-push-button
+					66 checkbox Description: 修改上次提交（Amend）, Value: 0
+					67 text Value: 选择需要提交的内容并暂存, ID: operation-feedback
+	68 toolbar
+		69 button Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		70 button Description: disk-snapshot-0r9jy3z6, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build-app/qa/disk-snapshot-0r9jy3z6
+切换仓库 ⌘K
+		71 menu button main · 无上游, Description: Triangle-headed arrow branching into two paths, Value: 同步状态：无上游, ID: current-branch
+		72 menu button (disabled) 获取, Help: 尚未配置 Remote, ID: toolbar-fetch
+		73 button (disabled) Description: 拉取, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		74 button (disabled) Description: 推送, Help: 尚未配置远端，请先在 Git 中添加 Remote, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		75 button Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		76 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		77 button Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		78 menu button 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	79 close button
+	80 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	81 minimize button
+	82 text disk-snapshot-0r9jy3z6 main
+83 menu bar
+	84 WeGit
+	85 File
+	86 Edit
+	87 View
+	88 仓库
+	89 工作区
+	90 Window
+	91 Help
+
+The focused UI element is 0 standard window disk-snapshot-0r9jy3z6 – main, ID: main, Secondary Actions: Raise

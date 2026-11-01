@@ -1,0 +1,101 @@
+name: Native UI validation
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: Always run the minimal smoke first; larger scopes require its success
+        type: choice
+        options: [smoke, functional, accessibility]
+        default: smoke
+      candidate_pr:
+        description: Optional open same-repository PR number; smoke diagnostics only, not release acceptance
+        type: string
+        default: ''
+      focus:
+        description: Optional single allowlisted diagnostic after smoke; not release acceptance
+        type: choice
+        options: [rebase-workflow, conflict-editor, worktree-management, selected-lines, blame, single-commit, worktree-opening, file-history, tags-workflow, tags-push, submodule-lfs, none, minimum-layout, compact-toolbar, menu-localization, text-settings, theme-interaction, window-restoration, inspector-boundary, inspector-restoration, search-keyboard, sync-recovery, diff-options, large-diff, rebase-conflicts, remote-workflow, stash-workflow, stash-recovery, changes-groups, toolbar-heights, sidebar-surface]
+        default: none
+      display:
+        description: Temporary hosted-VM display; restore the original mode after the command
+        type: choice
+        options: [large, original]
+        default: large
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: native-ui-validation
+  cancel-in-progress: false
+env:
+  WEGIT_SKIP_PROJECT_GENERATION: '1'
+jobs:
+  ui:
+    name: Native UI validation
+    if: github.ref == 'refs/heads/main'
+    runs-on: xcode-27
+    timeout-minutes: 120
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Isolate Git configuration
+        run: scripts/ci/isolate-git.sh
+      - name: Resolve an explicit diagnostic source using trusted main code
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UI_CANDIDATE: ${{ inputs.candidate_pr }}
+          UI_SCOPE: ${{ inputs.scope }}
+        run: |
+          python3 scripts/ci/ui_source.py --candidate "$UI_CANDIDATE" --scope "$UI_SCOPE" >> "$GITHUB_OUTPUT"
+          cp scripts/ci/ui_probe.py "$RUNNER_TEMP/wegit-trusted-ui-probe.py"
+          cp scripts/ci/DisplaySession.swift "$RUNNER_TEMP/wegit-trusted-display-session.swift"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          persist-credentials: false
+      - name: Check toolchain and real interactive session
+        run: |
+          mkdir -p .build/ci/ui
+          scripts/ci/check-toolchain.sh | tee .build/ci/ui/toolchain.txt
+          python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode environment --require-interactive
+      - name: Build native regression once
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+            build-for-testing > .build/ci/ui/build.log 2>&1
+          python3 scripts/verify-ui-git-wrapper.py .build-app/Build/Products/Debug/WeGitTestGit --report .build/ci/ui/git-wrapper.json
+          cp .build-app/Build/Products/Debug/WeGit.app/Contents/Resources/build-source.json .build/ci/ui/build-source.json
+      - name: Run bounded native scope
+        env:
+          UI_SCOPE: ${{ inputs.scope }}
+          UI_FOCUS: ${{ inputs.focus }}
+          UI_DISPLAY: ${{ inputs.display }}
+        run: |
+          case "$UI_SCOPE" in smoke|functional|accessibility) ;; *) exit 2 ;; esac
+          case "$UI_DISPLAY" in
+            large)
+              xcrun swiftc -parse-as-library "$RUNNER_TEMP/wegit-trusted-display-session.swift" -o "$RUNNER_TEMP/wegit-display-session"
+              "$RUNNER_TEMP/wegit-display-session" --report .build/ci/ui/display-session.json -- \
+                python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE" --focus "$UI_FOCUS"
+              ;;
+            original)
+              python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode "$UI_SCOPE" --focus "$UI_FOCUS"
+              ;;
+            *) exit 2 ;;
+          esac
+      - name: Retain actual environment, failures and results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: native-ui-${{ inputs.scope }}-${{ inputs.focus }}-${{ steps.source.outputs.sha }}
+          path: .build/ci/ui/
+          include-hidden-files: true
+          retention-days: 14

@@ -1,0 +1,2 @@
+There has been no change in the accessibility tree for Window: "品牌工作台样例".
+The focused UI element is 0 标准窗口 品牌工作台样例 – main, ID: main, Secondary Actions: Raise

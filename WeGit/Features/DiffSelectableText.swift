@@ -5,6 +5,7 @@ import WeGitCore
 /// A native selection/copy boundary inside each code cell, leaving paging and hunk
 /// actions in SwiftUI. Neither selection nor display formatting can alter patches.
 struct DiffSelectableText: NSViewRepresentable {
+    @Environment(\.themeColors) private var colors
     let presentation: CodeTextPresentation
     let attributedText: NSAttributedString
     var selection: DiffTextSelection?
@@ -13,7 +14,7 @@ struct DiffSelectableText: NSViewRepresentable {
     var wrappingWidth: CGFloat?
     var lineEnding = ""
     var performanceID: UUID?
-    var readingLabel = "代码文本"
+    var readingLabel = L10n.text("代码文本")
 
     func makeNSView(context: Context) -> RawCodeTextView {
         let view = RawCodeTextView()
@@ -25,21 +26,31 @@ struct DiffSelectableText: NSViewRepresentable {
         view.textContainer?.lineFragmentPadding = 0
         view.isVerticallyResizable = true
         view.isHorizontallyResizable = false
-        view.textContainer?.widthTracksTextView = true
+        // SwiftUI supplies the effective width during measurement. Letting the
+        // native frame resize this container would invalidate a cached result.
+        view.textContainer?.widthTracksTextView = false
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return view
     }
 
     func updateNSView(_ view: RawCodeTextView, context: Context) {
+        view.selectedTextAttributes = [
+            .backgroundColor: colors.isCustom
+                ? colors.resolvedNSColor(.accent) : NSColor.selectedTextBackgroundColor,
+            .foregroundColor: colors.isCustom ? NSColor(colors.selectionText) : NSColor.selectedTextColor,
+        ]
+        view.insertionPointColor = colors.resolvedNSColor(.text)
         view.performanceID = performanceID
         view.presentation = presentation
         view.lineEnding = lineEnding
-        view.setAccessibilityLabel(readingLabel + (presentation.truncated ? "，仅显示开头" : ""))
+        view.setAccessibilityLabel(readingLabel + (presentation.truncated ? L10n.text("，仅显示开头") : ""))
         view.selection = selection
         view.lineID = lineID
         view.side = side
         selection?.register(view, line: lineID, side: side)
         if !view.attributedString().isEqual(to: attributedText) {
+            view.measuredWidth = nil
+            view.measuredBounds = nil
             let selected = view.selectedRange()
             view.textStorage?.setAttributedString(attributedText)
             if selected.location <= attributedText.length {
@@ -49,16 +60,26 @@ struct DiffSelectableText: NSViewRepresentable {
                         length: min(selected.length, attributedText.length - selected.location)))
             }
         }
-        view.toolTip = presentation.truncated ? "本行仅显示开头；复制选区不包含省略标记。" : nil
+        view.toolTip = presentation.truncated ? L10n.text("本行仅显示开头；复制选区不包含省略标记。") : nil
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, nsView view: RawCodeTextView, context: Context) -> CGSize?
     {
         let width = max(1, wrappingWidth ?? proposal.width ?? 1_000_000)
-        view.textContainer?.containerSize = NSSize(width: width, height: 1_000_000)
         guard let container = view.textContainer, let layout = view.layoutManager else { return nil }
+        if view.measuredWidth == width, container.containerSize.width == width,
+            let bounds = view.measuredBounds
+        {
+            return CGSize(
+                width: wrappingWidth ?? proposal.width ?? ceil(bounds.width), height: ceil(bounds.height))
+        }
+        if container.containerSize.width != width {
+            container.containerSize = NSSize(width: width, height: 1_000_000)
+        }
         layout.ensureLayout(for: container)
         let bounds = layout.usedRect(for: container)
+        view.measuredWidth = width
+        view.measuredBounds = bounds.size
         return CGSize(
             width: wrappingWidth ?? proposal.width ?? ceil(bounds.width), height: ceil(bounds.height))
     }
@@ -71,6 +92,8 @@ final class RawCodeTextView: NSTextView {
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
     var presentation = CodeTextPresentation(source: "", showWhitespace: false)
     var lineEnding = ""
+    var measuredWidth: CGFloat?
+    var measuredBounds: CGSize?
     var performanceID: UUID?
     #if WEGIT_PERFORMANCE
         override func draw(_ dirtyRect: NSRect) {
@@ -193,11 +216,12 @@ final class RawCodeTextView: NSTextView {
 
     override func menu(for event: NSEvent) -> NSMenu? {
         let menu = NSMenu()
-        let copy = NSMenuItem(title: "复制选区", action: #selector(copy(_:)), keyEquivalent: "")
+        let copy = NSMenuItem(title: L10n.text("复制选区"), action: #selector(copy(_:)), keyEquivalent: "")
         copy.target = self
         menu.addItem(copy)
         let line = NSMenuItem(
-            title: presentation.sourceIncomplete ? "复制显示部分" : "复制完整行", action: #selector(copyLine(_:)),
+            title: presentation.sourceIncomplete ? L10n.text("复制显示部分") : L10n.text("复制完整行"),
+            action: #selector(copyLine(_:)),
             keyEquivalent: "")
         line.target = self
         menu.addItem(line)

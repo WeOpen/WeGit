@@ -1,0 +1,2 @@
+There has been no change in the accessibility tree for Window: "".
+The focused UI element is 73 文本栏 (settable) Placeholder: 分支名称, ID: branch-name

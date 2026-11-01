@@ -1,0 +1,45 @@
+Window: "WeGit 设置", App: WeGit.
+0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 单选按钮 Description: 通用, Value: 0
+			4 单选按钮 Description: Git, Value: 0
+			5 单选按钮 Description: 外观, Value: 1
+			6 单选按钮 Description: 差异, Value: 0
+			7 单选按钮 Description: 提交, Value: 0
+			8 单选按钮 Description: 高级, Value: 0
+		9 滚动区 Secondary Actions: Scroll Up, Scroll Down
+			10 标题 界面
+			11 弹出式按钮 主题, Value: 自定义
+			12 弹出式按钮 列表密度, Value: 舒适
+			13 转换 显示文件图标, Value: on
+			14 转换 界面动效, Value: on, ID: settings-interface-motion
+			15 文本 欢迎标记与操作反馈使用短动画，并遵循 macOS 的“减少动态效果”设置。
+			16 标题 自定义配色
+			17 文本 已保存主题, Value: Sea Glass · 海玻璃
+			18 按钮 Description: 编辑自定义主题…, ID: settings-custom-theme
+			19 文本 自定义配色独立保存，内置浅色与深色保持不变。
+			20 标题 差异文本
+			21 弹出式按钮 代码字体, Value: 系统等宽字体, ID: settings-code-font
+			22 滑块 (settable, float) 字号 13 pt, Value: 13, ID: settings-code-size
+			23 文本 let changes = repository.status()
+			24 滚动条 (settable, float) 0
+				25 值指示器 (settable, float) 0
+				26 增箭头按钮
+				27 减箭头按钮
+				28 增页面按钮
+				29 减页面按钮
+	30 关闭按钮
+	31 缩放按钮 (disabled)
+	32 文本 WeGit 设置
+33 menu bar
+	34 WeGit, ID: native-menu-app
+	35 文件, ID: native-menu-file
+	36 编辑, ID: native-menu-edit
+	37 显示, ID: native-menu-view
+	38 仓库, ID: native-menu-repository
+	39 工作区, ID: native-menu-workspace
+	40 窗口, ID: native-menu-window
+	41 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

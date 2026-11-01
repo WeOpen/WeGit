@@ -1,0 +1,25 @@
+Window: "WeGit", App: WeGit.
+0 标准窗口 WeGit, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 text WeGit 专注每一次改动。
+		3 按钮 Description: 打开仓库…, ID: open-repository
+		4 按钮 克隆仓库…
+		5 text 浏览改动 整理暂存 记录提交
+	6 工具栏
+		7 按钮 Description: 打开仓库, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 从工具栏移除, Help: 打开仓库
+切换仓库 ⌘K
+	8 关闭按钮
+	9 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	10 最小化按钮
+	11 文本 WeGit
+12 menu bar
+	13 WeGit, ID: native-menu-app
+	14 文件, ID: native-menu-file
+	15 编辑, ID: native-menu-edit
+	16 显示, ID: native-menu-view
+	17 仓库, ID: native-menu-repository
+	18 工作区, ID: native-menu-workspace
+	19 窗口, ID: native-menu-window
+	20 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 WeGit, ID: main, Secondary Actions: Raise

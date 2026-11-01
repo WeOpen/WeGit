@@ -1,0 +1,95 @@
+Window: "fixture", App: WeGit.
+0 standard window fixture – main, ID: main, Secondary Actions: Raise
+	1 container WeGit workspace
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) Workspace
+						7 row (selected) Changes
+1
+						8 row (selectable) History
+						9 row (selectable) Branches
+						10 row (selectable) Repository
+						11 row (selectable) fixture, main
+				12 text Value: WeGit, ID: sidebar-brand
+				13 button Description: Open repository, Help: Open repository ⌘O, ID: sidebar-add-repository
+			14 splitter (disabled, settable, float) 209.5
+			15 split group
+				16 container
+					17 split group
+						18 container
+							19 text Changes 1
+							20 menu button More, ID: ellipsis
+							21 text field (settable) Description: Filter file paths, ID: changes-filter
+							22 pop up button Description: Change status, Value: All statuses, ID: changes-state-filter
+							23 scroll area
+								24 list changes-list
+									25 row (selectable) Unstaged (1)
+									26 row (selected) Description: Stage Theme.swift, Value: Theme.swift
+Status: Modified
+						27 splitter (disabled, settable, float) 589.5
+						28 container
+							29 text Help: Theme.swift, Value: Theme.swift +1 −1 Working tree ↔ Index
+							30 Description: Diff layout, ID: diff-layout
+								31 radio button Description: Unified, Value: 1
+								32 radio button Description: Split, Value: 0
+							33 menu button More, Help: Diff file actions, ID: ellipsis
+							34 pop up button Context, Value: 3 lines, ID: diff-context
+							35 checkbox Description: Ignore whitespace, Value: 0, ID: diff-ignore-whitespace
+							36 checkbox Description: Word diff, Help: Highlight changed words in replacement lines. Long lines retain their full-line change indicators., Value: 0, ID: diff-word-highlight
+							37 button (disabled) Description: Previous hunk, ID: diff-hunk-previous
+							38 button (disabled) Description: Next hunk, ID: diff-hunk-next
+							39 text Value: Hunk 1 / 1, ID: diff-hunk-position
+							40 scroll area Description: Text diff, ID: diff-content
+								41 container Text diff content
+									42 container Hunk: @@ -1 +1 @@
+										43 text @@ -1 +1 @@
+										44 button Description: Copy hunk patch, ID: diff-hunk-copy:0
+										45 button Stage hunk
+										46 button Discard hunk…
+									47 container Description: Deleted line, ID: unified-diff-row
+										48 text 1
+										49 text -
+										50 text entry area Description: Deleted code, line 1, Value: let value = 1, ID: diff-code:0
+									51 container Description: Added line, ID: unified-diff-row
+										52 text 1
+										53 text +
+										54 text entry area Description: Added code, line 1, Value: let value = 2, ID: diff-code:1
+									55 container Context expansion controls
+										56 button Description: Expand 20 lines, ID: diff-context-expand-1
+										57 text Following context
+					58 unknown Description: 0 staged files, ID: commit-staged-count
+					59 text field (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Value: Preserve reset draft 中文🙂, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message
+					60 button (disabled) Description: Commit (0 files), Help: Select and stage the changes to commit, ID: commit-button
+					61 button (disabled) Description: Commit and Push…, Help: Select and stage the changes to commit, ID: commit-push-button
+					62 checkbox Description: Amend last commit, Value: 0
+					63 text Value: Select and stage the changes to commit, ID: operation-feedback
+	64 toolbar
+		65 container Hide Sidebar
+			66 button Description: Sidebar, Help: Hide sidebar, Value: Open, ID: toolbar-sidebar
+		67 button Description: fixture, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/alert-inspector-fcada191/fixture
+Switch repository ⌘K
+		68 menu button main · No upstream, Description: Triangle-headed arrow branching into two paths, Value: Sync status: No upstream, ID: current-branch
+		69 menu button (disabled) Fetch, Help: No remote configured, ID: toolbar-fetch
+		70 button (disabled) Description: Pull, Help: No remote configured. Add a remote in Git first, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		71 button (disabled) Description: Push, Help: No remote configured. Add a remote in Git first, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		72 button Description: Refresh, Help: Refresh ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		73 button Description: Search repository, Help: Search current repository ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		74 button Description: Inspector, Help: Show Inspector, Value: Closed, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		75 menu button More actions, Help: Activity, command palette, and more actions, ID: toolbar-more
+	76 close button
+	77 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	78 minimize button
+	79 text fixture main
+80 menu bar
+	81 WeGit, ID: native-menu-app
+	82 File, ID: native-menu-file
+	83 Edit, ID: native-menu-edit
+	84 View, ID: native-menu-view
+	85 Repository, ID: native-menu-repository
+	86 Workspace, ID: native-menu-workspace
+	87 Window, ID: native-menu-window
+	88 Help, ID: native-menu-help
+
+The focused UI element is 59 text field (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Value: Preserve reset draft 中文🙂, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message

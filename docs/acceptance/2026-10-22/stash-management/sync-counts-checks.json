@@ -1,0 +1,19 @@
+{
+  "checks" : [
+    "Ahead and behind keep their directions",
+    "Unloaded state hides cached counts",
+    "Stale state hides cached counts",
+    "Known synchronized state displays zero",
+    "Unknown counts for no-upstream",
+    "Unknown counts for unborn",
+    "Unknown counts for detached",
+    "Unknown counts for missing-ahead",
+    "Unknown counts for missing-behind",
+    "Unknown counts for negative",
+    "Real unborn repository has no count",
+    "Real divergent history yields Push 2 and Pull 3",
+    "Upstream refresh updates both counts to zero",
+    "Real detached HEAD has no upstream count"
+  ],
+  "passed" : 14
+}

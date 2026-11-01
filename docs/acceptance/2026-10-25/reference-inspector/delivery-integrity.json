@@ -1,0 +1,11 @@
+{
+  "verifiedOn": "2026-10-26",
+  "archiveCRC": "passed",
+  "manifestEntriesVerified": 179,
+  "catalogAssetsVerified": 129,
+  "archiveMatchesWorkspace": true,
+  "appIconProjectMatchesBrandMaster": true,
+  "finalApplicationInputs": 157,
+  "sourceMatchesRunningPreview": true,
+  "sha256": "6fec6be4b16e4eb166e29b37175a02369adee112cc00d8bae4cc37a4af08f18c"
+}

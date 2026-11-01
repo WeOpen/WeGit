@@ -1,0 +1,150 @@
+{
+  "date": "2026-10-15",
+  "scope": "Native confirmation appearance and bundle icon; Inspector canvas consistency",
+  "environment": {
+    "macOS": "27.0.1",
+    "Xcode": "27.0",
+    "xcodeBuild": "27A266a",
+    "architecture": "arm64"
+  },
+  "applicationSourceMapSHA256": "6844a5f7c0cda2aeb7b7693bfed0c8c45529d9803a0f612274bb822403ff646f",
+  "buildReceiptSHA256": "a23d19f8a425b743f09616db8e480b5f9616031412db038698f171a6410c959e",
+  "checks": {
+    "strictFormat": {
+      "passed": true,
+      "log": "format.log"
+    },
+    "debugBuild": {
+      "passed": true,
+      "log": "debug.log"
+    },
+    "ordinaryReleaseBuild": {
+      "passed": true,
+      "log": "release.log"
+    },
+    "nativeMenuBehaviors": {
+      "passed": true,
+      "count": 27,
+      "log": "native-menu-checks.log",
+      "result": "native-menu-result.json"
+    },
+    "nativeUITestCompilation": {
+      "passed": true,
+      "log": "native-compile.log",
+      "execution": "Not rerun; existing XCTest initialization blocker"
+    },
+    "restoredStartup": {
+      "passed": true,
+      "count": 6,
+      "result": "startup.json",
+      "scope": "Liveness and persisted state; no latency claim"
+    },
+    "lightAndDarkAlerts": {
+      "passed": true,
+      "evidence": [
+        "reset-light.png",
+        "reset-dark.png",
+        "reset-light.ax.txt",
+        "reset-dark.ax.txt"
+      ]
+    },
+    "cancelBothThemes": {
+      "passed": true
+    },
+    "resetPreservesDraft": {
+      "passed": true,
+      "draft": "Preserve reset draft 中文🙂",
+      "evidence": [
+        "reset-applied-settings.ax.txt",
+        "reset-draft-preserved.ax.txt"
+      ]
+    },
+    "canvasColors": {
+      "light": {
+        "centerRGB": [
+          255,
+          255,
+          255
+        ],
+        "inspectorRGB": [
+          255,
+          255,
+          255
+        ],
+        "maxChannelDifference": 0,
+        "alertBlueBrandPixels": 2533
+      },
+      "dark": {
+        "centerRGB": [
+          30,
+          30,
+          30
+        ],
+        "inspectorRGB": [
+          30,
+          30,
+          30
+        ],
+        "maxChannelDifference": 0,
+        "alertBlueBrandPixels": 2533
+      }
+    },
+    "fixture": {
+      "headUnchanged": true,
+      "statusUnchanged": true,
+      "fileBytesUnchanged": true
+    },
+    "preferencesRestoredBeforeOrdinaryLaunch": {
+      "com.willxue.wegit.development": true,
+      "com.willxue.wegit.UITests": true
+    },
+    "ordinaryReleaseStartup": {
+      "passed": true,
+      "restored": [
+        "English",
+        "System appearance",
+        "WeGit repository",
+        "Changes",
+        "Package.swift",
+        "Unified",
+        "Inspector open",
+        "empty commit draft"
+      ],
+      "evidence": [
+        "ordinary-release.ax.txt",
+        "ordinary-release.png"
+      ]
+    },
+    "coreInputComparison": {
+      "reference": "../live-menu-language",
+      "unchanged": true,
+      "comparedFiles": 81,
+      "coreTestsRerunThisRound": false,
+      "previousTestsPerGit": 183
+    }
+  },
+  "delivery": {
+    "directory": ".build/releases/package-36Yu9M",
+    "archive": "WeGit-0.1.0-development.zip",
+    "sha256": "4d1574d123db04fd21db403343d530c76c23319ca2095836aec4ecaf74eff989",
+    "version": "0.1.0",
+    "bundleIdentifier": "com.willxue.wegit.development",
+    "signing": "ad-hoc",
+    "entitlements": {},
+    "notarized": false,
+    "sourceReceiptVerified": true,
+    "zipCRCVerified": true,
+    "sha256Verified": true,
+    "askPassMITAndTestExclusionVerified": true
+  },
+  "remaining": [
+    "Full native XCTest execution",
+    "Full accessibility and display-option checks",
+    "144 reading combinations",
+    "Final source Release performance",
+    "Missing compatibility environments",
+    "Developer ID and notarization",
+    "Clean-machine installation and real Beta"
+  ],
+  "v1Released": false
+}

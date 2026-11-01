@@ -1,0 +1,26 @@
+This element is missing accessibility action support equivalent to click/tap inputs.
+Attributes: PopUpButton, 0x75a2466580, {{502.0, 177.0}, {100.0, 24.0}}, identifier: 'history-scope', label: '浏览范围', value: 全部引用
+Element subtree:
+ →PopUpButton, 0x75a2466580, {{502.0, 177.0}, {100.0, 24.0}}, identifier: 'history-scope', label: '浏览范围', value: 全部引用
+Path to element:
+ →Application, 0x75a246a580, pid: 9441, title: 'WeGit', Disabled
+  ↳Window (Main), 0x75a246be80, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-3476CAC5-35E4-4D6B-88D4-872975BFBE0F – main', Keyboard Focused, Disabled
+   ↳Group, 0x75a2469e00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x75a2469900, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x75a246b700, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x75a2466080, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x75a2466440, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x75a2465040, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x75a2465f40, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x75a2465680, {{280.0, 77.0}, {559.0, 692.0}}, Disabled
+           ↳Group, 0x75a2465540, {{280.0, 77.0}, {559.0, 672.0}}, label: '历史浏览与筛选'
+            ↳PopUpButton, 0x75a2466580, {{502.0, 177.0}, {100.0, 24.0}}, identifier: 'history-scope', label: '浏览范围', value: 全部引用
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x75a1b24140, pid: 9441, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9441, token: 4SQAAAAAAABvY29jugAAAAAAAAA=
+    Output: {
+      PopUpButton, 0x75a1b27480, {{502.0, 177.0}, {100.0, 24.0}}, identifier: 'history-scope', label: '浏览范围', value: 全部引用
+    }

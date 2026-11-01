@@ -1,0 +1,49 @@
+Window: "WeGit设置", App: WeGit.
+0 标准窗口 WeGit设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: Settings categories, ID: settings-tabs
+			3 单选按钮 Description: General, Value: 1
+			4 单选按钮 Description: Git, Value: 0
+			5 单选按钮 Description: Appearance, Value: 0
+			6 单选按钮 Description: Diff, Value: 0
+			7 单选按钮 Description: Commit, Value: 0
+			8 单选按钮 Description: Advanced, Value: 0
+		9 滚动区 Secondary Actions: Scroll Up, Scroll Down
+			10 标题 Language
+			11 container
+				12 弹出式按钮 Interface language, Value: English, ID: settings-language
+				13 文本 App text and menus update immediately. Reopen WeGit to update system dialogs.
+			14 标题 Opening and cloning
+			15 container
+				16 文本 Default folder, Value: /Users/willxue
+				17 按钮 Choose default folder…
+			18 标题 Startup and windows
+			19 container
+				20 转换 Show WeGit in the menu bar, Value: on, ID: settings-menu-bar
+				21 文本 Access repository status, recent repositories, and common actions from the menu bar, and reopen the main window after closing it.
+				22 转换 Restore last repository at launch, Value: on, ID: settings-restore-repository
+				23 转换 Restore windows, splits, and repository pages, Value: on
+				24 转换 Confirm before switching repositories, Value: off
+				25 文本 Switching repositories does not cancel running Git operations. Wait for them to finish or cancel them before closing a repository.
+			26 标题 Risk confirmations
+			27 文本 Discarding changes, amending commits, deleting unmerged branches, and Force Push With Lease always require explicit confirmation.
+			28 滚动条 (settable, float) 0
+				29 值指示器 (settable, float) 0
+				30 增箭头按钮
+				31 减箭头按钮
+				32 增页面按钮
+				33 减页面按钮
+	34 关闭按钮
+	35 缩放按钮 (disabled)
+	36 文本 WeGit设置
+37 menu bar
+	38 WeGit
+	39 File
+	40 Edit
+	41 View
+	42 Repository
+	43 Workspace
+	44 Window
+	45 Help
+
+The focused UI element is 0 标准窗口 WeGit设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

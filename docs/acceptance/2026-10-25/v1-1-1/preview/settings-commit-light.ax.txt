@@ -1,0 +1,14 @@
+The following is a diff from the previous accessibility tree for Window: "WeGit 设置" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 9-17
+~			6 单选按钮 Description: 差异, Value: 0
+~			7 单选按钮 Description: 提交, Value: 1
++		30 滚动区
++			31 标题 草稿
++			32 container
++				33 转换 按仓库保存提交草稿, Value: on, ID: settings-save-drafts
++				34 text 关闭后，新编辑不再持久保存；已经保存的草稿保留，便于手动恢复或清除。草稿不会同步或上传。 纸墨青瓷样例
++				35 按钮 清除此仓库的草稿…
++			36 标题 提交与恢复
++			37 container
++				38 text Amend 始终先确认历史改写。“提交并推送”会分别记录结果；推送失败后的重试不会再次提交。 已有 Hook 与 GPG/SSH 签名配置继续由 Git 执行，失败时保留草稿。
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

@@ -3,9 +3,12 @@ import SwiftUI
 import WeGitCore
 
 struct WorkspaceView: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Environment(\.openSettings) private var openSettings
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    private var workspaceWidth: CGFloat { app.windowContentWidth }
     var body: some View {
         Group {
             if let session = app.session {
@@ -13,31 +16,56 @@ struct WorkspaceView: View {
                     sidebar(session)
                         .navigationSplitViewColumnWidth(min: 180, ideal: 210, max: 270)
                 } detail: {
-                    GeometryReader { geometry in
-                        // Resolve the detail area's safe bounds once. Nested AppKit
-                        // split panes must not each add the sidebar inset to their
-                        // minimum width and push the workspace outside its window.
-                        VStack(spacing: 0) {
-                            statusBanner(session)
-                            switch app.workspace.route {
-                            case .changes: ChangesView(app: app, session: session)
-                            case .history: HistoryView(app: app, session: session)
-                            case .branches: BranchesView(app: app, session: session)
+                    // A native auxiliary split avoids SwiftUI Inspector's constraint-update
+                    // cycle when restored beside a nested HSplitView on macOS 27.
+                    HSplitView {
+                        GeometryReader { column in
+                            GeometryReader { geometry in
+                                let leadingInset = max(
+                                    0, column.frame(in: .global).minX - geometry.frame(in: .global).minX)
+                                VStack(spacing: 0) {
+                                    statusBanner(session).padding(.leading, leadingInset)
+                                    switch app.workspace.route {
+                                    case .changes:
+                                        ChangesView(
+                                            app: app, session: session,
+                                            leadingInset: leadingInset)
+                                    case .history: HistoryView(app: app, session: session)
+                                    case .branches: BranchesView(app: app, session: session)
+                                    case .stashes: StashView(app: app, session: session)
+                                    case .tags: TagsView(app: app, session: session).id(session.id)
+                                    }
+                                }
+                                // The native split already owns the horizontal edges.
+                                // Only compensate for toolbar/bottom safe areas here.
+                                .padding(.top, geometry.safeAreaInsets.top)
+                                .padding(.bottom, geometry.safeAreaInsets.bottom)
+                                .frame(
+                                    width: geometry.size.width,
+                                    height: geometry.size.height + geometry.safeAreaInsets.top
+                                        + geometry.safeAreaInsets.bottom
+                                )
+                                .ignoresSafeArea(.container, edges: .vertical)
                             }
+                            // Native splits fill the horizontal safe area. Pure SwiftUI
+                            // banners and the composer reserve its leading inset so
+                            // that their content cannot extend under the sidebar.
+                            .ignoresSafeArea(
+                                .container, edges: app.workspace.route == .branches ? [] : .horizontal
+                            )
                         }
-                        .padding(geometry.safeAreaInsets)
-                        .frame(
-                            width: geometry.size.width + geometry.safeAreaInsets.leading
-                                + geometry.safeAreaInsets.trailing,
-                            height: geometry.size.height + geometry.safeAreaInsets.top
-                                + geometry.safeAreaInsets.bottom
-                        )
-                        .ignoresSafeArea()
-                    }
-                    .background(Color(nsColor: .textBackgroundColor))
-                    .inspector(isPresented: $app.workspace.inspector) {
-                        inspector(session).inspectorColumnWidth(min: 240, ideal: 260, max: 320)
-                    }
+                        .background(colors.canvas)
+                        if app.workspace.inspector {
+                            RepositoryInspector(app: app, session: session)
+                                .background(colors.sidebar)
+                                .frame(minWidth: 260, idealWidth: 300, maxWidth: 360)
+                                .accessibilityElement(children: .contain)
+                                .accessibilityLabel(L10n.text("检查器"))
+                                .accessibilityIdentifier("repository-inspector")
+                        }
+                        // Native dividers can be transparent in a textured window.
+                        // Give the gap a semantic surface without covering its drag area.
+                    }.background(colors.border.allowsHitTesting(false))
                 }
                 .background(
                     ViewPerformanceProbe(spans: [
@@ -50,84 +78,181 @@ struct WorkspaceView: View {
                 WelcomeView(app: app)
             }
         }
-        .frame(minWidth: 980, minHeight: 640)
+        // Reserve both work panes and the widest optional columns without adding
+        // another minimum inside the detail area's safe-inset compensation.
+        .frame(minWidth: app.workspace.inspector ? 1292 : 980, minHeight: 640)
+        .animation(nil, value: app.appearance)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("WeGit 工作区")
-        .background(WindowStateBridge(app: app).frame(width: 0, height: 0).accessibilityHidden(true))
+        .accessibilityLabel(L10n.text("WeGit 工作区"))
+        .background(
+            WindowStateBridge(
+                app: app, sidebarVisible: columnVisibility != .detailOnly,
+                toggleSidebar: {
+                    columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
+                }
+            ).frame(width: 0, height: 0).accessibilityHidden(true)
+        )
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button {
                     app.repositoryPickerPresented = true
                 } label: {
-                    Label(app.session?.location.name ?? "打开仓库", systemImage: "folder.badge.gearshape")
+                    Label(
+                        app.session?.location.name ?? L10n.text("打开仓库"), systemImage: "folder.badge.gearshape"
+                    )
                 }
-                .help("切换仓库 ⌘K")
-            }
+                .workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-repository")
+                .help(L10n.text("\(app.session?.location.root.path ?? L10n.text("打开仓库"))\n切换仓库 ⌘K"))
+            }.sharedBackgroundVisibility(.hidden)
             if let session = app.session {
-                ToolbarItem { branchMenu(session) }
-                ToolbarItemGroup {
-                    Menu {
-                        ForEach(session.remotes, id: \.self) { remote in
-                            Button("获取 \(remote)") {
-                                session.perform("获取") { try await $0.fetch(remote: remote) }
-                            }
-                        }
-                    } label: {
-                        Label("获取", systemImage: "arrow.clockwise")
-                    }
-                    .disabled(session.isBusy || session.remotes.isEmpty)
-                    .help(session.remotes.isEmpty ? "尚未配置 Remote" : "选择要获取的远端")
-                    Button {
-                        app.presentSync(.pull)
-                    } label: {
-                        Label("拉取", systemImage: "arrow.down")
-                    }
-                    .help(session.syncReason).disabled(!session.canSync).accessibilityIdentifier(
-                        "toolbar-pull")
-                    Button {
-                        app.presentSync(.push)
-                    } label: {
-                        Label("推送", systemImage: "arrow.up")
-                    }
-                    .help(session.syncReason).disabled(!session.canSync).accessibilityIdentifier(
-                        "toolbar-push")
+                ToolbarItem(placement: .primaryAction) { branchMenu(session) }
+                    .sharedBackgroundVisibility(.hidden)
+                ToolbarSpacer(.fixed, placement: .primaryAction)
+                if workspaceWidth < 1180 {
+                    ToolbarItem(placement: .primaryAction) {
+                        Menu {
+                            RepositoryFetchMenu(session: session)
+                            Divider()
+                            RepositorySyncButtons(app: app, session: session)
+                        } label: {
+                            Label(L10n.text("同步"), systemImage: "arrow.triangle.2.circlepath")
+                        }.workbenchGlassMenu(toolbar: true).labelStyle(.titleAndIcon)
+                            .accessibilityLabel(L10n.text("同步")).accessibilityIdentifier("toolbar-sync")
+                            .help(L10n.text("获取、拉取与推送"))
+                    }.sharedBackgroundVisibility(.hidden)
+                } else {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        RepositoryFetchMenu(session: session, inToolbar: true).labelStyle(.titleAndIcon)
+                        RepositorySyncButtons(app: app, session: session, inToolbar: true).labelStyle(
+                            .titleAndIcon)
+                    }.sharedBackgroundVisibility(.hidden)
                 }
+                ToolbarSpacer(.fixed, placement: .primaryAction)
                 ToolbarItemGroup(placement: .primaryAction) {
                     if session.isBusy {
                         ProgressView().controlSize(.small).help(session.activityLabel)
-                        Button("取消", systemImage: "stop.circle") { session.cancel() }
+                        Button(L10n.text("取消"), systemImage: "stop.circle") { session.cancel() }
+                            .workbenchIconButton(toolbar: true)
                     }
-                    Button("刷新", systemImage: "arrow.trianglehead.2.clockwise.rotate.90") {
+                    Button {
                         Task { await session.refresh() }
-                    }.help("刷新 ⌘R")
-                    Button("活动记录", systemImage: "clock") { app.activityPresented = true }
-                    Button("搜索仓库", systemImage: "magnifyingglass", action: app.presentSearch).help(
-                        "搜索当前仓库 ⌘⇧F")
-                    Button("检查器", systemImage: "sidebar.right") { app.workspace.inspector.toggle() }
-                }
+                    } label: {
+                        Label {
+                            Text(L10n.text("刷新"))
+                        } icon: {
+                            Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                                .symbolEffect(
+                                    .rotate,
+                                    isActive: session.isRefreshing && !reduceMotion
+                                        && app.preferences.interfaceMotion)
+                        }
+                    }.workbenchIconButton(toolbar: true).help(L10n.text("刷新 ⌘R")).accessibilityLabel(
+                        L10n.text("刷新"))
+                    Button(L10n.text("搜索仓库"), systemImage: "magnifyingglass", action: app.presentSearch).help(
+                        L10n.text("搜索当前仓库 ⌘⇧F")
+                    ).workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-search")
+                    Button(L10n.text("检查器"), systemImage: "sidebar.right") {
+                        app.workspace.inspector.toggle()
+                    }
+                    .workbenchIconButton(toolbar: true)
+                    .accessibilityValue(app.workspace.inspector ? L10n.text("已打开") : L10n.text("已关闭"))
+                    .foregroundStyle(colors.text)
+                    .help(app.workspace.inspector ? L10n.text("隐藏检查器") : L10n.text("显示检查器"))
+                    .accessibilityIdentifier("toolbar-inspector")
+                    Menu {
+                        if app.preferences.showMenuBar {
+                            Button(L10n.text("菜单栏快捷面板"), systemImage: "menubar.rectangle") {
+                                app.menuBarRequestID = UUID()
+                            }
+                            Divider()
+                        }
+                        Button(L10n.text("远端管理…"), systemImage: "network") {
+                            app.remoteManagementPresented = true
+                        }
+                        .accessibilityIdentifier("remote-management")
+                        Button(L10n.text("工作树…"), systemImage: "square.stack.3d.up") {
+                            app.presentWorktreeManagement(session)
+                        }.accessibilityIdentifier("worktree-management")
+                        Button(L10n.text("活动记录"), systemImage: "clock") { app.activityPresented = true }
+                        Button(L10n.text("命令面板…"), systemImage: "command") { app.palettePresented = true }
+                        Button(L10n.text("切换仓库…"), systemImage: "folder") {
+                            app.repositoryPickerPresented = true
+                        }
+                        Divider()
+                        Button(L10n.text("在 Terminal 中打开"), systemImage: "terminal", action: app.openTerminal)
+                        Button(L10n.text("复制仓库路径"), systemImage: "doc.on.doc", action: app.copyRepositoryPath)
+                        Divider()
+                        Button(L10n.text("设置…"), systemImage: "gearshape") { app.settingsRequestID = UUID() }
+                    } label: {
+                        Label(L10n.text("更多操作"), systemImage: "ellipsis")
+                    }.workbenchGlassMenu(icon: true, toolbar: true).accessibilityIdentifier("toolbar-more")
+                        .help(L10n.text("活动记录、命令面板与更多操作"))
+                }.sharedBackgroundVisibility(.hidden)
             }
         }
-        .sheet(isPresented: $app.clonePresented) { CloneView(app: app) }
-        .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app) }
-        .sheet(item: $app.branchSwitchRequest) { BranchSwitcherView(app: app, request: $0) }
-        .sheet(isPresented: $app.activityPresented) { ActivityView(app: app) }
+        .sheet(isPresented: $app.clonePresented) { CloneView(app: app).workbenchSheet(app.preferences) }
+        .sheet(isPresented: $app.remoteManagementPresented) {
+            if let session = app.session {
+                RemoteManagementSheet(app: app, session: session).id(session.id).workbenchSheet(
+                    app.preferences)
+            }
+        }
+        .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app).workbenchSheet(app.preferences) }
+        .sheet(item: $app.tagCreationRequest) {
+            TagCreationSheet(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.singleCommitRequest) {
+            SingleCommitSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.selectedLinesRequest) {
+            SelectedLinesSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.conflictEditorRequest) {
+            ConflictEditorSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.blameRequest) {
+            BlameSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.fileHistoryRequest) {
+            FileHistorySheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.branchSwitchRequest) {
+            BranchSwitcherView(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.worktreeManagementRequest, onDismiss: app.restoreWorktreeManagementFocus) {
+            WorktreeManagementSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(isPresented: $app.activityPresented) { ActivityView(app: app).workbenchSheet(app.preferences) }
         .sheet(isPresented: $app.repositoryPickerPresented, onDismiss: app.repositoryPickerDidDismiss) {
-            RepositoryPicker(app: app)
+            RepositoryPicker(app: app).workbenchSheet(app.preferences)
         }
         .sheet(isPresented: $app.palettePresented, onDismiss: app.paletteDidDismiss) {
-            CommandPalette(app: app)
+            CommandPalette(app: app).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.syncRequest) { SyncSheet(app: app, request: $0) }
-        .sheet(item: $app.searchRequest) { RepositorySearchView(app: app, request: $0) }
+        .sheet(item: $app.syncRequest) { SyncSheet(app: app, request: $0).workbenchSheet(app.preferences) }
+        .sheet(item: $app.searchRequest) {
+            RepositorySearchView(app: app, request: $0).workbenchSheet(app.preferences)
+        }
         .onChange(of: app.settingsRequestID) { _, _ in openSettings() }
-        .onChange(of: app.workspace.savedView) { _, _ in app.saveCurrentWorkspace() }
-        .onDisappear {
-            app.saveCurrentWorkspace()
-            app.session?.deactivate()
+        .onChange(of: app.sidebarRequestID) { _, _ in
+            columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
         }
-        .alert("操作未完成", isPresented: Binding(get: { app.error != nil }, set: { if !$0 { app.error = nil } }))
-        {
-            Button("好", role: .cancel) { app.error = nil }
+        .onChange(of: app.workspace.savedView) { _, _ in app.saveCurrentWorkspace() }
+        .onAppear {
+            app.mainWorkspaceMounted = true
+            app.mainWindowRequested = false
+            app.session?.activate()
+        }
+        .onDisappear {
+            app.mainWorkspaceMounted = false
+            app.saveCurrentWorkspace()
+            if !app.menuBarPresented && !app.mainWindowRequested { app.session?.deactivate() }
+        }
+        .alert(
+            L10n.text("操作未完成"),
+            isPresented: Binding(get: { app.error != nil }, set: { if !$0 { app.error = nil } })
+        ) {
+            Button(L10n.text("好"), role: .cancel) { app.error = nil }
         } message: {
             Text(app.error ?? "")
         }
@@ -142,50 +267,65 @@ struct WorkspaceView: View {
 
     private func sidebar(_ session: RepositorySession) -> some View {
         List(selection: $app.workspace.route) {
-            Section("工作区") {
+            Section {
                 ForEach(WorkspaceRoute.allCases) { route in
-                    HStack {
-                        Label(route.rawValue, systemImage: route.icon)
+                    HStack(spacing: 10) {
+                        WorkbenchGlyph(symbol: route.icon, selected: app.workspace.route == route, size: 26)
+                        Text(route.title).font(
+                            .system(size: 13, weight: app.workspace.route == route ? .semibold : .regular))
                         Spacer()
                         if route == .changes {
-                            Text("\(session.status.files.count)").font(.caption.monospacedDigit())
-                                .foregroundStyle(AppColors.secondaryText)
+                            CountBadge(
+                                value: "\(session.status.files.count)",
+                                tint: app.workspace.route == route
+                                    ? colors.selectionText : colors.tone(.blue))
                         }
-                    }.tag(route).accessibilityIdentifier("route-\(route.id)")
+                    }.padding(.horizontal, 8)
+                        .frame(height: app.preferences.density == "compact" ? 34 : 42)
+                        .foregroundStyle(app.workspace.route == route ? colors.selectionText : colors.text)
+                        .background(
+                            app.workspace.route == route ? colors.selectionBackground : Color.clear,
+                            in: .rect(cornerRadius: AppStyle.controlRadius)
+                        )
+                        .tag(route).accessibilityIdentifier("route-\(route.id)")
                 }
+            } header: {
+                Text(L10n.text("工作区")).foregroundStyle(colors.secondaryText)
             }
-            Section("仓库") {
+            Section {
                 ForEach(app.recents.sorted { $0.pinned && !$1.pinned }) { record in
                     Button {
                         Task { await app.open(URL(fileURLWithPath: record.path)) }
                     } label: {
                         HStack(spacing: 9) {
-                            Image(systemName: "folder.fill").foregroundStyle(.blue)
+                            WorkbenchGlyph(symbol: "folder", size: 26)
                             VStack(alignment: .leading, spacing: 3) {
                                 Text(record.name).lineLimit(1)
                                 if record.path == session.location.root.path {
                                     Text(session.status.displayBranch).font(.caption2).foregroundStyle(
-                                        AppColors.secondaryText)
+                                        colors.secondaryText)
                                 }
                             }
+                            Spacer(minLength: 0)
                             if record.pinned {
-                                Spacer()
                                 Image(systemName: "pin.fill").font(.caption2)
                             }
                         }.padding(.vertical, app.preferences.density == "compact" ? 1 : 4)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .workbenchHoverRow()
+                            .contentShape(.rect(cornerRadius: AppStyle.controlRadius))
                     }.buttonStyle(.plain)
+                        .accessibilityIdentifier("sidebar-repository:" + record.path)
                         .contextMenu {
                             RepositoryContextMenu(app: app, record: record)
                         }
                 }
+            } header: {
+                Text(L10n.text("仓库")).foregroundStyle(colors.secondaryText)
             }
-        }.listStyle(.sidebar)
-            .safeAreaInset(edge: .bottom) {
-                HStack {
-                    Button("打开仓库", systemImage: "plus", action: app.openPanel).labelStyle(.iconOnly)
-                    Spacer()
-                    Text("WeGit").font(.caption).foregroundStyle(AppColors.secondaryText)
-                }.padding(12)
+        }.listStyle(.sidebar).tint(colors.accent).scrollContentBackground(.hidden).background(colors.sidebar)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                SidebarBrandCard(openPanel: app.openPanel)
             }
     }
 
@@ -193,181 +333,281 @@ struct WorkspaceView: View {
         if let error = session.refreshError {
             HStack {
                 Label(
-                    "仓库状态未更新：\(error)",
+                    L10n.text("仓库状态未更新：\(error)"),
                     systemImage: "exclamationmark.arrow.trianglehead.2.clockwise.rotate.90")
                 Spacer()
-                Button("重试刷新") { Task { await session.refresh() } }.disabled(session.isRefreshing)
-                Button("重新打开") { Task { await app.open(session.location.root) } }.disabled(session.isBusy)
-            }.font(.callout).padding(12).background(.orange.opacity(0.1))
+                Button(L10n.text("重试刷新")) { Task { await session.refresh() } }.disabled(session.isRefreshing)
+                Button(L10n.text("重新打开")) { Task { await app.open(session.location.root) } }.disabled(
+                    session.isBusy)
+            }.font(.callout).modifier(BannerSurface(tint: colors.modified))
         }
         if let warning = session.observationWarning {
-            Text("\(warning) 当前使用手动刷新。").font(.caption).foregroundStyle(AppColors.secondaryText).padding(10)
+            Text(L10n.text("\(warning) 当前使用手动刷新。")).font(.caption).foregroundStyle(colors.secondaryText)
+                .padding(10)
         }
         if let commit = session.pendingPushCommit, !session.isBusy {
             HStack {
                 let uncertain = session.pendingPush?.verification != nil
                 Label(
                     uncertain
-                        ? "提交 \(commit.prefix(12)) 的远端结果待核对"
-                        : "本地提交 \(commit.prefix(12)) 已完成，推送待完成",
+                        ? L10n.text("提交 \(commit.prefix(12)) 的远端结果待核对")
+                        : L10n.text("本地提交 \(commit.prefix(12)) 已完成，推送待完成"),
                     systemImage: uncertain ? "exclamationmark.triangle" : "checkmark.circle")
                 Spacer()
-                Button(uncertain ? "核对远端结果…" : "继续推送…") { app.presentSync(.push) }
+                Button(uncertain ? L10n.text("核对远端结果…") : L10n.text("继续推送…")) { app.presentSync(.push) }
                     .disabled(!session.canSync && !session.canVerifyPendingPush)
                     .accessibilityIdentifier("pending-push-action")
-                Button("标记已处理") {
+                Button(L10n.text("标记已处理")) {
                     if !uncertain
                         || app.confirm(
-                            title: "已手动核对推送目标？",
-                            message: "此前推送没有完整结果。确认已自行核对原目标后，可关闭此提示。",
-                            action: "标记已处理", destructive: false)
+                            title: L10n.text("已手动核对推送目标？"),
+                            message: L10n.text("此前推送没有完整结果。确认已自行核对原目标后，可关闭此提示。"),
+                            action: L10n.text("标记已处理"), destructive: false)
                     {
                         session.pendingPush = nil
                     }
-                }.help("只关闭这条恢复提示，不修改 Git 数据")
-            }.font(.callout).padding(12).background(.blue.opacity(0.08))
+                }.help(L10n.text("只关闭这条恢复提示，不修改 Git 数据"))
+            }.font(.callout).modifier(BannerSurface(tint: colors.accent))
         }
         if let error = session.error {
             VStack(alignment: .leading, spacing: 7) {
                 HStack {
                     Label(error, systemImage: "exclamationmark.triangle")
                     Spacer()
-                    Button("关闭") { session.error = nil }
+                    Button(L10n.text("关闭")) { session.error = nil }
                 }
                 if !session.details.isEmpty {
-                    DisclosureGroup("查看详情") {
+                    DisclosureGroup(L10n.text("查看详情")) {
                         ScrollView {
                             Text(session.details).font(.caption.monospaced()).textSelection(.enabled).frame(
                                 maxWidth: .infinity, alignment: .leading)
                         }.frame(maxHeight: 140)
                     }
                 }
-            }.font(.callout).padding(12).background(.red.opacity(0.08))
+            }.font(.callout).modifier(BannerSurface(tint: colors.negative))
         }
         if session.status.sequencer != .none {
             HStack {
+                let rebase = session.status.rebaseRecovery
                 Label(
-                    "正在\(session.status.sequencer.title) · \(session.status.conflicts.count) 个冲突",
+                    rebase.map { L10n.text("正在变基 \($0.branchName) · \(session.status.conflicts.count) 个冲突") }
+                        ?? L10n.text(
+                            "正在\(session.status.sequencer.title) · \(session.status.conflicts.count) 个冲突"),
                     systemImage: "arrow.triangle.merge")
                 Spacer()
-                if [.merge, .rebase].contains(session.status.sequencer) {
-                    Button("中止…") {
+                if session.status.sequencer == .merge || rebase != nil
+                    || session.status.singleCommitRecovery != nil
+                {
+                    Button(L10n.text("中止…")) {
                         let expected = session.status.sequencer
+                        let singleCommit = session.status.singleCommitRecovery
                         if app.confirm(
-                            title: "中止 \(expected.rawValue)？", message: "将撤回本次操作，操作中的手工编辑可能无法恢复。",
-                            action: "中止")
+                            title: L10n.text("中止 \(expected.title)？"),
+                            message: rebase.map {
+                                L10n.text(
+                                    "将恢复 \($0.branchName) 的原提交 \($0.originalHead)。操作中的手工编辑将撤回，请先保存需要保留的内容。")
+                            } ?? L10n.text("将撤回本次操作，操作中的手工编辑可能无法恢复。"),
+                            action: L10n.text("中止"))
                         {
-                            session.perform("中止") {
-                                try await $0.sequencer(continueOperation: false, expected: expected)
+                            session.performResult(L10n.text("中止")) {
+                                if let singleCommit {
+                                    try await $0.recoverSingleCommit(
+                                        continueOperation: false, expected: singleCommit)
+                                } else if let rebase {
+                                    return try await $0.recoverRebase(
+                                        continueOperation: false, expected: rebase
+                                    ).feedback
+                                } else {
+                                    try await $0.sequencer(continueOperation: false, expected: expected)
+                                }
+                                return .completed(message: L10n.text("已中止当前操作"))
                             }
                         }
-                    }.disabled(!session.canWrite).accessibilityIdentifier("sequencer-abort")
-                    Button("继续") {
+                    }.disabled(!session.canWrite || rebase?.canAbort == false)
+                        .help(rebase?.abortRestriction ?? L10n.text("撤回当前操作并恢复原提交"))
+                        .accessibilityIdentifier("sequencer-abort")
+                    Button(rebase?.rescheduledCommit == nil ? L10n.text("继续") : L10n.text("重试并继续")) {
                         let expected = session.status.sequencer
-                        session.perform("继续") {
-                            try await $0.sequencer(continueOperation: true, expected: expected)
+                        let singleCommit = session.status.singleCommitRecovery
+                        session.performResult(L10n.text("继续")) {
+                            if let singleCommit {
+                                try await $0.recoverSingleCommit(
+                                    continueOperation: true, expected: singleCommit)
+                            } else if let rebase {
+                                return try await $0.recoverRebase(continueOperation: true, expected: rebase)
+                                    .feedback
+                            } else {
+                                try await $0.sequencer(continueOperation: true, expected: expected)
+                            }
+                            return .completed(message: L10n.text("当前操作完成"))
                         }
                     }
-                    .disabled(!session.status.conflicts.isEmpty || !session.canWrite)
+                    .disabled(
+                        !session.status.conflicts.isEmpty || !session.canWrite || rebase?.canContinue == false
+                    )
+                    .help(rebase?.continuationRestriction ?? L10n.text("提交已解决内容并继续当前操作"))
                     .accessibilityIdentifier("sequencer-continue")
                 } else {
-                    Text("请在 Terminal 完成当前操作").foregroundStyle(AppColors.secondaryText)
+                    Text(session.status.rebaseRecoveryUnavailable ?? L10n.text("请在 Terminal 完成当前操作"))
+                        .foregroundStyle(colors.secondaryText)
                 }
-            }.font(.callout).padding(12).background(.orange.opacity(0.10))
+            }.font(.callout).modifier(BannerSurface(tint: colors.modified))
         }
     }
 
     private func branchMenu(_ session: RepositorySession) -> some View {
         Menu {
-            Button("查找并切换分支…", action: app.presentBranchSwitcher)
+            Button(L10n.text("查找并切换分支…"), action: app.presentBranchSwitcher)
             Divider()
             ForEach(Array(session.branches.filter { !$0.remote }.prefix(20))) { branch in
                 Button(branch.current ? "✓ \(branch.name)" : branch.name) {
                     app.switchBranch(branch, in: session)
                 }.disabled(app.branchSwitchReason(branch, in: session) != nil)
-                    .help(app.branchSwitchReason(branch, in: session) ?? "切换到这个分支")
+                    .help(app.branchSwitchReason(branch, in: session) ?? L10n.text("切换到这个分支"))
             }
             Divider()
-            Button("新建分支…") { app.branchPresented = true }
+            Button(L10n.text("新建分支…")) { app.branchPresented = true }
         } label: {
-            Label(session.status.displayBranch, systemImage: "arrow.triangle.branch")
+            Text(" ")
         }
+        .menuIndicator(.hidden)
+        .frame(width: branchLabelWidth(session))
+        // NSPopUpButton flattens a SwiftUI Menu label to its first Text. Draw the
+        // complete colored label over the native menu's hit/focus surface.
+        .overlay { branchMenuLabel(session).allowsHitTesting(false).accessibilityHidden(true) }
+        .workbenchGlassMenu(toolbar: true)
         .disabled(!session.canWrite)
         .accessibilityIdentifier("current-branch")
-        .accessibilityLabel((session.status.isDetached ? "当前提交：" : "当前分支：") + session.status.displayBranch)
+        .accessibilityLabel(
+            (session.status.isDetached ? L10n.text("当前提交：") : L10n.text("当前分支："))
+                + session.status.displayBranch
+        )
+        .accessibilityValue(L10n.text("同步状态：") + RepositorySyncSummary(session: session).summary)
     }
 
-    private func inspector(_ session: RepositorySession) -> some View {
-        Form {
-            Section("仓库") {
-                LabeledContent("名称", value: session.location.name)
-                Text(session.location.root.path).font(.caption).textSelection(.enabled)
-                Button("在 Finder 中显示") { NSWorkspace.shared.open(session.location.root) }
-                Button("在 Terminal 中打开", action: app.openTerminal)
-                if app.xcodeURL != nil { Button("在 Xcode 中打开…", action: app.openRepositoryInXcode) }
-                Button("复制仓库路径", action: app.copyRepositoryPath)
+    private func branchLabelWidth(_ session: RepositorySession) -> CGFloat {
+        let font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        let branch = min(
+            (session.status.displayBranch as NSString).size(withAttributes: [.font: font]).width,
+            workspaceWidth < 1180 ? 176 : 238)
+        let sync = (RepositorySyncSummary(session: session).summary as NSString).size(withAttributes: [
+            .font: font
+        ]).width
+        return ceil(branch + sync + 48)
+    }
+    private func branchMenuLabel(_ session: RepositorySession) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: "arrow.triangle.branch")
+            Text(session.status.displayBranch)
+                .font(.system(size: 12, weight: .medium))
+                .lineLimit(1).truncationMode(.middle).frame(maxWidth: workspaceWidth < 1180 ? 176 : 238)
+            let counts = RepositorySyncCounts(
+                status: session.status, hasLoaded: session.hasLoaded, isStale: session.isStale)
+            if let ahead = counts.ahead, let behind = counts.behind {
+                Text("↑\(ahead)").foregroundStyle(colors.tone(.violet))
+                Text("↓\(behind)").foregroundStyle(colors.tone(.teal))
+            } else {
+                Text(RepositorySyncSummary(session: session).summary).foregroundStyle(
+                    colors.secondaryText)
             }
-            Section("分支") {
-                LabeledContent("当前", value: session.status.displayBranch)
-                LabeledContent("上游", value: session.status.upstream ?? "未设置")
-                LabeledContent(
-                    "领先 / 落后",
-                    value:
-                        "\(session.status.ahead.map(String.init) ?? "—") / \(session.status.behind.map(String.init) ?? "—")"
-                )
+            Image(systemName: "chevron.down").font(.system(size: 9, weight: .semibold))
+        }
+        .font(.system(size: 12, weight: .medium)).monospacedDigit()
+    }
+
+}
+
+/// A quiet floating footer leaves repository state in the work panes and menu panel.
+private struct SidebarBrandCard: View {
+    @Environment(\.themeColors) private var colors
+    let openPanel: @MainActor () -> Void
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.colorSchemeContrast) private var contrast
+
+    var body: some View {
+        Group {
+            if reduceTransparency || contrast == .increased {
+                content.background(colors.canvas, in: .rect(cornerRadius: 18))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 18)
+                            .strokeBorder(colors.border, lineWidth: contrast == .increased ? 2 : 0.5)
+                            .allowsHitTesting(false)
+                    }
+            } else {
+                content.glassEffect(.regular, in: .rect(cornerRadius: 18))
             }
-            if let diff = app.workspace.diff {
-                Section("文件") {
-                    Text(diff.path).textSelection(.enabled)
-                    LabeledContent("新增", value: "\(diff.additions)")
-                    LabeledContent("删除", value: "\(diff.deletions)")
-                }
-            }
-        }.formStyle(.grouped)
+        }.padding(.horizontal, 12).padding(.top, 8).padding(.bottom, 12)
+    }
+
+    private var content: some View {
+        HStack(spacing: 8) {
+            HeritageBrandSeal(tint: colors.brand, size: 28)
+            Text("WeGit").font(.system(size: 14, weight: .medium))
+                .accessibilityIdentifier("sidebar-brand")
+            Spacer(minLength: 0)
+            Button(action: openPanel) {
+                Image(systemName: "plus").frame(width: 26, height: 26)
+            }.accessibilityLabel(L10n.text("打开仓库"))
+                .workbenchIconButton().controlSize(.regular)
+                .accessibilityIdentifier("sidebar-add-repository").help(L10n.text("打开仓库 ⌘O"))
+        }.padding(12).frame(maxWidth: .infinity)
     }
 }
 
 struct WelcomeView: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     var body: some View {
         VStack(spacing: 24) {
             Spacer()
-            Image(systemName: "arrow.triangle.branch").font(.system(size: 62, weight: .light))
-                .foregroundStyle(.blue)
+            WelcomeIdentity()
             VStack(spacing: 8) {
-                Text("WeGit").font(.system(size: 40, weight: .semibold))
-                Text("专注每一次改动。").font(.title3).foregroundStyle(AppColors.secondaryText)
+                Image("BrandWordmark").resizable().scaledToFit().frame(width: 210, height: 61)
+                    .accessibilityLabel("WeGit")
+                Text(L10n.text("专注每一次改动。")).font(.title3).foregroundStyle(colors.secondaryText)
             }
             HStack(spacing: 12) {
-                Button("打开仓库…", systemImage: "folder", action: app.openPanel).buttonStyle(.borderedProminent)
+                Button(L10n.text("打开仓库…"), systemImage: "folder", action: app.openPanel)
+                    .workbenchPrimaryAction()
+                    .tint(colors.primaryAction)
                     .controlSize(.large).accessibilityIdentifier("open-repository")
-                Button("克隆仓库…", systemImage: "arrow.down.to.line", action: app.presentClone).controlSize(
-                    .large)
+                Button(L10n.text("克隆仓库…"), systemImage: "arrow.down.to.line", action: app.presentClone)
+                    .workbenchControlFamily().controlSize(.large)
             }
-            if app.isOpening { ProgressView("正在打开仓库…") }
+            if app.isOpening { ProgressView(L10n.text("正在打开仓库…")) }
             if !app.recents.isEmpty {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("最近打开").font(.caption).foregroundStyle(AppColors.secondaryText)
+                    HStack {
+                        Label(L10n.text("最近打开"), systemImage: "clock").font(.caption.weight(.medium))
+                            .foregroundStyle(colors.secondaryText)
+                        Spacer()
+                        Text(L10n.text("⌘O 打开")).font(.caption).foregroundStyle(colors.secondaryText)
+                    }
                     ForEach(app.recents.prefix(5)) { record in
                         Button {
                             Task { await app.open(URL(fileURLWithPath: record.path)) }
                         } label: {
                             HStack {
-                                Image(systemName: "folder")
+                                Image(systemName: "folder").foregroundStyle(colors.text)
                                 Text(record.name)
                                 Spacer()
-                                Text(record.path).foregroundStyle(AppColors.secondaryText).lineLimit(1)
+                                Text(record.path).foregroundStyle(colors.secondaryText).lineLimit(1)
                                     .truncationMode(
                                         .middle)
                             }
-                        }.buttonStyle(.plain).padding(.vertical, 5)
+                        }.buttonStyle(.plain).workbenchHoverRow()
                             .contextMenu { RepositoryContextMenu(app: app, record: record) }
                     }
-                }.frame(width: 520).padding(20).background(
-                    .quaternary.opacity(0.4), in: .rect(cornerRadius: 12))
+                }.frame(width: 520).padding(12).workbenchSurface(radius: AppStyle.controlRadius + 12)
             }
             Spacer()
-            Text("SwiftUI 原生工作区 · Git CLI 驱动").font(.caption).foregroundStyle(.tertiary).padding(.bottom, 28)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            HStack(spacing: 16) {
+                WorkflowStep(title: L10n.text("浏览改动"), symbol: "doc.text.magnifyingglass")
+                Image(systemName: "chevron.right").font(.system(size: 8)).accessibilityHidden(true)
+                WorkflowStep(title: L10n.text("整理暂存"), symbol: "tray")
+                Image(systemName: "chevron.right").font(.system(size: 8)).accessibilityHidden(true)
+                WorkflowStep(title: L10n.text("记录提交"), symbol: "checkmark.circle")
+            }.font(.caption).foregroundStyle(colors.secondaryText).padding(.bottom, 28)
+        }.frame(maxWidth: .infinity, maxHeight: .infinity).background(colors.canvas)
     }
 }

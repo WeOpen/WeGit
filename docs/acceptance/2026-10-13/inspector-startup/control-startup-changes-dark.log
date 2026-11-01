@@ -1,0 +1,64 @@
+sandbox_extension_issue_file_to_process failed for /tmp/wegit-inspector-before-320r181g/.build-app/Build/Products/Debug/WeGit.app: 1 (Operation not permitted)
+*** Terminating app due to uncaught exception 'NSGenericException', reason: 'The window has been marked as needing another Update Constraints in Window pass, but it has already had more Update Constraints in Window passes than there are views in the window. 
+<SwiftUI.AppKitWindow: 0x1008754b0> 0x457c (17788) {{0, 90}, {1512, 859}} en'
+*** First throw call stack:
+(
+	0   CoreFoundation                      0x0000000180bce8c0 __exceptionPreprocess + 176
+	1   libobjc.A.dylib                     0x000000018062c60c objc_exception_throw + 88
+	2   CoreFoundation                      0x0000000180bce7b0 +[NSException exceptionWithName:reason:userInfo:] + 0
+	3   AppKit                              0x0000000185a63778 -[NSWindow(NSDisplayCycle) _postWindowNeedsUpdateConstraints] + 1716
+	4   AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	5   AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	6   AppKit                              0x0000000185efc6a4 -[_NSConstraintBasedLayoutHostingView _informContainerThatSubviewsNeedUpdateConstraints] + 52
+	7   AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	8   AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	9   AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	10  AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	11  AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	12  AppKit                              0x0000000185efc6a4 -[_NSConstraintBasedLayoutHostingView _informContainerThatSubviewsNeedUpdateConstraints] + 52
+	13  AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	14  AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	15  AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	16  AppKit                              0x000000018512f350 -[NSView _informContainerThatSubviewsNeedUpdateConstraints] + 72
+	17  AppKit                              0x000000018512f2cc -[NSView setNeedsUpdateConstraints:] + 452
+	18  SwiftUI                             0x00000001b98e9eac $s7SwiftUI13NSHostingViewC14setNeedsUpdateyyF + 176
+	19  SwiftUI                             0x00000001b990c6fc $s7SwiftUI13NSHostingViewC16beginTransactionyyFyycfU_ + 196
+	20  SwiftUICore                         0x000000022543e91c $s7SwiftUI12onMainThread2doyyyc_tF + 64
+	21  SwiftUI                             0x00000001b990c608 $s7SwiftUI13NSHostingViewC16beginTransactionyyF + 184
+	22  SwiftUICore                         0x000000022489532c $s7SwiftUI9GraphHostC16asyncTransaction_2id8mutation5style14mayDeferUpdates6UInt32VAA0F0V_AL2IDVxAA01_C14Mutation_StyleOSbtAA0cO0RzlFAA012InvalidatingcO0V_TB5Tm + 640
+	23  SwiftUICore                         0x0000000224936874 $s7SwiftUI13ViewGraphHostC17LayoutInvalidatorV10invalidateyyF + 256
+	24  SwiftUI                             0x00000001b9b5f304 $s7SwiftUI22AppKitPlatformViewHostC16invalidateLayoutyyF + 536
+	25  SwiftUI                             0x00000001b9b5f798 $s7SwiftUI22AppKitPlatformViewHostC25enqueueLayoutInvalidationyyFyycfU_ + 64
+	26  SwiftUICore                         0x0000000224ad11e8 $s7SwiftUI11UpdateGroupC6Action33_6733BA79212FB37D3E5D979DE425452BLLV14callAsFunctionyyF + 184
+	27  SwiftUICore                         0x0000000224ad0eec $s7SwiftUI11UpdateGroupC15dispatchActionsyyF0E0L_yyF + 420
+	28  SwiftUICore                         0x0000000224ad04dc $s7SwiftUI11UpdateGroupC15dispatchActionsyyF + 340
+	29  SwiftUICore                         0x0000000224acf47c $s7SwiftUI11UpdateGroupC3endyyF + 232
+	30  SwiftUICore                         0x0000000224acf260 $s7SwiftUI11UpdateGroupC13enqueueAction6reason_s6UInt32VAA16CustomEventTraceV0fJ4TypeO6ReasonOSg_yyctF + 212
+	31  SwiftUI                             0x00000001b9b5f6fc $s7SwiftUI22AppKitPlatformViewHostC25enqueueLayoutInvalidationyyF + 936
+	32  SwiftUI                             0x00000001b9c4a6e8 $s7SwiftUI24SplitViewChildControllerC07hostingD0_16didUpdateMinSize03maxK0yAA09NSHostingD0CyxG_So6CGSizeVSgALtAA0D0RzlF + 548
+	33  SwiftUI                             0x00000001b98f994c $s7SwiftUI13NSHostingViewC15SizeConstraints33_32B6F54841135BB466A5C1362EB89D05LLV6update4fromyACyxG_tF + 1944
+	34  SwiftUI                             0x00000001b98fa940 $s7SwiftUI13NSHostingViewC32_willUpdateConstraintsForSubtreeyyF + 608
+	35  SwiftUI                             0x00000001b98faa68 $s7SwiftUI13NSHostingViewC32_willUpdateConstraintsForSubtreeyyFTo + 28
+	36  AppKit                              0x000000018519875c -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 88
+	37  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	38  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	39  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	40  AppKit                              0x00000001851a4c64 __82-[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:]_block_invoke + 236
+	41  CoreAutoLayout                      0x000000018b9ccd54 -[NSISEngine withBehaviors:performModifications:] + 88
+	42  AppKit                              0x00000001851987d4 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 208
+	43  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	44  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	45  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	46  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	47  AppKit                              0x00000001851a4c64 __82-[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:]_block_invoke + 236
+	48  CoreAutoLayout                      0x000000018b9ccd54 -[NSISEngine withBehaviors:performModifications:] + 88
+	49  AppKit                              0x00000001851987d4 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 208
+	50  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	51  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	52  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	53  AppKit                              0x0000000185198884 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 384
+	54  AppKit                              0x00000001851a4c64 __82-[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:]_block_invoke + 236
+	55  CoreAutoLayout                      0x000000018b9ccd54 -[NSISEngine withBehaviors:performModifications:] + 88
+	56  AppKit                              0x00000001851987d4 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:] + 208
+	57  AppKit                              0x0000000185198884 -[NSView _updateConstr
+libc++abi: terminating due to uncaught exception of type NSException

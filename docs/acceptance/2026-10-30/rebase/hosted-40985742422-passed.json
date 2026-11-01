@@ -1,0 +1,99 @@
+{
+  "runId": 40985742422,
+  "jobId": 123836220852,
+  "candidate": "37eeb8981d107dc587f8b4b6b36fe48e66a76140",
+  "artifactId": 12947027640,
+  "bytes": 118049012,
+  "sha256": "fa0ac6611670dfa01b55cc8e5ccf4c2d7f5a9b7d68bcf565cb67ada0935f5782",
+  "entries": 2113,
+  "uncompressedBytes": 118578874,
+  "allCRCValid": true,
+  "extractedDirectory": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-native-37eeb89-artifact-gen10",
+  "sourceInputsVerified": 185,
+  "tests": {
+    "smoke": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "rebase": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "methodSeconds": 108.37946105003357,
+  "methodMaximumSeconds": 120,
+  "outerSeconds": 119.782,
+  "outerMaximumSeconds": 180,
+  "runtimeWarnings": [
+    {
+      "issueType": "Runtime Warning",
+      "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    }
+  ],
+  "screenshotsAndAxReviewed": true,
+  "screenshotsAndAx": [
+    {
+      "state": "chinese-light-preview-published",
+      "screenshot": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/screenshots/hosted-40985742422-chinese-light-preview-published.png",
+      "ax": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/accessibility/hosted-40985742422-chinese-light-preview-published.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "9295fd414a9fdb74d4dfbe9b360bb2a73f8005700f5a0ffbe6631b9785df382a"
+    },
+    {
+      "state": "changed-target-refused",
+      "screenshot": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/screenshots/hosted-40985742422-changed-target-refused.png",
+      "ax": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/accessibility/hosted-40985742422-changed-target-refused.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "9d12a91b1211668d221d5ae803c3436380c5bbaeb691b4a037e0c4c72bf5e699"
+    },
+    {
+      "state": "english-dark-conflict-reopened",
+      "screenshot": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/screenshots/hosted-40985742422-english-dark-conflict-reopened.png",
+      "ax": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/accessibility/hosted-40985742422-english-dark-conflict-reopened.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "61feaaa8dbd8e35be036bb17ec5ed064090449005eb36406dbb15ab63c194e92"
+    },
+    {
+      "state": "abort-restores-head-draft",
+      "screenshot": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/screenshots/hosted-40985742422-abort-restores-head-draft.png",
+      "ax": "/Users/willxue/.codex/worktrees/worktree-management/WeGit/docs/acceptance/2026-10-30/rebase/accessibility/hosted-40985742422-abort-restores-head-draft.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "ddf968302ecf7ac683792d89dfc6b2966fa792ee763d0e915b6fb314c7ec98c8"
+    }
+  ],
+  "releaseReady": false,
+  "localCua": "Inventory read only; old60670 dead, no automatic reopen, all6 recorded user files SHA matched",
+  "review": "Actual native states reviewed: fixed SHA/published confirmation, changed target refusal, restored second conflict, abort/clean state/draft. Keyboard Tab/Return/Escape and filter focus assertions executed in the same passed method; complete VoiceOver and final version release gates remain separate."
+}

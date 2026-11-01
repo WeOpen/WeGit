@@ -1,0 +1,23 @@
+{
+  "before": {
+    "AppleInterfaceStyle": {
+      "exists": true,
+      "value": "Dark"
+    },
+    "AppleInterfaceStyleSwitchesAutomatically": {
+      "exists": true,
+      "value": "1"
+    }
+  },
+  "after": {
+    "AppleInterfaceStyle": {
+      "exists": true,
+      "value": "Dark"
+    },
+    "AppleInterfaceStyleSwitchesAutomatically": {
+      "exists": true,
+      "value": "1"
+    }
+  },
+  "equal": true
+}

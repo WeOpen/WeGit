@@ -1,6 +1,8 @@
 import SwiftUI
+import WeGitCore
 
 struct CommandPalette: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Environment(\.dismiss) private var dismiss
     @State private var query = ""
@@ -12,17 +14,19 @@ struct CommandPalette: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("命令面板").font(.headline)
-            TextField("输入命令…", text: $query).textFieldStyle(.roundedBorder).focused($searchFocused)
-                .onSubmit { execute() }.accessibilityIdentifier("command-search")
-                .onKeyPress(.downArrow) {
-                    move(1)
-                    return .handled
-                }
-                .onKeyPress(.upArrow) {
-                    move(-1)
-                    return .handled
-                }
+            SheetTitle(title: L10n.text("命令面板"), symbol: "command")
+            WorkbenchSearchField(
+                prompt: L10n.text("输入命令…"), text: $query, identifier: "command-search", focus: $searchFocused
+            )
+            .onSubmit { execute() }
+            .onKeyPress(.downArrow) {
+                move(1)
+                return .handled
+            }
+            .onKeyPress(.upArrow) {
+                move(-1)
+                return .handled
+            }
             List(selection: $selected) {
                 ForEach(commands) { command in
                     HStack(spacing: 10) {
@@ -30,12 +34,12 @@ struct CommandPalette: View {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(command.title)
                             if !command.enabled {
-                                Text(command.reason).font(.caption).foregroundStyle(AppColors.secondaryText)
+                                Text(command.reason).font(.caption).foregroundStyle(colors.secondaryText)
                             }
                         }
                         Spacer()
-                        Text(command.shortcut).font(.caption).foregroundStyle(AppColors.secondaryText)
-                    }.foregroundStyle(command.enabled ? Color.primary : .secondary)
+                        Text(command.shortcut).font(.caption).foregroundStyle(colors.secondaryText)
+                    }.foregroundStyle(command.enabled ? colors.text : .secondary)
                         .padding(.vertical, 3).tag(command.id).contentShape(Rectangle())
                         .onTapGesture(count: 2) {
                             selected = command.id
@@ -44,10 +48,10 @@ struct CommandPalette: View {
                 }
             }.accessibilityIdentifier("command-results")
             HStack {
-                Text("↑↓ 选择 · Return 执行").font(.caption).foregroundStyle(AppColors.secondaryText)
+                Text(L10n.text("↑↓ 选择 · Return 执行")).font(.caption).foregroundStyle(colors.secondaryText)
                 Spacer()
-                Button("关闭") { dismiss() }.keyboardShortcut(.cancelAction)
-                Button("执行") { execute() }.keyboardShortcut(.defaultAction)
+                Button(L10n.text("关闭")) { dismiss() }.keyboardShortcut(.cancelAction)
+                Button(L10n.text("执行")) { execute() }.keyboardShortcut(.defaultAction)
                     .disabled(commands.first { $0.id == selected }?.enabled != true)
             }
         }.padding(20).frame(width: 540, height: 450)

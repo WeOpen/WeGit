@@ -1,0 +1,2 @@
+There has been no change in the accessibility tree for Window: "WeGit 设置".
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

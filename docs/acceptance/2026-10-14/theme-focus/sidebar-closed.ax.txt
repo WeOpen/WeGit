@@ -1,0 +1,149 @@
+Window: "WeGit Studio", App: WeGit.
+0 standard window WeGit Studio – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 splitter (disabled, settable, float) -1
+			4 split group
+				5 container
+					6 split group
+						7 container
+							8 text 更改 4
+							9 menu button More
+							10 text field (settable) Description: 筛选文件路径, ID: changes-filter
+							11 pop up button Description: 改动状态, Value: 全部状态, ID: changes-state-filter
+							12 scroll area
+								13 list changes-list
+									14 row (selectable) 已暂存（1）
+									15 row (selectable) Description: 取消暂存 README.md, Value: README.md
+状态：修改
+									16 row (selectable) 未暂存（1）
+									17 row (selected) Description: 暂存 Repository.swift, Value: Repository.swift
+Sources
+状态：修改
+									18 row (selectable) 未跟踪（2）
+									19 row (selectable) Description: 暂存 MenuSignal.swift, Value: MenuSignal.swift
+Sources
+状态：未跟踪
+									20 row (selectable) Description: 暂存 Review.swift, Value: Review.swift
+Sources
+状态：未跟踪
+						21 splitter (disabled, settable, float) 380
+						22 container
+							23 text Help: Sources/Repository.swift, Value: Sources/Repository.swift +2 −2 工作区 ↔ 暂存区
+							24 Description: 差异布局, ID: diff-layout
+								25 radio button Description: 统一, Value: 0
+								26 radio button Description: 分栏, Value: 1
+							27 menu button 差异文件操作, Description: More
+							28 pop up button 上下文, Value: 3 行, ID: diff-context
+							29 checkbox Description: 忽略空白, Value: 0, ID: diff-ignore-whitespace
+							30 checkbox Description: 词级差异, Help: 突出替换行中变化的词；长行仍保留整行差异标识。, Value: 0, ID: diff-word-highlight
+							31 button (disabled) Description: 上一差异块, ID: diff-hunk-previous
+							32 button (disabled) Description: 下一差异块, ID: diff-hunk-next
+							33 text Value: 差异块 1 / 1, ID: diff-hunk-position
+							34 scroll area Description: 文本差异, ID: diff-content
+								35 container 文本差异内容
+									36 unknown Description: 原始内容，修改后, ID: diff-column-headers
+									37 container 上下文展开控制
+										38 button Description: 向上展开 2 行, ID: diff-context-expand-0
+										39 text 2 行未显示
+									40 container 差异块：@@ -3,9 +3,9 @@ import Foundation
+										41 text @@ -3,9 +3,9 @@ import Foundation
+										42 button Description: 复制此块补丁, ID: diff-hunk-copy:0
+										43 button 暂存此块
+										44 button 丢弃此块…
+									45 container Description: 原始与修改后的代码行, ID: split-diff-row
+										46 text 3
+										47 text entry area Description: 原始代码，第 3 行, Value: struct Repository {, ID: diff-code:0
+										48 text 3
+										49 text entry area Description: 修改后的代码，第 3 行, Value: struct Repository {, ID: diff-code:0
+									50 container Description: 原始与修改后的代码行, ID: split-diff-row
+										51 text 4
+										52 text entry area Description: 原始代码，第 4 行, Value:     let name: String, ID: diff-code:1
+										53 text 4
+										54 text entry area Description: 修改后的代码，第 4 行, Value:     let name: String, ID: diff-code:1
+									55 container Description: 原始与修改后的代码行, ID: split-diff-row
+										56 text 5
+										57 text entry area Description: 原始代码，第 5 行, Value:     var branch = "main", ID: diff-code:2
+										58 text 5
+										59 text entry area Description: 修改后的代码，第 5 行, Value:     var branch = "main", ID: diff-code:2
+									60 container Description: 原始与修改后的代码行, ID: split-diff-row
+										61 text 6
+										62 text entry area Description: 原始代码，第 6 行, Value:     var stagedFiles = 0, ID: diff-code:3
+										63 text 6
+										64 text entry area Description: 修改后的代码，第 6 行, Value:     var stagedFiles = 1, ID: diff-code:4
+									65 container Description: 原始与修改后的代码行, ID: split-diff-row
+										66 text 7
+										67 text entry area Description: 原始代码，第 7 行, Value:  , ID: diff-code:5
+										68 text 7
+										69 text entry area Description: 修改后的代码，第 7 行, Value:  , ID: diff-code:5
+									70 container Description: 原始与修改后的代码行, ID: split-diff-row
+										71 text 8
+										72 text entry area Description: 原始代码，第 8 行, Value:     func refresh() {, ID: diff-code:6
+										73 text 8
+										74 text entry area Description: 修改后的代码，第 8 行, Value:     func refresh() {, ID: diff-code:6
+									75 container Description: 原始与修改后的代码行, ID: split-diff-row
+										76 text 9
+										77 text entry area Description: 原始代码，第 9 行, Value:         print("Ready for your next commit"), ID: diff-code:7
+										78 text 9
+										79 text entry area Description: 修改后的代码，第 9 行, Value:         print("A clear review before every commit"), ID: diff-code:8
+									80 container Description: 原始与修改后的代码行, ID: split-diff-row
+										81 text 10
+										82 text entry area Description: 原始代码，第 10 行, Value:     }, ID: diff-code:9
+										83 text 10
+										84 text entry area Description: 修改后的代码，第 10 行, Value:     }, ID: diff-code:9
+									85 container Description: 原始与修改后的代码行, ID: split-diff-row
+										86 text 11
+										87 text entry area Description: 原始代码，第 11 行, Value: }, ID: diff-code:10
+										88 text 11
+										89 text entry area Description: 修改后的代码，第 11 行, Value: }, ID: diff-code:10
+									90 container 上下文展开控制
+										91 button Description: 展开 20 行, ID: diff-context-expand-1
+										92 text 后续上下文
+					93 unknown Description: 已暂存 1 个文件, ID: commit-staged-count
+					94 text field (settable) Description: 提交消息, Help: ⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容, Placeholder: 提交消息；⌥↩ 换行, ID: commit-message
+					95 button (disabled) Description: 提交（1 个文件）, Help: 填写提交消息, ID: commit-button
+					96 button (disabled) Description: 提交并推送…, Help: 填写提交消息, ID: commit-push-button
+					97 checkbox Description: 修改上次提交（Amend）, Value: 0
+					98 text Value: 填写提交消息, ID: operation-feedback
+				99 splitter (disabled, settable, float) 1039
+				100 scroll area Description: 检查器, ID: repository-inspector
+					101 heading 仓库
+					102 container
+						103 text 名称, Value: WeGit Studio /Users/willxue/will/WeOpen/WeGit/.build/ui-review/theme-focus-46971230/WeGit Studio
+						104 button 在 Finder 中显示
+						105 button 在 Terminal 中打开
+						106 button 在 Xcode 中打开…
+						107 button 复制仓库路径
+					108 heading 分支
+					109 container
+						110 text 当前, Value: main origin/main 0 / 0
+					111 heading 文件
+					112 container
+						113 text Sources/Repository.swift 2 2
+	114 toolbar
+		115 button Description: 侧栏, Help: 显示侧栏, Value: 已关闭, ID: toolbar-sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		116 button Description: WeGit Studio, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/theme-focus-46971230/WeGit Studio
+切换仓库 ⌘K
+		117 menu button main · 已同步, Description: Triangle-headed arrow branching into two paths, Value: 同步状态：已同步, ID: current-branch
+		118 menu button 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		119 button Description: 拉取, Help: 选择远端、目标分支和同步方式, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		120 button Description: 推送, Help: 选择远端、目标分支和同步方式, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		121 button Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		122 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		123 button Description: 检查器, Help: 隐藏检查器, Value: 已打开, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		124 menu button 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	125 close button
+	126 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	127 minimize button
+	128 text WeGit Studio main
+129 menu bar
+	130 WeGit
+	131 File
+	132 Edit
+	133 View
+	134 仓库
+	135 工作区
+	136 Window
+	137 Help
+
+The focused UI element is 0 standard window WeGit Studio – main, ID: main, Secondary Actions: Raise

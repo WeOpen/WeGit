@@ -1,0 +1,252 @@
+{
+  "checks" : [
+    "Restored Dark selects the ink Dock icon",
+    "Dark Dock artwork matches Finder within two pixels",
+    "Dark Dock artwork shares Finder's visual center",
+    "WeGitDark contains every required native pixel size",
+    "WeGitDark 1024px representation 0 keeps the black Ku impression",
+    "WeGitDark 512px representation 1 keeps the black Ku impression",
+    "WeGitDark 512px representation 2 keeps the black Ku impression",
+    "WeGitDark 256px representation 3 keeps the black Ku impression",
+    "WeGitDark 256px representation 4 keeps the black Ku impression",
+    "WeGitDark 128px representation 5 keeps the black Ku impression",
+    "WeGitDark 64px representation 6 keeps the black Ku impression",
+    "WeGitDark 32px representation 7 keeps the black Ku impression",
+    "WeGitDark 32px representation 8 keeps the black Ku impression",
+    "WeGitDark 16px representation 9 keeps the black Ku impression",
+    "Light switches the running Dock icon to ivory",
+    "Light Dock artwork matches Finder within two pixels",
+    "Light Dock artwork shares Finder's visual center",
+    "WeGitLight contains every required native pixel size",
+    "WeGitLight 1024px representation 0 keeps the white Ku impression",
+    "WeGitLight 512px representation 1 keeps the white Ku impression",
+    "WeGitLight 512px representation 2 keeps the white Ku impression",
+    "WeGitLight 256px representation 3 keeps the white Ku impression",
+    "WeGitLight 256px representation 4 keeps the white Ku impression",
+    "WeGitLight 128px representation 5 keeps the white Ku impression",
+    "WeGitLight 64px representation 6 keeps the white Ku impression",
+    "WeGitLight 32px representation 7 keeps the white Ku impression",
+    "WeGitLight 32px representation 8 keeps the white Ku impression",
+    "WeGitLight 16px representation 9 keeps the white Ku impression",
+    "Dark switches the running Dock icon without rebuilding a window",
+    "Theme updates work with no application windows",
+    "Dark native panels use the same ink artwork",
+    "Light native panels use the ivory artwork",
+    "Returning to System follows the current Light appearance",
+    "System appearance observation reaches Dark",
+    "System Dark updates the Dock icon through the existing observer",
+    "System appearance observation reaches Light",
+    "System Light restores ivory in the same process",
+    "Explicit Dark wins over a Light system appearance",
+    "System appearance observation reaches Dark",
+    "Explicit Light wins over a Dark system appearance",
+    "Reset returns the icon policy to System",
+    "Reset immediately selects the current system artwork"
+  ],
+  "passed" : true,
+  "samples" : [
+    {
+      "label" : "restored-dark",
+      "rgb" : [
+        0.1469930112361908,
+        0.1469930112361908,
+        0.1469930112361908
+      ]
+    },
+    {
+      "finderHorizontalExtent" : 0.8046875,
+      "finderVerticalExtent" : 0.8046875,
+      "horizontalExtent" : 0.802734375,
+      "label" : "Dark-canvas",
+      "verticalExtent" : 0.8046875
+    },
+    {
+      "darkInkPixels" : 4363,
+      "label" : "WeGitDark-seal-1024-rep-0",
+      "maximumGreen" : 0.30113601684570312
+    },
+    {
+      "darkInkPixels" : 994,
+      "label" : "WeGitDark-seal-512-rep-1",
+      "maximumGreen" : 0.29616087675094604
+    },
+    {
+      "darkInkPixels" : 994,
+      "label" : "WeGitDark-seal-512-rep-2",
+      "maximumGreen" : 0.29616087675094604
+    },
+    {
+      "darkInkPixels" : 182,
+      "label" : "WeGitDark-seal-256-rep-3",
+      "maximumGreen" : 0.29138821363449097
+    },
+    {
+      "darkInkPixels" : 182,
+      "label" : "WeGitDark-seal-256-rep-4",
+      "maximumGreen" : 0.29138821363449097
+    },
+    {
+      "darkInkPixels" : 6,
+      "label" : "WeGitDark-seal-128-rep-5",
+      "maximumGreen" : 0.28190311789512634
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitDark-seal-64-rep-6",
+      "maximumGreen" : 0.25931680202484131
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitDark-seal-32-rep-7",
+      "maximumGreen" : 0.25159046053886414
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitDark-seal-32-rep-8",
+      "maximumGreen" : 0.25159046053886414
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitDark-seal-16-rep-9",
+      "maximumGreen" : 0.26537168025970459
+    },
+    {
+      "label" : "explicit-light",
+      "rgb" : [
+        0.9800228476524353,
+        0.97175627946853638,
+        0.95793324708938599
+      ]
+    },
+    {
+      "finderHorizontalExtent" : 0.8046875,
+      "finderVerticalExtent" : 0.8046875,
+      "horizontalExtent" : 0.802734375,
+      "label" : "Light-canvas",
+      "verticalExtent" : 0.8046875
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-1024-rep-0",
+      "maximumGreen" : 0.99999994039535522
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-512-rep-1",
+      "maximumGreen" : 0.99999994039535522
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-512-rep-2",
+      "maximumGreen" : 0.99999994039535522
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-256-rep-3",
+      "maximumGreen" : 0.99999994039535522
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-256-rep-4",
+      "maximumGreen" : 0.99999994039535522
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-128-rep-5",
+      "maximumGreen" : 0.92228120565414429
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-64-rep-6",
+      "maximumGreen" : 0.79040497541427612
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-32-rep-7",
+      "maximumGreen" : 0.77059608697891235
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-32-rep-8",
+      "maximumGreen" : 0.77059608697891235
+    },
+    {
+      "darkInkPixels" : 0,
+      "label" : "WeGitLight-seal-16-rep-9",
+      "maximumGreen" : 0.58795297145843506
+    },
+    {
+      "label" : "explicit-dark",
+      "rgb" : [
+        0.1469930112361908,
+        0.1469930112361908,
+        0.1469930112361908
+      ]
+    },
+    {
+      "label" : "dark-alert",
+      "rgb" : [
+        0.1462407112121582,
+        0.1462407112121582,
+        0.1462407112121582
+      ]
+    },
+    {
+      "label" : "light-alert",
+      "rgb" : [
+        0.98154228925704956,
+        0.97162550687789917,
+        0.95618599653244019
+      ]
+    },
+    {
+      "label" : "system-light",
+      "rgb" : [
+        0.9800228476524353,
+        0.97175627946853638,
+        0.95793324708938599
+      ]
+    },
+    {
+      "label" : "system-dark",
+      "rgb" : [
+        0.1469930112361908,
+        0.1469930112361908,
+        0.1469930112361908
+      ]
+    },
+    {
+      "label" : "system-light-again",
+      "rgb" : [
+        0.9800228476524353,
+        0.97175627946853638,
+        0.95793324708938599
+      ]
+    },
+    {
+      "label" : "dark-over-light-system",
+      "rgb" : [
+        0.1469930112361908,
+        0.1469930112361908,
+        0.1469930112361908
+      ]
+    },
+    {
+      "label" : "light-over-dark-system",
+      "rgb" : [
+        0.9800228476524353,
+        0.97175627946853638,
+        0.95793324708938599
+      ]
+    },
+    {
+      "label" : "reset-to-system-dark",
+      "rgb" : [
+        0.1469930112361908,
+        0.1469930112361908,
+        0.1469930112361908
+      ]
+    }
+  ],
+  "scope" : "Actual AppKit applicationIconImage pixels and preference lifecycle; system appearance changes are process-local"
+}

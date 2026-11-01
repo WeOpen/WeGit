@@ -1,0 +1,108 @@
+{
+  "runId": 41013988280,
+  "jobId": 123926004898,
+  "candidate": "6dcf5142492348d87b93a22e3d425999d5de3e4a",
+  "artifactId": 12958029726,
+  "bytes": 64547405,
+  "sha256": "b1d155086b0ab52784a63b28718a54d8531102fb7c5481203b363d031d819243",
+  "entries": 2048,
+  "uncompressedBytes": 64996677,
+  "allCRCValid": true,
+  "extractedDirectory": "/Users/willxue/will/WeOpen/WeGit/.build/v1-2-continuation/rebase-native-6dcf514-artifact-gen12",
+  "trustedSource": "507f03b4240d2fb8987cd214eed94d50ffda2d84",
+  "jobConclusion": "success",
+  "sourceInputsVerified": 185,
+  "tests": {
+    "smoke": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "rebase": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "methodSeconds": 95.35331797599792,
+  "methodMaximumSeconds": 120,
+  "outerSeconds": 106.097,
+  "outerMaximumSeconds": 180,
+  "runtimeWarnings": [
+    {
+      "issueType": "Runtime Warning",
+      "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+    }
+  ],
+  "screenshotsAndAxReviewed": true,
+  "screenshotsAndAx": [
+    {
+      "state": "chinese-light-preview-published",
+      "screenshot": "docs/acceptance/2026-10-30/rebase/screenshots/hosted-41013988280-chinese-light-preview-published.png",
+      "ax": "docs/acceptance/2026-10-30/rebase/accessibility/hosted-41013988280-chinese-light-preview-published.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "498405e8300a83c68d34e41a24b995ad484c4f74f34b998ef6e187b03f76218d",
+      "axSha256": "4aef77f1035d6211cd960d21dd4b87afceb789668338d5d35f2d2f44e5354bed"
+    },
+    {
+      "state": "changed-target-refused",
+      "screenshot": "docs/acceptance/2026-10-30/rebase/screenshots/hosted-41013988280-changed-target-refused.png",
+      "ax": "docs/acceptance/2026-10-30/rebase/accessibility/hosted-41013988280-changed-target-refused.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "d9fca58afad20bcfea00e3932b8f3486fe8f39a2500d62a368ad88ff79013a6b",
+      "axSha256": "bece373b7a6fda8bbfb4cab0dc79d41dc7831cd93d82bfd366476429def75844"
+    },
+    {
+      "state": "english-dark-conflict-reopened",
+      "screenshot": "docs/acceptance/2026-10-30/rebase/screenshots/hosted-41013988280-english-dark-conflict-reopened.png",
+      "ax": "docs/acceptance/2026-10-30/rebase/accessibility/hosted-41013988280-english-dark-conflict-reopened.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "2c44edde7b2f7003ced6798c7d50486ec407ffc10043d52d239532efffa02e27",
+      "axSha256": "f0b99e733f0361113f147bae4587656556132955fd79e4be9223a24cbe4dc80e"
+    },
+    {
+      "state": "abort-restores-head-draft",
+      "screenshot": "docs/acceptance/2026-10-30/rebase/screenshots/hosted-41013988280-abort-restores-head-draft.png",
+      "ax": "docs/acceptance/2026-10-30/rebase/accessibility/hosted-41013988280-abort-restores-head-draft.txt",
+      "pixels": [
+        980,
+        692
+      ],
+      "windowPoints": [
+        980,
+        692
+      ],
+      "sha256": "c3b51779b9aec1c9ebfb3c643d2ccdf5a8ad91c2822e335b2b2c834d4106d65a",
+      "axSha256": "b819ed9d66050d5c159397f6d8815ac9f1011894584636234b24ca31e4ab329a"
+    }
+  ],
+  "fullJobLog": {
+    "bytes": 38425,
+    "sha256": "db5042a3f57a0e6c42a6e385fd5803ebbfcf48345d1bac5e417d2e9f4f3da78f"
+  },
+  "releaseReady": false,
+  "review": "Original four native screenshots and AX reviewed: immutable full OIDs and published confirmation, changed-target refusal and refreshed preview, restored second conflict with Continue disabled, and abort restoring clean branch and draft. Tab, Return, Escape, continued filter typing, two conflict continuations, unchanged index and reference, and relaunch assertions ran in this passed method. Complete VoiceOver and final version gates remain pending."
+}

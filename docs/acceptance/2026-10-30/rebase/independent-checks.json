@@ -1,0 +1,5 @@
+{
+  "checks" : 42,
+  "passed" : true,
+  "scope" : "Private actual Git preview\/execution\/recovery checks; not XCTest or complete Rebase acceptance."
+}

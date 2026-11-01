@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "86c05b7f7b7bf3919a8865a9c12048e82dd4880c",
+        "deviceName": "My Mac",
+        "modelName": "Virtual Machine",
+        "osBuildNumber": "26A434",
+        "osVersion": "27.0.1",
+        "platform": "macOS"
+      },
+      "expectedFailures": 0,
+      "failedTests": 1,
+      "passedTests": 0,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+  "expectedFailures": 0,
+  "failedTests": 1,
+  "finishTime": 1792168951.988,
+  "passedTests": 0,
+  "result": "Failed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1792168922.886,
+  "statistics": [],
+  "testFailures": [
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "WeGitUITests/testWelcomeAndCloneForm()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testWelcomeAndCloneForm",
+      "testName": "testWelcomeAndCloneForm()"
+    }
+  ],
+  "title": "Test - WeGit",
+  "topInsights": [],
+  "totalTestCount": 1
+}

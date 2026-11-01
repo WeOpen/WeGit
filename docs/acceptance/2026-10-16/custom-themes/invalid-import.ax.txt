@@ -1,0 +1,15 @@
+Window: "Unknown", App: WeGit.
+0 表单 Description: 警告, Secondary Actions: Raise
+	1 text 主题操作未完成 无法读取主题，请选择有效的 WeGit 主题 JSON 文件。
+	2 按钮 Description: 好, ID: action-button-1
+3 menu bar
+	4 WeGit, ID: native-menu-app
+	5 文件, ID: native-menu-file
+	6 编辑, ID: native-menu-edit
+	7 显示, ID: native-menu-view
+	8 仓库, ID: native-menu-repository
+	9 工作区, ID: native-menu-workspace
+	10 窗口, ID: native-menu-window
+	11 帮助, ID: native-menu-help
+
+The focused UI element is 0 表单 Description: 警告, Secondary Actions: Raise

@@ -1,0 +1,316 @@
+{
+  "date": "2026-10-18T02:11:42.298834+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "sourceCommit": "6087cf79536a651715a0ce98106ea7fafed54daf",
+  "workspaceDirty": false,
+  "imageVersion": "20261012.0260.1",
+  "runId": "39089136648",
+  "manager": {
+    "exitCode": 0,
+    "output": "Aqua"
+  },
+  "consoleUIDMatches": true,
+  "developerTools": {
+    "exitCode": 0,
+    "output": "Developer mode is currently enabled."
+  },
+  "interactivePrerequisites": true,
+  "sip": {
+    "exitCode": 0,
+    "output": "System Integrity Protection status: disabled."
+  },
+  "gatekeeper": {
+    "exitCode": 0,
+    "output": "assessments enabled"
+  },
+  "xcode": {
+    "exitCode": 0,
+    "output": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "firstLaunch": {
+    "exitCode": 0,
+    "output": ""
+  },
+  "selectedGit": {
+    "exitCode": 0,
+    "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+  },
+  "osPermissionsChanged": false,
+  "mode": "functional",
+  "tests": [
+    {
+      "scope": "smoke",
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 18.106,
+      "log": "smoke.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "60cf81a30547ad7ddd5f064f29484d20aa5274e6",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 0,
+            "passedTests": 1,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "finishTime": 1792289520.781,
+        "passedTests": 1,
+        "result": "Passed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792289504.7,
+        "statistics": [],
+        "testFailures": [],
+        "title": "Test - WeGit",
+        "topInsights": [],
+        "totalTestCount": 1
+      }
+    },
+    {
+      "scope": "functional",
+      "exitCode": 65,
+      "timedOut": false,
+      "seconds": 903.435,
+      "log": "functional.log",
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "60cf81a30547ad7ddd5f064f29484d20aa5274e6",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 17,
+            "passedTests": 28,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 17,
+        "finishTime": 1792290423.668,
+        "passedTests": 28,
+        "result": "Failed",
+        "runtimeWarnings": [
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          },
+          {
+            "issueType": "Runtime Warning",
+            "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+          }
+        ],
+        "skippedTests": 0,
+        "startTime": 1792289523.048,
+        "statistics": [],
+        "testFailures": [
+          {
+            "failureText": "Failed to click \"\u6d3b\u52a8\u8bb0\u5f55\" MenuItem: Find single matching element. Multiple matching elements found for <XCUIElementQuery: 0x7c598ba8a0>.\nSparse tree of matches:\n\u2192Application, pid: 29402, title: 'WeGit'\n  \u21b3MenuBar\n  \u22c5 \u21b3MenuBarItem, identifier: 'native-menu-repository', title: '\u4ed3\u5e93'\n  \u22c5   \u21b3Menu\n  \u22c5     \u21b3MenuItem, identifier: 'native-command-activity', title: '\u6d3b\u52a8\u8bb0\u5f55'\n  \u21b3Window, identifier: 'main', title: 'WeGitCompactToolbarUI-0B64BC56-40F1-48BF-8C9E-7B89F4F4B518 \u2013 main'\n    \u21b3Toolbar\n      \u21b3Group\n        \u21b3Menu\n          \u21b3MenuItem, identifier: 'clock', title: '\u6d3b\u52a8\u8bb0\u5f55'",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 17,
+            "testIdentifierString": "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable",
+            "testName": "testCompactToolbarKeepsSyncAndMoreActionsReachable()"
+          },
+          {
+            "failureText": "XCTAssertEqualWithAccuracy failed: (\"1024.0\") is not equal to (\"980.0\") +/- (\"4.0\")",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 8,
+            "testIdentifierString": "LayoutTests/testContextControlsStayVisibleInMinimumWindow()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/LayoutTests/testContextControlsStayVisibleInMinimumWindow",
+            "testName": "testContextControlsStayVisibleInMinimumWindow()"
+          },
+          {
+            "failureText": "XCTAssertEqualWithAccuracy failed: (\"980.0\") is not equal to (\"1024.0\") +/- (\"4.0\")",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 11,
+            "testIdentifierString": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes",
+            "testName": "testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()"
+          },
+          {
+            "failureText": "Element Button, {{1197.0, 31.0}, {47.0, 52.0}}, identifier: 'toolbar-inspector', label: '\u68c0\u67e5\u5668', value: \u5df2\u6253\u5f00 is not hittable",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 5,
+            "testIdentifierString": "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets",
+            "testName": "testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets()"
+          },
+          {
+            "failureText": "XCTAssertTrue failed",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 24,
+            "testIdentifierString": "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testDiffReadingOptionsAndFilterEmptyState",
+            "testName": "testDiffReadingOptionsAndFilterEmptyState()"
+          },
+          {
+            "failureText": "Failed to click \"toolbar-push\" Button: No matches found for Elements matching predicate '\"toolbar-push\" IN identifiers' from input {(\n    Button, identifier: '_XCUI:FullScreenWindow'\n)}",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 28,
+            "testIdentifierString": "WeGitUITests/testFirstPushAndFastForwardPullUseTheSelectedRemote()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testFirstPushAndFastForwardPullUseTheSelectedRemote",
+            "testName": "testFirstPushAndFastForwardPullUseTheSelectedRemote()"
+          },
+          {
+            "failureText": "XCTAssertEqual failed: (\"\") is not equal to (\"\u6587\u4ef6\")",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 10,
+            "testIdentifierString": "LocalizationUITests/testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/LocalizationUITests/testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch",
+            "testName": "testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch()"
+          },
+          {
+            "failureText": "XCTAssertTrue failed",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 31,
+            "testIdentifierString": "WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset",
+            "testName": "testLargeDiffSummaryPagingAndSelectionReset()"
+          },
+          {
+            "failureText": "Failed to click \"toolbar-push\" Button: No matches found for Elements matching predicate '\"toolbar-push\" IN identifiers' from input {(\n    Button, identifier: '_XCUI:FullScreenWindow'\n)}",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 32,
+            "testIdentifierString": "WeGitUITests/testLostPushReplyRestoresVerificationAfterLocalHeadMoves()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testLostPushReplyRestoresVerificationAfterLocalHeadMoves",
+            "testName": "testLostPushReplyRestoresVerificationAfterLocalHeadMoves()"
+          },
+          {
+            "failureText": "Failed to get matching snapshot: No matches found for Descendants matching type Outline from input {(\n    Application, pid: 22156, title: 'WeGit'\n)}",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 9,
+            "testIdentifierString": "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls",
+            "testName": "testMinimumWindowPreservesNavigationAndPrimaryControls()"
+          },
+          {
+            "failureText": "XCTAssertTrue failed",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 6,
+            "testIdentifierString": "InspectorRestorationTests/testOpenInspectorRestoresAcrossBothSplitWorkspaces()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/InspectorRestorationTests/testOpenInspectorRestoresAcrossBothSplitWorkspaces",
+            "testName": "testOpenInspectorRestoresAcrossBothSplitWorkspaces()"
+          },
+          {
+            "failureText": "XCTAssertTrue failed",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 45,
+            "testIdentifierString": "WorkflowRecoveryTests/testPullRebaseHandlesTwoConflictRoundsAndAbort()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WorkflowRecoveryTests/testPullRebaseHandlesTwoConflictRoundsAndAbort",
+            "testName": "testPullRebaseHandlesTwoConflictRoundsAndAbort()"
+          },
+          {
+            "failureText": "Failed to click \"toolbar-push\" Button: No matches found for Elements matching predicate '\"toolbar-push\" IN identifiers' from input {(\n    Button, identifier: '_XCUI:FullScreenWindow'\n)}",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 35,
+            "testIdentifierString": "WeGitUITests/testRestoredUnknownPushRefusesAChangedDestination()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testRestoredUnknownPushRefusesAChangedDestination",
+            "testName": "testRestoredUnknownPushRefusesAChangedDestination()"
+          },
+          {
+            "failureText": "XCTAssertGreaterThan failed: (\"13.0\") is not greater than (\"21.0\")",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 14,
+            "testIdentifierString": "SettingsReadingTests/testSixSettingsTabsAndLiveTextMeasurementChanges()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/SettingsReadingTests/testSixSettingsTabsAndLiveTextMeasurementChanges",
+            "testName": "testSixSettingsTabsAndLiveTextMeasurementChanges()"
+          },
+          {
+            "failureText": "XCTAssertEqualWithAccuracy failed: (\"17.0\") is not equal to (\"47.0\") +/- (\"1.0\")",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 16,
+            "testIdentifierString": "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus",
+            "testName": "testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus()"
+          },
+          {
+            "failureText": "Failed to click \"toolbar-push\" Button: No matches found for Elements matching predicate '\"toolbar-push\" IN identifiers' from input {(\n    Button, identifier: '_XCUI:FullScreenWindow'\n)}",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 38,
+            "testIdentifierString": "WeGitUITests/testUnknownPushRequiresNewConfirmationWhenTargetDoesNotMatch()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WeGitUITests/testUnknownPushRequiresNewConfirmationWhenTargetDoesNotMatch",
+            "testName": "testUnknownPushRequiresNewConfirmationWhenTargetDoesNotMatch()"
+          },
+          {
+            "failureText": "XCTAssertEqualWithAccuracy failed: (\"1024.0\") is not equal to (\"1120.0\") +/- (\"4.0\")",
+            "targetName": "WeGitUITests",
+            "testIdentifier": 41,
+            "testIdentifierString": "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen()",
+            "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen",
+            "testName": "testWindowFrameRestoresAndClosedWorkspaceCanReopen()"
+          }
+        ],
+        "title": "Test - WeGit",
+        "topInsights": [
+          {
+            "category": "Common Failures",
+            "impact": "23% of failures",
+            "text": "4 runs of 4 tests failed with Failed to click \"toolbar-push\" Button: No matches found for Elements matching predicate '\"toolbar-push\" IN identifiers' from input {("
+          },
+          {
+            "category": "Longest Test Runs",
+            "impact": "6% of duration",
+            "text": "1 longest test run with outlier durations exceeding 53.75s (three standard deviations)"
+          }
+        ],
+        "totalTestCount": 45
+      }
+    }
+  ],
+  "releaseReady": false
+}

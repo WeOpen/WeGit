@@ -1,4 +1,5 @@
 import CoreServices
+import Darwin
 import Foundation
 
 private final class WatchCallback: @unchecked Sendable {
@@ -10,7 +11,7 @@ private final class WatchCallback: @unchecked Sendable {
 public final class RepositoryWatcher: @unchecked Sendable {
     private let lock = NSLock()
     private var stream: FSEventStreamRef?
-    private let eventQueue = DispatchQueue(label: "org.weopen.WeGit.fsevents", qos: .utility)
+    private let eventQueue = DispatchQueue(label: "com.willxue.wegit.fsevents", qos: .utility)
 
     public convenience init(paths: [String], onChange: @escaping @Sendable () -> Void) throws {
         try self.init(paths: paths) { _, _ in onChange() }
@@ -19,10 +20,31 @@ public final class RepositoryWatcher: @unchecked Sendable {
     public convenience init(
         location: RepositoryLocation, onChange: @escaping @Sendable (RepositoryRefreshScope) -> Void
     ) throws {
-        let paths = Array(
-            Set([location.root.path, location.gitDirectory.path, location.commonDirectory.path]))
+        let candidates = Set([location.root.path, location.gitDirectory.path, location.commonDirectory.path])
+        // FSEvents already watches descendants. Only the active session subscribes;
+        // overlapping root/common/private paths must not multiply its event stream.
+        let paths = candidates.filter { path in
+            !candidates.contains { path.hasPrefix($0 + "/") }
+        }.sorted()
+        // FSEvents reports POSIX physical paths (/private/var), while Foundation
+        // can preserve a system alias (/var). Resolve only at subscription time,
+        // then translate event prefixes without a filesystem lookup per event.
+        let aliases = candidates.compactMap { path -> (source: String, destination: String)? in
+            guard let physical = realpath(path, nil) else { return nil }
+            defer { free(physical) }
+            let source = String(cString: physical)
+            return source == path ? nil : (source, path)
+        }.sorted { $0.source.count > $1.source.count }
         try self.init(paths: paths) { paths, flags in
-            let scope = RepositoryRefreshScope.events(paths: paths, flags: flags, location: location)
+            let normalized = paths.map { path in
+                guard
+                    let alias = aliases.first(where: { path == $0.source || path.hasPrefix($0.source + "/") })
+                else {
+                    return path
+                }
+                return alias.destination + path.dropFirst(alias.source.count)
+            }
+            let scope = RepositoryRefreshScope.events(paths: normalized, flags: flags, location: location)
             if !scope.isEmpty { onChange(scope) }
         }
     }
@@ -50,7 +72,7 @@ public final class RepositoryWatcher: @unchecked Sendable {
                         | kFSEventStreamCreateFlagUseCFTypes))
         else {
             box.release()
-            throw ModelFailure.unsupported("无法创建仓库监听，请使用手动刷新。")
+            throw ModelFailure.unsupported(L10n.text("无法创建仓库监听，请使用手动刷新。"))
         }
         self.stream = stream
         FSEventStreamSetDispatchQueue(stream, eventQueue)
@@ -58,7 +80,7 @@ public final class RepositoryWatcher: @unchecked Sendable {
             FSEventStreamInvalidate(stream)
             FSEventStreamRelease(stream)
             self.stream = nil
-            throw ModelFailure.unsupported("无法启动仓库监听，请使用手动刷新。")
+            throw ModelFailure.unsupported(L10n.text("无法启动仓库监听，请使用手动刷新。"))
         }
     }
 

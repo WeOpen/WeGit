@@ -6,11 +6,11 @@ public enum ModelFailure: Error, LocalizedError, Sendable {
     case changed, invalidPath, repositoryReplaced
     public var errorDescription: String? {
         switch self {
-        case .invalidOutput(let value): "Git 输出无法可靠解析：\(value)"
+        case .invalidOutput(let value): L10n.text("Git 输出无法可靠解析：\(value)")
         case .unsupported(let value): value
-        case .changed: "仓库或文件已变化，请刷新后重新确认。"
-        case .invalidPath: "文件路径不属于当前仓库或无法安全表示。"
-        case .repositoryReplaced: "仓库目录已移动、被替换或 Git 目录指向已变化，请重新打开仓库。"
+        case .changed: L10n.text("仓库或文件已变化，请刷新后重新确认。")
+        case .invalidPath: L10n.text("文件路径不属于当前仓库或无法安全表示。")
+        case .repositoryReplaced: L10n.text("仓库目录已移动、被替换或 Git 目录指向已变化，请重新打开仓库。")
         }
     }
 }
@@ -20,7 +20,7 @@ public struct CommitOutcomeUnknown: Error, LocalizedError, Sendable {
     public let observedHead: String
     public let details: String
     public var errorDescription: String? {
-        "操作未返回完整结果，但 HEAD 已变为 \(observedHead.prefix(12))。请先核对该提交；不会自动重新提交或推送。"
+        L10n.text("操作未返回完整结果，但 HEAD 已变为 \(observedHead.prefix(12))。请先核对该提交；不会自动重新提交或推送。")
     }
 }
 
@@ -31,6 +31,10 @@ public struct RepositoryLocation: Hashable, Sendable, Identifiable {
     let rootIdentity: RepositoryNodeIdentity
     let gitIdentity: RepositoryNodeIdentity
     let markerIdentity: RepositoryNodeIdentity
+    let commonIdentity: RepositoryNodeIdentity
+    let commonMarkerIdentity: RepositoryNodeIdentity?
+    let worktreeLinkIdentity: RepositoryNodeIdentity?
+    public var isLinkedWorktree: Bool { gitDirectory != commonDirectory }
     public var id: String { root.path }
     public var name: String { root.lastPathComponent }
 }
@@ -62,12 +66,12 @@ public enum Sequencer: String, Sendable {
     case none, merge, rebase, cherryPick, revert, unknown
     public var title: String {
         switch self {
-        case .none: "无进行中操作"
-        case .merge: "合并"
-        case .rebase: "变基"
+        case .none: L10n.text("无进行中操作")
+        case .merge: L10n.text("合并")
+        case .rebase: L10n.text("变基")
         case .cherryPick: "Cherry-pick"
         case .revert: "Revert"
-        case .unknown: "未支持的 Git 序列操作"
+        case .unknown: L10n.text("未支持的 Git 序列操作")
         }
     }
 }
@@ -81,6 +85,9 @@ public struct RepositoryStatus: Sendable {
     public var behind: Int?
     public var files: [FileChange] = []
     public var sequencer: Sequencer = .none
+    public var singleCommitRecovery: SingleCommitRecovery?
+    public var rebaseRecovery: RebaseRecovery?
+    public var rebaseRecoveryUnavailable: String?
     public var conflicts: [FileChange] { files.filter(\.conflict) }
     public var isDetached: Bool { branch == "(detached)" }
     public var displayBranch: String { isDetached ? "Detached · \(head?.prefix(7) ?? "")" : branch }
@@ -89,13 +96,13 @@ public struct RepositoryStatus: Sendable {
 
 public enum StatusParser {
     public static func parse(_ data: Data) throws -> RepositoryStatus {
-        guard data.isEmpty || data.last == 0 else { throw ModelFailure.invalidOutput("状态记录被截断") }
+        guard data.isEmpty || data.last == 0 else { throw ModelFailure.invalidOutput(L10n.text("状态记录被截断")) }
         let records = data.split(separator: 0, omittingEmptySubsequences: true)
         var result = RepositoryStatus()
         var i = 0
         while i < records.count {
             guard let record = String(data: Data(records[i]), encoding: .utf8) else {
-                throw ModelFailure.invalidOutput("文件名编码不受支持，已停止读取，避免错误操作。")
+                throw ModelFailure.invalidOutput(L10n.text("文件名编码不受支持，已停止读取，避免错误操作。"))
             }
             i += 1
             if record.hasPrefix("# branch.head ") {
@@ -128,15 +135,15 @@ public enum StatusParser {
             }
             let type = record.first
             let count = type == "1" ? 8 : type == "2" ? 9 : type == "u" ? 10 : 0
-            guard count > 0 else { throw ModelFailure.invalidOutput("未知状态记录") }
+            guard count > 0 else { throw ModelFailure.invalidOutput(L10n.text("未知状态记录")) }
             let fields = record.split(separator: " ", maxSplits: count, omittingEmptySubsequences: false)
             guard fields.count == count + 1, fields[1].count == 2 else {
-                throw ModelFailure.invalidOutput("不完整的状态记录")
+                throw ModelFailure.invalidOutput(L10n.text("不完整的状态记录"))
             }
             var oldPath: String?
             if type == "2" {
                 guard i < records.count, let old = String(data: Data(records[i]), encoding: .utf8) else {
-                    throw ModelFailure.invalidOutput("重命名路径缺失")
+                    throw ModelFailure.invalidOutput(L10n.text("重命名路径缺失"))
                 }
                 oldPath = old
                 i += 1
@@ -203,6 +210,12 @@ public struct FileDiff: Sendable {
     public let indexTree: String?
     public var additions: Int { hunks.reduce(0) { $0 + $1.lines.count(where: { $0.kind == "+" }) } }
     public var deletions: Int { hunks.reduce(0) { $0 + $1.lines.count(where: { $0.kind == "-" }) } }
+    public var canSelectLines: Bool {
+        guard !options.ignoreWhitespace, !binary else { return false }
+        if layer == .untracked { return preview != nil }
+        return (layer == .unstaged || layer == .staged) && preview == nil && !hunks.isEmpty
+            && !header.contains("rename from") && !header.contains("old mode")
+    }
     public var canApplyHunk: Bool {
         !options.ignoreWhitespace && options.contextLines > 0 && !binary && preview == nil && !hunks.isEmpty
             && (layer == .unstaged || layer == .staged)

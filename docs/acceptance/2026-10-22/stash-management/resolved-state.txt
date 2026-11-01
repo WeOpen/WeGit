@@ -1,0 +1,78 @@
+Window: "Stash Preview", App: StashPreview.
+0 standard window Stash Preview, ID: stash-preview, Secondary Actions: Raise
+	1 container
+		2 split group
+			3 container
+				4 text Stashes
+				5 button Description: Save Changes…, Help: Save changes as a stash. Your branch will not be switched automatically., ID: stash-save
+				6 scroll area
+					7 list Description: Stash list, ID: stash-list
+						8 row (selected) On main: 冲突验收记录
+stash@{0}
+October 22, 2026
+			9 splitter (disabled, settable, float) 380
+			10 container
+				11 text On main: 冲突验收记录 main · bab2e7796b27
+				12 checkbox Description: Restore saved staging state, Value: 0, ID: stash-restore-index
+				13 button Description: Apply, Help: Apply keeps the stash. Pop removes it after a successful application., ID: stash-apply
+				14 button Description: Pop…, Help: Apply keeps the stash. Pop removes it after a successful application., ID: stash-pop
+				15 button Description: Delete…, ID: stash-delete
+				16 text Apply keeps the stash; Pop removes it after a successful application. Handle existing tracked-file changes first.
+				17 Stash Contents, ID: stash-content-part
+					18 radio button Description: Saved Unstaged Changes, Value: 1
+					19 radio button Description: Saved Index, Value: 0
+					20 radio button Description: Untracked Files, Value: 0
+				21 scroll area
+					22 text diff --git a/Feature.swift b/Feature.swift
+index 6392506b28889f613a5bb6a7fc4daacd59ae0f17..e1b898c18817cdabefcdd11dd63fcc07326dba9f 100644
+--- a/Feature.swift
++++ b/Feature.swift
+@@ -1 +1 @@
+-let value = 2
++let value = 3
+
+diff --git a/README.md b/README.md
+index a46c0c7cd9c462641a5976e68666e3731f03da3d..db911923b9518cee0e49da4128c379d204061151 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1,2 @@
+ # Private fixture
++Updated documentation
+
+						23 text diff --git a/Feature.swift b/Feature.swift
+index 6392506b28889f613a5bb6a7fc4daacd59ae0f17..e1b898c18817cdabefcdd11dd63fcc07326dba9f 100644
+--- a/Feature.swift
++++ b/Feature.swift
+@@ -1 +1 @@
+-let value = 2
++let value = 3
+
+diff --git a/README.md b/README.md
+index a46c0c7cd9c462641a5976e68666e3731f03da3d..db911923b9518cee0e49da4128c379d204061151 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1,2 @@
+ # Private fixture
++Updated documentation
+
+		24 text 恢复产生冲突，暂存记录已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。 工作区 1 项
+		25 button 仅清理夹具已跟踪改动
+		26 button 刷新夹具
+	27 toolbar
+		28 text Stash · 私有原生组件预览
+		29 button Description: 浅色, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		30 button Description: 深色, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		31 button Description: English, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		32 button Description: 中文, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Remove from toolbar
+	33 close button
+	34 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	35 minimize button
+	36 text Stash Preview
+37 menu bar
+	38 StashPreview
+	39 Edit
+	40 View
+	41 Window
+	42 Help
+
+The focused UI element is 0 standard window Stash Preview, ID: stash-preview, Secondary Actions: Raise

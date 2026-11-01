@@ -13,10 +13,10 @@ public enum GitActivityState: Sendable {
     case succeeded, failed, cancelled, timedOut
     public var title: String {
         switch self {
-        case .succeeded: "完成"
-        case .failed: "失败"
-        case .cancelled: "已取消"
-        case .timedOut: "超时"
+        case .succeeded: L10n.text("完成")
+        case .failed: L10n.text("失败")
+        case .cancelled: L10n.text("已取消")
+        case .timedOut: L10n.text("超时")
         }
     }
 }
@@ -62,7 +62,9 @@ public actor ActivityStore {
 public enum Redaction {
     public static func text(_ value: String) -> String {
         var output = value
-        for pattern in [#"(?i)(https?://)[^\s/@]+:[^\s/@]+@"#, #"(?i)(https?://)[^\s/@]+@"#] {
+        for pattern in [
+            #"(?i)(\b[a-z][a-z0-9+.-]{0,63}://)[^\s/@:]+:[^\s/@]+@"#, #"(?i)(https?://)[^\s/@]+@"#,
+        ] {
             output = output.replacingOccurrences(
                 of: pattern, with: "$1[redacted]@", options: .regularExpression)
         }
@@ -75,13 +77,18 @@ public enum Redaction {
             of:
                 #"(?i)((?:access_token|private_token|client_secret|token|password)["']?\s*[:=]\s*)("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\S+)"#,
             with: "$1[redacted]", options: .regularExpression)
+        // Signed remote URLs may use provider-specific query names such as sig
+        // rather than token/password. Keep the endpoint, never the opaque query.
+        output = output.replacingOccurrences(
+            of: #"(?i)(\b[a-z][a-z0-9+.-]{0,63}://[^\s?#]*)([?#])[^\s]*"#,
+            with: "$1$2[redacted]", options: .regularExpression)
         return output
     }
 }
 
 public struct GitEngine: Sendable {
-    private static let log = Logger(subsystem: "org.weopen.WeGit", category: "git")
-    private static let signposter = OSSignposter(subsystem: "org.weopen.WeGit", category: "performance")
+    private static let log = Logger(subsystem: "com.willxue.wegit", category: "git")
+    private static let signposter = OSSignposter(subsystem: "com.willxue.wegit", category: "PointsOfInterest")
     public let executable: URL
     public let runner: any ProcessRunning
     public let activity: ActivityStore
@@ -119,17 +126,26 @@ public struct GitEngine: Sendable {
         accepted: Set<Int32> = [0], timeout: TimeInterval = 30,
         outputLimit: Int = 8 * 1024 * 1024, onStderr: (@Sendable (Data) -> Void)? = nil,
         stdoutFile: URL? = nil, configuration: [(key: String, value: String)] = [],
-        activityRepository: URL? = nil
+        activityRepository: URL? = nil, literalPathspecs: Bool = true
     ) async throws -> ProcessResult {
-        let interval = Self.signposter.beginInterval("Git command")
+        let safeCommands: Set<String> = [
+            "status", "for-each-ref", "remote", "rev-parse", "symbolic-ref", "diff", "config", "log",
+            "show", "cat-file", "add", "commit", "switch", "fetch", "push", "merge", "rebase", "cherry-pick",
+            "revert", "worktree", "submodule", "lfs",
+        ]
+        let operation = arguments.first.flatMap { safeCommands.contains($0) ? $0 : nil } ?? "git"
+        let interval = Self.signposter.beginInterval(
+            "Git command", id: Self.signposter.makeSignpostID(), "\(operation, privacy: .public)")
         defer { Self.signposter.endInterval("Git command", interval) }
         let started = Date()
         let result: ProcessResult
         var commandEnvironment = environment
         let command = arguments.first ?? ""
-        let mayAuthenticate = [
-            "clone", "fetch", "push", "ls-remote", "pull", "commit", "merge", "rebase", "credential",
-        ].contains(command)
+        let mayAuthenticate =
+            [
+                "clone", "fetch", "push", "ls-remote", "pull", "commit", "merge", "rebase", "cherry-pick",
+                "revert", "credential",
+            ].contains(command) || (command == "worktree" && arguments.dropFirst().first == "add")
         let askPass =
             try mayAuthenticate ? authentication?.session(command: command, repository: directory) : nil
         defer { askPass?.close() }
@@ -140,7 +156,7 @@ public struct GitEngine: Sendable {
                     !$0.key.contains("\0") && !$0.key.contains("\n") && !$0.value.contains("\0")
                 })
             else {
-                throw ModelFailure.unsupported("命令配置包含无效字符。")
+                throw ModelFailure.unsupported(L10n.text("命令配置包含无效字符。"))
             }
             commandEnvironment["GIT_CONFIG_COUNT"] = String(configuration.count)
             for (index, value) in configuration.enumerated() {
@@ -152,7 +168,8 @@ public struct GitEngine: Sendable {
             result = try await runner.run(
                 ProcessRequest(
                     executable: executable,
-                    arguments: ["--no-pager", "--literal-pathspecs", "--no-optional-locks"] + arguments,
+                    arguments: ["--no-pager"] + (literalPathspecs ? ["--literal-pathspecs"] : [])
+                        + ["--no-optional-locks"] + arguments,
                     directory: directory, environment: commandEnvironment, input: input, timeout: timeout,
                     outputLimit: outputLimit, onStderr: onStderr, stdoutFile: stdoutFile))
         } catch {
@@ -179,7 +196,7 @@ public struct GitEngine: Sendable {
                 command: "git " + (arguments.first ?? ""),
                 state: accepted.contains(result.exitCode) ? .succeeded : .failed, exitCode: result.exitCode,
                 duration: result.duration,
-                details: accepted.contains(result.exitCode) ? "完成" : "命令失败；请在操作错误中查看详情",
+                details: accepted.contains(result.exitCode) ? L10n.text("完成") : L10n.text("命令失败；请在操作错误中查看详情"),
                 repository: activityRepository ?? directory))
         Self.log.debug("Git operation ended with exit code \(result.exitCode) in \(result.duration) seconds")
         guard accepted.contains(result.exitCode) else {
@@ -217,24 +234,28 @@ public struct GitEngine: Sendable {
 
     private static func classify(_ error: String) -> String {
         let diagnostic = error.lowercased()
-        if diagnostic.contains("not a git repository") { return "请选择有效的 Git 仓库目录。" }
+        if diagnostic.contains("not a git repository") { return L10n.text("请选择有效的 Git 仓库目录。") }
         if diagnostic.contains("repository")
             && (diagnostic.contains("not found") || diagnostic.contains("does not exist"))
         {
-            return "找不到 Git 仓库，请检查地址、路径或访问权限。"
+            return L10n.text("找不到 Git 仓库，请检查地址、路径或访问权限。")
         }
         if error.contains("Authentication") || error.contains("Permission denied (publickey)")
             || error.contains("could not read Username")
         {
-            return "Git 认证失败。请检查系统 Credential Helper 或 SSH Agent。"
+            return L10n.text("Git 认证失败。请检查系统 Credential Helper 或 SSH Agent。")
         }
-        if error.contains("CONFLICT") || error.contains("unmerged") { return "存在未解决的冲突，请检查文件并继续或中止操作。" }
-        if error.contains("would be overwritten") { return "本地改动会被覆盖，请先提交或处理这些文件。" }
+        if error.contains("CONFLICT") || error.contains("unmerged") {
+            return L10n.text("存在未解决的冲突，请检查文件并继续或中止操作。")
+        }
+        if error.contains("would be overwritten") { return L10n.text("本地改动会被覆盖，请先提交或处理这些文件。") }
         if error.contains("non-fast-forward") || error.contains("rejected") {
-            return "远端拒绝推送，请先获取最新状态并检查分支差异。"
+            return L10n.text("远端拒绝推送，请先获取最新状态并检查分支差异。")
         }
-        if error.contains(".lock") { return "仓库正被其他进程使用，请稍后重试。" }
-        if error.contains("Author identity unknown") { return "尚未配置 Git 提交身份，请设置 user.name 和 user.email。" }
-        return "Git 操作未完成，请查看详情。"
+        if error.contains(".lock") { return L10n.text("仓库正被其他进程使用，请稍后重试。") }
+        if error.contains("Author identity unknown") {
+            return L10n.text("尚未配置 Git 提交身份，请设置 user.name 和 user.email。")
+        }
+        return L10n.text("Git 操作未完成，请查看详情。")
     }
 }

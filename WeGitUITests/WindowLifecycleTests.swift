@@ -34,8 +34,8 @@ final class WindowLifecycleTests: XCTestCase {
         let closed = XCTNSPredicateExpectation(
             predicate: NSPredicate(format: "exists == false"), object: window)
         XCTAssertEqual(XCTWaiter.wait(for: [closed], timeout: 5), .completed)
-        app.menuBars.menuBarItems["Window"].click()
-        app.menuItems["显示 WeGit 主窗口"].click()
+        app.menuBars.menuBarItems["native-menu-window"].click()
+        app.menuItems["native-command-showMainWindow"].click()
         XCTAssertTrue(window.waitForExistence(timeout: 5))
         XCTAssertEqual(window.frame.width, 1120, accuracy: 4)
         XCTAssertTrue(app.staticTexts["工作区干净"].firstMatch.waitForExistence(timeout: 10))

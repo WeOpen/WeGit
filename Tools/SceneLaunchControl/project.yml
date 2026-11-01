@@ -1,0 +1,388 @@
+name: SceneLaunchControl
+options:
+  minimumXcodeGenVersion: 2.43.0
+  deploymentTarget:
+    macOS: '27.0'
+settings:
+  base:
+    SWIFT_VERSION: '6.0'
+    SWIFT_STRICT_CONCURRENCY: complete
+    MACOSX_DEPLOYMENT_TARGET: '27.0'
+    CODE_SIGN_IDENTITY: '-'
+    CODE_SIGN_STYLE: Manual
+    DEVELOPMENT_TEAM: ''
+    ENABLE_APP_SANDBOX: NO
+    ENABLE_HARDENED_RUNTIME: YES
+    GENERATE_INFOPLIST_FILE: YES
+targetTemplates:
+  AppKitApplication:
+    type: application
+    platform: macOS
+    sources: [AppKitControl.swift]
+  ControlApplication:
+    type: application
+    platform: macOS
+    sources: [SceneControl.swift]
+  ControlTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [SceneControlUITests.swift]
+    settings:
+      base:
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
+  AsyncControlTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [AsyncSceneControlUITests.swift]
+    settings:
+      base:
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
+targets:
+  AuditNativeApp:
+    type: application
+    platform: macOS
+    sources: [AccessibilityControl.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.native
+  AuditHostedApp:
+    type: application
+    platform: macOS
+    sources: [AccessibilityControl.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.hosted
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) AUDIT_HOSTED_SWIFTUI'
+  AuditNativeTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [AccessibilityControlUITests.swift]
+    dependencies: [{target: AuditNativeApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.native.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.native
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AuditNativeApp.app'
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
+  AuditHostedTests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [AccessibilityControlUITests.swift]
+    dependencies: [{target: AuditHostedApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.hosted.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.auditcontrol.hosted
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AuditHostedApp.app'
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: SceneControlUITests.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: ControlTests-Info.plist
+  CombinedApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.combined
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  CombinedTests:
+    templates: [ControlTests]
+    dependencies: [{target: CombinedApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.combined.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.combined
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/CombinedApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) COMBINED_CONTROL_ARGUMENTS'
+
+  ReorderedApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.reordered
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  ReorderedTests:
+    templates: [ControlTests]
+    dependencies: [{target: ReorderedApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.reordered.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.reordered
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/ReorderedApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) REORDERED_CONTROL_ARGUMENTS'
+
+  AppleLanguageApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.applelanguage
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  AppleLanguageTests:
+    templates: [ControlTests]
+    dependencies: [{target: AppleLanguageApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.applelanguage.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.applelanguage
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AppleLanguageApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) APPLE_LANGUAGE_CONTROL_ARGUMENTS'
+
+  DefaultArgumentsApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  MarkerApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  LanguageApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  DefaultArgumentsTests:
+    templates: [ControlTests]
+    dependencies: [{target: DefaultArgumentsApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.defaultargs
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/DefaultArgumentsApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) DEFAULT_CONTROL_ARGUMENTS'
+  MarkerTests:
+    templates: [ControlTests]
+    dependencies: [{target: MarkerApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.marker
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/MarkerApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) MARKER_CONTROL_ARGUMENTS'
+  LanguageTests:
+    templates: [ControlTests]
+    dependencies: [{target: LanguageApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.language
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/LanguageApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) LANGUAGE_CONTROL_ARGUMENTS'
+  AppKitBareApp:
+    templates: [AppKitApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.appkit
+  HostingBareApp:
+    templates: [AppKitApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.hosting
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) HOSTED_SWIFTUI'
+  AppKitLaunchTests:
+    templates: [ControlTests]
+    dependencies: [{target: AppKitBareApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.appkit.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.appkit
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AppKitBareApp.app'
+  HostingLaunchTests:
+    templates: [ControlTests]
+    dependencies: [{target: HostingBareApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.hosting.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.hosting
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/HostingBareApp.app'
+  AsyncBareApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.async
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  WorkspaceBareApp:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.workspace
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  AsyncLaunchTests:
+    templates: [AsyncControlTests]
+    dependencies: [{target: AsyncBareApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.async.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.async
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/AsyncBareApp.app'
+  WorkspaceLaunchTests:
+    templates: [AsyncControlTests]
+    dependencies: [{target: WorkspaceBareApp}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.workspace.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.workspace
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/WorkspaceBareApp.app'
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) WORKSPACE_LAUNCH'
+  BareControl:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) BARE_WINDOW_GROUP'
+  SingleControl:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.single
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: '$(inherited) SINGLE_WINDOW'
+  GroupControl:
+    templates: [ControlApplication]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.group
+  SingleControlTests:
+    templates: [ControlTests]
+    dependencies: [{target: SingleControl}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.single.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.single
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/SingleControl.app'
+  GroupControlTests:
+    templates: [ControlTests]
+    dependencies: [{target: GroupControl}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.group.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.group
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/GroupControl.app'
+  BareControlTests:
+    templates: [ControlTests]
+    dependencies: [{target: BareControl}]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare.tests
+        CONTROL_APP_BUNDLE_IDENTIFIER: com.willxue.wegit.scenecontrol.bare
+        CONTROL_APP_PRODUCT_URL: '$(BUILT_PRODUCTS_DIR)/BareControl.app'
+schemes:
+  AuditNativeControl:
+    build:
+      targets:
+        AuditNativeApp: all
+        AuditNativeTests: [test]
+    test:
+      targets: [AuditNativeTests]
+  AuditHostedControl:
+    build:
+      targets:
+        AuditHostedApp: all
+        AuditHostedTests: [test]
+    test:
+      targets: [AuditHostedTests]
+  DefaultArgumentsControl:
+    build:
+      targets:
+        DefaultArgumentsApp: all
+        DefaultArgumentsTests: [test]
+    test:
+      targets: [DefaultArgumentsTests]
+  MarkerControl:
+    build:
+      targets:
+        MarkerApp: all
+        MarkerTests: [test]
+    test:
+      targets: [MarkerTests]
+  LanguageControl:
+    build:
+      targets:
+        LanguageApp: all
+        LanguageTests: [test]
+    test:
+      targets: [LanguageTests]
+  AppKitControl:
+    build:
+      targets:
+        AppKitBareApp: all
+        AppKitLaunchTests: [test]
+    test:
+      targets: [AppKitLaunchTests]
+  HostingControl:
+    build:
+      targets:
+        HostingBareApp: all
+        HostingLaunchTests: [test]
+    test:
+      targets: [HostingLaunchTests]
+  AsyncControl:
+    build:
+      targets:
+        AsyncBareApp: all
+        AsyncLaunchTests: [test]
+    test:
+      targets: [AsyncLaunchTests]
+  WorkspaceControl:
+    build:
+      targets:
+        WorkspaceBareApp: all
+        WorkspaceLaunchTests: [test]
+    test:
+      targets: [WorkspaceLaunchTests]
+  BareControl:
+    build:
+      targets:
+        BareControl: all
+        BareControlTests: [test]
+    test:
+      targets: [BareControlTests]
+  SingleControl:
+    build:
+      targets:
+        SingleControl: all
+        SingleControlTests: [test]
+    test:
+      targets: [SingleControlTests]
+  GroupControl:
+    build:
+      targets:
+        GroupControl: all
+        GroupControlTests: [test]
+    test:
+      targets: [GroupControlTests]
+
+  CombinedControl:
+    build:
+      targets:
+        CombinedApp: all
+        CombinedTests: [test]
+    test:
+      targets: [CombinedTests]
+
+  ReorderedControl:
+    build:
+      targets:
+        ReorderedApp: all
+        ReorderedTests: [test]
+    test:
+      targets: [ReorderedTests]
+
+  AppleLanguageControl:
+    build:
+      targets:
+        AppleLanguageApp: all
+        AppleLanguageTests: [test]
+    test:
+      targets: [AppleLanguageTests]

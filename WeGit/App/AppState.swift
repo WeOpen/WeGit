@@ -22,18 +22,26 @@ enum WorkspaceRoute: String, CaseIterable, Identifiable {
     case changes = "更改"
     case history = "提交历史"
     case branches = "分支"
+    case stashes = "暂存记录"
+    case tags = "标签"
     var id: String { rawValue }
+    var title: String { self == .stashes ? L10n.text("储藏") : L10n.key(rawValue) }
     var icon: String {
         switch self {
         case .changes: "square.and.pencil"
         case .history: "clock.arrow.circlepath"
         case .branches: "arrow.triangle.branch"
+        case .stashes: "archivebox"
+        case .tags: "tag"
         }
     }
 }
 
 @Observable @MainActor
 final class WorkspaceState {
+    // The inspector observes the same comparison and selection as the visible diff.
+    // A route/session identity prevents a disappearing pane from exposing stale data.
+    var commitInspection: CommitInspection?
     var route: WorkspaceRoute = .changes
     var selectedFile: String? {
         didSet {
@@ -53,6 +61,9 @@ final class WorkspaceState {
     var inspector = false
     var filter = ""
     var changeFilter = ChangeKindFilter.all
+    var changesByFolder = false
+    var collapsedChangeGroups: Set<String> = []
+    var collapsedChangeFolders: Set<String> = []
     var fileFilter: ChangeFilter { ChangeFilter(query: filter, kind: changeFilter) }
     var branchFilter = ""
     var splitDiff = false
@@ -67,8 +78,15 @@ final class WorkspaceState {
             route: route.rawValue, selectedFile: selectedFile, inspector: inspector,
             filter: filter, branchFilter: branchFilter, splitDiff: splitDiff, wordDiff: wordDiff,
             contextLines: diffOptions.contextLines, ignoreWhitespace: diffOptions.ignoreWhitespace,
-            changeFilter: changeFilter.rawValue)
+            changeFilter: changeFilter.rawValue, changesByFolder: changesByFolder)
     }
+}
+
+struct CommitInspection {
+    let sessionID: UUID
+    let route: WorkspaceRoute
+    let detail: CommitDetailState
+    let allowsFileHistory: Bool
 }
 
 @Observable @MainActor
@@ -81,6 +99,8 @@ final class RepositorySession {
     let historyState: HistoryState
     var history: [GitCommit] { historyState.commits }
     var remotes: [String] = []
+    var pendingTagPush: TagPushPlan?
+    var tagPushFeedback: OperationFeedbackResult?
     var statusRenderID = UUID()
     var watcherRenderID: UUID?
     #if WEGIT_PERFORMANCE
@@ -102,7 +122,8 @@ final class RepositorySession {
     var activityLabel = ""
     var error: String?
     var details = ""
-    var notice: String?
+    var operationFeedback: OperationFeedbackResult?
+    var operationFeedbackContext: OperationFeedbackContext = .standard
     var lastTrashedFile: URL?
     var pendingPush: PendingPushRecord? {
         didSet {
@@ -142,10 +163,10 @@ final class RepositorySession {
     var location: RepositoryLocation { service.location }
     var canWrite: Bool { hasLoaded && !isStale && !isBusy && !preferences.configurationWriteInProgress }
     var writeReason: String {
-        if preferences.configurationWriteInProgress { return "正在保存 Git 配置" }
-        if isBusy { return "正在执行 \(activityLabel)" }
-        if isStale { return "仓库状态已过期，请先刷新" }
-        if !hasLoaded { return "请先读取仓库状态" }
+        if preferences.configurationWriteInProgress { return L10n.text("正在保存 Git 配置") }
+        if isBusy { return L10n.text("正在执行 \(activityLabel)") }
+        if isStale { return L10n.text("仓库状态已过期，请先刷新") }
+        if !hasLoaded { return L10n.text("请先读取仓库状态") }
         return ""
     }
     var canCommit: Bool {
@@ -157,28 +178,39 @@ final class RepositorySession {
         canWrite && status.head != nil && !status.isDetached
             && status.sequencer == .none && status.conflicts.isEmpty && !remotes.isEmpty
     }
+    var canRebase: Bool {
+        canWrite && status.head != nil && !status.isDetached && status.files.isEmpty
+            && status.sequencer == .none
+    }
+    var rebaseReason: String? {
+        if !canWrite { return writeReason }
+        if status.head == nil || status.isDetached { return L10n.text("请先切换到有提交的本地分支。") }
+        if status.sequencer != .none { return L10n.text("请先完成当前 Git 操作。") }
+        if !status.files.isEmpty { return L10n.text("请先提交或保存工作区改动。") }
+        return nil
+    }
     var canCommitAndPush: Bool {
         canCommit && !status.isDetached && !remotes.isEmpty && pendingPush?.verification == nil
     }
     var canVerifyPendingPush: Bool { canWrite && pendingPush?.verification != nil }
     var syncReason: String {
-        if preferences.configurationWriteInProgress { return "正在保存 Git 配置" }
-        if isBusy { return "正在执行 \(activityLabel)" }
-        if isStale { return "仓库状态已过期，请先刷新" }
-        if !hasLoaded { return "请先读取仓库状态" }
-        if remotes.isEmpty { return "尚未配置远端，请先在 Git 中添加 Remote" }
-        if status.head == nil { return "请先创建本地提交" }
-        if status.isDetached { return "请先切换到本地分支" }
-        if status.sequencer != .none || !status.conflicts.isEmpty { return "请先完成当前 Git 操作" }
-        return "选择远端、目标分支和同步方式"
+        if preferences.configurationWriteInProgress { return L10n.text("正在保存 Git 配置") }
+        if isBusy { return L10n.text("正在执行 \(activityLabel)") }
+        if isStale { return L10n.text("仓库状态已过期，请先刷新") }
+        if !hasLoaded { return L10n.text("请先读取仓库状态") }
+        if remotes.isEmpty { return L10n.text("尚未配置远端，请先添加 Remote") }
+        if status.head == nil { return L10n.text("请先创建本地提交") }
+        if status.isDetached { return L10n.text("请先切换到本地分支") }
+        if status.sequencer != .none || !status.conflicts.isEmpty { return L10n.text("请先完成当前 Git 操作") }
+        return L10n.text("选择远端、目标分支和同步方式")
     }
     var commitReason: String {
-        if isBusy { return "正在执行 \(activityLabel)" }
-        if isStale { return "请先刷新仓库状态" }
-        if !status.conflicts.isEmpty { return "请先解决冲突" }
-        if status.sequencer != .none { return "请先完成当前 Git 操作" }
-        if message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return "填写提交消息" }
-        return "选择需要提交的内容并暂存"
+        if isBusy { return L10n.text("正在执行 \(activityLabel)") }
+        if isStale { return L10n.text("请先刷新仓库状态") }
+        if !status.conflicts.isEmpty { return L10n.text("请先解决冲突") }
+        if status.sequencer != .none { return L10n.text("请先完成当前 Git 操作") }
+        if message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return L10n.text("填写提交消息") }
+        return L10n.text("选择需要提交的内容并暂存")
     }
 
     func activate() {
@@ -260,9 +292,11 @@ final class RepositorySession {
                         let watcherID = pendingWatcherRenderID
                     #endif
                     ViewPerformanceJournal.begin("status", id: paintID)
+                    ViewPerformanceJournal.begin("status-read", id: paintID)
                     let data = try await service.readSnapshot(
                         scope: scope,
                         previousHead: status.head, previousBranch: status.branch)
+                    ViewPerformanceJournal.finish("status-read", id: paintID)
                     guard refreshID == request, !Task.isCancelled, isActive || isBusy else { return }
                     statusRenderID = paintID
                     status = data.status
@@ -315,30 +349,38 @@ final class RepositorySession {
     ) {
         performResult(name, onSuccess: onSuccess) {
             try await operation($0)
-            return nil
+            return .completed(message: L10n.text("\(name)完成"))
         }
     }
 
     func performResult(
-        _ name: String, onSuccess: (@MainActor () -> Void)? = nil,
-        operation: @escaping @Sendable (RepositoryService) async throws -> String?
+        _ name: String, context: OperationFeedbackContext = .standard,
+        onSuccess: (@MainActor () -> Void)? = nil,
+        operation: @escaping @Sendable (RepositoryService) async throws -> OperationFeedbackOutcome
     ) {
         guard !isBusy else { return }
         guard canWrite else {
-            error = "仓库状态已过期，请刷新后再操作。"
+            let message = L10n.text("仓库状态已过期，请刷新后再操作。")
+            error = message
+            details = ""
+            operationFeedback = .failure(message: message, details: nil)
+            operationFeedbackContext = context
             return
         }
         suspendRefresh()
         isBusy = true
         activityLabel = name
         error = nil
-        notice = nil
+        details = ""
+        operationFeedback = nil
+        operationFeedbackContext = context
         let pinned = service.expectingBranch(status.branch)
         operationTask = Task {
             var succeeded = false
             do {
-                notice = try await operation(pinned) ?? "\(name)完成"
-                succeeded = true
+                let outcome = try await operation(pinned)
+                operationFeedback = outcome.feedback
+                succeeded = outcome.didComplete
             } catch { show(error) }
             // Refresh in a fresh task even if the operation task was cancelled.
             await Task { await self.refresh() }.value
@@ -359,13 +401,16 @@ final class RepositorySession {
         let pinned = service.expectingBranch(status.branch)
         suspendRefresh()
         isBusy = true
-        activityLabel = "提交"
+        activityLabel = L10n.text("提交")
         error = nil
+        details = ""
+        operationFeedback = nil
+        operationFeedbackContext = .commit
         operationTask = Task {
             do {
                 _ = try await pinned.commit(message: text, amend: amend, expectedHead: head)
                 completeCommit(message: text)
-                notice = "提交完成"
+                operationFeedback = .success(message: L10n.text("提交完成"))
             } catch { show(error) }
             await Task { await self.refresh() }.value
             isBusy = false
@@ -383,9 +428,14 @@ final class RepositorySession {
     }
     func show(_ error: any Error) {
         self.error = error.localizedDescription
+        operationFeedback = .from(error)
         details =
             (error as? GitFailure)?.details ?? (error as? PullFailure)?.details
-            ?? (error as? CommitOutcomeUnknown)?.details ?? (error as? PushOutcomeUnknown)?.details ?? ""
+            ?? (error as? CommitOutcomeUnknown)?.details ?? (error as? PushOutcomeUnknown)?.details
+            ?? (error as? SingleCommitOutcomeUnknown)?.details
+            ?? (error as? RebaseOutcomeUnknown)?.details
+            ?? (error as? TagPushOutcomeUnknown)?.details ?? ""
+        if error is RebaseOutcomeUnknown { details = operationFeedback?.details ?? details }
         if let path = (error as? UntrackedTrashFailure)?.trashURL, path.isFileURL { lastTrashedFile = path }
     }
 }
@@ -397,11 +447,22 @@ final class AppState {
     let preferences: AppPreferences
     private(set) var engine: GitEngine
     let authentication: AuthenticationController
-    var session: RepositorySession?
+    var session: RepositorySession? {
+        didSet {
+            if selectedLinesRequest?.session !== session { selectedLinesRequest = nil }
+            if conflictEditorRequest?.session !== session { conflictEditorRequest = nil }
+        }
+    }
     var sessions: [String: RepositorySession] = [:]
     var recents: [RecentRepository] = []
     var error: String?
     var isOpening = false
+    var mainWorkspaceMounted = false
+    var mainWindowRequested = false
+    var menuBarPresented = false
+    var menuBarRequestID = UUID()
+    var windowContentWidth: CGFloat = 1360
+    private var initialRestoreCompleted = false
     var clonePresented = false
     private(set) var clone: CloneViewModel
     var cloneRunning: Bool { clone.isBusy }
@@ -411,17 +472,28 @@ final class AppState {
     var pendingPaletteSession: RepositorySession?
     var pendingPaletteBranch: String?
     var branchPresented = false
+    var remoteManagementPresented = false
+    var tagCreationRequest: TagCreationRequest?
+    var singleCommitRequest: SingleCommitRequest?
+    var selectedLinesRequest: SelectedLinesRequest?
+    var conflictEditorRequest: ConflictEditorRequest?
+    var blameRequest: BlameRequest?
+    var fileHistoryRequest: FileHistoryRequest?
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?
     var searchRequest: RepositorySearchRequest?
+    var worktreeManagementRequest: WorktreeManagementRequest?
+    @ObservationIgnored private var worktreeFocusRestoration: WorktreeFocusRestoration?
     var settingsRequestID = UUID()
+    var sidebarRequestID = UUID()
+    var sidebarVisible = true
     var repositoryPickerPresented = false
     var pendingRepositoryPickerAction: RepositoryPickerAction?
     var appearance: String {
         get { preferences.appearance }
         set { preferences.appearance = newValue }
     }
-    var gitVersion = "检测中…"
+    var gitVersion = L10n.text("检测中…")
     var codeSize: Double {
         get { preferences.codeSize }
         set { preferences.codeSize = newValue }
@@ -441,7 +513,8 @@ final class AppState {
 
     init() {
         let testing = Self.isUITesting
-        defaults = testing ? UserDefaults(suiteName: "org.weopen.WeGit.UITests")! : .standard
+        if !testing { PreferenceMigration.migrateStandardPreferences() }
+        defaults = testing ? UserDefaults(suiteName: "com.willxue.wegit.UITests")! : .standard
         #if DEBUG
             let preserveTestPreferences =
                 testing && ProcessInfo.processInfo.arguments.contains("--uitesting-keep-preferences")
@@ -449,10 +522,11 @@ final class AppState {
             let preserveTestPreferences = false
         #endif
         if testing && !preserveTestPreferences {
-            defaults.removePersistentDomain(forName: "org.weopen.WeGit.UITests")
+            defaults.removePersistentDomain(forName: "com.willxue.wegit.UITests")
         }
         preferences = AppPreferences(defaults: defaults)
         let authentication = AuthenticationController()
+        authentication.presentationPreferences = preferences
         self.authentication = authentication
         let bridge = AskPassBridge(
             helper: Bundle.main.bundleURL.appending(path: "Contents/Helpers/WeGitAskPass")
@@ -471,7 +545,18 @@ final class AppState {
         do {
             let configuration: ModelConfiguration
             if testing {
-                configuration = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+                if let path = ProcessInfo.processInfo.environment["WEGIT_UI_TEST_PERSISTENCE_DIRECTORY"],
+                    !path.isEmpty
+                {
+                    let directory = URL(fileURLWithPath: path, isDirectory: true)
+                    try FileManager.default.createDirectory(
+                        at: directory, withIntermediateDirectories: true,
+                        attributes: [.posixPermissions: 0o700])
+                    configuration = ModelConfiguration(
+                        url: directory.appending(path: "Repositories.store"), cloudKitDatabase: .none)
+                } else {
+                    configuration = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+                }
             } else {
                 let directory = FileManager.default.urls(
                     for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -485,7 +570,7 @@ final class AppState {
             container = try ModelContainer(for: RecentRepository.self, configurations: configuration)
         } catch {
             container = nil
-            self.error = "无法读取最近仓库记录：\(error.localizedDescription)"
+            self.error = L10n.text("无法读取最近仓库记录：\(error.localizedDescription)")
         }
         reloadRecents()
         applyDefaultDiffPreferences()
@@ -510,8 +595,8 @@ final class AppState {
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
-        panel.prompt = "打开仓库"
-        panel.message = "选择本地 Git 仓库文件夹"
+        panel.prompt = L10n.text("打开仓库")
+        panel.message = L10n.text("选择本地 Git 仓库文件夹")
         panel.directoryURL = URL(fileURLWithPath: preferences.defaultDirectory)
         if panel.runModal() == .OK, let url = panel.url { Task { await open(url) } }
     }
@@ -528,9 +613,10 @@ final class AppState {
             guard openingID == request else { return }
             if let current = session, current.location != location, preferences.confirmRepositorySwitch,
                 !confirm(
-                    title: "切换仓库？",
-                    message: "将从 \(current.location.name) 切换到 \(location.name)。现有 Git 操作仍会保留并可在原仓库中查看。",
-                    action: "切换仓库", destructive: false)
+                    title: L10n.text("切换仓库？"),
+                    message: L10n.text(
+                        "将从 \(current.location.name) 切换到 \(location.name)。现有 Git 操作仍会保留并可在原仓库中查看。"),
+                    action: L10n.text("切换仓库"), destructive: false)
             {
                 return
             }
@@ -541,12 +627,12 @@ final class AppState {
                 value = cached
             } else {
                 guard ![cached, matching].compactMap({ $0 }).contains(where: \.isBusy) else {
-                    throw ModelFailure.unsupported("仓库路径或身份已变化。请等待当前操作结束后重新打开。")
+                    throw ModelFailure.unsupported(L10n.text("仓库路径或身份已变化。请等待当前操作结束后重新打开。"))
                 }
                 value = RepositorySession(
                     service: RepositoryService(
                         location: location, engine: engine,
-                        queue: matching?.service.queue ?? RepositoryOperationQueue()),
+                        queue: matching?.service.queue),
                     defaults: defaults, preferences: preferences)
                 if let matching, matching.location.id != location.id {
                     if value.message.isEmpty { value.message = matching.message }
@@ -594,7 +680,7 @@ final class AppState {
     func closeRepository() {
         guard let session else { return }
         guard !session.isBusy, !preferences.configurationWriteInProgress else {
-            session.error = "Git 操作或配置保存仍在进行，请等待完成或取消操作后再关闭仓库。"
+            session.error = L10n.text("Git 操作或配置保存仍在进行，请等待完成或取消操作后再关闭仓库。")
             return
         }
         saveCurrentWorkspace()
@@ -629,7 +715,7 @@ final class AppState {
             else { return }
             let destination = session.location.root.appending(path: name)
             session.performResult(
-                "核对回收夹具", onSuccess: { session.lastTrashedFile = nil },
+                L10n.text("核对回收夹具"), onSuccess: { session.lastTrashedFile = nil },
                 operation: { service in
                     try await service.queue.perform {
                         try service.location.validateIdentity()
@@ -646,7 +732,7 @@ final class AppState {
                             try FileManager.default.moveItem(at: source, to: destination)
                         }.value
                     }
-                    return "回收夹具已核对并恢复"
+                    return .completed(message: L10n.text("回收夹具已核对并恢复"))
                 })
         }
     #endif
@@ -669,6 +755,13 @@ final class AppState {
     }
 
     func restore() async {
+        if initialRestoreCompleted {
+            session?.activate()
+            if let session, !session.isBusy, !preferences.configurationWriteInProgress {
+                await session.refresh()
+            }
+            return
+        }
         do { try await DiffSnapshotStorage.removeAbandoned() } catch {
             self.error = error.localizedDescription
         }
@@ -685,9 +778,10 @@ final class AppState {
             }
         } catch {
             self.error = error.localizedDescription
-            gitVersion = "不可用"
+            gitVersion = L10n.text("不可用")
             return
         }
+        initialRestoreCompleted = true
         #if DEBUG || WEGIT_PERFORMANCE
             if Self.isUITesting, let path = ProcessInfo.processInfo.environment["WEGIT_UI_TEST_REPOSITORY"] {
                 await open(URL(fileURLWithPath: path))
@@ -699,6 +793,15 @@ final class AppState {
         {
             await open(URL(fileURLWithPath: path))
         }
+    }
+
+    var allowsMenuBarExtra: Bool {
+        #if DEBUG || WEGIT_PERFORMANCE
+            if Self.isUITesting {
+                return ProcessInfo.processInfo.arguments.contains("--uitesting-menu-bar")
+            }
+        #endif
+        return true
     }
 
     func loadDiff(loadLarge: Bool = false) async {
@@ -750,6 +853,19 @@ final class AppState {
             workspace.selectedFile = file.layers.first(where: {
                 workspace.fileFilter.matches(file, layer: $0)
             }).map { $0.rawValue + "|" + path }
+            // A stage/unstage can remap selection while the task for the old
+            // layer is being cancelled. Start a fresh unstructured read as well
+            // as changing the task key, so that coalescing that key change cannot
+            // leave a selected row with an empty Diff. The normal request token
+            // still cancels/suppresses any duplicate or superseded read.
+            if let remappedSelection = workspace.selectedFile {
+                Task {
+                    guard self.session === session, self.workspace.route == .changes,
+                        self.workspace.selectedFile == remappedSelection
+                    else { return }
+                    await self.loadDiff()
+                }
+            }
             return
         }
         guard workspace.fileFilter.matches(file, layer: layer) else {
@@ -834,7 +950,7 @@ final class AppState {
         workspace.loadingDiff = false
         workspace.refreshingDiff = false
         workspace.diffCancelled = workspace.diffDisplay == nil && workspace.diskDisplay == nil
-        if !workspace.diffCancelled { workspace.diffReadNotice = "已取消核对，仍显示此前读取的差异。写操作会重新校验内容。" }
+        if !workspace.diffCancelled { workspace.diffReadNotice = L10n.text("已取消核对，仍显示此前读取的差异。写操作会重新校验内容。") }
     }
 
     private func clearDiffDisplay() {
@@ -846,14 +962,34 @@ final class AppState {
         workspace.diffBranch = nil
     }
 
-    func confirm(title: String, message: String, action: String = "继续", destructive: Bool = true) -> Bool {
+    func confirm(title: String, message: String, action: String = L10n.text("继续"), destructive: Bool = true)
+        -> Bool
+    {
         let alert = NSAlert()
         alert.messageText = title
         alert.informativeText = message
         alert.alertStyle = destructive ? .warning : .informational
-        alert.addButton(withTitle: "取消")
+        AppPresentation.configure(
+            alert, appearance: AppPresentation.appearance(for: preferences.resolvedAppearance))
+        alert.addButton(withTitle: L10n.text("取消"))
         alert.addButton(withTitle: action)
         return alert.runModal() == .alertSecondButtonReturn
+    }
+
+    func presentWorktreeManagement(_ session: RepositorySession) {
+        guard self.session === session, worktreeManagementRequest == nil else { return }
+        worktreeFocusRestoration = WorktreeFocusRestoration(sessionID: session.id)
+        worktreeManagementRequest = WorktreeManagementRequest(session: session)
+    }
+
+    func discardWorktreeManagementFocus() { worktreeFocusRestoration = nil }
+
+    func restoreWorktreeManagementFocus() {
+        guard worktreeManagementRequest == nil else { return }
+        let saved = worktreeFocusRestoration
+        worktreeFocusRestoration = nil
+        guard !isOpening else { return }
+        saved?.restore(sessionID: session?.id)
     }
 
     var nativeWindowStateName: String {
@@ -898,6 +1034,7 @@ final class AppState {
         workspace.inspector = saved.inspector
         workspace.filter = saved.filter
         workspace.changeFilter = ChangeKindFilter(rawValue: saved.changeFilter ?? "") ?? .all
+        workspace.changesByFolder = saved.changesByFolder ?? false
         workspace.branchFilter = saved.branchFilter
         workspace.splitDiff = saved.splitDiff
         workspace.wordDiff = saved.wordDiff
@@ -911,6 +1048,9 @@ final class AppState {
         workspace.inspector = false
         workspace.filter = ""
         workspace.changeFilter = .all
+        workspace.changesByFolder = false
+        workspace.collapsedChangeGroups = []
+        workspace.collapsedChangeFolders = []
         workspace.branchFilter = ""
         workspace.route = .changes
         if !Self.isUITesting {

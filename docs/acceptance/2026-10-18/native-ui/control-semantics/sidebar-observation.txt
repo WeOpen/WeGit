@@ -1,0 +1,5 @@
+                Outline, 0x765ea31cc0, {{-1.0, 82.0}, {212.0, 564.0}}, label: '边栏'
+                      StaticText, 0x765ea32440, {{60.0, 119.0}, {26.0, 16.0}}, identifier: 'route-更改', value: 更改
+                      StaticText, 0x765ea32580, {{171.0, 120.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1
+              Button, 0x765ea33d40, {{152.0, 665.0}, {34.0, 34.0}}, identifier: 'sidebar-add-repository', label: '打开仓库'
+            Button, 0x765ebdabc0, {{176.0, 51.0}, {17.0, 13.0}}, identifier: 'toolbar-sidebar', label: '侧栏', value: 已打开

@@ -1,0 +1,15 @@
+{
+  "executedXCTestLocally": false,
+  "buildForTestingExitCode": 0,
+  "ciToolTests": 27,
+  "selectedGitReceiptMatches": true,
+  "missingReceiptRejected": true,
+  "invalidReceiptRejected": true,
+  "changedApplicationBuildInputs": [
+    "WeGit.xcodeproj/project.pbxproj",
+    "project.yml"
+  ],
+  "unchangedApplicationCoreAndResourceInputs": 118,
+  "uiRunnerSandboxChanged": false,
+  "systemPermissionsChanged": false
+}

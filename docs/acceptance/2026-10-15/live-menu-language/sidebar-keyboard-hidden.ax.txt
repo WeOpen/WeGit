@@ -1,0 +1,55 @@
+Window: "fixture", App: WeGit.
+0 标准窗口 fixture – main, ID: main, Secondary Actions: Raise
+	1 container WeGit workspace
+		2 分离组 main, SidebarNavigationSplitView
+			3 分离器 (disabled, settable, float) -1
+			4 分离组
+				5 container
+					6 分离组
+						7 container
+							8 text Changes 1
+							9 菜单按钮 More, ID: ellipsis
+							10 文本栏 (settable) Description: Filter file paths, ID: changes-filter
+							11 弹出式按钮 Description: Change status, Value: All statuses, ID: changes-state-filter
+							12 滚动区
+								13 列表 changes-list
+									14 row (selectable) Unstaged (1)
+									15 row (selectable) Description: Stage 菜单🙂.swift, Value: 菜单🙂.swift
+Status: Modified
+						16 分离器 (disabled, settable, float) 380
+						17 container
+							18 text Select a file Review working tree and index changes, and prepare your next commit.
+					19 unknown Description: 0 staged files, ID: commit-staged-count
+					20 文本栏 (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Value: Live draft 中文🙂 %1$@, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message
+					21 按钮 (disabled) Description: Commit (0 files), Help: Select and stage the changes to commit, ID: commit-button
+					22 按钮 (disabled) Description: Commit and Push…, Help: Select and stage the changes to commit, ID: commit-push-button
+					23 复选框 Description: Amend last commit, Value: 0
+					24 文本 Value: Select and stage the changes to commit, ID: operation-feedback
+	25 工具栏
+		26 container Hide Sidebar
+			27 按钮 Description: Sidebar, Help: Show sidebar, Value: Closed, ID: toolbar-sidebar
+		28 按钮 Description: fixture, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-review/live-menu-6a93e5f8/fixture
+Switch repository ⌘K
+		29 菜单按钮 main · No upstream, Description: 分叉为两条路径的三角形箭头, Value: Sync status: No upstream, ID: current-branch
+		30 菜单按钮 (disabled) Fetch, Help: No remote configured, ID: toolbar-fetch
+		31 按钮 (disabled) Description: Pull, Help: No remote configured. Add a remote in Git first, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		32 按钮 (disabled) Description: Push, Help: No remote configured. Add a remote in Git first, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		33 按钮 Description: Refresh, Help: Refresh ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		34 按钮 Description: Search repository, Help: Search current repository ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		35 按钮 Description: Inspector, Help: Show Inspector, Value: Closed, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		36 菜单按钮 More actions, Help: Activity, command palette, and more actions, ID: toolbar-more
+	37 关闭按钮
+	38 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	39 最小化按钮
+	40 text fixture main
+41 menu bar
+	42 WeGit, ID: native-menu-app
+	43 File, ID: native-menu-file
+	44 Edit, ID: native-menu-edit
+	45 View, ID: native-menu-view
+	46 Repository, ID: native-menu-repository
+	47 Workspace, ID: native-menu-workspace
+	48 Window, ID: native-menu-window
+	49 Help, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 fixture – main, ID: main, Secondary Actions: Raise

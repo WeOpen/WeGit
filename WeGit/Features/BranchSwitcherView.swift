@@ -7,6 +7,7 @@ struct BranchSwitchRequest: Identifiable {
 }
 
 struct BranchSwitcherView: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     let request: BranchSwitchRequest
     @Environment(\.dismiss) private var dismiss
@@ -24,20 +25,23 @@ struct BranchSwitcherView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("切换本地分支").font(.title2.weight(.semibold))
-            Text("\(request.session.location.name) · 当前：\(request.session.status.displayBranch)")
-                .font(.callout).foregroundStyle(AppColors.secondaryText)
-            TextField("搜索分支名称", text: $query).textFieldStyle(.roundedBorder).focused($searchFocused)
-                .accessibilityIdentifier("branch-switch-search").onSubmit { switchSelected() }
-                .onKeyPress(.downArrow) {
-                    move(1)
-                    return .handled
-                }
-                .onKeyPress(.upArrow) {
-                    move(-1)
-                    return .handled
-                }
-                .disabled(request.session.isBusy)
+            SheetTitle(title: L10n.text("切换本地分支"), symbol: "arrow.triangle.branch")
+            Text(L10n.text("\(request.session.location.name) · 当前：\(request.session.status.displayBranch)"))
+                .font(.callout).foregroundStyle(colors.secondaryText)
+            WorkbenchSearchField(
+                prompt: L10n.text("搜索分支名称"), text: $query, identifier: "branch-switch-search",
+                focus: $searchFocused
+            )
+            .onSubmit { switchSelected() }
+            .onKeyPress(.downArrow) {
+                move(1)
+                return .handled
+            }
+            .onKeyPress(.upArrow) {
+                move(-1)
+                return .handled
+            }
+            .disabled(request.session.isBusy)
             List(selection: $selected) {
                 ForEach(branches) { branch in
                     HStack {
@@ -48,7 +52,7 @@ struct BranchSwitcherView: View {
                                 app.branchSwitchReason(branch, in: request.session)
                                     ?? String(branch.oid.prefix(12))
                             )
-                            .font(.caption).foregroundStyle(AppColors.secondaryText)
+                            .font(.caption).foregroundStyle(colors.secondaryText)
                         }
                         Spacer()
                     }.padding(.vertical, 4).tag(branch.id).contentShape(Rectangle())
@@ -59,32 +63,34 @@ struct BranchSwitcherView: View {
                 }
             }.disabled(request.session.isBusy).accessibilityIdentifier("branch-switch-list")
                 .overlay {
-                    if branches.isEmpty { Text("没有匹配的本地分支").foregroundStyle(AppColors.secondaryText) }
+                    if branches.isEmpty {
+                        Text(L10n.text("没有匹配的本地分支")).foregroundStyle(colors.secondaryText)
+                    }
                 }
-            Text("兼容的未提交改动会保留；Git 检测到内容会被覆盖时将拒绝切换。")
-                .font(.caption).foregroundStyle(AppColors.secondaryText)
+            Text(L10n.text("兼容的未提交改动会保留；Git 检测到内容会被覆盖时将拒绝切换。"))
+                .font(.caption).foregroundStyle(colors.secondaryText)
             if attempted, let error = request.session.error {
-                Text(error).font(.callout).foregroundStyle(.red)
+                Text(error).font(.callout).foregroundStyle(colors.negative)
             }
             HStack {
-                Button("查看远端跟踪分支") {
+                Button(L10n.text("查看远端跟踪分支")) {
                     app.workspace.route = .branches
                     app.workspace.branchFilter = ""
                     dismiss()
                 }.disabled(request.session.isBusy)
                 Spacer()
                 if request.session.isBusy { ProgressView().controlSize(.small) }
-                Button(request.session.isBusy ? "取消操作" : "取消") {
+                Button(request.session.isBusy ? L10n.text("取消操作") : L10n.text("取消")) {
                     if request.session.isBusy { request.session.cancel() } else { dismiss() }
                 }.keyboardShortcut(.cancelAction)
-                Button("切换") { switchSelected() }.keyboardShortcut(.defaultAction).buttonStyle(
-                    .borderedProminent
-                )
-                .disabled(
-                    branch == nil || app.session !== request.session
-                        || branch.map { app.branchSwitchReason($0, in: request.session) != nil } == true
-                )
-                .accessibilityIdentifier("branch-switch-confirm")
+                Button(L10n.text("切换")) { switchSelected() }.keyboardShortcut(.defaultAction)
+                    .workbenchPrimaryAction()
+                    .tint(colors.primaryAction)
+                    .disabled(
+                        branch == nil || app.session !== request.session
+                            || branch.map { app.branchSwitchReason($0, in: request.session) != nil } == true
+                    )
+                    .accessibilityIdentifier("branch-switch-confirm")
             }
         }.padding(22).frame(width: 540, height: 440).interactiveDismissDisabled(request.session.isBusy)
             .task {

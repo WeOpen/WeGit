@@ -91,6 +91,107 @@ final class WorkflowRecoveryTests: XCTestCase {
         }
     }
 
+    @MainActor func testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose() throws {
+        continueAfterFailure = false
+        let fixture = try UITestGit(prefix: "WeGitIndependentConflictEditorUI")
+        defer { fixture.remove() }
+        try prepare(fixture)
+        try write("base\n", fixture: fixture)
+        try fixture.git(["add", "."])
+        try fixture.git(["commit", "-m", "Base"])
+        try fixture.git(["switch", "-c", "feature"])
+        try write("theirs\n", fixture: fixture)
+        try fixture.git(["commit", "-am", "Theirs"])
+        try fixture.git(["switch", "main"])
+        try write("ours\n", fixture: fixture)
+        try fixture.git(["commit", "-am", "Ours"])
+        try fixture.git(["switch", "feature"])
+        do {
+            _ = try fixture.git(["merge", "main"])
+            XCTFail("The fixture merge should stop on a content conflict")
+        } catch {
+            XCTAssertTrue(try fixture.git(["status", "--porcelain"]).contains("UU file.txt"))
+        }
+        let indexBefore = try fixture.git(["ls-files", "--stage", "-z"])
+        let app = application(fixture)
+        defer { app.terminate() }
+        app.staticTexts["route-更改"].firstMatch.click()
+        let edit = app.buttons["edit-conflict:file.txt"]
+        XCTAssertTrue(edit.exists || edit.waitForExistence(timeout: 10))
+        edit.click()
+        for side in ["base", "ours", "theirs", "result"] {
+            let panel = app.descendants(matching: .any)
+                .matching(identifier: "conflict-editor-" + side).firstMatch
+            XCTAssertTrue(panel.exists || panel.waitForExistence(timeout: 10), side)
+        }
+        let result = app.textViews["conflict-editor-result"]
+        XCTAssertTrue(result.exists || result.waitForExistence(timeout: 10))
+        result.click()
+        result.typeKey("a", modifierFlags: .command)
+        result.typeText("resolved from UI\n")
+        app.buttons["conflict-editor-close"].click()
+        let unsaved = app.descendants(matching: .any)
+            .matching(identifier: "conflict-editor-unsaved").firstMatch
+        let continueEditing = app.windows["main"].sheets.buttons["继续编辑"].firstMatch
+        XCTAssertTrue(unsaved.exists || continueEditing.waitForExistence(timeout: 5), app.debugDescription)
+        if continueEditing.exists { continueEditing.click() }
+        app.buttons["conflict-editor-save"].click()
+        let saved = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "enabled == true"),
+            object: app.buttons["conflict-editor-mark-resolved"])
+        XCTAssertEqual(XCTWaiter.wait(for: [saved], timeout: 10), .completed)
+        XCTAssertEqual(try fixture.git(["ls-files", "--stage", "-z"]), indexBefore)
+        app.buttons["conflict-editor-close"].click()
+        XCTAssertTrue(edit.waitForExistence(timeout: 10))
+        edit.click()
+        let reopenedResult = app.textViews["conflict-editor-result"]
+        XCTAssertTrue(reopenedResult.waitForExistence(timeout: 10))
+        XCTAssertEqual(reopenedResult.value as? String, "resolved from UI\n")
+        app.buttons["conflict-editor-mark-resolved"].click()
+        XCTAssertTrue(
+            app.buttons["edit-conflict:file.txt"].waitForNonExistence(timeout: 10),
+            app.debugDescription)
+        XCTAssertEqual(try fixture.git(["ls-files", "--unmerged"]), "")
+        XCTAssertEqual(try fixture.git(["show", ":file.txt"]), "resolved from UI\n")
+        XCTAssertEqual(
+            try Data(contentsOf: fixture.root.appending(path: "file.txt")),
+            Data("resolved from UI\n".utf8))
+
+        try fixture.git(["commit", "-m", "Resolve initial merge"])
+        try fixture.git(["switch", "main"])
+        try write("new target\n", fixture: fixture)
+        try fixture.git(["commit", "-am", "New target"])
+        try fixture.git(["switch", "feature"])
+        try write("new feature\n", fixture: fixture)
+        try fixture.git(["commit", "-am", "New feature"])
+        do {
+            _ = try fixture.git(["merge", "main"])
+            XCTFail("The second merge should stop on a content conflict")
+        } catch {
+            XCTAssertTrue(try fixture.git(["status", "--porcelain"]).contains("UU file.txt"))
+        }
+        XCTAssertTrue(edit.waitForExistence(timeout: 10))
+        edit.click()
+        XCTAssertTrue(result.waitForExistence(timeout: 10))
+        result.click()
+        result.typeKey("a", modifierFlags: .command)
+        let draftAfterFailure = "keep my result draft after the external edit\n"
+        result.typeText(draftAfterFailure)
+        let indexBeforeExternalEdit = try fixture.git(["ls-files", "--stage", "-z"])
+        try write("external replacement\n", fixture: fixture)
+        app.buttons["conflict-editor-save"].click()
+        let saveError = app.descendants(matching: .any)
+            .matching(identifier: "conflict-editor-error").firstMatch
+        XCTAssertTrue(saveError.waitForExistence(timeout: 10))
+        XCTAssertEqual(result.value as? String, draftAfterFailure)
+        XCTAssertTrue(app.buttons["conflict-editor-save"].isEnabled)
+        XCTAssertEqual(
+            try fixture.git(["ls-files", "--stage", "-z"]), indexBeforeExternalEdit)
+        XCTAssertEqual(
+            try Data(contentsOf: fixture.root.appending(path: "file.txt")),
+            Data("external replacement\n".utf8))
+    }
+
     @MainActor func testExternalGitChangesUpdateVisibleStatusWithoutManualRefresh() throws {
         continueAfterFailure = false
         let fixture = try UITestGit(prefix: "WeGitWatcherUI")
@@ -104,9 +205,9 @@ final class WorkflowRecoveryTests: XCTestCase {
         defer { app.terminate() }
         XCTAssertTrue(app.staticTexts["工作区干净"].firstMatch.waitForExistence(timeout: 10))
         try write("external\n", fixture: fixture)
-        XCTAssertTrue(app.buttons["stage:unstaged:file.txt"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.checkBoxes["stage:unstaged:file.txt"].waitForExistence(timeout: 5))
         try fixture.git(["add", "file.txt"])
-        XCTAssertTrue(app.buttons["stage:staged:file.txt"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.checkBoxes["stage:staged:file.txt"].waitForExistence(timeout: 5))
         try fixture.git(["commit", "-m", "External commit"])
         XCTAssertTrue(app.staticTexts["工作区干净"].firstMatch.waitForExistence(timeout: 5))
         try fixture.git(["switch", "feature"])
@@ -114,7 +215,7 @@ final class WorkflowRecoveryTests: XCTestCase {
         XCTAssertTrue(switched.waitForExistence(timeout: 5))
         XCTAssertEqual(switched.identifier, "current-branch")
         try fixture.git(["reset", "--soft", "main"])
-        XCTAssertTrue(app.buttons["stage:staged:file.txt"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.checkBoxes["stage:staged:file.txt"].waitForExistence(timeout: 5))
         XCTAssertEqual(
             try String(contentsOf: fixture.root.appending(path: "file.txt"), encoding: .utf8), "base\n")
     }
@@ -155,7 +256,7 @@ final class WorkflowRecoveryTests: XCTestCase {
                 in: .whitespacesAndNewlines)
             let app = application(fixture)
             defer { app.terminate() }
-            let pull = app.buttons["toolbar-pull"]
+            let pull = app.toolbarSyncAction("toolbar-pull")
             XCTAssertTrue(pull.waitForExistence(timeout: 10))
             let available = XCTNSPredicateExpectation(
                 predicate: NSPredicate(format: "enabled == true"), object: pull)

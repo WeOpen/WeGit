@@ -2,17 +2,84 @@ import AppKit
 import XCTest
 
 extension XCUIApplication {
+    @MainActor func toolbarSyncAction(_ identifier: String) -> XCUIElement {
+        let direct = windows["main"].buttons[identifier]
+        if direct.exists { return direct }
+        let sync = windows["main"].descendants(matching: .any)
+            .matching(identifier: "toolbar-sync").firstMatch
+        XCTAssertTrue(sync.waitForExistence(timeout: 3))
+        XCTAssertTrue(sync.isHittable)
+        sync.click()
+        let action = windows["main"].menuItems.matching(identifier: identifier).firstMatch
+        XCTAssertTrue(action.waitForExistence(timeout: 3))
+        return action
+    }
+
     @MainActor func launchWeGit() {
+        var arguments = launchArguments
+        if !arguments.contains("-language") { arguments = ["-language", "zh-Hans"] + arguments }
+        // The isolated SwiftUI/XCTest control only presents its first window when
+        // value-bearing defaults precede our valueless test switches.
+        let switches = ["--uitesting", "--uitesting-menu-bar", "--uitesting-keep-preferences"]
+        launchArguments =
+            arguments.filter { !switches.contains($0) }
+            + arguments.filter { switches.contains($0) }
         launch()
         activate()
+        let menuReady = menuBars.menuBarItems["native-menu-app"].waitForExistence(timeout: 5)
+        if !menuReady {
+            XCTContext.runActivity(named: "Startup failure evidence") { activity in
+                let applications = NSRunningApplication.runningApplications(
+                    withBundleIdentifier: "com.willxue.wegit.development")
+                let metadata = applications.map {
+                    "pid=\($0.processIdentifier) active=\($0.isActive) hidden=\($0.isHidden) "
+                        + "finishedLaunching=\($0.isFinishedLaunching) policy=\($0.activationPolicy.rawValue)"
+                }.joined(separator: "\n")
+                let state = XCTAttachment(string: metadata + "\n" + debugDescription)
+                state.name = "Application startup state"
+                state.lifetime = .keepAlways
+                activity.add(state)
+                if let application = applications.first {
+                    let sampleFile = FileManager.default.temporaryDirectory.appending(
+                        path: "WeGitStartupSample-\(UUID().uuidString).txt")
+                    defer { try? FileManager.default.removeItem(at: sampleFile) }
+                    let sampler = Process()
+                    let output = Pipe()
+                    sampler.executableURL = URL(fileURLWithPath: "/usr/bin/sample")
+                    sampler.arguments = [
+                        String(application.processIdentifier), "1", "1", "-file", sampleFile.path,
+                    ]
+                    sampler.standardOutput = output
+                    sampler.standardError = output
+                    if (try? sampler.run()) != nil {
+                        let diagnostic = output.fileHandleForReading.readDataToEndOfFile()
+                        sampler.waitUntilExit()
+                        let text =
+                            (try? String(contentsOf: sampleFile, encoding: .utf8))
+                            ?? String(decoding: diagnostic, as: UTF8.self)
+                        let sample = XCTAttachment(string: text)
+                        sample.name = "Application startup thread sample"
+                        sample.lifetime = .keepAlways
+                        activity.add(sample)
+                    }
+                }
+                let screen = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+                screen.name = "Startup desktop"
+                screen.lifetime = .keepAlways
+                activity.add(screen)
+            }
+        }
+        XCTAssertTrue(menuReady)
         if !windows["main"].waitForExistence(timeout: 2) {
             XCTContext.runActivity(named: "Reopen the main window from its native menu") { _ in
-                menuBars.menuBarItems["Window"].click()
-                menuItems["显示 WeGit 主窗口"].click()
+                menuBars.menuBarItems["native-menu-window"].click()
+                menuItems["native-command-showMainWindow"].click()
             }
         }
     }
 }
+
+private final class UITestGitBundle: NSObject {}
 
 struct UITestGit {
     @MainActor static func preservingClipboard(_ action: (NSPasteboard) -> Void) {
@@ -33,8 +100,22 @@ struct UITestGit {
         action(clipboard)
     }
 
-    private static let executable = URL(
-        fileURLWithPath: "/Applications/Xcode.app/Contents/Developer/usr/bin/git")
+    private static let executable: Result<URL, any Error> = Result {
+        // xcrun explicitly refuses App Sandbox execution. The build records its
+        // selected Git once, alongside the helper, before the UI runner starts.
+        let receipt = Bundle(for: UITestGitBundle.self).url(
+            forResource: "WeGitTestGitPath", withExtension: "txt")
+        let path = try receipt.map { try String(contentsOf: $0, encoding: .utf8) }?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let path, path.hasPrefix("/"), FileManager.default.isExecutableFile(atPath: path) else {
+            throw NSError(
+                domain: "WeGitUITests.Toolchain", code: 1,
+                userInfo: [
+                    NSLocalizedDescriptionKey: "The build-time selected Xcode Git is missing or unavailable."
+                ])
+        }
+        return URL(fileURLWithPath: path)
+    }
     private static let environment: [String: String] = {
         var value = ProcessInfo.processInfo.environment.filter { !$0.key.hasPrefix("GIT_") }
         value["GIT_CONFIG_GLOBAL"] = "/dev/null"
@@ -45,7 +126,7 @@ struct UITestGit {
         return value
     }()
 
-    // XCUITest uses the actual Xcode binary, avoiding /usr/bin/git's xcrun shim.
+    // XCUITest uses the recorded Xcode binary, avoiding sandboxed xcrun lookup.
     // Verify its isolation support before any fixture command, without changing HOME.
     private static let isolation: Result<Void, any Error> = Result {
         let root = FileManager.default.temporaryDirectory.appending(path: "WeGitUIProbe-" + UUID().uuidString)
@@ -107,7 +188,7 @@ struct UITestGit {
     ) throws -> String {
         let process = Process()
         let output = Pipe()
-        process.executableURL = executable
+        process.executableURL = try executable.get()
         process.arguments = ["-C", root.path] + arguments
         process.environment = environment
         process.standardOutput = output

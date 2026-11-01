@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-16",
+  "sourceSummarySHA256": "6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda",
+  "package": ".build/releases/package-mbWTnE/WeGit-0.1.0-development.zip",
+  "archiveSHA256": "e6ef5c5c0300833c753982b216f849f98dd40f335ce35787b2e9205152d0450f",
+  "checks": {
+    "regressionFailsBefore": true,
+    "nativeAppearanceChecks": 18,
+    "pngExports": 47,
+    "debugBuild": true,
+    "ordinaryReleaseBuild": true,
+    "strictChangedSwiftFormat": true,
+    "sourceReceipt": true,
+    "zipCRC": true,
+    "signatureIntegrity": true,
+    "entitlements": {},
+    "oldV1FilesUnchanged": 67,
+    "gitCoreInputsMatchPrevious183TestsPerGit": true
+  },
+  "runtime": {
+    "ordinaryPackageOpened": true,
+    "aboutDarkImageCaptured": true,
+    "originalWorkspaceAndDraftRetained": true,
+    "systemDockScreenshot": "CUA com.apple.dock timed out; not captured or claimed"
+  },
+  "scope": "Static canvas normalization plus native gradient/refraction material; no Git or preference behavior changes",
+  "fullV1ReleaseComplete": false
+}

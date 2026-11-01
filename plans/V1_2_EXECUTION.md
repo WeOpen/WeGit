@@ -1,0 +1,46 @@
+# v1.2 持续执行记录
+
+2026-10-26：用户要求「继续执行，直到完成」。执行范围沿用 `docs/V1_2_PLAN.md` 的 V12-01～V12-09，保持其开发顺序、边界与验收条件；只完成首个 PR 不代表本目标完成。追加候选与 v2.0 方向不自动进入本版。
+
+## 完成标准
+
+每项均需实现真实应用流程，覆盖取消、失败、外部变化、重开及恢复；有对应核心行为、原生交互和性能证据，经 Issue → PR → 必需检查集成。最终对同一源码重新执行完整回归与发布门禁，不复用旧 Beta 的通过结论。
+
+| 工作 | 当前状态 | 跟踪 / 证据 |
+| --- | --- | --- |
+| M0 · 固定基线 | 开发基线已固定，历史质量跟进继续 | main `db66556`；1.2.0/build 4；#35/#54/#57 的未验项仍保留 |
+| V12-01a · 已有 Worktree 打开、切换、恢复 | 实现和托管专项已集成，完整最终验收继续 | #59 / PR #60，main `d3c14c7`；`docs/acceptance/2026-10-26/worktree-opening/` |
+| V12-02 · 单提交 Cherry-pick/Revert | 实现和托管专项已集成，完整最终验收继续 | #62 / PR #64，main `596bec6`；三套 Git 各 218 项通过，smoke/专项各 1/1；`docs/acceptance/2026-10-26/single-commit-operations/` |
+| V12-03 · Blame | 实现和托管专项已集成，完整最终验收继续 | #65 / PR #69，main `d8a0d1a`；固定提交/路径、200 行分页、跨行选择、提交/原路径历史导航；`docs/acceptance/2026-10-27/blame/` |
+| V12-04 · 选中行暂存/取消暂存 | 实现与可信原生专项已集成，完整最终验收继续 | #70 / PR #74，main `ee6d025`；smoke/专项各 1/1，171 项输入匹配，三套各 226 核心检查；`docs/acceptance/2026-10-28/selected-lines/` |
+| V12-01b · Worktree 管理 | 实现、可信原生专项和最新必需 CI 已正常集成，完整最终验收继续 | #75 / PR #77，main `7564925`；可信入口 #76 / main `20c21de`；21 独立检查、三类各30有效Release读/取消样本原250/500/250ms通过。`8b2bce7` smoke/专项各1/1、176输入与完整制品匹配，专项108.819秒；三套Git各233核心检查；Ready CI40914687041/reviews0后正常squash。`docs/acceptance/2026-10-29/worktree-management/` |
+| V12-06 · 独立 Rebase | 草稿 PR80；当前原生通过，Core取消夹具修正已独立验证，最新必需CI待重验 | #78；固定目标/范围、私有index/objects、可达原HEAD、执行/继续/中止/重开及外部状态保护已实现。受限不同普通文件线性预演52项真实Git通过；d75/6dc本机ordinary/5000文件30提交loose/同规模packed各30原2000/500ms/RSS预算全部通过，12输入一致。可信main507f03b/native41013988280的完整64547405bytes/2048CRC/185输入与四图四AX核验，smoke/Rebase各1/1/0/0，方法95.353秒、outer106.097秒。CoreTests原子就绪修正34项实际ProcessRunner检查与编译/格式通过；旧required41013758617的247中246pass/1fail保留，新的全部CI和VM90样本待执行。`docs/acceptance/2026-10-30/rebase/` |
+| V12-05 · 内置三方冲突编辑器 | Issue81独立分支实施中，待PR/原生/性能/必需CI | `/Users/willxue/.codex/worktrees/conflict-editor/WeGit`，27项私有真实Git检查、1358字符串/8复数、严格格式与App编译通过；BASE来源、私有index原子解决、保存/暂存分离。尚未提交，不混入PR80；本机不执行XCTest |
+| V12-07 · Interactive Rebase | 待实施 | 线性序列的 pick/reword/edit/squash/fixup/drop/排序与完整恢复 |
+| V12-08 · Submodule 管理 | 待实施 | 已配置模块状态、打开、初始化/按记录 OID 更新与嵌套工作区隔离 |
+| V12-09 · LFS 状态 | 待实施 | 工具能力、指针/对象状态、有界阅读与明确触发的获取/取消 |
+| M5 · 最终验收与交付 | 待前置功能和固定最终源码 | 完整功能、有效性能样本、安装/迁移/回退、Beta 与发布门禁 |
+
+## Worktree 待补验收
+
+- 修复并重验托管 40244094107 唯一失败（209 项，208 通过/1 失败；路径别名断言）。
+- 修复实际 FSEvents 路径别名引起的全量刷新，并保留先失败后通过的独立事件证据。
+- 将 Worktree 原生专项作为明确的受信任白名单正常集成，再对固定候选 SHA 执行 smoke + 专项；不从未审入 main 的候选脚本放大范围。
+- 补最近/收藏持久化、主仓库和两工作区之间的状态/草稿隔离、真实冲突继续/中止、目录替换/移除及共享配置外部变化。
+- 测量共享队列下的后台操作、取消、切换、刷新及大型仓库开销。保留普通 Release 与新入口的既有预算和全部有效样本。
+
+## 执行约束
+
+- 本机不运行 XCTest；独立检查可以执行，实际核心/原生测试用托管环境。构建或本机 CUA 诊断不能替代托管计数与 xcresult。
+- Git 写入验证仅用私有临时仓库、本地 bare remote 和隔离配置；不修改个人仓库、真实凭据或安全/辅助访问状态。
+- 每批先证明行为再扩展；不引入仅有入口的占位功能，不以降低预算、删掉断言或缩小需求宣布完成。
+- 已发布版本、原生辅助访问、认证兼容性、受保护 Mac 安装和 Beta 的历史限制继续逐项保留；可推进的功能工作不因这些暂缓项提前停止。
+
+## V12-05 独立实现记录 · 2026-10-30
+
+- 独立分支 `codex/v1.2-conflict-editor` 基于 PR80 候选基线实现，未混入 PR80；当前尚未提交、推送或创建/更新 PR。
+- Core 支持 Merge、Rebase、Cherry-pick、Revert 的三条 index stage（1/2/3）文本冲突，固定阶段对象和实际来源；来源无法唯一映射、二进制、非 UTF-8、符号链接、异常 mode 和复杂冲突继续拒绝内置编辑并保留外部工具路径。
+- Changes 冲突行提供“编辑冲突…”和独立“标记已解决”；sheet 展示 BASE、OURS、THEIRS、可编辑 RESULT，按块导航与接受 OURS/THEIRS/两侧。BASE 只有在 `git merge-file --diff3` 生成块与实际 OURS/THEIRS 逐块一致时启用，否则保持禁用。
+- 保存 RESULT 不修改 index；标记解决前重验仓库身份、HEAD、序列元数据、属性、完整 index、目标 stage entries、文件身份和最终对象，原子写入使用安全父目录 FD、`O_NOFOLLOW`、临时文件、fsync、rename。
+- 本机验证：严格 `swift-format`、`swift build --target WeGitCore`、应用 Debug 编译通过；独立真实 Git checker `20/20`。覆盖 CRLF/无末尾换行/坏 marker、四种序列、外部文件/index/属性/HEAD/操作元数据/mode/父目录替换变化。Xcode 仅报告本机 CoreSimulator 版本告警；未运行 XCTest。
+- 后续必须补独立 Issue/PR、受信任原生入口和托管 required CI，再将该功能与最终源码性能/安装/迁移/回退/Beta/M5 一起验收；不得把本机 14/14 或应用编译当作 V12-05 集成完成。

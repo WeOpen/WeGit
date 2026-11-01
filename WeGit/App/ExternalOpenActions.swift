@@ -30,12 +30,14 @@ extension AppState {
         do {
             try session.location.validateIdentity()
             guard canOpenFile(path, in: session), let file = fileURL(path, in: session) else {
-                throw ModelFailure.unsupported("文件不存在或不是可以打开的普通文件。")
+                throw ModelFailure.unsupported(L10n.text("文件不存在或不是可以打开的普通文件。"))
             }
             let application =
                 withXcode
                 ? xcodeURL : NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.TextEdit")
-            guard let application else { throw ModelFailure.unsupported("找不到相应编辑器，请在 Finder 中选择打开方式。") }
+            guard let application else {
+                throw ModelFailure.unsupported(L10n.text("找不到相应编辑器，请在 Finder 中选择打开方式。"))
+            }
             NSWorkspace.shared.open(
                 [file], withApplicationAt: application, configuration: NSWorkspace.OpenConfiguration()
             ) { _, error in
@@ -91,7 +93,7 @@ extension AppState {
                         UTType(filenameExtension: "xcodeproj"), UTType(filenameExtension: "xcworkspace"),
                         .swiftSource,
                     ].compactMap { $0 }
-                    panel.message = "选择此仓库的 Xcode 工程、工作区或 Package.swift"
+                    panel.message = L10n.text("选择此仓库的 Xcode 工程、工作区或 Package.swift")
                     if panel.runModal() == .OK { selected = panel.url }
                 }
                 guard let selected else { return }

@@ -1,0 +1,31 @@
+{
+  "fixture": {
+    "root": "/Users/willxue/will/WeOpen/WeGit/.build/ui-review/menubar-2acb6b0d",
+    "repository": "/Users/willxue/will/WeOpen/WeGit/.build/ui-review/menubar-2acb6b0d/WeGit Studio",
+    "remote": "/Users/willxue/will/WeOpen/WeGit/.build/ui-review/menubar-2acb6b0d/Remote.git",
+    "namespace": "88C78925-FD87-40EC-9452-94C6F4372382",
+    "git": "/Applications/Xcode.app/Contents/Developer/usr/bin/git"
+  },
+  "externalUpdateWhileWindowClosed": {
+    "beforeFiles": 3,
+    "afterFiles": 4,
+    "addedFile": "Sources/MenuSignal.swift"
+  },
+  "preservedDraft": "Preserve the menu bar draft",
+  "reopenedRoute": "提交历史",
+  "compactSyncMenu": true,
+  "pullAndPushConfirmationsOpened": true,
+  "settingsMenuBarToggleOffAndOn": true,
+  "shortcutDisabledWhenSettingOff": true,
+  "shortcut": "Command+Shift+M",
+  "quitDuringConfigurationWrite": {
+    "applicationStayedRunning": true,
+    "writeControlsDisabled": true,
+    "alertNotCaptured": true,
+    "delayedWriteTimedOut": true,
+    "originalRepositoryValueIntact": "WeGit Studio"
+  },
+  "idleMenuBarQuitExited": true,
+  "mouseStatusItemClick": "Not verified by CUA; the real status-item-anchored popover was opened through the shared native controller via keyboard",
+  "normalGitConfigSHA256": "a0b55e9f4166462e90f1fae64e1e36611730c374b08f04aa4715d0e528b6ec41"
+}

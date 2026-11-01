@@ -1,0 +1,14 @@
+{
+  "runId": 39119367892,
+  "sourceCommit": "bcca7f3498d9019e2c0576fa081f82d9a17a800a",
+  "sourceInputsVerifiedAgainstGit": true,
+  "sourceInputCount": 120,
+  "actualTestCounts": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0
+  },
+  "auditReportCount": 59,
+  "originalReportsIgnored": false
+}

@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-16",
+  "repository": "https://github.com/WeOpen/WeGit",
+  "public": true,
+  "mergedPRs": [
+    10,
+    14
+  ],
+  "mainCommit": "5f647fa151fff211bcc639f2fc091f88a1e61478",
+  "mainCI": {
+    "id": 38881671955,
+    "conclusion": "success",
+    "url": "https://github.com/WeOpen/WeGit/actions/runs/38881671955"
+  },
+  "metadataWorkflow": {
+    "id": 38874082219,
+    "conclusion": "success"
+  },
+  "checks": {
+    "toolingBehaviorTests": 19,
+    "coreTestsPerGit": 175,
+    "coreSuites": 31,
+    "minimumGitSourceCommit": "39bf06adf96da25b87c9aa7d35a32ef3683eb4a4",
+    "debug": true,
+    "nativeUICompilation": true,
+    "ordinaryReleasePreview": true,
+    "localCleanAdhocPackage": true,
+    "workflowLint": true,
+    "committedCredentialScan": true,
+    "projectSetupIdempotent": true
+  },
+  "protections": {
+    "requiredChecks": [
+      "PR policy",
+      "Repository policy",
+      "Native macOS"
+    ],
+    "adminsEnforced": true,
+    "strict": true,
+    "forcePush": false,
+    "branchDeletion": false,
+    "conversationResolution": true,
+    "squashOnly": true,
+    "requiredReviewCount": 0,
+    "defaultToken": "read",
+    "actionsApprovePR": false
+  },
+  "issueManagement": {
+    "templates": 3,
+    "managedLabels": 21,
+    "milestones": [
+      "V1.0",
+      "V1.1"
+    ],
+    "currentApplicationIntegrationIssue": 12,
+    "ciStabilizationIssue": 13
+  },
+  "scope": {
+    "appSourceModifiedByThisCIWork": false,
+    "uncommittedCurrentAppPushed": false,
+    "existingCurrentAppChangesRetained": true,
+    "preexistingSpecWorkflowExcluded": true,
+    "fullInteractiveAcceptancePassed": false,
+    "releaseTagCreated": false,
+    "releasePublished": false,
+    "websiteDeployed": false
+  },
+  "limitations": [
+    "Committed-main baseline has 175 core tests; current uncommitted development checkout has separate prior 183-test evidence.",
+    "Dedicated interactive runner remains unregistered.",
+    "No real version tag or Draft Release was created; draft publication gates were behavior-tested and actual ad-hoc packaging was smoke-tested.",
+    "Website code/domain is pending."
+  ]
+}

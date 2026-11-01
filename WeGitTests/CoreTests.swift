@@ -1,3 +1,5 @@
+import CryptoKit
+import Darwin
 import Foundation
 import Testing
 
@@ -116,6 +118,88 @@ struct ProcessTests {
                     arguments: ["-e", "if (fork() == 0) { sleep 30 } else { sleep 30 }"], timeout: 0.1))
         }
         #expect(start.duration(to: clock.now) < .seconds(3))
+    }
+
+    @Test func spawnedChildReceivesUnblockedTerminationSignals() async throws {
+        let result = try await ProcessRunner().run(
+            ProcessRequest(
+                executable: URL(fileURLWithPath: "/usr/bin/perl"),
+                arguments: [
+                    "-e",
+                    """
+                    use POSIX qw(SIG_BLOCK SIGTERM SIGINT SIGHUP SIGQUIT);
+                    my $mask = POSIX::SigSet->new();
+                    defined(POSIX::sigprocmask(SIG_BLOCK, POSIX::SigSet->new(), $mask)) or die "mask query failed";
+                    print join(',', map { $mask->ismember($_) } (SIGTERM, SIGINT, SIGHUP, SIGQUIT));
+                    """,
+                ]))
+        #expect(result.exitCode == 0)
+        #expect(result.text == "0,0,0,0")
+    }
+
+    @Test(.timeLimit(.minutes(1))) func executingGroupCancellationDeliversTermAndReturnsCapacity()
+        async throws
+    {
+        let root = FileManager.default.temporaryDirectory.appending(path: "WeGitProcessTerm-\(UUID())")
+        try FileManager.default.createDirectory(
+            at: root, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+        defer { try? FileManager.default.removeItem(at: root) }
+        let ready = root.appending(path: "ready")
+        let trapped = root.appending(path: "term")
+        var environment = ProcessInfo.processInfo.environment
+        environment["WEGIT_PROCESS_READY"] = ready.path
+        environment["WEGIT_PROCESS_TERM"] = trapped.path
+        let runner = ProcessRunner(capacity: ProcessCapacity(limit: 1))
+        let task = Task {
+            try await runner.run(
+                ProcessRequest(
+                    executable: URL(fileURLWithPath: "/bin/sh"),
+                    arguments: [
+                        "-c",
+                        """
+                        /bin/sleep 30 &
+                        child=$!
+                        trap 'wait "$child" 2>/dev/null; printf handled > "$WEGIT_PROCESS_TERM"; exit 143' TERM
+                        printf '%s\\n%s\\n' "$$" "$child" > "${WEGIT_PROCESS_READY}.pending" || exit 1
+                        /bin/mv "${WEGIT_PROCESS_READY}.pending" "$WEGIT_PROCESS_READY" || exit 1
+                        wait "$child"
+                        """,
+                    ], environment: environment, timeout: 5))
+        }
+        defer { task.cancel() }
+        let clock = ContinuousClock()
+        let deadline = clock.now.advanced(by: .seconds(2))
+        while !FileManager.default.fileExists(atPath: ready.path), clock.now < deadline {
+            try await Task.sleep(for: .milliseconds(2))
+        }
+        guard FileManager.default.fileExists(atPath: ready.path) else {
+            task.cancel()
+            _ = await task.result
+            Issue.record("The cancellation fixture never reached an executing process")
+            return
+        }
+        let ids = try String(contentsOf: ready, encoding: .utf8)
+            .split(separator: "\n").compactMap { Int32($0) }
+        let processID = try #require(ids.first)
+        #expect(ids.count == 2)
+        #expect(ids.allSatisfy { Darwin.kill($0, 0) == 0 })
+        let start = clock.now
+        task.cancel()
+        switch await task.result {
+        case .success: Issue.record("An executing cancelled process returned success")
+        case .failure(let error):
+            guard case .cancelled? = error as? ProcessFailure else {
+                Issue.record("Unexpected cancellation result: \(error)")
+                return
+            }
+        }
+        #expect(start.duration(to: clock.now) < .milliseconds(500))
+        let groupGone = Darwin.kill(-processID, 0) == -1 && errno == ESRCH
+        #expect(groupGone)
+        #expect(try Data(contentsOf: trapped) == Data("handled".utf8))
+        let next = try await runner.run(
+            ProcessRequest(executable: URL(fileURLWithPath: "/usr/bin/true"), arguments: []))
+        #expect(next.exitCode == 0)
     }
 
     @Test func cancellationAndOutputLimit() async throws {
@@ -400,5 +484,102 @@ struct CompatibilityTests {
         _ = try await f.commit("Signed test commit")
         let object = try await f.engine.run(["cat-file", "-p", "HEAD"], in: f.root).text
         #expect(object.contains("gpgsig -----BEGIN SSH SIGNATURE-----"))
+    }
+}
+
+struct SubmoduleLFSCoreTests {
+    private func addSubmodule(to fixture: Fixture) async throws -> (child: URL, recorded: String) {
+        let child = fixture.root.deletingLastPathComponent().appending(path: "WeGitChild-\(UUID())")
+        try FileManager.default.createDirectory(at: child, withIntermediateDirectories: false)
+        _ = try await fixture.engine.run(["init", "-b", "main"], in: child)
+        _ = try await fixture.engine.run(["config", "user.name", "Nested Tests"], in: child)
+        _ = try await fixture.engine.run(["config", "user.email", "nested@example.invalid"], in: child)
+        try Data("child\n".utf8).write(to: child.appending(path: "file"))
+        _ = try await fixture.engine.run(["add", "."], in: child)
+        _ = try await fixture.engine.run(["commit", "-m", "Child"], in: child)
+        _ = try await fixture.engine.run(
+            ["submodule", "add", child.path, "modules/child"], in: fixture.root,
+            configuration: [("protocol.file.allow", "always")])
+        _ = try await fixture.engine.run(["commit", "-am", "Add submodule"], in: fixture.root)
+        let recorded = try await fixture.service.submodules().first?.recordedOID
+        return (child, try #require(recorded))
+    }
+
+    @Test func submoduleStatesCoverCleanDriftDirtyAndDeinit() async throws {
+        let fixture = try await Fixture.create()
+        let child = try await addSubmodule(to: fixture)
+        defer {
+            fixture.remove()
+            try? FileManager.default.removeItem(at: child.child)
+        }
+        #expect(try await fixture.service.submodules().first?.state == .clean)
+        let module = fixture.root.appending(path: "modules/child")
+        try Data("later\n".utf8).write(to: module.appending(path: "later"))
+        _ = try await fixture.engine.run(["add", "later"], in: module)
+        _ = try await fixture.engine.run(["commit", "-m", "Later"], in: module)
+        #expect(try await fixture.service.submodules().first?.state == .childChanged)
+        try Data("dirty\n".utf8).write(to: module.appending(path: "file"))
+        #expect(try await fixture.service.submodules().first?.state == .dirty)
+        _ = try await fixture.engine.run(
+            ["submodule", "deinit", "-f", "--", "modules/child"], in: fixture.root)
+        #expect(try await fixture.service.submodules().first?.state == .uninitialized)
+        try await fixture.service.initializeOrUpdateSubmodule(
+            path: "modules/child", expectedOID: child.recorded)
+        #expect(try await fixture.service.submodules().first?.state == .clean)
+    }
+
+    @Test func submoduleUpdateRefusesForeignDirectoryAndPreservesParentSnapshots() async throws {
+        let fixture = try await Fixture.create()
+        let child = try await addSubmodule(to: fixture)
+        defer {
+            fixture.remove()
+            try? FileManager.default.removeItem(at: child.child)
+        }
+        let module = fixture.root.appending(path: "modules/child")
+        _ = try await fixture.engine.run(
+            ["submodule", "deinit", "-f", "--", "modules/child"], in: fixture.root)
+        try FileManager.default.createDirectory(at: module, withIntermediateDirectories: true)
+        try Data("keep\n".utf8).write(to: module.appending(path: "foreign"))
+        do {
+            try await fixture.service.initializeOrUpdateSubmodule(
+                path: "modules/child", expectedOID: child.recorded)
+            Issue.record("A foreign uninitialized module directory was overwritten")
+        } catch is ModelFailure {}
+        #expect(try Data(contentsOf: module.appending(path: "foreign")) == Data("keep\n".utf8))
+        try FileManager.default.removeItem(at: module)
+        let beforeHead = try await fixture.service.head()
+        let beforeIndex = try await fixture.engine.run(["ls-files", "--stage", "-z"], in: fixture.root).stdout
+        try await fixture.service.initializeOrUpdateSubmodule(
+            path: "modules/child", expectedOID: child.recorded)
+        #expect(try await fixture.service.head() == beforeHead)
+        #expect(
+            try await fixture.engine.run(["ls-files", "--stage", "-z"], in: fixture.root).stdout
+                == beforeIndex)
+    }
+
+    @Test func lfsReportsMissingHydratedAndMalformedPointers() async throws {
+        let fixture = try await Fixture.create()
+        defer { fixture.remove() }
+        let content = Data("hydrated\n".utf8)
+        let oid = SHA256.hash(data: content).map { String(format: "%02x", $0) }.joined()
+        let pointer = "version https://git-lfs.github.com/spec/v1\noid sha256:\(oid)\nsize \(content.count)\n"
+        try Data(pointer.utf8).write(to: fixture.root.appending(path: "large.bin"))
+        _ = try await fixture.engine.run(["add", "large.bin"], in: fixture.root)
+        _ = try await fixture.engine.run(["commit", "-m", "Pointer"], in: fixture.root)
+        var status = try await fixture.service.lfsObjects()
+        #expect(status.first?.isPointer == true && status.first?.workingTreeHydrated == false)
+        let objectDirectory = fixture.root.appending(
+            path: ".git/lfs/objects/\(oid.prefix(2))/\(oid.dropFirst(2).prefix(2))")
+        try FileManager.default.createDirectory(at: objectDirectory, withIntermediateDirectories: true)
+        try content.write(to: objectDirectory.appending(path: oid))
+        try content.write(to: fixture.root.appending(path: "large.bin"))
+        status = try await fixture.service.lfsObjects()
+        #expect(status.first?.objectAvailable == true && status.first?.workingTreeHydrated == true)
+        let malformed = "version https://git-lfs.github.com/spec/v1\noid sha256:bad\nsize 1\n"
+        try Data(malformed.utf8).write(to: fixture.root.appending(path: "malformed.bin"))
+        _ = try await fixture.engine.run(["add", "malformed.bin"], in: fixture.root)
+        _ = try await fixture.engine.run(["commit", "-m", "Malformed"], in: fixture.root)
+        let malformedStatus = try await fixture.service.lfsObjects().first { $0.path == "malformed.bin" }
+        #expect(malformedStatus?.isPointer == false && malformedStatus?.detail != nil)
     }
 }

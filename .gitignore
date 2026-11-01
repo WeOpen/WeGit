@@ -8,3 +8,13 @@ xcuserdata/
 *.xcresult
 __pycache__/
 *.pyc
+.spec-workflow/
+# Generated design delivery archives remain local; source assets are versioned.
+/branding/*.zip
+/branding/*.zip.sha256
+# Raw Xcode diagnostics are retained locally beside the published summaries.
+/docs/acceptance/**/*.xcactivitylog
+
+# Reproducible brand delivery archives stay local; their sources are tracked.
+/design/*.zip
+/design/*.zip.sha256

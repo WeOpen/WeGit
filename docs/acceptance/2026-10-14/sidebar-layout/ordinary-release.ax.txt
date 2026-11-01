@@ -1,0 +1,77 @@
+Window: "repository", App: WeGit.
+0 standard window repository – main, ID: main, Secondary Actions: Raise
+	1 container WeGit 工作区
+		2 split group main, SidebarNavigationSplitView
+			3 container
+				4 scroll area
+					5 list Sidebar
+						6 row (selectable) 工作区
+						7 row (selectable) 更改
+0
+						8 row (selected) 提交历史
+						9 row (selectable) 分支
+						10 row (selectable) 仓库
+						11 row (selectable) repository, main
+						12 row (selectable) WeGit
+						13 row (selectable) disk-snapshot-0r9jy3z6
+				14 text Value: WeGit repository, ID: sidebar-brand
+				15 button Description: 打开仓库, Help: 打开仓库 ⌘O, ID: sidebar-add-repository
+				16 text Value: 当前没有改动 main, ID: sidebar-repository-state
+			17 splitter (disabled, settable, float) 209.5
+			18 split group
+				19 split group
+					20 container 历史浏览与筛选
+						21 text 提交历史
+						22 text Value: 4 个提交, ID: history-count
+						23 pop up button Description: 浏览范围, Value: 全部引用, ID: history-scope
+						24 pop up button Description: 搜索字段, Value: 消息, ID: history-search-field
+						25 text field (settable) Description: 搜索提交消息, ID: history-search
+						26 scroll area
+							27 outline Description: 提交历史列表, ID: history-list
+								28 row (selectable) Description: HEAD，分支列 1
+Merge feature, Value: 提交 1f39d3b0db25，作者 WeGit UI QA，2 个父提交
+WeGit UI QA
+								29 row (selectable) Description: 提交图，分支列 2
+Feature, Value: 提交 cf80babda080，作者 WeGit UI QA，1 个父提交
+WeGit UI QA
+								30 row (selectable) Description: 提交图，分支列 1
+Main, Value: 提交 bf2be7ae16c4，作者 WeGit UI QA，1 个父提交
+WeGit UI QA
+								31 row (selectable) Description: 提交图，分支列 1
+Base for UI regression, Value: 提交 28db67f7b904，作者 WeGit UI QA，0 个父提交
+WeGit UI QA
+								32 container
+									33 sort button 图
+									34 sort button 提交
+									35 sort button 作者
+					36 splitter (disabled, settable, float) 750.5
+					37 container 提交详情
+						38 text 选择一次提交 查看提交消息、父子关系和代码差异。
+	39 toolbar
+		40 container Hide Sidebar
+			41 button Description: 侧栏, Help: 隐藏侧栏, Value: 已打开, ID: toolbar-sidebar
+		42 button Description: repository, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar, Help: /Users/willxue/will/WeOpen/WeGit/.build/ui-qa-26be59d0/repository
+切换仓库 ⌘K
+		43 menu button main · ↑3 ↓0, Description: Triangle-headed arrow branching into two paths, Value: 同步状态：↑3 ↓0, ID: current-branch
+		44 menu button 获取, Help: 选择要获取的远端, ID: toolbar-fetch
+		45 button Description: 拉取, Help: 选择远端、目标分支和同步方式, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		46 button Description: 推送, Help: 选择远端、目标分支和同步方式, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		47 button Description: 刷新, Help: 刷新 ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		48 button Description: 搜索仓库, Help: 搜索当前仓库 ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		49 button Description: 检查器, Help: 显示检查器, Value: 已关闭, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		50 menu button 更多操作, Help: 活动记录、命令面板与更多操作, ID: toolbar-more
+	51 close button
+	52 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	53 minimize button
+	54 text repository main
+55 menu bar
+	56 WeGit
+	57 File
+	58 Edit
+	59 View
+	60 仓库
+	61 工作区
+	62 Window
+	63 Help
+
+The focused UI element is 0 standard window repository – main, ID: main, Secondary Actions: Raise

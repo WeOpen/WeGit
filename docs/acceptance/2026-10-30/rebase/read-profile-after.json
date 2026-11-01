@@ -1,0 +1,762 @@
+{
+  "commandCount": 137,
+  "commits": 30,
+  "fixture": "private disposable fixture",
+  "grouped": {
+    "cat-file": {
+      "bytes": 17147,
+      "count": 3,
+      "milliseconds": 19.804000854492188
+    },
+    "check-ref-format": {
+      "bytes": 8,
+      "count": 1,
+      "milliseconds": 5.952000617980957
+    },
+    "commit-tree": {
+      "bytes": 1230,
+      "count": 30,
+      "milliseconds": 208.58371257781982
+    },
+    "config": {
+      "bytes": 0,
+      "count": 1,
+      "milliseconds": 6.400942802429199
+    },
+    "diff-tree": {
+      "bytes": 3180,
+      "count": 30,
+      "milliseconds": 207.81469345092773
+    },
+    "for-each-ref": {
+      "bytes": 510,
+      "count": 2,
+      "milliseconds": 13.109922409057617
+    },
+    "ls-files": {
+      "bytes": 617780,
+      "count": 2,
+      "milliseconds": 13.473987579345703
+    },
+    "ls-tree": {
+      "bytes": 11324480,
+      "count": 32,
+      "milliseconds": 277.29201316833496
+    },
+    "merge-base": {
+      "bytes": 41,
+      "count": 1,
+      "milliseconds": 8.244037628173828
+    },
+    "merge-tree": {
+      "bytes": 1230,
+      "count": 30,
+      "milliseconds": 387.7507448196411
+    },
+    "rev-list": {
+      "bytes": 2460,
+      "count": 2,
+      "milliseconds": 14.384984970092773
+    },
+    "rev-parse": {
+      "bytes": 41,
+      "count": 1,
+      "milliseconds": 6.390929222106934
+    },
+    "status": {
+      "bytes": 152,
+      "count": 2,
+      "milliseconds": 27.464985847473145
+    }
+  },
+  "head": "5b975f019daf186275188dd482553028bf952ddb",
+  "processMilliseconds": 1196.666955947876,
+  "records": [
+    {
+      "bytes": 76,
+      "command": "status",
+      "milliseconds": 14.065980911254883
+    },
+    {
+      "bytes": 8,
+      "command": "check-ref-format",
+      "milliseconds": 5.952000617980957
+    },
+    {
+      "bytes": 255,
+      "command": "for-each-ref",
+      "milliseconds": 6.387948989868164
+    },
+    {
+      "bytes": 7,
+      "command": "cat-file",
+      "milliseconds": 6.183981895446777
+    },
+    {
+      "bytes": 41,
+      "command": "merge-base",
+      "milliseconds": 8.244037628173828
+    },
+    {
+      "bytes": 1230,
+      "command": "rev-list",
+      "milliseconds": 6.642937660217285
+    },
+    {
+      "bytes": 308890,
+      "command": "ls-files",
+      "milliseconds": 6.538987159729004
+    },
+    {
+      "bytes": 8570,
+      "command": "cat-file",
+      "milliseconds": 6.762027740478516
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.776068687438965
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.216023445129395
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.275985717773438
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.555054664611816
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.355975151062012
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.332014083862305
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 9.209990501403809
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.906006813049316
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.447051048278809
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.558034896850586
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.30996036529541
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.40604305267334
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.330941200256348
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.415937423706055
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.558034896850586
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.365988731384277
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.172988891601562
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 9.207010269165039
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.434057235717773
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 10.065913200378418
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 9.516000747680664
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 9.147047996520996
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.669018745422363
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.805990219116211
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.398056030273438
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.5679292678833
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.817911148071289
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.661985397338867
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 9.198904037475586
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.768081665039062
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.524060249328613
+    },
+    {
+      "bytes": 353890,
+      "command": "ls-tree",
+      "milliseconds": 8.317947387695312
+    },
+    {
+      "bytes": 0,
+      "command": "config",
+      "milliseconds": 6.400942802429199
+    },
+    {
+      "bytes": 8570,
+      "command": "cat-file",
+      "milliseconds": 6.8579912185668945
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.074994087219238
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 7.375001907348633
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.069945335388184
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.866020202636719
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.805896759033203
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.760001182556152
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.844085693359375
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 7.023930549621582
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.931066513061523
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.658953666687012
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.948947906494141
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.880998611450195
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.880086898803711
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.734967231750488
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.13503360748291
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.874960899353027
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.60097599029541
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.919980049133301
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.890934944152832
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.864070892333984
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.8950653076171875
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.73500919342041
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.746053695678711
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.006049156188965
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.570977210998535
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.816983222961426
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.817936897277832
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.730002403259277
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 7.148981094360352
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.859898567199707
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.681961059570312
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.925106048583984
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.888985633850098
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.750029563903809
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.705999374389648
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.824016571044922
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.68303394317627
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.7909955978393555
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.061958312988281
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.190984725952148
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.7909955978393555
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.788015365600586
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.73202896118164
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.760954856872559
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.798982620239258
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.191938400268555
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.792902946472168
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.9179534912109375
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.619972229003906
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.796002388000488
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.950020790100098
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.81893253326416
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.723999977111816
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.388949394226074
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.933015823364258
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.8950653076171875
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.763935089111328
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.87698745727539
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.840944290161133
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.80696964263916
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.913107872009277
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.878018379211426
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.7359209060668945
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.53299617767334
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 7.224917411804199
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.022976875305176
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.061046600341797
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.942987442016602
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.9741010665893555
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.835979461669922
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.783008575439453
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.887078285217285
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 12.94398307800293
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 7.763981819152832
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.317066192626953
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.319969177246094
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.976008415222168
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.056951522827148
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.047933578491211
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 7.290005683898926
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.174968719482422
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.293981552124023
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.922006607055664
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.033944129943848
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.189911842346191
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 7.079005241394043
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 7.030010223388672
+    },
+    {
+      "bytes": 41,
+      "command": "merge-tree",
+      "milliseconds": 13.006925582885742
+    },
+    {
+      "bytes": 106,
+      "command": "diff-tree",
+      "milliseconds": 6.865978240966797
+    },
+    {
+      "bytes": 41,
+      "command": "commit-tree",
+      "milliseconds": 6.884932518005371
+    },
+    {
+      "bytes": 41,
+      "command": "rev-parse",
+      "milliseconds": 6.390929222106934
+    },
+    {
+      "bytes": 1230,
+      "command": "rev-list",
+      "milliseconds": 7.742047309875488
+    },
+    {
+      "bytes": 76,
+      "command": "status",
+      "milliseconds": 13.399004936218262
+    },
+    {
+      "bytes": 308890,
+      "command": "ls-files",
+      "milliseconds": 6.935000419616699
+    },
+    {
+      "bytes": 255,
+      "command": "for-each-ref",
+      "milliseconds": 6.721973419189453
+    }
+  ],
+  "totalMilliseconds": 1629.5218340000001
+}

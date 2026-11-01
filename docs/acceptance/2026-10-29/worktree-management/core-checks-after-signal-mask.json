@@ -1,0 +1,29 @@
+{
+  "checks" : [
+    "Creation preview does not create directories or change the index",
+    "Creation preserves newline\/Unicode path and base bytes",
+    "Creation leaves the source HEAD and index unchanged",
+    "NUL list reports primary and linked branch identities",
+    "Occupied branch creation is refused",
+    "Nested creation is refused",
+    "A late foreign destination blocks creation",
+    "Foreign destination bytes remain unchanged",
+    "Existing branch attaches instead of detaching",
+    "Detached creation pins the selected commit",
+    "Locked worktree cannot be removed",
+    "Tracked unsaved content blocks removal",
+    "Rejected removal preserves tracked bytes",
+    "Skip-worktree flags block removal",
+    "An unreferenced detached commit blocks removal",
+    "Orphan rejection preserves commit and working bytes",
+    "Removal retains tracked, ignored and late bytes",
+    "Original-path foreign directory is untouched",
+    "Removal preserves private Git state",
+    "Only the selected registration retires",
+    "Branch object, source HEAD and source index remain"
+  ],
+  "failed" : 0,
+  "fixturePath" : "\/var\/folders\/h4\/_dnvr_4x4t93j64lvqrndtb40000gn\/T\/WeGitWorktreeManagement-21A9211C-7C13-4BA4-A9DD-A509B17EBE4C",
+  "fixturePreserved" : false,
+  "total" : 21
+}

@@ -1,0 +1,4 @@
+WeGit/Features/AuthenticationView.swift:68:102: error: [AddLines] add 1 line break
+WeGit/Features/AuthenticationView.swift:68:116: error: [AddLines] add 1 line break
+WeGit/Features/AuthenticationView.swift:69:1: error: [Indentation] unindent by 4 spaces
+WeGit/Features/AuthenticationView.swift:70:1: error: [Indentation] unindent by 4 spaces

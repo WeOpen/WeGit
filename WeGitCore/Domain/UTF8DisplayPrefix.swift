@@ -6,7 +6,7 @@ enum UTF8DisplayPrefix {
         var encoding = UTF8Validation()
         encoding.consume(bytes)
         guard truncated, encoding.valid, encoding.remaining > 0 else {
-            throw ModelFailure.invalidOutput("差异行的 UTF-8 编码无效")
+            throw ModelFailure.invalidOutput(L10n.text("差异行的 UTF-8 编码无效"))
         }
         var prefix = bytes
         // A valid UTF-8 stream can lose at most three trailing continuation bytes
@@ -16,6 +16,6 @@ enum UTF8DisplayPrefix {
             guard truncated, removed < 3, !prefix.isEmpty else { break }
             prefix.removeLast()
         }
-        throw ModelFailure.invalidOutput("差异行的 UTF-8 编码无效")
+        throw ModelFailure.invalidOutput(L10n.text("差异行的 UTF-8 编码无效"))
     }
 }

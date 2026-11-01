@@ -1,0 +1,13 @@
+{
+  "runId": 39135768752,
+  "sourceCommit": "734b8e1e5d02ea1548ac2a3cc3338d9621d48d7c",
+  "actualCallbackReports": 55,
+  "lightReports": 31,
+  "darkReports": 24,
+  "descriptionReports": 22,
+  "actionReports": 14,
+  "contrastReports": 19,
+  "applicationInputCount": 120,
+  "sourceInputsVerifiedAgainstGit": true,
+  "ignoredReports": 0
+}

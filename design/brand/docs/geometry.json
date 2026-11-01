@@ -1,0 +1,32 @@
+{
+  "version": "R5",
+  "reference": "r5/generated/logo-horizontal.png",
+  "referenceSha256": "7aa23b837a2be2823cf99fb81d29fd49ec8e9b6bea5748ed44305d43c7d127c3",
+  "symbolViewBox": [
+    0,
+    0,
+    566,
+    566
+  ],
+  "sealViewBox": [
+    0,
+    0,
+    120,
+    120
+  ],
+  "sealPlacement": [
+    382,
+    420
+  ],
+  "wordmarkViewBox": [
+    0,
+    0,
+    1040,
+    300
+  ],
+  "gitContourCount": 3,
+  "gitHoleCount": 2,
+  "traceMethod": "Apple Vision contours from full independent R5 imagegen master; verified Ku path preserved",
+  "materialLayer": "r5/generated/ink-red.png, pigment calibrated to #B3322D",
+  "sourceType": "Editable vector outlines + separately generated raster material; no reference-board image crop"
+}

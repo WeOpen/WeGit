@@ -1,0 +1,22 @@
+{
+  "checks" : [
+    "Restored Dark selects the graphite Dock icon"
+  ],
+  "failedCheck" : "Dark Dock artwork has the macOS static canvas inset",
+  "passed" : false,
+  "samples" : [
+    {
+      "label" : "restored-dark",
+      "rgb" : [
+        0.13496193289756775,
+        0.15675219893455505,
+        0.20843574404716492
+      ]
+    },
+    {
+      "horizontalExtent" : 1,
+      "label" : "Dark-canvas",
+      "verticalExtent" : 1
+    }
+  ]
+}

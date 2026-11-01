@@ -1,0 +1,30 @@
+Contrast failed for file.swift
+Attributes: StaticText, 0x7c4049c140, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift
+Element subtree:
+ →StaticText, 0x7c4049c140, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift
+Path to element:
+ →Application, 0x7c4042b5c0, pid: 9034, title: 'WeGit', Disabled
+  ↳Window (Main), 0x7c40428b40, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main', title: 'WeGitLayoutUI-2BAB0A74-EFE2-43EB-A104-E4FBADE29F1B – main', Keyboard Focused, Disabled
+   ↳Group, 0x7c4042af80, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+    ↳Group, 0x7c40429f40, {{280.0, 77.0}, {980.0, 692.0}}, label: 'WeGit 工作区'
+     ↳SplitGroup, 0x7c4042a300, {{280.0, 77.0}, {980.0, 692.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+      ↳Group, 0x7c40bced00, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+       ↳SplitGroup, 0x7c40bcef80, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+        ↳Group, 0x7c40bcdf40, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+         ↳SplitGroup, 0x7c40bcd040, {{280.0, 77.0}, {980.0, 692.0}}, Disabled
+          ↳Group, 0x7c40be0a00, {{840.0, 77.0}, {420.0, 692.0}}, Disabled
+           ↳Group, 0x7c40be3840, {{836.0, 77.0}, {424.0, 692.0}}, label: '提交详情'
+            ↳ScrollView, 0x7c4049dcc0, {{840.0, 321.0}, {420.0, 41.0}}, Disabled
+             ↳Outline, 0x7c4049e300, {{839.0, 320.0}, {422.0, 43.0}}, identifier: 'commit-files', label: '本次提交的文件变化'
+              ↳OutlineRow, 0x7c4049cc80, {{840.0, 331.0}, {403.0, 30.0}}, Selected, Disabled
+               ↳Cell, 0x7c4049e440, {{850.0, 331.0}, {383.0, 30.0}}, Keyboard Focused, Selected
+                ↳StaticText, 0x7c4049c140, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7c40420a00, pid: 9034, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendant with identity binding to AX element pid: 9034, token: SiMAAAAAAABvY29j1AAAAAAAAAA=
+    Output: {
+      StaticText, 0x7c40428c80, {{886.0, 339.5}, {42.0, 13.0}}, identifier: 'commit-file:file.swift', value: file.swift
+    }

@@ -1,0 +1,55 @@
+Window: "WeGit Settings", App: WeGit.
+0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: Settings categories, ID: settings-tabs
+			3 radio button Description: General, Value: 0
+			4 radio button Description: Git, Value: 1
+			5 radio button Description: Appearance, Value: 0
+			6 radio button Description: Diff, Value: 0
+			7 radio button Description: Commit, Value: 0
+			8 radio button Description: Advanced, Value: 0
+		9 scroll area Secondary Actions: Scroll Up, Scroll Down
+			10 heading Git executable
+			11 container
+				12 text In use, Value: /Applications/Xcode.app/Contents/Developer/usr/bin/git git version 2.54.0 (Apple Git-157) Requires Git 2.46+ with runtime configuration support. Automatic detection checks system/Xcode Git, Homebrew, then PATH.
+				13 button Choose Git…
+				14 button Use automatic detection
+			15 heading Identity and strategies
+			16 container
+				17 pop up button Write scope, Value: Current repository, ID: git-setting-scope
+				18 text Edit only this repository: A Committer name Not configured Set directly in Current repository: Not set; using inherited value
+				19 button Description: Edit…, ID: edit-setting:user.name
+				20 text Commit email Not configured Set directly in Current repository: Not set; using inherited value
+				21 button Description: Edit…, ID: edit-setting:user.email
+				22 text Default branch for new repositories main unknown · file:/Applications/Xcode.app/Contents/Developer/usr/share/git-core/gitconfig Set directly in Current repository: Not set; using inherited value
+				23 button Description: Edit…, ID: edit-setting:init.defaultBranch
+				24 text Pull integration strategy Not configured Set directly in Current repository: Not set; using inherited value
+				25 button Description: Edit…, ID: edit-setting:pull.rebase
+				26 text Pull fast-forward policy Not configured Set directly in Current repository: Not set; using inherited value
+				27 button Description: Edit…, ID: edit-setting:pull.ff
+				28 text Merge fast-forward policy Not configured Set directly in Current repository: Not set; using inherited value
+				29 button Description: Edit…, ID: edit-setting:merge.ff
+				30 button Reload configuration
+			31 heading Authenticate
+			32 container
+				33 text Uses your credential helper, SSH agent, or configured AskPass first. Missing credentials are requested in a separate window; the request is cancelled after two minutes. New hosts will not be trusted automatically, and host checking stays enabled. Signing uses your existing Git configuration.
+			34 scroll bar (settable, float) 0
+				35 value indicator (settable, float) 0
+				36 increment arrow button
+				37 decrement arrow button
+				38 increment page button
+				39 decrement page button
+	40 close button
+	41 zoom button (disabled)
+	42 text WeGit Settings
+43 menu bar
+	44 WeGit
+	45 File
+	46 Edit
+	47 View
+	48 Repository
+	49 Workspace
+	50 Window
+	51 Help
+
+The focused UI element is 0 standard window WeGit Settings, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

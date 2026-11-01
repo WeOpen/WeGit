@@ -1,0 +1,33 @@
+Window: "WeGit 设置", App: WeGit.
+0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 单选按钮 Description: 通用, Value: 0
+			4 单选按钮 Description: Git, Value: 0
+			5 单选按钮 Description: 外观, Value: 0
+			6 单选按钮 Description: 差异, Value: 1
+			7 单选按钮 Description: 提交, Value: 0
+			8 单选按钮 Description: 高级, Value: 0
+		9 滚动区
+			10 标题 默认阅读方式
+			11 container
+				12 弹出式按钮 布局, Value: 统一
+				13 弹出式按钮 上下文行数, Value: 3 行
+				14 转换 词级差异, Value: off
+				15 转换 显示行号, Value: on
+				16 转换 显示空格和 Tab 标记, Help: 空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。, Value: off, ID: settings-whitespace
+				17 转换 忽略空白差异（只读）, Help: 空白标记只改变显示，复制与补丁保留原文。忽略空白时禁用块级写入。仓库中的临时布局选择会单独保存。, Value: off
+	18 关闭按钮
+	19 缩放按钮 (disabled)
+	20 文本 WeGit 设置
+21 menu bar
+	22 WeGit 品牌预览, ID: native-menu-app
+	23 文件, ID: native-menu-file
+	24 编辑, ID: native-menu-edit
+	25 显示, ID: native-menu-view
+	26 仓库, ID: native-menu-repository
+	27 工作区, ID: native-menu-workspace
+	28 窗口, ID: native-menu-window
+	29 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

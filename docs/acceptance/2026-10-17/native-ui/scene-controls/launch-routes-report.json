@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-17T02:28:15.795082+00:00",
+  "kind": "isolated-scene-controls",
+  "environment": {
+    "date": "2026-10-17T02:28:15.811876+00:00",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "sourceCommit": "bf12c724dcad7088cd87d5541d2e968324c04ca0",
+    "workspaceDirty": false,
+    "imageVersion": "20261012.0260.1",
+    "runId": "38995024310",
+    "manager": {
+      "exitCode": 0,
+      "output": "Aqua"
+    },
+    "consoleUIDMatches": true,
+    "developerTools": {
+      "exitCode": 0,
+      "output": "Developer mode is currently enabled."
+    },
+    "interactivePrerequisites": true,
+    "sip": {
+      "exitCode": 0,
+      "output": "System Integrity Protection status: disabled."
+    },
+    "gatekeeper": {
+      "exitCode": 0,
+      "output": "assessments enabled"
+    },
+    "xcode": {
+      "exitCode": 0,
+      "output": "Xcode 27.0\nBuild version 27A266a"
+    },
+    "firstLaunch": {
+      "exitCode": 0,
+      "output": ""
+    },
+    "selectedGit": {
+      "exitCode": 0,
+      "output": "/Applications/Xcode_27.app/Contents/Developer/usr/bin/git"
+    },
+    "osPermissionsChanged": false
+  },
+  "controls": [
+    {
+      "scheme": "AsyncControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 20.801,
+        "log": "AsyncControl-build.log"
+      },
+      "test": {
+        "exitCode": 65,
+        "timedOut": false,
+        "seconds": 24.379,
+        "log": "AsyncControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "72cccc65c45d7a13f2f3bac5c3579e0a457c4124",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 1,
+            "passedTests": 0,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "AsyncControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "finishTime": 1792204140.65,
+        "passedTests": 0,
+        "result": "Failed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792204119.737,
+        "statistics": [],
+        "testFailures": [
+          {
+            "failureText": "XCTAssertTrue failed - The plain scene must appear after the selected launch route.",
+            "targetName": "AsyncLaunchTests",
+            "testIdentifier": 1,
+            "testIdentifierString": "AsyncSceneControlUITests/testFirstWindowIsPresented()",
+            "testIdentifierURL": "test://com.apple.xcode/SceneLaunchControl/AsyncLaunchTests/AsyncSceneControlUITests/testFirstWindowIsPresented",
+            "testName": "testFirstWindowIsPresented()"
+          }
+        ],
+        "title": "Test - AsyncControl",
+        "topInsights": [],
+        "totalTestCount": 1
+      },
+      "passed": false
+    },
+    {
+      "scheme": "WorkspaceControl",
+      "build": {
+        "exitCode": 0,
+        "timedOut": false,
+        "seconds": 4.923,
+        "log": "WorkspaceControl-build.log"
+      },
+      "test": {
+        "exitCode": 65,
+        "timedOut": false,
+        "seconds": 18.335,
+        "log": "WorkspaceControl-test.log"
+      },
+      "summary": {
+        "devicesAndConfigurations": [
+          {
+            "device": {
+              "architecture": "arm64",
+              "deviceId": "72cccc65c45d7a13f2f3bac5c3579e0a457c4124",
+              "deviceName": "My Mac",
+              "modelName": "Virtual Machine",
+              "osBuildNumber": "26A434",
+              "osVersion": "27.0.1",
+              "platform": "macOS"
+            },
+            "expectedFailures": 0,
+            "failedTests": 1,
+            "passedTests": 0,
+            "skippedTests": 0,
+            "testPlanConfiguration": {
+              "configurationId": "1",
+              "configurationName": "Test Scheme Action"
+            }
+          }
+        ],
+        "environmentDescription": "WorkspaceControl \u00b7 Built with macOS 27.0.1",
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "finishTime": 1792204164.904,
+        "passedTests": 0,
+        "result": "Failed",
+        "runtimeWarnings": [],
+        "skippedTests": 0,
+        "startTime": 1792204149.276,
+        "statistics": [],
+        "testFailures": [
+          {
+            "failureText": "XCTAssertTrue failed - The plain scene must appear after the selected launch route.",
+            "targetName": "WorkspaceLaunchTests",
+            "testIdentifier": 1,
+            "testIdentifierString": "AsyncSceneControlUITests/testFirstWindowIsPresented()",
+            "testIdentifierURL": "test://com.apple.xcode/SceneLaunchControl/WorkspaceLaunchTests/AsyncSceneControlUITests/testFirstWindowIsPresented",
+            "testName": "testFirstWindowIsPresented()"
+          }
+        ],
+        "title": "Test - WorkspaceControl",
+        "topInsights": [],
+        "totalTestCount": 1
+      },
+      "passed": false
+    }
+  ],
+  "releaseReady": false,
+  "result": "failed"
+}

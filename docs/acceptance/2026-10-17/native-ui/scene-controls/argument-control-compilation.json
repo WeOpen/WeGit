@@ -1,0 +1,18 @@
+{
+  "executedXCTestLocally": false,
+  "controls": [
+    {
+      "scheme": "DefaultArgumentsControl",
+      "buildExitCode": 0
+    },
+    {
+      "scheme": "MarkerControl",
+      "buildExitCode": 0
+    },
+    {
+      "scheme": "LanguageControl",
+      "buildExitCode": 0
+    }
+  ],
+  "weGitApplicationSourceChanged": false
+}

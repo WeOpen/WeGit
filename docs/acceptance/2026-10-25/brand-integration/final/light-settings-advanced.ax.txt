@@ -1,0 +1,35 @@
+Window: "WeGit 设置", App: WeGit.
+0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise
+	1 container
+		2 Description: 设置分类, ID: settings-tabs
+			3 单选按钮 Description: 通用, Value: 0
+			4 单选按钮 Description: Git, Value: 0
+			5 单选按钮 Description: 外观, Value: 0
+			6 单选按钮 Description: 差异, Value: 0
+			7 单选按钮 Description: 提交, Value: 0
+			8 单选按钮 Description: 高级, Value: 1
+		9 滚动区
+			10 标题 活动记录
+			11 container
+				12 弹出式按钮 最多保留, Value: 100 条
+				13 弹出式按钮 最长保留时间, Value: 24 小时
+				14 文本 活动摘要仅在本次运行的内存中保存，退出后清空；保留规则同时受数量与时间限制。
+				15 按钮 导出诊断摘要…
+				16 按钮 清空活动记录
+				17 文本 诊断摘要包含版本、命令名称、时间与结果，不包含仓库路径、代码、Diff、提交消息、输出或凭证。
+			18 标题 界面状态
+			19 按钮 重置界面偏好…
+	20 关闭按钮
+	21 缩放按钮 (disabled)
+	22 文本 WeGit 设置
+23 menu bar
+	24 WeGit 品牌预览, ID: native-menu-app
+	25 文件, ID: native-menu-file
+	26 编辑, ID: native-menu-edit
+	27 显示, ID: native-menu-view
+	28 仓库, ID: native-menu-repository
+	29 工作区, ID: native-menu-workspace
+	30 窗口, ID: native-menu-window
+	31 帮助, ID: native-menu-help
+
+The focused UI element is 0 标准窗口 WeGit 设置, ID: com_apple_SwiftUI_Settings_window, Secondary Actions: Raise

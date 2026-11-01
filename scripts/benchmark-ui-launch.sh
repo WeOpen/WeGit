@@ -4,9 +4,11 @@ project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
 mkdir -p .build/ui-benchmarks
 benchmark_run="$(mktemp -d "$project_root/.build/ui-benchmarks/launch-XXXXXX")"
-if command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
+if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
 xcodebuild -project WeGit.xcodeproj -scheme WeGitPerformance -configuration Release \
   -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
+  -test-timeouts-enabled YES -default-test-execution-time-allowance 1800 \
+  -maximum-test-execution-time-allowance 2400 \
   -only-testing:WeGitPerformanceTests/LaunchPerformanceTests \
   -resultBundlePath "$benchmark_run/Launch.xcresult" test
 xcrun xcresulttool get test-results metrics --path "$benchmark_run/Launch.xcresult" > "$benchmark_run/metrics.json"

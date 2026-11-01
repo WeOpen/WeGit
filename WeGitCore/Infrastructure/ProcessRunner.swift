@@ -47,11 +47,11 @@ public enum ProcessFailure: Error, LocalizedError, Sendable {
     case cancelled, timedOut, outputLimit
     public var errorDescription: String? {
         switch self {
-        case .launch(let code): "无法启动进程（系统错误 \(code)）。"
-        case .outputWrite(let code): "无法保存命令输出（系统错误 \(code)）。请检查磁盘空间和目录权限。"
-        case .cancelled: "操作已取消。写入结果可能已生效，请刷新仓库核对。"
-        case .timedOut: "操作超时。请检查认证或外部工具，并刷新仓库核对结果。"
-        case .outputLimit: "输出超过安全读取上限，请缩小读取范围或在外部工具中查看。"
+        case .launch(let code): L10n.text("无法启动进程（系统错误 \(code)）。")
+        case .outputWrite(let code): L10n.text("无法保存命令输出（系统错误 \(code)）。请检查磁盘空间和目录权限。")
+        case .cancelled: L10n.text("操作已取消。写入结果可能已生效，请刷新仓库核对。")
+        case .timedOut: L10n.text("操作超时。请检查认证或外部工具，并刷新仓库核对结果。")
+        case .outputLimit: L10n.text("输出超过安全读取上限，请缩小读取范围或在外部工具中查看。")
         }
     }
 }
@@ -125,7 +125,16 @@ public struct ProcessRunner: ProcessRunning {
         if let directory = request.directory {
             directory.path.withCString { _ = posix_spawn_file_actions_addchdir(&actions, $0) }
         }
-        posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETPGROUP))
+        // Dispatch workers block termination signals. A child must not inherit that
+        // worker mask, or graceful group cancellation waits for the SIGKILL fallback.
+        // Apply the empty mask only in the child; the host's signal state is untouched.
+        var childSignalMask = sigset_t()
+        sigemptyset(&childSignalMask)
+        let maskCode = posix_spawnattr_setsigmask(&attributes, &childSignalMask)
+        guard maskCode == 0 else { throw ProcessFailure.launch(maskCode) }
+        let flagsCode = posix_spawnattr_setflags(
+            &attributes, Int16(POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_SETSIGMASK))
+        guard flagsCode == 0 else { throw ProcessFailure.launch(flagsCode) }
         posix_spawnattr_setpgroup(&attributes, 0)
         let arguments = ([request.executable.path] + request.arguments).map { strdup($0) }
         let environment = request.environment.map { strdup("\($0.key)=\($0.value)") }

@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-16",
+  "managedWorktree": "/Users/willxue/.codex/worktrees/github-workflow/WeGit",
+  "archiveConfirmedBy": "Codex list_artifacts archived_worktree",
+  "archived": true,
+  "primaryCheckoutRetained": "/Users/willxue/will/WeOpen/WeGit",
+  "currentApplicationBundleSourceVerified": true,
+  "currentApplicationSourceDigest": "6fbcded9970a9bb44ea7383051f84a3f0cb515e0934f11e2494fa2990c2acbda",
+  "testOnlyIgnoredBuildProductsRetained": false,
+  "releaseTags": [],
+  "githubReleases": [],
+  "preexistingSpecWorkflowUntouched": true
+}

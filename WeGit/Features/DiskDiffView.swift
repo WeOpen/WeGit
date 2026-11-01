@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 import WeGitCore
 
 struct DiskDiffView: View {
+    @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
     @Bindable var display: DiskDiffDisplayState
@@ -20,65 +21,71 @@ struct DiskDiffView: View {
             HStack(spacing: 12) {
                 DetailHeader(title: snapshot.path, subtitle: subtitle)
                 if !snapshot.rawPreview && !snapshot.binary {
-                    Text("+\(snapshot.additions)").foregroundStyle(.green)
-                    Text("−\(snapshot.deletions)").foregroundStyle(.red)
+                    DiffChangeSummary(additions: snapshot.additions, deletions: snapshot.deletions)
                 }
                 if !snapshot.rawPreview && !snapshot.binary {
-                    Picker("差异布局", selection: $app.workspace.splitDiff) {
-                        Text("统一").tag(false)
-                        Text("分栏").tag(true)
-                    }.pickerStyle(.segmented).labelsHidden().frame(width: 110)
+                    WorkbenchGlassTabs(
+                        title: L10n.text("差异布局"), selection: $app.workspace.splitDiff,
+                        tabs: [
+                            GlassTab(value: false, title: L10n.text("统一")),
+                            GlassTab(value: true, title: L10n.text("分栏")),
+                        ],
+                        identifier: "diff-layout"
+                    ).frame(width: 110)
                 }
                 Menu {
-                    Button(snapshot.rawPreview ? "导出完整内容…" : "导出完整补丁…") { export() }
+                    Button(snapshot.rawPreview ? L10n.text("导出完整内容…") : L10n.text("导出完整补丁…")) { export() }
                         .disabled(display.exporting)
-                    Button("外部打开") {
+                    Button(L10n.text("外部打开")) {
                         NSWorkspace.shared.open(session.location.root.appending(path: snapshot.path))
                     }
                     if snapshot.layer == .unstaged && !snapshot.options.ignoreWhitespace {
-                        Button("丢弃文件未暂存改动…", role: .destructive) {
+                        Button(L10n.text("丢弃文件未暂存改动…"), role: .destructive) {
                             if app.confirm(
-                                title: "丢弃 \(snapshot.path) 的未暂存改动？",
-                                message: "将恢复到暂存区内容。未提交的改动可能无法恢复。", action: "丢弃改动")
+                                title: L10n.text("丢弃 \(snapshot.path) 的未暂存改动？"),
+                                message: L10n.text("将恢复到暂存区内容。未提交的改动可能无法恢复。"), action: L10n.text("丢弃改动"))
                             {
-                                session.perform("丢弃改动") { try await $0.discard(snapshot) }
+                                session.perform(L10n.text("丢弃改动")) { try await $0.discard(snapshot) }
                             }
                         }.disabled(!session.canWrite)
                     }
                 } label: {
                     Image(systemName: "ellipsis")
                 }
-                .menuStyle(.borderlessButton).fixedSize()
-                .accessibilityLabel("差异文件操作").help("差异文件操作")
-            }.font(.caption).padding(14)
+                .workbenchGlassMenu(icon: true)
+                .accessibilityLabel(L10n.text("差异文件操作")).help(L10n.text("差异文件操作"))
+            }.font(.caption).padding(14).background(colors.chrome)
             if snapshot.layer == .unstaged || snapshot.layer == .staged || snapshot.layer == .commit {
                 HStack(spacing: 16) {
-                    Picker("上下文", selection: $app.workspace.diffOptions.contextLines) {
-                        ForEach([3, 20, 80, 200], id: \.self) { Text("\($0) 行").tag($0) }
-                    }.pickerStyle(.menu).fixedSize().accessibilityIdentifier("diff-context")
-                    Toggle("忽略空白", isOn: $app.workspace.diffOptions.ignoreWhitespace)
+                    Picker(L10n.text("上下文"), selection: $app.workspace.diffOptions.contextLines) {
+                        ForEach([3, 20, 80, 200], id: \.self) { Text(L10n.count("%lld 行", $0)).tag($0) }
+                    }.pickerStyle(.menu).fixedSize().tint(colors.accentText)
+                        .accessibilityIdentifier("diff-context")
+                    Toggle(L10n.text("忽略空白"), isOn: $app.workspace.diffOptions.ignoreWhitespace)
                         .toggleStyle(.checkbox).accessibilityIdentifier("diff-ignore-whitespace")
-                    Toggle("词级差异", isOn: $app.workspace.wordDiff)
+                    Toggle(L10n.text("词级差异"), isOn: $app.workspace.wordDiff)
                         .toggleStyle(.checkbox).accessibilityIdentifier("diff-word-highlight")
                     Spacer()
                 }.font(.caption).padding(.horizontal, 14).padding(.bottom, 10)
             }
             HStack {
                 Text(
-                    "分页浏览 · \(ByteCountFormatter.string(fromByteCount: Int64(snapshot.byteCount), countStyle: .file))"
+                    L10n.text(
+                        "分页浏览 · \(ByteCountFormatter.string(fromByteCount: Int64(snapshot.byteCount), countStyle: .file))"
+                    )
                 )
-                if snapshot.options.ignoreWhitespace { Text("· 忽略空白，仅供阅读") }
+                if snapshot.options.ignoreWhitespace { Text(L10n.text("· 忽略空白，仅供阅读")) }
                 Spacer()
                 if display.exporting {
                     ProgressView().controlSize(.small)
-                    Button("取消导出") { display.cancelExport() }
+                    Button(L10n.text("取消导出")) { display.cancelExport() }
                 } else if display.exported {
-                    Text("导出完成")
+                    Text(L10n.text("导出完成"))
                 }
-            }.font(.caption).foregroundStyle(AppColors.secondaryText).padding(.horizontal, 14).padding(
+            }.font(.caption).foregroundStyle(colors.secondaryText).padding(.horizontal, 14).padding(
                 .bottom, 8)
             if let error = display.exportError {
-                Text(error).font(.caption).foregroundStyle(AppColors.secondaryText).padding(.horizontal, 14)
+                Text(error).font(.caption).foregroundStyle(colors.secondaryText).padding(.horizontal, 14)
                     .padding(
                         .bottom, 8)
             }
@@ -87,10 +94,12 @@ struct DiskDiffView: View {
                     count: snapshot.hunks.count, current: display.currentHunk,
                     loading: display.loading, navigate: display.navigate)
             }
-            if let copyError { Text(copyError).font(.caption).foregroundStyle(.red).padding(8) }
+            if let copyError { Text(copyError).font(.caption).foregroundStyle(colors.negative).padding(8) }
             Divider()
             if snapshot.binary {
-                EmptyPanel(title: "无法显示为文本", symbol: "doc.zipper", message: "可导出原始内容或使用外部工具查看。")
+                EmptyPanel(
+                    title: L10n.text("无法显示为文本"), symbol: "doc.zipper", message: L10n.text("可导出原始内容或使用外部工具查看。")
+                )
             } else if let page = display.page, !page.rows.isEmpty {
                 ScrollViewReader { proxy in
                     GeometryReader { geometry in
@@ -102,17 +111,7 @@ struct DiskDiffView: View {
                             // the viewport as lazy height estimates are corrected.
                             VStack(alignment: .leading, spacing: 0) {
                                 if display.split {
-                                    HStack(spacing: 0) {
-                                        Text("原始内容").frame(width: columnWidth, alignment: .leading)
-                                        Text("修改后").frame(width: columnWidth, alignment: .leading)
-                                    }.font(.caption.weight(.medium)).foregroundStyle(AppColors.secondaryText)
-                                        .padding(
-                                            .vertical, 8
-                                        )
-                                        .accessibilityElement(children: .ignore).accessibilityLabel(
-                                            "原始内容，修改后"
-                                        )
-                                        .accessibilityIdentifier("diff-column-headers")
+                                    DiffColumnHeaders(columnWidth: columnWidth)
                                 }
                                 ForEach(page.rows) { row in
                                     switch row {
@@ -141,12 +140,13 @@ struct DiskDiffView: View {
                                     context(gap, columnWidth: columnWidth, controlsWidth: geometry.size.width)
                                 }
                             }.frame(minWidth: contentWidth, alignment: .leading)
-                                .accessibilityElement(children: .contain).accessibilityLabel("分页差异内容")
+                                .accessibilityElement(children: .contain).accessibilityLabel(
+                                    L10n.text("分页差异内容"))
                         }.defaultScrollAnchor(.topLeading).scrollPosition($scrollPosition).contentMargins(
                             .all, 0, for: .scrollContent
                         )
                         .accessibilityIdentifier("disk-diff-content")
-                        .accessibilityLabel("分页文本差异")
+                        .accessibilityLabel(L10n.text("分页文本差异"))
                         .onScrollGeometryChange(for: DiffScrollGeometry.self) {
                             DiffScrollGeometry($0)
                         } action: { _, geometry in
@@ -162,33 +162,36 @@ struct DiskDiffView: View {
                     }
                 }.id("\(display.split):\(display.pageIndex)")
             } else if display.loading {
-                ProgressView("读取这一页…").frame(maxWidth: .infinity, maxHeight: .infinity)
+                ProgressView(L10n.text("读取这一页…")).frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 EmptyPanel(
-                    title: display.error == nil ? "没有显示内容" : "无法读取这一页",
-                    symbol: "doc.text.magnifyingglass", message: display.error ?? "可重新读取，或导出完整内容查看。")
+                    title: display.error == nil ? L10n.text("没有显示内容") : L10n.text("无法读取这一页"),
+                    symbol: "doc.text.magnifyingglass",
+                    message: display.error ?? L10n.text("可重新读取，或导出完整内容查看。"))
             }
             Divider()
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Button("上一页") { display.previous() }.disabled(!display.canGoBack)
+                    Button(L10n.text("上一页")) { display.previous() }.disabled(!display.canGoBack)
                         .accessibilityIdentifier("disk-diff-previous")
-                    Button("下一页") { display.next() }.disabled(!display.canGoForward)
+                    Button(L10n.text("下一页")) { display.next() }.disabled(!display.canGoForward)
                         .accessibilityIdentifier("disk-diff-next")
                     Text(
-                        "第 \(display.pageIndex + 1) 页 · \(display.page?.firstLine ?? 0)–\(display.page?.lastLine ?? 0) / \(display.totalLines) 行"
+                        L10n.text(
+                            "第 \(display.pageIndex + 1) 页 · \(display.page?.firstLine ?? 0)–\(display.page?.lastLine ?? 0) / \(display.totalLines) 行"
+                        )
                     )
                     .monospacedDigit().accessibilityIdentifier("disk-diff-progress")
                     Spacer()
                     if display.loading {
                         ProgressView().controlSize(.small)
-                        Button("取消加载") { display.cancelPage() }
+                        Button(L10n.text("取消加载")) { display.cancelPage() }
                     } else if display.error != nil || display.page == nil {
-                        Button("重新读取") { display.retry() }
+                        Button(L10n.text("重新读取")) { display.retry() }
                     }
                 }
                 if let error = display.error, display.page != nil {
-                    Text(error).foregroundStyle(AppColors.secondaryText)
+                    Text(error).foregroundStyle(colors.secondaryText)
                 }
                 if display.page?.rows.contains(where: {
                     switch $0 {
@@ -197,10 +200,11 @@ struct DiskDiffView: View {
                     case .hunk: false
                     }
                 }) == true {
-                    Text("长行仅显示开头；可从文件菜单导出完整内容。").foregroundStyle(AppColors.secondaryText)
+                    Text(L10n.text("长行仅显示开头；可从文件菜单导出完整内容。")).foregroundStyle(colors.secondaryText)
                 }
-            }.font(.caption).padding(12).background(.bar)
+            }.font(.caption).padding(12).background(colors.chrome)
         }
+        .background(colors.surface)
         .onDisappear { copyTask?.cancel() }
         .onChange(of: app.workspace.splitDiff) { _, split in
             scrollGeometry = DiffScrollGeometry()
@@ -219,11 +223,11 @@ struct DiskDiffView: View {
 
     private var subtitle: String {
         switch snapshot.layer {
-        case .unstaged: "工作区 ↔ 暂存区"
-        case .staged: snapshot.head == nil ? "暂存区 ↔ 空树（首次提交）" : "暂存区 ↔ HEAD"
-        case .untracked: "未跟踪 · 待添加内容"
-        case .conflict: "冲突 · 需要解决"
-        case .commit: "提交差异 · 只读"
+        case .unstaged: L10n.text("工作区 ↔ 暂存区")
+        case .staged: snapshot.head == nil ? L10n.text("暂存区 ↔ 空树（首次提交）") : L10n.text("暂存区 ↔ HEAD")
+        case .untracked: L10n.text("未跟踪 · 待添加内容")
+        case .conflict: L10n.text("冲突 · 需要解决")
+        case .commit: L10n.text("提交差异 · 只读")
         }
     }
 
@@ -258,11 +262,11 @@ struct DiskDiffView: View {
     private func hunkHeader(_ hunk: DiskDiffHunk) -> some View {
         HStack {
             Text(hunk.header).font(.system(size: 11, design: .monospaced)).foregroundStyle(
-                AppColors.secondaryText
+                colors.secondaryText
             )
             .lineLimit(1).help(hunk.header)
             Spacer(minLength: 16)
-            Button("复制此块补丁") {
+            Button(L10n.text("复制此块补丁")) {
                 copying = true
                 copyError = nil
                 copyTask = Task {
@@ -278,28 +282,29 @@ struct DiskDiffView: View {
             }.controlSize(.small).disabled(copying).accessibilityIdentifier("diff-hunk-copy:\(hunk.id)")
             if snapshot.canApplyHunk {
                 if display.completedHunks.contains(hunk.id) {
-                    Button(snapshot.layer == .staged ? "取消暂存此块" : "暂存此块") {
-                        session.perform("暂存区更新") { try await $0.apply(hunk: hunk, from: snapshot) }
+                    Button(snapshot.layer == .staged ? L10n.text("取消暂存此块") : L10n.text("暂存此块")) {
+                        session.perform(L10n.text("暂存区更新")) { try await $0.apply(hunk: hunk, from: snapshot) }
                     }.controlSize(.small).disabled(!session.canWrite || display.loading)
                     if snapshot.layer == .unstaged {
-                        Button("丢弃此块…", role: .destructive) {
+                        Button(L10n.text("丢弃此块…"), role: .destructive) {
                             if app.confirm(
-                                title: "丢弃这个差异块？",
-                                message: "文件：\(snapshot.path)\n范围：\(hunk.header)\n只丢弃本块未暂存改动。其他块和暂存区保留。",
-                                action: "丢弃此块")
+                                title: L10n.text("丢弃这个差异块？"),
+                                message: L10n.text(
+                                    "文件：\(snapshot.path)\n范围：\(hunk.header)\n只丢弃本块未暂存改动。其他块和暂存区保留。"),
+                                action: L10n.text("丢弃此块"))
                             {
-                                session.perform("丢弃差异块") {
+                                session.perform(L10n.text("丢弃差异块")) {
                                     try await $0.apply(hunk: hunk, from: snapshot, discard: true)
                                 }
                             }
                         }.controlSize(.small).disabled(!session.canWrite || display.loading)
                     }
                 } else {
-                    Text("此块仍有未加载内容").font(.caption).foregroundStyle(AppColors.secondaryText)
+                    Text(L10n.text("此块仍有未加载内容")).font(.caption).foregroundStyle(colors.secondaryText)
                 }
             }
-        }.padding(.horizontal, 12).padding(.vertical, 9).background(.quaternary.opacity(0.5))
-            .accessibilityElement(children: .contain).accessibilityLabel("差异块：" + hunk.header)
+        }.padding(.horizontal, 12).padding(.vertical, 9).background(colors.chrome)
+            .accessibilityElement(children: .contain).accessibilityLabel(L10n.text("差异块：") + hunk.header)
     }
 
     private func export() {
@@ -308,7 +313,7 @@ struct DiskDiffView: View {
             (snapshot.path as NSString).lastPathComponent + (snapshot.rawPreview ? "" : ".patch")
         panel.allowedContentTypes = [.data]
         panel.canCreateDirectories = true
-        panel.message = "导出完整内容。请选择新文件名，已有文件不会被覆盖。"
+        panel.message = L10n.text("导出完整内容。请选择新文件名，已有文件不会被覆盖。")
         if panel.runModal() == .OK, let url = panel.url { display.export(to: url) }
     }
 }

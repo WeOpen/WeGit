@@ -1,0 +1,259 @@
+Window: "WeGit", App: WeGit.
+0 标准窗口 WeGit – codex/v1-validation, ID: main, Secondary Actions: Raise
+	1 container WeGit workspace
+		2 分离组 main, SidebarNavigationSplitView
+			3 container
+				4 滚动区
+					5 列表 Sidebar
+						6 row (selectable) Workspace
+						7 row (selected) Changes
+655
+						8 row (selectable) History
+						9 row (selectable) Branches
+						10 row (selectable) Repository
+						11 row (selectable) WeGit, codex/v1-validation
+						12 row (selectable) repository
+						13 row (selectable) disk-snapshot-0r9jy3z6
+				14 文本 Value: WeGit, ID: sidebar-brand
+				15 按钮 Description: Open repository, Help: Open repository ⌘O, ID: sidebar-add-repository
+			16 分离器 (disabled, settable, float) 209.5
+			17 分离组
+				18 container
+					19 分离组
+						20 container
+							21 text Changes 655
+							22 菜单按钮 More, ID: ellipsis
+							23 文本栏 (settable) Description: Filter file paths, ID: changes-filter
+							24 弹出式按钮 Description: Change status, Value: All statuses, ID: changes-state-filter
+							25 滚动区 Secondary Actions: Scroll Up, Scroll Down
+								26 列表 changes-list (showing 0-11 of 100 items)
+									27 row (selectable) Unstaged (99)
+									28 row (selectable) Description: Stage verify.yml, Value: verify.yml
+.github/workflows
+Status: Modified
+									29 row (selected) Description: Stage CHANGELOG.md, Value: CHANGELOG.md
+Status: Modified
+									30 row (selectable) Description: Stage Package.swift, Value: Package.swift
+Status: Modified
+									31 row (selectable) Description: Stage README.md, Value: README.md
+Status: Modified
+									32 row (selectable) Description: Stage project.pbxproj, Value: project.pbxproj
+WeGit.xcodeproj
+Status: Modified
+									33 row (selectable) Description: Stage AppPreferences.swift, Value: AppPreferences.swift
+WeGit/App
+Status: Modified
+									34 row (selectable) Description: Stage AppState.swift, Value: AppState.swift
+WeGit/App
+Status: Modified
+									35 row (selectable) Description: Stage ApplicationDelegate.swift, Value: ApplicationDelegate.swift
+WeGit/App
+Status: Modified
+									36 row (selectable) Description: Stage AuthenticationController.swift, Value: AuthenticationController.swift
+WeGit/App
+Status: Modified
+									37 row (selectable) Description: Stage CommitDetailState.swift, Value: CommitDetailState.swift
+WeGit/App
+Status: Modified
+								38 滚动条 (settable, float) 0
+									39 值指示器 (settable, float) 0
+									40 增箭头按钮
+									41 减箭头按钮
+									42 增页面按钮
+									43 减页面按钮
+						44 分离器 (disabled, settable, float) 489.5
+						45 container
+							46 text Help: CHANGELOG.md, Value: CHANGELOG.md +16 −2 Working tree ↔ Index
+							47 Description: Diff layout, ID: diff-layout
+								48 单选按钮 Description: Unified, Value: 0
+								49 单选按钮 Description: Split, Value: 1
+							50 菜单按钮 More, Description: 更多, Help: Diff file actions, ID: ellipsis
+							51 弹出式按钮 Context, Value: 3 lines, ID: diff-context
+							52 复选框 Description: Ignore whitespace, Value: 0, ID: diff-ignore-whitespace
+							53 复选框 Description: Word diff, Help: Highlight changed words in replacement lines. Long lines retain their full-line change indicators., Value: 0, ID: diff-word-highlight
+							54 按钮 (disabled) Description: Previous hunk, ID: diff-hunk-previous
+							55 按钮 Description: Next hunk, ID: diff-hunk-next
+							56 文本 Value: Hunk 1 / 2, ID: diff-hunk-position
+							57 滚动区 Description: Text diff, ID: diff-content, Secondary Actions: Scroll Up, Scroll Down
+								58 container Text diff content
+									59 container Description: Diff column headers, ID: diff-column-headers
+										60 text Original Modified
+									61 container Context expansion controls
+										62 按钮 Description: Expand 1 line above, ID: diff-context-expand-0
+										63 文本 1 line hidden
+									64 container Hunk: @@ -2,6 +2,12 @@
+										65 文本 @@ -2,6 +2,12 @@
+										66 按钮 Description: Copy hunk patch, ID: diff-hunk-copy:0
+										67 按钮 Stage hunk
+										68 按钮 Discard hunk…
+									69 container Description: Original and modified code line, ID: split-diff-row
+										70 文本 2
+										71 文本输入区 Description: Original code, line 2, Value:  , ID: diff-code:0
+										72 文本 2
+										73 文本输入区 Description: Modified code, line 2, Value:  , ID: diff-code:0
+									74 container Description: Original and modified code line, ID: split-diff-row
+										75 文本 3
+										76 文本输入区 Description: Original code, line 3, Value: ## 未发布 · 0.1.0 开发预览, ID: diff-code:1
+										77 文本 3
+										78 文本输入区 Description: Modified code, line 3, Value: ## 未发布 · 0.1.0 开发预览, ID: diff-code:1
+									79 container Description: Original and modified code line, ID: split-diff-row
+										80 文本 4
+										81 文本输入区 Description: Original code, line 4, Value:  , ID: diff-code:2
+										82 文本 4
+										83 文本输入区 Description: Modified code, line 4, Value:  , ID: diff-code:2
+									84 container Description: Original and modified code line, ID: split-diff-row
+										85 文本 5
+										86 文本输入区 Description: Modified code, line 5, Value: - 修复主题选择与窗口/内容不同步，系统模式清除旧覆盖；Tabs 鼠标无蓝框、键盘保留中性焦点，侧栏按钮统一为圆形玻璃并支持 ⌃⌘S。, ID: diff-code:3
+									87 container Description: Original and modified code line, ID: split-diff-row
+										88 文本 6
+										89 文本输入区 Description: Modified code, line 6, Value:  , ID: diff-code:4
+									90 container Description: Original and modified code line, ID: split-diff-row
+										91 文本 7
+										92 文本输入区 Description: Modified code, line 7, Value: - 检查器开关改为中性玻璃，面板/内容/边界/焦点使用 macOS 系统颜色，收敛图标色块、引用/计数和暂存分隔的装饰色。, ID: diff-code:5
+									93 container Description: Original and modified code line, ID: split-diff-row
+										94 文本 8
+										95 文本输入区 Description: Modified code, line 8, Value:  , ID: diff-code:6
+									96 container Description: Original and modified code line, ID: split-diff-row
+										97 文本 9
+										98 文本输入区 Description: Modified code, line 9, Value: - 统一胶囊液态玻璃按钮与圆形图标操作，设置/搜索/Diff 使用滑动玻璃 Tabs；保留原生辅助访问与焦点，支持方向键即时切换及系统动效/透明度/对比度条件适配。, ID: diff-code:7
+									99 container Description: Original and modified code line, ID: split-diff-row
+										100 文本 10
+										101 文本输入区 Description: Modified code, line 10, Value:  , ID: diff-code:8
+									102 container Description: Original and modified code line, ID: split-diff-row
+										103 文本 5
+										104 文本输入区 Description: Original code, line 5, Value: - 建立 macOS 27 原生工作区与 Git CLI 核心，支持打开、克隆、差异阅读、暂存和提交。, ID: diff-code:9
+										105 文本 11
+										106 文本输入区 Description: Modified code, line 11, Value: - 建立 macOS 27 原生工作区与 Git CLI 核心，支持打开、克隆、差异阅读、暂存和提交。, ID: diff-code:9
+									107 container Description: Original and modified code line, ID: split-diff-row
+										108 文本 6
+										109 文本输入区 Description: Original code, line 6, Value: - 增加磁盘差异分页、完整导出、词级差异、上下文展开、长行换行和安全的未跟踪文件回收。, ID: diff-code:10
+										110 文本 12
+										111 文本输入区 Description: Modified code, line 12, Value: - 增加磁盘差异分页、完整导出、词级差异、上下文展开、长行换行和安全的未跟踪文件回收。, ID: diff-code:10
+									112 container Description: Original and modified code line, ID: split-diff-row
+										113 文本 7
+										114 文本输入区 Description: Original code, line 7, Value: - 增加固定引用的历史分页、多父提交图、父提交文件比较、分支重命名/删除/跟踪及冲突恢复。, ID: diff-code:11
+										115 文本 13
+										116 文本输入区 Description: Modified code, line 13, Value: - 增加固定引用的历史分页、多父提交图、父提交文件比较、分支重命名/删除/跟踪及冲突恢复。, ID: diff-code:11
+									117 container Context expansion controls
+										118 按钮 Description: Expand 8 lines, ID: diff-context-expand-1
+										119 文本 8 lines hidden
+									120 container Hunk: @@ -16,6 +22,14 @@
+										121 文本 @@ -16,6 +22,14 @@
+										122 按钮 Description: Copy hunk patch, ID: diff-hunk-copy:1
+										123 按钮 Stage hunk
+										124 按钮 Discard hunk…
+									125 container Description: Original and modified code line, ID: split-diff-row
+										126 文本 16
+										127 文本输入区 Description: Original code, line 16, Value: - 修复克隆保存目录的长路径输入被动态目标预览布局截断的问题。, ID: diff-code:12
+										128 文本 22
+										129 文本输入区 Description: Modified code, line 22, Value: - 修复克隆保存目录的长路径输入被动态目标预览布局截断的问题。, ID: diff-code:12
+									130 container Description: Original and modified code line, ID: split-diff-row
+										131 文本 17
+										132 文本输入区 Description: Original code, line 17, Value: - 修复最小窗口中差异操作的可见区域定位，普通与磁盘差异共同响应滚动内容尺寸、边距和偏移变化；增加长行与上下文操作的八种窗口组合回归。, ID: diff-code:13
+										133 文本 23
+										134 文本输入区 Description: Modified code, line 23, Value: - 修复最小窗口中差异操作的可见区域定位，普通与磁盘差异共同响应滚动内容尺寸、边距和偏移变化；增加长行与上下文操作的八种窗口组合回归。, ID: diff-code:13
+									135 container Description: Original and modified code line, ID: split-diff-row
+										136 文本 18
+										137 文本输入区 Description: Original code, line 18, Value: - 补齐差异块和文件菜单的辅助访问说明，记录尚未通过的原生辅助访问审查与对比度抽查证据。, ID: diff-code:14
+										138 文本 24
+										139 文本输入区 Description: Modified code, line 24, Value: - 补齐差异块和文件菜单的辅助访问说明，记录尚未通过的原生辅助访问审查与对比度抽查证据。, ID: diff-code:14
+									140 container Description: Original and modified code line, ID: split-diff-row
+										141 文本 19
+										142 文本输入区 Description: Original code, line 19, Value: - 建立自动化回归、Release 后台性能基线、本地打包与 Developer ID/公证脚本。, ID: diff-code:15
+										143 文本 25
+										144 文本输入区 Description: Modified code, line 25, Value: - 修复原生代码文本在字号、字体和宽度变化后的测量缓存一致性；背景 Status 关闭可选索引写入。, ID: diff-code:16
+									145 container Description: Original and modified code line, ID: split-diff-row
+										146 文本 26
+										147 文本输入区 Description: Modified code, line 26, Value: - 补充 History 操作、六类设置即时文本变化及特殊文件阅读的原生行为断言；设置开关提供明确辅助访问名称。, ID: diff-code:17
+									148 container Description: Original and modified code line, ID: split-diff-row
+										149 文本 27
+										150 文本输入区 Description: Modified code, line 27, Value: - 完成获准 GitHub HTTPS/SSH 的真实 Push/Clone/Fetch/Pull/Lease 验收，归档精确清理与默认分支不变证据。, ID: diff-code:18
+									151 container Description: Original and modified code line, ID: split-diff-row
+										152 文本 28
+										153 文本输入区 Description: Modified code, line 28, Value: - 建立自动化回归、Release 性能基线、本地打包与 Developer ID/公证脚本；CI 完整验收采用专用交互 Runner、120 分钟超时与串行构建。, ID: diff-code:19
+									154 container Description: Original and modified code line, ID: split-diff-row
+										155 文本 29
+										156 文本输入区 Description: Modified code, line 29, Value: - 修复启动恢复打开的检查器时与嵌套原生分栏触发的窗口约束循环；保留检查器开关与恢复，保护窄窗口的主内容宽度，并增加隔离启动与原生恢复回归。, ID: diff-code:20
+									157 container Description: Original and modified code line, ID: split-diff-row
+										158 文本 30
+										159 文本输入区 Description: Modified code, line 30, Value:  , ID: diff-code:21
+									160 container Description: Original and modified code line, ID: split-diff-row
+										161 文本 31
+										162 文本输入区 Description: Modified code, line 31, Value: - 统一侧栏品牌、图标底座、暂存准备计数与分支空状态；历史引用使用标签和平滑分支线，原生提交编辑器明确提示 ⌥↩ 换行与 ⌘↩ 提交。, ID: diff-code:22
+									163 container Description: Original and modified code line, ID: split-diff-row
+										164 文本 32
+										165 文本输入区 Description: Modified code, line 32, Value:  , ID: diff-code:23
+									166 container Description: Original and modified code line, ID: split-diff-row
+										167 文本 33
+										168 文本输入区 Description: Modified code, line 33, Value: - 优化顶部工具栏分组、同步状态与窄窗口菜单；新增可关闭的原生菜单栏快捷面板及 ⌘⇧M，重开窗口保留会话与草稿。, ID: diff-code:24
+									169 container Description: Original and modified code line, ID: split-diff-row
+										170 文本 20
+										171 文本输入区 Description: Original code, line 20, Value:  , ID: diff-code:25
+										172 文本 34
+										173 文本输入区 Description: Modified code, line 34, Value:  , ID: diff-code:25
+									174 container Description: Original and modified code line, ID: split-diff-row
+										175 文本 21
+										176 文本输入区 Description: Original code, line 21, ID: diff-code:26, Value: 本版本尚未完成新增原生 UI、真实远端认证、完整性能、CI 和 Beta/正式分发验收。详见 [开发记录](docs/DEVELOPMENT.md) 与 [发布门槛](docs/RELEASE.md)。
+										177 文本 35
+										178 文本输入区 Description: Modified code, line 35, ID: diff-code:27, Value: 本版本尚未完成最终源码完整回归、辅助访问、完整大型界面性能、其他服务兼容性、远端 CI 和 Beta/正式分发验收。详见 [开发记录](docs/DEVELOPMENT.md) 与 [发布门槛](docs/RELEASE.md)。
+									179 container Context expansion controls
+										180 按钮 Description: Expand 20 lines, ID: diff-context-expand-2
+										181 文本 Following context
+								182 滚动条 (settable, float) 0
+									183 值指示器 (settable, float) 0
+									184 增箭头按钮
+									185 减箭头按钮
+									186 增页面按钮
+									187 减页面按钮
+					188 unknown Description: 0 staged files, ID: commit-staged-count
+					189 文本栏 (settable) Description: Commit message, Help: ⌥↩ adds details on a new line; ⌘↩ commits staged changes, Placeholder: Commit message; ⌥↩ for a new line, ID: commit-message
+					190 按钮 (disabled) Description: Commit (0 files), Help: Enter a commit message, ID: commit-button
+					191 按钮 (disabled) Description: Commit and Push…, Help: Enter a commit message, ID: commit-push-button
+					192 复选框 Description: Amend last commit, Value: 0
+					193 文本 Value: Enter a commit message, ID: operation-feedback
+				194 分离器 (disabled, settable, float) 1051
+				195 滚动区 Description: Inspector, ID: repository-inspector
+					196 标题 Repository
+					197 container
+						198 text Name, Value: WeGit /Users/willxue/will/WeOpen/WeGit
+						199 按钮 Show in Finder
+						200 按钮 Open in Terminal
+						201 按钮 Open in Xcode…
+						202 按钮 Copy repository path
+					203 标题 Branches
+					204 container
+						205 text Current, Value: codex/v1-validation Not set — / —
+					206 标题 Files
+					207 container
+						208 text CHANGELOG.md 16 2
+	209 工具栏
+		210 container 隐藏边栏
+			211 按钮 Description: Sidebar, Help: Hide sidebar, Value: Open, ID: toolbar-sidebar
+		212 按钮 Description: WeGit, ID: toolbar-repository, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除, Help: /Users/willxue/will/WeOpen/WeGit
+Switch repository ⌘K
+		213 菜单按钮 codex/v1-validation · No upstream, Description: 分叉为两条路径的三角形箭头, Value: Sync status: No upstream, ID: current-branch
+		214 菜单按钮 Fetch, Help: Choose a remote to fetch, ID: toolbar-fetch
+		215 按钮 Description: Pull, Help: Choose a remote, destination branch, and sync strategy, ID: toolbar-pull, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		216 按钮 Description: Push, Help: Choose a remote, destination branch, and sync strategy, ID: toolbar-push, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		217 按钮 Description: Refresh, Help: Refresh ⌘R, ID: arrow.trianglehead.2.clockwise.rotate.90, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		218 按钮 Description: Search repository, Help: Search current repository ⌘⇧F, ID: toolbar-search, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		219 按钮 Description: Inspector, Help: Hide Inspector, Value: Open, ID: toolbar-inspector, Secondary Actions: Increment, Decrement, Delete, Cancel, 移到上一项, 移到下一项, 从工具栏移除
+		220 菜单按钮 More actions, Help: Activity, command palette, and more actions, ID: toolbar-more
+	221 关闭按钮
+	222 全屏幕按钮 Help: 此按钮也可以执行缩放窗口的操作, Secondary Actions: 缩放窗口
+	223 最小化按钮
+	224 text WeGit codex/v1-validation
+225 menu bar
+	226 WeGit
+	227 文件
+	228 编辑
+	229 显示
+	230 Repository
+	231 Workspace
+	232 窗口
+	233 帮助
+
+Selected:
+	7 row (selected)
+
+Note: Pay special attention to the content selected by the user. If the user asks a question or refers to the content they are looking at on-screen, they might be referring to the selected content (but they might be referring to something else that's visible, too).

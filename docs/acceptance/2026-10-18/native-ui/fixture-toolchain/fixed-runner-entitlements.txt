@@ -1,0 +1,6 @@
+    
+    {
+    "com.apple.security.app-sandbox" = 1;
+    "com.apple.security.cs.disable-library-validation" = 1;
+    "com.apple.security.get-task-allow" = 1;
+    "com.apple.security.network.client" = 1;

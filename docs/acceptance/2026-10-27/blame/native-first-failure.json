@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "6fc0ed86814732e0213d864bb1be61b7f2f28ce1",
+        "deviceName": "My Mac",
+        "modelName": "Virtual Machine",
+        "osBuildNumber": "26A434",
+        "osVersion": "27.0.1",
+        "platform": "macOS"
+      },
+      "expectedFailures": 0,
+      "failedTests": 1,
+      "passedTests": 0,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "WeGit \u00b7 Built with macOS 27.0.1",
+  "expectedFailures": 0,
+  "failedTests": 1,
+  "finishTime": 1793110308.105,
+  "passedTests": 0,
+  "result": "Failed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1793110280.659,
+  "statistics": [],
+  "testFailures": [
+    {
+      "failureText": "XCTAssertEqual failed: (\"Optional(\"first \")\") is not equal to (\"Optional(\"first\\r\")\")",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
+      "testName": "testCommittedAttributionPagingAndHistoricalNavigation()"
+    }
+  ],
+  "title": "Test - WeGit",
+  "topInsights": [],
+  "totalTestCount": 1
+}

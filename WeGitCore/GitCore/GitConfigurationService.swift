@@ -10,12 +10,12 @@ public enum GitSettingKey: String, CaseIterable, Sendable, Identifiable {
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .userName: "提交者姓名"
-        case .userEmail: "提交邮箱"
-        case .defaultBranch: "新仓库默认分支"
-        case .pullRebase: "Pull 整合方式"
-        case .pullFastForward: "Pull 快进策略"
-        case .mergeFastForward: "Merge 快进策略"
+        case .userName: L10n.text("提交者姓名")
+        case .userEmail: L10n.text("提交邮箱")
+        case .defaultBranch: L10n.text("新仓库默认分支")
+        case .pullRebase: L10n.text("Pull 整合方式")
+        case .pullFastForward: L10n.text("Pull 快进策略")
+        case .mergeFastForward: L10n.text("Merge 快进策略")
         }
     }
     public var choices: [String] {
@@ -29,7 +29,7 @@ public enum GitSettingKey: String, CaseIterable, Sendable, Identifiable {
 
 public enum GitSettingScope: String, CaseIterable, Sendable {
     case global, local
-    public var title: String { self == .global ? "全局" : "当前仓库" }
+    public var title: String { self == .global ? L10n.text("全局") : L10n.text("当前仓库") }
     var argument: String { "--" + rawValue }
 }
 
@@ -55,13 +55,17 @@ public struct GitConfigurationService: Sendable {
     public let engine: GitEngine
     public let location: RepositoryLocation?
     private let queue: RepositoryOperationQueue
+    private let sharedQueue: RepositoryOperationQueue
     public init(
         engine: GitEngine, location: RepositoryLocation? = nil,
-        queue: RepositoryOperationQueue = RepositoryOperationQueue()
+        queue: RepositoryOperationQueue? = nil
     ) {
         self.engine = engine
         self.location = location
-        self.queue = queue
+        self.queue =
+            queue ?? location.map { RepositoryOperationQueue.worktree(for: $0) } ?? RepositoryOperationQueue()
+        self.sharedQueue =
+            location.map { RepositoryOperationQueue.shared(for: $0) } ?? RepositoryOperationQueue()
     }
     private var directory: URL { location?.root ?? URL(fileURLWithPath: "/") }
 
@@ -71,7 +75,7 @@ public struct GitConfigurationService: Sendable {
             ["config", "--null", "--show-scope", "--show-origin", "--get-all", key.rawValue],
             in: directory, accepted: [0, 1])
         let fields = try strings(output.stdout)
-        guard fields.count % 3 == 0 else { throw ModelFailure.invalidOutput("配置来源记录被截断") }
+        guard fields.count % 3 == 0 else { throw ModelFailure.invalidOutput(L10n.text("配置来源记录被截断")) }
         var records: [GitSettingRecord] = []
         for index in stride(from: 0, to: fields.count, by: 3) {
             records.append(
@@ -91,11 +95,19 @@ public struct GitConfigurationService: Sendable {
     public func set(_ value: String?, scope: GitSettingScope, expected: GitSettingSnapshot) async throws
         -> GitSettingSnapshot
     {
+        try await sharedQueue.perform {
+            try await setUnderSharedPermit(value, scope: scope, expected: expected)
+        }
+    }
+
+    private func setUnderSharedPermit(_ value: String?, scope: GitSettingScope, expected: GitSettingSnapshot)
+        async throws -> GitSettingSnapshot
+    {
         try await queue.perform {
             try await Self.globalQueue.perform {
                 try location?.validateIdentity()
                 guard scope != .local || location != nil else {
-                    throw ModelFailure.unsupported("请先打开需要配置的仓库。")
+                    throw ModelFailure.unsupported(L10n.text("请先打开需要配置的仓库。"))
                 }
                 if let value { try await validate(value, for: expected.key) }
                 guard try await ownValues(expected.key, in: scope) == expected.values(in: scope) else {
@@ -127,25 +139,29 @@ public struct GitConfigurationService: Sendable {
         guard !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, value.utf8.count <= 4096,
             !value.contains("\0"), !value.contains("\n"), !value.contains("\r")
         else {
-            throw ModelFailure.unsupported("配置值不能为空、过长或包含换行。要使用继承值，请移除此作用域的设置。")
+            throw ModelFailure.unsupported(L10n.text("配置值不能为空、过长或包含换行。要使用继承值，请移除此作用域的设置。"))
         }
         if !key.choices.isEmpty {
-            guard key.choices.contains(value) else { throw ModelFailure.unsupported("请选择支持的 Git 策略值。") }
+            guard key.choices.contains(value) else {
+                throw ModelFailure.unsupported(L10n.text("请选择支持的 Git 策略值。"))
+            }
         } else if key == .defaultBranch {
             guard !value.hasPrefix("-"), !value.contains("@{") else { throw ModelFailure.invalidPath }
             _ = try await engine.run(["check-ref-format", "--branch", value], in: directory)
         } else {
             guard !value.contains("<"), !value.contains(">") else {
-                throw ModelFailure.unsupported("身份字段不能包含尖括号。")
+                throw ModelFailure.unsupported(L10n.text("身份字段不能包含尖括号。"))
             }
         }
     }
 
     private func strings(_ bytes: Data) throws -> [String] {
-        guard bytes.isEmpty || bytes.last == 0 else { throw ModelFailure.invalidOutput("Git 配置记录被截断") }
+        guard bytes.isEmpty || bytes.last == 0 else {
+            throw ModelFailure.invalidOutput(L10n.text("Git 配置记录被截断"))
+        }
         return try bytes.split(separator: 0, omittingEmptySubsequences: false).dropLast().map {
             guard let value = String(data: $0, encoding: .utf8) else {
-                throw ModelFailure.invalidOutput("Git 配置编码不受支持")
+                throw ModelFailure.invalidOutput(L10n.text("Git 配置编码不受支持"))
             }
             return value
         }

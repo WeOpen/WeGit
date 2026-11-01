@@ -21,7 +21,7 @@ final class SettingsLifecycleTests: XCTestCase {
         XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10))
         app.activate()
         app.menuBars.menuBarItems["WeGit"].click()
-        app.menuItems["Settings…"].click()
+        app.menuItems["native-command-settings"].click()
         let gitTab = app.buttons["Git"].firstMatch
         if gitTab.waitForExistence(timeout: 3) { gitTab.click() } else { app.radioButtons["Git"].click() }
         let edit = app.buttons["edit-setting:user.name"]
@@ -41,7 +41,7 @@ final class SettingsLifecycleTests: XCTestCase {
             object: nil)
         XCTAssertEqual(XCTWaiter.wait(for: [started], timeout: 5), .completed)
         app.menuBars.menuBarItems["WeGit"].click()
-        app.menuItems["Quit WeGit"].click()
+        app.menuItems["native-command-quit"].click()
         let returnToApp = app.buttons["返回应用"]
         if returnToApp.waitForExistence(timeout: 2) { returnToApp.click() }
         XCTAssertEqual(app.state, .runningForeground)
