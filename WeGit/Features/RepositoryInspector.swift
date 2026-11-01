@@ -4,10 +4,17 @@ import WeGitCore
 
 /// Selection details share the visible diff's state; opening this pane performs no Git reads.
 struct RepositoryInspector: View {
+    private enum InspectorTab: Hashable {
+        case file, commit, resources
+    }
+
     @Environment(\.themeColors) private var colors
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
-    @State private var tab = false
+    @State private var tab: InspectorTab = .file
+    @State private var submodules: [SubmoduleStatus] = []
+    @State private var lfsObjects: [LFSObjectStatus] = []
+    @State private var resourceError: String?
 
     private var inspection: CommitInspection? {
         guard let value = app.workspace.commitInspection,
@@ -48,15 +55,18 @@ struct RepositoryInspector: View {
             WorkbenchGlassTabs(
                 title: L10n.text("检查器"), selection: $tab,
                 tabs: [
-                    GlassTab(value: false, title: L10n.text("文件信息")),
-                    GlassTab(value: true, title: L10n.text("提交信息")),
+                    GlassTab(value: .file, title: L10n.text("文件信息")),
+                    GlassTab(value: .commit, title: L10n.text("提交信息")),
+                    GlassTab(value: .resources, title: L10n.text("仓库资源")),
                 ],
                 identifier: "inspector-tabs"
             ).padding(12)
-            if let comparison, let inspection {
+            if tab == .resources {
+                resourcesView
+            } else if let comparison, let inspection {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 18) {
-                        if tab {
+                        if tab == .commit {
                             commitInfo(comparison.commit)
                         } else if let file = commitFile {
                             fileInfo(
@@ -67,13 +77,13 @@ struct RepositoryInspector: View {
                             }
                         }
                     }.padding(16).frame(maxWidth: .infinity, alignment: .leading)
-                }.frame(maxHeight: tab ? 280 : 250)
+                }.frame(maxHeight: tab == .commit ? 280 : 250)
                 Divider()
                 InspectorCommitFiles(detail: inspection.detail)
             } else if let diff = workingDiff {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 18) {
-                        if tab {
+                        if tab == .commit {
                             // Worktree changes have no commit yet. Do not show a previously selected SHA.
                             Text(L10n.text("未提交的更改")).font(.headline)
                             repositoryInfo
@@ -140,6 +150,148 @@ struct RepositoryInspector: View {
                 }
             }
         }.background(colors.sidebar)
+            .task(id: "\(session.id):\(session.statusRenderID):\(tab)") {
+                guard tab == .resources else { return }
+                await loadResources()
+            }
+    }
+
+    private var resourcesView: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                resourceSectionTitle(L10n.text("子模块"), symbol: "shippingbox")
+                if submodules.isEmpty {
+                    Text(L10n.text("没有配置子模块")).foregroundStyle(colors.secondaryText)
+                } else {
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(submodules) { module in
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack(alignment: .firstTextBaseline) {
+                                    Text(module.path).font(.system(.body, design: .monospaced))
+                                        .lineLimit(2).textSelection(.enabled)
+                                    Spacer(minLength: 8)
+                                    Text(submoduleTitle(module.state)).font(.caption)
+                                        .foregroundStyle(submoduleColor(module.state))
+                                }
+                                if let oid = module.actualOID ?? module.recordedOID {
+                                    Text(String(oid.prefix(12))).font(.caption.monospaced())
+                                        .foregroundStyle(colors.secondaryText)
+                                }
+                                HStack {
+                                    Spacer(minLength: 0)
+                                    if let recorded = module.recordedOID,
+                                        module.state == .uninitialized || module.state == .childChanged
+                                    {
+                                        Button(L10n.text("初始化/更新")) {
+                                            session.perform(L10n.text("更新子模块")) {
+                                                try await $0.initializeOrUpdateSubmodule(
+                                                    path: module.path, expectedOID: recorded)
+                                            }
+                                        }.disabled(!session.canWrite || session.isBusy)
+                                            .accessibilityIdentifier(
+                                                "inspector-submodule-update:" + module.path)
+                                    }
+                                }
+                            }.padding(10).background(colors.canvas, in: .rect(cornerRadius: 8))
+                                .accessibilityElement(children: .contain)
+                                .accessibilityIdentifier("inspector-submodule:" + module.path)
+                        }
+                    }
+                }
+
+                Divider()
+                resourceSectionTitle("Git LFS", symbol: "externaldrive")
+                if lfsObjects.isEmpty {
+                    Text(L10n.text("没有 LFS 指针")).foregroundStyle(colors.secondaryText)
+                } else {
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(lfsObjects) { object in
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack(alignment: .firstTextBaseline) {
+                                    Text(object.path).font(.system(.body, design: .monospaced))
+                                        .lineLimit(2).textSelection(.enabled)
+                                    Spacer(minLength: 8)
+                                    Text(lfsTitle(object)).font(.caption)
+                                        .foregroundStyle(
+                                            object.objectAvailable ? colors.positive : colors.secondaryText)
+                                }
+                                if let size = object.size {
+                                    Text(ByteCountFormatter.string(fromByteCount: size, countStyle: .file))
+                                        .font(.caption).foregroundStyle(colors.secondaryText)
+                                }
+                                HStack {
+                                    if let detail = object.detail {
+                                        Text(detail).font(.caption).foregroundStyle(colors.secondaryText)
+                                            .lineLimit(2)
+                                    }
+                                    Spacer(minLength: 0)
+                                    if object.isPointer, object.workingTreeHydrated != true {
+                                        Button(L10n.text("获取对象")) {
+                                            session.perform(L10n.text("获取 LFS 对象")) {
+                                                try await $0.fetchLFS(path: object.path)
+                                            }
+                                        }.disabled(!session.canWrite || session.isBusy)
+                                            .accessibilityIdentifier("inspector-lfs-fetch:" + object.path)
+                                    }
+                                }
+                            }.padding(10).background(colors.canvas, in: .rect(cornerRadius: 8))
+                                .accessibilityElement(children: .contain)
+                                .accessibilityIdentifier("inspector-lfs:" + object.path)
+                        }
+                    }
+                }
+                if let resourceError {
+                    Text(resourceError).font(.caption).foregroundStyle(colors.negative)
+                        .textSelection(.enabled).accessibilityIdentifier("inspector-resources-error")
+                }
+            }.padding(16).frame(maxWidth: .infinity, alignment: .leading)
+        }.accessibilityIdentifier("inspector-resources")
+    }
+
+    private func resourceSectionTitle(_ title: String, symbol: String) -> some View {
+        Label(title, systemImage: symbol).font(.headline)
+    }
+
+    private func loadResources() async {
+        guard !Task.isCancelled else { return }
+        resourceError = nil
+        do {
+            submodules = try await session.service.submodules()
+        } catch {
+            submodules = []
+            resourceError = error.localizedDescription
+        }
+        do {
+            lfsObjects = try await session.service.lfsObjects()
+        } catch {
+            lfsObjects = []
+            resourceError = resourceError ?? error.localizedDescription
+        }
+    }
+
+    private func submoduleTitle(_ state: SubmoduleState) -> String {
+        switch state {
+        case .uninitialized: L10n.text("未初始化")
+        case .clean: L10n.text("干净")
+        case .dirty: L10n.text("有改动")
+        case .stagedChange: L10n.text("暂存指向变化")
+        case .childChanged: L10n.text("子模块指向已变化")
+        case .invalid: L10n.text("状态无效")
+        }
+    }
+
+    private func submoduleColor(_ state: SubmoduleState) -> Color {
+        switch state {
+        case .clean: colors.positive
+        case .invalid, .dirty: colors.negative
+        default: colors.secondaryText
+        }
+    }
+
+    private func lfsTitle(_ object: LFSObjectStatus) -> String {
+        if object.workingTreeHydrated == true { return L10n.text("已水合") }
+        if object.workingTreeHydrated == false { return L10n.text("指针文件") }
+        return L10n.text("状态未知")
     }
 
     private func fileInfo(
