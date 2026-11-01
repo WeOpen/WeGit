@@ -1,5 +1,11 @@
 # V12-07 Interactive Rebase
 
+## Preserved third native failure · 2026-11-02
+
+Trusted-main run [41328698625](https://github.com/WeOpen/WeGit/actions/runs/41328698625), candidate `d73c6e610996a82a712c805a25572ef7fe82a33f`, actually passed smoke (1 total, 1 passed, 0 failed, 0 skipped). The Interactive method executed once and failed after 92.962 seconds at the application amend confirmation lookup. Its full artifact 13092003329 is 126,979,867 bytes, SHA256 `4b1ced49c67c34704b5a8c7c373930145bf22d5f91bdaa0ec4dc082bb5572172`; all 2197 ZIP entries pass CRC and all 194 build inputs match the candidate.
+
+The exported AX tree shows an open native NSAlert with the expected `Amend commit` title on `action-button-2`; the test's application-wide label predicate did not locate that title. The replacement scopes the query to the native dialog and its observed action identifier, verifies enabled/hittable state, and retains the dialog screenshot and AX tree. The actual index blob, amended HEAD/tree, resumed message order and unchanged remote reference assertions remain intact. The first two failures and this third failure remain historical failures. Compilation and a new trusted run are still required for the revised test; no local XCTest is executed.
+
 ## Completion follow-up · 2026-11-01
 
 The implementation now supports `pick`, `reword`, `edit`, `squash`, `fixup`, `drop` and explicit ordering for a fixed linear range. A private sequence manifest and content fingerprints bind the original HEAD, upstream, actions, message files and recovery editor. Pauses retain that editor across relaunch; external todo, message, HEAD and index changes refuse an obsolete recovery. The Changes composer permits commits/amend only at a verified edit pause and retains the separate push boundary.

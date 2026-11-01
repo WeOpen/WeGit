@@ -145,12 +145,19 @@ final class RebaseWorkflowTests: XCTestCase {
         replace(draft, text: "Amended first")
         waitEnabled(app.buttons["commit-button"])
         app.buttons["commit-button"].click()
-        let confirmations = app.buttons.matching(
-            NSPredicate(format: "label == %@ AND identifier != %@", "Amend commit", "commit-button"))
-        XCTAssertTrue(confirmations.firstMatch.waitForExistence(timeout: 5))
-        let confirmation = try XCTUnwrap(
-            confirmations.allElementsBoundByIndex.first(where: \.isHittable))
+        let confirmationDialog = app.dialogs.firstMatch
+        XCTAssertTrue(confirmationDialog.waitForExistence(timeout: 5))
+        let confirmation = confirmationDialog.buttons["action-button-2"]
         waitEnabled(confirmation)
+        XCTAssertTrue(confirmation.isHittable, confirmation.debugDescription)
+        let confirmationShot = XCTAttachment(screenshot: confirmationDialog.screenshot())
+        confirmationShot.name = "English native amend confirmation"
+        confirmationShot.lifetime = .keepAlways
+        add(confirmationShot)
+        let confirmationAX = XCTAttachment(string: confirmationDialog.debugDescription)
+        confirmationAX.name = "English native amend confirmation AX"
+        confirmationAX.lifetime = .keepAlways
+        add(confirmationAX)
         confirmation.click()
         expectValue(draft, "")
         XCTAssertNotEqual(try git(["rev-parse", "HEAD"]), pausedHead)
