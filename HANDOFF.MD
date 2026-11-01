@@ -8,6 +8,11 @@
 - 新提交 SHA 的文件校验先 fetch 并用 cat-file 确认本地已有该 commit，再 git show SHA:path；不能只凭远端 merge 返回值对未 fetch 对象逐文件核验。read_thread 每页最多10 turns；PR policy 只识别 Closes/Refs，Related to 不合格。文件与证据先 rg 清单，不猜文件名。
 - 主 checkout 与各功能树已经保存 HEAD/index/status、binary patch 和 untracked SHA 清单到主根 .build/v1-2-closeout-2026-11-01/snapshot/；网站等用户改动不纳入本次产品提交。Interactive Rebase 原 WIP 在独立树继续；不能清理占用未完成工作或用户改动的分支。
 
+## 2026-11-01 Interactive Rebase 可信原生入口
+
+- #86/PR #87 尚未完成 V12-07。本分支只注册 trusted-main 的 interactive-rebase focus：smoke 必须实际 1/1/0/0，随后只运行 RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch，并保留原 120/180 秒及外层300秒界限。
+- 功能与该实际 XCTest 方法留在 PR #87；入口先正常合入 main 后才调度候选。白名单注册或 mock 的策略检查不表示功能或原生验收完成。本机不执行 XCTest。
+
 新任务先读本文件，再核对 Git 工作区、Issue/PR 与当前源码；历史结果只适用于其记录的源码。
 
 ## v1.2 原生诊断入口准备
