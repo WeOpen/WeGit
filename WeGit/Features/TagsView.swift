@@ -16,6 +16,7 @@ private struct TagDeletionRequest: Identifiable {
 struct TagsView: View {
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
+    var leadingInset: CGFloat = 0
     @Environment(\.themeColors) private var colors
     @State private var query = ""
     @State private var limit = 200
@@ -50,7 +51,8 @@ struct TagsView: View {
                         session.pendingTagPush = nil
                         session.tagPushFeedback = nil
                     }.disabled(session.isBusy).accessibilityIdentifier("tag-dismiss-push-notice")
-                }.padding(12).background(colors.chrome).accessibilityIdentifier("tag-push-pending")
+                }.padding(12).padding(.leading, leadingInset).background(colors.chrome)
+                    .accessibilityIdentifier("tag-push-pending")
             }
             HSplitView {
                 VStack(spacing: 0) {
@@ -141,11 +143,12 @@ struct TagsView: View {
                 }.frame(minWidth: 420, maxWidth: .infinity, maxHeight: .infinity)
             }
             if session.pendingTagPush == nil, session.isBusy || session.operationFeedback != nil {
-                Divider()
+                Divider().padding(.leading, leadingInset)
                 OperationFeedback(
                     busy: session.isBusy, activity: session.activityLabel,
                     result: session.operationFeedback, context: session.operationFeedbackContext, fallback: ""
                 ).frame(maxWidth: .infinity, alignment: .leading).padding(12)
+                    .padding(.leading, leadingInset)
             }
         }.background(colors.canvas)
             .task(id: "\(query):\(limit):\(session.historyGeneration):\(reload)") { await read() }

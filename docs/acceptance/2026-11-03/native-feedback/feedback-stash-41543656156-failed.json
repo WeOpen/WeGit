@@ -1,0 +1,138 @@
+{
+  "source": "7787f9b992d83f79fd10e62dee5c77ea09e0df05",
+  "run": 41543656156,
+  "artifact": 13187448551,
+  "focus": "feedback-stash",
+  "method": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList",
+  "artifactBytes": 114854087,
+  "artifactSHA256": "3ac01c60f87f1e8d10a755c7bada0a9e99baeac455890d5b743f518bc4c06b02",
+  "crcEntries": 2055,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-feedback-stash": {
+      "totalTestCount": 1,
+      "passedTests": 0,
+      "failedTests": 1,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 13.346,
+      "summarySeconds": 16.441999912261963
+    },
+    "focused-feedback-stash": {
+      "methodSeconds": 23.072,
+      "summarySeconds": 27.597999811172485
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-feedback-stash": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "61F6E67B-A48B-4382-81AA-FB99A23D9F2D.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "App UI hierarchy for com.willxue.wegit_0_92887B75-AD73-4A01-A4F5-FD065D9B973D.development",
+      "timestamp": 1793661340.673
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "63BD1909-2BDD-418C-8CC6-C851C67C54CE.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"operation-feedback-details\" Any`_0_198351B7-9CEE-41E3-9F8B-6B9CC69403F3.txt",
+      "timestamp": 1793661340.423
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "998BAC33-7C06-401A-873F-0B22CAB209F1.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"operation-feedback-details\" Any`_0_1D40F020-53AE-4E66-9263-86E1C91D3878.txt",
+      "timestamp": 1793661339.443
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "8EA94563-222C-4A6E-9FF2-D9D4706B5B79.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"operation-feedback-details\" Any`_0_F8096F48-F29A-4D9E-9DE8-7380634E99E1.txt",
+      "timestamp": 1793661338.431
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "54C9DC0E-1F5F-4C84-B942-04298A76CC81.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"operation-feedback-details\" Any`_0_E7FDF94A-6A03-4D2B-A92D-7FECAB149804.txt",
+      "timestamp": 1793661337.449
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "AC185159-EF6F-4F79-A888-6157E99A1613.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"operation-feedback-details\" Any`_0_C5B16B2E-68FD-43F8-B1B1-365CE30186EA.txt",
+      "timestamp": 1793661336.471
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "F5C679F6-D1DD-48A9-8EA1-D2D7B0F63833.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native feedback detail target_0_0B40B909-C5DC-4D1A-9C07-EC7D97556D0D.txt",
+      "timestamp": 1793661334.724
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "2DC0E38D-73C8-4E35-8FAF-37C84D4FC185.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"native-menu-app\" MenuBarItem`_0_9EF21DD4-0E58-43A8-9EAF-981D19257265.txt",
+      "timestamp": 1793661321.719
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e55ab24ff5fc1693b71f0c874ad48e8009428a30",
+      "deviceName": "My Mac",
+      "exportedFileName": "5876B714-4C13-4F49-993D-E281DD9FDF8A.txt",
+      "isAssociatedWithFailure": true,
+      "suggestedHumanReadableName": "Complete Issue Description.txt"
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": false,
+  "errors": [
+    "focused-feedback-stash did not pass exactly 1/1/0/0 without expected failures",
+    "focused-feedback-stash process failed or timed out"
+  ],
+  "releaseAcceptance": false,
+  "failureLocation": "OperationFeedbackTests.swift:415",
+  "failureCause": "Feedback leading edge extends beneath the visible sidebar; x312 versus native Stash column x490",
+  "videoFrameActualSeconds": 17.868333333333332,
+  "appliedBytesAndBeforeDropListChecksPassed": true
+}

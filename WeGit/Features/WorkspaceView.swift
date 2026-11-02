@@ -32,8 +32,11 @@ struct WorkspaceView: View {
                                             leadingInset: leadingInset)
                                     case .history: HistoryView(app: app, session: session)
                                     case .branches: BranchesView(app: app, session: session)
-                                    case .stashes: StashView(app: app, session: session)
-                                    case .tags: TagsView(app: app, session: session).id(session.id)
+                                    case .stashes:
+                                        StashView(app: app, session: session, leadingInset: leadingInset)
+                                    case .tags:
+                                        TagsView(app: app, session: session, leadingInset: leadingInset)
+                                            .id(session.id)
                                     }
                                 }
                                 // The native split already owns the horizontal edges.
@@ -48,7 +51,7 @@ struct WorkspaceView: View {
                                 .ignoresSafeArea(.container, edges: .vertical)
                             }
                             // Native splits fill the horizontal safe area. Pure SwiftUI
-                            // banners and the composer reserve its leading inset so
+                            // banners, feedback and the composer reserve its leading inset so
                             // that their content cannot extend under the sidebar.
                             .ignoresSafeArea(
                                 .container, edges: app.workspace.route == .branches ? [] : .horizontal
