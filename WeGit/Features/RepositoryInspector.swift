@@ -15,6 +15,7 @@ struct RepositoryInspector: View {
     @State private var submodules: [SubmoduleStatus] = []
     @State private var lfsObjects: [LFSObjectStatus] = []
     @State private var resourceError: String?
+    @State private var resourceRefreshID = UUID()
 
     private var inspection: CommitInspection? {
         guard let value = app.workspace.commitInspection,
@@ -150,7 +151,7 @@ struct RepositoryInspector: View {
                 }
             }
         }.background(colors.sidebar)
-            .task(id: "\(session.id):\(session.statusRenderID):\(tab)") {
+            .task(id: "\(session.id):\(session.statusRenderID):\(tab):\(resourceRefreshID)") {
                 guard tab == .resources else { return }
                 await loadResources()
             }
@@ -225,11 +226,19 @@ struct RepositoryInspector: View {
                                             .lineLimit(2)
                                     }
                                     Spacer(minLength: 0)
-                                    if object.isPointer, object.workingTreeHydrated != true {
+                                    if object.isPointer, !object.objectAvailable,
+                                        object.workingTreeHydrated != true
+                                    {
                                         Button(L10n.text("获取对象")) {
-                                            session.perform(L10n.text("获取 LFS 对象")) {
-                                                try await $0.fetchLFS(path: object.path)
-                                            }
+                                            session.perform(
+                                                L10n.text("获取 LFS 对象"),
+                                                onSuccess: {
+                                                    resourceRefreshID = UUID()
+                                                },
+                                                operation: {
+                                                    try await $0.fetchLFS(
+                                                        path: object.path, expectedOID: object.oid)
+                                                })
                                         }.disabled(!session.canWrite || session.isBusy)
                                             .accessibilityIdentifier("inspector-lfs-fetch:" + object.path)
                                     }
@@ -254,19 +263,25 @@ struct RepositoryInspector: View {
 
     private func loadResources() async {
         guard !Task.isCancelled else { return }
-        resourceError = nil
+        let renderID = session.statusRenderID
+        var modules: [SubmoduleStatus] = []
+        var objects: [LFSObjectStatus] = []
+        var failure: String?
         do {
-            submodules = try await session.service.submodules()
+            modules = try await session.service.submodules()
         } catch {
-            submodules = []
-            resourceError = error.localizedDescription
+            failure = error.localizedDescription
         }
+        guard !Task.isCancelled else { return }
         do {
-            lfsObjects = try await session.service.lfsObjects()
+            objects = try await session.service.lfsObjects()
         } catch {
-            lfsObjects = []
-            resourceError = resourceError ?? error.localizedDescription
+            failure = failure ?? error.localizedDescription
         }
+        guard !Task.isCancelled, renderID == session.statusRenderID, tab == .resources else { return }
+        submodules = modules
+        lfsObjects = objects
+        resourceError = failure
     }
 
     private func submoduleTitle(_ state: SubmoduleState) -> String {
@@ -290,6 +305,7 @@ struct RepositoryInspector: View {
 
     private func lfsTitle(_ object: LFSObjectStatus) -> String {
         if object.workingTreeHydrated == true { return L10n.text("已水合") }
+        if object.objectAvailable { return L10n.text("对象已缓存") }
         if object.workingTreeHydrated == false { return L10n.text("指针文件") }
         return L10n.text("状态未知")
     }

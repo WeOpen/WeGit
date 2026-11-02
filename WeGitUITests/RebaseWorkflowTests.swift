@@ -1,6 +1,186 @@
 import XCTest
 
 final class RebaseWorkflowTests: XCTestCase {
+    @MainActor func testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch() throws {
+        continueAfterFailure = false
+        let fixture = try UITestGit(prefix: "WeGitInteractiveRebaseUI")
+        defer { fixture.remove() }
+        let repo = fixture.root.appending(path: "repo").resolvingSymlinksInPath()
+        try FileManager.default.createDirectory(at: repo, withIntermediateDirectories: false)
+        @discardableResult func git(_ args: [String]) throws -> String {
+            try UITestGit.run(args, in: repo).trimmingCharacters(in: .newlines)
+        }
+        func write(_ path: String, _ value: String) throws {
+            try Data(value.utf8).write(to: repo.appending(path: path))
+        }
+        try git(["init", "-b", "main"])
+        for (key, value) in [
+            ("user.name", "Interactive UI"), ("user.email", "fixture@example.invalid"),
+            ("commit.gpgsign", "false"),
+            ("core.hooksPath", fixture.root.appending(path: "no-hooks").path),
+            ("gc.auto", "0"), ("maintenance.auto", "false"),
+        ] { try git(["config", key, value]) }
+        try write("base.txt", "base\n")
+        try git(["add", "."])
+        try git(["commit", "-m", "Base"])
+        let base = try git(["rev-parse", "HEAD"])
+        try git(["switch", "-c", "feature"])
+        var objects: [String] = []
+        for index in 1...6 {
+            try write("file-\(index).txt", "original \(index)\n")
+            try git(["add", "."])
+            try git(["commit", "-m", "Step \(index)"])
+            objects.append(try git(["rev-parse", "HEAD"]))
+        }
+        let original = objects.last!
+        let remote = fixture.root.appending(path: "remote.git")
+        try git(["init", "--bare", remote.path])
+        try git(["remote", "add", "origin", remote.path])
+        try git(["push", "origin", "feature"])
+        let index = try Data(contentsOf: repo.appending(path: ".git/index"))
+        let app = XCUIApplication()
+        let namespace = UUID().uuidString
+        let windowArguments = [
+            "-NSWindow Frame WeGit.UITests." + namespace,
+            "70 70 980 692 0 0 1920 1080 ", "--uitesting-window-state", namespace,
+        ]
+        app.launchArguments =
+            [
+                "-appearance", "light", "-language", "zh-Hans", "-confirmRepositorySwitch", "NO",
+                "--uitesting",
+            ] + windowArguments
+        app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = repo.path
+        app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
+        app.launchWeGit()
+        defer { app.terminate() }
+        XCTAssertLessThanOrEqual(app.windows["main"].frame.width, 1000)
+        let draft = app.textFields["commit-message"]
+        replace(draft, text: "Keep interactive draft 中文")
+        route(app, "分支")
+        let filter = app.textFields["branches-filter"]
+        replace(filter, text: "main")
+        func previewSequence() {
+            waitEnabled(app.buttons["branches-interactive-rebase"])
+            app.buttons["branches-interactive-rebase"].click()
+            let upstream = app.popUpButtons["interactive-rebase-upstream"]
+            waitEnabled(upstream)
+            upstream.click()
+            let main = app.menuItems["main"].firstMatch
+            waitEnabled(main)
+            main.click()
+            XCTAssertTrue(
+                app.popUpButtons["interactive-rebase-action-" + objects[0]]
+                    .waitForExistence(timeout: 10), app.debugDescription)
+        }
+        func action(_ position: Int, _ title: String) {
+            let picker = app.popUpButtons["interactive-rebase-action-" + objects[position]]
+            waitEnabled(picker)
+            expectValue(picker, "保留提交")
+            picker.click()
+            let item = app.menuItems[title].firstMatch
+            waitEnabled(item)
+            let titles = ["保留提交", "重写提交消息", "编辑后暂停", "压缩并编辑消息", "压缩并保留前一消息", "丢弃提交"]
+            for _ in 0..<titles.firstIndex(of: title)! { app.typeKey(.downArrow, modifierFlags: []) }
+            app.typeKey(.return, modifierFlags: [])
+            waitGone(item)
+            expectValue(picker, title)
+        }
+        previewSequence()
+        XCTAssertFalse(app.buttons["interactive-rebase-execute"].isEnabled)
+        app.typeKey(.tab, modifierFlags: [])
+        capture(app, "Chinese light fixed interactive range and native keyboard focus")
+        app.typeKey(.escape, modifierFlags: [])
+        waitGone(app.buttons["interactive-rebase-execute"])
+        XCTAssertEqual(try git(["rev-parse", "HEAD"]), original)
+        XCTAssertEqual(try Data(contentsOf: repo.appending(path: ".git/index")), index)
+        expectValue(filter, "main")
+        previewSequence()
+        action(0, "编辑后暂停")
+        action(1, "重写提交消息")
+        replace(app.textViews["interactive-rebase-message-" + objects[1]], text: "Reworded second")
+        action(2, "压缩并编辑消息")
+        replace(
+            app.textViews["interactive-rebase-message-" + objects[2]], text: "Combined second third fourth")
+        action(3, "压缩并保留前一消息")
+        action(4, "丢弃提交")
+        let up = app.buttons["interactive-rebase-up-" + objects[5]]
+        waitEnabled(up)
+        up.click()
+        app.checkBoxes["interactive-rebase-published-confirm"].click()
+        waitEnabled(app.buttons["interactive-rebase-execute"])
+        capture(app, "Six actions and explicit message editors before execution")
+        app.buttons["interactive-rebase-execute"].click()
+        let close = app.buttons["interactive-rebase-cancel"]
+        let finished = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "exists == true AND label == %@", "关闭"), object: close)
+        XCTAssertEqual(XCTWaiter.wait(for: [finished], timeout: 10), .completed, app.debugDescription)
+        close.click()
+        route(app, "更改")
+        let next = app.buttons["sequencer-continue"]
+        waitEnabled(next)
+        XCTAssertFalse(app.buttons["commit-push-button"].isEnabled)
+        expectValue(draft, "Keep interactive draft 中文")
+        let pausedHead = try git(["rev-parse", "HEAD"])
+        XCTAssertEqual(try git(["rev-parse", "HEAD^"]), base)
+        capture(app, "Edit pause preserves the independent draft")
+        app.terminate()
+        app.launchArguments =
+            [
+                "-appearance", "dark", "-language", "en", "-confirmRepositorySwitch", "NO",
+                "--uitesting", "--uitesting-keep-preferences",
+            ] + windowArguments
+        app.launchWeGit()
+        waitEnabled(next)
+        expectValue(draft, "Keep interactive draft 中文")
+        try write("file-1.txt", "amended 中文\n")
+        let stage = app.checkBoxes["stage:unstaged:file-1.txt"]
+        waitEnabled(stage)
+        stage.click()
+        waitEnabled(app.checkBoxes["stage:staged:file-1.txt"])
+        XCTAssertEqual(try git(["show", ":file-1.txt"]), "amended 中文")
+        let amend = app.checkBoxes["commit-amend"]
+        waitEnabled(amend)
+        amend.click()
+        replace(draft, text: "Amended first")
+        waitEnabled(app.buttons["commit-button"])
+        app.buttons["commit-button"].click()
+        let confirmationDialog = app.dialogs.firstMatch
+        XCTAssertTrue(confirmationDialog.waitForExistence(timeout: 5))
+        let confirmation = confirmationDialog.buttons["action-button-2"]
+        waitEnabled(confirmation)
+        XCTAssertTrue(confirmation.isHittable, confirmation.debugDescription)
+        let confirmationShot = XCTAttachment(screenshot: confirmationDialog.screenshot())
+        confirmationShot.name = "English native amend confirmation"
+        confirmationShot.lifetime = .keepAlways
+        add(confirmationShot)
+        let confirmationAX = XCTAttachment(string: confirmationDialog.debugDescription)
+        confirmationAX.name = "English native amend confirmation AX"
+        confirmationAX.lifetime = .keepAlways
+        add(confirmationAX)
+        confirmation.click()
+        expectValue(draft, "")
+        XCTAssertNotEqual(try git(["rev-parse", "HEAD"]), pausedHead)
+        XCTAssertEqual(try git(["show", "HEAD:file-1.txt"]), "amended 中文")
+        waitEnabled(next)
+        capture(app, "English dark restored edit pause after application amend")
+        next.click()
+        waitGone(next)
+        XCTAssertEqual(try git(["symbolic-ref", "HEAD"]), "refs/heads/feature")
+        XCTAssertEqual(try git(["rev-list", "--count", base + "..HEAD"]), "3")
+        XCTAssertEqual(
+            try git(["log", "--format=%s", base + "..HEAD"]),
+            "Step 6\nCombined second third fourth\nAmended first")
+        XCTAssertEqual(try git(["show", "HEAD:file-1.txt"]), "amended 中文")
+        for position in [2, 3, 4, 6] {
+            XCTAssertEqual(try git(["show", "HEAD:file-\(position).txt"]), "original \(position)")
+        }
+        XCTAssertFalse(FileManager.default.fileExists(atPath: repo.appending(path: "file-5.txt").path))
+        XCTAssertEqual(try git(["rev-parse", "refs/remotes/origin/feature"]), original)
+        XCTAssertEqual(try git(["status", "--porcelain"]), "")
+        capture(app, "Completed reordered sequence preserves the confirmed tree and remote reference")
+    }
+
     @MainActor func testFixedTargetReplayAndRecoverAcrossRelaunch() throws {
         continueAfterFailure = false
         let fixture = try UITestGit(prefix: "WeGitIndependentRebaseUI")
@@ -237,11 +417,16 @@ final class RebaseWorkflowTests: XCTestCase {
         confirm.click()
     }
     @MainActor private func replace(_ element: XCUIElement, text: String) {
-        waitEnabled(element)
+        if element.elementType == .textView {
+            XCTAssertTrue(element.exists || element.waitForExistence(timeout: 10))
+        } else {
+            waitEnabled(element)
+        }
         element.click()
         element.typeKey("a", modifierFlags: .command)
         element.typeKey(.delete, modifierFlags: [])
         element.typeText(text)
+        expectValue(element, text)
     }
     @MainActor private func waitEnabled(_ element: XCUIElement) {
         let predicate = NSPredicate(format: "exists == true AND enabled == true")

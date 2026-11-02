@@ -271,16 +271,31 @@ public struct RepositoryService: Sendable {
                 throw ModelFailure.unsupported(L10n.text("请填写提交消息。"))
             }
             guard state.conflicts.isEmpty else { throw ModelFailure.unsupported(L10n.text("请先解决所有冲突。")) }
-            guard state.sequencer == .none else { throw ModelFailure.unsupported(L10n.text("请使用当前操作的继续入口。")) }
+            let editRecovery = state.rebaseRecovery.flatMap {
+                $0.interactiveEditPause && $0.canContinue ? $0 : nil
+            }
+            guard state.sequencer == .none || editRecovery != nil else {
+                throw ModelFailure.unsupported(L10n.text("请使用当前操作的继续入口。"))
+            }
             guard !amend || state.head != nil else {
                 throw ModelFailure.unsupported(L10n.text("没有可以修改的上次提交。"))
             }
             var args = ["commit", "--file=-"]
             if amend { args.append("--amend") }
             try await verifyHead(expectedHead)
+            if let editRecovery {
+                guard try await status().rebaseRecovery == editRecovery else { throw ModelFailure.changed }
+            }
             do {
                 _ = try await engine.run(args, in: location.root, input: Data(message.utf8), timeout: 120)
                 guard let committed = try await head() else { throw ModelFailure.changed }
+                if let editRecovery {
+                    let observed = try await status()
+                    guard let recovery = observed.rebaseRecovery, recovery.interactiveEditPause,
+                        recovery.originalHead == editRecovery.originalHead,
+                        recovery.branchRef == editRecovery.branchRef, recovery.onto == editRecovery.onto
+                    else { throw ModelFailure.changed }
+                }
                 return committed
             } catch {
                 // A timeout/cancellation is not a rollback. Inspect in a fresh task,

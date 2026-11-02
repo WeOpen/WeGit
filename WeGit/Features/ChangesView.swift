@@ -311,6 +311,7 @@ struct ChangesView: View {
                 Toggle(L10n.text("修改上次提交（Amend）"), isOn: $session.amend).toggleStyle(.checkbox).disabled(
                     session.status.head == nil || session.isBusy
                 )
+                .accessibilityIdentifier("commit-amend")
                 .onChange(of: session.amend) { _, new in
                     if new && session.message.isEmpty {
                         Task {

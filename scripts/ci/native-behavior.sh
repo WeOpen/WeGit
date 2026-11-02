@@ -3,6 +3,8 @@ set -euo pipefail
 # Older revisions do not contain every feature. Once a feature is present its
 # behavior check is mandatory; a missing checker is an error, not a silent skip.
 for pair in \
+  WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase.sh \
+  WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase-performance.sh \
   WeGitCore/GitCore/ConflictEditorService.swift:scripts/verify-conflict-editor.sh \
   WeGitCore/GitCore/ConflictEditorService.swift:scripts/verify-conflict-editor-performance.sh \
   WeGitCore/GitCore/RebaseService.swift:scripts/verify-rebase.sh \
@@ -18,6 +20,7 @@ for pair in \
   WeGitCore/GitCore/RemoteManagementService.swift:scripts/verify-remote-management.sh \
   WeGitCore/GitCore/StashService.swift:scripts/verify-stash.sh \
   WeGitCore/GitCore/SubmoduleService.swift:scripts/verify-submodule-lfs.sh \
+  WeGitCore/GitCore/SubmoduleService.swift:scripts/verify-submodule-lfs-performance.sh \
   WeGit/Features/RepositorySyncCounts.swift:scripts/verify-sync-counts.sh \
   WeGitCore/Domain/ChangeFileTree.swift:scripts/verify-change-file-tree.sh \
   WeGit/Features/DiffChangeMap.swift:scripts/verify-diff-change-map.sh \

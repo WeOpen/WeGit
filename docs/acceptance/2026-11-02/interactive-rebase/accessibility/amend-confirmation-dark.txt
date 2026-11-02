@@ -1,0 +1,24 @@
+Attributes: Dialog, 0x7a86e457c0, {{830.0, 207.0}, {260.0, 268.0}}, identifier: '_NS:87', label: 'alert', Keyboard Focused, Disabled
+Element subtree:
+ →Dialog, 0x7a86e457c0, {{830.0, 207.0}, {260.0, 268.0}}, identifier: '_NS:87', label: 'alert', Keyboard Focused, Disabled
+    Image, 0x7a86e46a80, {{849.0, 226.0}, {66.0, 66.0}}, identifier: '_NS:35', label: 'alert'
+    StaticText, 0x7a86e47200, {{851.0, 306.0}, {218.0, 18.0}}, identifier: '_NS:74', value: Amend last commit?
+    StaticText, 0x7a86e46bc0, {{851.0, 332.0}, {218.0, 50.0}}, identifier: '_NS:58', value: Rewrite 3e5b2c24e4...
+    Button, 0x7a86e47480, {{845.0, 396.0}, {230.0, 30.0}}, identifier: 'action-button-2', title: 'Amend commit'
+    Button, 0x7a86e47340, {{845.0, 430.0}, {230.0, 30.0}}, identifier: 'action-button-1', title: 'Cancel'
+Path to element:
+ →Application, 0x7a86e45900, pid: 10612, title: 'WeGit', Disabled
+  ↳Dialog, 0x7a86e457c0, {{830.0, 207.0}, {260.0, 268.0}}, identifier: '_NS:87', label: 'alert', Keyboard Focused, Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x7a86f96e40, pid: 10612, title: 'WeGit', Disabled
+  }
+  ↪︎Find: Descendants matching type Dialog
+    Output: {
+      Dialog, 0x7a86f96f80, {{830.0, 207.0}, {260.0, 268.0}}, identifier: '_NS:87', label: 'alert', Keyboard Focused, Disabled
+    }
+    ↪︎Find: First Match
+      Output: {
+        Dialog, 0x7a86f96f80, {{830.0, 207.0}, {260.0, 268.0}}, identifier: '_NS:87', label: 'alert', Keyboard Focused, Disabled
+      }

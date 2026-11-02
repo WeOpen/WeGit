@@ -1,0 +1,61 @@
+{
+  "source": "38dca23915362c3ca51f6bddd643a31a06b15c37",
+  "run": 41362962873,
+  "artifact": 13106127777,
+  "artifactBytes": 588273,
+  "artifactSHA256": "cdd1886fa6e72363fb4579130e39452935a309e2328bf4ce90b8aa7feb965347",
+  "crcEntries": 77,
+  "sourceInputCount": 194,
+  "sourceMismatches": [],
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-submodule-lfs": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 19.025,
+      "summarySeconds": 24.986999988555908
+    },
+    "focused-submodule-lfs": {
+      "methodSeconds": 21.768,
+      "summarySeconds": 23.298999786376953
+    }
+  },
+  "displayRestored": true,
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "6c0dc2c6559baef91929ca0c6211c818878cb9d6",
+      "deviceName": "My Mac",
+      "exportedFileName": "E25ABD33-CFA3-495E-8DC8-01C6581930A2.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Submodule and LFS resources accessibility_0_03907A7C-AF4F-4528-8A3C-AE0B66A7CCCB.txt",
+      "timestamp": 1793576465.182,
+      "publishedFile": "accessibility/submodule-lfs-resources.txt",
+      "sha256": "022c3f5fee4e1a3c934e51eedb9e82a11f8ba877db43607cfecc967abf32689f"
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "6c0dc2c6559baef91929ca0c6211c818878cb9d6",
+      "deviceName": "My Mac",
+      "exportedFileName": "D8A441F8-8F3E-4D17-BEE3-E7AD9E37CB0A.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Submodule and LFS resources_0_EE34CBC6-9E6E-4AE5-A19D-2DEF3642F12F.png",
+      "timestamp": 1793576464.613,
+      "publishedFile": "screenshots/submodule-lfs-resources.png",
+      "sha256": "de3d5a566f54d0f1afe12ab09622907f6f79551bb4394436d2d079bd17fb48cb"
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true
+}

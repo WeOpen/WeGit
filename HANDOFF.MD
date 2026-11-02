@@ -1,5 +1,51 @@
 # WeGit 开发交接
 
+## 2026-11-02 当前聊天继续收口与原生确认框定位
+
+- 最终产品/UI输入38dca23915362c3ca51f6bddd643a31a06b15c37已通过两项可信原生：Interactive41362241163与Submodule/LFS41362962873，二者smoke/focus均各1/1/0/0；方法74.719/21.768秒，summary78.620/23.299秒，原120/180秒预算不变。194个输入全匹配，七张原图/七份AX实看并逐附件SHA复制到2026-11-02验收目录。两个制品116302263/588273bytes，SHAe464ae56.../cdd1886f...，2021/77CRC，VM显示已恢复。前序失败/旧通过不改记。
+- 组合Core的两份本机普通Release报告各90有效（ordinary/5000 loose/packed各30），各94输入与最终产品Core逐SHA匹配：Interactive first113.296/686.773/676.317ms、execute1173.377/4399.962/3787.132ms、cancel<1ms、最大RSS105316352；LFS first94.420/689.663/326.827ms、cancel<1ms、最大RSS31014912。2000/10000/500ms和256/512MiB预算保留；sourceRevision=a140e9a、workspaceDirty=true保持实际值，不宣称整版UI性能通过。新完整数组、旧LFS数组和12有效样本的失败JSON都已保留。
+- 最后仅证据/执行表/HANDOFF更新不改变上述194原生与94性能输入；仍须新head的全部必需CI与实际制品数组。合入可信main后再执行完整functional，记录实际计数与失败/跳过；不运行本机XCTest，不提前结束开发收口。清理分支保留主根站点等WIP和旧Rebase三项修改/两份草稿所在两个分支。
+
+- 组合候选a140e9a的可信run41360792380实际smoke/Interactive各1/1/0/0，方法77.763秒、summary82.265秒；制品13105231919为118150474bytes/SHA3fce75059ad1658c808dcc88b6dd8d4103935c22ecca6fce269973882f49f9ec/2167CRC，194输入全部匹配。已核对原生确认框动作后实际amend/继续/完整消息顺序、最终树和不变远端引用。该通过只属于a140e9a。
+- 截图审阅发现145pt动作Picker截断“压缩并保留前一消息”；仅将固定列宽增至224pt，使中文和英文完整动作可读，保持700pt sheet、消息编辑区和键盘排序入口。Core性能输入不包含此UI文件，当前测量不重跑；新UI输入仍需固定新候选后重新执行两项可信原生。不要以AX有完整value代替可见标签完整。
+
+- 最后两个开发PR统一收口到既有PR87：本树保留PR97原始head bc1c06b作为merge parent，功能源码和旧证据均进入同一最终候选。两份HANDOFF和本地化增量的冲突已逐块核对并保留两边，1427字符串/8复数验证通过；未引入网站等主根改动。PR97在最终候选正常合入main并核对源码之前保持开放，不提前关闭96。
+- LFS候选bc1c06b的可信run41359676150实际smoke/专项各1/1/0/0，制品13104608627为588345bytes/SHAe1cf0525beb7a89bdd00b36e450feba78cf33ff290b78a7c8a162e439da23196/77CRC，191输入匹配。截图/AX已实看，子模块clean、固定指针/missing对象/获取按钮可见，VM显示恢复原1024×768。required41328717734完整1387080bytes日志保留，三套Git各257/46 suites通过，39独立检查和92输入的本机90原始性能样本已核验。合并后的新产品输入仍须两项新可信原生及完整CI。
+- 必需CI此前执行了性能脚本，但artifact只列Worktree/Rebase结果，遗漏Conflict/Interactive/Submodule-LFS的原始数组。最终候选增加这三种result.json白名单，只有数百KB JSON增量，不扩大fixture/源码上传；先核验真实artifact里的90数组和sourceFiles，不能把步骤success当原始样本取证完成。
+
+- 用户在当前聊天继续 `01a197a0-e3be-7800-ba2e-71c489c4d95d` 的同一目标：完成开发和当前可执行证据，清空 Issue/PR，最后清理已完成分支。此前 #3/#4/#5/#6/#7/#9 的延期归档决定继续有效；不恢复已暂停的 heartbeat，不新开聊天。主根和两功能树 HEAD/index/HANDOFF、binary patch、untracked SHA 清单保存在主根 `.build/v1-2-closeout-2026-11-02/snapshot/`；主根网站等用户改动保留。
+- 第三轮可信原生 run41328698625/job124914005919 的完整制品13092003329为126979867bytes/SHA4b1ced49c67c34704b5a8c7c373930145bf22d5f91bdaa0ec4dc082bb5572172，2197 ZIP 条目 CRC、194构建输入与d73c6e6逐SHA匹配。smoke1/1/0/0，Interactive1总0pass1fail0skip，92.962秒，失败在RebaseWorkflowTests.swift150。原失败制品和录屏保留。
+- AX 明确显示原生NSAlert已经打开，动作按钮为 `action-button-2`、title `Amend commit`，主窗和Touch Bar另有同名按钮。按全应用 `label == ...` 查找会漏掉该原生title。新用例限定 `app.dialogs.firstMatch` 和实际系统动作identifier，核对enabled/hittable并保存确认框截图/AX；应用内暂存、实际amend树/HEAD、继续后的顺序/消息/远端引用断言保持。修正仍须新编译和可信原生通过，不把旧失败改作成功。
+- 代码位置和执行目录先用 `rg --files` 核对；主根停留在旧blame源码，当前Rebase测试只在原conflict-editor功能树中，任务私有证据和Git对象传输工具则在主根.build。多条shell命令用 `set -e` 或独立调用并逐个核对状态，不能让最后一个成功掩盖前面的缺失路径或ffmpeg未安装。
+- GraphQL同层查询两个不同编号的pullRequest必须使用别名。性能JSON先读实际schema：本批configuration是 `ordinary Release Core`；不要把自写校验器对字段字面量的误假设算作产品失败。
+
+## 2026-11-02 原生菜单跟踪与取消夹具修正
+
+- 可信 main540c29b 的 run41324005469 实际 smoke1/1/0/0，Interactive方法1总0pass1fail0skip，43.932秒；完整115950359bytes ZIP/6cb22268 SHA/2193CRC及194受测输入逐SHA匹配。失败、73附件与录屏保持；没有本机XCTest。
+- 录屏实际40秒帧仍打开第二行原生动作菜单；XCTest对动态List内MenuItem的click走了inf矩形后备menuAction路径，TextView虽暂时出现但菜单跟踪未结束。新用例用原生方向键/Return选择，必须核对菜单关闭和Picker真实值；TextView编辑还要逐值回显，再核对最终真实Git消息/树。不能把叶节点click返回当选择完成，也不能只删掉disabled断言宣布成功。
+- LFS真实Debug诊断5000普通文件/0指针为5000cat-file进程和35103.010ms。独立Issue96在submodule-management树实施批量/全量上限、固定缓存获取和陈旧结果保护；39项独立检查已实际通过，Core目标编译，不运行本机XCTest。性能与可信原生仍待收口。
+- 新LFS性能首轮只完成12个有效ordinary样本，取消进程组检查在第13个失败；原数组/夹具保持。退出trap须显式终止并wait自己启动的child后再exit，避免遗留子进程或短暂僵尸组；新fixture修正不修改ProcessRunner、500ms预算、存活PID与全组退出断言。全部90样本必须重新运行。
+- 外部swiftc checker不能访问Core内部String.removingLastNewline；用公开的trimmingCharacters等处理CLI输出，不改Core访问级别。GitHub ZIP本机慢传输的前缀保留；首选GitHub连接器download_workflow_artifact返回的文件引用，实下载后仍独立核验摘要/CRC，不打印临时签名地址。
+
+## 2026-11-01 当前聊天接续收口
+
+- 继续来源聊天 `01a196cd-71aa-74a1-a339-8e0f405c5238` 的同一目标：完成剩余功能与证据，清空 Issue/PR，最后清理已完成分支。只在当前聊天手动继续；沿用已停止的定时接续安排。主检出的网站等既有改动和功能树 WIP 已保存到主根 `.build/v1-2-closeout-2026-11-01/current-session-snapshot/`，提交只列明本批文件。
+- 用户本轮明确同意 #4/#5 沿用 #3/#6/#7/#9 的延期归档方式。最终整版 Release 性能、硬件签名/其他 Helper/GitLab、完整 VoiceOver、专用验收机、受保护 Mac 安装/迁移/回退和真实 Beta 反馈都保留未验条件；不能把 not_planned 关闭当作实际通过或发布授权。新功能的性能、核心和原生验证仍须完成，汇总入口为 `docs/acceptance/2026-11-01/v1-2-closeout/README.md`。
+- PR #11 已正常 squash 为 main `a9ae82632893c0c0ac45e06dc97a4ba7e1d02d3c`；#54 已依据 PR #56 / required CI 和已有 Loading 证据关闭。#95/#94 按 strict main 基线更新，旧必需检查不能覆盖新 head，可选 Workers Builds 失败单独保留。
+- 当前 Interactive Rebase 独立 Git 检查为 9+66=75 项全部通过，Core 测试目标和 macOS build-for-testing 均编译通过；本机未执行 XCTest。实际新方法为 `RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch`，含六种动作、排序、已发布确认、取消、edit 停点重开和应用内 amend，仍需可信原生执行。首轮三类各30 Release 样本全部通过，但随后本地化和脚本输入变化，最终输入必须重新固定核验。
+- 新动作、辅助访问名称与恢复失败分支遗漏18条资源，`verify-localization.py` 实际失败后一次列出并补齐中英文，1392字符串/8复数通过。UI-only 名称也必须进入 catalog；目录名或 enum raw value 不能替代可访问名称的翻译。
+- `github.com:443` 连接实际多次超时，`api.github.com` 可用；使用任务私有 `github_git_objects.py` 通过认证 REST 同步 Git 对象。签名 commit 必须保留 signature 的末尾换行后重建 gpgsig，逐 blob/tree/commit 校验真实 Git SHA 并验证完整可达对象，最后以旧 tracking ref 为条件更新；没有改用户全局 Git/DNS 设置。当前 main 的4131个可达对象和两份新签名 commit 已精确核对。此路径是传输替代，不绕过分支保护或强推。
+- 不猜源文件路径：工具栏在 `WeGit/Features/WorkspaceToolbar.swift`，不是 `WeGit/App/ToolbarItems.swift`。性能脚本的 DirectoryEnumerator 放在同步 helper，避免 async 上下文的 Swift 6 警告。取消测量先原子发布完整 wrapper/child PID；所有就绪失败都 cancel 并 await 任务清理，RSS 明确包含进程终身高水位，未包含子 Git RSS。
+## 2026-11-02 LFS 读取与固定缓存获取收口
+
+- 当前树从已核对的main a9ae826建立 `codex/96-lfs-scan-and-fetch`，追踪Issue96。5000普通文件/0指针的真实Debug诊断为5000cat-file和35103.010ms；不能把该单次诊断叫Release P95。新读取使用批量metadata/content、规范<1024字节指针、512结果与16MiB聚合内容/工作文件上限，禁用隐式lazy fetch，原始index与仓库身份重验。
+- 获取对象改为确认index指针后，仅构建私有objects中的单指针commit；使用真实Git LFS fetch该固定范围，固定Remote与读取的LFS endpoint，关闭recent/include/exclude扩张与prune，不执行checkout。私有mktree避免write-tree污染用户index；alternates使用已有C-style转义，SnapshotDirectory显式延长生命周期到命令完成。真实LFS服务与外部账号仍属用户确认延期的#5，不能用夹具冒充服务协议验收。
+- 原39项独立检查（15既有+24边界）实际通过：5000文件仅两次cat-file、逗号/glob/中文/换行路径、仅固定cache bytes、其他对象未取、工作文件/HEAD/raw index/user Git objects不变、外部index/HEAD拒绝、真启动取消/超时和16MiB/512上限。3个新增Core测试目标编译，通过不等于XCTest执行；本机未运行XCTest。
+- Inspector按当前session/status与取消状态整体发布结果，缓存成功单独刷新，已有对象不重复显示获取按钮，状态值显示对象已缓存；未新增解释性标签或轮询。版本检测与读取在后台且有输出上限。
+- 首轮Release检查在ordinary第13次的全进程组退出断言失败，只保留12有效样本；原JSON和私有夹具未覆盖。Shell TERM trap须终止并wait自己启动的child再退出；新fixture修正不改变ProcessRunner、500ms/2000ms/256-512MiB预算与存活PID/整个group退出要求。重新完整90样本前不能称性能通过。
+- 独立swiftc调用不能访问Core内部String.removingLastNewline，使用公开trimmingCharacters处理CLI输出。GitHub API同步工具在主根 `.build/v1-2-closeout-2026-11-01/github_git_objects.py`，Helper必须等running session真正退出0后才依赖其新refs/文件；正文/临时签名URL不经shell插值或日志回显。
+- #4/#5已由本轮用户明确同意延期归档，#3/#6/#7/#9沿用原归档；条件在Interactive分支的 `docs/acceptance/2026-11-01/v1-2-closeout/README.md`。功能/必需CI/可信原生/有效性能源与最终分支清理继续，GitHub issue关闭不表示整版发布。
+
 ## 2026-11-01 当前聊天收口与 Submodule/LFS 附件补齐
 
 - 在当前聊天继续原 v1.2 全目标；原 `wegit-v1-2` heartbeat 实际为 PAUSED，本轮没有恢复或创建定时任务。用户明确将 #3/#6/#7/#9 延期并归档，使用 not_planned，原未通过条件保留，不构成发布签核。
@@ -879,8 +925,18 @@
 - 为等待真正进入 FIFO 的取消测试，`RepositoryOperationQueue.pendingOperationCountForTesting` 仅作 module-internal 诊断观察；Release checker 通过 `-enable-testing` 编译优化 Core 供 checker 链接，不运行 Release XCTest。原始 `swift build -c release --build-tests` 的 testability module 错误保留，不作为产品源码失败。
 - 产品分支已提交 `2d2dfb5`（功能/Core/UI/checker/acceptance）与 `ad019c6`（queue waiter 观察与 Release 性能）；已 push `codex/v1.2-conflict-editor` 并创建 draft PR #85，base 暂为 `codex/v1.2-rebase`，只展示相对 PR80 的 26 个文件。PR80/PR85 均不合并，Issue81 仍需 Issue83 入口先正常进入 trusted main。
 - Release 性能 receipt 已更新：ordinary/large-loose/large-packed 各30，p95 read `144.158/174.991/199.461 ms`，save `49.856/79.319/75.212 ms`，mark `145.715/235.407/252.862 ms`，真正排队取消 `0.0125/0.0107/0.0115 ms`，RSS `14.2/29.6/31.7 MB`，loose/packed 对象统计均满足。该结果是 `-enable-testing` 优化 Core checker，不是 XCTest/发布性能签核。
+## 2026-10-31 Interactive Rebase development increment
+
+- Interactive Rebase is developed on `codex/v1.2-interactive-rebase`, separate from PR85's feature branch. Core adds a bounded linear sequence plan and private sequence/message editors; Branches adds a fixed Interactive Rebase sheet with action/order controls. Existing Rebase recovery remains the recovery boundary.
+- Private checker `scripts/verify-interactive-rebase.sh` passes 4/4 for linear prepare, drop, reword, commit count/message/content and clean worktree. Core build-for-tests and macOS UI build-for-testing pass; no local XCTest.
+- Acceptance is in `docs/acceptance/2026-10-31/interactive-rebase/`. Edit pause/recovery, squash/fixup correctness, repeated conflicts, cancel/unknown replies, native entry, Release performance and normal PR/required CI remain open. Do not mark V12-07 complete.
 - 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
 
+## 2026-10-31 Interactive Rebase localization guard
+
+- PR87 上一轮托管 CI 在 Core build 前由 `verify-localization.py` 报错：`InteractiveRebaseService` 的失败和前置校验路径新增了 4 个 `L10n.text` keys，但只补了 UI 文案。英/中 catalog 必须同时覆盖 `交互式变基未完成`、干净工作区/祖先/线性序列校验文案；补齐后本地化审计通过，独立 checker 4/4 与 Core 编译通过。
+- 当前未提交 Interactive Rebase WIP 将首版 Picker 收窄为已验证的 `pick`、`reword`、`drop`；尚无暂停恢复和 squash/fixup message semantics 时不向 UI 暴露这些动作。私有 Git checker 已扩展并通过 9 项断言，覆盖 all-drop 在写入前拒绝、重排独立提交、reword/drop 的最终对象及干净工作区。对应 XCTest 已补，仍只编译不在本机执行；V12-07 的其他验收门继续开放。
+- 原生 UI 方法已从功能树移除到可信入口树；功能树 `WorkflowRecoveryTests` 仍保留同一固定方法。UI build-for-testing、入口17项 Python 策略测试与入口树 build-for-testing 均通过，未本机执行 XCTest。
 ## 2026-10-30 第十四代最新 CI、原生重验与冲突编辑器
 
 - Rebase 修复已是提交 `8474d620c7607678921fcfb91d13dae68572b26c`；2026-10-30 14:16 UTC 实际 `ls-remote` 与 PR80 head 均匹配。PR80 仍 draft/open，Issue78 open，reviews/inline threads 为 0。required `41042286681` 的 PR policy、`41042286905` 的 Repository policy 与 Native macOS 全部成功，后者格式/Core/最低 Git/feature 行为/GPG/Homebrew/native compile/Release 打包各阶段均成功；完整日志 1,322,375 bytes，三套 Git 各 247 tests/43 suites 实际通过。VM 原始 90 性能数组仍须从完整 artifact12971828885 核验，不能只由阶段成功代替。

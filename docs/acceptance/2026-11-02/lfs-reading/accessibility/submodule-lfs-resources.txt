@@ -1,0 +1,297 @@
+Attributes: Application, 0x76c8b82bc0, pid: 15922, title: 'WeGit', Disabled
+Element subtree:
+ →Application, 0x76c8b82bc0, pid: 15922, title: 'WeGit', Disabled
+    Window (Main), 0x76c8b82440, {{280.0, 77.0}, {1360.0, 880.0}}, identifier: 'main', title: 'WeGitSubmoduleLFSUI-34446DC4-9CAD-456A-B8EA-1D98C67698D9 – main', Disabled
+      Group, 0x76c8b82940, {{280.0, 77.0}, {1360.0, 880.0}}, Disabled
+        Group, 0x76c8b826c0, {{280.0, 77.0}, {1360.0, 880.0}}, label: 'WeGit 工作区'
+          SplitGroup, 0x76c8b82800, {{280.0, 77.0}, {1360.0, 880.0}}, identifier: 'main, SidebarNavigationSplitView', Disabled
+            Group, 0x76c8b82a80, {{280.0, 77.0}, {210.0, 880.0}}, Disabled
+              ScrollView, 0x76c8b81b80, {{280.0, 129.0}, {210.0, 754.0}}, Disabled
+                Outline, 0x76c8b81cc0, {{279.0, 128.0}, {212.0, 756.0}}, label: '边栏'
+                  OutlineRow, 0x76c8b81e00, {{280.0, 129.0}, {210.0, 19.0}}, Disabled
+                    Cell, 0x76c8b81f40, {{290.0, 129.0}, {190.0, 19.0}}, Keyboard Focused
+                      Group, 0x76c8b82580, {{294.0, 129.0}, {194.0, 19.0}}, Disabled
+                        StaticText, 0x76c8b82d00, {{294.0, 131.5}, {33.0, 14.0}}, label: '工作区'
+                  OutlineRow, 0x76c8b82e40, {{280.0, 148.0}, {210.0, 50.0}}, Selected, Disabled
+                    Cell, 0x76c8b82f80, {{290.0, 148.0}, {190.0, 50.0}}, Keyboard Focused, Selected
+                      StaticText, 0x76c8b830c0, {{340.0, 165.0}, {26.0, 16.0}}, identifier: 'route-更改', value: 更改
+                      StaticText, 0x76c8b83200, {{450.0, 166.0}, {8.0, 14.0}}, identifier: 'route-更改', value: 1
+                  OutlineRow, 0x76c8b83340, {{280.0, 198.0}, {210.0, 50.0}}, Disabled
+                    Cell, 0x76c8b83480, {{290.0, 198.0}, {190.0, 50.0}}, Keyboard Focused
+                      StaticText, 0x76c8b835c0, {{304.0, 210.0}, {88.0, 26.0}}, identifier: 'route-提交历史', value: 提交历史
+                  OutlineRow, 0x76c8b83700, {{280.0, 248.0}, {210.0, 50.0}}, Disabled
+                    Cell, 0x76c8b83840, {{290.0, 248.0}, {190.0, 50.0}}, Keyboard Focused
+                      StaticText, 0x76c8b83980, {{304.0, 260.0}, {62.0, 26.0}}, identifier: 'route-分支', value: 分支
+                  OutlineRow, 0x76c8b83ac0, {{280.0, 298.0}, {210.0, 50.0}}, Disabled
+                    Cell, 0x76c8b83c00, {{290.0, 298.0}, {190.0, 50.0}}, Keyboard Focused
+                      StaticText, 0x76c8b83d40, {{304.0, 310.0}, {62.0, 26.0}}, identifier: 'route-暂存记录', value: 储藏
+                  OutlineRow, 0x76c8b83e80, {{280.0, 348.0}, {210.0, 50.0}}, Disabled
+                    Cell, 0x76c8a56080, {{290.0, 348.0}, {190.0, 50.0}}, Keyboard Focused
+                      StaticText, 0x76c8a56300, {{304.0, 360.0}, {62.0, 26.0}}, identifier: 'route-标签', value: 标签
+                  OutlineRow, 0x76c8a57340, {{280.0, 411.0}, {210.0, 19.0}}, Disabled
+                    Cell, 0x76c8a57480, {{290.0, 411.0}, {190.0, 19.0}}, Keyboard Focused
+                      Group, 0x76c8a57700, {{294.0, 411.0}, {194.0, 19.0}}, Disabled
+                        StaticText, 0x76c8a56440, {{294.0, 413.5}, {22.0, 14.0}}, label: '仓库'
+                  OutlineRow, 0x76c8a56800, {{280.0, 430.0}, {210.0, 56.0}}, Disabled
+                    Cell, 0x76c8a56a80, {{290.0, 430.0}, {190.0, 56.0}}, Keyboard Focused
+                      Button, 0x76c8a56bc0, {{296.0, 434.0}, {178.0, 48.0}}, identifier: 'sidebar-repository:/Users/runner/Library/Containers/com.willxue.wegit.UITests.xctrunner/Data/tmp/WeGitSubmoduleLFSUI-34446DC4-9CAD-456A-B8EA-1D98C67698D9', label: 'WeGitSubmoduleLFSUI-34446DC4-9CAD-456A-B8EA-1D98C67698D9、main'
+                  TableColumn, 0x76c8a56d00, {{290.0, 129.0}, {190.0, 754.0}}, identifier: 'ListColumn', Disabled
+              StaticText, 0x76c8a56e40, {{340.0, 909.5}, {40.0, 17.0}}, identifier: 'sidebar-brand', value: WeGit
+              Button, 0x76c8a56f80, {{436.0, 903.0}, {30.0, 30.0}}, identifier: 'sidebar-add-repository', label: '打开仓库'
+            Splitter, 0x76c8a570c0, {{490.0, 129.0}, {1.0, 828.0}}, value: 210, Disabled
+            Group, 0x76c8a57200, {{280.0, 77.0}, {1360.0, 880.0}}, Disabled
+              SplitGroup, 0x76c8b9c000, {{280.0, 77.0}, {1360.0, 880.0}}, Disabled
+                Group, 0x76c8b9c140, {{280.0, 77.0}, {999.0, 880.0}}, Disabled
+                  SplitGroup, 0x76c8b9c280, {{280.0, 77.0}, {999.0, 749.0}}, Disabled
+                    Group, 0x76c8b9c3c0, {{280.0, 77.0}, {578.0, 749.0}}, Disabled
+                      StaticText, 0x76c8b9c500, {{541.0, 146.0}, {26.0, 16.0}}, value: 更改
+                      StaticText, 0x76c8b9c640, {{576.0, 144.0}, {24.0, 20.0}}, value: 1
+                      MenuButton, 0x76c8b9c780, {{778.0, 146.0}, {25.0, 16.0}}, identifier: 'changes-display-mode', title: '显示方式'
+                      MenuButton, 0x76c8b9c8c0, {{818.0, 146.0}, {22.0, 16.0}}, identifier: 'ellipsis', title: '更多'
+                      TextField, 0x76c8b9ca00, {{530.0, 185.0}, {190.0, 18.0}}, identifier: 'changes-filter', label: '筛选文件路径', placeholderValue: '筛选文件路径'
+                      PopUpButton, 0x76c8b9cb40, {{736.0, 182.0}, {110.0, 24.0}}, identifier: 'changes-state-filter', label: '改动状态', value: 全部状态
+                      ScrollView, 0x76c8b9cc80, {{490.0, 220.0}, {368.0, 606.0}}, Disabled
+                        Outline, 0x76c8b9cdc0, {{279.0, 219.0}, {580.0, 608.0}}, identifier: 'changes-list'
+                          OutlineRow, 0x76c8b9cf00, {{490.0, 230.0}, {368.0, 34.0}}, Disabled
+                            Cell, 0x76c8b9d040, {{500.0, 230.0}, {348.0, 34.0}}, Keyboard Focused
+                              Group, 0x76c8b9d180, {{508.0, 234.0}, {334.0, 26.0}}, identifier: 'changes-group:untracked'
+                                CheckBox, 0x76c8b9d2c0, {{508.0, 240.0}, {14.0, 14.0}}, identifier: 'stage-group:untracked', label: '暂存所显示的文件 未跟踪、暂存所显示的文件 未跟踪', value: 0
+                                Button, 0x76c8b9d400, {{530.0, 234.0}, {312.0, 26.0}}, identifier: 'changes-collapse:untracked', label: '未跟踪（1）', value: 已展开
+                          OutlineRow, 0x76c8b9d540, {{490.0, 264.0}, {368.0, 42.0}}, Disabled
+                            Cell, 0x76c8b9d680, {{500.0, 264.0}, {348.0, 42.0}}, Keyboard Focused
+                              Group, 0x76c8b9d7c0, {{508.0, 272.0}, {334.0, 26.0}}, identifier: 'changes-file:untracked:visible.txt'
+                                CheckBox, 0x76c8b9d900, {{508.0, 278.0}, {14.0, 14.0}}, identifier: 'stage:untracked:visible.txt', label: '暂存 visible.txt、暂存 visible.txt', value: 0
+                                StaticText, 0x76c8b9da40, {{566.0, 277.5}, {57.0, 15.0}}, value: visible.txt
+                                StaticText, 0x76c8b9db80, {{820.0, 274.0}, {22.0, 22.0}}, value: 状态：未跟踪
+                          TableColumn, 0x76c8b9dcc0, {{500.0, 220.0}, {348.0, 606.0}}, identifier: 'ListColumn', Disabled
+                    Splitter, 0x76c8b9de00, {{858.0, 77.0}, {1.0, 749.0}}, value: 578, Disabled
+                    Group, 0x76c8b9df40, {{859.0, 77.0}, {420.0, 749.0}}, Disabled
+                      StaticText, 0x76c8b9e080, {{1024.0, 503.5}, {90.0, 19.0}}, value: 选择一个文件
+                      StaticText, 0x76c8b9e1c0, {{943.5, 534.5}, {251.0, 15.0}}, value: 查看工作区与暂存区的差异，整理下一次...
+                  TextField, 0x76c8b9e300, {{515.0, 866.0}, {559.0, 34.0}}, identifier: 'commit-message', label: '提交消息', placeholderValue: '提交消息；⌥↩ 换行'
+                  Button, 0x76c8b9e440, {{1095.0, 843.0}, {168.0, 30.0}}, identifier: 'commit-button', label: '提交（0 个文件）', Disabled
+                  Button, 0x76c8b9e580, {{1095.0, 879.0}, {168.0, 30.0}}, identifier: 'commit-push-button', label: '提交并推送…', Disabled
+                  Other, 0x76c8b9e6c0, {{506.0, 921.5}, {48.0, 15.0}}, identifier: 'commit-staged-count', label: '已暂存 0 个文件'
+                  CheckBox, 0x76c8b9e800, {{564.0, 921.0}, {167.0, 16.0}}, identifier: 'commit-amend', label: '修改上次提交（Amend）', value: 0
+                  Other, 0x76c8b9e940, {{1203.0, 922.5}, {60.0, 13.0}}, identifier: 'operation-feedback', label: '填写提交消息'
+                Splitter, 0x76c8b9ea80, {{1279.0, 129.0}, {1.0, 828.0}}, value: 999, Disabled
+                Group, 0x76c8b9ebc0, {{1280.0, 77.0}, {360.0, 880.0}}, Disabled
+                  Group, 0x76c8b9ed00, {{1280.0, 77.0}, {360.0, 880.0}}, identifier: 'repository-inspector', label: '检查器'
+                    RadioGroup, 0x76c8b9ee40, {{1291.0, 140.0}, {338.0, 32.0}}, identifier: 'inspector-tabs', label: '检查器'
+                      RadioButton, 0x76c8b9ef80, {{1296.0, 144.0}, {109.0, 24.0}}, label: '文件信息', value: 0
+                      RadioButton, 0x76c8b9f0c0, {{1405.0, 144.0}, {110.0, 24.0}}, label: '提交信息', value: 0
+                      RadioButton, 0x76c8b9f200, {{1515.0, 144.0}, {109.0, 24.0}}, label: '仓库资源', value: 1, Keyboard Focused
+                    ScrollView, 0x76c8b9f340, {{1280.0, 183.0}, {360.0, 774.0}}, identifier: 'inspector-resources', Disabled
+                      StaticText, 0x76c8b9f480, {{1298.0, 199.1}, {63.0, 16.0}}, value: 子模块
+                      Group, 0x76c8b9f5c0, {{1296.0, 234.0}, {328.0, 65.0}}, identifier: 'inspector-submodule:modules/child'
+                        StaticText, 0x76c8b9f700, {{1306.0, 244.0}, {105.0, 16.0}}, value: modules/child, Disabled
+                          StaticText, 0x76c8b9f840, {{1306.0, 244.0}, {105.0, 16.0}}, value: modules/child
+                        StaticText, 0x76c8b9f980, {{1594.0, 247.0}, {20.0, 13.0}}, value: 干净
+                        StaticText, 0x76c8b9fac0, {{1306.0, 268.0}, {75.0, 13.0}}, value: d843c44c7344
+                      StaticText, 0x76c8b9fc00, {{1298.0, 336.0}, {73.0, 16.0}}, value: Git LFS
+                      Group, 0x76c8b9fd40, {{1296.0, 370.0}, {328.0, 95.0}}, identifier: 'inspector-lfs:large.bin'
+                        StaticText, 0x76c8b9fe80, {{1306.0, 380.0}, {73.0, 16.0}}, value: large.bin, Disabled
+                          StaticText, 0x76c8ba0000, {{1306.0, 380.0}, {73.0, 16.0}}, value: large.bin
+                        StaticText, 0x76c8ba0140, {{1574.0, 383.0}, {40.0, 13.0}}, value: 指针文件
+                        StaticText, 0x76c8ba0280, {{1306.0, 404.0}, {41.0, 13.0}}, value: 12 bytes
+                        StaticText, 0x76c8ba03c0, {{1306.0, 433.5}, {81.0, 13.0}}, value: LFS 对象尚未下载
+                        Button, 0x76c8ba0500, {{1526.0, 425.0}, {88.0, 30.0}}, identifier: 'inspector-lfs-fetch:large.bin', label: '获取对象'
+      Toolbar, 0x76c8ba0640, {{280.0, 77.0}, {1360.0, 52.0}}, Disabled
+        Group, 0x76c8ba0780, {{442.0, 77.0}, {44.0, 52.0}}, Disabled
+          Group, 0x76c8ba08c0, {{446.0, 85.0}, {36.0, 36.0}}, label: '隐藏边栏', Disabled
+            Button, 0x76c8ba0a00, {{446.0, 85.0}, {36.0, 36.0}}, identifier: 'toolbar-sidebar', label: '侧栏', value: 已打开
+        Button, 0x76c8ba0b40, {{494.0, 77.0}, {44.0, 52.0}}, identifier: 'toolbar-repository', label: 'WeGitSubmoduleLFSUI-34446DC4-9CAD-456A-B8EA-1D98C67698D9'
+        Group, 0x76c8ba0c80, {{1063.0, 77.0}, {140.0, 52.0}}, Disabled
+          MenuButton, 0x76c8ba0dc0, {{1127.0, 94.0}, {12.0, 18.0}}, identifier: 'current-branch', title: '当前分支：main', value: 同步状态：无上游
+        Group, 0x76c8ba0f00, {{1203.0, 77.0}, {91.0, 52.0}}, Disabled
+          MenuButton, 0x76c8ba1040, {{1216.0, 94.0}, {65.0, 18.0}}, identifier: 'toolbar-fetch', title: '获取', Disabled
+        Button, 0x76c8ba1180, {{1294.0, 77.0}, {83.0, 52.0}}, identifier: 'toolbar-pull', label: '拉取', value: 待核对, Disabled
+        Button, 0x76c8ba12c0, {{1377.0, 77.0}, {83.0, 52.0}}, identifier: 'toolbar-push', label: '推送', value: 待核对, Disabled
+        Button, 0x76c8ba1400, {{1460.0, 77.0}, {44.0, 52.0}}, identifier: 'arrow.trianglehead.2.clockwise.rotate.90', label: '刷新'
+        Button, 0x76c8ba1540, {{1504.0, 77.0}, {44.0, 52.0}}, identifier: 'toolbar-search', label: '搜索仓库'
+        Button, 0x76c8ba1680, {{1548.0, 77.0}, {44.0, 52.0}}, identifier: 'toolbar-inspector', label: '检查器', value: 已打开
+        Group, 0x76c8ba17c0, {{1592.0, 77.0}, {44.0, 52.0}}, Disabled
+          MenuButton, 0x76c8ba1900, {{1603.0, 95.0}, {22.0, 16.0}}, identifier: 'toolbar-more', title: '更多操作'
+      Button, 0x76c8ba1a40, {{298.0, 95.0}, {16.0, 16.0}}, identifier: '_XCUI:CloseWindow'
+      Button, 0x76c8ba1b80, {{344.0, 95.0}, {16.0, 16.0}}, identifier: '_XCUI:FullScreenWindow'
+        Group, 0x76c8ba1cc0, {{345.0, 96.0}, {14.0, 14.0}}, Disabled
+          Group, 0x76c8ba1e00, {{345.0, 96.0}, {14.0, 14.0}}, Disabled
+      Button, 0x76c8ba1f40, {{321.0, 95.0}, {16.0, 16.0}}, identifier: '_XCUI:MinimizeWindow'
+      StaticText, 0x76c8ba2080, {{538.0, 77.0}, {525.0, 52.0}}, value: WeGitSubmoduleLFSU...
+      StaticText, 0x76c8ba21c0, {{538.0, 77.0}, {525.0, 52.0}}, value: main
+    MenuBar, 0x76c8ba2300, {{0.0, 0.0}, {1920.0, 30.0}}
+      MenuBarItem, 0x76c8ba2440, {{10.0, 0.0}, {34.0, 30.0}}, title: 'Apple'
+        Menu, 0x76c8ba2580, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8ba26c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_aboutThisMacRequested:', title: 'About This Mac'
+          MenuItem, 0x76c8ba2800, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_systemInformationRequested:', title: 'System Information'
+          MenuItem, 0x76c8ba2940, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8ba2a80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_systemSettingsRequested:', title: 'System Settings…, 1 update'
+          MenuItem, 0x76c8ba2bc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_appStoreRequested:', title: 'App Store'
+          MenuItem, 0x76c8ba2d00, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8ba2e40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentsRequested:', title: 'Recent Items'
+            Menu, 0x76c8ba2f80, {{0.0, 1080.0}, {0.0, 0.0}}
+              MenuItem, 0x76c8ba30c0, {{0.0, 1080.0}, {0.0, 0.0}}, title: 'Applications', Disabled
+              MenuItem, 0x76c8ba3200, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Installer'
+              MenuItem, 0x76c8ba3340, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “Installer” in Finder'
+              MenuItem, 0x76c8ba3480, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'System Settings'
+              MenuItem, 0x76c8ba35c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “System Settings” in Finder'
+              MenuItem, 0x76c8ba3700, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'WeGit'
+              MenuItem, 0x76c8ba3840, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “WeGit” in Finder'
+              MenuItem, 0x76c8ba3980, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x76c8ba3ac0, {{0.0, 1080.0}, {0.0, 0.0}}, title: 'Documents', Disabled
+              MenuItem, 0x76c8ba3c00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'AnkaGuestAddons.pkg'
+              MenuItem, 0x76c8ba3d40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_recentItemRequested:', title: 'Show “AnkaGuestAddons.pkg” in Finder'
+              MenuItem, 0x76c8ba3e80, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x76c8bc4000, {{0.0, 1080.0}, {0.0, 0.0}}, title: 'Servers', Disabled
+              MenuItem, 0x76c8bc4140, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x76c8bc4280, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_clearRecentItemsRequested:', title: 'Clear Menu'
+          MenuItem, 0x76c8bc43c0, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc4500, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_forceQuitPanelRequested:', title: 'Force Quit…'
+          MenuItem, 0x76c8bc4640, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_forceQuitRequested:', title: 'Force Quit WeGit'
+          MenuItem, 0x76c8bc4780, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc48c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_sleepRequested:', title: 'Sleep'
+          MenuItem, 0x76c8bc4a00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_restartRequested:', title: 'Restart…'
+          MenuItem, 0x76c8bc4b40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_restartNowRequested:', title: 'Restart'
+          MenuItem, 0x76c8bc4c80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_shutDownRequested:', title: 'Shut Down…'
+          MenuItem, 0x76c8bc4dc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_shutDownNowRequested:', title: 'Shut Down'
+          MenuItem, 0x76c8bc4f00, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc5040, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_lockScreenRequested:', title: 'Lock Screen'
+          MenuItem, 0x76c8bc5180, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_logOutRequested:', title: 'Log Out Anka…'
+          MenuItem, 0x76c8bc52c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_logOutNowRequested:', title: 'Log Out Anka'
+          MenuItem, 0x76c8bc5400, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+      MenuBarItem, 0x76c8bc5540, {{43.0, 0.0}, {60.0, 30.0}}, identifier: 'native-menu-app', title: 'WeGit'
+        Menu, 0x76c8bc5680, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bc57c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-about', title: '关于 WeGit'
+          MenuItem, 0x76c8bc5900, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc5a40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-settings', title: '设置…'
+          MenuItem, 0x76c8bc5b80, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc5cc0, {{0.0, 1080.0}, {0.0, 0.0}}, title: '服务'
+            Menu, 0x76c8bc5e00, {{0.0, 1080.0}, {0.0, 0.0}}
+              MenuItem, 0x76c8bc5f40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Activity Monitor'
+              MenuItem, 0x76c8bc6080, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Allocations & Leaks'
+              MenuItem, 0x76c8bc61c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'File Activity'
+              MenuItem, 0x76c8bc6300, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'System Trace'
+              MenuItem, 0x76c8bc6440, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile Active Application'
+              MenuItem, 0x76c8bc6580, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile App Under Mouse'
+              MenuItem, 0x76c8bc66c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Time Profile Entire System'
+              MenuItem, 0x76c8bc6800, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_processRequest:', title: 'Toggle Instruments Recording'
+              MenuItem, 0x76c8bc6940, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_configureServicesMenu:', title: 'Services Settings…'
+          MenuItem, 0x76c8bc6a80, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc6bc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-hide', title: '隐藏 WeGit'
+          MenuItem, 0x76c8bc6d00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-hideOthers', title: '隐藏其他'
+          MenuItem, 0x76c8bc6e40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-showAll', title: '全部显示'
+          MenuItem, 0x76c8bc6f80, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc70c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-quit', title: '退出 WeGit'
+      MenuBarItem, 0x76c8bc7200, {{102.0, 0.0}, {47.0, 30.0}}, identifier: 'native-menu-file', title: '文件'
+        Menu, 0x76c8bc7340, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bc7480, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-openRepository', title: '打开仓库…'
+          MenuItem, 0x76c8bc75c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-clone', title: '克隆仓库…'
+          MenuItem, 0x76c8bc7700, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-switchRepository', title: '切换仓库…'
+          MenuItem, 0x76c8bc7840, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bc7980, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-close', title: '关闭'
+          MenuItem, 0x76c8bc7ac0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-closeAll', title: '全部关闭'
+      MenuBarItem, 0x76c8bc7c00, {{148.0, 0.0}, {46.0, 30.0}}, identifier: 'native-menu-edit', title: '编辑'
+        Menu, 0x76c8bc7d40, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bc7e80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-undo', title: '撤销', Disabled
+          MenuItem, 0x76c8bcc000, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-redo', title: '重做', Disabled
+          MenuItem, 0x76c8bcc140, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bcc280, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-cut', title: '剪切', Disabled
+          MenuItem, 0x76c8bcc3c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-copy', title: '拷贝', Disabled
+          MenuItem, 0x76c8bcc500, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-paste', title: '粘贴', Disabled
+          MenuItem, 0x76c8bcc640, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-pasteMatchingStyle', title: '粘贴并匹配样式', Disabled
+          MenuItem, 0x76c8bcc780, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-delete', title: '删除', Disabled
+          MenuItem, 0x76c8bcc8c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-selectAll', title: '全选', Disabled
+          MenuItem, 0x76c8bcca00, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bccb40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-emojiSymbols', title: '表情与符号'
+      MenuBarItem, 0x76c8bccc80, {{193.0, 0.0}, {47.0, 30.0}}, identifier: 'native-menu-view', title: '显示'
+        Menu, 0x76c8bccdc0, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bccf00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-sidebar', title: '隐藏侧栏'
+          MenuItem, 0x76c8bcd040, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-inspector', title: '隐藏检查器'
+          MenuItem, 0x76c8bcd180, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bcd2c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-fullScreen', title: '进入全屏幕'
+      MenuBarItem, 0x76c8bcd400, {{239.0, 0.0}, {47.0, 30.0}}, identifier: 'native-menu-repository', title: '仓库'
+        Menu, 0x76c8bcd540, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bcd680, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-switchBranch', title: '切换分支…'
+          MenuItem, 0x76c8bcd7c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-refresh', title: '刷新'
+          MenuItem, 0x76c8bcd900, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-newBranch', title: '新建分支…'
+          MenuItem, 0x76c8bcda40, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bcdb80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-stageAll', title: '暂存全部'
+          MenuItem, 0x76c8bcdcc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-unstageAll', title: '取消全部暂存', Disabled
+          MenuItem, 0x76c8bcde00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-commit', title: '提交', Disabled
+          MenuItem, 0x76c8bcdf40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-commitAndPush', title: '提交并推送…', Disabled
+          MenuItem, 0x76c8bce080, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bce1c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-pull', title: '拉取…', Disabled
+          MenuItem, 0x76c8bce300, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-push', title: '推送…', Disabled
+          MenuItem, 0x76c8bce440, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-closeRepository', title: '关闭仓库'
+          MenuItem, 0x76c8bce580, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-activity', title: '活动记录'
+          MenuItem, 0x76c8bce6c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-terminal', title: '在 Terminal 中打开'
+          MenuItem, 0x76c8bce800, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-xcode', title: '在 Xcode 中打开…'
+          MenuItem, 0x76c8bce940, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-copyPath', title: '复制仓库路径'
+          MenuItem, 0x76c8bcea80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-search', title: '搜索当前仓库…'
+          MenuItem, 0x76c8bcebc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-palette', title: '命令面板…'
+      MenuBarItem, 0x76c8bced00, {{285.0, 0.0}, {60.0, 30.0}}, identifier: 'native-menu-workspace', title: '工作区'
+        Menu, 0x76c8bcee40, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bcef80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-changes', title: '更改'
+          MenuItem, 0x76c8bcf0c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-history', title: '提交历史'
+          MenuItem, 0x76c8bcf200, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-branches', title: '分支'
+          MenuItem, 0x76c8bcf340, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-stashes', title: '储藏'
+          MenuItem, 0x76c8bcf480, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-tags', title: '标签'
+          MenuItem, 0x76c8bcf5c0, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bcf700, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-quickAccess', title: '菜单栏快捷面板', Disabled
+      MenuBarItem, 0x76c8bcf840, {{344.0, 0.0}, {46.0, 30.0}}, identifier: 'native-menu-window', title: '窗口'
+        Menu, 0x76c8bcf980, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bcfac0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomFill:', title: '填充'
+          MenuItem, 0x76c8bcfc00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomCenter:', title: '居中'
+          MenuItem, 0x76c8bcfd40, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bcfe80, {{0.0, 1080.0}, {0.0, 0.0}}, title: '移动与调整大小'
+            Menu, 0x76c8bd0000, {{0.0, 1080.0}, {0.0, 0.0}}
+              MenuItem, 0x76c8bd0140, {{0.0, 1080.0}, {0.0, 0.0}}, title: '二等分', Disabled
+              MenuItem, 0x76c8bd0280, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomLeft:', title: '左侧'
+              MenuItem, 0x76c8bd03c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomRight:', title: '右侧'
+              MenuItem, 0x76c8bd0500, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomTop:', title: '顶部'
+              MenuItem, 0x76c8bd0640, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomBottom:', title: '底部'
+              MenuItem, 0x76c8bd0780, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x76c8bd08c0, {{0.0, 1080.0}, {0.0, 0.0}}, title: '四等分', Disabled
+              MenuItem, 0x76c8bd0a00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomTopLeft:', title: '左上'
+              MenuItem, 0x76c8bd0b40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomTopRight:', title: '右上'
+              MenuItem, 0x76c8bd0c80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomBottomLeft:', title: '左下'
+              MenuItem, 0x76c8bd0dc0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomBottomRight:', title: '右下'
+              MenuItem, 0x76c8bd0f00, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x76c8bd1040, {{0.0, 1080.0}, {0.0, 0.0}}, title: '排列', Disabled
+              MenuItem, 0x76c8bd1180, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomLeftAndRight:', title: '左侧与右侧'
+              MenuItem, 0x76c8bd12c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomLeftThreeUp:', title: '左侧与四等分'
+              MenuItem, 0x76c8bd1400, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomRightAndLeft:', title: '右侧与左侧'
+              MenuItem, 0x76c8bd1540, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomRightThreeUp:', title: '右侧与四等分'
+              MenuItem, 0x76c8bd1680, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomTopAndBottom:', title: '顶部与底部'
+              MenuItem, 0x76c8bd17c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomTopThreeUp:', title: '顶部与四等分'
+              MenuItem, 0x76c8bd1900, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomBottomAndTop:', title: '底部与顶部'
+              MenuItem, 0x76c8bd1a40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomBottomThreeUp:', title: '底部与四等分'
+              MenuItem, 0x76c8bd1b80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomQuarters:', title: '四等分'
+              MenuItem, 0x76c8bd1cc0, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+              MenuItem, 0x76c8bd1e00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_zoomUntile:', title: '恢复上一个大小', Disabled
+          MenuItem, 0x76c8bd1f40, {{0.0, 1080.0}, {0.0, 0.0}}, title: '全屏幕平铺'
+            Menu, 0x76c8bd2080, {{0.0, 1080.0}, {0.0, 0.0}}
+              MenuItem, 0x76c8bd21c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_tileLeft:', title: '屏幕左侧'
+              MenuItem, 0x76c8bd2300, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_tileRight:', title: '屏幕右侧'
+          MenuItem, 0x76c8bd2440, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bd2580, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: '_removeWindowFromStageManagerSet:', title: '从组中移除窗口', Disabled
+          MenuItem, 0x76c8bd26c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-minimize', title: '最小化'
+          MenuItem, 0x76c8bd2800, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-minimizeAll', title: '全部最小化'
+          MenuItem, 0x76c8bd2940, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-zoom', title: '缩放'
+          MenuItem, 0x76c8bd2a80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-zoomAll', title: '全部缩放'
+          MenuItem, 0x76c8bd2bc0, {{0.0, 1080.0}, {0.0, 0.0}}, Disabled
+          MenuItem, 0x76c8bd2d00, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-showMainWindow', title: '显示 WeGit 主窗口'
+          MenuItem, 0x76c8bd2e40, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-bringAllToFront', title: '前置全部窗口'
+          MenuItem, 0x76c8bd2f80, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-window-divider', Disabled
+          MenuItem, 0x76c8bd30c0, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-window-0', title: 'WeGitSubmoduleLFSUI-34446DC4-9CAD-456A-B8EA-1D98C67698D9'
+      MenuBarItem, 0x76c8bd3200, {{389.0, 0.0}, {47.0, 30.0}}, identifier: 'native-menu-help', title: '帮助'
+        Menu, 0x76c8bd3340, {{0.0, 1080.0}, {0.0, 0.0}}
+          MenuItem, 0x76c8bd3480, {{0.0, 1080.0}, {0.0, 0.0}}, identifier: 'native-command-help', title: 'WeGit 帮助'
+    TouchBar, 0x76c8bd35c0, {{80.0, 0.0}, {685.0, 30.0}}, Disabled
+Path to element:
+ →Application, 0x76c8b82bc0, pid: 15922, title: 'WeGit', Disabled
+Query chain:
+ →Find: Target Application 'com.willxue.wegit.development'
+  Output: {
+    Application, 0x76c8bd3700, pid: 15922, title: 'WeGit', Disabled
+  }
