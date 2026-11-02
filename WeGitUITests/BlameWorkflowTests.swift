@@ -69,11 +69,13 @@ final class BlameWorkflowTests: XCTestCase {
         app.buttons["blame-file-history:2"].click()
         let historicalPath = app.textFields["file-history-path"]
         XCTAssertTrue(historicalPath.waitForExistence(timeout: 10))
+        XCTAssertTrue(historicalPath.isHittable)
+        XCTAssertTrue(app.buttons["file-history-close"].isHittable)
         XCTAssertEqual(historicalPath.value as? String, original)
         XCTAssertTrue(element("file-history-commit:" + first, app).waitForExistence(timeout: 10))
         XCTAssertTrue(element("file-history-commit:" + second, app).exists)
         XCTAssertFalse(element("file-history-commit:" + tip, app).exists)
-        capture(app, "Blame history uses the original path and source revision")
+        capture(app, "Blame history uses the original path and source revision", includesSheets: true)
         app.typeKey(.escape, modifierFlags: [])
         XCTAssertTrue(historicalPath.waitForNonExistence(timeout: 5))
         app.buttons["blame-next"].click()
@@ -154,8 +156,11 @@ final class BlameWorkflowTests: XCTestCase {
                 thenDragTo: corner.withOffset(CGVector(dx: 980 - frame.width, dy: 692 - frame.height)))
         }
     }
-    @MainActor private func capture(_ app: XCUIApplication, _ name: String) {
-        let attachment = XCTAttachment(screenshot: app.windows["main"].screenshot())
+    @MainActor private func capture(
+        _ app: XCUIApplication, _ name: String, includesSheets: Bool = false
+    ) {
+        let attachment = XCTAttachment(
+            screenshot: includesSheets ? XCUIScreen.main.screenshot() : app.windows["main"].screenshot())
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)

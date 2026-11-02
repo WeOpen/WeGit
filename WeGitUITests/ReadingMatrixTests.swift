@@ -2,6 +2,12 @@ import AppKit
 import XCTest
 
 final class ReadingMatrixTests: XCTestCase {
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        // The fixed 144-combination hosted baseline took 1778.596 seconds.
+        executionTimeAllowance = 2700
+    }
+
     @MainActor func testDiffControlsAcrossTypographyDensityThemeAndWindowSizes() throws {
         continueAfterFailure = false
         for disk in [false, true] {

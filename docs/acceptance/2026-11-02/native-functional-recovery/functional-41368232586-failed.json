@@ -1,0 +1,26 @@
+{
+  "sourceSHA": "9ee1ab243ed7d886de78cde91882121fd5fb1e2f",
+  "run": 41368232586,
+  "job": 125032895011,
+  "artifact": 13111788492,
+  "bytes": 388212,
+  "sha256": "4e148db6ef07b2b9aa42a0200a29961bb633cc217e9d56870518d773b67f4d1e",
+  "crcMembers": 47,
+  "workflowConclusion": "cancelled",
+  "smoke": {
+    "totalTestCount": 1,
+    "passedTests": 1,
+    "failedTests": 0,
+    "skippedTests": 0
+  },
+  "functional": {
+    "timedOut": true,
+    "seconds": 5400.141,
+    "exitCode": -15,
+    "summaryAvailable": false,
+    "firstFailedMethod": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
+    "observedFailure": "AX snapshot query timed out while locating file-history-path; subsequent ChangesList test stalled"
+  },
+  "displayRestoreCompleted": false,
+  "releaseAcceptance": false
+}

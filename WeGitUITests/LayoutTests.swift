@@ -1,6 +1,14 @@
 import XCTest
 
 final class LayoutTests: XCTestCase {
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        if name.contains("testContextControlsStayVisibleInMinimumWindow") {
+            // The eight full context/layout combinations took 268.186 seconds.
+            executionTimeAllowance = 600
+        }
+    }
+
     @MainActor func testContextControlsStayVisibleInMinimumWindow() throws {
         continueAfterFailure = false
         for diskBacked in [false, true] {

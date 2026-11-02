@@ -180,7 +180,11 @@ def main():
                          "-skip-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes",
                          "-skip-testing:WeGitUITests/ManualAccessibilitySession",
                      ])
-        result = run_logged(base + selection + ["-resultBundlePath", str(args.output / (args.mode + ".xcresult"))],
+        result = run_logged(base + selection + [
+                                "-test-timeouts-enabled", "YES",
+                                "-default-test-execution-time-allowance", "300",
+                                "-maximum-test-execution-time-allowance", "2700",
+                                "-resultBundlePath", str(args.output / (args.mode + ".xcresult"))],
                             args.output / (args.mode + ".log"), 5400)
         summary = result_summary(args.output / (args.mode + ".xcresult"), args.output / (args.mode + "-summary.json"))
         report["tests"].append({"scope": args.mode, **result, "summary": summary})
