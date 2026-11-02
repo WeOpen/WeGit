@@ -1,5 +1,6 @@
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -281,6 +282,10 @@ class NativeScopeSelectionTests(unittest.TestCase):
                 self.assertEqual(runner.call_count, 2)
                 smoke, selected = (call.args[0] for call in runner.call_args_list)
                 self.assertIn("-only-testing:WeGitUITests/WeGitUITests/testWelcomeAndCloneForm", smoke)
+                self.assertEqual(selected[selected.index("-test-timeouts-enabled") + 1], "YES")
+                self.assertEqual(selected[selected.index("-default-test-execution-time-allowance") + 1], "300")
+                self.assertEqual(selected[selected.index("-maximum-test-execution-time-allowance") + 1], "2700")
+                self.assertLessEqual(runner.call_args_list[1].args[2], 5400)
                 audit = "WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes"
                 if mode == "functional":
                     self.assertIn("-skip-testing:WeGitUITests/ManualAccessibilitySession", selected)
@@ -289,6 +294,30 @@ class NativeScopeSelectionTests(unittest.TestCase):
                 else:
                     self.assertIn("-only-testing:" + audit, selected)
                     self.assertFalse(any(value.startswith("-skip-testing:") for value in selected))
+
+    def test_full_scope_timeout_retains_failed_execution_and_incomplete_summary(self):
+        smoke = {"totalTestCount": 1, "passedTests": 1, "failedTests": 0, "skippedTests": 0}
+        incomplete = {"summaryError": "Incomplete result bundle after native timeout"}
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(sys, "argv", ["ui_probe.py", "--mode", "functional", "--output", folder]), \
+                 patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                 patch.object(ui_probe, "run_logged", side_effect=[
+                     {"exitCode": 0, "timedOut": False},
+                     {"exitCode": -15, "timedOut": True, "seconds": 5400, "log": "functional.log"},
+                 ]) as runner, \
+                 patch.object(ui_probe, "result_summary", side_effect=[smoke, incomplete]), \
+                 redirect_stdout(StringIO()):
+                with self.assertRaisesRegex(SystemExit, "Native suite failed"):
+                    ui_probe.main()
+            report = json.loads((Path(folder) / "functional.json").read_text())
+            self.assertEqual(runner.call_count, 2)
+            self.assertFalse(report["releaseReady"])
+            self.assertEqual(report["tests"][0]["summary"], smoke)
+            failed = report["tests"][1]
+            self.assertEqual(failed["scope"], "functional")
+            self.assertEqual(failed["exitCode"], -15)
+            self.assertTrue(failed["timedOut"])
+            self.assertEqual(failed["summary"], incomplete)
 
 
 class NativeCandidateSourceTests(unittest.TestCase):

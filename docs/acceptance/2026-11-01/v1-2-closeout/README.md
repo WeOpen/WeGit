@@ -43,3 +43,5 @@ V12-01～V12-09 的实现状态已在 [执行表](../../../../plans/V1_2_EXECUTI
 - 已完成分支先保存来源、核对已集成提交与HEAD/index/工作区，再清理。主检出的站点等改动和旧Rebase检出的三项修改/两份草稿保持；承载它们的两个分支保留。编译/原生证据目录不随分支删除而丢失。
 
 最新CI、main functional计数、源码等价与清理回执由PR #87收口评论及项目HANDOFF记录。GitHub可选Workers Builds的失败另行保留；它不是上述三项必需检查，也不构成官网生产环境验收。
+
+2026-11-02，PR #87 已正常合入 main `9ee1ab2`，其 [CI及450个原始样本](../../2026-11-02/v1-2-integration/README.md) 已保存。随后完整原生回归发生 AX 超时并取消；同源单项Blame实际通过。该 [失败与恢复](../../2026-11-02/native-functional-recovery/README.md) 由 #98 继续收口，关闭剩余Issue/PR和分支删除仍以完整主线functional实际结果为依据。

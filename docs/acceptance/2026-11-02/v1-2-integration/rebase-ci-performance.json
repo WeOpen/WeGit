@@ -1,0 +1,976 @@
+{
+  "allPassed" : true,
+  "budgetsMilliseconds" : {
+    "cancel" : 500,
+    "first" : 2000,
+    "recovered" : 2000,
+    "steady" : 2000
+  },
+  "configuration" : "ordinary Release Core",
+  "fixture" : "\/var\/folders\/5n\/5t77mfb93jd7q8v9s6f0dn0m0000gn\/T\/WeGitRebasePerformance-EAFD7E87-F73E-4AEE-A530-CE86BDE95D7F",
+  "gitVersion" : "git version 2.54.0 (Apple Git-157)",
+  "inputs" : {
+    "Package.swift" : "4bc9cd8c0424369e6607b0d3c0222f67062c3f88038a8fd08e1e06ef03c98055",
+    "scripts\/RebasePerformance.swift" : "f74e616926a58fe04bef95652a7339ca10b243c3f0b65b0cc732a618c7c1b0fd",
+    "scripts\/verify-rebase-performance.sh" : "722a6df2e8acf5124bf5fc584592af9989b34f2b2bf0e388e3c5fbd2780032c3",
+    "WeGitCore\/Domain\/RebaseOperation.swift" : "875be357215b74eed717ec0a6be7b92aaf4caf639d43913d406186fd09314a04",
+    "WeGitCore\/GitCore\/RebaseExecution.swift" : "9b32d43c6061da61dd00cdecc38e04564f51fad718d8d01a693fc34ca6fd002b",
+    "WeGitCore\/GitCore\/RebaseMetadataSnapshot.swift" : "dc678a34ed3cf3b4cba722b77fd65bc420d1b7cdbc0403aee707737133865d37",
+    "WeGitCore\/GitCore\/RebasePreviewSafety.swift" : "b10ab1d127c473d3e1355599576328bd8dadb411c23c5e84ddf0bcd2f178cc41",
+    "WeGitCore\/GitCore\/RebaseSafetyOptions.swift" : "5f793032363dfbe7f78ec7e3b800127b34fe47f43c806973e86a28673cb2c94c",
+    "WeGitCore\/GitCore\/RebaseService.swift" : "12541f78bf4de0093a83574edec50f31e05a54d066b4ad25a12515465bb11016",
+    "WeGitCore\/GitCore\/RebaseStateReader.swift" : "46e1439a34152fef4e0ca98646b3f8e0e8da09b6d11d2f7bfd9d5fb740497cb0",
+    "WeGitCore\/GitCore\/RebaseTreeMetadata.swift" : "c02583f6d66a02216f6b7dfa88e4d335f99de44a6595848c48332d93e88d1acc",
+    "WeGitCore\/Infrastructure\/ProcessRunner.swift" : "12138f0689f0965f348b93c08926a1416e1b8a8372dfe736b2b89cfa54b06310"
+  },
+  "samplesPerWorkload" : 30,
+  "scope" : "CLI fixed-range preparation with explicit loose\/packed object storage and fixture-only automatic maintenance disabled; cancellation after a delay wrapper and child are alive; no claim about unmodified Git's large-repo cancellation or native\/version acceptance",
+  "sourceRevision" : "d68222dd2bdf12bab0f42654142bc722b1c03ca3",
+  "workloads" : [
+    {
+      "name" : "ordinary",
+      "objectStatistics" : "count: 30\nsize: 120\nin-pack: 0\npacks: 0\nsize-pack: 0\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0",
+      "objectStorage" : "loose",
+      "p95Cancel" : 0.58274999999999999,
+      "p95First" : 316.92345899999998,
+      "p95Recovered" : 312.88333299999999,
+      "p95ResidentBytes" : 13680640,
+      "p95Steady" : 350.61641700000001,
+      "passed" : true,
+      "replayCommits" : 5,
+      "samples" : [
+        {
+          "cancelMilliseconds" : 0.529084,
+          "childPID" : 86964,
+          "firstMilliseconds" : 316.92345899999998,
+          "iteration" : 0,
+          "recoveredMilliseconds" : 281.91975000000002,
+          "residentBytes" : 13287424,
+          "steadyMilliseconds" : 282.17570799999999,
+          "wrapperPID" : 86963
+        },
+        {
+          "cancelMilliseconds" : 0.58274999999999999,
+          "childPID" : 87132,
+          "firstMilliseconds" : 314.60870799999998,
+          "iteration" : 1,
+          "recoveredMilliseconds" : 369.739125,
+          "residentBytes" : 13451264,
+          "steadyMilliseconds" : 351.572292,
+          "wrapperPID" : 87130
+        },
+        {
+          "cancelMilliseconds" : 0.48133300000000001,
+          "childPID" : 87470,
+          "firstMilliseconds" : 347.693333,
+          "iteration" : 2,
+          "recoveredMilliseconds" : 275.82733300000001,
+          "residentBytes" : 13500416,
+          "steadyMilliseconds" : 350.61641700000001,
+          "wrapperPID" : 87469
+        },
+        {
+          "cancelMilliseconds" : 0.41625000000000001,
+          "childPID" : 87546,
+          "firstMilliseconds" : 281.99883299999999,
+          "iteration" : 3,
+          "recoveredMilliseconds" : 278.566958,
+          "residentBytes" : 13533184,
+          "steadyMilliseconds" : 273.160709,
+          "wrapperPID" : 87545
+        },
+        {
+          "cancelMilliseconds" : 0.35029100000000002,
+          "childPID" : 87622,
+          "firstMilliseconds" : 270.76766600000002,
+          "iteration" : 4,
+          "recoveredMilliseconds" : 248.24375000000001,
+          "residentBytes" : 13549568,
+          "steadyMilliseconds" : 269.75283400000001,
+          "wrapperPID" : 87621
+        },
+        {
+          "cancelMilliseconds" : 0.37879099999999999,
+          "childPID" : 87698,
+          "firstMilliseconds" : 257.29025000000001,
+          "iteration" : 5,
+          "recoveredMilliseconds" : 271.00929200000002,
+          "residentBytes" : 13582336,
+          "steadyMilliseconds" : 238.61637500000001,
+          "wrapperPID" : 87697
+        },
+        {
+          "cancelMilliseconds" : 0.40662500000000001,
+          "childPID" : 87772,
+          "firstMilliseconds" : 230.202125,
+          "iteration" : 6,
+          "recoveredMilliseconds" : 228.76275000000001,
+          "residentBytes" : 13582336,
+          "steadyMilliseconds" : 232.36824999999999,
+          "wrapperPID" : 87771
+        },
+        {
+          "cancelMilliseconds" : 0.41716599999999998,
+          "childPID" : 87848,
+          "firstMilliseconds" : 234.45416599999999,
+          "iteration" : 7,
+          "recoveredMilliseconds" : 238.08083300000001,
+          "residentBytes" : 13615104,
+          "steadyMilliseconds" : 231.88387499999999,
+          "wrapperPID" : 87847
+        },
+        {
+          "cancelMilliseconds" : 0.45424999999999999,
+          "childPID" : 87924,
+          "firstMilliseconds" : 238.107125,
+          "iteration" : 8,
+          "recoveredMilliseconds" : 236.5745,
+          "residentBytes" : 13615104,
+          "steadyMilliseconds" : 236.079125,
+          "wrapperPID" : 87923
+        },
+        {
+          "cancelMilliseconds" : 0.34695900000000002,
+          "childPID" : 88000,
+          "firstMilliseconds" : 233.090125,
+          "iteration" : 9,
+          "recoveredMilliseconds" : 224.50895800000001,
+          "residentBytes" : 13615104,
+          "steadyMilliseconds" : 237.30583300000001,
+          "wrapperPID" : 87999
+        },
+        {
+          "cancelMilliseconds" : 0.46304099999999998,
+          "childPID" : 88074,
+          "firstMilliseconds" : 223.16470799999999,
+          "iteration" : 10,
+          "recoveredMilliseconds" : 227.45191700000001,
+          "residentBytes" : 13615104,
+          "steadyMilliseconds" : 226.73374999999999,
+          "wrapperPID" : 88073
+        },
+        {
+          "cancelMilliseconds" : 0.50824999999999998,
+          "childPID" : 88151,
+          "firstMilliseconds" : 258.69462499999997,
+          "iteration" : 11,
+          "recoveredMilliseconds" : 295.70470899999998,
+          "residentBytes" : 13615104,
+          "steadyMilliseconds" : 297.51054099999999,
+          "wrapperPID" : 88150
+        },
+        {
+          "cancelMilliseconds" : 0.56441600000000003,
+          "childPID" : 88227,
+          "firstMilliseconds" : 244.813042,
+          "iteration" : 12,
+          "recoveredMilliseconds" : 260.343208,
+          "residentBytes" : 13615104,
+          "steadyMilliseconds" : 253.39087499999999,
+          "wrapperPID" : 88226
+        },
+        {
+          "cancelMilliseconds" : 0.52895800000000004,
+          "childPID" : 88303,
+          "firstMilliseconds" : 261.74475000000001,
+          "iteration" : 13,
+          "recoveredMilliseconds" : 312.88333299999999,
+          "residentBytes" : 13631488,
+          "steadyMilliseconds" : 229.10958299999999,
+          "wrapperPID" : 88302
+        },
+        {
+          "cancelMilliseconds" : 0.56641600000000003,
+          "childPID" : 88472,
+          "firstMilliseconds" : 309.77633400000002,
+          "iteration" : 14,
+          "recoveredMilliseconds" : 302.31208299999997,
+          "residentBytes" : 13631488,
+          "steadyMilliseconds" : 331.24070799999998,
+          "wrapperPID" : 88470
+        },
+        {
+          "cancelMilliseconds" : 0.86366699999999996,
+          "childPID" : 88810,
+          "firstMilliseconds" : 301.823958,
+          "iteration" : 15,
+          "recoveredMilliseconds" : 264.03520800000001,
+          "residentBytes" : 13631488,
+          "steadyMilliseconds" : 301.6585,
+          "wrapperPID" : 88809
+        },
+        {
+          "cancelMilliseconds" : 0.42937500000000001,
+          "childPID" : 88886,
+          "firstMilliseconds" : 247.99437499999999,
+          "iteration" : 16,
+          "recoveredMilliseconds" : 242.18379200000001,
+          "residentBytes" : 13631488,
+          "steadyMilliseconds" : 247.38079200000001,
+          "wrapperPID" : 88885
+        },
+        {
+          "cancelMilliseconds" : 0.39587499999999998,
+          "childPID" : 88962,
+          "firstMilliseconds" : 234.72491600000001,
+          "iteration" : 17,
+          "recoveredMilliseconds" : 240.64987500000001,
+          "residentBytes" : 13647872,
+          "steadyMilliseconds" : 236.844458,
+          "wrapperPID" : 88961
+        },
+        {
+          "cancelMilliseconds" : 0.41883300000000001,
+          "childPID" : 89038,
+          "firstMilliseconds" : 237.76650000000001,
+          "iteration" : 18,
+          "recoveredMilliseconds" : 238.34704199999999,
+          "residentBytes" : 13647872,
+          "steadyMilliseconds" : 246.35291699999999,
+          "wrapperPID" : 89037
+        },
+        {
+          "cancelMilliseconds" : 0.35054200000000002,
+          "childPID" : 89112,
+          "firstMilliseconds" : 224.69437500000001,
+          "iteration" : 19,
+          "recoveredMilliseconds" : 222.37729200000001,
+          "residentBytes" : 13647872,
+          "steadyMilliseconds" : 218.36658299999999,
+          "wrapperPID" : 89111
+        },
+        {
+          "cancelMilliseconds" : 0.36958299999999999,
+          "childPID" : 89188,
+          "firstMilliseconds" : 224.92449999999999,
+          "iteration" : 20,
+          "recoveredMilliseconds" : 233.15970899999999,
+          "residentBytes" : 13664256,
+          "steadyMilliseconds" : 282.76754199999999,
+          "wrapperPID" : 89187
+        },
+        {
+          "cancelMilliseconds" : 0.38424999999999998,
+          "childPID" : 89264,
+          "firstMilliseconds" : 231.520083,
+          "iteration" : 21,
+          "recoveredMilliseconds" : 226.482708,
+          "residentBytes" : 13664256,
+          "steadyMilliseconds" : 227.66395900000001,
+          "wrapperPID" : 89263
+        },
+        {
+          "cancelMilliseconds" : 0.41658400000000001,
+          "childPID" : 89340,
+          "firstMilliseconds" : 225.541875,
+          "iteration" : 22,
+          "recoveredMilliseconds" : 224.33366699999999,
+          "residentBytes" : 13664256,
+          "steadyMilliseconds" : 230.772333,
+          "wrapperPID" : 89339
+        },
+        {
+          "cancelMilliseconds" : 0.42983300000000002,
+          "childPID" : 89415,
+          "firstMilliseconds" : 233.87408400000001,
+          "iteration" : 23,
+          "recoveredMilliseconds" : 235.021209,
+          "residentBytes" : 13680640,
+          "steadyMilliseconds" : 232.89683400000001,
+          "wrapperPID" : 89414
+        },
+        {
+          "cancelMilliseconds" : 0.40954099999999999,
+          "childPID" : 89491,
+          "firstMilliseconds" : 221.57858300000001,
+          "iteration" : 24,
+          "recoveredMilliseconds" : 221.624584,
+          "residentBytes" : 13680640,
+          "steadyMilliseconds" : 221.44133299999999,
+          "wrapperPID" : 89490
+        },
+        {
+          "cancelMilliseconds" : 0.47583300000000001,
+          "childPID" : 89567,
+          "firstMilliseconds" : 229.89179200000001,
+          "iteration" : 25,
+          "recoveredMilliseconds" : 250.311375,
+          "residentBytes" : 13680640,
+          "steadyMilliseconds" : 228.60833299999999,
+          "wrapperPID" : 89566
+        },
+        {
+          "cancelMilliseconds" : 0.51408299999999996,
+          "childPID" : 89643,
+          "firstMilliseconds" : 239.39150000000001,
+          "iteration" : 26,
+          "recoveredMilliseconds" : 256.80587500000001,
+          "residentBytes" : 13680640,
+          "steadyMilliseconds" : 232.409042,
+          "wrapperPID" : 89642
+        },
+        {
+          "cancelMilliseconds" : 0.49775000000000003,
+          "childPID" : 89719,
+          "firstMilliseconds" : 292.03979199999998,
+          "iteration" : 27,
+          "recoveredMilliseconds" : 283.07845800000001,
+          "residentBytes" : 13680640,
+          "steadyMilliseconds" : 291.88570900000002,
+          "wrapperPID" : 89718
+        },
+        {
+          "cancelMilliseconds" : 0.48979200000000001,
+          "childPID" : 90037,
+          "firstMilliseconds" : 283.86708299999998,
+          "iteration" : 28,
+          "recoveredMilliseconds" : 266.51091700000001,
+          "residentBytes" : 13680640,
+          "steadyMilliseconds" : 269.06620800000002,
+          "wrapperPID" : 90035
+        },
+        {
+          "cancelMilliseconds" : 0.36649999999999999,
+          "childPID" : 90225,
+          "firstMilliseconds" : 228.69274999999999,
+          "iteration" : 29,
+          "recoveredMilliseconds" : 227.76300000000001,
+          "residentBytes" : 13680640,
+          "steadyMilliseconds" : 227.16008299999999,
+          "wrapperPID" : 90224
+        }
+      ],
+      "trackedFiles" : 10
+    },
+    {
+      "name" : "large-loose",
+      "objectStatistics" : "count: 5095\nsize: 24092\nin-pack: 0\npacks: 0\nsize-pack: 0\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0",
+      "objectStorage" : "loose",
+      "p95Cancel" : 0.68483300000000003,
+      "p95First" : 994.50083400000005,
+      "p95Recovered" : 966.80779199999995,
+      "p95ResidentBytes" : 43532288,
+      "p95Steady" : 959.33275000000003,
+      "passed" : true,
+      "replayCommits" : 30,
+      "samples" : [
+        {
+          "cancelMilliseconds" : 0.33858300000000002,
+          "childPID" : 90366,
+          "firstMilliseconds" : 606.825875,
+          "iteration" : 0,
+          "recoveredMilliseconds" : 626.24212499999999,
+          "residentBytes" : 43155456,
+          "steadyMilliseconds" : 635.21162500000003,
+          "wrapperPID" : 90365
+        },
+        {
+          "cancelMilliseconds" : 0.44337500000000002,
+          "childPID" : 90444,
+          "firstMilliseconds" : 628.01183400000002,
+          "iteration" : 1,
+          "recoveredMilliseconds" : 664.90858300000002,
+          "residentBytes" : 43253760,
+          "steadyMilliseconds" : 620.09270900000001,
+          "wrapperPID" : 90443
+        },
+        {
+          "cancelMilliseconds" : 0.48062500000000002,
+          "childPID" : 90776,
+          "firstMilliseconds" : 701.21924999999999,
+          "iteration" : 2,
+          "recoveredMilliseconds" : 653.76691600000004,
+          "residentBytes" : 43302912,
+          "steadyMilliseconds" : 749.85950000000003,
+          "wrapperPID" : 90774
+        },
+        {
+          "cancelMilliseconds" : 0.325042,
+          "childPID" : 90956,
+          "firstMilliseconds" : 612.12787500000002,
+          "iteration" : 3,
+          "recoveredMilliseconds" : 613.68629199999998,
+          "residentBytes" : 43335680,
+          "steadyMilliseconds" : 614.07829200000003,
+          "wrapperPID" : 90955
+        },
+        {
+          "cancelMilliseconds" : 0.36612499999999998,
+          "childPID" : 91034,
+          "firstMilliseconds" : 645.74345800000003,
+          "iteration" : 4,
+          "recoveredMilliseconds" : 614.42533400000002,
+          "residentBytes" : 43368448,
+          "steadyMilliseconds" : 634.12400000000002,
+          "wrapperPID" : 91033
+        },
+        {
+          "cancelMilliseconds" : 0.95233299999999999,
+          "childPID" : 91113,
+          "firstMilliseconds" : 614.291833,
+          "iteration" : 5,
+          "recoveredMilliseconds" : 615.36300000000006,
+          "residentBytes" : 43384832,
+          "steadyMilliseconds" : 615.10987499999999,
+          "wrapperPID" : 91112
+        },
+        {
+          "cancelMilliseconds" : 0.41704200000000002,
+          "childPID" : 91191,
+          "firstMilliseconds" : 613.75241700000004,
+          "iteration" : 6,
+          "recoveredMilliseconds" : 688.64708299999995,
+          "residentBytes" : 43433984,
+          "steadyMilliseconds" : 616.23262499999998,
+          "wrapperPID" : 91190
+        },
+        {
+          "cancelMilliseconds" : 0.38524999999999998,
+          "childPID" : 91271,
+          "firstMilliseconds" : 821.46958400000005,
+          "iteration" : 7,
+          "recoveredMilliseconds" : 869.60008300000004,
+          "residentBytes" : 43433984,
+          "steadyMilliseconds" : 763.30354199999999,
+          "wrapperPID" : 91270
+        },
+        {
+          "cancelMilliseconds" : 0.67633399999999999,
+          "childPID" : 91705,
+          "firstMilliseconds" : 965.98133299999995,
+          "iteration" : 8,
+          "recoveredMilliseconds" : 904.10900000000004,
+          "residentBytes" : 43450368,
+          "steadyMilliseconds" : 870.12950000000001,
+          "wrapperPID" : 91704
+        },
+        {
+          "cancelMilliseconds" : 0.62341599999999997,
+          "childPID" : 91803,
+          "firstMilliseconds" : 873.17495899999994,
+          "iteration" : 9,
+          "recoveredMilliseconds" : 1058.1441669999999,
+          "residentBytes" : 43450368,
+          "steadyMilliseconds" : 926.09679200000005,
+          "wrapperPID" : 91802
+        },
+        {
+          "cancelMilliseconds" : 0.54637500000000006,
+          "childPID" : 92071,
+          "firstMilliseconds" : 1101.478625,
+          "iteration" : 10,
+          "recoveredMilliseconds" : 764.53845799999999,
+          "residentBytes" : 43466752,
+          "steadyMilliseconds" : 959.33275000000003,
+          "wrapperPID" : 92070
+        },
+        {
+          "cancelMilliseconds" : 0.45912500000000001,
+          "childPID" : 92151,
+          "firstMilliseconds" : 880.56191699999999,
+          "iteration" : 11,
+          "recoveredMilliseconds" : 966.63479199999995,
+          "residentBytes" : 43466752,
+          "steadyMilliseconds" : 770.14570800000001,
+          "wrapperPID" : 92150
+        },
+        {
+          "cancelMilliseconds" : 0.435417,
+          "childPID" : 92588,
+          "firstMilliseconds" : 994.50083400000005,
+          "iteration" : 12,
+          "recoveredMilliseconds" : 763.68375000000003,
+          "residentBytes" : 43483136,
+          "steadyMilliseconds" : 828.12770899999998,
+          "wrapperPID" : 92587
+        },
+        {
+          "cancelMilliseconds" : 0.48420800000000003,
+          "childPID" : 92666,
+          "firstMilliseconds" : 756.85208299999999,
+          "iteration" : 13,
+          "recoveredMilliseconds" : 772.21645899999999,
+          "residentBytes" : 43499520,
+          "steadyMilliseconds" : 779.31212500000004,
+          "wrapperPID" : 92665
+        },
+        {
+          "cancelMilliseconds" : 0.44258399999999998,
+          "childPID" : 92746,
+          "firstMilliseconds" : 768.49450000000002,
+          "iteration" : 14,
+          "recoveredMilliseconds" : 726.34529199999997,
+          "residentBytes" : 43499520,
+          "steadyMilliseconds" : 699.49383399999999,
+          "wrapperPID" : 92745
+        },
+        {
+          "cancelMilliseconds" : 0.68483300000000003,
+          "childPID" : 92824,
+          "firstMilliseconds" : 690.98608400000001,
+          "iteration" : 15,
+          "recoveredMilliseconds" : 806.178583,
+          "residentBytes" : 43499520,
+          "steadyMilliseconds" : 808.26649999999995,
+          "wrapperPID" : 92823
+        },
+        {
+          "cancelMilliseconds" : 0.48179100000000002,
+          "childPID" : 92938,
+          "firstMilliseconds" : 665.07529199999999,
+          "iteration" : 16,
+          "recoveredMilliseconds" : 892.42683299999999,
+          "residentBytes" : 43499520,
+          "steadyMilliseconds" : 694.133375,
+          "wrapperPID" : 92936
+        },
+        {
+          "cancelMilliseconds" : 0.51620900000000003,
+          "childPID" : 93337,
+          "firstMilliseconds" : 904.98599999999999,
+          "iteration" : 17,
+          "recoveredMilliseconds" : 710.73249999999996,
+          "residentBytes" : 43515904,
+          "steadyMilliseconds" : 712.51824999999997,
+          "wrapperPID" : 93336
+        },
+        {
+          "cancelMilliseconds" : 0.518042,
+          "childPID" : 93415,
+          "firstMilliseconds" : 689.385625,
+          "iteration" : 18,
+          "recoveredMilliseconds" : 698.15316600000006,
+          "residentBytes" : 43515904,
+          "steadyMilliseconds" : 696.38066600000002,
+          "wrapperPID" : 93414
+        },
+        {
+          "cancelMilliseconds" : 0.410584,
+          "childPID" : 93493,
+          "firstMilliseconds" : 699.92116599999997,
+          "iteration" : 19,
+          "recoveredMilliseconds" : 697.31066699999997,
+          "residentBytes" : 43515904,
+          "steadyMilliseconds" : 685.90525000000002,
+          "wrapperPID" : 93492
+        },
+        {
+          "cancelMilliseconds" : 0.45237500000000003,
+          "childPID" : 93573,
+          "firstMilliseconds" : 744.86725000000001,
+          "iteration" : 20,
+          "recoveredMilliseconds" : 693.20925,
+          "residentBytes" : 43515904,
+          "steadyMilliseconds" : 885.73275000000001,
+          "wrapperPID" : 93572
+        },
+        {
+          "cancelMilliseconds" : 0.59562499999999996,
+          "childPID" : 93691,
+          "firstMilliseconds" : 687.06320800000003,
+          "iteration" : 21,
+          "recoveredMilliseconds" : 925.08620800000006,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 797.10916599999996,
+          "wrapperPID" : 93689
+        },
+        {
+          "cancelMilliseconds" : 0.3735,
+          "childPID" : 94084,
+          "firstMilliseconds" : 854.22079099999996,
+          "iteration" : 22,
+          "recoveredMilliseconds" : 695.42999999999995,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 695.79745800000001,
+          "wrapperPID" : 94083
+        },
+        {
+          "cancelMilliseconds" : 0.51700000000000002,
+          "childPID" : 94164,
+          "firstMilliseconds" : 698.23633299999995,
+          "iteration" : 23,
+          "recoveredMilliseconds" : 701.19620799999996,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 692.09550000000002,
+          "wrapperPID" : 94163
+        },
+        {
+          "cancelMilliseconds" : 0.39745799999999998,
+          "childPID" : 94242,
+          "firstMilliseconds" : 692.245,
+          "iteration" : 24,
+          "recoveredMilliseconds" : 771.30479200000002,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 762.49491699999999,
+          "wrapperPID" : 94241
+        },
+        {
+          "cancelMilliseconds" : 0.410833,
+          "childPID" : 94321,
+          "firstMilliseconds" : 990.92150000000004,
+          "iteration" : 25,
+          "recoveredMilliseconds" : 776.86725000000001,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 809.933583,
+          "wrapperPID" : 94320
+        },
+        {
+          "cancelMilliseconds" : 0.501583,
+          "childPID" : 94541,
+          "firstMilliseconds" : 757.32358299999999,
+          "iteration" : 26,
+          "recoveredMilliseconds" : 966.80779199999995,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 887.25629200000003,
+          "wrapperPID" : 94539
+        },
+        {
+          "cancelMilliseconds" : 0.43220799999999998,
+          "childPID" : 94835,
+          "firstMilliseconds" : 851.810292,
+          "iteration" : 27,
+          "recoveredMilliseconds" : 795.48524999999995,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 802.138375,
+          "wrapperPID" : 94834
+        },
+        {
+          "cancelMilliseconds" : 0.41816700000000001,
+          "childPID" : 94913,
+          "firstMilliseconds" : 774.03158299999996,
+          "iteration" : 28,
+          "recoveredMilliseconds" : 744.44233299999996,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 762.41387499999996,
+          "wrapperPID" : 94912
+        },
+        {
+          "cancelMilliseconds" : 0.60912500000000003,
+          "childPID" : 94994,
+          "firstMilliseconds" : 779.88924999999995,
+          "iteration" : 29,
+          "recoveredMilliseconds" : 820.85104100000001,
+          "residentBytes" : 43532288,
+          "steadyMilliseconds" : 1017.454375,
+          "wrapperPID" : 94993
+        }
+      ],
+      "trackedFiles" : 5000
+    },
+    {
+      "name" : "large-packed",
+      "objectStatistics" : "count: 0\nsize: 0\nin-pack: 5095\npacks: 1\nsize-pack: 469\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0",
+      "objectStorage" : "packed",
+      "p95Cancel" : 0.83337499999999998,
+      "p95First" : 692.95287499999995,
+      "p95Recovered" : 668.60479199999997,
+      "p95ResidentBytes" : 44040192,
+      "p95Steady" : 642.00591699999995,
+      "passed" : true,
+      "replayCommits" : 30,
+      "samples" : [
+        {
+          "cancelMilliseconds" : 0.424209,
+          "childPID" : 95501,
+          "firstMilliseconds" : 543.86199999999997,
+          "iteration" : 0,
+          "recoveredMilliseconds" : 520.20879200000002,
+          "residentBytes" : 43974656,
+          "steadyMilliseconds" : 551.67449999999997,
+          "wrapperPID" : 95500
+        },
+        {
+          "cancelMilliseconds" : 0.44487500000000002,
+          "childPID" : 95578,
+          "firstMilliseconds" : 491.241916,
+          "iteration" : 1,
+          "recoveredMilliseconds" : 471.16158300000001,
+          "residentBytes" : 43974656,
+          "steadyMilliseconds" : 484.92054100000001,
+          "wrapperPID" : 95577
+        },
+        {
+          "cancelMilliseconds" : 0.51829199999999997,
+          "childPID" : 95656,
+          "firstMilliseconds" : 542.89850000000001,
+          "iteration" : 2,
+          "recoveredMilliseconds" : 519.52020900000002,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 624.270625,
+          "wrapperPID" : 95655
+        },
+        {
+          "cancelMilliseconds" : 0.49241699999999999,
+          "childPID" : 95734,
+          "firstMilliseconds" : 550.878917,
+          "iteration" : 3,
+          "recoveredMilliseconds" : 539.565834,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 556.26774999999998,
+          "wrapperPID" : 95733
+        },
+        {
+          "cancelMilliseconds" : 0.44750000000000001,
+          "childPID" : 95812,
+          "firstMilliseconds" : 573.04075,
+          "iteration" : 4,
+          "recoveredMilliseconds" : 669.27674999999999,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 642.00591699999995,
+          "wrapperPID" : 95811
+        },
+        {
+          "cancelMilliseconds" : 0.48149999999999998,
+          "childPID" : 96244,
+          "firstMilliseconds" : 717.99787500000002,
+          "iteration" : 5,
+          "recoveredMilliseconds" : 500.69820900000002,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 624.80525,
+          "wrapperPID" : 96243
+        },
+        {
+          "cancelMilliseconds" : 0.40320800000000001,
+          "childPID" : 96321,
+          "firstMilliseconds" : 525.694208,
+          "iteration" : 6,
+          "recoveredMilliseconds" : 512.45904099999996,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 524.05716700000005,
+          "wrapperPID" : 96320
+        },
+        {
+          "cancelMilliseconds" : 0.43049999999999999,
+          "childPID" : 96452,
+          "firstMilliseconds" : 536.83245799999997,
+          "iteration" : 7,
+          "recoveredMilliseconds" : 541.56337499999995,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 594.37170800000001,
+          "wrapperPID" : 96451
+        },
+        {
+          "cancelMilliseconds" : 0.86695800000000001,
+          "childPID" : 96682,
+          "firstMilliseconds" : 551.66591700000004,
+          "iteration" : 8,
+          "recoveredMilliseconds" : 666.40479100000005,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 776.70554100000004,
+          "wrapperPID" : 96681
+        },
+        {
+          "cancelMilliseconds" : 0.42041699999999999,
+          "childPID" : 96760,
+          "firstMilliseconds" : 639.03395899999998,
+          "iteration" : 9,
+          "recoveredMilliseconds" : 561.77516700000001,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 578.65445799999998,
+          "wrapperPID" : 96759
+        },
+        {
+          "cancelMilliseconds" : 0.392542,
+          "childPID" : 96838,
+          "firstMilliseconds" : 580.42016599999999,
+          "iteration" : 10,
+          "recoveredMilliseconds" : 516.03587500000003,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 553.99337500000001,
+          "wrapperPID" : 96837
+        },
+        {
+          "cancelMilliseconds" : 0.54391699999999998,
+          "childPID" : 97273,
+          "firstMilliseconds" : 619.64162499999998,
+          "iteration" : 11,
+          "recoveredMilliseconds" : 502.97775000000001,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 581.39091699999994,
+          "wrapperPID" : 97272
+        },
+        {
+          "cancelMilliseconds" : 0.46379100000000001,
+          "childPID" : 97349,
+          "firstMilliseconds" : 540.44349999999997,
+          "iteration" : 12,
+          "recoveredMilliseconds" : 477.43533300000001,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 493.88666599999999,
+          "wrapperPID" : 97348
+        },
+        {
+          "cancelMilliseconds" : 0.38333400000000001,
+          "childPID" : 97427,
+          "firstMilliseconds" : 511.68374999999997,
+          "iteration" : 13,
+          "recoveredMilliseconds" : 563.79654100000005,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 487.314459,
+          "wrapperPID" : 97426
+        },
+        {
+          "cancelMilliseconds" : 0.545041,
+          "childPID" : 97506,
+          "firstMilliseconds" : 563.04795799999999,
+          "iteration" : 14,
+          "recoveredMilliseconds" : 638.76287500000001,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 549.74950000000001,
+          "wrapperPID" : 97505
+        },
+        {
+          "cancelMilliseconds" : 0.41529199999999999,
+          "childPID" : 97582,
+          "firstMilliseconds" : 603.25300000000004,
+          "iteration" : 15,
+          "recoveredMilliseconds" : 491.67599999999999,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 466.25512500000002,
+          "wrapperPID" : 97581
+        },
+        {
+          "cancelMilliseconds" : 0.43104199999999998,
+          "childPID" : 97660,
+          "firstMilliseconds" : 559.915708,
+          "iteration" : 16,
+          "recoveredMilliseconds" : 513.94762500000002,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 519.98041699999999,
+          "wrapperPID" : 97659
+        },
+        {
+          "cancelMilliseconds" : 0.47216599999999997,
+          "childPID" : 97811,
+          "firstMilliseconds" : 515.52012500000001,
+          "iteration" : 17,
+          "recoveredMilliseconds" : 668.60479199999997,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 558.07504200000005,
+          "wrapperPID" : 97809
+        },
+        {
+          "cancelMilliseconds" : 0.83337499999999998,
+          "childPID" : 98173,
+          "firstMilliseconds" : 692.95287499999995,
+          "iteration" : 18,
+          "recoveredMilliseconds" : 548.96008300000005,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 584.99775,
+          "wrapperPID" : 98172
+        },
+        {
+          "cancelMilliseconds" : 0.46320899999999998,
+          "childPID" : 98249,
+          "firstMilliseconds" : 488.99033400000002,
+          "iteration" : 19,
+          "recoveredMilliseconds" : 518.77883299999996,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 463.529292,
+          "wrapperPID" : 98248
+        },
+        {
+          "cancelMilliseconds" : 0.79420800000000003,
+          "childPID" : 98327,
+          "firstMilliseconds" : 478.18558300000001,
+          "iteration" : 20,
+          "recoveredMilliseconds" : 556.99575000000004,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 562.14645800000005,
+          "wrapperPID" : 98326
+        },
+        {
+          "cancelMilliseconds" : 0.51200000000000001,
+          "childPID" : 98405,
+          "firstMilliseconds" : 624.47749999999996,
+          "iteration" : 21,
+          "recoveredMilliseconds" : 494.94779199999999,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 561.94475,
+          "wrapperPID" : 98404
+        },
+        {
+          "cancelMilliseconds" : 0.56979199999999997,
+          "childPID" : 98483,
+          "firstMilliseconds" : 532.67962499999999,
+          "iteration" : 22,
+          "recoveredMilliseconds" : 518.02766599999995,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 526.14354200000002,
+          "wrapperPID" : 98482
+        },
+        {
+          "cancelMilliseconds" : 0.441583,
+          "childPID" : 98560,
+          "firstMilliseconds" : 527.49737500000003,
+          "iteration" : 23,
+          "recoveredMilliseconds" : 502.77479199999999,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 511.64858299999997,
+          "wrapperPID" : 98559
+        },
+        {
+          "cancelMilliseconds" : 0.49112499999999998,
+          "childPID" : 98912,
+          "firstMilliseconds" : 678.05654200000004,
+          "iteration" : 24,
+          "recoveredMilliseconds" : 486.932458,
+          "residentBytes" : 44023808,
+          "steadyMilliseconds" : 631.39754100000005,
+          "wrapperPID" : 98910
+        },
+        {
+          "cancelMilliseconds" : 0.39908300000000002,
+          "childPID" : 99072,
+          "firstMilliseconds" : 449.26400000000001,
+          "iteration" : 25,
+          "recoveredMilliseconds" : 452.57379200000003,
+          "residentBytes" : 44040192,
+          "steadyMilliseconds" : 451.18129199999998,
+          "wrapperPID" : 99071
+        },
+        {
+          "cancelMilliseconds" : 0.42408400000000002,
+          "childPID" : 99148,
+          "firstMilliseconds" : 464.51625000000001,
+          "iteration" : 26,
+          "recoveredMilliseconds" : 484.21112499999998,
+          "residentBytes" : 44040192,
+          "steadyMilliseconds" : 483.47491600000001,
+          "wrapperPID" : 99147
+        },
+        {
+          "cancelMilliseconds" : 0.55916699999999997,
+          "childPID" : 99226,
+          "firstMilliseconds" : 461.57316700000001,
+          "iteration" : 27,
+          "recoveredMilliseconds" : 596.36620800000003,
+          "residentBytes" : 44040192,
+          "steadyMilliseconds" : 485.23170800000003,
+          "wrapperPID" : 99225
+        },
+        {
+          "cancelMilliseconds" : 0.39995799999999998,
+          "childPID" : 99302,
+          "firstMilliseconds" : 569.27841699999999,
+          "iteration" : 28,
+          "recoveredMilliseconds" : 502.66845799999999,
+          "residentBytes" : 44040192,
+          "steadyMilliseconds" : 515.91399999999999,
+          "wrapperPID" : 99301
+        },
+        {
+          "cancelMilliseconds" : 0.54845900000000003,
+          "childPID" : 99381,
+          "firstMilliseconds" : 495.73033400000003,
+          "iteration" : 29,
+          "recoveredMilliseconds" : 505.80283300000002,
+          "residentBytes" : 44040192,
+          "steadyMilliseconds" : 508.417125,
+          "wrapperPID" : 99380
+        }
+      ],
+      "trackedFiles" : 5000
+    }
+  ]
+}

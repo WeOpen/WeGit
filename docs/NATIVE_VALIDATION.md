@@ -26,9 +26,13 @@ gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=functional
 gh workflow run native-ui.yml --repo WeOpen/WeGit --ref main -f scope=accessibility
 ```
 
-每种模式都先执行 Welcome/Clone 最小用例；失败后立即停止，不运行大套件。最小用例总上限 240 秒，并保留 XCTest 失败；功能/辅助访问整体执行上限各 90 分钟，workflow 仍为 120 分钟，给失败归档留出时间。功能模式运行全部功能和阅读矩阵，辅助访问审查独立执行。与 `Full acceptance` 一致，功能模式排除必须显式启用的 `ManualAccessibilitySession`；该人工工作区不进入自动套件的计数，所选自动用例仍必须全部执行、通过且无跳过。自动审查与人工旁白验收各自保留，功能通过不代替辅助访问通过。
+每种模式都先执行 Welcome/Clone 最小用例；失败后立即停止，不运行大套件。最小用例总上限 240 秒，并保留 XCTest 失败。功能/辅助访问模式启用 XCTest 单用例超时，普通用例默认300秒；最小窗口控件矩阵单独600秒，固定144组阅读矩阵单独2700秒，最大值2700秒。两项长用例通过各自的 `executionTimeAllowance` 设置，不改变其组合、断言或截图。整套进程组上限各90分钟，workflow仍为120分钟，给失败归档留出时间。功能模式运行全部功能和阅读矩阵，辅助访问审查独立执行。与 `Full acceptance` 一致，功能模式排除必须显式启用的 `ManualAccessibilitySession`；该人工工作区不进入自动套件的计数，所选自动用例仍必须全部执行、通过且无跳过。自动审查与人工旁白验收各自保留，功能通过不代替辅助访问通过。
 
 脚本的进程组截止行为经过实际成功/超时/子进程停止断言；还解析 xcresult 实际数量，拒绝 0 项、跳过、失败及不完整的计数，最小范围必须恰好执行并通过 1 项。超时只负责结束当前测试命令，不重试、不提高产品性能预算。日志、环境与 xcresult 限定归档到对应 Actions artifact。
+
+同源码的单项诊断通过只覆盖该用例；完整套件失败或没有生成完整 xcresult 时，仍保留原失败和缺失计数，等待完整范围重新实际执行。超过父窗口宽度的原生 Sheet 使用完整屏幕截图保留面板边缘，同时断言路径与关闭按钮可操作；父窗口截图不能证明这些边缘控件已完整显示。
+
+长用例界限依据[完整历史实测](acceptance/2026-10-18/native-ui/final-functional/README.md)：阅读矩阵1778.596秒，最小窗口控件矩阵268.186秒。统一180秒会误判正常组合验证。固定专项仍使用默认120/最大180秒和300秒进程组界限；单用例截止用于限制挂起，[XCTest文档](https://developer.apple.com/documentation/xctest/xctestcase/executiontimeallowance)也明确要求性能回归用专门测量验证，不能将这些截止值当作产品延迟预算。
 
 构建阶段通过 `xcrun --find git` 记录当前选中 Xcode 的 Git，Swift 夹具执行器与 C 延迟/回执辅助在运行时读取同一随包回执，避免 `/Applications/Xcode.app` 固定路径与预览工具链不一致；所有仓库命令仍先执行原有隔离探针，配置写入约束不变。
 
