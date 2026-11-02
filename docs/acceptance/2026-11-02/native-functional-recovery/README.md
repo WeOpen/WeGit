@@ -26,3 +26,8 @@ Blame 的历史 Sheet 宽1080，超过980宽父窗口。父窗口截图会裁掉
 
 
 独立模型控制链接当前普通Debug应用的实际AppState对象，[原算法的预取消调用](diff-cancellation-model-baseline-failed.json)实际清空已加载Diff，独立诊断保留了临时插桩与偏好域的源码回执；入口取消检查修正后32次保持显示和32次后续读取全部通过，私有HEAD、index与工作字节未变。偏好域由检查器独立注入并清理，CLI不执行XCTest或显示验收窗口。完整[模型回执](diff-cancellation-model-passed.json)保留构建输入；复验入口为`WEGIT_NATIVE_BUILD_PATH=<Debug DerivedData> scripts/verify-diff-read-cancellation.sh`，现有必需CI也执行此项。仍需当前固定候选的可信原生和完整主线69项回归。
+
+
+候选`630344c`的检查器边界、恢复、选中行专项已实际smoke/focus各1/1/0/0，194输入和显示恢复核验。恢复及选中行原图已审阅；边界无成功附件，因此当前增加截图与辅助访问树后重验。主题专项通过焦点段，随后在Inspector打开时查询普通History的隐藏作者正文失败；作者矩阵将先关闭Inspector，原断言保留。上述通过/失败均只属于各自固定源码，不替代新候选或完整功能结果。
+
+主线`37b7dfa`的CI另有[LFS真实预算失败](main37-lfs-performance-failed.json)：三类各30个[完整原始样本](main37-lfs-performance-raw-failed.json)，大型loose首读P95 2002.024458ms超过原2000ms，其余LFS指标通过。94输入相同，后续CI阶段未执行。该失败保留，新候选继续按原预算验证；已批准的旧正式验收延期不替代本项。

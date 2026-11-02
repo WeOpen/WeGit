@@ -1,0 +1,76 @@
+{
+  "source": "630344c44bfdb034fe7d5f27d0551ebdf76ad6de",
+  "run": 41411963793,
+  "artifact": 13126233294,
+  "artifactBytes": 946753,
+  "artifactSHA256": "740c7d28a83ac6c762bb692dc651bbc27b3c13c8c6e35830782b67ccc530c4cb",
+  "crcEntries": 81,
+  "sourceInputCount": 194,
+  "sourceMismatches": [],
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-inspector-restoration": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 19.787,
+      "summarySeconds": 25.896000146865845
+    },
+    "focused-inspector-restoration": {
+      "methodSeconds": 53.181,
+      "summarySeconds": 55.21799993515015
+    }
+  },
+  "displayRestored": true,
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "627b166b3a516f924fa2748d1ed55f1d56c69ec7",
+      "deviceName": "My Mac",
+      "exportedFileName": "CF483CBA-99B3-43F2-A102-6573F23EA0BC.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Restored inspector - \u66f4\u6539_0_0E9BD529-4999-4B2D-BA6F-6C905F36F967.png",
+      "timestamp": 1793608106.117
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "627b166b3a516f924fa2748d1ed55f1d56c69ec7",
+      "deviceName": "My Mac",
+      "exportedFileName": "BC6184E5-FFE9-4998-B7AD-9A8D220DD08A.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Restored inspector geometry - \u66f4\u6539_0_2351E414-B1B9-4CD4-A4D9-679BF0E75C6F.txt",
+      "timestamp": 1793608105.127
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "627b166b3a516f924fa2748d1ed55f1d56c69ec7",
+      "deviceName": "My Mac",
+      "exportedFileName": "C4F779FB-800C-470D-BD91-3F268382A800.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Restored inspector - \u63d0\u4ea4\u5386\u53f2_0_4055EB6C-2B29-49B8-824C-E1A670321CDA.png",
+      "timestamp": 1793608085.372
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "627b166b3a516f924fa2748d1ed55f1d56c69ec7",
+      "deviceName": "My Mac",
+      "exportedFileName": "21EAB0E1-CD1C-4B5C-8CCE-0B8FFC7E9514.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Restored inspector geometry - \u63d0\u4ea4\u5386\u53f2_0_2DB5A555-36B7-4A62-8E3C-D291EC891B27.txt",
+      "timestamp": 1793608083.903
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": false,
+  "localXCTestExecuted": false
+}

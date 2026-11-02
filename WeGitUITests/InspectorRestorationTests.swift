@@ -2,6 +2,17 @@ import AppKit
 import XCTest
 
 final class InspectorRestorationTests: XCTestCase {
+    @MainActor private func retainInspector(_ app: XCUIApplication, _ name: String) {
+        let screenshot = XCTAttachment(screenshot: app.windows["main"].screenshot())
+        screenshot.name = name
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+        let accessibility = XCTAttachment(string: app.debugDescription)
+        accessibility.name = name + " accessibility"
+        accessibility.lifetime = .keepAlways
+        add(accessibility)
+    }
+
     @MainActor func testBranchesStayInsideWorkspaceWithSidebarAndInspectorChanges() throws {
         continueAfterFailure = false
         let fixture = try UITestGit(prefix: "WeGitBranchesLayout")
@@ -45,6 +56,8 @@ final class InspectorRestorationTests: XCTestCase {
                 filter.coordinate(withNormalizedOffset: CGVector(dx: 0.05, dy: 0.5)).click()
                 filter.typeText("main")
                 XCTAssertEqual(filter.value as? String, "main")
+                retainInspector(
+                    app, "Branches - sidebar \(sidebarShown) inspector \(inspectorShown)")
                 filter.typeKey("a", modifierFlags: .command)
                 filter.typeKey(XCUIKeyboardKey.delete, modifierFlags: [])
                 if !sidebarShown { app.buttons["toolbar-sidebar"].click() }
@@ -108,12 +121,14 @@ final class InspectorRestorationTests: XCTestCase {
                             try firstHeaderInkInset(in: headers.frame, column: column), 10)
                     }
                 }
+                retainInspector(app, "Inspector boundary - \(path) split \(split)")
             }
             app.buttons["toolbar-inspector"].click()
             XCTAssertFalse(inspector.exists)
             app.buttons["toolbar-inspector"].click()
             XCTAssertTrue(inspector.waitForExistence(timeout: 5))
             XCTAssertEqual(content.frame.maxX, inspector.frame.minX - 1, accuracy: 2)
+            retainInspector(app, "Reopened inspector boundary - \(path)")
         }
         XCTAssertEqual(try fixture.git(["status", "--porcelain=v1"]), status)
     }
@@ -209,10 +224,7 @@ final class InspectorRestorationTests: XCTestCase {
             XCTAssertTrue(window.frame.contains(inspector.frame), bounds)
             XCTAssertLessThanOrEqual(viewport.frame.maxX, inspector.frame.minX)
             XCTAssertTrue(mainContent.isHittable)
-            let attachment = XCTAttachment(screenshot: app.screenshot())
-            attachment.name = "Restored inspector - \(route)"
-            attachment.lifetime = .keepAlways
-            add(attachment)
+            retainInspector(app, "Restored inspector - \(route)")
             toggle.click()
             XCTAssertFalse(inspector.exists)
             XCTAssertEqual(toggle.value as? String, "已关闭")

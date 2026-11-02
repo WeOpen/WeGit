@@ -1,0 +1,58 @@
+{
+  "run": 41393422679,
+  "artifact": 13119882819,
+  "bytes": 47190,
+  "sha256": "ec5183c766b88a995e5000cb7b19faf9787b545c33cfc26f0fc9c6ecdbdcae7d",
+  "crcEntries": 15,
+  "sourceSHA": "37b7dfa55a31a8c6a2d7de037e1083bca92d557e",
+  "sourceInputCount": 94,
+  "mismatches": [],
+  "budgets": {
+    "cancelMilliseconds": 500,
+    "firstMilliseconds": 2000,
+    "largeResidentBytes": 536870912,
+    "ordinaryResidentBytes": 268435456,
+    "recoveredMilliseconds": 2000,
+    "steadyMilliseconds": 2000
+  },
+  "workloads": [
+    {
+      "name": "ordinary",
+      "samples": 30,
+      "recomputedP95": {
+        "firstMilliseconds": 321.288208,
+        "steadyMilliseconds": 339.176958,
+        "recoveredMilliseconds": 363.690958,
+        "cancelMilliseconds": 1.522625,
+        "residentBytes": 13860864
+      },
+      "passed": true
+    },
+    {
+      "name": "large-loose",
+      "samples": 30,
+      "recomputedP95": {
+        "firstMilliseconds": 2002.024458,
+        "steadyMilliseconds": 1875.72875,
+        "recoveredMilliseconds": 1936.176,
+        "cancelMilliseconds": 1.588,
+        "residentBytes": 26673152
+      },
+      "passed": false
+    },
+    {
+      "name": "large-packed",
+      "samples": 30,
+      "recomputedP95": {
+        "firstMilliseconds": 1093.770916,
+        "steadyMilliseconds": 1166.932084,
+        "recoveredMilliseconds": 1090.763792,
+        "cancelMilliseconds": 1.772875,
+        "residentBytes": 26902528
+      },
+      "passed": true
+    }
+  ],
+  "actualFailure": "large-loose first-read P95 2002.024458 > 2000 ms",
+  "otherCIAfterThisStep": "not executed"
+}

@@ -129,6 +129,10 @@ final class ThemeInteractionTests: XCTestCase {
                     at: CGPoint(x: pane.frame.minX - 0.5, y: pane.frame.minY + pane.frame.height * fraction)),
                 0.5)
         }
+        // Opening the Inspector moves commit metadata into its own tabs. The
+        // full History detail exposes the author when this pane is closed.
+        inspector.click()
+        XCTAssertTrue(pane.waitForNonExistence(timeout: 5))
         app.typeKey("2", modifierFlags: .command)
         let commit = app.outlines["history-list"].staticTexts["Theme fixture"].firstMatch
         XCTAssertTrue(commit.waitForExistence(timeout: 5))

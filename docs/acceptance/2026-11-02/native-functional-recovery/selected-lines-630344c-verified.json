@@ -1,0 +1,67 @@
+{
+  "source": "630344c44bfdb034fe7d5f27d0551ebdf76ad6de",
+  "run": 41412953957,
+  "artifact": 13126234209,
+  "artifactBytes": 119527291,
+  "artifactSHA256": "c8b8ef5ab38135d14142c0663e2c0ca0409a101b0b15c11854345b68ca5fa123",
+  "crcEntries": 2145,
+  "sourceInputCount": 194,
+  "sourceMismatches": [],
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-selected-lines": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 17.046,
+      "summarySeconds": 21.14400005340576
+    },
+    "focused-selected-lines": {
+      "methodSeconds": 82.13,
+      "summarySeconds": 87.47800016403198
+    }
+  },
+  "displayRestored": true,
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "7ec27fdde5412051ee268c175547d641645a0724",
+      "deviceName": "My Mac",
+      "exportedFileName": "807ABE8D-0AC4-4B73-93FF-3949C0F35937.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "English dark stale confirmation preserves external bytes_0_5A2B270B-4E6F-4115-BF47-CA474F2EF58D.png",
+      "timestamp": 1793608354.778
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "7ec27fdde5412051ee268c175547d641645a0724",
+      "deviceName": "My Mac",
+      "exportedFileName": "84790083-A3B1-408C-A9BA-11C5437E9C35.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Split unstage preview keeps separate staged and unstaged rows_0_B4701A48-8CAC-45E1-819C-7F46D8A0F0BD.png",
+      "timestamp": 1793608313.722
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "7ec27fdde5412051ee268c175547d641645a0724",
+      "deviceName": "My Mac",
+      "exportedFileName": "A96F5B13-1040-4C29-8EE3-4BD133B5C17A.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Unified selected addition preview_0_82B98C70-039E-4B75-91BC-16C0BF11C51F.png",
+      "timestamp": 1793608297.052
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": false,
+  "localXCTestExecuted": false
+}

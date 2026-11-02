@@ -2,6 +2,10 @@
 
 ## 2026-11-02 完整 69 项回归的真实失败接续
 
+- 候选630344c的边界、恢复和选中行专项均实际smoke/focus各1/1/0/0；方法102.725/53.181/82.130秒，194输入全匹配，显示恢复已核验。恢复两张与选中行三张原图已实看。边界用例原本无成功附件，需保留新截图/AX后再托管重验，不从workflow成功推导已有画面。
+- Theme41413673678越过中性焦点检查，在作者查询失败。Inspector打开时History将完整提交元数据移至Inspector标签；原用例查询隐藏的“作者：”正文。保持分栏/焦点/对比度断言，在普通History作者矩阵前关闭Inspector，避免重新添加重复说明。原失败与2215条CRC/194输入回执保留。
+- main37的CI41393422679有实际LFS预算失败：三类各30完整样本，loose first P95 2002.024458 >2000ms；steady1875.72875、recovered1936.176及cancel/RSS通过。94输入逐SHA一致，15CRC/47190bytes小制品完整。两Git266/47已过，失败之后Homebrew/GPG/打包等未执行，不能称main全部CI通过；原预算和90数组保留，新候选继续原标准。
+- GitHub并发组即使cancel-in-progress=false也只保留一个pending；一次提交四个原生任务导致两项在job建立前取消，实际没有执行XCTest。后续先确认前项已in_progress再只排一个next，保留41411954660/41411968788的取消记录，不能把排队/取消写成通过。
 - 普通Git push本轮因HTTP2 framing失败，先实读服务器引用确认是否落地，再使用已有逐对象SHA核验的GitHub REST传输；不关闭TLS验证或改变全局Git配置。构建回执须使用明确的managed-tree绝对路径，主根同名.build-app属于旧源码，不能把跨树误读导致的输入不匹配算作产品失败。
 - 实际AppState的独立控制先通过正常读取，再以已取消调用进入loadDiff；原实现清空当前Diff，baseline实际退出1。读取入口增加取消检查后，32次取消调用保持显示、32次后续真实读取和HEAD/index/工作字节保护全部通过。新的verify-diff-read-cancellation.sh链接实际Debug应用对象，使用注入的私有偏好域；加入现有CI，release路径没有插桩或后台时钟。该模型控制不代替完整原生回归。
 - 原生测试目标已编译成功，当前194应用输入与工作源码一致；33测试输入包含31个Swift文件、TestGit/main.c和runner entitlements，不能漏掉后两项再与旧33输入口径混用。Python74项、1427字符串/8复数及严格格式通过。首次焦点截图编译因局部add控件遮蔽XCTest.add而失败，改为self.add；原编译日志保留。
