@@ -22,13 +22,21 @@ final class SettingsLifecycleTests: XCTestCase {
         app.activate()
         app.menuBars.menuBarItems["WeGit"].click()
         app.menuItems["native-command-settings"].click()
-        let gitTab = app.buttons["Git"].firstMatch
-        if gitTab.waitForExistence(timeout: 3) { gitTab.click() } else { app.radioButtons["Git"].click() }
+        let settings = app.windows["com_apple_SwiftUI_Settings_window"]
+        XCTAssertTrue(settings.waitForExistence(timeout: 5))
+        settings.radioButtons["Git"].coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
         let edit = app.buttons["edit-setting:user.name"]
         XCTAssertTrue(edit.waitForExistence(timeout: 10))
+        // Git requirements moved to native help when the settings surface was
+        // simplified. Check the same information at its current disclosure point.
+        settings.buttons["恢复自动检测"].hover()
+        let requirement = app.descendants(matching: .any).matching(
+            NSPredicate(
+                format: "value CONTAINS %@ OR label CONTAINS %@", "Git 2.46+", "Git 2.46+")
+        )
+        .firstMatch
         XCTAssertTrue(
-            app.staticTexts.containing(NSPredicate(format: "value CONTAINS %@", "Git 2.46+")).firstMatch
-                .exists)
+            requirement.waitForExistence(timeout: 5), settings.debugDescription)
         edit.click()
         let value = app.textFields["git-setting-value"]
         XCTAssertTrue(value.waitForExistence(timeout: 3))
@@ -52,6 +60,6 @@ final class SettingsLifecycleTests: XCTestCase {
             predicate: NSPredicate(format: "enabled == true"), object: app.buttons["git-setting-save"])
         XCTAssertEqual(XCTWaiter.wait(for: [cancelled], timeout: 5), .completed)
         XCTAssertEqual(try fixture.git(["config", "--get", "user.name"]), "Original Fixture Name\n")
-        app.buttons["取消"].firstMatch.click()
+        settings.sheets.firstMatch.buttons["取消"].firstMatch.click()
     }
 }

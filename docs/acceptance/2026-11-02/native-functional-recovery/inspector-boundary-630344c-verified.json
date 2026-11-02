@@ -1,0 +1,39 @@
+{
+  "source": "630344c44bfdb034fe7d5f27d0551ebdf76ad6de",
+  "run": 41411958923,
+  "artifact": 13126390999,
+  "artifactBytes": 444176,
+  "artifactSHA256": "1904e92b150d5563ef2f553e0558ded4843faf4d77a1bcadeecb4a813a075812",
+  "crcEntries": 73,
+  "sourceInputCount": 194,
+  "sourceMismatches": [],
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-inspector-boundary": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 20.084,
+      "summarySeconds": 26.509000062942505
+    },
+    "focused-inspector-boundary": {
+      "methodSeconds": 102.725,
+      "summarySeconds": 104.72399997711182
+    }
+  },
+  "displayRestored": true,
+  "attachments": [],
+  "screenshotReviewed": false,
+  "accessibilityReviewed": false,
+  "localXCTestExecuted": false
+}

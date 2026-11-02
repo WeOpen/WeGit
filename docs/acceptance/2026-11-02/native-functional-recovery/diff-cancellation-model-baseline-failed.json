@@ -1,0 +1,22 @@
+{
+  "diagnosticOnly": true,
+  "exitCode": 1,
+  "results": [
+    {
+      "cancelledCallerPreservesCurrentDiff": false,
+      "diagnosticOnly": true,
+      "initialReadPassed": true,
+      "selection": "staged|selected.txt",
+      "xctestExecuted": false
+    }
+  ],
+  "xctestExecuted": false,
+  "configuration": "instrumented original Debug AppState read algorithm with a private preference domain",
+  "nativeUIAcceptance": false,
+  "sourceInstrumentation": {
+    "diagnosticOnly": true,
+    "originalSHA256": "f61830ac0000d28f8a9501579b2312e6855eec079305a2fc7a3f672f6eeec92c",
+    "temporarySHA256": "23e08090e492c1fc6172fc3d0cbc4fad6f687ae3075d350f2ca39d870133dda2",
+    "defaultSuite": "com.willxue.wegit.DiffSelectionProbe.01a19b1c"
+  }
+}

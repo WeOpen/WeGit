@@ -104,11 +104,18 @@ final class ThemeInteractionTests: XCTestCase {
         app.typeKey(XCUIKeyboardKey.rightArrow, modifierFlags: [])
         XCTAssertEqual(String(describing: settings.radioButtons["外观"].value ?? ""), "1")
         let tabs = settings.descendants(matching: .any)["settings-tabs"]
-        XCTAssertLessThan(try bluePixelCount(in: tabs.frame), 20)
+        // Category glyphs retain their established semantic colors. Measure the
+        // focus border separately so those blue glyphs cannot stand in for a ring.
+        XCTAssertLessThan(
+            try bluePixelCount(in: tabs.frame, excluding: tabs.frame.insetBy(dx: 5, dy: 5)), 20)
+        let focus = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        focus.name = "Neutral keyboard focus retains colored category glyphs"
+        focus.lifetime = .keepAlways
+        self.add(focus)
         settings.buttons[XCUIIdentifierCloseWindow].click()
         XCTAssertEqual(draft.value as? String, "Preserve draft through theme changes")
         inspector.click()
-        let pane = app.scrollViews["repository-inspector"]
+        let pane = app.repositoryInspector
         XCTAssertTrue(pane.waitForExistence(timeout: 5))
         app.typeKey(",", modifierFlags: .command)
         theme.click()
@@ -122,6 +129,10 @@ final class ThemeInteractionTests: XCTestCase {
                     at: CGPoint(x: pane.frame.minX - 0.5, y: pane.frame.minY + pane.frame.height * fraction)),
                 0.5)
         }
+        // Opening the Inspector moves commit metadata into its own tabs. The
+        // full History detail exposes the author when this pane is closed.
+        inspector.click()
+        XCTAssertTrue(pane.waitForNonExistence(timeout: 5))
         app.typeKey("2", modifierFlags: .command)
         let commit = app.outlines["history-list"].staticTexts["Theme fixture"].firstMatch
         XCTAssertTrue(commit.waitForExistence(timeout: 5))
@@ -226,11 +237,12 @@ final class ThemeInteractionTests: XCTestCase {
         return ratio
     }
 
-    @MainActor private func bluePixelCount(in rect: CGRect) throws -> Int {
+    @MainActor private func bluePixelCount(in rect: CGRect, excluding interior: CGRect) throws -> Int {
         let (bitmap, sx, sy) = try capture()
         var count = 0
         for y in max(0, Int(rect.minY * sy))..<min(bitmap.pixelsHigh, Int(rect.maxY * sy)) {
             for x in max(0, Int(rect.minX * sx))..<min(bitmap.pixelsWide, Int(rect.maxX * sx)) {
+                if interior.contains(CGPoint(x: CGFloat(x) / sx, y: CGFloat(y) / sy)) { continue }
                 guard let c = bitmap.colorAt(x: x, y: y)?.usingColorSpace(.sRGB) else { continue }
                 if c.blueComponent > c.redComponent + 0.25,
                     c.blueComponent > c.greenComponent + 0.12

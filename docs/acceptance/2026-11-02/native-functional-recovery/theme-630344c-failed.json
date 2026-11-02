@@ -1,0 +1,27 @@
+{
+  "totalTestCount": 1,
+  "passedTests": 0,
+  "failedTests": 1,
+  "skippedTests": 0,
+  "startTime": 1793608548.284,
+  "finishTime": 1793608625.826,
+  "testFailures": [
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus",
+      "testName": "testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus()"
+    }
+  ],
+  "sourceSHA": "630344c44bfdb034fe7d5f27d0551ebdf76ad6de",
+  "sourceInputCount": 194,
+  "mismatches": [],
+  "run": 41413673678,
+  "artifact": 13126638703,
+  "artifactSHA256": "7d152fe0f0dc87e8f97f878f94698b9e166a04b93ce0184ed3ae5cce6fc3f0c7",
+  "crcEntries": 2215,
+  "localXCTestExecuted": false,
+  "failureScope": "author metadata is moved into inspector tabs while Inspector is open"
+}

@@ -360,8 +360,23 @@ final class OperationFeedbackTests: XCTestCase {
     ) -> XCUIElement {
         let row = scope.descendants(matching: .any).matching(identifier: "operation-feedback").firstMatch
         XCTAssertTrue(row.waitForExistence(timeout: 10), scope.debugDescription)
+        // Native macOS containment groups expose their label, but not an AX value.
+        // Verify the actual spoken status and complete message, keeping every
+        // business-outcome assertion independent of the inaccessible phase token.
+        let prefix: String
+        switch kind {
+        case "success": prefix = "完成: "
+        case "failure": prefix = "失败: "
+        case "cancelled": prefix = "已取消: "
+        case "needs-review": prefix = "需要核对: "
+        case "busy": prefix = "正在执行 "
+        default:
+            XCTFail("Unknown expected operation feedback status: \(kind)")
+            return row
+        }
         let ready = XCTNSPredicateExpectation(
-            predicate: NSPredicate(format: "value == %@ AND label CONTAINS %@", kind, message), object: row)
+            predicate: NSPredicate(format: "label BEGINSWITH %@ AND label CONTAINS %@", prefix, message),
+            object: row)
         XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 15), .completed, row.debugDescription)
         return row
     }
