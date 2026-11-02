@@ -283,8 +283,8 @@ class NativeScopeSelectionTests(unittest.TestCase):
                 smoke, selected = (call.args[0] for call in runner.call_args_list)
                 self.assertIn("-only-testing:WeGitUITests/WeGitUITests/testWelcomeAndCloneForm", smoke)
                 self.assertEqual(selected[selected.index("-test-timeouts-enabled") + 1], "YES")
-                self.assertEqual(selected[selected.index("-default-test-execution-time-allowance") + 1], "120")
-                self.assertEqual(selected[selected.index("-maximum-test-execution-time-allowance") + 1], "180")
+                self.assertEqual(selected[selected.index("-default-test-execution-time-allowance") + 1], "300")
+                self.assertEqual(selected[selected.index("-maximum-test-execution-time-allowance") + 1], "2700")
                 self.assertLessEqual(runner.call_args_list[1].args[2], 5400)
                 audit = "WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes"
                 if mode == "functional":

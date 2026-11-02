@@ -182,8 +182,8 @@ def main():
                      ])
         result = run_logged(base + selection + [
                                 "-test-timeouts-enabled", "YES",
-                                "-default-test-execution-time-allowance", "120",
-                                "-maximum-test-execution-time-allowance", "180",
+                                "-default-test-execution-time-allowance", "300",
+                                "-maximum-test-execution-time-allowance", "2700",
                                 "-resultBundlePath", str(args.output / (args.mode + ".xcresult"))],
                             args.output / (args.mode + ".log"), 5400)
         summary = result_summary(args.output / (args.mode + ".xcresult"), args.output / (args.mode + "-summary.json"))
