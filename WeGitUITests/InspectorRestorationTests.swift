@@ -38,7 +38,7 @@ final class InspectorRestorationTests: XCTestCase {
                 XCTAssertGreaterThanOrEqual(filter.frame.minX, workspaceLeft + 8)
                 let right =
                     inspectorShown
-                    ? app.scrollViews["repository-inspector"].frame.minX : app.windows["main"].frame.maxX
+                    ? app.repositoryInspector.frame.minX : app.windows["main"].frame.maxX
                 XCTAssertLessThanOrEqual(filter.frame.maxX, right)
                 // The formerly covered leading edge must accept input, not only
                 // expose an accessibility field behind the sidebar.
@@ -84,7 +84,7 @@ final class InspectorRestorationTests: XCTestCase {
         let list = app.outlines["changes-list"]
         XCTAssertTrue(list.waitForExistence(timeout: 10))
         app.buttons["toolbar-inspector"].click()
-        let inspector = app.scrollViews["repository-inspector"]
+        let inspector = app.repositoryInspector
         XCTAssertTrue(inspector.waitForExistence(timeout: 5))
         for (path, identifier) in [("small.swift", "diff-content"), ("disk.swift", "disk-diff-content")] {
             list.staticTexts[path].firstMatch.click()
@@ -160,7 +160,7 @@ final class InspectorRestorationTests: XCTestCase {
         app.launchWeGit()
         defer { app.terminate() }
         XCTAssertTrue(app.outlines["changes-list"].waitForExistence(timeout: 10))
-        let inspector = app.scrollViews["repository-inspector"]
+        let inspector = app.repositoryInspector
         let toggle = app.toolbars.buttons["检查器"]
         toggle.click()
         XCTAssertTrue(inspector.waitForExistence(timeout: 5))

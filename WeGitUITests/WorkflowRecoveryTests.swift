@@ -340,7 +340,11 @@ final class WorkflowRecoveryTests: XCTestCase {
         XCTAssertFalse(file.exists)
         app.menuBars.menuBarItems["工作区"].click()
         app.menuItems["核对并恢复回收夹具"].click()
-        XCTAssertTrue(app.staticTexts["回收夹具已核对并恢复"].firstMatch.waitForExistence(timeout: 10))
+        let restored = app.windows["main"].buttons["operation-feedback-message"].firstMatch
+        XCTAssertTrue(restored.waitForExistence(timeout: 10))
+        let restoredMessage = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "label CONTAINS %@", "回收夹具已核对并恢复"), object: restored)
+        XCTAssertEqual(XCTWaiter.wait(for: [restoredMessage], timeout: 10), .completed)
         XCTAssertEqual(try Data(contentsOf: candidate), payload)
         let after = try FileManager.default.attributesOfItem(atPath: candidate.path)
         XCTAssertEqual(after[.systemFileNumber] as? NSNumber, original[.systemFileNumber] as? NSNumber)

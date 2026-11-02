@@ -14,3 +14,15 @@ main `9ee1ab243ed7d886de78cde91882121fd5fb1e2f` 已包含 PR #87 的最终实现
 Blame 的历史 Sheet 宽1080，超过980宽父窗口。父窗口截图会裁掉该 Sheet 边缘；这不是产品内容被裁剪的证明。该步骤改为完整屏幕截图，并断言路径和关闭按钮可操作。原固定历史路径/提交、原始字节、分页、Escape、草稿、HEAD、index及工作文件断言全部保留。
 
 应用和Core源码保持同源；候选变更只涉及可信测试驱动、固定长矩阵的截止设置、Blame用例的额外检查/截图和文档。仍须当前必需CI、可信候选专项、正常集成后完整functional及实际制品核验。正式发布和 [维护者明确延期的验收](../../2026-11-01/v1-2-closeout/README.md) 保留各自边界。
+
+
+## PR #99 合入后的完整结果
+
+[functional 41394863246](https://github.com/WeOpen/WeGit/actions/runs/41394863246) 在 main `37b7dfa55a31a8c6a2d7de037e1083bca92d557e` 实际执行69项：56通过、13失败、0跳过。smoke1/1/0/0；Blame81.322秒和144组阅读矩阵1997.575秒通过，完整进程未触发5400秒上限。完整制品293,000,459bytes、3209项CRC、GitHub SHA256与194输入均已核对，直接xcresult同样报告69/56/13/0，显示恢复确认。详细[原始失败回执](functional-41394863246-failed.json)保留。
+
+失败涉及6项反馈、3项检查器，以及选中行、设置生命周期、主题焦点和回收恢复各1项。辅助访问树证实检查器是Group、反馈容器只提供包含明确状态的label、回收恢复通过详情Button呈现；设置Git要求已移至原生help，分类图标的蓝色不能被计作焦点框。旧查询修正保留原业务断言和实际截图要求。选中行整块暂存后的空Diff是产品读取衔接断点，仍须修复并实际重验。
+
+本轮仍未满足开发收口；6个开放issue和1个冗余草稿PR保持到当前源码完整功能回归实际通过。批准延期的正式验收条件继续保留。
+
+
+独立模型控制链接当前普通Debug应用的实际AppState对象，[原算法的预取消调用](diff-cancellation-model-baseline-failed.json)实际清空已加载Diff，独立诊断保留了临时插桩与偏好域的源码回执；入口取消检查修正后32次保持显示和32次后续读取全部通过，私有HEAD、index与工作字节未变。偏好域由检查器独立注入并清理，CLI不执行XCTest或显示验收窗口。完整[模型回执](diff-cancellation-model-passed.json)保留构建输入；复验入口为`WEGIT_NATIVE_BUILD_PATH=<Debug DerivedData> scripts/verify-diff-read-cancellation.sh`，现有必需CI也执行此项。仍需当前固定候选的可信原生和完整主线69项回归。

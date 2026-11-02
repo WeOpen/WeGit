@@ -2,6 +2,11 @@ import AppKit
 import XCTest
 
 extension XCUIApplication {
+    @MainActor var repositoryInspector: XCUIElement {
+        windows["main"].descendants(matching: .any)
+            .matching(identifier: "repository-inspector").firstMatch
+    }
+
     @MainActor func toolbarSyncAction(_ identifier: String) -> XCUIElement {
         let direct = windows["main"].buttons[identifier]
         if direct.exists { return direct }

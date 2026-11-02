@@ -1,0 +1,137 @@
+{
+  "run": 41394863246,
+  "artifact": 13122008072,
+  "source": "37b7dfa55a31a8c6a2d7de037e1083bca92d557e",
+  "bytes": 293000459,
+  "sha256": "78942a21bcc7dd0361d952273f39f351a82524e345f18b61036772865096b9ee",
+  "crcEntries": 3209,
+  "totalTestCount": 69,
+  "passedTests": 56,
+  "failedTests": 13,
+  "skippedTests": 0,
+  "expectedFailures": 0,
+  "startTime": 1793597903.705,
+  "finishTime": 1793602566.703,
+  "appInputCount": 194,
+  "appSourceMismatches": [],
+  "displayRestored": true,
+  "testFailures": [
+    {
+      "test": "WorkflowRecoveryTests/testActualTrashReceiptAndFeedbackIdentifyOnlyTheFixtureFile()",
+      "failure": "XCTAssertTrue failed"
+    },
+    {
+      "test": "InspectorRestorationTests/testBranchesStayInsideWorkspaceWithSidebarAndInspectorChanges()",
+      "failure": "Failed to get matching snapshot: No matches found for Descendants matching type ScrollView from input {("
+    },
+    {
+      "test": "OperationFeedbackTests/testCommitFailureAndCancellationReplaceStagingSuccessAndPreserveDraft()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x7521d8e6c0, {{1165.0, 734.5}, {79.0, 13.0}}, identifier: 'operation-feedback', label: '完成: 暂存文件完成'"
+    },
+    {
+      "test": "OperationFeedbackTests/testCompletedPushWithUpstreamWarningKeepsCompletionAndReviewTone()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x7521db9e00, {{857.0, 734.5}, {387.0, 13.0}}, identifier: 'operation-feedback', label: '需要核对: 推送已完成，上游设置未完成：远端拒绝推送，请先获取最新状态并检查分支差异。'"
+    },
+    {
+      "test": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue()",
+      "failure": "XCTAssertTrue failed"
+    },
+    {
+      "test": "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets()",
+      "failure": "XCTAssertTrue failed"
+    },
+    {
+      "test": "OperationFeedbackTests/testLostCommitReplyRequiresReviewAndKeepsTheDraftForTheChangedHead()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x7523966bc0, {{766.0, 734.5}, {478.0, 13.0}}, identifier: 'operation-feedback', label: '需要核对: 操作未返回完整结果，但 HEAD 已变为 a698e27305c3。请先核对该提交；不会自动重新提交或推送。"
+    },
+    {
+      "test": "InspectorRestorationTests/testOpenInspectorRestoresAcrossBothSplitWorkspaces()",
+      "failure": "XCTAssertTrue failed"
+    },
+    {
+      "test": "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation()",
+      "failure": "XCTAssertTrue failed"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x7521dd3840, {{293.0, 744.0}, {288.0, 13.0}}, identifier: 'operation-feedback', label: '需要核对: 内容已应用。记录列表或删除结果需要核对，请勿重复恢复。"
+    },
+    {
+      "test": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x75239426c0, {{495.0, 497.0}, {288.0, 13.0}}, identifier: 'operation-feedback', label: '需要核对: 标签推送结果尚未确认，请先核对远端，不要直接重复推送。"
+    },
+    {
+      "test": "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus()",
+      "failure": "XCTAssertLessThan failed: (\"213\") is not less than (\"20\")"
+    },
+    {
+      "test": "OperationFeedbackTests/testUnmatchedAndAbsentPushVerificationPreservePendingUntilTheTargetMatches()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x7523b5c500, {{886.0, 734.5}, {358.0, 13.0}}, identifier: 'operation-feedback', label: '需要核对: 推送没有返回可核实的结果。远端可能已收到提交，请先核对确认时的目标。"
+    }
+  ],
+  "reviewedFrames": [
+    {
+      "label": "inspector-diff",
+      "requested": -2,
+      "result": "Extracted frame at 7.3533333333333335 of 9.453333333333333 seconds",
+      "sourceVideo": "D5814CA5-2226-4205-8598-5EFCB6D35F21.mp4"
+    },
+    {
+      "label": "inspector-restoration",
+      "requested": -2,
+      "result": "Extracted frame at 7.928333333333334 of 12.611666666666666 seconds",
+      "sourceVideo": "8CEB3D04-8CD6-4AF9-8A79-026CB2C9989A.mp4"
+    },
+    {
+      "label": "selected-lines-final",
+      "requested": -2,
+      "result": "Extracted frame at 52.526666666666664 of 55.843333333333334 seconds",
+      "sourceVideo": "238ED978-57EE-4E70-AF3A-0DA955B1E237.mp4"
+    },
+    {
+      "label": "selected-lines-before",
+      "requested": 32,
+      "result": "Extracted frame at 31.94333333333333 of 55.843333333333334 seconds",
+      "sourceVideo": "238ED978-57EE-4E70-AF3A-0DA955B1E237.mp4"
+    },
+    {
+      "label": "selected-lines-after",
+      "requested": 49,
+      "result": "Extracted frame at 48.943333333333335 of 55.843333333333334 seconds",
+      "sourceVideo": "238ED978-57EE-4E70-AF3A-0DA955B1E237.mp4"
+    },
+    {
+      "label": "theme-focus",
+      "requested": -2,
+      "result": "Extracted frame at 54.516666666666666 of 57.045 seconds",
+      "sourceVideo": "A1088EA2-D5E0-47D6-91B2-0054385A0FAC.mp4"
+    },
+    {
+      "label": "theme-before",
+      "requested": 47,
+      "result": "Extracted frame at 46.833333333333336 of 57.045 seconds",
+      "sourceVideo": "A1088EA2-D5E0-47D6-91B2-0054385A0FAC.mp4"
+    },
+    {
+      "label": "settings",
+      "requested": -2,
+      "result": "Extracted frame at 9.748333333333333 of 12.698333333333334 seconds",
+      "sourceVideo": "E29863CC-5068-4576-9B0C-EC0B385C3A13.mp4"
+    },
+    {
+      "label": "trash",
+      "requested": -2,
+      "result": "Extracted frame at 18.04 of 20.073333333333334 seconds",
+      "sourceVideo": "9EA1C1EC-42AC-4DE5-8ABF-F231E513F373.mp4"
+    },
+    {
+      "label": "feedback",
+      "requested": -2,
+      "result": "Extracted frame at 25.733333333333334 of 27.816666666666666 seconds",
+      "sourceVideo": "4DD06E67-5E88-425D-9E3B-5CF4FDFDF96A.mp4"
+    }
+  ],
+  "releaseReady": false,
+  "rawEvidenceDirectory": ".build/v1-2-closeout-2026-11-02/functional-41394863246",
+  "localXCTestExecuted": false
+}

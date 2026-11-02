@@ -515,17 +515,19 @@ final class AppState {
         #endif
     }
 
-    init() {
+    /// Standalone model checks can own a private preference domain.
+    init(defaultsOverride: UserDefaults? = nil) {
         let testing = Self.isUITesting
-        if !testing { PreferenceMigration.migrateStandardPreferences() }
-        defaults = testing ? UserDefaults(suiteName: "com.willxue.wegit.UITests")! : .standard
+        if !testing, defaultsOverride == nil { PreferenceMigration.migrateStandardPreferences() }
+        defaults =
+            defaultsOverride ?? (testing ? UserDefaults(suiteName: "com.willxue.wegit.UITests")! : .standard)
         #if DEBUG
             let preserveTestPreferences =
                 testing && ProcessInfo.processInfo.arguments.contains("--uitesting-keep-preferences")
         #else
             let preserveTestPreferences = false
         #endif
-        if testing && !preserveTestPreferences {
+        if testing && !preserveTestPreferences && defaultsOverride == nil {
             defaults.removePersistentDomain(forName: "com.willxue.wegit.UITests")
         }
         preferences = AppPreferences(defaults: defaults)
@@ -809,6 +811,9 @@ final class AppState {
     }
 
     func loadDiff(loadLarge: Bool = false) async {
+        // A replaced SwiftUI task can reach this actor after its cancellation.
+        // It must not cancel the current read or clear its visible result.
+        guard !Task.isCancelled else { return }
         diffReadTask?.cancel()
         let previous = workspace.diffDisplay
         let previousDisk = workspace.diskDisplay
