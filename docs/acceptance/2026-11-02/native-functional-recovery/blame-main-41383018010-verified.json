@@ -1,0 +1,29 @@
+{
+  "run": 41383018010,
+  "artifact": 13113928198,
+  "sourceSHA": "9ee1ab243ed7d886de78cde91882121fd5fb1e2f",
+  "bytes": 62923408,
+  "sha256": "c11be7379c7d5303eea52378859c8a15340460ee9733d9c116e93bc4b581bb9f",
+  "crcMembers": 2045,
+  "inputCount": 194,
+  "mismatches": [],
+  "tests": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "seconds": 18.563999891281128
+    },
+    "focused-blame": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "seconds": 67.60500001907349
+    }
+  },
+  "displayRestored": true,
+  "appAndCoreChanged": false,
+  "scope": "Same-main bounded diagnostic; complete functional acceptance still pending"
+}

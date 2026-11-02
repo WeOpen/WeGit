@@ -1,5 +1,18 @@
 # WeGit 开发交接
 
+## 2026-11-02 当前聊天接续：完整原生回归失败
+
+- `build-source.json` 的194项实际是应用/Core/资源等构建输入，不包含 `WeGitUITests`。不要据此假设UI用例变更会改变应用回执，也不能把它叫完整UI测试源码清单；测试来源须结合可信不可变签出SHA、clean环境、实际编译日志和单独的测试源码哈希核验。本次新用例只改BlameWorkflowTests，应用194项完全等价；单独UI源码清单随本机compile-only回执保留。
+
+- 同源 main 的 bounded Blame run41383018010 已直接核验 smoke/专项各1/1/0/0，专项summary67.605秒；完整62923408bytes ZIP/SHA c11be7379c7d5303eea52378859c8a15340460ee9733d9c116e93bc4b581bb9f/2045CRC与194输入一致，显示已恢复。这只覆盖单项，原full失败仍开放。完整scope原来没有120/180秒的单用例设置，现补上原专项边界；Python新增契约先真实失败，再修正为74/74全量通过。
+- FileHistory Sheet 的1080宽超过980宽父窗口；`app.windows["main"].screenshot()`会裁掉Sheet边缘，不能据这张截图断言产品内容本身被裁剪或整幅面板可见。该步骤改为完整屏幕截图，并检查路径与关闭按钮isHittable；原固定路径/提交、字节、分页、Escape、草稿/HEAD/index/工作文件断言保留。需要新固定候选托管Blame和完整main回归，本机只编译。
+
+- 用户继续来源聊天 `01a19951-c857-7423-866d-7fe2f9bfff12` 的同一收口目标。PR #87 已正常合入 main `9ee1ab243ed7d886de78cde91882121fd5fb1e2f`；required run41363741213 的三套 Git 各266项/47组、五份性能报告共450有效样本和194个 Release 输入已有核验回执。仍未完成完整原生回归和最后清理，不能称整版通过或发布。
+- main functional run41368232586 的完整388212bytes ZIP/SHA4e148db6ef07b2b9aa42a0200a29961bb633cc217e9d56870518d773b67f4d1e/47CRC已核验。smoke实际1/1/0/0；Blame在关闭来源提交后打开文件历史，`file-history-path` AX查询超时（BlameWorkflowTests.swift:71），随后 ChangesList 用例没有进展。functional在5400秒外层界限终止且xcresult未形成；DisplaySession随后未结束，job触及120分钟。取消、原始日志和不完整计数保持，不把 smoke 成功或旧专项替代整套回归。
+- #98 追踪该断点。使用既有 trusted-main smoke+blame入口，run41383018010；本机仍不执行 XCTest。复用已合并且tracked干净的 conflict-editor worktree，分支 `codex/98-blame-history-regression`；主根与旧 Rebase 用户改动、HEAD/index和补丁保存在主根 `.build/v1-2-closeout-2026-11-02/resume-98/`。最终清理前不得删除这些 WIP。
+- 原 heartbeat 为 PAUSED，按最新用户安排只在当前聊天手动继续。#3/#4/#5/#6/#7/#9 的明确延期归档继续有效，原未验条件保留；新功能性能、可信原生和当前可执行回归仍须完成。
+- 先用 `rg --files` 核对文件位置，App没有 `WeGit/Platform`、`WeGit/Support` 或 `WeGit/App/L10n.swift`；查询缺失路径不能由同一批后续成功掩盖。长来源聊天只提取用户指示、最后进度和关键回执，避免将整个工具历史输出到新聊天耗尽上下文。
+
 ## 2026-11-02 当前聊天继续收口与原生确认框定位
 
 - 最终产品/UI输入38dca23915362c3ca51f6bddd643a31a06b15c37已通过两项可信原生：Interactive41362241163与Submodule/LFS41362962873，二者smoke/focus均各1/1/0/0；方法74.719/21.768秒，summary78.620/23.299秒，原120/180秒预算不变。194个输入全匹配，七张原图/七份AX实看并逐附件SHA复制到2026-11-02验收目录。两个制品116302263/588273bytes，SHAe464ae56.../cdd1886f...，2021/77CRC，VM显示已恢复。前序失败/旧通过不改记。
