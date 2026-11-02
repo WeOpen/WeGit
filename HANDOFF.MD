@@ -2,6 +2,7 @@
 
 ## 2026-11-02 完整 69 项回归的真实失败接续
 
+- 普通Git push本轮因HTTP2 framing失败，先实读服务器引用确认是否落地，再使用已有逐对象SHA核验的GitHub REST传输；不关闭TLS验证或改变全局Git配置。构建回执须使用明确的managed-tree绝对路径，主根同名.build-app属于旧源码，不能把跨树误读导致的输入不匹配算作产品失败。
 - 实际AppState的独立控制先通过正常读取，再以已取消调用进入loadDiff；原实现清空当前Diff，baseline实际退出1。读取入口增加取消检查后，32次取消调用保持显示、32次后续真实读取和HEAD/index/工作字节保护全部通过。新的verify-diff-read-cancellation.sh链接实际Debug应用对象，使用注入的私有偏好域；加入现有CI，release路径没有插桩或后台时钟。该模型控制不代替完整原生回归。
 - 原生测试目标已编译成功，当前194应用输入与工作源码一致；33测试输入包含31个Swift文件、TestGit/main.c和runner entitlements，不能漏掉后两项再与旧33输入口径混用。Python74项、1427字符串/8复数及严格格式通过。首次焦点截图编译因局部add控件遮蔽XCTest.add而失败，改为self.add；原编译日志保留。
 - 模型控制需一并复制实际WeGit_WeGitCore.bundle，否则链接成功后仍会在资源定位阶段终止；该首次诊断环境失败单独保留。CUA在退出后的getAXState会重新启动无测试参数的应用；不要用该接口确认退出，用准确PID/路径只读核对。本轮诊断进程均已结束，创建的两个私有偏好域经创建时间核验后清理。
