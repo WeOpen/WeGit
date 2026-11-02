@@ -1,5 +1,14 @@
 # WeGit 开发交接
 
+## 2026-11-03 私有提交失败夹具接续
+
+- PR101 经三项必需检查及完整 CI 制品核验正常合入 main `297f15cc5fc2e1647127e72caa8de70760c7e31e`；整棵树等于候选 e6f0546。CI41470552663 的13,401,600bytes/SHA df96589b/39CRC、三套Git各266/47、450有效原始性能样本、9+9隔离签名、64实际模型及普通Release包输入/回执均核验。可选 Workers Builds 的失败另记，未改网站或部署配置。
+- 新 trusted-main feedback-commit run41540708075 实际 smoke1/1/0/0、专项1/0/1/0。完整113,738,086bytes/SHA e1b452c5/2137CRC、194应用/33测试输入、24.267秒与显示恢复核验。反馈状态谓词及中心点击已越过旧断点，详情确实打开；失败在 OperationFeedbackTests.swift:48，实际 Git 返回私有 shell hook 的 Operation not permitted。不能把沙盒拒绝执行解释成产品漏报或删除错误详情断言。
+- 用私有 `.git/index.lock` 触发同一个真实 commit 的非零结果，锁只在暂存成功后建立，随后先移除锁再进入原取消/恢复路径。保留明暗主题、草稿、HEAD、完整索引/工作文件字节、原暂存内容、锁字节及最终唯一新提交断言。独立真实Git已确认128退出、自己的锁路径、全部字节保留和移除后恢复；本机不执行XCTest。
+- 原生反馈 Popover 可伸出父窗口边缘，成功详情统一保留完整屏幕截图和原AX文字。失败视频实际23.723333秒帧确认错误详情可见；不拿父窗口裁剪图判定Popover缺失。
+- 历史 Ego space2 已不存在，先列举确认只有用户 space0；未接管用户空间。同一个任务名重新取得 space3/p1，已实际查看当前GitHub原生页。页面增量更新可让旧ref断连，先读当前URL再用已观察到的job地址导航；不盲点旧ref或为页面错误另建space，结束只finish一次。
+- 本轮复用 conflict-editor 工作树的新分支 `codex/98-private-git-failure`。主检出及旧Rebase的HEAD/index、二进制补丁和89/5个用户文件摘要已保存在主根 `.build/v1-2-closeout-2026-11-03/protected-state/`。五项当前专项、最终69项完整回归及Issue/PR/分支收尾仍待；heartbeat保持PAUSED，正式验收延期矩阵继续保留。
+
 ## 2026-11-02 当前完整回归69/64/5接续
 
 - PR100已正常集成main f2e8f97。main CI41453684671完整13,401,660bytes ZIP/SHA5a1df191/39CRC核验，三套Git各266/47、450有效性能样本独立重算、9+9隔离签名、64实际模型检查及359包/194应用输入和包内外receipt一致；新main开发包SHAe213a944。LFS loose first1721.666417/recovered1837.599875低于原2000ms，旧2002.024458失败保留。

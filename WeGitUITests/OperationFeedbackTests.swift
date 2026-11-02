@@ -11,14 +11,12 @@ final class OperationFeedbackTests: XCTestCase {
             defer { f.remove() }
             let head = try f.git(["rev-parse", "HEAD"])
             try Data("changed bytes\n".utf8).write(to: f.root.appending(path: "file.txt"))
-            let hook = f.root.appending(path: ".git/hooks/pre-commit")
-            try Data("#!/bin/sh\necho 'Feedback fixture rejects this commit' >&2\nexit 1\n".utf8)
-                .write(to: hook)
-            try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: hook.path)
+            let lock = f.root.appending(path: ".git/index.lock")
+            let lockBytes = Data("Private feedback fixture owns this index lock\n".utf8)
             let marker = f.root.appending(path: ".git/feedback-commit-delay")
-            // The first attempt reaches the real rejecting hook. Removing this
-            // private marker arms the next attempt for cancellation before Git runs.
-            try Data("first attempt uses the hook\n".utf8).write(to: marker)
+            // The first attempt reaches a real Git index-lock failure. The lock
+            // is created after staging; removing this marker arms cancellation.
+            try Data("first attempt reaches real Git\n".utf8).write(to: marker)
             let app = try application(
                 f, appearance: appearance, motion: motion,
                 environment: ["WEGIT_COMMIT_DELAY_MARKER": marker.path])
@@ -36,18 +34,29 @@ final class OperationFeedbackTests: XCTestCase {
             let staged = app.checkBoxes["stage:staged:file.txt"]
             XCTAssertTrue(staged.waitForExistence(timeout: 10))
             let success = waitFeedback("success", in: app.windows["main"]).label
+            let index = f.root.appending(path: ".git/index")
+            let stagedIndexBytes = try Data(contentsOf: index)
+            let workingFile = f.root.appending(path: "file.txt")
+            let workingBytes = try Data(contentsOf: workingFile)
             let commit = app.buttons["commit-button"]
             waitEnabled(commit)
+            // Hosted XCTest cannot execute a shell hook from its private
+            // container. An existing lock makes the same real commit fail
+            // without changing sandbox permissions or running a fixture script.
+            try lockBytes.write(to: lock, options: .withoutOverwriting)
             commit.click()
             let failure = waitFeedback("failure", in: app.windows["main"])
             XCTAssertFalse(failure.label.contains(success))
             XCTAssertEqual(message.value as? String, draft)
             XCTAssertEqual(try f.git(["rev-parse", "HEAD"]), head)
             XCTAssertEqual(try f.git(["show", ":file.txt"]), "changed bytes\n")
+            XCTAssertEqual(try Data(contentsOf: index), stagedIndexBytes)
+            XCTAssertEqual(try Data(contentsOf: workingFile), workingBytes)
             XCTAssertTrue(staged.exists)
-            XCTAssertTrue(try feedbackDetails(app).contains("Feedback fixture rejects this commit"))
+            XCTAssertTrue(try feedbackDetails(app).contains(lock.path))
+            XCTAssertEqual(try Data(contentsOf: lock), lockBytes)
             closeFeedbackDetails(app)
-            try FileManager.default.removeItem(at: hook)
+            try FileManager.default.removeItem(at: lock)
             try FileManager.default.removeItem(at: marker)
             waitEnabled(commit)
             commit.click()
@@ -61,6 +70,8 @@ final class OperationFeedbackTests: XCTestCase {
             XCTAssertEqual(message.value as? String, draft)
             XCTAssertEqual(try f.git(["rev-parse", "HEAD"]), head)
             XCTAssertEqual(try f.git(["show", ":file.txt"]), "changed bytes\n")
+            XCTAssertEqual(try Data(contentsOf: index), stagedIndexBytes)
+            XCTAssertEqual(try Data(contentsOf: workingFile), workingBytes)
             retain(app, "Current commit cancellation preserves draft - " + appearance)
             waitEnabled(commit)
             commit.click()
@@ -407,6 +418,10 @@ final class OperationFeedbackTests: XCTestCase {
         evidence.name = "Complete operation feedback and accessible detail"
         evidence.lifetime = .keepAlways
         add(evidence)
+        let visible = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        visible.name = "Native operation feedback details"
+        visible.lifetime = .keepAlways
+        add(visible)
         return content
     }
 

@@ -1,0 +1,11 @@
+{
+  "realGit": "/Applications/Xcode.app/Contents/Developer/usr/bin/git",
+  "realFailureExit": 128,
+  "ownIndexLockNamedInFailure": true,
+  "headIndexWorkingBytesPreserved": true,
+  "lockBytesPreserved": true,
+  "lockRemovalRecoveredCommit": true,
+  "exactlyOneNewCommit": true,
+  "fixtureRemoved": true,
+  "localXCTestExecuted": false
+}
