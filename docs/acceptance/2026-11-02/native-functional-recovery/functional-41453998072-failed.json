@@ -1,0 +1,133 @@
+{
+  "sourceSHA": "f2e8f97e233b4487f81d58eb577f3bbfd5a43ecd",
+  "run": 41453998072,
+  "artifact": 13151876531,
+  "artifactBytes": 229507351,
+  "artifactSHA256": "ecd07842743fa4ff3d36e6cedab6a278dff67d012dd142f9c49f75cddb7c27c8",
+  "crcMembers": 2835,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "functional": {
+      "totalTestCount": 69,
+      "passedTests": 64,
+      "failedTests": 5,
+      "skippedTests": 0
+    }
+  },
+  "runtimeMethodsMatched": true,
+  "runtimeMethodCount": 69,
+  "caseOutcomes": {
+    "passed": 64,
+    "failed": 5
+  },
+  "caseDurations": {
+    "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation": 61.298,
+    "ChangesListTests/testCollapsibleGroupsAndFilteredStageCheckboxes": 24.246,
+    "DiffReaderTests/testHunkNavigationAndNativeSelectionCopyOriginalText": 47.193,
+    "FileHistoryWorkflowTests/testFileContextRenameSearchAndManualDeletedPath": 42.84,
+    "GitConfigurationInterfaceTests/testGlobalAndLocalEditsUseOnlyTheirExplicitScope": 33.336,
+    "HistoryActionsTests/testCopyCheckoutAndBranchUseTheSelectedHistoricalCommit": 30.864,
+    "InspectorRestorationTests/testBranchesStayInsideWorkspaceWithSidebarAndInspectorChanges": 33.784,
+    "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets": 89.802,
+    "InspectorRestorationTests/testOpenInspectorRestoresAcrossBothSplitWorkspaces": 40.168,
+    "InspectorRestorationTests/testSubmoduleAndLFSResourcesAppearInInspector": 17.125,
+    "InterfacePolishTests/testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes": 62.146,
+    "LayoutTests/testContextControlsStayVisibleInMinimumWindow": 271.634,
+    "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls": 30.593,
+    "LocalizationUITests/testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch": 44.04,
+    "OperationFeedbackTests/testCommitFailureAndCancellationReplaceStagingSuccessAndPreserveDraft": 27.835,
+    "OperationFeedbackTests/testCompletedPushWithUpstreamWarningKeepsCompletionAndReviewTone": 25.405,
+    "OperationFeedbackTests/testLostCommitReplyRequiresReviewAndKeepsTheDraftForTheChangedHead": 17.228,
+    "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList": 20.41,
+    "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification": 33.465,
+    "OperationFeedbackTests/testUnmatchedAndAbsentPushVerificationPreservePendingUntilTheTargetMatches": 38.35,
+    "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes": 1961.667,
+    "RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch": 86.382,
+    "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch": 87.621,
+    "RemoteManagementWorkflowTests/testAddEditCancelAndRemoveRepositoryRemote": 62.98,
+    "RepositoryPickerTests/testKeyboardSelectionSearchAndCloneHandoff": 39.134,
+    "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation": 86.185,
+    "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue": 17.952,
+    "SettingsReadingTests/testSixSettingsTabsAndLiveTextMeasurementChanges": 44.162,
+    "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch": 124.223,
+    "SpecialFileReadingTests/testBinarySymlinkUnknownLanguageAndDeletedFileReading": 19.796,
+    "StashWorkflowTests/testPopCancelSuccessConflictAndExternalListRefresh": 33.44,
+    "StashWorkflowTests/testSaveInspectApplyAndDeletePreserveWorkingAndStagingState": 26.8,
+    "TagWorkflowTests/testCreateCancelInspectAndDeleteLocalTagPreservesBranch": 30.657,
+    "TagWorkflowTests/testSingleTagPushRequiresEndpointConfirmationAndPreservesOtherTags": 22.11,
+    "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus": 99.796,
+    "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable": 20.577,
+    "ToolbarMenuBarTests/testMenuBarReopensClosedWindowWithoutLosingDraftAndRefreshesExternalChanges": 18.375,
+    "ToolbarMenuBarTests/testSidebarButtonRetainsItsSurfaceAfterRepeatedToggles": 29.291,
+    "ToolbarMenuBarTests/testToolbarHeightsAndUpstreamCountsRefreshTogether": 31.638,
+    "WeGitUITests/testBranchRenameDeleteAndTrackingCreation": 39.974,
+    "WeGitUITests/testCloneRejectsExistingDirectoryThenRetriesSuccessfully": 35.405,
+    "WeGitUITests/testCommandPaletteCanSwitchAFilteredLocalBranch": 15.478,
+    "WeGitUITests/testCommitAndPushFailureRetriesWithoutAnotherCommit": 19.23,
+    "WeGitUITests/testCommitAndPushLostReplyOnlyVerifiesTheDeliveredCommit": 20.76,
+    "WeGitUITests/testDiffReadingOptionsAndFilterEmptyState": 35.31,
+    "WeGitUITests/testDiskBackedDiffPagesAndLayoutSwitch": 50.242,
+    "WeGitUITests/testDraftAndRepositoryPageRestoreAcrossRelaunch": 16.849,
+    "WeGitUITests/testEncryptedCommitAuthenticationCanBeCancelledAndRetried": 18.239,
+    "WeGitUITests/testFirstPushAndFastForwardPullUseTheSelectedRemote": 26.351,
+    "WeGitUITests/testHistoryFirstReadRecoversWhenRefreshCancelsIt": 8.795,
+    "WeGitUITests/testHistoryPaginationParentComparisonAndStaleReferences": 41.657,
+    "WeGitUITests/testLargeDiffSummaryPagingAndSelectionReset": 19.045,
+    "WeGitUITests/testLostPushReplyRestoresVerificationAfterLocalHeadMoves": 31.34,
+    "WeGitUITests/testReopeningAReplacedRepositoryCreatesANewSession": 10.453,
+    "WeGitUITests/testRepositorySearchOpensTheExactCommitAndPaletteSupportsKeyboard": 16.446,
+    "WeGitUITests/testRestoredUnknownPushRefusesAChangedDestination": 32.898,
+    "WeGitUITests/testStageCommitAndHistory": 16.327,
+    "WeGitUITests/testStatusFilterPreservesStageAllScopeAndDeletedFileOpenIsDisabled": 18.837,
+    "WeGitUITests/testUnknownPushRequiresNewConfirmationWhenTargetDoesNotMatch": 29.873,
+    "WeGitUITests/testUntrackedTrashConfirmationCanBeCancelled": 13.041,
+    "WeGitUITests/testWelcomeAndCloneForm": 11.071,
+    "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen": 20.332,
+    "WorkflowRecoveryTests/testActualTrashReceiptAndFeedbackIdentifyOnlyTheFixtureFile": 16.59,
+    "WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose": 30.608,
+    "WorkflowRecoveryTests/testExternalGitChangesUpdateVisibleStatusWithoutManualRefresh": 12.791,
+    "WorkflowRecoveryTests/testMergeConflictCanContinueOrAbort": 39.82,
+    "WorkflowRecoveryTests/testPullRebaseHandlesTwoConflictRoundsAndAbort": 62.442,
+    "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees": 93.223,
+    "WorktreeWorkflowTests/testLinkedWorktreesKeepDraftsPagesAndIndexesAcrossSwitchAndRelaunch": 64.805
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "allPassed": false,
+  "errors": [
+    "full scope did not pass69/69/0/0"
+  ],
+  "releaseAcceptance": false,
+  "failedMethods": [
+    {
+      "method": "OperationFeedbackTests/testCommitFailureAndCancellationReplaceStagingSuccessAndPreserveDraft()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x777df06300, {{1165.0, 734.5}, {79.0, 13.0}}, identifier: 'operation-feedback', label: '完成: 暂存文件完成'"
+    },
+    {
+      "method": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue()",
+      "failure": "XCTAssertTrue failed - Attributes: Window (Main), 0x777de7ea80, {{598.0, 209.0}, {724.0, 616.0}}, identifier: 'com_apple_SwiftUI_Settings_window', title: 'WeGit 设置', Disabled"
+    },
+    {
+      "method": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "failure": "XCTAssertTrue failed"
+    },
+    {
+      "method": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x777df12800, {{495.0, 497.0}, {288.0, 13.0}}, identifier: 'operation-feedback', label: '需要核对: 标签推送结果尚未确认，请先核对远端，不要直接重复推送。"
+    },
+    {
+      "method": "OperationFeedbackTests/testUnmatchedAndAbsentPushVerificationPreservePendingUntilTheTargetMatches()",
+      "failure": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Attributes: Group, 0x777e004b40, {{886.0, 734.5}, {358.0, 13.0}}, identifier: 'operation-feedback', label: '需要核对: 推送没有返回可核实的结果。远端可能已收到提交，请先核对确认时的目标。"
+    }
+  ],
+  "runtimeWarningCount": 18,
+  "summarySeconds": 4710.427000045776
+}

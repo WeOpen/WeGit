@@ -50,6 +50,42 @@ class NativeProcessDeadlineTests(unittest.TestCase):
 
 
 class NativeScopeSelectionTests(unittest.TestCase):
+    def test_feedback_and_settings_scopes_require_smoke_and_fixed_original_methods(self):
+        expected = {
+        "feedback-commit": "OperationFeedbackTests/testCommitFailureAndCancellationReplaceStagingSuccessAndPreserveDraft",
+        "feedback-stash": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList",
+        "feedback-tag": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification",
+        "feedback-push": "OperationFeedbackTests/testUnmatchedAndAbsentPushVerificationPreservePendingUntilTheTargetMatches",
+        "settings-lifecycle": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue"
+}
+        root = Path(__file__).resolve().parents[3]
+        for focus, target in expected.items():
+            self.assertEqual(ui_probe.FOCUSED_TESTS[focus], target)
+            self.assertIn(focus, (root / ".github/workflows/native-ui.yml").read_text())
+            class_name, method = target.split("/")
+            self.assertIn("func " + method + "(", (root / "WeGitUITests" / (class_name + ".swift")).read_text())
+            for passed, failed, skipped in ((1, 0, 0), (0, 1, 0), (0, 0, 1)):
+                summary = {"totalTestCount": 1, "passedTests": passed, "failedTests": failed, "skippedTests": skipped}
+                with self.subTest(focus=focus, summary=summary), tempfile.TemporaryDirectory() as folder:
+                    with patch.object(sys, "argv", ["ui_probe.py", "--mode", "smoke", "--focus", focus, "--output", folder]), \
+                         patch.object(ui_probe, "inspect_environment", return_value={"interactivePrerequisites": True}), \
+                         patch.object(ui_probe, "run_logged", return_value={"exitCode": 0, "timedOut": False}) as runner, \
+                         patch.object(ui_probe, "result_summary", return_value=summary), \
+                         redirect_stdout(StringIO()):
+                        if passed:
+                            ui_probe.main()
+                        else:
+                            with self.assertRaises(ValueError):
+                                ui_probe.main()
+                    self.assertEqual(runner.call_count, 2 if passed else 1)
+                    if passed:
+                        command = runner.call_args_list[1].args[0]
+                        self.assertEqual([x for x in command if x.startswith("-only-testing:")],
+                                         ["-only-testing:WeGitUITests/" + target])
+                        self.assertEqual(command[command.index("-default-test-execution-time-allowance") + 1], "120")
+                        self.assertEqual(command[command.index("-maximum-test-execution-time-allowance") + 1], "180")
+                        self.assertLessEqual(runner.call_args_list[1].args[2], 300)
+
     def test_interactive_rebase_requires_smoke_and_one_bounded_method(self):
         target = "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch"
         self.assertEqual(ui_probe.FOCUSED_TESTS["interactive-rebase"], target)
