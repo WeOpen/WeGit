@@ -29,7 +29,10 @@ final class SettingsLifecycleTests: XCTestCase {
         XCTAssertTrue(edit.waitForExistence(timeout: 10))
         // Git requirements moved to native help when the settings surface was
         // simplified. Check the same information at its current disclosure point.
-        settings.buttons["恢复自动检测"].hover()
+        let automatic = settings.buttons["恢复自动检测"]
+        XCTAssertTrue(automatic.isHittable)
+        XCTAssertTrue(settings.frame.contains(automatic.frame))
+        automatic.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).hover()
         let requirement = app.descendants(matching: .any).matching(
             NSPredicate(
                 format: "value CONTAINS %@ OR label CONTAINS %@", "Git 2.46+", "Git 2.46+")
@@ -37,6 +40,10 @@ final class SettingsLifecycleTests: XCTestCase {
         .firstMatch
         XCTAssertTrue(
             requirement.waitForExistence(timeout: 5), settings.debugDescription)
+        let help = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        help.name = "Git minimum-version native help"
+        help.lifetime = .keepAlways
+        add(help)
         edit.click()
         let value = app.textFields["git-setting-value"]
         XCTAssertTrue(value.waitForExistence(timeout: 3))

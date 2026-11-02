@@ -11,6 +11,11 @@ import subprocess
 import time
 
 FOCUSED_TESTS = {
+    "feedback-commit": "OperationFeedbackTests/testCommitFailureAndCancellationReplaceStagingSuccessAndPreserveDraft",
+    "feedback-stash": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList",
+    "feedback-tag": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification",
+    "feedback-push": "OperationFeedbackTests/testUnmatchedAndAbsentPushVerificationPreservePendingUntilTheTargetMatches",
+    "settings-lifecycle": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue",
     "interactive-rebase": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch",
     "rebase-workflow": "RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch",
     "worktree-management": "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees",

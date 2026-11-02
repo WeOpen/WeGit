@@ -374,9 +374,16 @@ final class OperationFeedbackTests: XCTestCase {
             XCTFail("Unknown expected operation feedback status: \(kind)")
             return row
         }
-        let ready = XCTNSPredicateExpectation(
-            predicate: NSPredicate(format: "label BEGINSWITH %@ AND label CONTAINS %@", prefix, message),
-            object: row)
+        // Foundation's CONTAINS with an empty string evaluates to false.
+        // Default calls still require the status and a nonempty complete message.
+        let status = NSPredicate(format: "label BEGINSWITH %@ AND label != %@", prefix, prefix)
+        let predicate =
+            message.isEmpty
+            ? status
+            : NSCompoundPredicate(andPredicateWithSubpredicates: [
+                status, NSPredicate(format: "label CONTAINS %@", message),
+            ])
+        let ready = XCTNSPredicateExpectation(predicate: predicate, object: row)
         XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 15), .completed, row.debugDescription)
         return row
     }
@@ -384,10 +391,17 @@ final class OperationFeedbackTests: XCTestCase {
     @MainActor private func feedbackDetails(_ app: XCUIApplication) throws -> String {
         let message = app.windows["main"].buttons["operation-feedback-message"].firstMatch
         XCTAssertTrue(message.waitForExistence(timeout: 5))
-        message.click()
+        XCTAssertGreaterThan(message.frame.width, 0)
+        XCTAssertGreaterThan(message.frame.height, 0)
+        XCTAssertTrue(app.windows["main"].frame.contains(message.frame))
+        let opening = XCTAttachment(string: "message frame=\(message.frame)\n" + message.debugDescription)
+        opening.name = "Native feedback detail target"
+        opening.lifetime = .keepAlways
+        add(opening)
+        message.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
         let details = app.descendants(matching: .any).matching(identifier: "operation-feedback-details")
             .firstMatch
-        XCTAssertTrue(details.waitForExistence(timeout: 5))
+        XCTAssertTrue(details.waitForExistence(timeout: 5), app.debugDescription)
         let content = (details.value as? String) ?? details.label
         let evidence = XCTAttachment(string: content + "\n" + details.debugDescription)
         evidence.name = "Complete operation feedback and accessible detail"

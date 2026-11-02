@@ -1,5 +1,14 @@
 # WeGit 开发交接
 
+## 2026-11-02 当前完整回归69/64/5接续
+
+- PR100已正常集成main f2e8f97。main CI41453684671完整13,401,660bytes ZIP/SHA5a1df191/39CRC核验，三套Git各266/47、450有效性能样本独立重算、9+9隔离签名、64实际模型检查及359包/194应用输入和包内外receipt一致；新main开发包SHAe213a944。LFS loose first1721.666417/recovered1837.599875低于原2000ms，旧2002.024458失败保留。
+- main完整原生41453998072实际smoke1/1/0/0、functional69/64/5/0；全部69唯一方法匹配、194应用/33UI输入匹配，显示恢复、权限未改、18运行时warning保留。完整229,507,351bytes ZIP/SHAecd07842/2835CRC、4710.427秒和五项失败回执已保存，不算通过或执行清理。
+- 三项反馈默认消息为empty string。独立Foundation实际确认CONTAINS empty返回false；现状态谓词必须前缀正确且完整消息非空，仅在提供消息时追加CONTAINS。四种Git结局、对象/字节/草稿/单次推送/不重复恢复断言保持。
+- Stash实际Button已存在，默认click后详情Popover未开，失败视频鼠标位于文本左缘；设置help默认hover视频鼠标位于上方标题，Git2.46帮助未出现。改为已有控件实际frame中心coordinate点击/悬停，增加边界/截图/AX与真实打开断言，不为测试恢复冗余UI说明。尚须托管五项实际重验，不能从本机编译宣称修复完成。
+- 当前仅测试驱动/入口与证据修改，App/Core输入保持。新增五个固定反馈/settings-lifecycle诊断入口与smoke失败/跳过不扩展范围的契约，经当前PR和三项必需CI正常集成可信main后再跑单项。仍不执行本机XCTest、改变系统AX/security或恢复已PAUSED的heartbeat；所有关闭/归档清理等最终完整main回归。
+- ffmpeg/ffprobe不在PATH；已复用本任务AVFoundation extract-video-frame，记录实际帧19.251667/19.885、11.878333/12.195秒。SDK framework Headers为符号链接，定向follow读取；不要扫描全部SDK symlink tree，Ruby Headers存在环。
+
 ## 2026-11-02 完整 69 项回归的真实失败接续
 
 - 候选630344c的边界、恢复和选中行专项均实际smoke/focus各1/1/0/0；方法102.725/53.181/82.130秒，194输入全匹配，显示恢复已核验。恢复两张与选中行三张原图已实看。边界用例原本无成功附件，需保留新截图/AX后再托管重验，不从workflow成功推导已有画面。

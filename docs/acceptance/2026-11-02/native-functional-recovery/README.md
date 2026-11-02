@@ -1,5 +1,15 @@
 # v1.2 完整原生回归的失败与恢复
 
+## PR100之后的实际结果
+
+main `f2e8f97e233b4487f81d58eb577f3bbfd5a43ecd` 的 [完整原生41453998072](https://github.com/WeOpen/WeGit/actions/runs/41453998072) 实际smoke1/1/0/0、functional69总/64通过/5失败/0跳过，全部预期69个方法执行。完整ZIP229,507,351bytes、2835CRC、GitHub摘要、194应用与33测试输入核验；显示恢复、系统权限未改，18项运行时warning保留。[原始失败回执](functional-41453998072-failed.json)包含每项时长与失败方法。
+
+剩余为四项反馈和设置生命周期。Foundation的CONTAINS空字符串实际返回false，导致默认消息条件拒绝正确的成功/待核对label。谓词修正仍要求状态前缀和非空完整消息，明确传入的消息仍须匹配。Stash详情Button点击和设置help悬停的失败视频保留实际鼠标位置，采用控件中心coordinate并继续检查真实详情/帮助出现及内容。原HEAD/index/工作字节、草稿、取消、同目标单次推送及恢复核对断言均保持。
+
+五个新固定诊断入口各只在真实smoke通过后运行一个已有方法，原120/180秒及失败/跳过停止门禁保留。本机仅编译原生测试目标；当前App/Core源码未改。入口与驱动通过PR和必需CI正常进入可信main后，先完成五项托管实际验证，再执行完整scope；#98和剩余清理继续开放。
+
+同源 [main CI41453684671](https://github.com/WeOpen/WeGit/actions/runs/41453684671) 已独立核验三套Git各266/47，五份原始数组共450有效样本在原预算内，隔离签名9+9、实际模型64项、359包/194应用输入与普通Release包内外receipt一致。该CI成功不替代上面的五项原生失败；正式验收延期条件仍按原矩阵保留。
+
 main `9ee1ab243ed7d886de78cde91882121fd5fb1e2f` 已包含 PR #87 的最终实现。当前收口仍需要完整 functional 实际通过；本页保留该主线的失败和同源单项诊断，最新候选、主线重跑及清理结果跟踪 [#98](https://github.com/WeOpen/WeGit/issues/98)。
 
 | 执行 | 实际结果 |
