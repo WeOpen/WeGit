@@ -91,4 +91,11 @@ npm run build:legacy
 npm run test:legacy
 ```
 
-现有 Sites 与 Pages 发布说明属于该静态路径。后续切换生产托管需单独完成真实 Cloudflare 域名、权限、缓存和线上性能验收。
+静态输出的 canonical、语言 alternate 与分享图片使用 `--site-origin`，默认仍为 `https://weopen.github.io`。部署到独立域名时传入 HTTPS origin，同时按实际路径设置 `--base-path`；当前 TanStack 入口继续使用上文的 `VITE_SITE_ORIGIN`。
+
+```sh
+python3 scripts/build.py --base-path '' \
+  --site-origin https://wegit.example.com --output ../.build/website-custom-host
+```
+
+构建器继续保留精确目录所有权标记、拒绝符号链接、原静态资源预算和 3 MB 总预算。原 Sites 项目、首次源码/部署及恢复步骤见 [Sites 历史记录](docs/SITES.md)，该记录不表示已重新查询或部署线上站点。后续切换生产托管需单独完成真实 Cloudflare 域名、权限、缓存和线上性能验收。
