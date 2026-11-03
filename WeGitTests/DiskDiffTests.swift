@@ -189,6 +189,22 @@ struct DiskDiffTests {
         let lines = page.rows.compactMap { if case .line(let line) = $0 { line } else { nil } }
         #expect(lines.count == 2 && lines[0].truncated && lines[0].content.utf8.count <= 8192)
         #expect(lines[1].content == "尾行")
+
+        try f.write("paged.txt", (1...5).map { "raw \($0)\n" }.joined())
+        let paged = try await f.service.diskDiff(path: "paged.txt", layer: .untracked)
+        var cursor: DiskDiffCursor?
+        var pagedLines: [String] = []
+        // A fixed page count also fails promptly if a future cursor stops making progress.
+        for expectedCount in [2, 2, 1] {
+            let page = try await paged.page(from: cursor, count: 2)
+            let contents = page.rows.compactMap { if case .line(let line) = $0 { line.content } else { nil } }
+            #expect(contents.count == expectedCount)
+            pagedLines += contents
+            cursor = page.next
+            #expect((cursor == nil) == (expectedCount == 1))
+        }
+        #expect(pagedLines == (1...5).map { "raw \($0)" })
+
         try f.write("new.txt", "new live file")
         #expect(try await snapshot.page().lastLine == 2)
         let corrupt = f.root.appending(path: "binary")

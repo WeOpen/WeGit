@@ -80,6 +80,31 @@ class WebsiteBuildTests(unittest.TestCase):
                 self.assertNotIn('>庫<', text)
                 self.assertNotIn('wegit-mark.svg', text)
 
+    def test_custom_host_uses_its_own_metadata_and_rejects_unsafe_origins(self):
+        origin = 'https://wegit.example.com'
+        with tempfile.TemporaryDirectory(prefix='wegit-host-test-') as temporary:
+            for index, base in enumerate(('', '/WeGit')):
+                output = Path(temporary) / str(index)
+                command = [sys.executable, str(SITE / 'scripts/build.py'), '--base-path', base, '--output', str(output), '--site-origin']
+                subprocess.run(command + [origin + '/'], check=True, capture_output=True)
+                for path in output.rglob('*.html'):
+                    text = path.read_text()
+                    self.assertNotIn('https://weopen.github.io', text)
+                    self.assertIn(f'content="{origin}{base}/assets/brand/social-preview.png"', text)
+                    self.assertIn(f'href="{origin}{base}/zh/', text)
+                    self.assertIn(f'href="{origin}{base}/', text)
+                self.assertIn(f'rel="canonical" href="{origin}{base}/zh/themes/"', (output / 'zh/themes/index.html').read_text())
+                self.assertIn('hosting service handles page requests', (output / 'privacy/index.html').read_text())
+                invalid_origins = (
+                    'http://wegit.example.com', origin + '/path',
+                    'https://user:secret@wegit.example.com', origin + '?x=1', origin + '#x',
+                    origin + '\"><script>', origin + '\\n', 'https://wegit.example.com:bad',
+                )
+                for invalid in invalid_origins:
+                    result = subprocess.run(command + [invalid], capture_output=True, text=True)
+                    self.assertNotEqual(result.returncode, 0, invalid)
+                    self.assertIn('Site origin must be an HTTPS origin', result.stderr)
+
     def test_all_downloads_are_original_native_documents(self):
         catalog = json.loads((SITE / 'data/themes.json').read_text())
         self.assertEqual(len(catalog), 10)

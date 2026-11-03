@@ -131,7 +131,7 @@ def verify_links(output, base):
                 raise ValueError('Missing module: ' + target)
 
 
-def write_site(output, base, releases):
+def write_site(output, base, releases, origin='https://weopen.github.io'):
     shutil.copytree(SITE / 'public', output, dirs_exist_ok=True)
     (output / 'assets/css').mkdir(parents=True)
     (output / 'assets/js').mkdir(parents=True)
@@ -189,7 +189,7 @@ def write_site(output, base, releases):
                 source = source.replace('data-page="home"', f'data-page="{page}"')
                 chinese = lang == 'zh'
                 title = ('隐私' if chinese else 'Privacy') if page == 'privacy' else '404'
-                body = ('本站没有分析追踪、广告 Cookie 或主题上传服务。主题导入在浏览器本地完成；网站托管与下载由 GitHub 提供。' if chinese else 'No analytics, advertising cookies or theme upload service. Theme import stays in your browser. GitHub provides hosting and downloads.') if page == 'privacy' else ('页面不存在。' if chinese else 'This page does not exist.')
+                body = ('本站没有分析追踪、广告 Cookie 或主题上传服务。主题导入在浏览器本地完成；网站托管服务处理页面访问，GitHub 提供客户端下载。' if chinese else 'No analytics, advertising cookies or theme upload service. Theme import stays in your browser. The hosting service handles page requests; GitHub provides app downloads.') if page == 'privacy' else ('页面不存在。' if chinese else 'This page does not exist.')
                 main = f'<main id="main" tabindex="-1"><section class="section"><div class="wrap"><h1>{title}</h1><p>{body}</p><a href="{{{{home}}}}">WeGit</a></div></section></main>'
                 source = re.sub(r'<main.*?</main>', lambda _: main, source, flags=re.S)
             source = translate_html(source, words)
@@ -217,11 +217,11 @@ def write_site(output, base, releases):
             home = route(base, lang)
             if page in ('privacy', '404'):
                 source = source.replace('href="#download"', f'href="{home}#download"').replace('href="#features"', f'href="{home}#features"')
-            canonical = 'https://weopen.github.io' + (home + ('themes/' if page == 'themes' else page + '/' if page == 'privacy' else '404.html' if page == '404' else ''))
+            canonical = origin + (home + ('themes/' if page == 'themes' else page + '/' if page == 'privacy' else '404.html' if page == '404' else ''))
             csp = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
             suffix = {'home': '', 'themes': 'themes/', 'privacy': 'privacy/', '404': '404.html'}[page]
-            alternates = f'<link rel="alternate" hreflang="en" href="https://weopen.github.io{base}/{suffix}"><link rel="alternate" hreflang="zh-Hans" href="https://weopen.github.io{base}/zh/{suffix}">'
-            metadata = f'<meta http-equiv="Content-Security-Policy" content="{csp}"><link rel="canonical" href="{canonical}">{alternates}<meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="https://weopen.github.io{base}/assets/brand/social-preview.png"><meta name="twitter:card" content="summary_large_image">'
+            alternates = f'<link rel="alternate" hreflang="en" href="{origin}{base}/{suffix}"><link rel="alternate" hreflang="zh-Hans" href="{origin}{base}/zh/{suffix}">'
+            metadata = f'<meta http-equiv="Content-Security-Policy" content="{csp}"><link rel="canonical" href="{canonical}">{alternates}<meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{origin}{base}/assets/brand/social-preview.png"><meta name="twitter:card" content="summary_large_image">'
             # CSP must precede resource requests. Appearance bootstrap precedes CSS.
             source = source.replace('{{metadata}}', '')
             source = source.replace('<head>', '<head>' + metadata + f'<script src="{base}/assets/js/boot.js"></script>', 1)
@@ -267,8 +267,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT / '.build/website')
     parser.add_argument('--base-path', default='/WeGit')
+    parser.add_argument('--site-origin', default='https://weopen.github.io')
     parser.add_argument('--releases-json', type=Path)
     args = parser.parse_args()
+    origin = args.site_origin.rstrip('/')
+    try:
+        url = urlsplit(origin)
+        valid_origin = url.scheme == 'https' and bool(url.hostname) and not (
+            url.username or url.password or url.path or url.query or url.fragment
+        ) and not any(c.isspace() or ord(c) < 32 or ord(c) == 127 or c in '\"<>\\\\' for c in origin)
+        _ = url.port
+    except ValueError:
+        valid_origin = False
+    if not valid_origin:
+        raise SystemExit('Site origin must be an HTTPS origin without a path or credentials')
     base = args.base_path.rstrip('/')
     if base and not re.fullmatch(r'(?:/[A-Za-z0-9_-]+)+', base):
         raise SystemExit('Invalid project base path')
@@ -285,7 +297,7 @@ def main():
     output.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(tempfile.mkdtemp(prefix='wegit-website-', dir=output.parent))
     try:
-        count, total = write_site(staging, base, releases)
+        count, total = write_site(staging, base, releases, origin)
         previous = None
         if output.exists():
             previous = Path(tempfile.mkdtemp(prefix='wegit-website-old-', dir=output.parent))
