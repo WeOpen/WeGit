@@ -1,7 +1,5 @@
 name: Cloudflare website
 on:
-  pull_request:
-    paths: ['site/**', 'design/brand/**', '.github/workflows/workers.yml']
   push:
     branches: [main]
     paths: ['site/**', 'design/brand/**', '.github/workflows/workers.yml']

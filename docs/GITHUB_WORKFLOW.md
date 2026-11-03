@@ -54,13 +54,19 @@ python3 scripts/ci/project_setup.py --repo WeOpen/WeGit --seed-backlog --apply
 - `.github/CODEOWNERS` 标记当前已验证的管理员 @xuewill 负责 workflow 和构建工具；不能用作者自批替代将来需要的独立评审。
 - 推荐并绑定的必需检查名为 `PR policy`、`Repository policy`、`Native macOS`。分支保护应禁止强推和删除、要求 PR 与会话解决，并使用严格的最新基线检查。
 
-## 3. CI 的三个层次
+## 3. CI 按变更范围分流
+
+2026-11-03：纯site改动只运行网站校验。完整PR三点diff或push的before..after决定分流，rename源和目标都计算；`site/`、旧构建入口/专用测试及随site变更的HANDOFF记录属于该范围。共享品牌/CI、应用或混合改动继续完整路径，无法确认范围时也不跳过。Site checks包含锁定依赖、Node/Python测试、两条构建、原预算、Wrangler dry-run及生产Worker本地请求检查。纯site的PR policy、通用Repository validation与Native macOS均显式跳过；保留原必需Repository policy名称汇总site成功结果，失败/取消/遗漏不算通过。这样不会出现paths-ignore留下Pending门禁的问题，也不以跳过原生检查放过失败的site。
+
+网站PR只由CI中的Site checks执行一次完整校验。独立Pages/Workers workflow继续处理原main/release/手动事件，原部署权限和输入边界保持。自动分流不是额外产品校验；本机的纯site任务也不执行通用仓库、Swift/Core/XCTest、原生/GPG或客户端打包。
 
 | 层次 | 触发 / 环境 | 检查与结果 |
 | --- | --- | --- |
-| PR policy | PR，Ubuntu 托管 VM | 标题、真实 Issue 关联；Dependabot 只免 Issue 关联 |
-| Repository policy | PR/main/手动，Ubuntu 托管 VM | actionlint、workflow 权限/输入契约、Issue 表单、链接、工具行为测试、完整提交历史凭据扫描 |
-| Native macOS | PR/main/手动，`xcode-27` 托管 arm64 VM | 实际系统/工具链检查、格式、核心、Debug、固定上游 Git 2.46、已存在功能的原生行为检查、UI 编译、普通 Release 与开发预览包 |
+| PR policy | 非纯site PR，Ubuntu 托管 VM | 标题、真实 Issue 关联；纯site跳过 |
+| Repository validation | 非纯site PR/main/手动，Ubuntu 托管 VM | actionlint、workflow 权限/输入契约、Issue 表单、链接、工具行为测试、完整提交历史凭据扫描 |
+| Native macOS | 非纯site PR/main/手动，`xcode-27` 托管 arm64 VM | 实际系统/工具链检查、格式、核心、Debug、固定上游 Git 2.46、已存在功能的原生行为检查、UI 编译、普通 Release 与开发预览包；纯site跳过 |
+| Site checks | 网站或其共享输入发生变化，Ubuntu 托管 VM | 网站专属测试、构建、资源预算和生产Worker本地校验 |
+| Repository policy | 所有CI事件，Ubuntu 托管 VM | 只汇总对应分流的必需成功结果，保留固定门禁名称 |
 
 GitHub 当前官方 `xcode-27` 镜像为 macOS 27.0.1；这是公开预览标签，不使用会随时间变化的 macos-latest 冒充目标系统。每次运行再次核对真实 OS、架构和 Xcode；若镜像不可分配或不匹配，该项保持失败/待运行，不自动降到 macOS 26。
 

@@ -17,8 +17,25 @@ env:
   WEGIT_SKIP_PROJECT_GENERATION: '1'
   WEGIT_SERIAL_CORE_TESTS: '1'
 jobs:
+  changes:
+    name: Change scope
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      site_only: ${{ steps.scope.outputs.site_only }}
+      site_changed: ${{ steps.scope.outputs.site_changed }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Classify the complete immutable Git range
+        id: scope
+        run: python3 scripts/ci/change_scope.py --event "$GITHUB_EVENT_PATH" --output "$GITHUB_OUTPUT"
   policy:
-    name: Repository policy
+    name: Repository validation
+    needs: changes
+    if: needs.changes.outputs.site_only != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -40,10 +57,6 @@ jobs:
           "$RUNNER_TEMP/wegit-tools/actionlint" -color
           python3 scripts/ci/check_policy.py
           python3 -m unittest discover -s scripts/ci/tests -v
-          if [[ -f site/src/pages/index.html ]]; then
-            python3 scripts/build_website.py
-            node --test site/tests/*.test.mjs
-          fi
           python3 scripts/ci/verify_secret_policy.py --gitleaks "$RUNNER_TEMP/wegit-tools/gitleaks"
           git diff --check
       - name: Scan committed history for credentials
@@ -61,7 +74,8 @@ jobs:
           retention-days: 14
   native:
     name: Native macOS
-    needs: policy
+    needs: [changes, policy]
+    if: needs.changes.outputs.site_only != 'true'
     # GitHub's xcode-27 preview image currently runs macOS 27, arm64.
     # PR code only runs on fresh GitHub-hosted VMs, never a personal Mac.
     runs-on: xcode-27
@@ -124,3 +138,76 @@ jobs:
             .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json
           include-hidden-files: true
           retention-days: 14
+  site:
+    name: Site checks
+    needs: changes
+    if: needs.changes.outputs.site_changed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Locked dependencies, site tests, build and original budgets
+        working-directory: site
+        run: |
+          npm ci
+          npm test
+          npm run build
+          npm run check:budget
+          npx wrangler deploy --dry-run
+      - name: Legacy website tests and immutable release links
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .build
+          gh api "repos/$GITHUB_REPOSITORY/releases?per_page=30" > .build/public-releases.json
+          python3 -m unittest scripts.ci.tests.test_website -v
+          python3 scripts/build_website.py --base-path "/${GITHUB_REPOSITORY#*/}" --releases-json .build/public-releases.json
+          git diff --exit-code
+      - name: Exercise the production Worker locally
+        working-directory: site
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4179 > "$RUNNER_TEMP/wegit-worker.log" 2>&1 &
+          worker_pid=$!
+          trap 'kill "$worker_pid" || true' EXIT
+          ready=0
+          for _attempt in {1..40}; do
+            if curl --fail --silent http://127.0.0.1:4179/healthz; then
+              ready=1
+              break
+            fi
+            sleep 0.5
+          done
+          if [[ "$ready" != 1 ]]; then
+            cat "$RUNNER_TEMP/wegit-worker.log"
+            exit 1
+          fi
+          npm run test:worker
+      - name: Retain the validated static site
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: site-${{ github.sha }}
+          path: .build/website
+          include-hidden-files: true
+          retention-days: 14
+  required:
+    name: Repository policy
+    needs: [changes, policy, native, site]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Require the applicable validation results
+        env:
+          CI_NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python3 scripts/ci/check_ci_results.py
