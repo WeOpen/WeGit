@@ -54,13 +54,24 @@ python3 scripts/ci/project_setup.py --repo WeOpen/WeGit --seed-backlog --apply
 - `.github/CODEOWNERS` 标记当前已验证的管理员 @xuewill 负责 workflow 和构建工具；不能用作者自批替代将来需要的独立评审。
 - 推荐并绑定的必需检查名为 `PR policy`、`Repository policy`、`Native macOS`。分支保护应禁止强推和删除、要求 PR 与会话解决，并使用严格的最新基线检查。
 
-## 3. CI 的三个层次
+## 3. CI 按变更范围分流
+
+2026-11-03最新规则：只有后端代码变化才运行耗时的Core/Git/GPG、后端性能和客户端打包。完整PR三点diff或push的before..after决定分流，rename源和目标都计算。后端为WeGitCore业务/执行/基础设施Swift、AskPass、Package定义及明确的应用业务状态文件；展示/本地化辅助另行归类。具体正向名单在`change_scope.py`，不再把“site之外”或共享CI/文档改动默认当作后端。范围读取失败就阻断读取并修正，不能默认花时间运行长流程。
+
+site只验网站，原生前端只编译视图及UI测试源，文档只做链接检查，CI/工具只验对应工具，后端测试源单独改动时只编译。混合变更仅在包含真实后端代码时增加后端校验。保留原必需Repository policy名称汇总适用的真实成功结果，失败/取消/遗漏不算通过；job显式跳过以免paths-ignore留下Pending门禁。手动入口默认只验site，backend_validation需显式选择。
+
+网站PR只由CI中的Site checks执行一次完整校验。独立Pages/Workers workflow继续处理原main/release/手动事件，原部署权限和输入边界保持。自动分流不是额外产品校验；本机的纯site任务也不执行通用仓库、Swift/Core/XCTest、原生/GPG或客户端打包。
 
 | 层次 | 触发 / 环境 | 检查与结果 |
 | --- | --- | --- |
-| PR policy | PR，Ubuntu 托管 VM | 标题、真实 Issue 关联；Dependabot 只免 Issue 关联 |
-| Repository policy | PR/main/手动，Ubuntu 托管 VM | actionlint、workflow 权限/输入契约、Issue 表单、链接、工具行为测试、完整提交历史凭据扫描 |
-| Native macOS | PR/main/手动，`xcode-27` 托管 arm64 VM | 实际系统/工具链检查、格式、核心、Debug、固定上游 Git 2.46、已存在功能的原生行为检查、UI 编译、普通 Release 与开发预览包 |
+| PR policy | 后端变更 PR，Ubuntu 托管 VM | 标题、真实 Issue 关联；非后端跳过 |
+| Repository validation | 后端或CI/工具变更，Ubuntu 托管 VM | actionlint、workflow 权限/输入契约、Issue 表单、链接、工具行为测试、完整提交历史凭据扫描；不启动原生流程 |
+| Native macOS | 后端变更或显式手动选择，`xcode-27` 托管 arm64 VM | 实际系统/工具链检查、格式、核心、Debug、固定上游 Git 2.46、后端行为/性能、签名、UI编译、Release与预览包 |
+| Site checks | 网站或其共享输入发生变化，Ubuntu 托管 VM | 网站专属测试、构建、资源预算和生产Worker本地校验 |
+| Native frontend build | 仅原生前端变化，`xcode-27` 托管 VM | 编译视图/UI测试源，不运行XCTest/Core/GPG/性能/打包 |
+| Core test compilation | 仅后端测试/基准源变化，`xcode-27`托管 VM | 只编译，不执行后端套件 |
+| Documentation checks | 只改文档，Ubuntu托管 VM | 只检查变化文档的链接 |
+| Repository policy | 所有CI事件，Ubuntu 托管 VM | 只汇总对应分流的必需成功结果，保留固定门禁名称 |
 
 GitHub 当前官方 `xcode-27` 镜像为 macOS 27.0.1；这是公开预览标签，不使用会随时间变化的 macos-latest 冒充目标系统。每次运行再次核对真实 OS、架构和 Xcode；若镜像不可分配或不匹配，该项保持失败/待运行，不自动降到 macOS 26。
 

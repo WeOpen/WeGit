@@ -1,5 +1,19 @@
 # WeGit 开发交接
 
+## 2026-11-03 后端代码才触发重校验（最新用户规则）
+
+- 用户再次确认：只有后端代码变化才运行Core/Git/GPG、后端性能和客户端打包等长流程，前端、文档和CI配置都不需要。该规则替代下方最初的“非纯site一律完整”设计；已取消仅修改CI/文档的旧run41655345397，取消不记作产品失败。
+- 分流改为后端源码正向名单：WeGitCore的业务/执行/基础设施Swift、AskPass、后端Package定义及明确的AppState/同步/Worktree/认证/偏好/克隆业务文件。WeGit视图、原生展示/本地化辅助、site与文档不在此名单。前端构建、site校验、文档链接、CI工具检查和后端测试源编译分别按改动触发；不再因为修改共享CI或HANDOFF就分配后端长流程。
+- 范围读取失败时失败关闭分流，不以“不确定”启动耗时校验。手动入口默认只校验site，必须明确勾选backend_validation才启动后端流程。GitHub skipped作业的runner_id/runner_name为null，不能把null误判为分配了runner；记录steps=[]与skipped结论即可核验没有执行。
+- 最初纯site实测PR108/run41656677442的Site checks实际46秒通过，原生/仓库/PR元数据三个作业均skipped且无步骤/runner；只有2254918bytes网站ZIP、72CRC、2484809未压缩字节，原3MB预算通过。最新规则还需实际文档/CI非后端范围验证，不能把旧实测直接叫作最新分流验收。
+
+## 2026-11-03 丢弃本地修改与纯 site 校验规则
+
+- 用户明确要求丢弃本地修改，并要求以后纯 site 改动只校验 site。该授权覆盖此前保留的主目录99个改动路径、旧Rebase5份WIP及其他未跟踪构建输出；15个既有检出的暂存、工作及未跟踪状态均已清理。原165,243,825bytes/SHA43088f9e完整Git恢复备份和私有文件/索引档案仍保留于主目录`.build/wip-extraction-2026-11-03/`，没有清理ignored证据或更改全局Git/系统状态。主目录已回到main，后续直接在该目录开发。
+- 纯site范围为`site/`及其旧构建入口/专用测试；随site变更追加的`HANDOFF.MD`可作为交接记录，不因此启动原生回归。共享品牌、共享CI/分流器、应用/Core/测试等混合修改继续完整校验；范围未知也走完整路径。规则已写入AGENTS.md。
+- required workflow不能简单加paths-ignore：GitHub会留下Pending必需检查。采用完整Git范围、关闭rename折叠以同时识别源/目标路径，PR使用三点比较、push使用全部before..after范围。显式跳过不适用job，并以原Repository policy名称汇总实际必需结果；site失败/取消/被跳过或范围job失败都不允许通过。
+- PR的site校验集中在一个Site checks作业，包含Node/Python、两条构建路径、原资源预算、Wrangler dry-run和生产Worker本地HTTP校验。PR policy、通用Repository validation及Native macOS对纯site均跳过；Pages/Workers的原main/release部署边界保留，不重复启动独立PR网站校验。本次共享CI改动需正常集成，并以之后的真实纯site PR核验分流结果，不把静态条件断言当作实际跳过证据。
+
 ## 2026-11-03 提取 PR 的同源性能失败接续
 
 - 接续来源 `01a19f80-95da-7e33-980d-2ee961081cfb` 的最后授权仍是“提取内容后清理两个分支”。PR #105 / #104 原候选 `3d861e11ca05c3a2954d407a8cf28d03b518804b` 的 required run `41623667953` / job `125875675401` 实际失败；不能沿用旧成功合入或提前删除分支。

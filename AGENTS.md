@@ -1,0 +1,10 @@
+# Project instructions
+
+1. 使用第一性原理确认真实目标、约束和成功标准。
+2. 新任务先读 HANDOFF.MD；将新的实质性陷阱写入该文件。
+3. 浏览器默认使用 Codex 浏览器和 Ego Lite，既有用户授权的 API 路径继续有效。
+4. 上线、部署和生产环境任务必须保留性能预算并验收实际开销。
+5. UI 避免不必要的次级标签和说明，用布局表达关系。
+6. 只有后端相关代码变化才自动运行耗时的Core/Git/GPG、后端性能和客户端打包校验。后端为WeGitCore中的业务/执行/基础设施代码、WeGitAskPass、Package.swift，以及change_scope.py列出的AppState/同步/Worktree/认证/偏好/克隆业务代码。原生视图、展示/本地化辅助、site、文档、品牌素材和CI配置不因此进入后端重校验。
+7. site只执行网站的Node/Python测试、构建、原资源预算、Wrangler dry-run和本地Worker校验；原生前端只编译视图/UI测试源；只改后端测试源时只编译；文档只做轻量链接检查；CI/工具改动只执行相应工具检查。不要给前端、文档或配置任务额外运行Core/GPG/后端性能/客户端打包。
+8. Change scope和必需结果汇总只负责分流。混合修改只有包含真实后端代码才增加后端校验；无法确认Git范围时阻断分流并修正读取，不默认启动长流程。手动workflow可明确选择后端校验，默认只验site。本机不执行XCTest，实际XCTest使用托管环境。
