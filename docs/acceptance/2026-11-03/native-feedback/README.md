@@ -14,6 +14,8 @@ e0c0aca的[Stash41549084277](https://github.com/WeOpen/WeGit/actions/runs/415490
 
 设置[41558675691](https://github.com/WeOpen/WeGit/actions/runs/41558675691)在[可见HelpTag](settings-lifecycle-41558675691-visible.png)已显示Git2.46+时失败；原生HelpTag没有AX label/value，旧文字查询无法匹配。[失败回执](settings-lifecycle-41558675691-failed.json)保留60,359,725bytes/SHA `a0dd70f3e66e50884e341720fe69464b8f166d7020d9392092f526b5713ad64e`、2047CRC及19.364秒。使用公开helpTags与原始截图，并以本机Vision从实际提示像素读取Git2.46+；[独立图像文字回执](native-help-ocr-verification.json)已通过。图像只在内存采样，未注入期待词汇；配置生命周期的原断言保留。新的测试驱动仍需托管实际验证。
 
+f263ce6的[Settings41561858869](https://github.com/WeOpen/WeGit/actions/runs/41561858869)已取得HelpTag图像，但runner内Vision模型加载报告TextRecognition.CRImageReaderError1/unknownError，实际smoke1/1/0/0、专项1/0/1/0。[回执](settings-lifecycle-41561858869-failed.json)保留112,722,775bytes/SHA `57476000078bbf80e5b3f7ce540097f84f780a19751cf40d23f1ba7297a2207b`、2147CRC与25.113秒。测试负责留取原始提示图像及AX并执行完整配置/退出/取消过程；独立非XCTest验收工具随后核对该图像中的Git2.46+，文字检查失败仍保持验收失败。应用与系统权限不变。
+
 PR #101 正常进入 main `297f15c` 后，[提交反馈专项 41540708075](https://github.com/WeOpen/WeGit/actions/runs/41540708075) 实际 smoke 1/1/0/0、专项 1/0/1/0。旧状态谓词与详情定位已通过，新的失败在私有 `pre-commit` shell hook 被托管应用沙盒拒绝执行，Git 返回 `Operation not permitted`；原断言期望 hook 自己输出的拒绝文案。
 
 提交失败夹具改用暂存完成后建立的私有 `index.lock` 触发真实 commit 失败。详情必须包含自己的完整锁路径，锁和完整 index/工作文件字节必须保留；移除锁后继续原有取消、草稿、明暗主题及最终唯一新提交的断言。原测试超时、沙盒权限与全局 Git 配置保持。

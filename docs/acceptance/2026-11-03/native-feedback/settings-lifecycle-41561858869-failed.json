@@ -1,0 +1,75 @@
+{
+  "source": "f263ce6a2eb5cee8dda11eb3332c67827b1c1f6e",
+  "run": 41561858869,
+  "artifact": 13197106340,
+  "focus": "settings-lifecycle",
+  "method": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue",
+  "artifactBytes": 112722775,
+  "artifactSHA256": "57476000078bbf80e5b3f7ce540097f84f780a19751cf40d23f1ba7297a2207b",
+  "crcEntries": 2147,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-settings-lifecycle": {
+      "totalTestCount": 1,
+      "passedTests": 0,
+      "failedTests": 1,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 17.538,
+      "summarySeconds": 23.12000012397766
+    },
+    "focused-settings-lifecycle": {
+      "methodSeconds": 25.113,
+      "summarySeconds": 30.945000171661377
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-settings-lifecycle": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "4bd3f315e1fafcd6d30dfeed600fa7ae9b88334a",
+      "deviceName": "My Mac",
+      "exportedFileName": "CE791F9F-8B56-4F32-955B-2BF642813447.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `HelpTag (First Match)`_0_1548C117-7D1D-49D1-9643-94339D388CDA.txt",
+      "timestamp": 1793670588.025
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "4bd3f315e1fafcd6d30dfeed600fa7ae9b88334a",
+      "deviceName": "My Mac",
+      "exportedFileName": "A2A23919-D6F6-4C93-8DB3-A556B2948127.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"native-menu-app\" MenuBarItem`_0_21888282-50D1-423A-938E-950CE61C27D6.txt",
+      "timestamp": 1793670570.355
+    }
+  ],
+  "screenshotReviewed": false,
+  "accessibilityReviewed": false,
+  "allPassed": false,
+  "errors": [
+    "focused-settings-lifecycle did not pass exactly 1/1/0/0 without expected failures",
+    "focused-settings-lifecycle process failed or timed out"
+  ],
+  "releaseAcceptance": false,
+  "failureCause": "Vision detector model load fails inside the XCTest runner with TextRecognition.CRImageReaderError1 and unknownError after HelpTag capture",
+  "actualHelpTagCaptured": true,
+  "detectorFailureIsNotMissingHelpText": true
+}
