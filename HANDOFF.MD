@@ -10,6 +10,10 @@
 - WorkspaceView 的内层横向忽略安全区供原生分栏使用；纯SwiftUI状态Banner和Changes提交区已经补偿leadingInset，Stash反馈、Tag待核对提示/反馈漏用了它。现将同一已计算inset传入两个视图，只给纯SwiftUI栏补leading padding及分隔线，原生分栏不叠加偏移。验收保留980/1360两尺寸、侧栏开关的实际bounds/可点击/画面，以及Stash删除前后和Tag权威核对；120/180秒与原业务断言保持。
 - e0c0aca 的Stash41549084277实际smoke/专项各1/1/0/0，119.391/121.147秒、3,570,149bytes/SHA64590853/131CRC、194/33输入及显示恢复核验；16图16AX实查。请求980的首个截图实际1191，后续恢复到980；截图名不能代替真实frame。覆盖按实际980/1360与侧栏状态计算，原始1191记录保留。
 - 同源Tag41550804654实际smoke1/1/0/0、专项1/0/1/0，36.753秒、107,338,985bytes/SHA915816d4/1985CRC和源/显示核验。实际36.086667秒图确认待核对提示和“核对远端/关闭提示”按钮仍显示；未分组HStack把tag-push-pending传播到子控件，覆盖tag-verify-push、tag-dismiss-push-notice和tag-push-target，操作反馈容器也失去原ID。补.accessibilityElement(children:.contain)后再设置父ID，保留原生名称、动作与完整对象/单次推送断言；不靠改成模糊label匹配绕过。
+- 5fbc888的Tag41552816832与Stash41553952708均实际smoke/focus各1/1/0/0，72.760/92.982秒；194/33输入、完整2,161,251/3,155,204bytes ZIP和101/125CRC、显示恢复核验。Tag8图8AX及Stash16图16AX实查，待核对对象/入口标识、删除前后和真实980/1360状态均保留。
+- 同源Settings41558675691实际smoke1/1/0/0、专项1/0/1/0，19.364秒、60,359,725bytes/SHAa0dd70f3/2047CRC、源/显示核验。原生HelpTag实际存在且17.858333秒图显示Git2.46+，但AX HelpTag没有label/value，旧Any文字谓词无法匹配。测试现定位公开helpTags，保留原始截图/AX并用本机Vision读取实际像素中的版本；只在内存4倍采样、中文/英文识别，不注入期待词汇。本机原始图的同方法检查已通过；配置写入、退出阻止及取消值断言保持，仍须托管实际重验。
+- XCTest公共查询声明已转到XCUIAutomation，XCTest同名头只是import转发；SDK的Vision声明在VNRecognizeTextRequest.h/VNRequest.h，不猜分拆头名。GitHub文件临时地址延迟使用会403，立即刷新同一artifact引用并下载/核对完整bytes/SHA/CRC；该网络失效不算CI失败。
+- 5fbc888 required41552703196实际成功，13,401,083bytes/SHA4452d4fd/39CRC完整核验；三套Git各266/47，五份共450原始样本、9+9隔离签名、64实际模型及普通Release包回执匹配。测试驱动变更仍须当前head检查；原正式UI性能/VoiceOver/交付条件保留延期，所有关闭与分支删除等最终69项。
 - 原生反馈 Popover 可伸出父窗口边缘，成功详情统一保留完整屏幕截图和原AX文字。失败视频实际23.723333秒帧确认错误详情可见；不拿父窗口裁剪图判定Popover缺失。
 - 历史 Ego space2 已不存在，先列举确认只有用户 space0；未接管用户空间。同一个任务名重新取得 space3/p1，已实际查看当前GitHub原生页。页面增量更新可让旧ref断连，先读当前URL再用已观察到的job地址导航；不盲点旧ref或为页面错误另建space，结束只finish一次。
 - 本轮复用 conflict-editor 工作树的新分支 `codex/98-private-git-failure`。主检出及旧Rebase的HEAD/index、二进制补丁和89/5个用户文件摘要已保存在主根 `.build/v1-2-closeout-2026-11-03/protected-state/`。五项当前专项、最终69项完整回归及Issue/PR/分支收尾仍待；heartbeat保持PAUSED，正式验收延期矩阵继续保留。

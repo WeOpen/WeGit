@@ -1,0 +1,129 @@
+{
+  "source": "5fbc888b7cfdf416727ea0d5334631825f955df4",
+  "run": 41558675691,
+  "artifact": 13195404801,
+  "focus": "settings-lifecycle",
+  "method": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue",
+  "artifactBytes": 60359725,
+  "artifactSHA256": "a0dd70f3e66e50884e341720fe69464b8f166d7020d9392092f526b5713ad64e",
+  "crcEntries": 2047,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-settings-lifecycle": {
+      "totalTestCount": 1,
+      "passedTests": 0,
+      "failedTests": 1,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 16.932,
+      "summarySeconds": 21.585999965667725
+    },
+    "focused-settings-lifecycle": {
+      "methodSeconds": 19.364,
+      "summarySeconds": 25.42200016975403
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-settings-lifecycle": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "8F1F3E1B-AC20-4EB4-B104-319B5534126B.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "App UI hierarchy for com.willxue.wegit_0_2A9A1340-0BF2-42A4-A7AC-63D91D4704CE.development",
+      "timestamp": 1793668800.915
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "18639EFA-DA39-4BCE-96D4-E609475CC291.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `Any (First Match)`_0_F95C6A0A-82DF-45E1-A7F8-E0CE964F2149.txt",
+      "timestamp": 1793668800.64
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "939CD4CA-C807-4E7F-A99F-1B5AB0C39515.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `Any (First Match)`_0_35271E59-22B9-43FA-84A0-AC9730FC79C1.txt",
+      "timestamp": 1793668799.63
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "8B127B56-4073-44FA-B045-66AB19C1B30A.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `Any (First Match)`_0_91A51BD8-4084-4DCB-BFDC-01A34961401C.txt",
+      "timestamp": 1793668798.698
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "0D385244-A237-4C6A-B914-9613E53F029E.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `Any (First Match)`_0_A4BDA4B4-7DEF-45D0-854D-C66B7657CBC8.txt",
+      "timestamp": 1793668797.642
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "F3EA1138-F0DD-4EF0-B71C-C09A8042A754.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `Any (First Match)`_0_AB22CDD4-A554-4250-AAF4-28E2EE4969FC.txt",
+      "timestamp": 1793668796.711
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "A6544D9D-3D3E-4C65-A08E-0264BCC34555.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"native-menu-app\" MenuBarItem`_0_8D53512B-2AB1-4480-A45D-C3D5D7990676.txt",
+      "timestamp": 1793668786.035
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "891a408d66f79cae0f2cbf73920d870a9b55fe5b",
+      "deviceName": "My Mac",
+      "exportedFileName": "BEEC052D-87C8-47A1-8C39-59B820D10CA7.txt",
+      "isAssociatedWithFailure": true,
+      "suggestedHumanReadableName": "Complete Issue Description.txt"
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": false,
+  "errors": [
+    "focused-settings-lifecycle did not pass exactly 1/1/0/0 without expected failures",
+    "focused-settings-lifecycle process failed or timed out"
+  ],
+  "releaseAcceptance": false,
+  "failureLocation": "SettingsLifecycleTests.swift:41",
+  "failureCause": "Visible native HelpTag exposes no AX label/value text; legacy Any text predicate cannot match its actual Git 2.46+ help",
+  "videoFrameActualSeconds": 17.858333333333334,
+  "nativeHelpVisiblyContainsMinimumVersion": true
+}

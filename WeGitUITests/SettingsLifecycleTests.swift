@@ -1,3 +1,5 @@
+import AppKit
+import Vision
 import XCTest
 
 final class SettingsLifecycleTests: XCTestCase {
@@ -33,13 +35,37 @@ final class SettingsLifecycleTests: XCTestCase {
         XCTAssertTrue(automatic.isHittable)
         XCTAssertTrue(settings.frame.contains(automatic.frame))
         automatic.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).hover()
-        let requirement = app.descendants(matching: .any).matching(
-            NSPredicate(
-                format: "value CONTAINS %@ OR label CONTAINS %@", "Git 2.46+", "Git 2.46+")
-        )
-        .firstMatch
+        let requirement = app.helpTags.firstMatch
         XCTAssertTrue(
             requirement.waitForExistence(timeout: 5), settings.debugDescription)
+        // Native HelpTag exposes its frame but not its rendered text as an AX
+        // label/value. Read the real tooltip pixels rather than adding UI copy.
+        let captured = requirement.screenshot()
+        let pixels = try XCTUnwrap(
+            captured.image.cgImage(forProposedRect: nil, context: nil, hints: nil))
+        let context = try XCTUnwrap(
+            CGContext(
+                data: nil, width: pixels.width * 4, height: pixels.height * 4,
+                bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue))
+        context.interpolationQuality = .high
+        context.draw(pixels, in: CGRect(x: 0, y: 0, width: pixels.width * 4, height: pixels.height * 4))
+        let recognition = VNRecognizeTextRequest()
+        recognition.recognitionLevel = .accurate
+        recognition.recognitionLanguages = ["zh-Hans", "en-US"]
+        recognition.usesLanguageCorrection = true
+        try VNImageRequestHandler(cgImage: XCTUnwrap(context.makeImage())).perform([recognition])
+        let text = (recognition.results ?? []).compactMap { $0.topCandidates(1).first?.string }
+            .joined(separator: "\n")
+        XCTAssertTrue(text.filter { !$0.isWhitespace }.contains("Git2.46+"), text)
+        let tooltip = XCTAttachment(screenshot: captured)
+        tooltip.name = "Actual native Git requirement tooltip"
+        tooltip.lifetime = .keepAlways
+        add(tooltip)
+        let recognized = XCTAttachment(string: text + "\n" + requirement.debugDescription)
+        recognized.name = "Native Git help rendered text and HelpTag"
+        recognized.lifetime = .keepAlways
+        add(recognized)
         let help = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         help.name = "Git minimum-version native help"
         help.lifetime = .keepAlways

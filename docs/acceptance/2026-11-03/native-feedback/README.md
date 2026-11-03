@@ -10,6 +10,10 @@ e0c0aca的[Stash41549084277](https://github.com/WeOpen/WeGit/actions/runs/415490
 
 同源[Tag41550804654](https://github.com/WeOpen/WeGit/actions/runs/41550804654)实际smoke1/1/0/0、专项1/0/1/0。按钮在[画面](feedback-tag-41550804654-visible.png)中存在，待核对状态也保留；失败在未分组HStack传播父标识、覆盖子按钮与目标的标识。[失败回执](feedback-tag-41550804654-failed.json)保留107,338,985bytes、SHA256 `915816d4a198531b8cb16f62e85a2699a5461af7e1d2ad4340c1e82931842b59`、1985CRC、36.753秒和源/显示核验。父栏明确contain分组，子控件继续保留自己的标识、原生名称和动作。新源码仍待相应实际验证。
 
+5fbc888的[Tag41552816832](https://github.com/WeOpen/WeGit/actions/runs/41552816832)与[Stash41553952708](https://github.com/WeOpen/WeGit/actions/runs/41553952708)已实际smoke/focus各1/1/0/0；72.760/92.982秒，源、ZIP与显示核验，Tag8图8AX和Stash16图16AX实查。对应[CI41552703196](https://github.com/WeOpen/WeGit/actions/runs/41552703196)完整制品也已核验三套Git266/47、450原始性能样本、9+9签名、64模型和普通Release包。上述通过仍只属于5fbc888。
+
+设置[41558675691](https://github.com/WeOpen/WeGit/actions/runs/41558675691)在[可见HelpTag](settings-lifecycle-41558675691-visible.png)已显示Git2.46+时失败；原生HelpTag没有AX label/value，旧文字查询无法匹配。[失败回执](settings-lifecycle-41558675691-failed.json)保留60,359,725bytes/SHA `a0dd70f3e66e50884e341720fe69464b8f166d7020d9392092f526b5713ad64e`、2047CRC及19.364秒。使用公开helpTags与原始截图，并以本机Vision从实际提示像素读取Git2.46+；[独立图像文字回执](native-help-ocr-verification.json)已通过。图像只在内存采样，未注入期待词汇；配置生命周期的原断言保留。新的测试驱动仍需托管实际验证。
+
 PR #101 正常进入 main `297f15c` 后，[提交反馈专项 41540708075](https://github.com/WeOpen/WeGit/actions/runs/41540708075) 实际 smoke 1/1/0/0、专项 1/0/1/0。旧状态谓词与详情定位已通过，新的失败在私有 `pre-commit` shell hook 被托管应用沙盒拒绝执行，Git 返回 `Operation not permitted`；原断言期望 hook 自己输出的拒绝文案。
 
 提交失败夹具改用暂存完成后建立的私有 `index.lock` 触发真实 commit 失败。详情必须包含自己的完整锁路径，锁和完整 index/工作文件字节必须保留；移除锁后继续原有取消、草稿、明暗主题及最终唯一新提交的断言。原测试超时、沙盒权限与全局 Git 配置保持。
