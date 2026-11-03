@@ -1,3 +1,4 @@
+import AppKit
 import XCTest
 
 final class SettingsLifecycleTests: XCTestCase {
@@ -33,13 +34,23 @@ final class SettingsLifecycleTests: XCTestCase {
         XCTAssertTrue(automatic.isHittable)
         XCTAssertTrue(settings.frame.contains(automatic.frame))
         automatic.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).hover()
-        let requirement = app.descendants(matching: .any).matching(
-            NSPredicate(
-                format: "value CONTAINS %@ OR label CONTAINS %@", "Git 2.46+", "Git 2.46+")
-        )
-        .firstMatch
+        let requirement = app.helpTags.firstMatch
         XCTAssertTrue(
             requirement.waitForExistence(timeout: 5), settings.debugDescription)
+        // Native HelpTag exposes its frame but not its rendered text as an AX
+        // label/value. Retain the actual pixels for independent text verification;
+        // Vision's model loader is unavailable inside the sandboxed UI runner.
+        let captured = requirement.screenshot()
+        XCTAssertGreaterThan(requirement.frame.width, 0)
+        XCTAssertGreaterThan(requirement.frame.height, 0)
+        let tooltip = XCTAttachment(screenshot: captured)
+        tooltip.name = "Actual native Git requirement tooltip"
+        tooltip.lifetime = .keepAlways
+        add(tooltip)
+        let recognized = XCTAttachment(string: requirement.debugDescription)
+        recognized.name = "Native Git HelpTag accessibility"
+        recognized.lifetime = .keepAlways
+        add(recognized)
         let help = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         help.name = "Git minimum-version native help"
         help.lifetime = .keepAlways

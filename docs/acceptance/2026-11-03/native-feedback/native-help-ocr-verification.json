@@ -1,0 +1,17 @@
+{
+  "source": "retained native failure frame",
+  "helpTagRectangle": [
+    787,
+    509,
+    253,
+    34
+  ],
+  "recognizedLines": [
+    "需要 Git 2.46+和运行时配置能力。自动检测依次",
+    "检查系統/Xcode、Homebrew和 PATH。"
+  ],
+  "actualMinimumVersionMatched": true,
+  "imageRetainedUnchanged": true,
+  "processing": "on-device Vision from observed native HelpTag pixels with 4x in-memory scaling",
+  "localXCTestExecuted": false
+}

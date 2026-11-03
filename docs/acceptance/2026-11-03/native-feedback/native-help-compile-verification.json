@@ -1,0 +1,8 @@
+{
+  "applicationInputs": 194,
+  "applicationUnchangedAgainst5fbc888": true,
+  "nativeBuildForTestingPassed": true,
+  "nativeHelpObservedAndOCRVerified": true,
+  "changedUISource": "WeGitUITests/SettingsLifecycleTests.swift",
+  "localXCTestExecuted": false
+}

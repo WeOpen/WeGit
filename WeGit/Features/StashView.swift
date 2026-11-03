@@ -4,6 +4,7 @@ import WeGitCore
 struct StashView: View {
     @Bindable var app: AppState
     @Bindable var session: RepositorySession
+    var leadingInset: CGFloat = 0
     var body: some View {
         VStack(spacing: 0) {
             StashBrowser(
@@ -17,11 +18,12 @@ struct StashView: View {
                 StashDiffView(app: app, session: session, contents: contents, part: part)
             }
             if session.isBusy || session.operationFeedback != nil {
-                Divider()
+                Divider().padding(.leading, leadingInset)
                 OperationFeedback(
                     busy: session.isBusy, activity: session.activityLabel,
                     result: session.operationFeedback, context: session.operationFeedbackContext, fallback: ""
                 ).frame(maxWidth: .infinity, alignment: .leading).padding(12)
+                    .padding(.leading, leadingInset)
             }
         }.id(session.id)
     }

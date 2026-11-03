@@ -11,14 +11,12 @@ final class OperationFeedbackTests: XCTestCase {
             defer { f.remove() }
             let head = try f.git(["rev-parse", "HEAD"])
             try Data("changed bytes\n".utf8).write(to: f.root.appending(path: "file.txt"))
-            let hook = f.root.appending(path: ".git/hooks/pre-commit")
-            try Data("#!/bin/sh\necho 'Feedback fixture rejects this commit' >&2\nexit 1\n".utf8)
-                .write(to: hook)
-            try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: hook.path)
+            let lock = f.root.appending(path: ".git/index.lock")
+            let lockBytes = Data("Private feedback fixture owns this index lock\n".utf8)
             let marker = f.root.appending(path: ".git/feedback-commit-delay")
-            // The first attempt reaches the real rejecting hook. Removing this
-            // private marker arms the next attempt for cancellation before Git runs.
-            try Data("first attempt uses the hook\n".utf8).write(to: marker)
+            // The first attempt reaches a real Git index-lock failure. The lock
+            // is created after staging; removing this marker arms cancellation.
+            try Data("first attempt reaches real Git\n".utf8).write(to: marker)
             let app = try application(
                 f, appearance: appearance, motion: motion,
                 environment: ["WEGIT_COMMIT_DELAY_MARKER": marker.path])
@@ -36,18 +34,29 @@ final class OperationFeedbackTests: XCTestCase {
             let staged = app.checkBoxes["stage:staged:file.txt"]
             XCTAssertTrue(staged.waitForExistence(timeout: 10))
             let success = waitFeedback("success", in: app.windows["main"]).label
+            let index = f.root.appending(path: ".git/index")
+            let stagedIndexBytes = try Data(contentsOf: index)
+            let workingFile = f.root.appending(path: "file.txt")
+            let workingBytes = try Data(contentsOf: workingFile)
             let commit = app.buttons["commit-button"]
             waitEnabled(commit)
+            // Hosted XCTest cannot execute a shell hook from its private
+            // container. An existing lock makes the same real commit fail
+            // without changing sandbox permissions or running a fixture script.
+            try lockBytes.write(to: lock, options: .withoutOverwriting)
             commit.click()
             let failure = waitFeedback("failure", in: app.windows["main"])
             XCTAssertFalse(failure.label.contains(success))
             XCTAssertEqual(message.value as? String, draft)
             XCTAssertEqual(try f.git(["rev-parse", "HEAD"]), head)
             XCTAssertEqual(try f.git(["show", ":file.txt"]), "changed bytes\n")
+            XCTAssertEqual(try Data(contentsOf: index), stagedIndexBytes)
+            XCTAssertEqual(try Data(contentsOf: workingFile), workingBytes)
             XCTAssertTrue(staged.exists)
-            XCTAssertTrue(try feedbackDetails(app).contains("Feedback fixture rejects this commit"))
+            XCTAssertTrue(try feedbackDetails(app).contains(lock.path))
+            XCTAssertEqual(try Data(contentsOf: lock), lockBytes)
             closeFeedbackDetails(app)
-            try FileManager.default.removeItem(at: hook)
+            try FileManager.default.removeItem(at: lock)
             try FileManager.default.removeItem(at: marker)
             waitEnabled(commit)
             commit.click()
@@ -61,6 +70,8 @@ final class OperationFeedbackTests: XCTestCase {
             XCTAssertEqual(message.value as? String, draft)
             XCTAssertEqual(try f.git(["rev-parse", "HEAD"]), head)
             XCTAssertEqual(try f.git(["show", ":file.txt"]), "changed bytes\n")
+            XCTAssertEqual(try Data(contentsOf: index), stagedIndexBytes)
+            XCTAssertEqual(try Data(contentsOf: workingFile), workingBytes)
             retain(app, "Current commit cancellation preserves draft - " + appearance)
             waitEnabled(commit)
             commit.click()
@@ -235,6 +246,7 @@ final class OperationFeedbackTests: XCTestCase {
         XCTAssertFalse(push.isEnabled)
         let target = app.descendants(matching: .any).matching(identifier: "tag-push-target").firstMatch
         XCTAssertTrue(((target.value as? String) ?? target.label).contains(object))
+        assertFeedbackInsideWorkspace(app, column: "tag-list")
         let details = try feedbackDetails(app)
         XCTAssertTrue(details.contains("refs/tags/chosen"))
         XCTAssertTrue(details.contains(object))
@@ -302,6 +314,7 @@ final class OperationFeedbackTests: XCTestCase {
                         .waitForExistence(timeout: 10))
                 XCTAssertFalse(pop.exists)
             }
+            assertFeedbackInsideWorkspace(app, column: point == "before" ? "stash-list" : "stash-empty")
             let details = try feedbackDetails(app)
             XCTAssertTrue(details.contains("内容已应用"))
             XCTAssertTrue(details.contains("请勿重复恢复"))
@@ -388,6 +401,65 @@ final class OperationFeedbackTests: XCTestCase {
         return row
     }
 
+    @MainActor private func assertFeedbackInsideWorkspace(_ app: XCUIApplication, column: String) {
+        let window = app.windows["main"]
+        var leadingOffset: CGFloat?
+        for size in [CGSize(width: 980, height: 692), CGSize(width: 1360, height: 880)] {
+            for _ in 0..<3 {
+                let initial = window.frame
+                if abs(initial.width - size.width) <= 4 && abs(initial.height - size.height) <= 4 { break }
+                let corner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+                    .withOffset(CGVector(dx: -1, dy: -1))
+                corner.click(
+                    forDuration: 0.2,
+                    thenDragTo: corner.withOffset(
+                        CGVector(dx: size.width - initial.width, dy: size.height - initial.height)))
+            }
+            XCTAssertEqual(window.frame.width, size.width, accuracy: 4)
+            XCTAssertEqual(window.frame.height, size.height, accuracy: 4)
+            // Start and finish with the sidebar visible, checking the same real
+            // feedback control before and after its available column changes.
+            for (observation, sidebar) in [true, false, true].enumerated() {
+                let content = app.descendants(matching: .any).matching(identifier: column).firstMatch
+                XCTAssertTrue(content.waitForExistence(timeout: 5))
+                let message = window.buttons["operation-feedback-message"].firstMatch
+                let outline = app.outlines.matching(NSPredicate(format: "label == %@", "边栏")).firstMatch
+                let edge: CGFloat
+                if sidebar {
+                    XCTAssertTrue(outline.waitForExistence(timeout: 5))
+                    edge = outline.frame.maxX
+                } else {
+                    edge = window.frame.minX
+                }
+                XCTAssertTrue(message.isHittable)
+                XCTAssertGreaterThanOrEqual(message.frame.minX, edge - 2)
+                let offset = message.frame.minX - edge
+                if let leadingOffset {
+                    XCTAssertEqual(offset, leadingOffset, accuracy: 4)
+                } else {
+                    leadingOffset = offset
+                }
+                XCTAssertTrue(window.frame.insetBy(dx: -2, dy: -2).contains(message.frame))
+                let bounds = XCTAttachment(
+                    string:
+                        "window=\(window.frame) content=\(content.frame) message=\(message.frame) sidebar=\(sidebar)"
+                )
+                bounds.name = "Feedback stays inside \(column) at \(Int(size.width)) sidebar \(sidebar)"
+                bounds.lifetime = .keepAlways
+                add(bounds)
+                retain(app, "Feedback inside \(column) at \(Int(size.width)) sidebar \(sidebar)")
+                if observation < 2 {
+                    let toggle = window.toolbars.buttons["toolbar-sidebar"].firstMatch
+                    toggle.click()
+                    let changed = XCTNSPredicateExpectation(
+                        predicate: NSPredicate(format: "value == %@", sidebar ? "已关闭" : "已打开"),
+                        object: toggle)
+                    XCTAssertEqual(XCTWaiter.wait(for: [changed], timeout: 5), .completed)
+                }
+            }
+        }
+    }
+
     @MainActor private func feedbackDetails(_ app: XCUIApplication) throws -> String {
         let message = app.windows["main"].buttons["operation-feedback-message"].firstMatch
         XCTAssertTrue(message.waitForExistence(timeout: 5))
@@ -407,6 +479,10 @@ final class OperationFeedbackTests: XCTestCase {
         evidence.name = "Complete operation feedback and accessible detail"
         evidence.lifetime = .keepAlways
         add(evidence)
+        let visible = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        visible.name = "Native operation feedback details"
+        visible.lifetime = .keepAlways
+        add(visible)
         return content
     }
 

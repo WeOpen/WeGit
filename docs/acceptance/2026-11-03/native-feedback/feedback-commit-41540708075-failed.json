@@ -1,0 +1,85 @@
+{
+  "source": "297f15cc5fc2e1647127e72caa8de70760c7e31e",
+  "run": 41540708075,
+  "artifact": 13185882043,
+  "focus": "feedback-commit",
+  "method": "OperationFeedbackTests/testCommitFailureAndCancellationReplaceStagingSuccessAndPreserveDraft",
+  "artifactBytes": 113738086,
+  "artifactSHA256": "e1b452c5560a99db7720ebaa073b74ced2df4c40dbd975049135338ff2711149",
+  "crcEntries": 2137,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-feedback-commit": {
+      "totalTestCount": 1,
+      "passedTests": 0,
+      "failedTests": 1,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 13.828,
+      "summarySeconds": 17.180999994277954
+    },
+    "focused-feedback-commit": {
+      "methodSeconds": 24.267,
+      "summarySeconds": 28.880000114440918
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-feedback-commit": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "8160682ee10132511619bf42ea9b0d81b4bfabaf",
+      "deviceName": "My Mac",
+      "exportedFileName": "28A62B80-B12F-45ED-972B-DE4CBC086ADC.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Complete operation feedback and accessible detail_0_06ACF0A6-F9C9-48D2-92F8-699EC3775619.txt",
+      "timestamp": 1793660030.394
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "8160682ee10132511619bf42ea9b0d81b4bfabaf",
+      "deviceName": "My Mac",
+      "exportedFileName": "450AD2E5-AED7-4941-AE2B-E9A78FFA972B.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native feedback detail target_0_C4D59502-CB89-498B-A138-E2092085F1C5.txt",
+      "timestamp": 1793660027.313
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "8160682ee10132511619bf42ea9b0d81b4bfabaf",
+      "deviceName": "My Mac",
+      "exportedFileName": "61C5CFCC-B915-4D06-BB1D-D19851B6244F.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"native-menu-app\" MenuBarItem`_0_1FDD203B-29E4-4C8C-8BD0-856A7E9FA4A2.txt",
+      "timestamp": 1793660009.842
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": false,
+  "errors": [
+    "focused-feedback-commit did not pass exactly 1/1/0/0 without expected failures",
+    "focused-feedback-commit process failed or timed out"
+  ],
+  "releaseAcceptance": false,
+  "failureLocation": "OperationFeedbackTests.swift:48",
+  "failureCause": "Hosted application sandbox cannot execute the private pre-commit shell hook; actual details expose Operation not permitted",
+  "observedDetailsOpened": true,
+  "videoFrameActualSeconds": 23.723333333333333
+}
