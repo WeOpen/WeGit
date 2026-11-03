@@ -56,16 +56,21 @@ python3 scripts/ci/project_setup.py --repo WeOpen/WeGit --seed-backlog --apply
 
 ## 3. CI 按变更范围分流
 
-2026-11-03：纯site改动只运行网站校验。完整PR三点diff或push的before..after决定分流，rename源和目标都计算；`site/`、旧构建入口/专用测试及随site变更的HANDOFF记录属于该范围。共享品牌/CI、应用或混合改动继续完整路径，无法确认范围时也不跳过。Site checks包含锁定依赖、Node/Python测试、两条构建、原预算、Wrangler dry-run及生产Worker本地请求检查。纯site的PR policy、通用Repository validation与Native macOS均显式跳过；保留原必需Repository policy名称汇总site成功结果，失败/取消/遗漏不算通过。这样不会出现paths-ignore留下Pending门禁的问题，也不以跳过原生检查放过失败的site。
+2026-11-03最新规则：只有后端代码变化才运行耗时的Core/Git/GPG、后端性能和客户端打包。完整PR三点diff或push的before..after决定分流，rename源和目标都计算。后端为WeGitCore业务/执行/基础设施Swift、AskPass、Package定义及明确的应用业务状态文件；展示/本地化辅助另行归类。具体正向名单在`change_scope.py`，不再把“site之外”或共享CI/文档改动默认当作后端。范围读取失败就阻断读取并修正，不能默认花时间运行长流程。
+
+site只验网站，原生前端只编译视图及UI测试源，文档只做链接检查，CI/工具只验对应工具，后端测试源单独改动时只编译。混合变更仅在包含真实后端代码时增加后端校验。保留原必需Repository policy名称汇总适用的真实成功结果，失败/取消/遗漏不算通过；job显式跳过以免paths-ignore留下Pending门禁。手动入口默认只验site，backend_validation需显式选择。
 
 网站PR只由CI中的Site checks执行一次完整校验。独立Pages/Workers workflow继续处理原main/release/手动事件，原部署权限和输入边界保持。自动分流不是额外产品校验；本机的纯site任务也不执行通用仓库、Swift/Core/XCTest、原生/GPG或客户端打包。
 
 | 层次 | 触发 / 环境 | 检查与结果 |
 | --- | --- | --- |
-| PR policy | 非纯site PR，Ubuntu 托管 VM | 标题、真实 Issue 关联；纯site跳过 |
-| Repository validation | 非纯site PR/main/手动，Ubuntu 托管 VM | actionlint、workflow 权限/输入契约、Issue 表单、链接、工具行为测试、完整提交历史凭据扫描 |
-| Native macOS | 非纯site PR/main/手动，`xcode-27` 托管 arm64 VM | 实际系统/工具链检查、格式、核心、Debug、固定上游 Git 2.46、已存在功能的原生行为检查、UI 编译、普通 Release 与开发预览包；纯site跳过 |
+| PR policy | 后端变更 PR，Ubuntu 托管 VM | 标题、真实 Issue 关联；非后端跳过 |
+| Repository validation | 后端或CI/工具变更，Ubuntu 托管 VM | actionlint、workflow 权限/输入契约、Issue 表单、链接、工具行为测试、完整提交历史凭据扫描；不启动原生流程 |
+| Native macOS | 后端变更或显式手动选择，`xcode-27` 托管 arm64 VM | 实际系统/工具链检查、格式、核心、Debug、固定上游 Git 2.46、后端行为/性能、签名、UI编译、Release与预览包 |
 | Site checks | 网站或其共享输入发生变化，Ubuntu 托管 VM | 网站专属测试、构建、资源预算和生产Worker本地校验 |
+| Native frontend build | 仅原生前端变化，`xcode-27` 托管 VM | 编译视图/UI测试源，不运行XCTest/Core/GPG/性能/打包 |
+| Core test compilation | 仅后端测试/基准源变化，`xcode-27`托管 VM | 只编译，不执行后端套件 |
+| Documentation checks | 只改文档，Ubuntu托管 VM | 只检查变化文档的链接 |
 | Repository policy | 所有CI事件，Ubuntu 托管 VM | 只汇总对应分流的必需成功结果，保留固定门禁名称 |
 
 GitHub 当前官方 `xcode-27` 镜像为 macOS 27.0.1；这是公开预览标签，不使用会随时间变化的 macos-latest 冒充目标系统。每次运行再次核对真实 OS、架构和 Xcode；若镜像不可分配或不匹配，该项保持失败/待运行，不自动降到 macOS 26。

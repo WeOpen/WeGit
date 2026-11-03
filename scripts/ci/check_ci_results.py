@@ -8,15 +8,13 @@ def required_results(needs):
     if needs.get("changes", {}).get("result") != "success":
         raise ValueError("Change scope did not complete successfully")
     outputs = needs["changes"].get("outputs", {})
-    if any(outputs.get(key) not in {"true", "false"} for key in ["site_only", "site_changed"]):
+    flags = {"backend_changed":"native", "policy_changed":"policy", "site_changed":"site",
+             "frontend_changed":"frontend", "core_tests_changed":"test_compile", "docs_only":"docs"}
+    if any(outputs.get(key) not in {"true", "false"} for key in flags):
         raise ValueError("Missing or invalid change scope outputs")
-    site_only = outputs["site_only"] == "true"
-    site_changed = outputs["site_changed"] == "true"
-    if site_only and not site_changed:
-        raise ValueError("Site-only scope must include site validation")
-    required = [] if site_only else ["policy", "native"]
-    if site_changed:
-        required.append("site")
+    if outputs["backend_changed"] == "true" and outputs["policy_changed"] != "true":
+        raise ValueError("Backend code changes must include repository validation")
+    required = [job for key, job in flags.items() if outputs[key] == "true"]
     for key in required:
         if needs.get(key, {}).get("result") != "success":
             raise ValueError(f"Required {key} validation did not succeed")

@@ -5,6 +5,15 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      backend_validation:
+        description: Explicitly run backend validation
+        type: boolean
+        default: false
+      site_validation:
+        description: Run website validation
+        type: boolean
+        default: true
 permissions:
   contents: read
 defaults:
@@ -24,6 +33,11 @@ jobs:
     outputs:
       site_only: ${{ steps.scope.outputs.site_only }}
       site_changed: ${{ steps.scope.outputs.site_changed }}
+      backend_changed: ${{ steps.scope.outputs.backend_changed }}
+      policy_changed: ${{ steps.scope.outputs.policy_changed }}
+      frontend_changed: ${{ steps.scope.outputs.frontend_changed }}
+      core_tests_changed: ${{ steps.scope.outputs.core_tests_changed }}
+      docs_only: ${{ steps.scope.outputs.docs_only }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -35,7 +49,7 @@ jobs:
   policy:
     name: Repository validation
     needs: changes
-    if: needs.changes.outputs.site_only != 'true'
+    if: needs.changes.outputs.policy_changed == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -75,7 +89,7 @@ jobs:
   native:
     name: Native macOS
     needs: [changes, policy]
-    if: needs.changes.outputs.site_only != 'true'
+    if: needs.changes.outputs.backend_changed == 'true'
     # GitHub's xcode-27 preview image currently runs macOS 27, arm64.
     # PR code only runs on fresh GitHub-hosted VMs, never a personal Mac.
     runs-on: xcode-27
@@ -199,7 +213,7 @@ jobs:
           retention-days: 14
   required:
     name: Repository policy
-    needs: [changes, policy, native, site]
+    needs: [changes, policy, native, site, frontend, test_compile, docs]
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -211,3 +225,42 @@ jobs:
         env:
           CI_NEEDS_JSON: ${{ toJSON(needs) }}
         run: python3 scripts/ci/check_ci_results.py
+  frontend:
+    name: Native frontend build
+    needs: changes
+    if: needs.changes.outputs.frontend_changed == 'true'
+    runs-on: xcode-27
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Compile native views and UI test sources without executing tests
+        run: |
+          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app build-for-testing
+  test_compile:
+    name: Core test compilation
+    needs: changes
+    if: needs.changes.outputs.core_tests_changed == 'true'
+    runs-on: xcode-27
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Compile changed test or benchmark sources without running backend suites
+        run: swift build --build-tests
+  docs:
+    name: Documentation checks
+    needs: changes
+    if: needs.changes.outputs.docs_only == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check changed documentation links
+        run: python3 scripts/ci/check_docs.py --event "$GITHUB_EVENT_PATH"

@@ -1,4 +1,5 @@
 import os
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -31,17 +32,54 @@ class ChangeScopeTests(unittest.TestCase):
         self.assertTrue(classify(["design/brand/source/git-symbol.svg"])["site_changed"])
         self.assertTrue(classify([".github/workflows/verify.yml"])["site_changed"])
 
+    def test_only_backend_code_schedules_costly_backend_validation(self):
+        for path in ["WeGitCore/GitCore/GitEngine.swift", "WeGitCore/Infrastructure/ProcessRunner.swift",
+                     "WeGitCore/Domain/Models.swift", "WeGitAskPass/WeGitAskPass.swift", "Package.swift",
+                     "WeGit/App/AppState.swift", "WeGit/App/SyncState.swift", "WeGit/Features/CloneViewModel.swift"]:
+            with self.subTest(path=path):
+                scope = classify([path])
+                self.assertTrue(scope["backend_changed"])
+                self.assertTrue(scope["policy_changed"])
+                self.assertFalse(scope["frontend_changed"])
+
+    def test_frontend_documentation_and_ci_do_not_schedule_backend(self):
+        for path in ["WeGit/Features/ChangesView.swift", "WeGit/DesignSystem/AppColors.swift",
+                     "WeGit/App/WeGitApp.swift", "WeGitCore/Domain/Localization.swift",
+                     "WeGitCore/Resources/en.lproj/MenuTitles.strings", "WeGitUITests/LayoutTests.swift",
+                     "project.yml", "WeGit.xcodeproj/project.pbxproj", "README.md", "HANDOFF.MD",
+                     "docs/GITHUB_WORKFLOW.md", "AGENTS.md", "design/brand/source/git-symbol.svg",
+                     ".github/workflows/verify.yml", "scripts/ci/change_scope.py", "site/src/routes/index.tsx"]:
+            with self.subTest(path=path):
+                self.assertFalse(classify([path])["backend_changed"])
+        self.assertTrue(classify(["WeGit/Features/ChangesView.swift"])["frontend_changed"])
+        self.assertTrue(classify(["README.md", "HANDOFF.MD"])["docs_only"])
+        self.assertTrue(classify([".github/workflows/verify.yml"])["policy_changed"])
+        self.assertFalse(classify(["README.md"])["policy_changed"])
+
+    def test_test_sources_only_compile_without_backend_suites(self):
+        scope = classify(["WeGitTests/DiskDiffTests.swift"])
+        self.assertFalse(scope["backend_changed"])
+        self.assertTrue(scope["core_tests_changed"])
+
     def test_invalid_path_lists_cannot_skip_full_checks(self):
         for path in ["/site/file", "site/../WeGit/file", "site//file", "site/./file", "site/file\0", None]:
             with self.subTest(path=path):
-                self.assertEqual(classify([path]), {"site_only": False, "site_changed": True, "changed_file_count": 1})
+                with self.assertRaises(ValueError):
+                    classify([path])
 
-    def test_unknown_manual_and_initial_push_ranges_run_full_validation(self):
-        events = [("workflow_dispatch", {}), ("push", {"before":"0" * 40,"after":"a" * 40}),
+    def test_unknown_ranges_fail_without_scheduling_costly_jobs(self):
+        events = [("push", {"before":"0" * 40,"after":"a" * 40}),
                   ("pull_request", {"pull_request":{"base":{"sha":"--help"},"head":{"sha":"a" * 40}}})]
         for name, event in events:
-            self.assertFalse(scope_for_event(Path.cwd(), event, name)["site_only"])
-            self.assertFalse(scope_for_event(Path.cwd(), event, name)["range_verified"])
+            with self.assertRaises(ValueError):
+                scope_for_event(Path.cwd(), event, name)
+
+    def test_manual_backend_validation_requires_explicit_choice(self):
+        self.assertFalse(scope_for_event(Path.cwd(), {}, "workflow_dispatch")["backend_changed"])
+        self.assertTrue(scope_for_event(Path.cwd(), {}, "workflow_dispatch")["site_changed"])
+        scope = scope_for_event(Path.cwd(), {"inputs":{"backend_validation":"true","site_validation":"false"}}, "workflow_dispatch")
+        self.assertTrue(scope["backend_changed"])
+        self.assertFalse(scope["site_changed"])
 
 
 class GitRangeTests(unittest.TestCase):
@@ -109,42 +147,74 @@ class GitRangeTests(unittest.TestCase):
         self.assertEqual(scope["changed_file_count"], 2)
 
     def test_unavailable_commit_does_not_skip_native(self):
-        scope = scope_for_event(self.root, self.pr("a" * 40, self.base), "pull_request")
-        self.assertFalse(scope["site_only"])
-        self.assertFalse(scope["range_verified"])
+        with self.assertRaises(ValueError):
+            scope_for_event(self.root, self.pr("a" * 40, self.base), "pull_request")
+
+    def run_doc_check(self, head):
+        event = self.root / "event.json"
+        event.write_text(json.dumps(self.pr(self.base, head)))
+        script = Path(__file__).resolve().parents[1] / "check_docs.py"
+        return subprocess.run([sys.executable, str(script), "--event", str(event)], cwd=self.root,
+                              env=self.env | {"GITHUB_EVENT_NAME":"pull_request"}, capture_output=True, text=True)
+
+    def test_documentation_links_pass_without_backend_validation(self):
+        self.write("README.md", "[Guide](docs/guide.md)\n")
+        self.write("docs/guide.md", "Guide\n")
+        head = self.commit("docs")
+        scope = scope_for_event(self.root, self.pr(self.base, head), "pull_request")
+        self.assertFalse(scope["backend_changed"])
+        self.assertTrue(scope["docs_only"])
+        result = self.run_doc_check(head)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("2 changed files", result.stdout)
+
+    def test_broken_documentation_link_fails_its_own_lightweight_check(self):
+        self.write("README.md", "[Missing](docs/missing.md)\n")
+        head = self.commit("broken docs")
+        result = self.run_doc_check(head)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("missing documentation link", result.stderr)
 
 
 class RequiredResultTests(unittest.TestCase):
-    def needs(self, site_only=False, site_changed=True):
-        return {"changes":{"result":"success","outputs":{"site_only":str(site_only).lower(),
-                    "site_changed":str(site_changed).lower()}},
-                "policy":{"result":"skipped" if site_only else "success"},
-                "native":{"result":"skipped" if site_only else "success"},
-                "site":{"result":"success" if site_changed else "skipped"}}
+    def needs(self, backend=False, site=True, policy=False, frontend=False, tests=False, docs=False):
+        values = {"backend_changed":backend, "policy_changed":backend or policy, "site_changed":site,
+                  "frontend_changed":frontend, "core_tests_changed":tests, "docs_only":docs}
+        return {"changes":{"result":"success","outputs":{key:str(value).lower() for key,value in values.items()}},
+                "policy":{"result":"success" if backend or policy else "skipped"},
+                "native":{"result":"success" if backend else "skipped"},
+                "site":{"result":"success" if site else "skipped"},
+                "frontend":{"result":"success" if frontend else "skipped"},
+                "test_compile":{"result":"success" if tests else "skipped"},
+                "docs":{"result":"success" if docs else "skipped"}}
 
     def test_site_only_requires_only_site(self):
-        self.assertEqual(required_results(self.needs(site_only=True)), ["site"])
+        self.assertEqual(required_results(self.needs()), ["site"])
 
     def test_full_and_mixed_scopes_require_their_real_results(self):
-        self.assertEqual(required_results(self.needs(site_changed=False)), ["policy", "native"])
-        self.assertEqual(required_results(self.needs()), ["policy", "native", "site"])
+        self.assertEqual(set(required_results(self.needs(backend=True, site=False))), {"policy", "native"})
+        self.assertEqual(set(required_results(self.needs(backend=True))), {"policy", "native", "site"})
+        self.assertEqual(required_results(self.needs(site=False, docs=True)), ["docs"])
+        self.assertEqual(required_results(self.needs(site=False, frontend=True)), ["frontend"])
+        self.assertEqual(required_results(self.needs(site=False, policy=True)), ["policy"])
+        self.assertEqual(required_results(self.needs(site=False, tests=True)), ["test_compile"])
 
     def test_failure_cancellation_skip_and_missing_required_results_block_merging(self):
-        for only_site in [True, False]:
-            keys = ["site"] if only_site else ["policy", "native", "site"]
+        for backend in [True, False]:
+            keys = ["policy", "native", "site"] if backend else ["site"]
             for key in keys:
                 for result in ["failure", "cancelled", "skipped", None]:
-                    needs = self.needs(site_only=only_site)
+                    needs = self.needs(backend=backend)
                     needs[key]["result"] = result
-                    with self.subTest(site_only=only_site, key=key, result=result), self.assertRaises(ValueError):
+                    with self.subTest(backend=backend, key=key, result=result), self.assertRaises(ValueError):
                         required_results(needs)
 
     def test_missing_failed_or_inconsistent_scope_never_passes(self):
         for mutation in [lambda n:n.pop("changes"), lambda n:n["changes"].update(result="failure"),
                          lambda n:n["changes"].update(result="skipped"),
                          lambda n:n["changes"].update(outputs={}),
-                         lambda n:n["changes"]["outputs"].update(site_only=True),
-                         lambda n:n["changes"]["outputs"].update(site_only="true", site_changed="false")]:
+                         lambda n:n["changes"]["outputs"].update(backend_changed=True),
+                         lambda n:n["changes"]["outputs"].update(backend_changed="true", policy_changed="false")]:
             needs = self.needs()
             mutation(needs)
             with self.assertRaises(ValueError):
@@ -160,15 +230,15 @@ class WorkflowRoutingTests(unittest.TestCase):
         gate = self.ci["jobs"]["required"]
         self.assertEqual(gate["name"], "Repository policy")
         self.assertEqual(gate["if"], "always()")
-        self.assertEqual(set(gate["needs"]), {"changes", "policy", "native", "site"})
+        self.assertEqual(set(gate["needs"]), {"changes", "policy", "native", "site", "frontend", "test_compile", "docs"})
         self.assertEqual(self.ci["jobs"]["policy"]["name"], "Repository validation")
         self.assertEqual(self.ci["jobs"]["native"]["runs-on"], "xcode-27")
 
     def test_site_scope_controls_all_unrelated_validation_jobs(self):
-        for name in ["policy", "native"]:
-            self.assertEqual(self.ci["jobs"][name]["if"], "needs.changes.outputs.site_only != 'true'")
+        self.assertEqual(self.ci["jobs"]["policy"]["if"], "needs.changes.outputs.policy_changed == 'true'")
+        self.assertEqual(self.ci["jobs"]["native"]["if"], "needs.changes.outputs.backend_changed == 'true'")
         pr = yaml.load((self.root / ".github/workflows/pr-policy.yml").read_text(), Loader=Loader)
-        self.assertEqual(pr["jobs"]["pr-policy"]["if"], "needs.changes.outputs.site_only != 'true'")
+        self.assertEqual(pr["jobs"]["pr-policy"]["if"], "needs.changes.outputs.backend_changed == 'true'")
         self.assertEqual(self.ci["jobs"]["site"]["if"], "needs.changes.outputs.site_changed == 'true'")
 
     def test_site_pr_validation_is_not_duplicated_in_deployment_workflows(self):
@@ -182,6 +252,16 @@ class WorkflowRoutingTests(unittest.TestCase):
         self.assertIn("npx wrangler deploy --dry-run", scripts)
         self.assertIn("npm run test:worker", scripts)
         self.assertIn("scripts.ci.tests.test_website", scripts)
+
+    def test_frontend_and_test_checks_only_compile(self):
+        frontend = self.ci["jobs"]["frontend"]
+        scripts = "\n".join(step.get("run", "") for step in frontend["steps"])
+        self.assertIn("build-for-testing", scripts)
+        self.assertNotIn("test-without-building", scripts)
+        self.assertNotIn("verify.sh", scripts)
+        compile_steps = self.ci["jobs"]["test_compile"]["steps"]
+        self.assertIn("swift build --build-tests", "\n".join(step.get("run", "") for step in compile_steps))
+        self.assertFalse(self.ci["on"]["workflow_dispatch"]["inputs"]["backend_validation"]["default"])
 
 
 if __name__ == "__main__":
