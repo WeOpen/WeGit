@@ -1,0 +1,205 @@
+{
+  "source": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "run": 41574717412,
+  "artifact": 13203291832,
+  "focus": "feedback-tag",
+  "method": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification",
+  "artifactBytes": 2384861,
+  "artifactSHA256": "99a0b60deb4a35cfbead136a76026faae24a5e4a71b1f823badb4189ad7f58ac",
+  "crcEntries": 103,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-feedback-tag": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 18.112,
+      "summarySeconds": 22.191999912261963
+    },
+    "focused-feedback-tag": {
+      "methodSeconds": 83.786,
+      "summarySeconds": 85.53699994087219
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-feedback-tag": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "9ED8E752-7B57-48F6-96A4-F6440ACB7DD9.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Tag verification compares actual annotated objects_0_3FDAF6A9-4804-4D55-A2F9-C1BDBAFAD000.png",
+      "timestamp": 1793678184.307
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "39926D9B-BBD8-4570-8E8C-9A2897078A83.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native operation feedback details_0_4223AE4C-3874-43DC-8D6C-EF7B6CCF9972.png",
+      "timestamp": 1793678174.567
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "8B2B7EBB-A025-4883-A18F-C74D6280EB2A.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Complete operation feedback and accessible detail_0_10B65581-B75B-4771-8B9F-0F1B3925F966.txt",
+      "timestamp": 1793678174.514
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "73783F39-D61D-4D84-972D-095E4E51465A.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native feedback detail target_0_A16BBA50-15E6-4FCB-8DD5-CDF697559AF7.txt",
+      "timestamp": 1793678170.202
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "04D51820-3D69-47C6-80B1-B8469990440C.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback inside tag-list at 1360 sidebar true_0_FE179481-D806-4DBD-8411-8C8BF691CF5D.png",
+      "timestamp": 1793678167.972
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "CDB38DCD-0B0A-4AE0-925E-FF69FEFDCA60.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback stays inside tag-list at 1360 sidebar true_0_B52A9310-CDD8-47AF-A60B-9C1A93385E9F.txt",
+      "timestamp": 1793678167.81
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "BEC4687C-A788-4EFA-9072-9F371B5CBC9D.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback inside tag-list at 1360 sidebar false_0_5F79BF98-F367-44F4-8813-E2E708C4A436.png",
+      "timestamp": 1793678163.321
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "AA0ADABC-4887-4C0A-AE1E-33285AA07BF6.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback stays inside tag-list at 1360 sidebar false_0_BAA970EF-6E24-414D-94C9-306CB4CAD2FA.txt",
+      "timestamp": 1793678163.22
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "460D7E68-7D0F-4745-8193-00CED7F6DDF4.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback inside tag-list at 1360 sidebar true_0_86724B40-B788-40E4-83A5-CF78A1B25546.png",
+      "timestamp": 1793678159.515
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "6D7FBAD0-92FE-47DC-85A5-B3F459E20C82.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback stays inside tag-list at 1360 sidebar true_0_D56D37F2-7617-4F16-911F-FBAB02174BA0.txt",
+      "timestamp": 1793678159.345
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "88FB45EE-C2F1-4843-8D5E-B1702A5293D6.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback inside tag-list at 980 sidebar true_0_BA6F3E54-19D6-41EC-8E8B-ED39BB2E341F.png",
+      "timestamp": 1793678153.934
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "4E0B1240-D87D-4BDA-ACA5-0A8366741A64.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback stays inside tag-list at 980 sidebar true_0_E7135A3C-9461-44BF-B265-3EDCD37267EB.txt",
+      "timestamp": 1793678153.693
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "7FF43CF4-6703-436C-A7E8-D39AF8E9C46E.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback inside tag-list at 980 sidebar false_0_706E3A5A-25B2-46E5-9F19-70EFD4C177CA.png",
+      "timestamp": 1793678148.622
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "E52C1396-DC97-4BB8-A278-A6C87B6470CB.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback stays inside tag-list at 980 sidebar false_0_565D62FE-FD27-4EE2-9147-EF2885648743.txt",
+      "timestamp": 1793678148.521
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "E3675E57-8F89-4A57-97D4-1C46951A2ED5.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback inside tag-list at 980 sidebar true_0_B3617A05-5873-47AE-9F73-8CEC48C55B23.png",
+      "timestamp": 1793678145.016
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "1be210f7965005873ac6cf2c3ea2e9b30c068cc6",
+      "deviceName": "My Mac",
+      "exportedFileName": "35BC2732-36C6-4F6A-8607-1E9DD6313FD0.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Feedback stays inside tag-list at 980 sidebar true_0_B03FD778-9099-455A-B6BC-999C85E9D6B2.txt",
+      "timestamp": 1793678144.877
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": true,
+  "errors": [],
+  "releaseAcceptance": false,
+  "reviewedScreenshotCount": 8,
+  "reviewedTextAttachmentCount": 8,
+  "actualWindowWidthsObserved": [
+    980,
+    1191,
+    1360
+  ],
+  "childIdentifiersPreserved": true,
+  "remoteObjectStateMatrixPassed": true,
+  "singlePushPreserved": true
+}

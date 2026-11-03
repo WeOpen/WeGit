@@ -1,0 +1,11 @@
+{
+  "mergedPR": 102,
+  "candidateSHA": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "mainSHA": "126ca20c908b58a80a00b5eb9ce081e388cd01e4",
+  "wholeTreeEquivalent": true,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "trustedEntryFiles": 4,
+  "localXCTestExecuted": false,
+  "releasePublished": false
+}

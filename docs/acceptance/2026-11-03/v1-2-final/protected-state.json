@@ -1,0 +1,18 @@
+[
+  {
+    "name": "primary",
+    "headUnchanged": true,
+    "branchUnchanged": true,
+    "indexUnchanged": true,
+    "protectedFiles": 89,
+    "fileChangesSinceSnapshot": []
+  },
+  {
+    "name": "user-rebase",
+    "headUnchanged": true,
+    "branchUnchanged": true,
+    "indexUnchanged": true,
+    "protectedFiles": 5,
+    "fileChangesSinceSnapshot": []
+  }
+]

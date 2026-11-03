@@ -1,0 +1,97 @@
+{
+  "supersededPR": 97,
+  "originalHead": "bc1c06b594b7625be1f2498a189bc15b542c686a",
+  "currentCandidate": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "paths": [
+    {
+      "path": "HANDOFF.MD",
+      "oldSHA256": "86ea786808b65cdfd36f6e78304ef36dfd42f4e43fba9f1f2b35524664b27b15",
+      "currentSHA256": "f367abf630a5c8dc7697756800858bb728dd4264591251e82b37a693f9972f39",
+      "identical": false
+    },
+    {
+      "path": "WeGit/Features/RepositoryInspector.swift",
+      "oldSHA256": "20c187051179eb49a9589565138c0aef89b4255ce624f747c7eb186cc13592f8",
+      "currentSHA256": "20c187051179eb49a9589565138c0aef89b4255ce624f747c7eb186cc13592f8",
+      "identical": true
+    },
+    {
+      "path": "WeGitCore/GitCore/LFSService.swift",
+      "oldSHA256": "a3b66824db9b6fa15bbccf22053743836bcffe26d125d34ab58e802375dc25d0",
+      "currentSHA256": "a3b66824db9b6fa15bbccf22053743836bcffe26d125d34ab58e802375dc25d0",
+      "identical": true
+    },
+    {
+      "path": "WeGitCore/Resources/en.lproj/Localizable.strings",
+      "oldSHA256": "f72dcb38936e9c2122550a047dea3773bbfcaf596c50074ad7d0762cee71169b",
+      "currentSHA256": "fc6f4ac69988186d724521eb44e20225106b2eeb3303506a55a652edb61278ac",
+      "identical": false
+    },
+    {
+      "path": "WeGitCore/Resources/zh-Hans.lproj/Localizable.strings",
+      "oldSHA256": "05351a87ce32e43eb2c48b480d5cc0a63e7d65151f71429dcc57c72213d015db",
+      "currentSHA256": "378f2ab5d0f26eee4035c10a03fb812be0508e56e2295154453b9ae923b8907a",
+      "identical": false
+    },
+    {
+      "path": "WeGitTests/LFSScanTests.swift",
+      "oldSHA256": "97f9f599fcdb0ef5d7190e79e2630afb1264cf274b608333cb3404b69e3717ee",
+      "currentSHA256": "97f9f599fcdb0ef5d7190e79e2630afb1264cf274b608333cb3404b69e3717ee",
+      "identical": true
+    },
+    {
+      "path": "docs/acceptance/2026-11-02/lfs-reading/README.md",
+      "oldSHA256": "61508af617c18877b6dd398f5c9f826418fc75993d08094550b868f74a2ba2be",
+      "currentSHA256": "373985ce02218ae7283979460a0c28db3cab7fa3a8a5daa26a761f7def6778f3",
+      "identical": false
+    },
+    {
+      "path": "docs/acceptance/2026-11-02/lfs-reading/performance.json",
+      "oldSHA256": "28c8b18aae96952f294660bd87bbf2643986644a9b1da840c7254d6eacae5916",
+      "currentSHA256": "607308be02ff9aa9ac7fd2668d403cc3095dfd1df87c88c5f5dfa772f39b6789",
+      "identical": false
+    },
+    {
+      "path": "scripts/LFSBoundaryChecks.swift",
+      "oldSHA256": "228f7b298c8a39e24b6feaa67c9fdcb077de1e095ee603dd0012b2e54b2d82c0",
+      "currentSHA256": "228f7b298c8a39e24b6feaa67c9fdcb077de1e095ee603dd0012b2e54b2d82c0",
+      "identical": true
+    },
+    {
+      "path": "scripts/SubmoduleLFSPerformance.swift",
+      "oldSHA256": "a7905c677893db556fe8f038a3ab5fc499338ce74e21f828f92b2847e3947444",
+      "currentSHA256": "a7905c677893db556fe8f038a3ab5fc499338ce74e21f828f92b2847e3947444",
+      "identical": true
+    },
+    {
+      "path": "scripts/ci/native-behavior.sh",
+      "oldSHA256": "8ad4d47e4cf1c3f14517ced004c6ebd981d91ab7a1270dd9ee220033080e3069",
+      "currentSHA256": "5e657dc31b92c2596fdb3ef83ae042e730c8143925eb574d2aea11eb6878c386",
+      "identical": false
+    },
+    {
+      "path": "scripts/verify-submodule-lfs-performance.sh",
+      "oldSHA256": "45431c6a85673be032efa5c0ace7a3d9eb3815558b9db1a7f8ce10a4ff19f038",
+      "currentSHA256": "45431c6a85673be032efa5c0ace7a3d9eb3815558b9db1a7f8ce10a4ff19f038",
+      "identical": true
+    },
+    {
+      "path": "scripts/verify-submodule-lfs.sh",
+      "oldSHA256": "d61e4dfd26a6e40d173f37232da615f6e304ece53d6ee8071d7ae3b0b82a7cc9",
+      "currentSHA256": "d61e4dfd26a6e40d173f37232da615f6e304ece53d6ee8071d7ae3b0b82a7cc9",
+      "identical": true
+    },
+    {
+      "path": "scripts/verify.sh",
+      "oldSHA256": "793585e6a92f513e3023555dd5dc42893fb3e9da524723775de69bd9be4d6f61",
+      "currentSHA256": "58a51338da54be7b142a1f97e6576bb879e67da6e2bf59c06e617b55423ee342",
+      "identical": false
+    }
+  ],
+  "sourceAncestorOfMergedPR87Head": true,
+  "closurePerformed": false,
+  "allLFSImplementationAndBoundaryPerformancePathsIdentical": true,
+  "coreAndUIEvidenceSource": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "originalHeadReachableFromMergedFeatureHead": true,
+  "normalClosureWaitsForCompleteFunctional": true
+}

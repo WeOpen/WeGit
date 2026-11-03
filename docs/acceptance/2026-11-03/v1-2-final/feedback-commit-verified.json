@@ -1,0 +1,127 @@
+{
+  "source": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "run": 41565334788,
+  "artifact": 13199540690,
+  "focus": "feedback-commit",
+  "method": "OperationFeedbackTests/testCommitFailureAndCancellationReplaceStagingSuccessAndPreserveDraft",
+  "artifactBytes": 1578092,
+  "artifactSHA256": "4831e86120fa6299946e30b642ea1e2b0b8624fd06612177b7dabb9f63869d03",
+  "crcEntries": 89,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-feedback-commit": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 18.726,
+      "summarySeconds": 24.562000036239624
+    },
+    "focused-feedback-commit": {
+      "methodSeconds": 94.499,
+      "summarySeconds": 96.44199991226196
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-feedback-commit": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "24308216-CE79-47BA-B08D-8CCAFB9AE57F.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Current commit cancellation preserves draft - dark_0_B6F6E6E2-A0C5-4330-9C42-C7BA190D7782.png",
+      "timestamp": 1793672661.399
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "396435CC-088C-4A3F-95C3-089B443D075B.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native operation feedback details_0_0E4A43FE-BB83-4048-905E-60A0106D2A53.png",
+      "timestamp": 1793672650.136
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "0D205B31-23A3-4CEC-A226-BA6636F398A4.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Complete operation feedback and accessible detail_0_E56A1258-2249-430B-A451-422555182529.txt",
+      "timestamp": 1793672650.071
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "4A09A8BC-9B9D-41D6-B1EE-36EC1923BD42.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native feedback detail target_0_12073FD8-9EF2-41D1-A9FC-C20BC4DDA24E.txt",
+      "timestamp": 1793672646.141
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "ED7DC40E-9D4F-4E93-A3EA-2AB4C01232DD.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Current commit cancellation preserves draft - light_0_DCAEFD84-7DEB-41B8-8E0F-E29BD7FEEFF1.png",
+      "timestamp": 1793672615.527
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "F3D57FF1-8EA5-4C00-908E-89E673001204.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native operation feedback details_0_3E10C483-F18B-457D-AA9A-E9934B5BE54D.png",
+      "timestamp": 1793672604.157
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "D8974E43-7A25-4F53-8943-4B7DF0A46DB9.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Complete operation feedback and accessible detail_0_C7914E9D-DC4D-4CA8-A48E-FD8C3EBEE3BD.txt",
+      "timestamp": 1793672604.099
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "e8d30d0030d0adb492ef3b5fde68f24841d29558",
+      "deviceName": "My Mac",
+      "exportedFileName": "65D9E8D6-3DBA-4018-8F47-2F5D40692B6F.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native feedback detail target_0_E7FA4AE4-A067-4377-AF63-343F62D068D6.txt",
+      "timestamp": 1793672599.849
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": true,
+  "errors": [],
+  "releaseAcceptance": false,
+  "reviewedScreenshotCount": 4,
+  "reviewedTextAttachmentCount": 4,
+  "nativeFailureDetailReviewed": true,
+  "draftCancellationReviewedInBothThemes": true
+}

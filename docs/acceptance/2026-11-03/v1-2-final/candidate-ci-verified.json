@@ -1,0 +1,272 @@
+{
+  "run": 41563843830,
+  "candidateSHA": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "ciMergeSHA": "cdbbf984a98222961ff357ae25f3204646e54447",
+  "reports": {
+    "conflict-editor-performance": {
+      "rawReport": ".build/conflict-editor-performance-L6hdUg/result.json",
+      "rawSHA256": "77eafacac6b44e2c351114d08c029fecbf7a1fc1688aa97f75bf8686f8414877",
+      "validSamples": 90,
+      "sourceInputs": 0,
+      "configuration": "Release optimization with -enable-testing for internal queue waiter observation; no XCTest execution",
+      "workloads": [
+        {
+          "name": "ordinary",
+          "samples": 30,
+          "calculated": {
+            "readMilliseconds": 361.144,
+            "saveMilliseconds": 122.9925,
+            "markResolvedMilliseconds": 356.514584,
+            "queuedSaveCancelMilliseconds": 0.157375,
+            "peakResidentBytes": 13565952
+          },
+          "passed": true
+        },
+        {
+          "name": "large-loose",
+          "samples": 30,
+          "calculated": {
+            "readMilliseconds": 484.0905,
+            "saveMilliseconds": 188.229542,
+            "markResolvedMilliseconds": 562.061416,
+            "queuedSaveCancelMilliseconds": 0.106875,
+            "peakResidentBytes": 25165824
+          },
+          "passed": true
+        },
+        {
+          "name": "large-packed",
+          "samples": 30,
+          "calculated": {
+            "readMilliseconds": 501.707958,
+            "saveMilliseconds": 189.944458,
+            "markResolvedMilliseconds": 513.257125,
+            "queuedSaveCancelMilliseconds": 0.080958,
+            "peakResidentBytes": 26968064
+          },
+          "passed": true
+        }
+      ]
+    },
+    "interactive-rebase-performance": {
+      "rawReport": ".build/interactive-rebase-performance-bw4EHf/result.json",
+      "rawSHA256": "b031a528b73132f3580ef89b45fe64cf9b4070b5af8ac3c3a4c75f8eea691eab",
+      "validSamples": 90,
+      "sourceInputs": 94,
+      "configuration": "ordinary Release Core",
+      "workloads": [
+        {
+          "name": "ordinary",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 231.914708,
+            "steadyMilliseconds": 263.138917,
+            "cancelMilliseconds": 0.987667,
+            "recoveredMilliseconds": 241.86375,
+            "executeMilliseconds": 908.867292,
+            "p95ResidentBytes": 14614528
+          },
+          "passed": true
+        },
+        {
+          "name": "large-loose",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 1387.772416,
+            "steadyMilliseconds": 1332.321292,
+            "cancelMilliseconds": 1.344584,
+            "recoveredMilliseconds": 1468.828959,
+            "executeMilliseconds": 7067.339417,
+            "p95ResidentBytes": 70680576
+          },
+          "passed": true
+        },
+        {
+          "name": "large-packed",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 1240.283292,
+            "steadyMilliseconds": 1194.909459,
+            "cancelMilliseconds": 0.951917,
+            "recoveredMilliseconds": 1210.967709,
+            "executeMilliseconds": 5166.731,
+            "p95ResidentBytes": 71565312
+          },
+          "passed": true
+        }
+      ]
+    },
+    "rebase-performance": {
+      "rawReport": ".build/rebase-performance-IqLHpc/result.json",
+      "rawSHA256": "e2c53a7c709d99e7284a4d06a03efe602891fb99fc8e90f081bebdf9a55b17f5",
+      "validSamples": 90,
+      "sourceInputs": 12,
+      "configuration": "ordinary Release Core",
+      "workloads": [
+        {
+          "name": "ordinary",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 392.812625,
+            "steadyMilliseconds": 417.964917,
+            "cancelMilliseconds": 0.789791,
+            "recoveredMilliseconds": 390.2215,
+            "p95ResidentBytes": 13631488
+          },
+          "passed": true
+        },
+        {
+          "name": "large-loose",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 905.307583,
+            "steadyMilliseconds": 892.03925,
+            "cancelMilliseconds": 0.703375,
+            "recoveredMilliseconds": 892.646417,
+            "p95ResidentBytes": 43941888
+          },
+          "passed": true
+        },
+        {
+          "name": "large-packed",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 889.155958,
+            "steadyMilliseconds": 964.8715,
+            "cancelMilliseconds": 1.158959,
+            "recoveredMilliseconds": 844.35175,
+            "p95ResidentBytes": 44285952
+          },
+          "passed": true
+        }
+      ]
+    },
+    "submodule-lfs-performance": {
+      "rawReport": ".build/submodule-lfs-performance-3qZpEa/result.json",
+      "rawSHA256": "bda6bab52f01ca3100dcf6aa5f40c647bcc147d483c852a237316bbc6f4c1389",
+      "validSamples": 90,
+      "sourceInputs": 94,
+      "configuration": "ordinary Release Core",
+      "workloads": [
+        {
+          "name": "ordinary",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 340.252292,
+            "steadyMilliseconds": 318.26475,
+            "cancelMilliseconds": 1.32725,
+            "recoveredMilliseconds": 335.026459,
+            "p95ResidentBytes": 13975552
+          },
+          "passed": true
+        },
+        {
+          "name": "large-loose",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 1702.9707090000002,
+            "steadyMilliseconds": 1829.8006249999999,
+            "cancelMilliseconds": 1.652958,
+            "recoveredMilliseconds": 1742.6817919999999,
+            "p95ResidentBytes": 26902528
+          },
+          "passed": true
+        },
+        {
+          "name": "large-packed",
+          "samples": 30,
+          "calculated": {
+            "firstMilliseconds": 1052.888333,
+            "steadyMilliseconds": 1032.406042,
+            "cancelMilliseconds": 1.521791,
+            "recoveredMilliseconds": 1012.148375,
+            "p95ResidentBytes": 26935296
+          },
+          "passed": true
+        }
+      ]
+    },
+    "worktree-read-performance": {
+      "rawReport": ".build/worktree-read-performance-SpQsme/result.json",
+      "rawSHA256": "17428cbd069d9752b2644a2a1d593275336fc8fe148a7eae3052d18d6e4df6e7",
+      "validSamples": 90,
+      "sourceInputs": 0,
+      "configuration": "Optimized Release CLI; first request per fresh service, filesystem cache uncontrolled; cancellation uses a private delayed list wrapper, not a slow unmodified Git benchmark. Not UI or complete version acceptance.",
+      "workloads": [
+        {
+          "name": "10 files/1 siblings",
+          "samples": 30,
+          "calculated": {
+            "firstList": 22.149666,
+            "postCancelList": 24.549417,
+            "cancelResponse": 1.260625
+          },
+          "passed": true
+        },
+        {
+          "name": "5000 files/1 siblings",
+          "samples": 30,
+          "calculated": {
+            "firstList": 22.062625,
+            "postCancelList": 29.514166,
+            "cancelResponse": 1.516625
+          },
+          "passed": true
+        },
+        {
+          "name": "10 files/32 siblings",
+          "samples": 30,
+          "calculated": {
+            "firstList": 29.6695,
+            "postCancelList": 42.592708,
+            "cancelResponse": 1.136917
+          },
+          "passed": true
+        }
+      ]
+    }
+  },
+  "totalValidPerformanceSamples": 450,
+  "coreRuns": [
+    {
+      "tests": 266,
+      "suites": 47,
+      "seconds": 238.913
+    },
+    {
+      "tests": 266,
+      "suites": 47,
+      "seconds": 146.654
+    },
+    {
+      "tests": 266,
+      "suites": 47,
+      "seconds": 199.628
+    }
+  ],
+  "gpg": {
+    "apple": {
+      "checksPassed": 9,
+      "gitVersion": "git version 2.54.0 (Apple Git-157)",
+      "gpgVersion": "gpg (GnuPG) 2.5.24",
+      "fixtureRemoved": true,
+      "privateServicesStopped": true
+    },
+    "homebrew": {
+      "checksPassed": 9,
+      "gitVersion": "git version 2.56.0",
+      "gpgVersion": "gpg (GnuPG) 2.5.24",
+      "fixtureRemoved": true,
+      "privateServicesStopped": true
+    }
+  },
+  "gpgSourceInputs": 91,
+  "cancelledReadModelChecks": 64,
+  "allPassed": true,
+  "releaseAcceptance": false,
+  "manifestSourceInputs": 359,
+  "releaseAppInputs": 194,
+  "archiveSHA256": "9a3f5de8c48af507f671ecf3c89221264b65eee7860b6ada4ee4a2d8c56bd899",
+  "buildReceiptSHA256": "faf43cbce58fd2e906464dc1e242055add196b4e85575abcb9b1d8525196bd8c",
+  "allSourceHashesVerified": true
+}
