@@ -1,5 +1,30 @@
 # WeGit 开发交接
 
+## 2026-11-03 完整主线开发验证与最终收口
+
+- V12-01～V12-09 已正常集成。PR #102 的 main `126ca20c908b58a80a00b5eb9ce081e388cd01e4` 与实际验证候选 fa60ffd 的整棵 Git tree 相同。固定 main 的 native run `41577046313` 直接 xcresult 为 smoke 1/1/0/0、functional **69/69/0/0**，69 个唯一运行方法与原清单逐一匹配，194 应用/Core/资源、33 测试/辅助输入和可信入口均匹配；保留原限时、4 个真实 Git wrapper 检查和显示恢复，不在本机执行 XCTest。
+- 完整 native artifact `13207258080` 为 296,521,012 bytes / SHA256 `8d2f90cc961917fae6d140f02938a2c7f9cdea46288392c6ca18f06846785887` / 2,953 CRC 项，均已核验。144 个阅读矩阵标签及 330 份附件完整登记；实际目视抽查 **45 原图，其中 16 张矩阵**，不能写成全部 144 张已目视验收。原图按字节复制，来源、PNG 尺寸、SHA 和观察见 `docs/acceptance/2026-11-03/v1-2-final/main-functional-visual-review.json`。
+- functional 的 17 条 runtime warning、smoke 的 0 条 warning 保留；Git 原生 HelpTag 的真实像素在 runner 外独立核对 Git 2.46+，配置/退出/取消值仍由实际 XCTest 验证。旧沙盒 Vision 模型失败与旧回归失败保留各自来源，不能更改 OS 权限取得通过。
+- 最小 980 pt 的磁盘大型差异头部 `+19,996` / `−19,996` 会换行，11/24 pt 原图均可见；原生操作、分页和明确滚动仍可用。该视觉限制已记入证据；开发功能计数不代表正式视觉、完整 VoiceOver 或整版 Release UI 性能验收。截图名也不能代替实际窗口尺寸，原 1191/980/1360 反馈专项帧继续保留。
+- 主线 CI `41576890379` 的完整 13,400,771 bytes / SHA256 `bba6e75eb90eecc7af4d79c8490e24c11be90b1e37adbcab07966fb0cf040e40` / 39 CRC 项已核验；三套 Git 各 266/47，五份共 450 有效原始性能样本按原预算重算，9+9 隔离签名与64模型检查通过。359包来源、194普通Release输入与回执匹配真实 main；开发包 SHA256 `b2c85a413b5004901caed78583d5cd6e98996a2eb4506f6cdeeaf88fe5df556c`。
+- 最终证据与执行/文档索引使用 `codex/98-final-evidence`，只提交明确文档路径；八个旧 `.build-*` 缓存不纳入。文档 PR 仍经过 PR policy、Repository policy、Native macOS 并正常 squash，之后逐 SHA 复核应用、测试和可信入口，保留上述实际完整原生来源，不为相同源码重复运行69项。
+- 按已核实的维护者授权，#59/#70/#96/#98 满足开发条件后按 completed 收口；#35/#57 的正式 M5 条件按 #3/#4/#5/#6/#7/#9 既有延期使用 not_planned，保留原条件与已集成成果。#97 的七个 LFS 文件与当前相同且 head 已是 #87 原 head 祖先，按被取代关闭。最终文档集成后先做含最终 tip 的 Git bundle，在空镜像恢复/fsck并覆盖全部分支，再以固定 SHA 归档清理。实际 GitHub 与分支回执写入主根 `.build/v1-2-closeout-2026-11-03/current-state.json`。
+- 用户主根 `codex/v1.2-blame` 与旧 `codex/v1.2-rebase` 两个检出、索引和 89/5 个受保护文件保持；不清理其分支或丢弃其工作。已完成工作树只在同 SHA 分离 HEAD、保留状态和目录。GitHub 核对使用用户已批准的连接器/API，Ego 用户 space0 不接管；heartbeat 仍 PAUSED，未人工部署或发布正式 Release。
+- 工具输出要先保存结构化数据，再只取所需字段；`read_thread` 单项限制不等于整页限制。文件清单也需限定目录/深度，递归 `.build` 会展开下载的整套 Git 工具链、产生巨大无用输出；先枚举顶层脚本或对真实目标文件做 `rg`。原始制品与已验证方法不因会话接续重新生成或重复执行。
+
+## 2026-11-03 固定 main 的五项专项与完整回归接续（原记录）
+
+- PR #102 已按当前 head 的 PR policy、Repository policy、Native macOS 正常 squash 合入 main `126ca20c908b58a80a00b5eb9ce081e388cd01e4`。整个 Git tree 与实际验证候选 `fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24` 一致；旧成功/失败保留各自来源。主线完整 functional 为 run `41577046313`，实际完整结果仍待。主线 CI `41576890379` 已成功，13,400,771 bytes / SHA256 `bba6e75eb90eecc7af4d79c8490e24c11be90b1e37adbcab07966fb0cf040e40` / 39 CRC 项完整核验；三套 Git 各 266/47、五份 450 有效原始样本、9+9 隔离签名、64 模型、359 包来源和 194 Release 输入均匹配真实 main。开发包 SHA256 为 `b2c85a413b5004901caed78583d5cd6e98996a2eb4506f6cdeeaf88fe5df556c`。
+- fa60ffd 的 Commit `41565334788`、Push `41574062149`、Tag `41574717412`、Stash `41575377571`、Settings `41564070167` 均实际 smoke/唯一 focus 各 1/1/0/0。方法耗时分别 94.499、71.113、83.786、117.578、31.030 秒；原 120/180 秒边界保持。五份完整 ZIP/SHA/CRC、194 应用与 33 测试/辅助输入、直接 xcresult 和运行方法均核验，32 张原图与 31 份文本附件已实查。数据草稿在 `docs/acceptance/2026-11-03/v1-2-final/`，完整原始制品在主根 `.build/v1-2-closeout-2026-11-03/`。
+- 当前候选 CI `41563843830` 的 13,401,212 bytes / SHA256 `cb44fc22989c587483e239166f30bdfdeff95e579c5f346c845fc0e880fc3647` / 39 CRC 项完整核验。三套 Git 各 266 项/47 组、9+9 隔离签名、64 取消读取模型检查通过；五份共 450 个原始样本按原预算重算通过。359 包来源、194 Release 应用输入和包内外 receipt 匹配。合成 CI 源 `cdbbf984a98222961ff357ae25f3204646e54447` 与候选来源分别记录，不把合成 SHA 写成真实产品 head。
+- 本轮再次确认请求 980 的首次实际窗口为 1191；侧栏隐藏和恢复后的实际 980 以及 1360 均有原图/AX。反馈位置按真实 frame 核对，截图名称不能代替尺寸证据。Popover 可能伸出父窗口，保留完整屏幕图。Stash 应用后的字节和删除前后列表、Tag 的附注对象、Push 的匹配目标与一次推送、Commit 的原草稿和一次恢复提交均保留。
+- Settings 的原生 HelpTag 没有可匹配 AX label/value；XCTest 保留原始图像和全部配置/退出/取消断言，独立工具在 runner 外核对实际图像中的 Git 2.46+。不在沙盒中强行加载 Vision 模型，也不改变系统权限；已有模型加载失败和 QoS warning 保留原记录。
+- HANDOFF 新条目放在顶部。读取 `tail` 会只看到旧代状态；新任务先读头部并用 `rg` 定位日期/事项。主根仍是带用户 WIP 的旧 blame checkout，实际开发和文档使用 conflict-editor worktree 的绝对 workdir。应用目录是 `WeGit/`，本轮误查 `WeGitApp/` 的 I/O 已记录；先从实际 Git diff/文件清单取得路径。
+- `read_thread` 的 `maxOutputCharsPerItem` 只限制单项，不限制整页总量；直接打印六个长 turn 的工具历史曾产生超大输出。保存结构化响应并只提取用户授权、最后进度和关键回执，避免把整页输出带入上下文。
+- Ego space3 在接续时已不存在，库存确认只剩用户 space0 后取得本轮 space4；该空间随后也消失。未接管用户空间，用户已明确选择使用 GitHub 连接器/API 继续核对与收尾。空间/页面失效不通过反复新建空间绕过，后续浏览器恢复遵循 ego-browser 指南。
+- 当前源码 71 个方法与既有清单逐一匹配，批准的完整范围仍为 69 个，手工/audit 两项保持明确分开。完整原生成功、主线 CI 制品和最终交接尚待；新文档 head 必须完成三项必需检查。只变文档时仍要核对应用、测试与四个可信入口的逐 SHA 等价，并保留实际原生运行来源。
+- 原始用户授权已从 `01a196cd-71aa-74a1-a339-8e0f405c5238` 核实：完成剩余工作、清空 Issue/PR、最后清理分支；后续 #3/#4/#5/#6/#7/#9 的延期决定继续有效。#35/#57 的正式 M5 条件仍归入延期。PR #97 原 head 是已合入 #87 原 head 的祖先，七个 LFS 实现/检查文件与当前逐字节一致；关闭与分支删除等完整门禁后执行。主根/旧 Rebase 的 HEAD、索引和 89/5 个用户文件摘要保持，承载它们的两个分支保留。heartbeat 保持 PAUSED，未运行本机 XCTest或发布正式 Release。
+
 ## 2026-11-03 原生反馈布局与私有夹具接续
 
 - PR101 经三项必需检查及完整 CI 制品核验正常合入 main `297f15cc5fc2e1647127e72caa8de70760c7e31e`；整棵树等于候选 e6f0546。CI41470552663 的13,401,600bytes/SHA df96589b/39CRC、三套Git各266/47、450有效原始性能样本、9+9隔离签名、64实际模型及普通Release包输入/回执均核验。可选 Workers Builds 的失败另记，未改网站或部署配置。

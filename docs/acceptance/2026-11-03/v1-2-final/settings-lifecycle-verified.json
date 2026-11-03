@@ -1,0 +1,100 @@
+{
+  "source": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "run": 41564070167,
+  "artifact": 13197464497,
+  "focus": "settings-lifecycle",
+  "method": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue",
+  "artifactBytes": 114659874,
+  "artifactSHA256": "adf8d18b3169e1b3f522d3e2a45f14144c2f6249490e091e8bd26a65cfe2ff69",
+  "crcEntries": 2087,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-settings-lifecycle": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 14.245,
+      "summarySeconds": 18.040000200271606
+    },
+    "focused-settings-lifecycle": {
+      "methodSeconds": 31.03,
+      "summarySeconds": 35.72199988365173
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-settings-lifecycle": [
+      {
+        "issueType": "Runtime Warning",
+        "message": "[Internal] Thread running at User-interactive quality-of-service class waiting on a lower QoS thread running at Default quality-of-service class. Investigate ways to avoid priority inversions"
+      }
+    ]
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "b1091b288c92bdf5d1b2596f7d960d3902b6881c",
+      "deviceName": "My Mac",
+      "exportedFileName": "A1D526F8-2759-46D8-B682-D7E9A6B3C4A7.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Git minimum-version native help_0_59DB1A2C-4AB1-4094-B472-590355A54401.png",
+      "timestamp": 1793671775.524
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "b1091b288c92bdf5d1b2596f7d960d3902b6881c",
+      "deviceName": "My Mac",
+      "exportedFileName": "2098C951-5F1F-4A05-9BEC-06F8059D73C9.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native Git HelpTag accessibility_0_18560322-FBB2-4FF8-A28F-DF67234A5B08.txt",
+      "timestamp": 1793671775.48
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "b1091b288c92bdf5d1b2596f7d960d3902b6881c",
+      "deviceName": "My Mac",
+      "exportedFileName": "1C024D3B-045D-48B7-AB1B-940388B83311.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Actual native Git requirement tooltip_0_6BF52B6F-22DB-43CF-89A8-5AB580B19BFB.png",
+      "timestamp": 1793671775.07
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": true,
+  "errors": [],
+  "releaseAcceptance": false,
+  "nativeHelpVerification": {
+    "minimumVersionMatched": true,
+    "recognizedLines": [
+      "\u9700\u8981 Git 2.46+\u548c\u8fd0\u884c\u65f6\u914d\u7f6e\u80fd\u529b\u3002\u81ea\u52a8\u68c0\u6d4b\u4f9d\u6b21",
+      "\u68c0\u67e5\u7cfb\u7edf/Xcode\u3001 Homebrew\u548c PATH\uff0c"
+    ],
+    "inputWidth": 253,
+    "inputHeight": 34,
+    "nativeScreenshot": "1C024D3B-045D-48B7-AB1B-940388B83311.png",
+    "nativeScreenshotSHA256": "a0f90a4bd220cfe9adae21fab8758c750861fc69c071a7ffcce03b01ddcd40e2",
+    "validatorSourceSHA256": "d0b7cee225f94820f768a8adbe9cf2db50239c529e3e67fc7ab197006f985fba",
+    "outsideSandboxedRunner": true,
+    "localXCTestExecuted": false
+  },
+  "reviewedScreenshotCount": 2,
+  "reviewedTextAttachmentCount": 1,
+  "configurationQuitCancellationAssertionsPassed": true
+}

@@ -1,0 +1,91 @@
+{
+  "source": "fa60ffd6fa9d7aa47b76e7a100ee25f645e0ba24",
+  "run": 41574062149,
+  "artifact": 13203066209,
+  "focus": "feedback-push",
+  "method": "OperationFeedbackTests/testUnmatchedAndAbsentPushVerificationPreservePendingUntilTheTargetMatches",
+  "artifactBytes": 995496,
+  "artifactSHA256": "54a1655ed8b97bd2cbe3385f77ace7e24e5b3f5b39aad28867ff4d5fe8420d63",
+  "crcEntries": 81,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-feedback-push": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 18.088,
+      "summarySeconds": 23.70299983024597
+    },
+    "focused-feedback-push": {
+      "methodSeconds": 71.113,
+      "summarySeconds": 72.97099995613098
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-feedback-push": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "9a95dd44803d6a4b95028f4f0038a527551093e2",
+      "deviceName": "My Mac",
+      "exportedFileName": "48335E7B-BC8A-44D3-ADF9-1275D375F9D0.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Only a matching target clears pending push_0_720FAB5C-F501-4F51-A50E-A4A57FB5EF97.png",
+      "timestamp": 1793677784.686
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "9a95dd44803d6a4b95028f4f0038a527551093e2",
+      "deviceName": "My Mac",
+      "exportedFileName": "23BB3859-BACF-4A34-A7AC-60289B8E39F6.png",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native operation feedback details_0_054BDC1A-94AF-439C-BFC4-21A626F35401.png",
+      "timestamp": 1793677758.021
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "9a95dd44803d6a4b95028f4f0038a527551093e2",
+      "deviceName": "My Mac",
+      "exportedFileName": "2975D8FA-DB9B-4FFE-AA1B-8E3ED5ADC49E.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Complete operation feedback and accessible detail_0_6141292D-4DBC-4016-B3CE-A1579DAE085C.txt",
+      "timestamp": 1793677757.905
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "9a95dd44803d6a4b95028f4f0038a527551093e2",
+      "deviceName": "My Mac",
+      "exportedFileName": "D8B2D272-6B28-42BA-9A5B-596D9E1F9AC6.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Native feedback detail target_0_C1D8282C-5F8B-4E76-91A2-CFD22B7DBAB2.txt",
+      "timestamp": 1793677754.218
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": true,
+  "errors": [],
+  "releaseAcceptance": false,
+  "reviewedScreenshotCount": 2,
+  "reviewedTextAttachmentCount": 2,
+  "remoteTargetStateMatrixPassed": true,
+  "singlePushPreserved": true
+}

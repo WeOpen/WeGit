@@ -1,0 +1,38 @@
+[
+  {
+    "source": "feedback-commit-fa60ffd",
+    "originalFile": "ED7DC40E-9D4F-4E93-A3EA-2AB4C01232DD.png",
+    "copiedFile": "commit-cancel-light.png",
+    "sha256": "2397ea4c469727eb14842098138fc27d2a460f65e52f7a3ee137569e2076103a"
+  },
+  {
+    "source": "feedback-push-fa60ffd",
+    "originalFile": "23BB3859-BACF-4A34-A7AC-60289B8E39F6.png",
+    "copiedFile": "push-target-details.png",
+    "sha256": "f6a74ebe60c3fb11d8c527604993212abb372238248d79e2d660aba03dafc83a"
+  },
+  {
+    "source": "feedback-tag-fa60ffd",
+    "originalFile": "E3675E57-8F89-4A57-97D4-1C46951A2ED5.png",
+    "copiedFile": "tag-feedback-980.png",
+    "sha256": "29b04fef6f2f71ab119d68b1c0be8d07b8d0c5e7bb2032956a5b14b5302b6e8f"
+  },
+  {
+    "source": "feedback-stash-fa60ffd",
+    "originalFile": "49C215A9-E9B3-4ABA-8838-B9DCB90171E0.png",
+    "copiedFile": "stash-before-drop-980.png",
+    "sha256": "8a3bd4c39efe347ab509a2adccbaf57f672d6076390bafdb91e4a99e100451d8"
+  },
+  {
+    "source": "feedback-stash-fa60ffd",
+    "originalFile": "547DCBD0-7879-4574-8FF5-24BCE04CB0D4.png",
+    "copiedFile": "stash-after-drop-980.png",
+    "sha256": "da60999a53321a24bbd86d214b8f5c210cd4fa8e506aa0fa3c3d43d545e5cfc5"
+  },
+  {
+    "source": "settings-lifecycle-fa60ffd",
+    "originalFile": "1C024D3B-045D-48B7-AB1B-940388B83311.png",
+    "copiedFile": "native-git-help.png",
+    "sha256": "a0f90a4bd220cfe9adae21fab8758c750861fc69c071a7ffcce03b01ddcd40e2"
+  }
+]

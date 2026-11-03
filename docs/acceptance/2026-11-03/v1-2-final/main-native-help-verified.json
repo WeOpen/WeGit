@@ -1,0 +1,13 @@
+{
+  "minimumVersionMatched": true,
+  "inputWidth": 253,
+  "recognizedLines": [
+    "\u9700\u8981 Git 2.46+\u548c\u8fd0\u884c\u65f6\u914d\u7f6e\u80fd\u529b\u3002\u81ea\u52a8\u68c0\u6d4b\u4f9d\u6b21",
+    "\u68c0\u67e5\u7cfb\u7edf/Xcode\u3001 Homebrew\u548c PATH\uff0c"
+  ],
+  "inputHeight": 34,
+  "nativeScreenshot": "BB4AD7A2-F915-4997-867F-EFEF0F1D14EA.png",
+  "nativeScreenshotSHA256": "a0f90a4bd220cfe9adae21fab8758c750861fc69c071a7ffcce03b01ddcd40e2",
+  "outsideSandboxedRunner": true,
+  "localXCTestExecuted": false
+}

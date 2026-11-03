@@ -1,0 +1,645 @@
+{
+  "sourceSHA": "126ca20c908b58a80a00b5eb9ce081e388cd01e4",
+  "run": 41577046313,
+  "viewMethod": "view_image on unchanged original PNG files",
+  "reviewedImageCount": 45,
+  "readingMatrixReviewedImages": 16,
+  "readingMatrixTotalScreenshots": 144,
+  "allMatrixLabelsMatched": true,
+  "all144ImagesVisuallyReviewed": false,
+  "formalVisualAcceptance": false,
+  "notes": [
+    {
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "finding": "Blame light/dark attribution, parent-file source and history path are legible; native pagination/history/close controls remain inside the sheet. Inspector shows the clean submodule and LFS pointer/object action."
+    },
+    {
+      "indices": [
+        5,
+        6,
+        7,
+        11,
+        12
+      ],
+      "finding": "Stash after-drop empty list and warning remain visible; actual 1360 and 980 frames keep the SwiftUI feedback inside workspace bounds after sidebar hide/restore. Native details popover is retained in the full-screen originals."
+    },
+    {
+      "indices": [
+        13,
+        14,
+        17,
+        19,
+        20
+      ],
+      "finding": "Before-drop light Stash retains the selected record and staged/working saved-byte diff. Feedback and controls are readable at actual 980/1360 widths with sidebar hidden and restored; horizontal scrolling remains explicit."
+    },
+    {
+      "indices": [
+        21,
+        22,
+        23,
+        24,
+        27
+      ],
+      "finding": "Tag annotated object and target commit are separate and legible. Different-object pending warning, verify/dismiss controls and actual target details remain in workspace at 1360/980 and sidebar hidden; verified state changes to the matching-object success message."
+    },
+    {
+      "indices": [
+        28,
+        29,
+        30,
+        43,
+        44
+      ],
+      "finding": "Tag pending controls remain visible after sidebar restoration at 980. Disk-backed 24-point unified/split diff is readable through its explicit scrolling viewport at 1460/980. At 980 the long +19,996/-19,996 header counts wrap; retained as a visual limitation, without claiming formal visual acceptance."
+    },
+    {
+      "indices": [
+        47,
+        48,
+        57,
+        58,
+        63
+      ],
+      "finding": "Disk-backed 11-point dark 980 and light 1460 unified/split layouts preserve line numbers, diff coloring, context and paging. Memory-backed 24-point dark 980 retains native diff controls and explicit scrolling. The same long header-count wrapping is present at 980 with 11-point content."
+    },
+    {
+      "indices": [
+        64,
+        73,
+        74,
+        77,
+        78
+      ],
+      "finding": "Memory-backed 24-point light 1460 and dark 980, plus 11-point dark 1460, render unified/split diff with distinct line gutters and additions/removals. Context, hunk commands, selection command and scrollbars remain visible."
+    },
+    {
+      "indices": [
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "finding": "Memory-backed 11-point light 980 unified/split retains hunk actions, line gutters and scrolling. Rebase completed state is clean; restored edit pause exposes Abort/Continue in English dark; native amend confirmation and cancellation buttons remain legible."
+    },
+    {
+      "indices": [
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "finding": "Interactive Rebase light edit pause retains the independent Chinese/English draft; confirmed range, reorder controls and explicit reword/squash editors are visible. Settings screenshot and original HelpTag pixels read Git 2.46+ with runtime configuration capability."
+    }
+  ],
+  "images": [
+    {
+      "test": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation()",
+      "name": "Deleted-file attribution reads the compared parent snapshot_0_4DF54AF9-636B-427A-8303-DC5E86CC75F6.png",
+      "inventoryIndex": 0,
+      "visuallyReviewed": true,
+      "originalSHA256": "b1ccad79dffc7d9aa6221741cadf0bb955718896b2408ada1027bd4c8211d3a6",
+      "bytes": 108726,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/BlameWorkflowTests-000.png",
+      "originalAttachment": "8AA3F21D-13BB-4B01-AA61-598F37654D8B.png"
+    },
+    {
+      "test": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation()",
+      "name": "Blame English dark retains native controls and attribution_0_02985BDD-F4FD-4722-9F88-8452EC4DBEB2.png",
+      "inventoryIndex": 1,
+      "visuallyReviewed": true,
+      "originalSHA256": "cd10ec9e764b6661954c923485314c0abc57d5d3e21cd3be81c273a94456d109",
+      "bytes": 101777,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/BlameWorkflowTests-001.png",
+      "originalAttachment": "271C0568-C114-40B8-8D13-B08CEE8D9D8D.png"
+    },
+    {
+      "test": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation()",
+      "name": "Blame history uses the original path and source revision_0_C211E4C5-8A38-4D6D-BF61-27D63AB95BA3.png",
+      "inventoryIndex": 2,
+      "visuallyReviewed": true,
+      "originalSHA256": "56c04d94525d5df162c81754919a817b156e1b5a3cbfb03dcd3f3fa03ba2f18e",
+      "bytes": 242596,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/BlameWorkflowTests-002.png",
+      "originalAttachment": "FB925CA6-0CCD-491B-AF67-95CABD02676D.png"
+    },
+    {
+      "test": "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation()",
+      "name": "Blame pins authors and committed bytes in minimum Chinese light window_0_51036E7C-A7F7-4E91-BF75-CB89DBF18FBA.png",
+      "inventoryIndex": 3,
+      "visuallyReviewed": true,
+      "originalSHA256": "422c1b8b92f36fa43878605946c6407b0213f02b01bcb13f7b52034f0e455f0c",
+      "bytes": 145634,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/BlameWorkflowTests-003.png",
+      "originalAttachment": "D15D1B6E-C4A6-4974-89B3-1F287DA919B2.png"
+    },
+    {
+      "test": "InspectorRestorationTests/testSubmoduleAndLFSResourcesAppearInInspector()",
+      "name": "Submodule and LFS resources_0_7187F906-C070-41F8-B3B3-A7FD89E7DDA0.png",
+      "inventoryIndex": 4,
+      "visuallyReviewed": true,
+      "originalSHA256": "d2aeec3a5af65cf12f2d98446498fbe09f76a70b976031a6af7c1d704b7b81bb",
+      "bytes": 247191,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/InspectorRestorationTests-004.png",
+      "originalAttachment": "1D89DB62-A635-47CA-8BC8-A5A1050A5242.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Applied Stash with real remaining list - after_0_C0BAB763-FD36-4F75-9113-62517D8FA766.png",
+      "inventoryIndex": 5,
+      "visuallyReviewed": true,
+      "originalSHA256": "48eaee73a5737a313aa7b3324d8060665908061053121f7127c9e92d3d872f93",
+      "bytes": 229758,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-005.png",
+      "originalAttachment": "BCD9B00B-9115-4B58-8B87-577B5DD862C5.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Native operation feedback details_0_550AD326-8DED-47EC-BAFC-AE8DA204D6D3.png",
+      "inventoryIndex": 6,
+      "visuallyReviewed": true,
+      "originalSHA256": "48eaee73a5737a313aa7b3324d8060665908061053121f7127c9e92d3d872f93",
+      "bytes": 229758,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-006.png",
+      "originalAttachment": "429D34BF-8EB3-42C3-865E-00295AE6067B.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Feedback inside stash-empty at 1360 sidebar true_0_FE501F26-404B-4186-99E4-C8285EEDBBD4.png",
+      "inventoryIndex": 7,
+      "visuallyReviewed": true,
+      "originalSHA256": "aa74b7f70dba2daf0f7155ab1a1eebce70863be937f387d7cbed3cc8936f6c83",
+      "bytes": 214008,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-007.png",
+      "originalAttachment": "4EF557F7-5A03-4027-A9A2-B765C62AE030.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Feedback inside stash-empty at 980 sidebar false_0_FE4E8966-DDD8-470E-821A-5AA5C9939B9C.png",
+      "inventoryIndex": 11,
+      "visuallyReviewed": true,
+      "originalSHA256": "b93308784eb9b6b30e7e77303cd02b7413b54167cf6016963dd3d6d90c9ed623",
+      "bytes": 187294,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-011.png",
+      "originalAttachment": "CBD45727-9DD9-4119-8680-527DA007A278.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Feedback inside stash-empty at 980 sidebar true_0_B5F4E8EA-CDD7-4DFA-BDC5-006FD15DA272.png",
+      "inventoryIndex": 12,
+      "visuallyReviewed": true,
+      "originalSHA256": "354b0ce963260d49d450f9fb9af5845a7ed6c789b14837184cae1107f754506f",
+      "bytes": 207088,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-012.png",
+      "originalAttachment": "F189347C-FE8F-43DF-B630-DB3AA668EB3E.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Applied Stash with real remaining list - before_0_AF79A247-55B7-4F71-BECC-9DFB408D20F6.png",
+      "inventoryIndex": 13,
+      "visuallyReviewed": true,
+      "originalSHA256": "d8aef02a907c278f1182a2d5c1561b01ca74cf40bc7172c47fa01e73274e1949",
+      "bytes": 275380,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-013.png",
+      "originalAttachment": "CBC7FA17-6E3D-48CB-9D63-CDF4090B57F7.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Native operation feedback details_0_6FAADD3A-5F23-4D28-BDE8-E5A4AA9D9390.png",
+      "inventoryIndex": 14,
+      "visuallyReviewed": true,
+      "originalSHA256": "d8aef02a907c278f1182a2d5c1561b01ca74cf40bc7172c47fa01e73274e1949",
+      "bytes": 275380,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-014.png",
+      "originalAttachment": "6866DDE4-E5DC-415F-A2BE-D31A1DC600DC.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Feedback inside stash-list at 1360 sidebar true_0_151C440E-D9BE-4869-A958-8D5E540F6406.png",
+      "inventoryIndex": 17,
+      "visuallyReviewed": true,
+      "originalSHA256": "e7d83aa132fd60c769b5716a48573fdcf37d9bf343a3d48d2af906457b1af3a5",
+      "bytes": 250683,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-017.png",
+      "originalAttachment": "EFF71A21-6C8E-4A20-AD94-E401A874D232.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Feedback inside stash-list at 980 sidebar false_0_9769CAB0-CEBC-4E0F-B234-322B3E3FF0B7.png",
+      "inventoryIndex": 19,
+      "visuallyReviewed": true,
+      "originalSHA256": "0260470bf2a00fc2f9a2772aecc01f6ceab91ca4dad4b691d1b1fbc7addac5a9",
+      "bytes": 226695,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-019.png",
+      "originalAttachment": "ABC4A0B7-CF76-42E1-BB6D-3C7ED7866573.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testStashPopBeforeAndAfterDropFailuresExposeAppliedBytesAndTheRealList()",
+      "name": "Feedback inside stash-list at 980 sidebar true_0_8495E132-67B4-47D1-9F4D-6C42DB45FC36.png",
+      "inventoryIndex": 20,
+      "visuallyReviewed": true,
+      "originalSHA256": "0601d7fe601056b7af05cd6cd36c3cb80aa473bd8fb1ba2d5db071a46681cded",
+      "bytes": 246446,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-020.png",
+      "originalAttachment": "58DAC182-1DC0-41A5-91A7-5466E9FA7B68.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "name": "Tag verification compares actual annotated objects_0_10536CAC-E57D-4766-9C32-04229C6A1385.png",
+      "inventoryIndex": 21,
+      "visuallyReviewed": true,
+      "originalSHA256": "cc952c51a8def2d1727b2a1a64b9bf424f50cdbcabaa42184f501a9bbcc5b418",
+      "bytes": 241833,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-021.png",
+      "originalAttachment": "23755466-1820-43C2-8979-03DDD63A9DCE.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "name": "Native operation feedback details_0_45FCA455-69D7-43F6-800E-34B897FD50E9.png",
+      "inventoryIndex": 22,
+      "visuallyReviewed": true,
+      "originalSHA256": "4a67cf76b9ed417c435412852ecc908d4e5b72c8712d2aaa32daa5ab3da5f634",
+      "bytes": 280602,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-022.png",
+      "originalAttachment": "D1771614-E76F-4121-8595-4C53672DE9C6.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "name": "Feedback inside tag-list at 1360 sidebar true_0_43E86D87-8AAC-4358-A188-8A612D1AB010.png",
+      "inventoryIndex": 23,
+      "visuallyReviewed": true,
+      "originalSHA256": "953196867de93ee4a77946b5606fcdce6e71a5f12eb282d5e6936047d5f6f103",
+      "bytes": 248236,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-023.png",
+      "originalAttachment": "40D0A068-A938-4A64-82B6-483B138C1785.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "name": "Feedback inside tag-list at 1360 sidebar false_0_E03A8929-5D64-4775-807D-28832BE4FB49.png",
+      "inventoryIndex": 24,
+      "visuallyReviewed": true,
+      "originalSHA256": "52376797b88c40fc44be9be225f899c8f58601d9804086737eb7b2c7b0c9e412",
+      "bytes": 227713,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-024.png",
+      "originalAttachment": "74760452-B2A9-4A29-8C26-A8C22E1BCF3F.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "name": "Feedback inside tag-list at 980 sidebar false_0_A184FC77-11B7-48B9-9AA6-31E353F596EC.png",
+      "inventoryIndex": 27,
+      "visuallyReviewed": true,
+      "originalSHA256": "1cd5c12ddeee7ee39ec083854d7c86dc1b1ae7b090ad32c0b68ae007104ef69d",
+      "bytes": 224753,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-027.png",
+      "originalAttachment": "A946E362-E526-45E7-8D33-2CFBCCC0194A.png"
+    },
+    {
+      "test": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification()",
+      "name": "Feedback inside tag-list at 980 sidebar true_0_6C474093-26DB-4B69-A1D1-CA4289FCA9E6.png",
+      "inventoryIndex": 28,
+      "visuallyReviewed": true,
+      "originalSHA256": "802573eaf13f83bc3b5ba45d884320bc6679267196cbca9f5dd826c2d26e549e",
+      "bytes": 244485,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/OperationFeedbackTests-028.png",
+      "originalAttachment": "FADBE74C-C00D-4DC1-ACA0-1E6F77691F2A.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-24-compact-dark-1460-分栏_0_F05B68D0-4E61-4ECA-862E-16F0F9F9E007.png",
+      "inventoryIndex": 29,
+      "visuallyReviewed": true,
+      "originalSHA256": "d159a66a9ce528f36a1700fc0d8ba09a22181ae9b9b4822ef7c3c89de9881dd3",
+      "bytes": 279883,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-029.png",
+      "originalAttachment": "C2CCAD52-EAC3-4609-9470-0BD6B4BA7AE8.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-24-compact-dark-1460-统一_0_AF6D0342-8290-4536-9E4B-FEFA0D43B6DA.png",
+      "inventoryIndex": 30,
+      "visuallyReviewed": true,
+      "originalSHA256": "c8f0ce7ffdb2b06fb92f1add3d22837e96ad443d778bb793a5399efcbcd577ce",
+      "bytes": 315889,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-030.png",
+      "originalAttachment": "550501A5-CB37-4397-A2BA-76C814563DE2.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-24-comfortable-light-980-分栏_0_F1D88C0D-1B74-48EE-83A6-C2EB39BC0555.png",
+      "inventoryIndex": 43,
+      "visuallyReviewed": true,
+      "originalSHA256": "9d2482a785b7a66bce28f62a02183dca82aadeba24e6d38261a1c43ed4616881",
+      "bytes": 254412,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-043.png",
+      "originalAttachment": "E4D4C299-EB24-4520-94EC-FD1E4D8EF9BC.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-24-comfortable-light-980-统一_0_EBF97625-FE1C-4D51-9C46-F86575337846.png",
+      "inventoryIndex": 44,
+      "visuallyReviewed": true,
+      "originalSHA256": "20f8397ec43e3c984f8c85915fa8b300949127a439eed361413b8bbe80c60707",
+      "bytes": 268059,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-044.png",
+      "originalAttachment": "66CBC739-4E7C-4BC9-BE02-A60FD2F717FA.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-11-compact-dark-980-分栏_0_AF2D5FA7-FB02-4790-A3D7-4AF3798A0F9A.png",
+      "inventoryIndex": 47,
+      "visuallyReviewed": true,
+      "originalSHA256": "63f8bdb5916f6c46a6e233ac7cf4c43eec1d85c9b3c840e794f5378a01939805",
+      "bytes": 255004,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-047.png",
+      "originalAttachment": "BDD14824-3E94-4095-B8D1-55E0092A12C4.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-11-compact-dark-980-统一_0_F8C7E211-31BA-4E37-91AF-0C6E242F356B.png",
+      "inventoryIndex": 48,
+      "visuallyReviewed": true,
+      "originalSHA256": "e0da2b8c61d69080f9dc2d9d6b4e61b2c8415fd4b690ef92f2784322c3b8d533",
+      "bytes": 264443,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-048.png",
+      "originalAttachment": "2E962BD7-17BD-43F2-9775-C9FF1425FB69.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-11-comfortable-light-1460-分栏_0_6852A3AD-2C25-413A-8C21-24DFA04C035B.png",
+      "inventoryIndex": 57,
+      "visuallyReviewed": true,
+      "originalSHA256": "d90215889f20f4824f722373db8f5080474518feed36c6218fce509a50992911",
+      "bytes": 285353,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-057.png",
+      "originalAttachment": "3821F272-2198-4390-AB11-76DBE3F3BB50.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "disk-11-comfortable-light-1460-统一_0_3F29D650-17B4-4F9A-AD0F-6648ECC202FC.png",
+      "inventoryIndex": 58,
+      "visuallyReviewed": true,
+      "originalSHA256": "59dd63797d343e0e48793ee769a10b08667f4e144633898d311f33987cc68ffb",
+      "bytes": 297692,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-058.png",
+      "originalAttachment": "D72CEC53-7BDA-458B-A2A7-DF6C530C6297.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-24-compact-dark-980-分栏_0_D7458C6F-8648-447C-88A3-3C67C880FD6B.png",
+      "inventoryIndex": 63,
+      "visuallyReviewed": true,
+      "originalSHA256": "19d518eac90d07a01638a253fced2cec3b70c102de870166479b8a69ebdb160b",
+      "bytes": 250861,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-063.png",
+      "originalAttachment": "05EA06A9-6ACF-4B6C-AB6C-8BAD24B888AC.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-24-compact-dark-980-统一_0_021FFBC8-A4DD-4FF6-863F-539966688E0C.png",
+      "inventoryIndex": 64,
+      "visuallyReviewed": true,
+      "originalSHA256": "80a88fdbb6fd2c30c7c152aa80b435b160843cf3b7a0df821b3007db11691620",
+      "bytes": 266938,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-064.png",
+      "originalAttachment": "667CB7BD-2068-4762-8224-58F2322075B6.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-24-comfortable-light-1460-分栏_0_BEC51C57-4B32-45BA-88A7-61A9B3DE6EA9.png",
+      "inventoryIndex": 73,
+      "visuallyReviewed": true,
+      "originalSHA256": "eb763fa77f79e23df9fa5be9f038794f23a87196d46777b8a0b4fa6f616f064b",
+      "bytes": 277466,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-073.png",
+      "originalAttachment": "57A85F06-AA5B-4474-ACAB-D052E88EE487.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-24-comfortable-light-1460-统一_0_3FCE5DE9-D2A7-4266-A276-6BE3E6472877.png",
+      "inventoryIndex": 74,
+      "visuallyReviewed": true,
+      "originalSHA256": "5e97ab761f42f955f7c35755075c3d1a9c52ccf1304b525455b9eeb7dee2b88e",
+      "bytes": 310711,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-074.png",
+      "originalAttachment": "488AC13C-0309-4C1A-8ECC-3A757E1CF02A.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-11-compact-dark-1460-分栏_0_6D008A30-1F47-401D-A189-EEA17D64B52B.png",
+      "inventoryIndex": 77,
+      "visuallyReviewed": true,
+      "originalSHA256": "8f6f9f8ba3ab7a2c08b1703a5e423139cb86c63eefe3838d8c48ea0599e9f1bd",
+      "bytes": 292704,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-077.png",
+      "originalAttachment": "800EE2B6-1B66-4AA8-B11B-00E54E495D79.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-11-compact-dark-1460-统一_0_6BD5F2B9-9A99-4A8B-98F9-5BCBEA4F637E.png",
+      "inventoryIndex": 78,
+      "visuallyReviewed": true,
+      "originalSHA256": "b8c1f65765c4450fe2b3a2bd98f56f9b30f36ce67d93fd4042c1c9bbbef0f067",
+      "bytes": 298546,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-078.png",
+      "originalAttachment": "2EA90D80-45BB-4697-892B-AEC4C0323289.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-11-comfortable-light-980-分栏_0_76130922-723C-4A23-B506-2D902768F6FF.png",
+      "inventoryIndex": 91,
+      "visuallyReviewed": true,
+      "originalSHA256": "ad62f82cc44f2232a689d6057a41aa47292fa7f15ffe9396de9302899c3b6965",
+      "bytes": 254086,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-091.png",
+      "originalAttachment": "FC579EBE-A3E9-4A43-9DC0-3B85C1774110.png"
+    },
+    {
+      "test": "ReadingMatrixTests/testDiffControlsAcrossTypographyDensityThemeAndWindowSizes()",
+      "name": "memory-11-comfortable-light-980-统一_0_C58A2786-0DDB-47B2-8028-C0E91BE9EAA7.png",
+      "inventoryIndex": 92,
+      "visuallyReviewed": true,
+      "originalSHA256": "fa5cf7474e724add2a634a638c099b72f6a6fdebb9e0e52525f51830709b91cd",
+      "bytes": 261459,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/ReadingMatrixTests-092.png",
+      "originalAttachment": "381D331B-F5DB-4391-9E70-1EEDC7B6A37C.png"
+    },
+    {
+      "test": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch()",
+      "name": "Completed reordered sequence preserves the confirmed tree and remote reference_0_062F18E4-EB75-48B8-B170-F87B44D2E992.png",
+      "inventoryIndex": 93,
+      "visuallyReviewed": true,
+      "originalSHA256": "33dda7ea5f0c7b651b8ebca581184067be9958b5bc37de47cff63e1c1be12753",
+      "bytes": 93873,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/RebaseWorkflowTests-093.png",
+      "originalAttachment": "734EFF94-8BEB-4B7E-ABE8-CEB26FEBB314.png"
+    },
+    {
+      "test": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch()",
+      "name": "English dark restored edit pause after application amend_0_866B569D-2810-47D1-B901-32B21BEC0806.png",
+      "inventoryIndex": 94,
+      "visuallyReviewed": true,
+      "originalSHA256": "c91fe7f67985935a73537615bce55425083cb194eb19dca62bd9f18d6450a0bd",
+      "bytes": 105390,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/RebaseWorkflowTests-094.png",
+      "originalAttachment": "FE230262-01AC-46FE-BDA5-F73C2C85D229.png"
+    },
+    {
+      "test": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch()",
+      "name": "English native amend confirmation_0_5DAA7D73-4620-4FFA-8333-9B91DE8A0A08.png",
+      "inventoryIndex": 95,
+      "visuallyReviewed": true,
+      "originalSHA256": "06f59834e1ed0a1bc544c6a9ca51b1c549830de749a20f06270b306820b66bfa",
+      "bytes": 24904,
+      "pngWidth": 260,
+      "pngHeight": 268,
+      "repositoryCopy": "main-native-images/RebaseWorkflowTests-095.png",
+      "originalAttachment": "033DC14E-F9B3-4A75-86D5-4585927C0C46.png"
+    },
+    {
+      "test": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch()",
+      "name": "Edit pause preserves the independent draft_0_125B4BF5-692B-4032-8D22-D275E285DAFC.png",
+      "inventoryIndex": 96,
+      "visuallyReviewed": true,
+      "originalSHA256": "ecfe1373ed263ff351811c5b04f9259205d9a8e437820cb07d70bf6b6469b3b0",
+      "bytes": 106075,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/RebaseWorkflowTests-096.png",
+      "originalAttachment": "2299FE95-8CCF-4148-8446-30C8A80B193F.png"
+    },
+    {
+      "test": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch()",
+      "name": "Six actions and explicit message editors before execution_0_DDAC0B12-D7D1-4C76-9CBE-88E0B0A97BBF.png",
+      "inventoryIndex": 97,
+      "visuallyReviewed": true,
+      "originalSHA256": "2c648723bfc804d1336b8da83d06b052f63cfe7ef5209121cb8fb7e368202e0d",
+      "bytes": 204558,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/RebaseWorkflowTests-097.png",
+      "originalAttachment": "B5E0FD3A-46D5-4E2E-8ECC-C218937A6BC5.png"
+    },
+    {
+      "test": "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch()",
+      "name": "Chinese light fixed interactive range and native keyboard focus_0_E9086F98-9A19-421B-85ED-AAF3733B99F2.png",
+      "inventoryIndex": 98,
+      "visuallyReviewed": true,
+      "originalSHA256": "93c0914f92a09d5dee5b7a13918605f8984a5c46bd677ef0f4024293141a0881",
+      "bytes": 200949,
+      "pngWidth": 980,
+      "pngHeight": 692,
+      "repositoryCopy": "main-native-images/RebaseWorkflowTests-098.png",
+      "originalAttachment": "6076C8F7-E612-4492-813D-4A6E6DE9D936.png"
+    },
+    {
+      "test": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue()",
+      "name": "Git minimum-version native help_0_D3880039-3601-45E2-B6B7-A352C3F00E2B.png",
+      "inventoryIndex": 99,
+      "visuallyReviewed": true,
+      "originalSHA256": "4eca3a5928c703c4d604e09db1ba608b7d22fe719d1aa2374bc926f498049039",
+      "bytes": 322040,
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "repositoryCopy": "main-native-images/SettingsLifecycleTests-099.png",
+      "originalAttachment": "47EC520F-1F21-4E8D-AAD9-31C70460B551.png"
+    },
+    {
+      "test": "SettingsLifecycleTests/testConfigurationSaveBlocksQuitAndCancellationPreservesValue()",
+      "name": "Actual native Git requirement tooltip_0_13E679D3-9F2F-416D-8372-42E9E6AD43A9.png",
+      "inventoryIndex": 100,
+      "visuallyReviewed": true,
+      "originalSHA256": "a0f90a4bd220cfe9adae21fab8758c750861fc69c071a7ffcce03b01ddcd40e2",
+      "bytes": 10001,
+      "pngWidth": 253,
+      "pngHeight": 34,
+      "repositoryCopy": "main-native-images/SettingsLifecycleTests-100.png",
+      "originalAttachment": "BB4AD7A2-F915-4997-867F-EFEF0F1D14EA.png"
+    }
+  ]
+}
