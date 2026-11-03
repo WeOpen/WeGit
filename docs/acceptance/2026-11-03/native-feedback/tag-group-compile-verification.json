@@ -1,0 +1,12 @@
+{
+  "sourceBase": "e0c0acaa817c841f3a1e583b0e1bedd75293ff5d",
+  "applicationInputs": 194,
+  "changedApplicationInputs": [
+    "WeGit/Features/TagsView.swift"
+  ],
+  "coreInputsUnchanged": true,
+  "testHelperInputs": 33,
+  "nativeBuildForTestingPassed": true,
+  "localXCTestExecuted": false,
+  "actualNativeGroupingVerificationPending": true
+}

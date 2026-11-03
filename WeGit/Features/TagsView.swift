@@ -52,6 +52,7 @@ struct TagsView: View {
                         session.tagPushFeedback = nil
                     }.disabled(session.isBusy).accessibilityIdentifier("tag-dismiss-push-notice")
                 }.padding(12).padding(.leading, leadingInset).background(colors.chrome)
+                    .accessibilityElement(children: .contain)
                     .accessibilityIdentifier("tag-push-pending")
             }
             HSplitView {

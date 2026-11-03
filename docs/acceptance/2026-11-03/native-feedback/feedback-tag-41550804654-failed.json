@@ -1,0 +1,166 @@
+{
+  "source": "e0c0acaa817c841f3a1e583b0e1bedd75293ff5d",
+  "run": 41550804654,
+  "artifact": 13190563788,
+  "focus": "feedback-tag",
+  "method": "OperationFeedbackTests/testTagUnknownAbsentAndDifferentObjectStayPendingUntilMatchingVerification",
+  "artifactBytes": 107338985,
+  "artifactSHA256": "915816d4a198531b8cb16f62e85a2699a5461af7e1d2ad4340c1e82931842b59",
+  "crcEntries": 1985,
+  "applicationInputs": 194,
+  "testHelperInputs": 33,
+  "sourceMismatches": [],
+  "runtimeMethodsMatched": true,
+  "counts": {
+    "smoke": {
+      "totalTestCount": 1,
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0
+    },
+    "focused-feedback-tag": {
+      "totalTestCount": 1,
+      "passedTests": 0,
+      "failedTests": 1,
+      "skippedTests": 0
+    }
+  },
+  "durations": {
+    "smoke": {
+      "methodSeconds": 18.66,
+      "summarySeconds": 23.98799991607666
+    },
+    "focused-feedback-tag": {
+      "methodSeconds": 36.753,
+      "summarySeconds": 43.325000047683716
+    }
+  },
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "runtimeWarnings": {
+    "smoke": [],
+    "focused-feedback-tag": []
+  },
+  "attachments": [
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "365D718D-B61F-45BC-A800-921B7A3E2B96.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "App UI hierarchy for com.willxue.wegit_0_13B85FA7-EBB6-46BF-B076-DB96A053BBFD.development",
+      "timestamp": 1793664800.703
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "23C85530-00EF-4576-B9E0-FE70BD601EED.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_C01403F6-DEC1-421E-98D1-DADD58EC80FB.txt",
+      "timestamp": 1793664800.433
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "50980C5B-E530-4CB3-93A8-38974876D6C3.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_A97528A9-3EBE-41C3-9CEE-3CDF2849EF6E.txt",
+      "timestamp": 1793664799.504
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "7C971EB6-0914-410D-9C2E-0F1848A45C33.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_8B2379A8-860A-4027-8DA5-0C75B1DD6A69.txt",
+      "timestamp": 1793664798.495
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "535D1CE4-E1E3-4E1E-B67F-6CBB244D79DE.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_951F0CD6-68E0-4AD2-ADA3-B58077E48EE8.txt",
+      "timestamp": 1793664797.503
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "8B8409EA-12F2-4080-A320-0DD6708006F5.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_5B8C8B04-9DFA-4693-A2E6-D4DBDEC8342C.txt",
+      "timestamp": 1793664796.501
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "1C3E0D52-3263-43D3-AFF8-DD8528FE4258.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_DA000E74-9346-4955-B7E9-89C0BF8FB71A.txt",
+      "timestamp": 1793664795.55
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "3C174451-3C8B-48B6-B5E2-BB0F1BF3E912.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_2FB91180-ABE1-43EA-9742-E01BA41DD731.txt",
+      "timestamp": 1793664794.645
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "21AC2469-B761-46C5-A921-5776FDD85E03.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_062A00D2-EED9-4E45-B8DF-C39C69793749.txt",
+      "timestamp": 1793664793.513
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "CB654B31-FF9C-4307-9DAE-0A74FEE61E50.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_796C317E-BEE9-454E-8F99-22397CE98E52.txt",
+      "timestamp": 1793664792.477
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "E8A280A2-C4BD-4610-9D14-760E87F4FAF3.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"tag-verify-push\" Button`_0_98889A9B-B2B4-46FC-9370-32C683DC3AE4.txt",
+      "timestamp": 1793664791.504
+    },
+    {
+      "configurationName": "Test Scheme Action",
+      "deviceId": "314d939a0ce471caec03017c4d1d09c379309a61",
+      "deviceName": "My Mac",
+      "exportedFileName": "D57216E3-5428-4798-BCDA-325B7FFE0B39.txt",
+      "isAssociatedWithFailure": false,
+      "suggestedHumanReadableName": "Debug description for `\"native-menu-app\" MenuBarItem`_0_0801F504-EF19-49D9-AECB-B677BB920D49.txt",
+      "timestamp": 1793664770.376
+    }
+  ],
+  "screenshotReviewed": true,
+  "accessibilityReviewed": true,
+  "allPassed": false,
+  "errors": [
+    "focused-feedback-tag did not pass exactly 1/1/0/0 without expected failures",
+    "focused-feedback-tag process failed or timed out"
+  ],
+  "releaseAcceptance": false,
+  "failureLocation": "OperationFeedbackTests.swift:232",
+  "failureCause": "Ungrouped pending HStack propagates tag-push-pending over child action/target identifiers; buttons exist by label but no tag-verify-push identifier",
+  "videoFrameActualSeconds": 36.086666666666666,
+  "pendingStateVisible": true
+}
