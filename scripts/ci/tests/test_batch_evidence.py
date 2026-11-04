@@ -16,6 +16,23 @@ from ui_probe import batch_methods, verify_batch_summary
 
 
 class EvidenceTests(unittest.TestCase):
+    def test_behavior_builds_app_objects_before_running_dependent_checks(self):
+        root = Path(__file__).resolve().parents[3]
+        with tempfile.TemporaryDirectory(prefix="wegit-suite-order-") as folder:
+            fixture = Path(folder)
+            (fixture / "scripts/ci").mkdir(parents=True)
+            scripts = {
+                "scripts/build.sh": "#!/bin/bash\nset -eu\ntest \"$1\" = Debug\ntouch app-objects\n",
+                "scripts/verify-preference-migration.sh": "#!/bin/bash\nset -eu\ntest -f app-objects\n",
+                "scripts/ci/native-behavior.sh": "#!/bin/bash\nset -eu\ntest -f app-objects\ntest \"$1\" = behavior\n",
+            }
+            for name, value in scripts.items():
+                path = fixture / name
+                path.write_text(value); path.chmod(0o700)
+            result = subprocess.run(["/bin/bash", str(root / "scripts/ci/run-batch-suite.sh"), "behavior"],
+                                    cwd=fixture, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def setUp(self):
         self.fixture = tempfile.TemporaryDirectory(prefix="wegit-evidence-")
         self.addCleanup(self.fixture.cleanup)

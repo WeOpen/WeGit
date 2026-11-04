@@ -1,5 +1,11 @@
 # WeGit 开发交接
 
+## 2026-11-04 M1 第二轮真实结果与构建前置修正
+
+- CI41814318775（固定5fecbba）三套Git各277/48通过，分别242.900/184.779/185.102秒；OpenPGP Apple/Homebrew各9项通过。功能作业失败在DiffReadCancellationChecks读取Debug WeGit模块/对象之前，性能/应用UI编译/包未执行；86,435bytes/15CRC原native ZIP及SHA1639697c…保留.build/v2-m1，失败不改记通过。
+- M0拆分core/application时漏掉旧verify.sh先Debug build的依赖。behavior入口现在先build.sh Debug，保证AppState检查使用同源模块/对象/receipt；回执不是构建artifact，不能靠缓存可能有文件替代前置。新增真实临时脚本依赖调度测试。共享执行入口变化按规则扩大回归，不删除原检查或报绿。
+- 修补使用managed检出v2-m1-validation-fix（从最新5fecbba，包含当前16模块/62子任务计划），主目录M2源码和用户PBX差异均未移动。M2继续独立开发，仍不逐项验收。
+
 ## 2026-11-04 M1 托管首轮失败与夹具修正
 
 - 固定e01994b的CI41812363924真实失败于Apple Git Core：277测试/48套件、326.427秒、1问题；最低Git/Homebrew/签名/功能/性能/应用编译/包未执行，不计通过。原native ZIP/CRC/SHA及core.log/source回执保留.build/v2-m1。

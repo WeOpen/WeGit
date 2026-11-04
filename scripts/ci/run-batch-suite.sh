@@ -11,6 +11,9 @@ case "${1:-}" in
     ;;
   signing) scripts/verify-gpg-compatibility.sh ;;
   behavior)
+    # AppState checks link the Debug module/objects and its source receipt.
+    # A validation receipt is not a build artifact; build the prerequisite here.
+    scripts/build.sh Debug
     scripts/verify-preference-migration.sh
     scripts/ci/native-behavior.sh behavior
     ;;

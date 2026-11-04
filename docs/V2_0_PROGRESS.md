@@ -76,3 +76,5 @@ M1 / [PR #132](https://github.com/WeOpen/WeGit/pull/132)：内容控件、历史
 | 16c | [V20-16](https://github.com/WeOpen/WeGit/issues/115) | 开发遇到错误时按需做局部定位；视图/网站/工具及Core测试编译按批次实际范围集中执行 | 实现完成/待批次验收 | — |
 | 16d | [V20-16](https://github.com/WeOpen/WeGit/issues/115) | 缓存构建与依赖；按应用/后端/测试/夹具/验证入口的不可变输入复用已通过回执，前端/文档不重复Core/GPG/后端性能 | 实现完成/待批次验收 | — |
 | 16e | [V20-16](https://github.com/WeOpen/WeGit/issues/115) | 批次送验后保持候选head稳定，在独立后续批次继续无依赖开发；取消失效重复队列，避免等待每个子任务 | 实现完成/待批次验收 | — |
+
+M1 第二轮 CI41814318775：三套 Git 各277/48、OpenPGP各9实际通过；功能前置Debug对象缺失导致失败，后续尚未执行。behavior补回同源Debug构建并增加调度测试，共享入口变化扩大对应回归。
