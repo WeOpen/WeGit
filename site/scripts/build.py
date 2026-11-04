@@ -165,8 +165,13 @@ def write_site(output, base, releases, origin='https://weopen.github.io'):
     if set(ids) != {p.stem for p in (output / 'themes').glob('*.json')}:
         raise ValueError('Theme catalog and downloadable files disagree')
     (output / 'assets/js/themes.js').write_text('export const collection = ' + json.dumps(collection, ensure_ascii=False) + ';\n')
-    snapshot = [{'tag_name': item.get('tag_name'), 'draft': False, 'prerelease': item.get('prerelease'), 'assets': [{'name': asset.get('name'), 'browser_download_url': asset.get('browser_download_url')} for asset in item.get('assets', [])]} for item in releases if item.get('draft') is False]
-    (output / 'releases.json').write_text(json.dumps(snapshot) + '\n')
+    snapshot = [{'tag_name': item.get('tag_name'), 'draft': False, 'prerelease': item.get('prerelease'), 'wegit': item.get('wegit'),
+                 'assets': [{key: asset.get(key) for key in ['name', 'browser_download_url', 'digest', 'size', 'state']} for asset in item.get('assets', [])[:30]]}
+                for item in releases[:100] if item.get('draft') is False]
+    release_bytes = json.dumps(snapshot, separators=(',', ':')) + '\n'
+    if len(release_bytes.encode()) > 262144:
+        raise ValueError('Release snapshot exceeds 256 KiB')
+    (output / 'releases.json').write_text(release_bytes)
     version_module_imports(output)
     asset_versions = {
         '/assets/' + path.relative_to(output / 'assets').as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()[:12]

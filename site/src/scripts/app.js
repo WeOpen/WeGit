@@ -1,7 +1,7 @@
 import { translations } from './translations.js';
 import { collection } from './themes.js';
 import { selectRelease } from './release.mjs';
-import { decodeTheme, MAX_THEME_BYTES, prepareTheme, previewProperties } from './theme-model.js';
+import { decodeTheme, MAX_THEME_BYTES, prepareTheme, previewProperties, themeSnapshot, themeImportURI } from './theme-model.js';
 import { workbenchHTML } from './workbench.js';
 import { icon } from './icons.js';
 import { initAnimations } from './animations.js';
@@ -21,6 +21,16 @@ let fontSize = 13;
 let toastTimer;
 let release = null;
 let previewTrigger = null;
+const preparedURIs = new Map();
+function prepareClientURI(document) {
+  const snapshot = themeSnapshot(document);
+  if (!preparedURIs.has(snapshot)) {
+    preparedURIs.set(snapshot, null);
+    void themeImportURI(document).then(uri => preparedURIs.set(snapshot, uri)).catch(() => {});
+    if (preparedURIs.size > 128) preparedURIs.delete(preparedURIs.keys().next().value);
+  }
+}
+for (const theme of collection) prepareClientURI(theme.document);
 
 function safeLoad(key, fallback) { try { return localStorage.getItem(key) || fallback; } catch { return fallback; } }
 function safeSave(key, value) { try { localStorage.setItem(key, value); } catch { /* Private browsing can disable storage. */ } }
@@ -153,7 +163,8 @@ function applyI18n() {
 function applyLiveTheme() {
   const element = document.getElementById('theme-live-preview'); if (!element) return;
   const theme = themes[currentId] || themes.dark;
-  paint(element, prepareTheme(theme.document, { accent: accentOverride, contrast }));
+  const document = prepareTheme(theme.document, { accent: accentOverride, contrast });
+  paint(element, document); prepareClientURI(document);
   element.dataset.appFont = fontType; element.style.setProperty('--mock-font-size', `${fontSize}px`);
   document.getElementById('current-theme-label').textContent = themeTitle(theme);
   document.querySelectorAll('#accent-picker .color-chip').forEach(button => {
@@ -189,11 +200,23 @@ function makeThemeData(id = currentId) {
 
 function downloadTheme(id = currentId) {
   if (!themes[id]) return;
-  const blob = new Blob([JSON.stringify(makeThemeData(id), null, 2) + '\n'], { type: 'application/json;charset=utf-8' });
+  const blob = new Blob([themeSnapshot(makeThemeData(id))], { type: 'application/json;charset=utf-8' });
   const url = URL.createObjectURL(blob); const link = document.createElement('a');
   link.href = url; link.download = `WeGit-${id.replace(/[^a-z0-9-]/gi, '-')}.json`;
   document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
   toast(tr('toast.themeDownload'));
+}
+
+function importToClient(id = currentId) {
+  if (!themes[id]) return;
+  const document = makeThemeData(id), uri = preparedURIs.get(themeSnapshot(document));
+  if (uri) {
+    location.href = uri;
+    toast(lang === 'zh' ? '已请求打开 WeGit。未打开时可下载 JSON 导入。' : 'Requested WeGit. Download JSON if the client does not open.');
+  } else {
+    downloadTheme(id);
+    toast(lang === 'zh' ? '链接不可用，已提供 JSON 文件。' : 'The link is unavailable. Use the downloaded JSON file.');
+  }
 }
 
 async function loadThemeFile(file, trigger) {
@@ -279,11 +302,11 @@ function init() {
     if (action === 'import-theme-file') { document.getElementById('theme-file-input')?.click(); return; }
     if (target.dataset.selectTheme) { selectTheme(target.dataset.selectTheme, target.dataset.goPreview === 'true', target); return; }
     if (target.dataset.downloadTheme) { downloadTheme(target.dataset.downloadTheme); return; }
-    if (target.dataset.importTheme) { downloadTheme(target.dataset.importTheme); toast(tr('toast.importInstructions')); return; }
+    if (target.dataset.importTheme) { importToClient(target.dataset.importTheme); return; }
     if (target.dataset.accent) { accentOverride = target.dataset.accent; applyLiveTheme(); return; }
     if (target.dataset.contrast) { contrast = target.dataset.contrast; applyLiveTheme(); return; }
     if (target.id === 'preview-download') { downloadTheme(); return; }
-    if (target.id === 'preview-import') { downloadTheme(); toast(tr('toast.importInstructions')); return; }
+    if (target.id === 'preview-import') { importToClient(); return; }
     if (target.id === 'reset-theme') { accentOverride = null; contrast = 'normal'; fontType = 'system'; fontSize = 13; applyLiveTheme(); toast(tr('toast.reset')); return; }
     if (target.closest('.main-nav')) setMenu(false);
   });

@@ -3,7 +3,24 @@ import WeGitCore
 
 @MainActor
 final class ApplicationDelegate: NSObject, NSApplicationDelegate {
-    weak var state: AppState?
+    weak var state: AppState? {
+        didSet {
+            guard let state else { return }
+            let urls = pendingThemeURLs
+            pendingThemeURLs = []
+            for url in urls { state.receiveThemeURL(url) }
+        }
+    }
+    private var pendingThemeURLs: [URL] = []
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls.prefix(8) {
+            if let state {
+                state.receiveThemeURL(url)
+            } else if pendingThemeURLs.count < 8 {
+                pendingThemeURLs.append(url)
+            }
+        }
+    }
     var menuBarController: MenuBarController?
     var applicationMenu: NativeApplicationMenu?
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {

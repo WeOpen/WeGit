@@ -1,4 +1,5 @@
 import AppKit
+import CryptoKit
 import Foundation
 import SwiftUI
 
@@ -364,11 +365,173 @@ struct ThemeChecks {
                 $0.foreground == .text && $0.background == .canvas && $0.ratio == 1
             },
             "Unreadable user colors produce measured warnings without being repainted")
-        defaults.set(Data("corrupt".utf8), forKey: "customTheme")
-        let damaged = AppPreferences(defaults: defaults)
+        let legacySuite = suite + ".Legacy"
+        let legacyDefaults = UserDefaults(suiteName: legacySuite)!
+        defer { legacyDefaults.removePersistentDomain(forName: legacySuite) }
+        legacyDefaults.set(Data("corrupt".utf8), forKey: "customTheme")
+        let damaged = AppPreferences(defaults: legacyDefaults)
         try require(
             damaged.customThemeLoadFailed && damaged.customTheme == starter,
             "Corrupt saved themes recover to a safe editable starter")
+        try require(
+            legacyDefaults.data(forKey: "customTheme") == Data("corrupt".utf8),
+            "Corrupt legacy bytes are retained")
+
+        let librarySuite = suite + ".Library"
+        let libraryDefaults = UserDefaults(suiteName: librarySuite)!
+        defer { libraryDefaults.removePersistentDomain(forName: librarySuite) }
+        libraryDefaults.set(try theme.encoded(), forKey: "customTheme")
+        libraryDefaults.set("custom", forKey: "appearance")
+        let migrated = AppPreferences(defaults: libraryDefaults)
+        let migratedID = migrated.activeCustomThemeID!
+        try require(
+            migrated.customThemes.count == 1 && migrated.customTheme == theme
+                && migrated.appearance == "custom", "Legacy custom theme migrates all colors and selection")
+        try require(
+            AppPreferences(defaults: libraryDefaults).activeCustomThemeID == migratedID,
+            "Migration ID remains stable across initialization")
+        let duplicate = try migrated.duplicateCustomTheme(migratedID)
+        try require(
+            duplicate != migratedID && migrated.customThemes.count == 2
+                && migrated.customThemes.allSatisfy { $0.theme.name == theme.name },
+            "Same-name themes retain independent IDs")
+        var changed = theme
+        changed.name = "Edited copy"
+        changed[.accent] = "#268AE5"
+        _ = try migrated.saveCustomTheme(changed, id: duplicate, expected: theme, activate: false)
+        try require(
+            migrated.customTheme == theme
+                && migrated.customThemes.first { $0.id == duplicate }?.theme == changed,
+            "Editing a copy cannot overwrite the active original")
+        do {
+            _ = try migrated.saveCustomTheme(theme, id: duplicate, expected: theme, activate: false)
+            try require(false, "Stale editor must fail")
+        } catch CustomThemeLibrary.Failure.changed { checks.append("Stale editor is rejected") }
+        try migrated.activateCustomTheme(duplicate)
+        try require(
+            AppPreferences(defaults: libraryDefaults).customTheme == changed,
+            "Activation persists exact edited colors")
+        let owner = UUID()
+        let other = UUID()
+        try require(
+            migrated.previewCustomTheme(theme, owner: owner, sourceID: duplicate), "Editor acquires a preview"
+        )
+        try require(
+            !migrated.previewCustomTheme(changed, owner: other)
+                && !migrated.previewCustomTheme(nil, owner: other),
+            "Other windows cannot replace or cancel an owned preview")
+        _ = migrated.previewCustomTheme(nil, owner: owner)
+        try require(
+            migrated.customTheme == changed && migrated.themeColors.custom == changed,
+            "Preview cancellation restores the active selection")
+        let deleted = migrated.customThemes.first { $0.id == duplicate }!
+        try migrated.deleteCustomTheme(duplicate)
+        try require(
+            migrated.appearance == "system" && migrated.customThemes.count == 1,
+            "Deleting active theme falls back explicitly to System")
+        try migrated.restoreDeletedCustomTheme(deleted)
+        try require(
+            migrated.customThemes.contains { $0.id == duplicate }, "Deletion undo preserves the stable ID")
+        let duplicateImport = try migrated.importCustomTheme(changed)
+        try require(
+            duplicateImport == duplicate && migrated.customThemes.count == 2,
+            "Repeated same-content import does not add another theme")
+
+        let uriData = try changed.normalizedData()
+        let checksum = CryptoKit.SHA256.hash(data: uriData).map { String(format: "%02x", $0) }.joined()
+        let encoded = uriData.base64EncodedString().replacingOccurrences(of: "+", with: "-")
+            .replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "=", with: "")
+        let uri = URL(string: "wegit://theme/import?v=1&data=" + encoded + "&sha256=" + checksum)!
+        try require(
+            try ThemeImportPayload.parse(uri).theme == changed, "URI imports the exact edited snapshot")
+        for value in [
+            uri.absoluteString + "&v=1", uri.absoluteString + "#fragment",
+            uri.absoluteString.replacingOccurrences(of: "theme/import", with: "command/run"),
+            uri.absoluteString.replacingOccurrences(of: checksum, with: String(repeating: "0", count: 64)),
+        ] {
+            var rejected = false
+            do { _ = try ThemeImportPayload.parse(URL(string: value)!) } catch { rejected = true }
+            try require(rejected, "Malformed, unsupported or mismatched URI rejected")
+        }
+        let originalLibrary = libraryDefaults.data(forKey: CustomThemeLibrary.key)!
+        libraryDefaults.set(Data("corrupt library".utf8), forKey: CustomThemeLibrary.key)
+        let corruptLibrary = AppPreferences(defaults: libraryDefaults)
+        try require(
+            corruptLibrary.themeLibraryLoadFailed, "Damaged library is identified without overriding it")
+        do {
+            _ = try corruptLibrary.importCustomTheme(theme)
+            try require(false, "Corrupt library must not be overwritten")
+        } catch CustomThemeLibrary.Failure.invalid {
+            checks.append("Corrupt library blocks implicit replacement")
+        }
+        try corruptLibrary.rebuildThemeLibraryFromLegacy()
+        try require(
+            libraryDefaults.dictionaryRepresentation().keys.contains {
+                $0.hasPrefix("customThemes.recovery.")
+            }, "Explicit recovery retains original damaged bytes separately")
+        libraryDefaults.set(originalLibrary, forKey: CustomThemeLibrary.key)
+
+        var libraryWorkloads: [[String: Any]] = []
+        let libraryReport = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appending(
+            path: ".build/ci/theme-library-performance.json")
+        try FileManager.default.createDirectory(
+            at: libraryReport.deletingLastPathComponent(), withIntermediateDirectories: true)
+        for count in [1, 10, 100] {
+            var library = CustomThemeLibrary()
+            library.entries = (0..<count).map { index in
+                var value = theme
+                value.name = "Theme \(index)"
+                return CustomThemeEntry(theme: value)
+            }
+            library.activeThemeID = library.entries[0].id
+            library.selectedAppearance = "custom"
+            let data = try library.encoded()
+            var samples: [[String: Any]] = []
+            let clock = ContinuousClock()
+            func milliseconds(_ duration: Duration) -> Double {
+                Double(duration.components.seconds) * 1000 + Double(duration.components.attoseconds) / 1e15
+            }
+            for iteration in 0..<30 {
+                libraryDefaults.set(data, forKey: CustomThemeLibrary.key)
+                var start = clock.now
+                let loaded = AppPreferences(defaults: libraryDefaults)
+                let load = milliseconds(start.duration(to: clock.now))
+                start = clock.now
+                try loaded.activateCustomTheme(library.entries[iteration % count].id)
+                let activate = milliseconds(start.duration(to: clock.now))
+                try require(
+                    loaded.customThemes.count == count
+                        && loaded.customTheme == library.entries[iteration % count].theme,
+                    "Library sample preserves all entries and selected colors")
+                samples.append([
+                    "iteration": iteration + 1, "loadMilliseconds": load, "activateMilliseconds": activate,
+                ])
+                let progress: [String: Any] = [
+                    "format": 1, "requiredSerialSamples": 30,
+                    "scope":
+                        "Optimized standalone preferences helper; filesystem/defaults caches uncontrolled. Not complete application startup or UI acceptance.",
+                    "workloads": libraryWorkloads, "activeCount": count, "activeSamples": samples,
+                ]
+                try JSONSerialization.data(withJSONObject: progress, options: [.prettyPrinted, .sortedKeys])
+                    .write(to: libraryReport, options: .atomic)
+            }
+            func p95(_ key: String) -> Double { samples.map { $0[key] as! Double }.sorted()[28] }
+            let p95Load = p95("loadMilliseconds")
+            let p95Activate = p95("activateMilliseconds")
+            libraryWorkloads.append([
+                "count": count, "samples": samples, "p95Load": p95Load, "p95Activate": p95Activate,
+            ])
+            try require(
+                p95Load < 100 && p95Activate < 50,
+                "Library load/activation keeps the frozen 100/50 ms budgets")
+        }
+        try JSONSerialization.data(
+            withJSONObject: [
+                "format": 1, "requiredSerialSamples": 30, "workloads": libraryWorkloads, "allPassed": true,
+                "scope":
+                    "Optimized standalone preferences helper, not complete application startup or UI acceptance.",
+            ], options: [.prettyPrinted, .sortedKeys]
+        ).write(to: libraryReport, options: .atomic)
 
         // Exercise the same decoder, contrast checks and persistence used by the theme editor.
         let websiteThemes = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)

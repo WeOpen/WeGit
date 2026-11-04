@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { catalog, type ThemeDocument, type ThemeRecord } from '../lib/catalog'
-import { decodeTheme, MAX_THEME_BYTES, prepareTheme } from '../scripts/theme-model.js'
+import { decodeTheme, MAX_THEME_BYTES, prepareTheme, themeSnapshot, themeImportURI } from '../scripts/theme-model.js'
 import { Icon, Toast, useSite, Workbench } from './Site'
 import { translate } from '../lib/site'
 
@@ -13,6 +13,8 @@ type Studio = {
   setFont: (value: string) => void; setFontSize: (value: number) => void
   openTheme: (id: string, trigger?: HTMLElement) => void; close: () => void
   download: (id?: string, importing?: boolean) => void; importFile: (file: File, trigger: HTMLElement) => Promise<void>; reset: () => void
+  canOpenClient: (id?: string) => boolean
+  clientURI: (id?: string) => string | undefined
 }
 const Context = createContext<Studio | null>(null)
 export function useThemeStudio() { const value = useContext(Context); if (!value) throw new Error('Missing theme studio'); return value }
@@ -30,7 +32,25 @@ export function ThemeStudioProvider({ children }: { children: ReactNode }) {
   const [font, setFont] = useState(() => themeDraft.current?.font ?? 'system')
   const [fontSize, setFontSize] = useState(() => themeDraft.current?.fontSize ?? 13)
   const trigger = useRef<HTMLElement | null>(null)
-  const prepared = prepareTheme(selected.document, { accent, contrast }) as ThemeDocument
+  const prepared = useMemo(() => prepareTheme(selected.document, { accent, contrast }) as ThemeDocument, [selected.document, accent, contrast])
+  const uriCache = useRef(new Map<string, Promise<string>>())
+  const [importLinks, setImportLinks] = useState<Record<string, { snapshot: string, uri: string }>>({})
+  useEffect(() => {
+    let current = true
+    const requests = records.map(async record => {
+      const document = record.id === selected.id ? prepared : record.document
+      const snapshot = themeSnapshot(document)
+      let promise = uriCache.current.get(snapshot)
+      if (!promise) {
+        promise = themeImportURI(document)
+        uriCache.current.set(snapshot, promise)
+        if (uriCache.current.size > 128) uriCache.current.delete(uriCache.current.keys().next().value!)
+      }
+      try { return [record.id, { snapshot, uri: await promise }] as const } catch { return null }
+    })
+    void Promise.all(requests).then(values => { if (current) setImportLinks(Object.fromEntries(values.filter(value => value !== null))) })
+    return () => { current = false }
+  }, [records, selected.id, prepared])
   const resetValues = () => { setAccent(null); setContrast('normal'); setFont('system'); setFontSize(13) }
   useEffect(() => {
     const theme = records.find(theme => theme.id === query)
@@ -51,10 +71,16 @@ export function ThemeStudioProvider({ children }: { children: ReactNode }) {
     const theme = records.find(theme => theme.id === id)
     if (!theme) return
     const value = id === selected.id ? prepared : theme.document
-    const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2) + '\n'], { type: 'application/json;charset=utf-8' }))
+    const snapshot = themeSnapshot(value)
+    if (importing && importLinks[id]?.snapshot === snapshot) {
+      window.location.href = importLinks[id].uri
+      notify(locale === 'zh' ? '已请求打开 WeGit。未打开时可下载 JSON 导入。' : 'Requested WeGit. Download JSON if the client does not open.')
+      return
+    }
+    const url = URL.createObjectURL(new Blob([snapshot], { type: 'application/json;charset=utf-8' }))
     const link = document.createElement('a'); link.href = url; link.download = 'WeGit-' + id.replace(/[^a-z0-9-]/gi, '-') + '.json'
     document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000)
-    notify(tr(importing ? 'toast.importInstructions' : 'toast.themeDownload'))
+    notify(importing ? (locale === 'zh' ? '链接不可用，已提供 JSON 文件。' : 'The link is unavailable. Use the downloaded JSON file.') : tr('toast.themeDownload'))
   }
   const importFile = async (file: File, element: HTMLElement) => {
     if (file.size > MAX_THEME_BYTES) { notify(tr('toast.invalidFile')); return }
@@ -64,14 +90,15 @@ export function ThemeStudioProvider({ children }: { children: ReactNode }) {
       setRecords(previous => [...previous, theme]); show(theme, element); notify(tr('toast.imported'))
     } catch { notify(tr('toast.invalidFile')) }
   }
-  return <Context.Provider value={{ records, selected, prepared, open, accent, contrast, font, fontSize, setAccent, setContrast, setFont, setFontSize, openTheme: (id, element) => { const theme = records.find(theme => theme.id === id); if (theme) show(theme, element) }, close, download, importFile, reset: () => { resetValues(); notify(tr('toast.reset')) } }}>{children}<ThemePreviewDialog /></Context.Provider>
+  const clientURI = (id = selected.id) => { const record = records.find(record => record.id === id); return record && importLinks[id]?.snapshot === themeSnapshot(id === selected.id ? prepared : record.document) ? importLinks[id].uri : undefined }
+  return <Context.Provider value={{ records, selected, prepared, open, accent, contrast, font, fontSize, setAccent, setContrast, setFont, setFontSize, clientURI, canOpenClient: id => !!clientURI(id), openTheme: (id, element) => { const theme = records.find(theme => theme.id === id); if (theme) show(theme, element) }, close, download, importFile, reset: () => { resetValues(); notify(tr('toast.reset')) } }}>{children}<ThemePreviewDialog /></Context.Provider>
 }
 export function ThemeGallery() {
   const { locale, tr } = useSite(), studio = useThemeStudio()
-  return <div className="theme-card-grid" id="theme-catalog">{studio.records.map(theme => <article className="theme-card" key={theme.id} data-theme-id={theme.id}><Workbench theme={theme.document} compact /><div className="theme-card-title"><h3>{theme.name[locale]}</h3><span className="theme-tag">{theme.name.en}</span></div><p>{theme.description[locale]}</p><div className="theme-card-actions">
+  return <div className="theme-card-grid" id="theme-catalog">{studio.records.map(theme => <article className="theme-card" key={theme.id} data-theme-id={theme.id}><Workbench theme={theme.id === studio.selected.id ? studio.prepared : theme.document} compact /><div className="theme-card-title"><h3>{theme.name[locale]}</h3><span className="theme-tag">{theme.name.en}</span></div><p>{theme.description[locale]}</p><div className="theme-card-actions">
     <button className="button button-red" data-download-theme={theme.id} aria-label={tr('btn.downloadTheme') + ' ' + theme.name[locale]} title={tr('btn.downloadTheme') + ' ' + theme.name[locale]} onClick={() => studio.download(theme.id)}><Icon name="download" /><span className="theme-action-label">{tr('btn.downloadTheme')}</span></button>
     <button className="button button-white" data-select-theme={theme.id} aria-label={tr('btn.previewTheme') + ' ' + theme.name[locale]} title={tr('btn.previewTheme') + ' ' + theme.name[locale]} onClick={event => studio.openTheme(theme.id, event.currentTarget)}><Icon name="window" /><span className="theme-action-label">{tr('btn.previewTheme')}</span></button>
-    <button className="button button-white" aria-label={(locale === 'zh' ? '导入' : 'Import') + ' ' + theme.name[locale]} title={(locale === 'zh' ? '导入' : 'Import') + ' ' + theme.name[locale]} onClick={() => studio.download(theme.id, true)}><Icon name="upload" /><span className="theme-action-label">{locale === 'zh' ? '导入' : 'Import'}</span></button>
+    <a className="button button-white" href={studio.clientURI(theme.id)} aria-label={(locale === 'zh' ? '打开 WeGit 导入' : 'Import in WeGit') + ' ' + theme.name[locale]} title={(locale === 'zh' ? '打开 WeGit 导入' : 'Import in WeGit') + ' ' + theme.name[locale]} onClick={event => { event.preventDefault(); studio.download(theme.id, true) }}><Icon name="upload" /><span className="theme-action-label">{locale === 'zh' ? '导入' : 'Import'}</span></a>
   </div></article>)}</div>
 }
 export function ThemeImport() {
@@ -94,6 +121,6 @@ function ThemePreviewDialog() {
   }}><header className="preview-dialog-heading"><h2 id="current-theme-label">{studio.selected.name[locale]}</h2><button className="icon-button preview-close" aria-label={tr('a11y.closePreview')} onClick={() => dialog.current?.close()}><Icon name="close" /></button></header><div className="preview-dialog-grid"><div className="preview-dialog-stage"><div id="theme-live-preview"><Workbench theme={studio.prepared} font={studio.font} fontSize={studio.fontSize} /></div><p className="preview-caption">{tr('workbench.previewNote')}</p></div><aside className="theme-settings"><h3>{tr('themes.settingsTitle')}</h3><span className="form-label" id="accent-label">{tr('themes.accent')}</span><div className="color-picker" id="accent-picker" role="group" aria-labelledby="accent-label">{['#B3322D', '#268AE5', '#12AA73', '#FF8A1C', '#8E59E8', '#EF6B99'].map(color => <button key={color} className={'color-chip' + ((studio.accent || studio.selected.document.colors.accent) === color ? ' selected' : '')} style={{ background: color }} aria-label={'Accent ' + color} aria-pressed={(studio.accent || studio.selected.document.colors.accent) === color} onClick={() => studio.setAccent(color)} />)}</div>
     <div className="settings-row"><span className="form-label" id="contrast-label">{tr('themes.contrast')}</span><div className="segmented" id="contrast-selector" role="group" aria-labelledby="contrast-label">{(['soft', 'normal', 'high'] as const).map(value => <button key={value} className={studio.contrast === value ? 'selected' : ''} aria-pressed={studio.contrast === value} onClick={() => studio.setContrast(value)}>{tr('themes.' + value)}</button>)}</div></div>
     <div className="settings-row"><label className="form-label" htmlFor="font-select">{tr('themes.font')}</label><select id="font-select" value={studio.font} onChange={event => studio.setFont(event.target.value)}><option value="system">{tr('themes.systemFont')}</option><option value="mono">{tr('themes.monoFont')}</option></select></div><div className="settings-row"><label className="form-label" htmlFor="font-size">{tr('themes.fontSize')}</label><input id="font-size" type="range" min="11" max="16" step="1" value={studio.fontSize} onChange={event => studio.setFontSize(Number(event.target.value))} /><output id="font-size-output" htmlFor="font-size">{studio.fontSize}px</output></div><p className="preview-scope">{tr('themes.previewScope')}</p><div className="settings-divider" /><div className="settings-actions">
-      <button className="button button-red full" id="preview-download" onClick={() => studio.download()}><Icon name="download" />{tr('btn.downloadTheme')}</button><button className="button button-white full" id="preview-import" onClick={() => studio.download(undefined, true)}>{tr('btn.importToWeGit')}<Icon name="arrow" /></button><button className="text-button" id="reset-theme" onClick={studio.reset}><Icon name="reset" />{tr('themes.reset')}</button>
+      <button className="button button-red full" id="preview-download" onClick={() => studio.download()}><Icon name="download" />{tr('btn.downloadTheme')}</button><a className="button button-white full" id="preview-import" href={studio.clientURI()} onClick={event => { event.preventDefault(); studio.download(undefined, true) }}>{tr('btn.importToWeGit')}<Icon name="arrow" /></a><button className="text-button" id="reset-theme" onClick={studio.reset}><Icon name="reset" />{tr('themes.reset')}</button>
     </div></aside></div>{studio.open && <Toast />}</dialog>
 }

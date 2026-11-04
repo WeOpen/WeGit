@@ -29,6 +29,7 @@ targets:
     platform: macOS
     sources:
       - path: WeGit
+        excludes: [Resources/AppInfo.plist]
       - path: LICENSE
         buildPhase: resources
     dependencies:
@@ -64,7 +65,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.development
         PRODUCT_NAME: WeGit
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        GENERATE_INFOPLIST_FILE: YES
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: WeGit/Resources/AppInfo.plist
         INFOPLIST_KEY_CFBundleDisplayName: WeGit
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
         INFOPLIST_KEY_NSHumanReadableCopyright: WeOpen

@@ -12,6 +12,8 @@ M1 / [PR #132](https://github.com/WeOpen/WeGit/pull/132)：内容控件、历史
 
 [CI 41818471026](https://github.com/WeOpen/WeGit/actions/runs/41818471026) 固定df73872：三套Git各277/48、OpenPGP各9与功能检查实际通过；大型恢复性能超出2000ms预算，应用/UI编译和包尚未执行。COW、批量I/O和绑定不可变文件版本的摘要优化已在独立M1检出实现并编译，5项新增保护测试源只编译；最后普通/大型各2样本开发诊断满足原门槛，预算不变，准备固定候选集中送验。本机少量隔离诊断不作为30样本批次或版本性能证据。
 
+M2 主题/官网批次仍独立开发：多主题库、旧值迁移和受控URI已实现；原生开发预览与Ego JSON往返实核17颜色、同名独立ID、新增/复制/编辑取消/重命名/删除撤销/启用/导出。Node37/Python13、网站构建/原预算、Wrangler dry-run和22项本地Worker通过；三架构浏览器夹具通过推荐与手动覆盖。Cua自动安全审查阻断外部URI唤起，未通过其他浏览器规避；冷/热唤起与完整托管批次仍待验，URL默认处理器已恢复。
+
 ## 全部62子任务
 
 | 子任务 | 模块/Issue | 实施内容 | 实现状态 | 批次证据 |
@@ -63,16 +65,16 @@ M1 / [PR #132](https://github.com/WeOpen/WeGit/pull/132)：内容控件、历史
 | 13d | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 测试 v1.2→v2.0 的设置、最近/收藏、主题、各 Worktree 草稿与页面迁移；v2.0→旧版回退通过明确备份恢复，不让旧版直接读取不兼容的新格式 | 待实施 | — |
 | 13e | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | v1.2 没有本版更新器，首次 v2.0 安装使用官网下载/DMG路径；应用内升级从 v2.0 开始提供 | 待实施 | — |
 | 13f | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 同版本/源码/build 提供 Universal、Apple Silicon 与 Intel 三种 DMG；所有内嵌 Mach-O 的架构与 minos 按对应包核对，分别输出摘要、来源与安装大小 | 待实施 | — |
-| 14a | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 客户端保存多个自定义主题，支持新增、复制、重命名、编辑、删除、导入/导出和切换 | 待实施 | — |
-| 14b | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 旧 `customTheme` 迁移为主题库的一项，保留原17角色颜色、控件外观与当前选择 | 待实施 | — |
-| 14c | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 注册受控 `wegit://theme/import` 入口，从用户点击网页动作直接唤起客户端 | 待实施 | — |
-| 14d | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 网页预览、下载JSON和发送客户端使用同一份当前编辑后的配色快照，包括强调色/对比度，不能只传目录ID再读取原配色 | 待实施 | — |
-| 14e | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 网页常规主题直接导入；未安装、旧版不支持协议或浏览器阻止唤起时提供下载客户端/JSON的可用退路，不虚报“导入成功” | 待实施 | — |
-| 15a | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 扩展现有 Release 读取/选择逻辑，使用结构化的版本/通道/minimumOS/架构/URL/摘要/大小/manifest 数据 | 待实施 | — |
-| 15b | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | Release 发布/编辑/撤销触发有界的轻量清单更新；即使没有 site 提交，官网也能取得新版本 | 待实施 | — |
-| 15c | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 网页自动推荐对应包，优先使用可获得且可信的架构/位数信息：Client Hints 的 arm+64归一为arm64，x86+64归一为x86_64，再选择Apple Silicon/Intel | 待实施 | — |
-| 15d | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 三种包始终可手动选择；用户选择优先于后到的自动识别 | 待实施 | — |
-| 15e | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 覆盖新Release但无site提交、旧稳定仅ARM/ZIP、公开Universal候选、三包齐全稳定版、部分资产上传/撤销、缓存陈旧、失败兜底及手动覆盖；不将不适用架构或候选误标成稳定 | 待实施 | — |
+| 14a | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 客户端保存多个自定义主题，支持新增、复制、重命名、编辑、删除、导入/导出和切换 | 实现完成/待批次验收 | M2开发证据 |
+| 14b | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 旧 `customTheme` 迁移为主题库的一项，保留原17角色颜色、控件外观与当前选择 | 实现完成/待批次验收 | M2开发证据 |
+| 14c | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 注册受控 `wegit://theme/import` 入口，从用户点击网页动作直接唤起客户端 | 实施中/联动验收待完成 | M2开发证据 |
+| 14d | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 网页预览、下载JSON和发送客户端使用同一份当前编辑后的配色快照，包括强调色/对比度，不能只传目录ID再读取原配色 | 实现完成/待批次验收 | M2开发证据 |
+| 14e | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 网页常规主题直接导入；未安装、旧版不支持协议或浏览器阻止唤起时提供下载客户端/JSON的可用退路，不虚报“导入成功” | 实施中/联动验收待完成 | M2开发证据 |
+| 15a | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 扩展现有 Release 读取/选择逻辑，使用结构化的版本/通道/minimumOS/架构/URL/摘要/大小/manifest 数据 | 实施中/联动验收待完成 | M2开发证据 |
+| 15b | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | Release 发布/编辑/撤销触发有界的轻量清单更新；即使没有 site 提交，官网也能取得新版本 | 实现完成/待批次验收 | M2开发证据 |
+| 15c | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 网页自动推荐对应包，优先使用可获得且可信的架构/位数信息：Client Hints 的 arm+64归一为arm64，x86+64归一为x86_64，再选择Apple Silicon/Intel | 实现完成/待批次验收 | M2开发证据 |
+| 15d | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 三种包始终可手动选择；用户选择优先于后到的自动识别 | 实现完成/待批次验收 | M2开发证据 |
+| 15e | [V20-15](https://github.com/WeOpen/WeGit/issues/130) | 覆盖新Release但无site提交、旧稳定仅ARM/ZIP、公开Universal候选、三包齐全稳定版、部分资产上传/撤销、缓存陈旧、失败兜底及手动覆盖；不将不适用架构或候选误标成稳定 | 实施中/联动验收待完成 | M2开发证据 |
 | 16a | [V20-16](https://github.com/WeOpen/WeGit/issues/115) | 按完整用户流程/功能批次组织分支和PR，一个PR可关联多个子任务/Issue | 实现完成/待批次验收 | — |
 | 16b | [V20-16](https://github.com/WeOpen/WeGit/issues/115) | M0先调整工作流触发/排队规则：草稿及开发中间提交不自动启动后端重流程，批次稳定后进入待审状态或发出明确验收请求 | 实现完成/待批次验收 | — |
 | 16c | [V20-16](https://github.com/WeOpen/WeGit/issues/115) | 开发遇到错误时按需做局部定位；视图/网站/工具及Core测试编译按批次实际范围集中执行 | 实现完成/待批次验收 | — |

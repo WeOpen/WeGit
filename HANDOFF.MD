@@ -1,5 +1,14 @@
 # WeGit 开发交接
 
+## 2026-11-04 M2 多主题与官网联动开发验证
+
+- M2保留于codex/v2-m2-themes-and-downloads；多主题库/旧值迁移/受控URI、版本清单缓存与架构选择已实现。Native源码及UI测试源只编译，独立预览Bundle ID与UITests偏好域完成文件导入、新增、同名复制、编辑实时预览取消、重命名、删除撤销、启用和导出。17颜色/controls/name往返一致，保存不自动启用，ID不按名称覆盖，撤销恢复原ID；截图/JSON在本聊天视觉目录及.build/v2-m2。不是XCTest或完整版本验收。
+- Mac锁定已由用户手动解除。Cua浏览器实际点击wegit://theme/import被自动安全审查拒绝，拒绝明确禁止通过其他浏览器/原始协议/间接执行规避；未在Ego重试该受限导航。用户追加Ego后，旧TaskSpace7不存在，按同一目标名恢复为9；只验证正常主题页和JSON退路。外部应用冷/热唤起仍待手动验收，不改记通过。
+- 仅验证用URL默认处理器从com.willxue.wegit.development临时指向v2preview，原值先存.build/v2-m2/url-handler-state.json，文件退路验证后已CAS确认并恢复。Cua原生首次输入需Raise窗口再读取焦点；临时菜单AX项可能跨调用消失，同一调用内菜单Down/Return可工作，不为工具时序改产品。
+- 本地Wrangler持有旧构建资源清单时，HTML能200而入口JS500，交互不会启动；仅重启此任务预览，不改产品语义。Worker检查现在实际读取页面引用脚本、校验200/类型及同构建原字节，22项通过。全局缓存存普通JSON数据，不存Response/流；归一fallback移除旧Content-Encoding/Length/Range，ETag绑定返回原字节，增加回归。
+- Node37/Python13通过，原预算public2,726,105bytes/CSS62,223/client gzip144,963/Worker gzip260,825通过，Wrangler dry-run与本地Worker通过。三包完整本地目录夹具在浏览器验证arm64/x86_64推荐、两处选择联动及手动Intel不被迟到ARM提示覆盖；不是三种真实DMG或生产刷新验收。兼容性文案去掉固定RC，由版本状态显示候选，最低OS可取结构化资产值；发布侧完整metadata仍与M4联动。
+
+
 ## 2026-11-04 M1 大型恢复性能定位与快照优化
 
 - 固定df73872的CI41818471026：Apple/最低/Homebrew Git分别277测试/48套件通过，374.543/185.268/182.813秒；Apple/Homebrew隔离OpenPGP各9通过，功能作业通过。大型恢复性能失败，应用/UI编译和包未执行；原native ZIP/CRC/SHA与JSON保留主检出.build/v2-m1/failed-native-3。普通100文件/16,751,600bytes通过；大型1000文件/268,179,000bytes的p95预览2509.23ms、Reset5152.44ms、恢复预览2753.78ms、恢复5163.27ms，不能提高2000ms预算或将旧性能项标绿。
