@@ -8,7 +8,7 @@ M0 已经由 [PR #131](https://github.com/WeOpen/WeGit/pull/131)正常合入 mai
 
 M1 / [PR #132](https://github.com/WeOpen/WeGit/pull/132)：内容控件、历史/分支Reset、Reflog分页快照、备份/导出/恢复与原提交引用保护已实现。隔离原生预览已核对取消、Hard Reset和工作文件/索引恢复的逐字节结果；这些是开发验证，完整页面矩阵/托管批次仍待验。Core及UI测试源、Release性能夹具只编译，本机未执行XCTest。
 
-草稿 [CI 41803616136](https://github.com/WeOpen/WeGit/actions/runs/41803616136) 的Native/前端/Core编译/site实际无runner且0步骤，必需汇总失败原因为等待批次验收；PR策略和112项工具实际通过。候选稳定后ready一次送验，继续M2无依赖开发。
+草稿 [CI 41803616136](https://github.com/WeOpen/WeGit/actions/runs/41803616136) 的Native/前端/Core编译/site实际无runner且0步骤，必需汇总失败原因为等待批次验收；PR策略和112项工具实际通过。稳定e01994b已ready送验；CI41812363924在Apple Core实际277测试/48套件中有1夹具准备问题，后续未执行。修补保持保护断言、仅编译测试源，统一重验Core及未执行阶段；M2改动独立保留并继续。
 
 ## 全部62子任务
 

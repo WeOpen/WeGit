@@ -1,5 +1,11 @@
 # WeGit 开发交接
 
+## 2026-11-04 M1 托管首轮失败与夹具修正
+
+- 固定e01994b的CI41812363924真实失败于Apple Git Core：277测试/48套件、326.427秒、1问题；最低Git/Homebrew/签名/功能/性能/应用编译/包未执行，不计通过。原native ZIP/CRC/SHA及core.log/source回执保留.build/v2-m1。
+- RecoveryTests的ignoredObstacles夹具先git rm暂存删除，再调用会对所有status路径git add的Fixture.commit，已不存在路径导致fatal pathspec。这是准备阶段错误，尚未进入Reset。改为service.commit直接提交已暂存删除，保护断言保持；本机仅测试源编译。稳定修补后统一重验Core及未执行范围，不重开各子任务。
+- M2的AppPreferences/CustomTheme未提交改动已在.build/v2-m2/wip.patch独立备份，修补提交只纳入M1测试/进度文档，用户PBX 4+4差异继续独立。API运输逐blob/tree/commit保留原author/committer时区后与本地SHA完全相等，再以旧head lease移动分支；不重写为不同提交。
+
 ## 2026-11-04 M1 开发验证与稳定批次准备
 
 - PR132草稿head623d7c8的CI41803616136已实核：Native/前端/Core编译/site无runner、0步骤；Repository policy明确因awaits batch validation失败。轻量PR/仓库工具通过，112项工具保持。此为调度验收，不能说后端/版本通过；稳定head之后只ready一次。

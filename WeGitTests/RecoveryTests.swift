@@ -197,7 +197,7 @@ struct RecoveryTests {
         try f.write("file", "target\n")
         let target = try await f.commit("Target")
         _ = try await f.engine.run(["rm", "file"], in: f.root)
-        let head = try await f.commit("Remove file")
+        let head = try await f.service.commit(message: "Remove file", amend: false, expectedHead: target)
         try f.write(".git/info/exclude", "file\n")
         try f.write("file", "ignored private content\n")
         await #expect(throws: ModelFailure.self) {
