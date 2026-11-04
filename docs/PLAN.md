@@ -2,14 +2,16 @@
 
 | 项目 | 说明 |
 | --- | --- |
-| 目标平台 | macOS 27+，Phase 0 验证实际 Deployment Target 与工具链 |
+| 目标平台 | macOS 26+；Apple Silicon / Intel Universal；Git 2.46+ |
 | 技术栈 | Swift / SwiftUI / Swift Concurrency / SwiftData / Git CLI |
-| 文档修订版 | v1.1 |
-| 更新日期 | 2026-10-18 |
-| 状态 | 开发进行中；首个提交闭环已实现，完整阶段验收见开发记录 |
+| 文档修订版 | v2.0 规划 |
+| 更新日期 | 2026-11-04 |
+| 状态 | v1.2 功能开发已完成；v2.0 完整客户端计划已制定，待实施 |
 | 关联文档 | [文档索引](README.md) · [PRD](WeGit_PRD.md) · [UI/UX](WeGit_UI_UX_Spec.md) · [架构](WeGit_Architecture.md) |
 
-> 当前实现与验证证据：[开发进度](DEVELOPMENT.md)。三套 Git 各 183 项核心回归已通过；固定 main `2c2533c` 的完整自动功能实际 45/45、144 个阅读组合全部通过，零失败/跳过，见 [本轮完整记录](acceptance/2026-10-18/native-ui/final-functional/README.md)。后续独立诊断分支的全部 120 项应用输入及 21 项产品 UI 测试输入与该提交一致。自动辅助访问审查仍有 55 条待判定回调；独立 SDK 对照复现部分高反差文字/标准菜单报告，不能代替 VoiceOver、完整键盘或系统显示选项验收。[性能](PERFORMANCE.md)、真实认证/硬件密钥组合、受保护机器安装、Beta 与 [正式分发](RELEASE.md) 继续待验。现有 hosted VM 的原始保护状态不满足安装签收，自托管 Runner 仍为 0。按用户确认，仅通过 GitHub＋项目网站、无商店/无开发者账号直接分发，Developer ID／公证为未来可选。当前入口见 [发布清单](V1_RELEASE_CHECKLIST.md)；自动功能通过不表示 V1.0 完成。
+2026-11-04 当前执行入口：[v2.0 完整客户端开发计划](V2_0_PLAN.md)。v1.2 功能已完成并公开 RC；v2.0 集中补齐客户端及 Liquid Glass 使用边界，PR/MR/AI 等新工作流顺延至其后。下方 Phase 0～16 的旧状态与结果保留历史；本版范围、M0～M5、验证分流和完成条件以 v2.0 主计划为准。
+
+> 历史验收记录（2026-10-18）：[开发进度](DEVELOPMENT.md)。三套 Git 各 183 项核心回归已通过；固定 main `2c2533c` 的完整自动功能实际 45/45、144 个阅读组合全部通过，零失败/跳过，见 [本轮完整记录](acceptance/2026-10-18/native-ui/final-functional/README.md)。后续独立诊断分支的全部 120 项应用输入及 21 项产品 UI 测试输入与该提交一致。自动辅助访问审查仍有 55 条待判定回调；独立 SDK 对照复现部分高反差文字/标准菜单报告，不能代替 VoiceOver、完整键盘或系统显示选项验收。[性能](PERFORMANCE.md)、真实认证/硬件密钥组合、受保护机器安装、Beta 与 [正式分发](RELEASE.md) 继续待验。现有 hosted VM 的原始保护状态不满足安装签收，自托管 Runner 仍为 0。按用户确认，仅通过 GitHub＋项目网站、无商店/无开发者账号直接分发，Developer ID／公证为未来可选。当前入口见 [发布清单](V1_RELEASE_CHECKLIST.md)；自动功能通过不表示 V1.0 完成。
 
 ## 1. 执行目标与规则
 
@@ -60,7 +62,7 @@
 | Phase 14 | V1.0 发布 | 13 与发布检查 | 可安装发布包、版本说明和已知限制 |
 | Phase 15 | V1.1 | V1.0 基础稳定 | Stash/Tag 等日常高级能力 |
 | Phase 16 | V1.2 | 对应 V1.1 基础 | 内置冲突编辑器、Rebase 编辑及仓库扩展 |
-| Phase 17 | V2.0 候选 | 独立需求评审 | Hosting Provider 和可选 AI |
+| Phase 17 | V2.0 完整客户端 | 已完成的V1.2基线，M0先落实批次校验 | V20-01～V20-16，含多主题/网页导入、三种包/自动下载；见 [v2.0计划](V2_0_PLAN.md) |
 
 Phase 编号是计划标识，不是工期单位。可以在已满足依赖时推进独立工作，但不能跳过前置验收。
 
@@ -299,9 +301,9 @@ Phase 编号是计划标识，不是工期单位。可以在已满足依赖时�
 | --- | --- | --- |
 | Phase 15 / V1.1 | 必选 Stash、Tag、Remote 编辑、文件历史与定向搜索均已实现；Cherry-pick/Revert 整体后移，性能与交付继续跟进，详见 [v1.1 执行计划](V1_1_PLAN.md) | 固定源码回归、实际性能、安装/迁移、Beta 反馈与发布门禁 |
 | Phase 16 / V1.2 | 已有 Worktree 打开/管理、单提交 Cherry-pick/Revert、Blame、选中行暂存、内置冲突编辑器、独立与 Interactive Rebase、Submodule、LFS 状态；优先级与分批退出条件见 [v1.2 需求](V1_2_PLAN.md) | 原始补丁正确性、共享引用互斥、工具缺失、编辑保存、重开与序列恢复 |
-| Phase 17 / V2.0 候选 | GitHub/GitLab 账户、PR/MR/Review、元数据、可选 AI | 认证权限、数据发送范围、独立 Provider/AI 服务、用户控制 |
+| Phase 17 / V2.0 | 完整客户端、Glass收敛、多主题/网页导入、三架构与自动版本下载 | [v2.0主计划](V2_0_PLAN.md)M0～M5按业务批次统一验收，子任务不逐项跑GitHub；输入证据复用与最终完整交付 |
 
-选中行丢弃、图片滑杆、多窗口、自定义快捷键、Reflog 和更多批量操作尚未固定排期。后续阶段开始前复核用户需求，不把候选列表自动升级为承诺。
+选中行丢弃、图片滑杆、多窗口、自定义快捷键、Reflog 和多提交队列已集中纳入 v2.0；全部功能开发尚未开始。GitHub/GitLab PR/MR 协作、可选 AI、图形化 Bisect 和任务编排作为 v2.0 之后的新工作流另行规划。
 
 ## 19. 横向质量要求
 

@@ -124,6 +124,10 @@ xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
 
 ## 🗺️ 范围与路线图
 
+下一版为 **v2.0 完整客户端**，集中补齐恢复、比较、补丁、文件处理、签名、多窗口、仓库扩展与更新，并将 Liquid Glass 收敛到导航/浮动控制层。完整范围、阶段与验收见 [v2.0 开发计划](docs/V2_0_PLAN.md)。PR/MR 协作、可选 AI 等新工作流放在这次完整交付之后；v2.0 功能尚未开始实施。
+
+本版同时加入多个自定义主题、网页直接唤起客户端导入、官网自动取得版本，以及Universal/Apple Silicon/Intel三种安装包与自动推荐/手动选择。开发按完整业务批次统一验收，子任务不逐项跑GitHub，三种包共用同源码的后端结果。
+
 [v1.1](docs/V1_1_PLAN.md) 与 [v1.2](docs/V1_2_PLAN.md) 的实现合并在 1.2.0-rc.1：Stash / Remote / Tag 管理、文件历史、Worktree、Cherry-pick / Revert、Blame、选中行暂存、冲突编辑器、独立 / Interactive Rebase，以及 Submodule / LFS 检查。Bare 仓库仍不支持；Hosting Provider 集成留在后续版本。
 
 Intel 实机与 macOS 26 运行验证、受保护 Mac 安装、完整 VoiceOver、整版应用性能与真实 Beta 反馈仍单独记录，不能由 Universal 编译通过推定。GitLab、交互式 Pinentry/硬件密钥和其他未覆盖环境见[兼容性矩阵](docs/COMPATIBILITY.md)。

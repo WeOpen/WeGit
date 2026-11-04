@@ -9,12 +9,6 @@ import subprocess
 
 
 SITE_ENTRIES = {"scripts/build_website.py", "scripts/ci/tests/test_website.py"}
-SITE_COORDINATION = {"HANDOFF.MD"}
-SITE_INFRASTRUCTURE = {
-    ".github/workflows/verify.yml", ".github/workflows/pages.yml",
-    ".github/workflows/workers.yml", "scripts/ci/change_scope.py",
-    "scripts/ci/check_ci_results.py",
-}
 BACKEND_FILES = {
     "Package.swift", "WeGit/App/AppState.swift", "WeGit/App/SyncState.swift",
     "WeGit/App/WorktreeManagementState.swift", "WeGit/App/AuthenticationController.swift",
@@ -35,7 +29,25 @@ def valid_path(path):
 
 
 def site_path(path):
-    return path.startswith("site/") or path in SITE_ENTRIES
+    return not documentation_path(path) and (path.startswith("site/") or path in SITE_ENTRIES)
+
+
+def documentation_path(path):
+    return path.lower().endswith((".md", ".txt", ".rst"))
+
+
+def validation_requested(event, event_name, scope):
+    """A new head needs a new deliberate request, even if a label remains set."""
+    if event_name != "pull_request":
+        return True
+    if not any(scope[key] for key in ("backend_changed", "frontend_changed", "core_tests_changed", "site_changed")):
+        return True
+    pr = event.get("pull_request", {})
+    if pr.get("draft", False):
+        return False
+    action = event.get("action", "")
+    return action in {"opened", "ready_for_review"} or (
+        action == "labeled" and event.get("label", {}).get("name") == "batch:validate")
 
 
 def backend_path(path):
@@ -60,15 +72,14 @@ def classify(paths):
         or path.startswith("WeGit/") and (path.endswith(".swift") or path.startswith("WeGit/Resources/"))
         or path.startswith(("WeGitUITests/", "WeGitCore/Resources/")) for path in paths)
     return {
-        "site_only": actual_site and all(site_path(path) or path in SITE_COORDINATION for path in paths),
+        "site_only": actual_site and all(site_path(path) or documentation_path(path) for path in paths),
         "backend_changed": backend,
         "policy_changed": policy,
         "frontend_changed": frontend,
         "core_tests_changed": not backend and any(
             path.startswith(("WeGitTests/", "Benchmarks/")) and path.endswith((".swift", ".c", ".h")) for path in paths),
-        "docs_only": bool(paths) and not actual_site and all(path.lower().endswith((".md", ".txt", ".rst")) for path in paths),
-        "site_changed": actual_site or any(
-            path.startswith("design/brand/") or path in SITE_INFRASTRUCTURE for path in paths),
+        "docs_only": bool(paths) and all(documentation_path(path) for path in paths),
+        "site_changed": actual_site or any(path.startswith("design/brand/") for path in paths),
         "changed_file_count": len(paths),
     }
 
@@ -105,14 +116,16 @@ def scope_for_event(root, event, event_name):
         return {"site_only": not backend and site, "backend_changed": backend,
                 "policy_changed": backend, "frontend_changed": False,
                 "core_tests_changed": False, "docs_only": False, "site_changed": site,
-                "changed_file_count": 0, "range_verified": False}
+                "changed_file_count": 0, "range_verified": False, "validation_requested": True}
     try:
         paths = changed_paths(root, event, event_name)
     except subprocess.TimeoutExpired:
         paths = None
     if paths is None:
         raise ValueError("Cannot verify the Git range; costly backend validation was not scheduled")
-    return {**classify(paths), "range_verified": True}
+    scope = classify(paths)
+    return {**scope, "range_verified": True,
+            "validation_requested": validation_requested(event, event_name, scope)}
 
 
 def main():

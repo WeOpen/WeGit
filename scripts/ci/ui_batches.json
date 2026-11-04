@@ -1,0 +1,43 @@
+{
+  "format": 1,
+  "batches": {
+    "baseline-controls": {
+      "covers": ["v1.2-regression", "V20-01"],
+      "methods": [
+        "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls",
+        "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable",
+        "ToolbarMenuBarTests/testSidebarButtonRetainsItsSurfaceAfterRepeatedToggles",
+        "LocalizationUITests/testLanguageSwitchKeepsDraftAndGitDataAndCommitButtonsMatch",
+        "SettingsReadingTests/testSixSettingsTabsAndLiveTextMeasurementChanges",
+        "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus",
+        "InspectorRestorationTests/testDiffFillsInspectorBoundaryAndSplitHeadersHaveInsets",
+        "InterfacePolishTests/testSearchClearKeepsInputFocusAndKeyboardCommitInBothThemes"
+      ]
+    },
+    "baseline-recovery": {
+      "covers": ["v1.2-regression", "V20-03", "V20-05", "V20-06", "V20-08"],
+      "methods": [
+        "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
+        "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch",
+        "WorkflowRecoveryTests/testConflictEditorPreservesIndexUntilResolveAndGuardsUnsavedClose",
+        "RebaseWorkflowTests/testFixedTargetReplayAndRecoverAcrossRelaunch",
+        "RebaseWorkflowTests/testInteractiveSequenceEditsSquashesAndRecoversAfterRelaunch",
+        "StashWorkflowTests/testSaveInspectApplyAndDeletePreserveWorkingAndStagingState",
+        "StashWorkflowTests/testPopCancelSuccessConflictAndExternalListRefresh"
+      ]
+    },
+    "baseline-repository": {
+      "covers": ["v1.2-regression", "V20-02", "V20-04", "V20-10", "V20-11", "V20-12"],
+      "methods": [
+        "FileHistoryWorkflowTests/testFileContextRenameSearchAndManualDeletedPath",
+        "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
+        "WorktreeWorkflowTests/testLinkedWorktreesKeepDraftsPagesAndIndexesAcrossSwitchAndRelaunch",
+        "WorktreeManagementWorkflowTests/testCreateCancelRemoveAndProtectChangedWorktrees",
+        "RemoteManagementWorkflowTests/testAddEditCancelAndRemoveRepositoryRemote",
+        "TagWorkflowTests/testCreateCancelInspectAndDeleteLocalTagPreservesBranch",
+        "InspectorRestorationTests/testSubmoduleAndLFSResourcesAppearInInspector",
+        "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen"
+      ]
+    }
+  }
+}

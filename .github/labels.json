@@ -103,5 +103,10 @@
     "name": "skip-changelog",
     "color": "eeeeee",
     "description": "Exclude internal-only changes from generated notes"
+  },
+  {
+    "name": "batch:validate",
+    "color": "0e8a16",
+    "description": "Request validation of this stable batch head; reapply after new commits"
   }
 ]

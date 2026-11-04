@@ -2,12 +2,16 @@
 
 | 项目 | 说明 |
 | --- | --- |
-| 目标平台 | macOS 27+，以 Phase 0 工具链验证为准 |
+| 目标平台 | macOS 26+；Apple Silicon / Intel Universal；Git 2.46+ |
 | 技术栈 | Swift / SwiftUI / Swift Concurrency / SwiftData / Git CLI |
 | 文档修订版 | v1.1 |
 | 更新日期 | 2026-10-06 |
 | 状态 | 目标架构；当前实现与差异见 [开发进度](DEVELOPMENT.md)，示意类型不等同于源码 |
 | 关联文档 | [文档索引](README.md) · [PRD](WeGit_PRD.md) · [UI/UX](WeGit_UI_UX_Spec.md) · [执行计划](PLAN.md) |
+
+2026-11-04：v1.2 功能开发已完成。v2.0 的恢复记录、任意比较、补丁序列、多窗口/草稿归属与更新信任契约见 [完整客户端开发计划](V2_0_PLAN.md#7-技术契约与复用边界)。下方模型/接口保留其设计时点，不表示本版新功能已实现；Provider/AI 保持独立并顺延至 v2.0 之后。
+
+同日追加契约：主题库独立版本与activeThemeID，对外保持v1主题JSON，受控URI只传当前配色数据；发布清单分别解析版本和架构，关联同源码三种包/摘要/来源；网站缓存有效元数据而非逐访客请求GitHub。开发证据以不可变批次输入关联多个子任务，M0先改实际CI触发与可信批次入口，见V20-14～V20-16。
 
 ## 1. 架构目标与边界
 

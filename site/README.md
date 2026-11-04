@@ -2,6 +2,14 @@
 
 官网主入口已迁为 **TanStack Start + React + TypeScript + Cloudflare Workers**，保留中英文、山水素材、真实客户端截图、10 套原生主题、主题编辑弹窗及原 footer 下方的像素字母 Logo。
 
+## v2.0联动计划（2026-11-04）
+
+新增范围见 [V20-14～V20-16](../docs/V2_0_PLAN.md)：网页当前编辑后的主题可直接唤起客户端导入，客户端保存多个自定义主题；网站自动取得有效版本，推荐Apple Silicon/Intel包并保留Universal和手选。现有“导入客户端”仍走JSON下载/提示，release脚本主要选Universal，新增联动尚未实施。
+
+主题预览、下载JSON和URI发送复用同一快照；v1 JSON及64KiB文件上限保留。版本清单按Release事件轻量刷新、缓存/ETag和失败回退处理，没有site提交也反映新版本；不逐访客请求GitHub、持续轮询或用MacIntel字符串猜CPU。官网资源只包含清单/URL，不复制DMG。
+
+真正网站源改动以业务批次执行Node/Python、构建/原资源预算、dry-run和本地Worker检查，不按每个子任务重复，也不启动原生Core/GPG/包重流程；纯site Markdown只查链接，混合客户端业务变化按实际依赖分流。下方初次部署文字保留原状态；已发布来源以主根HANDOFF和发行记录为准。
+
 ## 本地开发
 
 需要 Node.js 22.12+；CI 使用 Node.js 24。依赖版本由 package-lock.json 固定。

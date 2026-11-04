@@ -1,5 +1,38 @@
 # WeGit 开发交接
 
+## 2026-11-04 v2.0 M0 批次校验工程实施
+
+- 当前批次 `codex/v2-m0-batch-validation` / Issue115；16模块已映射Issue115～130，62子任务逐项在 `docs/V2_0_PROGRESS.md` 记录；预算与恢复/窗口/主题/更新契约冻结于 `docs/V2_0_CONTRACTS.md`。新增功能与版本交付尚未验收，继续M1～M5。
+- 草稿及synchronize新head延后实际编译/后端/site重流程，ready_for_review、直接稳定非草稿opened或重新添加batch:validate才送验；保留轻量策略与固定必需名称。已存在的label不是新head授权，必须按本次事件判断；延后保持必需汇总失败，不能用skipped报绿。main输入等价关联证据。
+- 文档先按扩展名识别，site/README及纯Markdown只查链接；CI工具文件不再附带触发整站构建。Core/签名/功能/性能/应用分别绑定源码、测试、夹具、执行入口与真实工具链；下载回执核对canonical成功run和源Git对象，缓存不作通过证据，缺失/失效即实际执行。包始终核对新构建字节。
+- 托管入口从可信main复制ui_batches.json，批次一次编译、一次实际1/1 smoke，再一次完整明确方法集合；执行数不符/失败/跳过均阻断。当前集合是原v1.2回归，覆盖标签不代表新增V20功能通过；新方法需正常注册。
+- 本机112项对应CI工具检查、固定actionlint与安全契约已通过；未运行XCTest/Core/GPG/性能/客户端打包。实际PR/main与触发频率/缓存复用待批次证据记录。原计划及配套文档保留纳入此批次，用户PBX SHA仍为d08f03d9c5d63698478c56f2997361935e63b98d80eddbcd78dd602fcf8e5685，原始全差异备份在.build/v2-m0/original，不混入PR。
+
+## 2026-11-04 v2.0 主题、下载与批次校验追加
+
+- 用户追加：网页直接打开客户端导入主题；客户端多个自定义主题；官网自动获取有效版本；保留Universal并新增Apple Silicon/Intel单架构DMG及自动推荐。`docs/V2_0_PLAN.md`现为16模块/62子任务，V20-14主题库/URI、V20-15自动版本/架构选择、V20-16批次CI，13f定义三种包；PRD、UI、索引、发布/网站/GitHub文档与README已同步。
+- 最新频率要求已写入AGENTS第9条：子任务完成实现后继续，完整业务批次稳定head才集中送验，最终候选集中完整验收。M0优先落实草稿/中间提交的触发/排队、可信批次用例集合、缓存/输入证据复用；三包共用同源码Core/Git/GPG/性能结果，各自核对架构/签名/完整性。当前workflow仍每次PR更新触发，此轮只改文档，不能说实际CI已加速。
+- 现有网页“导入客户端”仍是下载JSON+提示，客户端AppPreferences只保存一个customTheme；新URI传递当前编辑快照而非原目录主题。JSON保留v1/17色与64KiB文件上限，库独立版本/ID；URL归一负载8KiB/整URI16KiB，失败提供文件退路，不能截断或虚报唤起成功。
+- Release脚本已有Universal选择，新功能补齐无site提交的发布刷新、有效清单/缓存、同版本三种变体。MacIntel/UA里的Intel不是可靠CPU依据，Client Hints需归一架构/位数，信息不足选Universal且可手动覆盖；不能引入WebGL/跑分识别。实际依据见主计划的MDN链接。
+- 仅把子任务合进同PR仍频繁push不能减少synchronize重CI；工程实现必须调整触发。当前分流把site路径当网站，即使site/README也是Markdown；M0先按纯文档识别，避免文档触发整站构建。主题库改AppPreferences仍是真实业务范围，按依赖验收，不能按名称豁免后端。
+- 此轮是计划/执行规则更新，未改产品/CI源、版本、发布状态或heartbeat；用户PBX差异继续保留。文档修改完成后集中做一次轻量链接/格式检查。
+
+## 2026-11-04 v2.0 完整客户端计划确定
+
+- 用户明确 v1.2 已开发完成，下一版固定 **v2.0**，先覆盖客户端功能，再增加有意义的新 feature。本轮完整计划为 `docs/V2_0_PLAN.md`：13 个 V20 模块、全部 C01～C10 映射、新建/克隆基础入口、补丁完整流程、Liquid Glass 收敛、全页面/阶段/性能/恢复/更新验收；功能尚未实施。
+- PRD、UI/UX、总计划、v1.2 后移项、两个索引和中英文 README 已同步。旧收口建议保留历史；“版本待定”和“v2.0 Provider/AI”不再定义下一版范围。当前平台沿用已发布 v1.2 的 macOS 26+ Universal，不能复制旧候选的 macOS 27+/仅 arm64 限制。
+- 本地没有同步 `v1.2.0-rc.1` tag 不代表未发布。只读 GitHub 核对 tag/Release：固定源码 `127b553f9c35bb5bff7a1c66fa14eacced7d5798`、公开候选、2026-11-04 12:57:45 Asia/Shanghai，DMG 20,984,079 bytes。规划检出 main7190002 与发行来源分别记录，不为文档任务重新构建/打包。
+- Liquid Glass 按层级/用途局部使用，内容层的普通按钮/列表/表单不全局继承；标准 Material 与瞬时交互例外保留。多窗口草稿/写队列、补丁的文件变化与创建提交、Reflog 与未提交内容备份、v1.2 首次安装与 v2.0 后更新必须分别设计。
+- 验证遵守最新 AGENTS：文档轻量链接；视图/UI 源只编译；site/工具执行对应检查；真实后端代码变化才触发 Core/Git/GPG/后端性能/包长流程。阶段/版本实际原生验收独立安排，本机不执行 XCTest。既有延期不变成已通过，v1.2 开发不重开。
+- 本轮仅编辑文档，保留用户 PBX 差异；其 SHA256 为 `d08f03d9c5d63698478c56f2997361935e63b98d80eddbcd78dd602fcf8e5685`。未修改产品版本、功能代码、系统状态、heartbeat 或发布配置。
+- 计划完整性与轻量验证：13 个模块/46 个唯一子任务；12 份文档共259个本地链接及2个 v2.0 锚点通过，差异格式通过，用户 PBX 摘要保持。没有执行 XCTest、Core/GPG、性能采样或客户端打包。
+
+## 2026-11-04 Liquid Glass 官方使用边界
+
+- 本轮从 Apple HIG `Materials` 的官方 Markdown 核对：Liquid Glass 属于浮在内容之上的导航/控制层，明确要求不在内容层使用；内容层可使用 standard materials，不能将普通半透明/NSVisualEffectView 材质与 Liquid Glass 混为一谈。滑块、开关等瞬时交互元素在激活时呈现玻璃是官方例外。来源：[Apple HIG Materials](https://developer.apple.com/design/human-interface-guidelines/materials)。
+- 按角色与层级判断，不能只按顶部/底部位置判断：工具栏、侧栏导航、浮动控制条可属于玻璃层；Diff 代码、文件/提交列表、表格、普通表单和常驻行内操作应保持内容层的稳定呈现。WWDC25 `Meet Liquid Glass` 明确避免 glass on glass；WWDC26 SwiftUI Group Lab 也说明工具栏/导航按钮由系统提供正确材质，不应重复手工叠加。来源：[Meet Liquid Glass](https://developer.apple.com/videos/play/wwdc2025/219/) 和 [SwiftUI Group Lab](https://developer.apple.com/videos/play/wwdc2026/8120/)。
+- 当前源码在 `WeGitApp` 的主窗口/Settings，以及 `workbenchSheet` 上统一安装 `workbenchControlFamily()`；非工具栏分支默认 `.glass`，主要操作为 `.glassProminent`，Composer 也显式使用。API 能应用于任意 View 不代表 HIG 建议所有内容按钮都使用玻璃。后续收敛需取消内容层的全局玻璃继承，按导航/浮动控制的真实用途局部采用；本轮仅核对规范与源码、补充交接，未实施界面调整或新增验收结论。
+
 ## 2026-11-04 RC 发布结果与接续验收
 
 - 接续来源聊天 `01a1a3c0-7d48-7342-b3f6-1414b31fd2d8`。PR112 的最终候选 `8eacbd394fd78170b6d1b01174a75c9a96a1b7de` / CI41756668114 已实际成功；完整原生制品 19,880,881 bytes / 39 CRC 项 / SHA256 `42601df729e2a6edbf4d81719631779388788a538472a95c9f35b7c237b24e69` 已下载核验。365 包来源与195应用输入逐 SHA 匹配候选，三套 Git 各266测试/47组、9+9隔离签名、五份共450有效性能样本按原预算独立重算通过。托管预览 DMG 为20,980,326/59,491,938 bytes；它仍是开发标识、PR合成源的制品，不冒充最终 Release。

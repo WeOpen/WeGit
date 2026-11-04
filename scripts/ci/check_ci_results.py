@@ -14,6 +14,10 @@ def required_results(needs):
         raise ValueError("Missing or invalid change scope outputs")
     if outputs["backend_changed"] == "true" and outputs["policy_changed"] != "true":
         raise ValueError("Backend code changes must include repository validation")
+    if outputs.get("validation_requested") not in {"true", "false"}:
+        raise ValueError("Missing batch validation decision")
+    if outputs["validation_requested"] == "false":
+        raise ValueError("This head awaits batch validation. Mark the draft ready or reapply batch:validate to this stable head.")
     required = [job for key, job in flags.items() if outputs[key] == "true"]
     for key in required:
         if needs.get(key, {}).get("result") != "success":

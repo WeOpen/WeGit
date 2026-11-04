@@ -17,7 +17,7 @@ class ChangeScopeTests(unittest.TestCase):
     def test_site_and_its_compatibility_entries_skip_unrelated_checks(self):
         for paths in [["site/src/routes/index.tsx"], ["site/package-lock.json", "site/tests/new.test.mjs"],
                       ["scripts/build_website.py"], ["scripts/ci/tests/test_website.py"],
-                      ["site/README.md", "HANDOFF.MD"], ["site/目录/换行\n名.svg"]]:
+                      ["site/src/index.tsx", "site/README.md", "HANDOFF.MD"], ["site/目录/换行\n名.svg"]]:
             with self.subTest(paths=paths):
                 self.assertTrue(classify(paths)["site_only"])
                 self.assertTrue(classify(paths)["site_changed"])
@@ -30,7 +30,27 @@ class ChangeScopeTests(unittest.TestCase):
             with self.subTest(paths=paths):
                 self.assertFalse(classify(paths)["site_only"])
         self.assertTrue(classify(["design/brand/source/git-symbol.svg"])["site_changed"])
-        self.assertTrue(classify([".github/workflows/verify.yml"])["site_changed"])
+        self.assertFalse(classify([".github/workflows/verify.yml"])["site_changed"])
+
+    def test_documentation_is_identified_before_site_prefix(self):
+        for paths in [["site/README.md", "HANDOFF.MD"], ["site/guide.MD", "docs/V2_0_PLAN.md"], ["site/docs/help.txt"]]:
+            scope = classify(paths)
+            self.assertTrue(scope["docs_only"])
+            self.assertFalse(scope["site_changed"])
+            self.assertFalse(scope["backend_changed"])
+
+    def test_drafts_and_middle_heads_wait_for_a_deliberate_batch_request(self):
+        from change_scope import validation_requested
+        scope = classify(["WeGitCore/GitCore/GitEngine.swift"])
+        for action in ["synchronize", "reopened", "converted_to_draft", "edited", "unlabeled"]:
+            event = {"action": action, "pull_request": {"draft": False, "labels": [{"name": "batch:validate"}]}}
+            self.assertFalse(validation_requested(event, "pull_request", scope))
+        for action in ["opened", "ready_for_review", "labeled"]:
+            event = {"action": action, "label": {"name": "batch:validate"}, "pull_request": {"draft": False}}
+            self.assertTrue(validation_requested(event, "pull_request", scope))
+            event["pull_request"]["draft"] = True
+            self.assertFalse(validation_requested(event, "pull_request", scope))
+        self.assertTrue(validation_requested({"action": "synchronize"}, "pull_request", classify(["site/README.md"])))
 
     def test_only_backend_code_schedules_costly_backend_validation(self):
         for path in ["WeGitCore/GitCore/GitEngine.swift", "WeGitCore/Infrastructure/ProcessRunner.swift",
@@ -135,7 +155,7 @@ class GitRangeTests(unittest.TestCase):
         base = self.commit("main advances")
         paths = changed_paths(self.root, self.pr(base, head), "pull_request")
         self.assertEqual(paths, ["site/README.md"])
-        self.assertTrue(classify(paths)["site_only"])
+        self.assertTrue(classify(paths)["docs_only"])
 
     def test_push_range_covers_all_commits(self):
         self.write("WeGitCore/source.swift", "native change\n")
@@ -179,7 +199,8 @@ class GitRangeTests(unittest.TestCase):
 class RequiredResultTests(unittest.TestCase):
     def needs(self, backend=False, site=True, policy=False, frontend=False, tests=False, docs=False):
         values = {"backend_changed":backend, "policy_changed":backend or policy, "site_changed":site,
-                  "frontend_changed":frontend, "core_tests_changed":tests, "docs_only":docs}
+                  "frontend_changed":frontend, "core_tests_changed":tests, "docs_only":docs,
+                  "validation_requested":True}
         return {"changes":{"result":"success","outputs":{key:str(value).lower() for key,value in values.items()}},
                 "policy":{"result":"success" if backend or policy else "skipped"},
                 "native":{"result":"success" if backend else "skipped"},
@@ -220,6 +241,13 @@ class RequiredResultTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 required_results(needs)
 
+    def test_deferred_backend_never_passes_by_skipping_its_required_job(self):
+        needs = self.needs(backend=True)
+        needs["changes"]["outputs"]["validation_requested"] = "false"
+        needs["native"]["result"] = "skipped"
+        with self.assertRaisesRegex(ValueError, "awaits batch validation"):
+            required_results(needs)
+
 
 class WorkflowRoutingTests(unittest.TestCase):
     def setUp(self):
@@ -236,10 +264,10 @@ class WorkflowRoutingTests(unittest.TestCase):
 
     def test_site_scope_controls_all_unrelated_validation_jobs(self):
         self.assertEqual(self.ci["jobs"]["policy"]["if"], "needs.changes.outputs.policy_changed == 'true'")
-        self.assertEqual(self.ci["jobs"]["native"]["if"], "needs.changes.outputs.backend_changed == 'true'")
+        self.assertEqual(self.ci["jobs"]["native"]["if"], "needs.changes.outputs.backend_changed == 'true' && needs.changes.outputs.validation_requested == 'true'")
         pr = yaml.load((self.root / ".github/workflows/pr-policy.yml").read_text(), Loader=Loader)
         self.assertEqual(pr["jobs"]["pr-policy"]["if"], "needs.changes.outputs.backend_changed == 'true'")
-        self.assertEqual(self.ci["jobs"]["site"]["if"], "needs.changes.outputs.site_changed == 'true'")
+        self.assertEqual(self.ci["jobs"]["site"]["if"], "needs.changes.outputs.site_changed == 'true' && needs.changes.outputs.validation_requested == 'true'")
 
     def test_site_pr_validation_is_not_duplicated_in_deployment_workflows(self):
         for name in ["pages.yml", "workers.yml"]:
