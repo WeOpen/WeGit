@@ -18,7 +18,6 @@ private final class RecoveryCaptureResults: @unchecked Sendable {
     }
 }
 
-
 /// Durable per-worktree storage, anchored at the opened Git directory. Flat UUID
 /// directories contain bounded regular files, never arbitrary user paths.
 final class RecoveryStore: @unchecked Sendable {
