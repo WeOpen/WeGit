@@ -10,6 +10,7 @@
 - release resolve仍要求tag的实际可信main CI中Repository policy与Native macOS均成功。构建作业据此只重建正式标识Universal制品并完整验包，不重复同源码已通过的Core/最低Git及450样本重流程；stable仍额外要求canonical Full acceptance。不能以PR的合成SHA或文档分流的skipped Native替代此来源。
 - 网站优先同版本Universal DMG，并在旧stable仍为ZIP时选择公开Universal候选；仍优先Universal稳定版且保留旧ZIP下载。draft不成为下载，DMG缺少对应校验/manifest不下载。双语兼容文案与RC状态同步；旧“页面不得出现Intel”断言按新支持范围更新。
 - 本机默认npm缓存出现EACCES/EEXIST rename。依赖安装改用本任务`.build`私有cache，不删除或修复用户HOME缓存，不使用`--force`。工具/网站/构建证据保留在`.build/release-1.2-preflight/`。
+- 未安装Rosetta的Apple Silicon主机只列出arm64和Any Mac目的地，不能为单独x86_64编译强制选择当前机器。`build.sh`跨架构改用generic macOS，支持任务专用`WEGIT_DERIVED_DATA_PATH`；已在隔离目录实际执行README的Debug x86_64命令并核对主程序、Debug dylib和AskPass均为x86_64/minimum26。只编译不执行，用户正在运行的Debug路径没有被Intel薄包替换。
 - 用户请求发布Release；当前按公开1.2.0-rc.1准备，stable同提交Full acceptance门禁保持。GitHub专用runner目前为0，Intel硬件/macOS26实际运行、受保护安装、完整VoiceOver、整版UI性能与外部Beta保持各自待验，不将既有延期或当前编译结果称为这些验收通过。初始PBX的InteractiveRebaseSheet自动ID变更已单独备份，保持在本地未提交差异，避免混入本次PR。
 
 ## 2026-11-03 后端触发规则已集成与轻量验证
