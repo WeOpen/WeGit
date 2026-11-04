@@ -101,7 +101,7 @@ extension RepositoryService {
     {
         try await queue.perform {
             let store = try RecoveryStore(location: location)
-            let (files, index) = try await store.capture(record)
+            let (files, index, shared) = try await store.capture(record)
             return try await SnapshotIO.run { cancellation in
                 let destination = parent.resolvingSymlinksInPath()
                 let identity = try RepositoryNodeIdentity.read(destination, directory: true)
@@ -128,6 +128,7 @@ extension RepositoryService {
                     guard fsync(fd) == 0 else { throw ProcessFailure.outputWrite(errno) }
                 }
                 if let index { try write("index", index) }
+                if let shared { try write(shared.file.name, shared.data) }
                 for file in files {
                     guard let snapshot = file.snapshot else { continue }
                     guard
@@ -150,6 +151,22 @@ extension RepositoryService {
         async throws -> ResetPlan
     {
         try await queue.perform {
+            let index = try SelectedIndexSnapshot.read(location: location)
+            let listing = try await recoveryEngine.run(
+                ["ls-files", "--stage", "-v", "-z"], in: location.root,
+                outputLimit: 32 * 1024 * 1024
+            ).stdout
+            let entries = try recoveryIndexEntries(listing, requireOrdinary: mode != .soft)
+            let sharedIndex = try await captureRecoverySharedIndex(index)
+            guard mode == .soft || sharedIndex == nil else {
+                throw ModelFailure.unsupported(L10n.text("此索引使用拆分存储；请先使用 Soft Reset 保留暂存区。"))
+            }
+            // Read every indexed regular entry before status. This also fences
+            // files that were clean in the preview and must never lose later edits.
+            let indexedFiles =
+                mode == .hard
+                ? try await RecoveryFileIO.metadataAll(
+                    location: location, paths: entries.filter { $0.value != "160000" }.keys.sorted()) : []
             let state = try await status()
             guard let head = state.head, state.sequencer == .none, state.conflicts.isEmpty else {
                 throw ModelFailure.unsupported(L10n.text("Reset 需要已有提交，并先完成当前 Git 操作。"))
@@ -157,20 +174,6 @@ extension RepositoryService {
             let reader = RepositoryService(location: location, engine: recoveryEngine, queue: queue)
             let commit = try await reader.readCommit(target)
             try await verifyResetSource(sourceRef, target: commit.id)
-            let index = try SelectedIndexSnapshot.read(location: location)
-            let listing = try await recoveryEngine.run(
-                ["ls-files", "--stage", "-v", "-z"], in: location.root,
-                outputLimit: 32 * 1024 * 1024
-            ).stdout
-            let entries = try recoveryIndexEntries(listing, requireOrdinary: mode != .soft)
-            if mode != .soft {
-                let shared = try await recoveryEngine.run(
-                    ["rev-parse", "--shared-index-path"], in: location.root
-                ).stdout
-                guard shared.isEmpty || shared == Data([10]) else {
-                    throw ModelFailure.unsupported(L10n.text("此索引使用拆分存储；请先使用 Soft Reset 保留暂存区。"))
-                }
-            }
             let changed = try await recoveryEngine.run(
                 ["diff", "--no-ext-diff", "--no-renames", "--name-only", "-z", head, commit.id, "--"],
                 in: location.root, outputLimit: 32 * 1024 * 1024
@@ -212,21 +215,26 @@ extension RepositoryService {
                 try await StashWorktreeGuard.validate(
                     paths: paths, tracked: Set(entries.keys), location: location,
                     allowedDirectories: currentSubmodules)
-                captures = try await captureRecoveryFiles(filePaths.sorted())
+                captures = try await captureRecoveryFiles(
+                    filePaths.sorted(),
+                    limit: RecoveryBudget.bytes - (index.bytes?.count ?? 0) - (sharedIndex?.data.count ?? 0))
             }
             let refs = try await recoveryEngine.run(
                 ["for-each-ref", "--contains=" + head, "--format=%(refname)", "refs/remotes"],
                 in: location.root, outputLimit: 64 * 1024
             ).text.split(separator: "\n").map(String.init)
             try await verifyHead(head)
-            let fresh = try await status()
-            guard fresh.branch == state.branch, fresh.files == state.files, fresh.sequencer == .none,
+            let fresh = try await recoveryContext()
+            guard fresh.head == head, fresh.branch == state.branch,
                 try SelectedIndexSnapshot.read(location: location) == index
             else { throw ModelFailure.changed }
+            try await RecoveryFileIO.verifyMetadataAll(indexedFiles, location: location)
+            try await RecoveryFileIO.verifyAll(captures, location: location)
+            try await verifyRecoverySharedIndex(sharedIndex)
             return ResetPlan(
                 id: UUID(), mode: mode, target: commit, head: head, branch: state.branch,
                 files: paths.sorted(), publishedTrackingRefs: refs, location: location,
-                index: index, captures: captures, statusFiles: state.files,
+                index: index, captures: captures, indexedFiles: indexedFiles, sharedIndex: sharedIndex,
                 sourceRef: sourceRef, trackedPaths: Set(entries.keys), submoduleDirectories: currentSubmodules
             )
         }
@@ -241,16 +249,18 @@ extension RepositoryService {
             var record = try await store.persist(
                 operation: "reset-" + plan.mode.rawValue, head: plan.head,
                 branch: plan.branch, target: plan.target.id,
-                index: plan.index, files: plan.captures)
+                index: plan.index, files: plan.captures, sharedIndex: plan.sharedIndex)
             do {
+                record.indexTree = try await recoveryIndexTree(
+                    plan.index.bytes, shared: plan.sharedIndex, persist: true)
+                try store.save(record)
                 try await protectRecovery(record)
                 try await validateReset(plan)
                 _ = try await recoveryEngine.run(
                     ["reset", "--" + plan.mode.rawValue, "--no-recurse-submodules", plan.target.id],
                     in: location.root, timeout: 120)
-                let observed = try await status()
-                guard observed.head == plan.target.id, observed.branch == plan.branch,
-                    observed.sequencer == .none
+                let observed = try await recoveryContext()
+                guard observed.head == plan.target.id, observed.branch == plan.branch
                 else {
                     throw ModelFailure.changed
                 }
@@ -297,8 +307,8 @@ extension RepositoryService {
     private func validateReset(_ plan: ResetPlan) async throws {
         try await verifyHead(plan.head)
         try await verifyResetSource(plan.sourceRef, target: plan.target.id)
-        let state = try await status()
-        guard state.branch == plan.branch, state.sequencer == .none, state.files == plan.statusFiles,
+        let state = try await recoveryContext()
+        guard state.head == plan.head, state.branch == plan.branch,
             try SelectedIndexSnapshot.read(location: location) == plan.index
         else { throw ModelFailure.changed }
         if plan.mode == .hard {
@@ -306,7 +316,9 @@ extension RepositoryService {
                 paths: Set(plan.files), tracked: plan.trackedPaths,
                 location: location, allowedDirectories: plan.submoduleDirectories)
         }
+        try await RecoveryFileIO.verifyMetadataAll(plan.indexedFiles, location: location)
         try await RecoveryFileIO.verifyAll(plan.captures, location: location)
+        try await verifyRecoverySharedIndex(plan.sharedIndex)
         try await verifyHead(plan.head)
     }
 
@@ -314,20 +326,40 @@ extension RepositoryService {
         async throws -> RecoveryRestorePlan
     {
         try await queue.perform {
-            let state = try await status()
-            guard state.sequencer == .none, state.conflicts.isEmpty else {
+            let state = try await recoveryContext()
+            let snapshot = try SelectedIndexSnapshot.read(location: location)
+            let currentSharedIndex = try await captureRecoverySharedIndex(snapshot)
+            let unmerged = try await recoveryEngine.run(
+                ["ls-files", "--unmerged", "-z"], in: location.root,
+                outputLimit: 32 * 1024 * 1024)
+            guard unmerged.stdout.isEmpty else {
                 throw ModelFailure.unsupported(L10n.text("请先完成当前 Git 操作，再恢复备份。"))
             }
             let store = try RecoveryStore(location: location)
-            let (source, index) = try await store.capture(record)
-            let current = try await captureRecoveryFiles(layer == .index ? [] : record.files.map(\.path))
-            let snapshot = try SelectedIndexSnapshot.read(location: location)
+            async let saved = store.capture(
+                record, includeFiles: layer != .index, includeIndex: layer != .worktree)
+            async let captured = captureRecoveryFiles(
+                layer == .index ? [] : record.files.map(\.path),
+                limit: RecoveryBudget.bytes - (snapshot.bytes?.count ?? 0)
+                    - (currentSharedIndex?.data.count ?? 0))
+            let ((source, index, sourceSharedIndex), current) = try await (saved, captured)
+            if layer != .worktree {
+                let tree = try await recoveryIndexTree(index, shared: sourceSharedIndex, persist: false)
+                guard record.indexTree == nil || record.indexTree == tree else { throw ModelFailure.changed }
+            }
             try await verifyHead(state.head)
+            let final = try await recoveryContext()
+            guard final.head == state.head, final.branch == state.branch,
+                try SelectedIndexSnapshot.read(location: location) == snapshot
+            else { throw ModelFailure.changed }
+            try await RecoveryFileIO.verifyAll(current, location: location)
+            try await verifyRecoverySharedIndex(currentSharedIndex)
             return RecoveryRestorePlan(
                 id: UUID(), record: record, layer: layer,
                 currentHead: state.head, currentBranch: state.branch,
                 location: location, index: snapshot, currentFiles: current,
-                sourceFiles: source, sourceIndex: index)
+                sourceFiles: source, sourceIndex: index, sourceSharedIndex: sourceSharedIndex,
+                currentSharedIndex: currentSharedIndex)
         }
     }
 
@@ -335,22 +367,32 @@ extension RepositoryService {
         try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.changed }
             try await verifyHead(plan.currentHead)
-            let state = try await status()
-            guard state.branch == plan.currentBranch, state.sequencer == .none,
+            let state = try await recoveryContext()
+            guard state.head == plan.currentHead, state.branch == plan.currentBranch,
                 try SelectedIndexSnapshot.read(location: location) == plan.index
             else { throw ModelFailure.changed }
             try await RecoveryFileIO.verifyAll(plan.currentFiles, location: location)
+            try await verifyRecoverySharedIndex(plan.currentSharedIndex)
             let store = try RecoveryStore(location: location)
             guard try store.record(plan.record.id) == plan.record else { throw ModelFailure.changed }
             try await trimRecovery(store, preserving: plan.record.id)
             var backup = try await store.persist(
                 operation: "restore-backup", head: plan.currentHead, branch: plan.currentBranch,
-                target: nil, index: plan.index, files: plan.currentFiles)
+                target: nil, index: plan.index, files: plan.currentFiles, sharedIndex: plan.currentSharedIndex
+            )
             do {
+                backup.indexTree = try await recoveryIndexTree(
+                    plan.index.bytes, shared: plan.currentSharedIndex, persist: true)
+                try store.save(backup)
                 try await protectRecovery(backup)
                 let lease = try SelectedIndexLease(location: location, snapshot: plan.index)
                 try await verifyHead(plan.currentHead)
-                if plan.layer != .worktree, let bytes = plan.sourceIndex { try lease.write(bytes) }
+                if plan.layer != .worktree {
+                    if let shared = plan.sourceSharedIndex { try lease.installShared(shared) }
+                    if let bytes = plan.sourceIndex {
+                        try lease.write(bytes, mode: mode_t(plan.record.indexMode))
+                    }
+                }
                 if plan.layer != .index {
                     try await RecoveryFileIO.installAll(
                         sources: plan.sourceFiles, expected: plan.currentFiles, location: location)
@@ -365,7 +407,10 @@ extension RepositoryService {
                         throw ModelFailure.changed
                     }
                 } else {
-                    guard try SelectedIndexSnapshot.read(location: location).bytes == plan.sourceIndex else {
+                    let restoredIndex = try SelectedIndexSnapshot.read(location: location)
+                    guard restoredIndex.bytes == plan.sourceIndex,
+                        plan.sourceIndex == nil || restoredIndex.mode == mode_t(plan.record.indexMode)
+                    else {
                         throw ModelFailure.changed
                     }
                 }
@@ -390,6 +435,32 @@ extension RepositoryService {
         }
     }
 
+    /// These checks need repository identity and Git state, not a repeat content
+    /// scan. Raw index and all affected/indexed entry versions are fenced separately.
+    private func recoveryContext() async throws -> (head: String?, branch: String) {
+        async let head = head()
+        async let symbolic = recoveryEngine.run(
+            ["symbolic-ref", "--quiet", "HEAD"], in: location.root, accepted: [0, 1])
+        let (current, reference) = try await (head, symbolic)
+        let name = reference.text.removingLastNewline
+        guard reference.exitCode == 1 || name.hasPrefix("refs/heads/") else { throw ModelFailure.changed }
+        try await SnapshotIO.run { cancellation in
+            for path in [
+                "rebase-merge", "rebase-apply", "MERGE_HEAD", "CHERRY_PICK_HEAD", "REVERT_HEAD", "sequencer",
+            ] {
+                try cancellation.check()
+                guard
+                    try RepositoryNodeIdentity.readIfPresent(location.gitDirectory.appending(path: path))
+                        == nil
+                else {
+                    throw ModelFailure.unsupported(L10n.text("请先完成当前 Git 操作，再恢复备份。"))
+                }
+            }
+            try location.validateIdentity()
+        }
+        return (current, reference.exitCode == 1 ? "(detached)" : String(name.dropFirst("refs/heads/".count)))
+    }
+
     private func verifyResetSource(_ ref: String?, target: String) async throws {
         guard let ref else { return }
         guard ref.hasPrefix("refs/heads/") || ref.hasPrefix("refs/remotes/") || ref.hasPrefix("refs/tags/")
@@ -405,30 +476,50 @@ extension RepositoryService {
         "refs/wegit/recovery/" + record.id.uuidString.lowercased()
     }
 
+    private func recoveryIndexRef(_ record: RecoveryRecord) -> String {
+        "refs/wegit/recovery-index/" + record.id.uuidString.lowercased()
+    }
+
     private func protectRecovery(_ record: RecoveryRecord) async throws {
-        guard let head = record.head else { return }
-        try await verifyCommit(head)
-        _ = try await recoveryEngine.run(
-            [
-                "update-ref", "--no-deref", recoveryRef(record), head,
-                String(repeating: "0", count: head.count),
-            ], in: location.root)
+        var commands = ["start"]
+        if let head = record.head {
+            try await verifyCommit(head)
+            commands.append("create " + recoveryRef(record) + " " + head)
+        }
+        if let tree = record.indexTree {
+            commands.append("create " + recoveryIndexRef(record) + " " + tree)
+        }
+        if commands.count > 1 {
+            commands += ["prepare", "commit"]
+            _ = try await recoveryEngine.run(
+                ["update-ref", "--no-deref", "--stdin"], in: location.root,
+                input: Data((commands.joined(separator: "\n") + "\n").utf8))
+        }
     }
 
     private func removeRecovery(_ record: RecoveryRecord, store: RecoveryStore) async throws {
         guard try store.record(record.id) == record else { throw ModelFailure.changed }
-        if let head = record.head {
-            let ref = recoveryRef(record)
+        try await SnapshotIO.run { _ in try store.validateRemoval(record) }
+        var commands = ["start"]
+        for (ref, object) in [
+            (recoveryRef(record), record.head), (recoveryIndexRef(record), record.indexTree),
+        ] {
+            guard let object else { continue }
             let symbolic = try await recoveryEngine.run(
                 ["symbolic-ref", "-q", ref], in: location.root, accepted: [0, 1])
             guard symbolic.exitCode == 1 else { throw ModelFailure.changed }
             let value = try await recoveryEngine.run(
                 ["rev-parse", "--verify", ref], in: location.root, accepted: [0, 128])
             if value.exitCode == 0 {
-                guard value.text.removingLastNewline == head else { throw ModelFailure.changed }
-                _ = try await recoveryEngine.run(
-                    ["update-ref", "--no-deref", "-d", ref, head], in: location.root)
+                guard value.text.removingLastNewline == object else { throw ModelFailure.changed }
+                commands.append("delete " + ref + " " + object)
             }
+        }
+        if commands.count > 1 {
+            commands += ["prepare", "commit"]
+            _ = try await recoveryEngine.run(
+                ["update-ref", "--no-deref", "--stdin"], in: location.root,
+                input: Data((commands.joined(separator: "\n") + "\n").utf8))
         }
         try await SnapshotIO.run { _ in try store.remove(record) }
     }
@@ -445,8 +536,10 @@ extension RepositoryService {
         }
     }
 
-    func captureRecoveryFiles(_ paths: [String]) async throws -> [RecoveryFileCapture] {
-        try await RecoveryFileIO.captureAll(location: location, paths: paths)
+    func captureRecoveryFiles(_ paths: [String], limit: Int = RecoveryBudget.bytes) async throws
+        -> [RecoveryFileCapture]
+    {
+        try await RecoveryFileIO.captureAll(location: location, paths: paths, limit: limit)
     }
 
     func recoveryPaths(_ data: Data) throws -> [String] {

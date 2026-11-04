@@ -36,6 +36,181 @@ private actor IndexEditAfterReset: ProcessRunning {
 }
 
 struct RecoveryTests {
+    @Test func unexpectedRecordContentsPreventCleanupBeforeAnyProtectionRefIsRemoved() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\n")
+        let oldHead = try await f.commit("Current")
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .hard))
+        try f.write(".git/wegit-recovery/" + record.id.uuidString + "/unexpected", "retain this\n")
+        await #expect(throws: ModelFailure.self) { try await f.service.removeRecoveryRecord(record) }
+        let suffix = record.id.uuidString.lowercased()
+        #expect(
+            try await f.engine.run(["rev-parse", "refs/wegit/recovery/" + suffix], in: f.root).text
+                .removingLastNewline == oldHead)
+        #expect(
+            try await f.engine.run(["rev-parse", "refs/wegit/recovery-index/" + suffix], in: f.root).text
+                .removingLastNewline == record.indexTree)
+    }
+
+    @Test func changedIndexProtectionRefPreventsCleanupFromRemovingTheHeadProtectionRef() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\n")
+        let oldHead = try await f.commit("Current")
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .hard))
+        let suffix = record.id.uuidString.lowercased()
+        let indexRef = "refs/wegit/recovery-index/" + suffix
+        let targetTree = try await f.engine.run(["rev-parse", target + "^{tree}"], in: f.root).text
+            .removingLastNewline
+        _ = try await f.engine.run(
+            ["update-ref", indexRef, targetTree, try #require(record.indexTree)], in: f.root)
+        await #expect(throws: ModelFailure.self) { try await f.service.removeRecoveryRecord(record) }
+        #expect(
+            try await f.engine.run(["rev-parse", "refs/wegit/recovery/" + suffix], in: f.root).text
+                .removingLastNewline == oldHead)
+        #expect(try await f.service.recoveryRecords().contains { $0.id == record.id })
+    }
+
+    @Test func symbolicLinkRecoveryPreservesNondefaultPermissionsWithoutFollowingItsTarget() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("link", "regular target\n")
+        let target = try await f.commit("Target")
+        let path = f.root.appending(path: "link")
+        try FileManager.default.removeItem(at: path)
+        try FileManager.default.createSymbolicLink(atPath: path.path, withDestinationPath: "missing-target")
+        #expect(lchmod(path.path, 0o700) == 0)
+        _ = try await f.commit("Link")
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .hard))
+        _ = try await f.service.executeRecoveryRestore(f.service.prepareRecoveryRestore(record))
+        var info = stat()
+        #expect(lstat(path.path, &info) == 0 && info.st_mode & 0o777 == 0o700)
+        #expect(try FileManager.default.destinationOfSymbolicLink(atPath: path.path) == "missing-target")
+        #expect(!FileManager.default.fileExists(atPath: f.root.appending(path: "missing-target").path))
+    }
+
+    @Test func stagedObjectsSurvivePruneAndRecoveryRestoresOriginalIndexPermissions() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\n")
+        let head = try await f.commit("Current")
+        try f.write("file", "new staged bytes\n")
+        try await f.service.stage(paths: ["file"], expectedHead: head)
+        let staged = try await f.engine.run(["rev-parse", ":file"], in: f.root).text.removingLastNewline
+        try f.write("file", "unstaged private bytes\r\nlast")
+        let indexURL = f.service.location.gitDirectory.appending(path: "index")
+        try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: indexURL.path)
+        let original = try Data(contentsOf: indexURL)
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .hard))
+        #expect(record.indexTree != nil && record.indexMode == 0o600)
+        _ = try await f.engine.run(["gc", "--prune=now"], in: f.root)
+        _ = try await f.engine.run(["cat-file", "-e", staged], in: f.root)
+        try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: indexURL.path)
+        _ = try await f.service.executeRecoveryRestore(f.service.prepareRecoveryRestore(record, layer: .both))
+        #expect(try Data(contentsOf: indexURL) == original)
+        #expect(try SelectedIndexSnapshot.read(location: f.service.location).mode == 0o600)
+        #expect(
+            try Data(contentsOf: f.root.appending(path: "file"))
+                == Data("unstaged private bytes\r\nlast".utf8))
+        #expect(try await f.service.head() == target)
+    }
+
+    @Test func splitIndexCompanionCanBeRestoredAfterItsOriginalFileWasRemoved() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\n")
+        let head = try await f.commit("Current")
+        try f.write("file", "staged\n")
+        try await f.service.stage(paths: ["file"], expectedHead: head)
+        _ = try await f.engine.run(["update-index", "--split-index"], in: f.root)
+        let original = try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index"))
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .soft))
+        let shared = try #require(record.sharedIndex)
+        let path = f.service.location.gitDirectory.appending(path: shared.name)
+        let originalShared = try Data(contentsOf: path)
+        _ = try await f.engine.run(["update-index", "--no-split-index"], in: f.root)
+        try FileManager.default.removeItem(at: path)
+        _ = try await f.engine.run(["gc", "--prune=now"], in: f.root)
+        _ = try await f.service.executeRecoveryRestore(
+            f.service.prepareRecoveryRestore(record, layer: .index))
+        #expect(try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index")) == original)
+        #expect(try Data(contentsOf: path) == originalShared)
+        #expect(try await f.engine.run(["show", ":file"], in: f.root).stdout == Data("staged\n".utf8))
+        #expect(try await f.service.head() == target)
+    }
+
+    @Test func indexOnlyRecoveryDoesNotDependOnAnUnselectedDamagedWorkfileBackup() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\n")
+        _ = try await f.commit("Current")
+        let original = try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index"))
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .hard))
+        let blob = f.service.location.gitDirectory.appending(
+            path: "wegit-recovery/" + record.id.uuidString + "/" + record.files[0].storageName)
+        try Data("damaged".utf8).write(to: blob)
+        _ = try await f.service.executeRecoveryRestore(
+            f.service.prepareRecoveryRestore(record, layer: .index))
+        #expect(try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index")) == original)
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("target\n".utf8))
+    }
+
+    @Test func parallelSnapshotBatchesShareOneTotalByteBudget() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let paths = (0..<6).map { "file-\($0)" }
+        for path in paths { try Data(repeating: 65, count: 100).write(to: f.root.appending(path: path)) }
+        await #expect(throws: ModelFailure.self) {
+            _ = try await RecoveryFileIO.captureAll(location: f.service.location, paths: paths, limit: 500)
+        }
+        for path in paths { #expect(try Data(contentsOf: f.root.appending(path: path)).count == 100) }
+    }
+
+    @Test func hardResetRejectsAnEditToAnOriginallyCleanFileOutsideItsBackupList() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("changed", "target\n")
+        try f.write("clean", "unchanged\n")
+        let target = try await f.commit("Target")
+        try f.write("changed", "current\n")
+        let head = try await f.commit("Current")
+        let plan = try await f.service.prepareReset(target: target, mode: .hard)
+        #expect(!plan.files.contains("clean"))
+        try f.write("clean", "new private edit\n")
+        let index = try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index"))
+        await #expect(throws: ModelFailure.self) { _ = try await f.service.executeReset(plan) }
+        #expect(try await f.service.head() == head)
+        #expect(try Data(contentsOf: f.root.appending(path: "clean")) == Data("new private edit\n".utf8))
+        #expect(try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index")) == index)
+        #expect(try await f.service.recoveryRecords().isEmpty)
+    }
+
+    @Test func aNewSequencerMarkerInvalidatesResetBeforeAnyBackupOrWrite() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\n")
+        let head = try await f.commit("Current")
+        let plan = try await f.service.prepareReset(target: target, mode: .hard)
+        try f.write(".git/MERGE_HEAD", head + "\n")
+        await #expect(throws: ModelFailure.self) { _ = try await f.service.executeReset(plan) }
+        #expect(try await f.service.head() == head)
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("current\n".utf8))
+        #expect(try await f.service.recoveryRecords().isEmpty)
+    }
+
     @Test func externalIndexChangeAfterResetCannotBeReportedAsVerifiedSuccess() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }

@@ -86,11 +86,16 @@ final class RecoveryStore: @unchecked Sendable {
         guard record.format == 1, record.id == id, record.workspaceID == location.persistenceID,
             record.files.count <= RecoveryBudget.files,
             record.indexBytes >= 0, record.indexBytes <= 32 * 1024 * 1024,
-            Set(record.files.map(\.path)).count == record.files.count
+            record.indexMode <= 0o777,
+            record.indexTree == nil || (record.indexSHA256 != nil && GitObjectID.valid(record.indexTree!)),
+            Set(record.files.map(\.path)).count == record.files.count,
+            Set(record.files.map(\.storageName)).count == record.files.count,
+            record.sharedIndex == nil
+                || (record.indexSHA256 != nil && Self.validSharedIndex(record.sharedIndex!))
         else { throw ModelFailure.changed }
         for file in record.files {
             try RecoveryFileIO.validate(file.path)
-            guard file.bytes >= 0, file.bytes <= RecoveryBudget.bytes,
+            guard file.bytes >= 0, file.bytes <= RecoveryBudget.bytes, file.mode <= 0o777,
                 file.storageName.hasPrefix("blob-"), file.storageName.count <= 32,
                 file.storageName.allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-") }),
                 file.kind == .absent ? file.sha256 == nil && file.bytes == 0 : file.sha256?.count == 64
@@ -100,6 +105,14 @@ final class RecoveryStore: @unchecked Sendable {
         }
         guard record.totalBytes <= RecoveryBudget.bytes else { throw ModelFailure.changed }
         return record
+    }
+
+    static func validSharedIndex(_ value: RecoverySharedIndex) -> Bool {
+        value.name.hasPrefix("sharedindex.")
+            && GitObjectID.valid(String(value.name.dropFirst("sharedindex.".count)))
+            && value.mode <= 0o777 && (0...(32 * 1024 * 1024)).contains(value.bytes)
+            && value.sha256.count == 64
+            && value.sha256.allSatisfy { ("0"..."9").contains($0) || ("a"..."f").contains($0) }
     }
 
     func records() throws -> [RecoveryRecord] {
@@ -138,11 +151,14 @@ final class RecoveryStore: @unchecked Sendable {
 
     @concurrent func persist(
         operation: String, head: String?, branch: String, target: String?,
-        index: SelectedIndexSnapshot, files: [RecoveryFileCapture]
+        index: SelectedIndexSnapshot, files: [RecoveryFileCapture],
+        sharedIndex: RecoverySharedIndexSnapshot? = nil
     ) async throws -> RecoveryRecord {
         try await SnapshotIO.run { [self] cancellation in
             try validate()
-            let size = files.reduce(index.bytes?.count ?? 0) { $0 + $1.file.bytes }
+            let size = files.reduce((index.bytes?.count ?? 0) + (sharedIndex?.data.count ?? 0)) {
+                $0 + $1.file.bytes
+            }
             guard files.count <= RecoveryBudget.files, size <= RecoveryBudget.bytes else {
                 throw RecoveryBudget.exceeded
             }
@@ -160,12 +176,22 @@ final class RecoveryStore: @unchecked Sendable {
                 operation: operation, head: head, branch: branch, target: target,
                 files: files.map(\.file), indexSHA256: index.bytes.map(RecoveryFileIO.hash),
                 indexMode: UInt16(index.mode), indexBytes: index.bytes?.count ?? 0,
+                sharedIndex: sharedIndex?.file, indexTree: nil,
                 state: .prepared, observedHead: nil, details: nil)
             // A crash during copying still leaves a visible prepared record.
             // No Git write begins until every byte below is copied and verified.
             try save(value)
             if let bytes = index.bytes {
                 try write("index", data: bytes, directory: directory, cancellation: cancellation)
+            }
+            if let sharedIndex {
+                guard Self.validSharedIndex(sharedIndex.file),
+                    sharedIndex.data.count == sharedIndex.file.bytes,
+                    RecoveryFileIO.hash(sharedIndex.data) == sharedIndex.file.sha256
+                else { throw ModelFailure.changed }
+                try write(
+                    sharedIndex.file.name, data: sharedIndex.data, directory: directory,
+                    cancellation: cancellation)
             }
             for file in files {
                 try cancellation.check()
@@ -183,13 +209,16 @@ final class RecoveryStore: @unchecked Sendable {
         }
     }
 
-    @concurrent func capture(_ record: RecoveryRecord) async throws -> ([RecoveryFileCapture], Data?) {
+    @concurrent func capture(_ record: RecoveryRecord, includeFiles: Bool = true, includeIndex: Bool = true)
+        async throws
+        -> ([RecoveryFileCapture], Data?, RecoverySharedIndexSnapshot?)
+    {
         try await SnapshotIO.run { [self] cancellation in
             guard try self.record(record.id) == record else { throw ModelFailure.changed }
             let directory = try open(record.id)
             defer { Darwin.close(directory) }
             let index: Data?
-            if let hash = record.indexSHA256 {
+            if includeIndex, let hash = record.indexSHA256 {
                 let bytes = try read("index", in: directory, limit: 32 * 1024 * 1024)
                 guard RecoveryFileIO.hash(bytes) == hash, bytes.count == record.indexBytes else {
                     throw ModelFailure.changed
@@ -198,8 +227,16 @@ final class RecoveryStore: @unchecked Sendable {
             } else {
                 index = nil
             }
+            var sharedIndex: RecoverySharedIndexSnapshot?
+            if includeIndex, let shared = record.sharedIndex {
+                let data = try read(shared.name, in: directory, limit: 32 * 1024 * 1024)
+                guard data.count == shared.bytes, RecoveryFileIO.hash(data) == shared.sha256 else {
+                    throw ModelFailure.changed
+                }
+                sharedIndex = RecoverySharedIndexSnapshot(file: shared, data: data)
+            }
             let storage = try SnapshotDirectory()
-            let files = try record.files.map { file -> RecoveryFileCapture in
+            let files = try (includeFiles ? record.files : []).map { file -> RecoveryFileCapture in
                 if file.kind == .absent {
                     return RecoveryFileCapture(
                         file: file, snapshot: nil, version: nil, parents: [], missingParent: nil)
@@ -282,18 +319,24 @@ final class RecoveryStore: @unchecked Sendable {
                     version: nil, parents: [], missingParent: nil)
             }
             guard try self.record(record.id) == record else { throw ModelFailure.changed }
-            return (files, index)
+            return (files, index, sharedIndex)
         }
     }
 
-    func remove(_ record: RecoveryRecord) throws {
+    func validateRemoval(_ record: RecoveryRecord) throws {
         guard try self.record(record.id) == record else { throw ModelFailure.changed }
         let directory = try open(record.id)
         defer { Darwin.close(directory) }
+        _ = try removalNames(record, directory: directory)
+        try validate()
+    }
+
+    private func removalNames(_ record: RecoveryRecord, directory: Int32) throws -> [String] {
         let names = try FileManager.default.contentsOfDirectory(
             atPath: url.appending(path: record.id.uuidString).path)
         let allowed = Set(
-            record.files.filter { $0.kind != .absent }.map(\.storageName) + ["record.json", "index"])
+            record.files.filter { $0.kind != .absent }.map(\.storageName) + ["record.json", "index"]
+                + (record.sharedIndex.map { [$0.name] } ?? []))
         guard Set(names).isSubset(of: allowed) else { throw ModelFailure.changed }
         for name in names {
             var info = stat()
@@ -301,11 +344,19 @@ final class RecoveryStore: @unchecked Sendable {
                 info.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG), info.st_uid == getuid()
             else { throw ModelFailure.changed }
         }
+        return names
+    }
+
+    func remove(_ record: RecoveryRecord) throws {
+        guard try self.record(record.id) == record else { throw ModelFailure.changed }
+        let directory = try open(record.id)
+        defer { Darwin.close(directory) }
+        let names = try removalNames(record, directory: directory)
         try validate()
         for name in names {
             guard unlinkat(directory, name, 0) == 0 else { throw ProcessFailure.outputWrite(errno) }
         }
-        guard unlinkat(descriptor, record.id.uuidString, AT_REMOVEDIR) == 0 else {
+        guard unlinkat(descriptor, record.id.uuidString, AT_REMOVEDIR) == 0, fsync(descriptor) == 0 else {
             throw ProcessFailure.outputWrite(errno)
         }
     }

@@ -50,6 +50,18 @@ public struct RecoveryFile: Codable, Equatable, Sendable, Identifiable {
     public var id: String { path }
 }
 
+public struct RecoverySharedIndex: Codable, Equatable, Sendable {
+    let name: String
+    let mode: UInt16
+    let bytes: Int
+    let sha256: String
+}
+
+struct RecoverySharedIndexSnapshot: Sendable, Equatable {
+    let file: RecoverySharedIndex
+    let data: Data
+}
+
 public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
     public enum State: String, Codable, Sendable { case prepared, succeeded, needsVerification, restored }
     public let format: Int
@@ -64,6 +76,8 @@ public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
     public let indexSHA256: String?
     public let indexMode: UInt16
     public let indexBytes: Int
+    public let sharedIndex: RecoverySharedIndex?
+    public var indexTree: String?
     public var state: State
     public var observedHead: String?
     public var details: String?
@@ -76,7 +90,7 @@ public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
         default: L10n.text("内容备份")
         }
     }
-    public var totalBytes: Int { files.reduce(indexBytes) { $0 + $1.bytes } }
+    public var totalBytes: Int { files.reduce(indexBytes + (sharedIndex?.bytes ?? 0)) { $0 + $1.bytes } }
 }
 
 public struct ResetPlan: Sendable, Identifiable {
@@ -87,11 +101,14 @@ public struct ResetPlan: Sendable, Identifiable {
     public let branch: String
     public let files: [String]
     public let publishedTrackingRefs: [String]
-    public var backupBytes: Int { captures.reduce(index.bytes?.count ?? 0) { $0 + $1.file.bytes } }
+    public var backupBytes: Int {
+        captures.reduce((index.bytes?.count ?? 0) + (sharedIndex?.data.count ?? 0)) { $0 + $1.file.bytes }
+    }
     let location: RepositoryLocation
     let index: SelectedIndexSnapshot
     let captures: [RecoveryFileCapture]
-    let statusFiles: [FileChange]
+    let indexedFiles: [RecoveryFileMetadata]
+    let sharedIndex: RecoverySharedIndexSnapshot?
     let sourceRef: String?
     let trackedPaths: Set<String>
     let submoduleDirectories: Set<String>
@@ -108,6 +125,8 @@ public struct RecoveryRestorePlan: Sendable, Identifiable {
     let currentFiles: [RecoveryFileCapture]
     let sourceFiles: [RecoveryFileCapture]
     let sourceIndex: Data?
+    let sourceSharedIndex: RecoverySharedIndexSnapshot?
+    let currentSharedIndex: RecoverySharedIndexSnapshot?
 }
 
 public struct RecoveryOutcomeUnknown: Error, LocalizedError, Sendable {
@@ -122,6 +141,7 @@ enum RecoveryBudget {
     static let bytes = 256 * 1024 * 1024
     static let retainedBytes = 1024 * 1024 * 1024
     static let files = 1000
+    static let metadataFiles = 100000
     static let records = 20
     static let days: TimeInterval = 7 * 86400
     static var exceeded: ModelFailure {

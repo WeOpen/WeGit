@@ -28,8 +28,9 @@ struct SelectedIndexSnapshot: Sendable, Equatable {
         return parent
     }
 
-    static func read(parent: Int32) throws -> Self {
-        let fd = openat(parent, "index", O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+    static func read(parent: Int32, name: String = "index") throws -> Self {
+        guard !name.isEmpty, !name.contains("/"), !name.contains("\0") else { throw ModelFailure.changed }
+        let fd = openat(parent, name, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
         if fd < 0 {
             guard errno == ENOENT else { throw ModelFailure.changed }
             return Self(bytes: nil, mode: 0o644)
@@ -52,7 +53,7 @@ struct SelectedIndexSnapshot: Sendable, Equatable {
         }
         var after = stat()
         var named = stat()
-        guard fstat(fd, &after) == 0, fstatat(parent, "index", &named, AT_SYMLINK_NOFOLLOW) == 0,
+        guard fstat(fd, &after) == 0, fstatat(parent, name, &named, AT_SYMLINK_NOFOLLOW) == 0,
             SnapshotFileStamp(before) == SnapshotFileStamp(after),
             SnapshotFileStamp(after) == SnapshotFileStamp(named),
             before.st_dev == named.st_dev, before.st_ino == named.st_ino,
@@ -104,7 +105,7 @@ final class SelectedIndexLease: @unchecked Sendable {
         else { throw ModelFailure.changed }
     }
 
-    func write(_ data: Data) throws {
+    func write(_ data: Data, mode: mode_t? = nil) throws {
         try verify()
         guard data.count <= 32 * 1024 * 1024 else { throw ModelFailure.changed }
         try data.withUnsafeBytes { buffer in
@@ -118,7 +119,7 @@ final class SelectedIndexLease: @unchecked Sendable {
                 offset += count
             }
         }
-        guard fchmod(descriptor, snapshot.mode) == 0, fsync(descriptor) == 0 else {
+        guard fchmod(descriptor, mode ?? snapshot.mode) == 0, fsync(descriptor) == 0 else {
             throw ProcessFailure.outputWrite(errno)
         }
         try verify()
@@ -127,9 +128,37 @@ final class SelectedIndexLease: @unchecked Sendable {
     func install() throws {
         try verify()
         try Task.checkCancellation()
-        guard renameat(parent, "index.lock", parent, "index") == 0 else {
+        guard renameat(parent, "index.lock", parent, "index") == 0, fsync(parent) == 0 else {
             throw ProcessFailure.outputWrite(errno)
         }
+    }
+
+    func installShared(_ shared: RecoverySharedIndexSnapshot) throws {
+        try verify()
+        guard RecoveryStore.validSharedIndex(shared.file), shared.data.count == shared.file.bytes,
+            RecoveryFileIO.hash(shared.data) == shared.file.sha256
+        else { throw ModelFailure.changed }
+        let existing = try SelectedIndexSnapshot.read(parent: parent, name: shared.file.name)
+        guard existing.bytes == nil || existing.bytes == shared.data else { throw ModelFailure.changed }
+        if existing.bytes == shared.data && existing.mode == mode_t(shared.file.mode) { return }
+        let name = "wegit-shared-index-" + UUID().uuidString
+        defer { unlinkat(parent, name, 0) }
+        let output = openat(parent, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }
+        defer { Darwin.close(output) }
+        try RecoveryFileIO.write(shared.data, descriptor: output, cancellation: IOCancellation())
+        guard fchmod(output, mode_t(shared.file.mode)) == 0, fsync(output) == 0 else {
+            throw ProcessFailure.outputWrite(errno)
+        }
+        try verify()
+        guard try SelectedIndexSnapshot.read(parent: parent, name: shared.file.name) == existing else {
+            throw ModelFailure.changed
+        }
+        let result =
+            existing.bytes == nil
+            ? renameatx_np(parent, name, parent, shared.file.name, UInt32(RENAME_EXCL))
+            : renameat(parent, name, parent, shared.file.name)
+        guard result == 0, fsync(parent) == 0 else { throw ProcessFailure.outputWrite(errno) }
     }
 
     func removeIndex() throws {

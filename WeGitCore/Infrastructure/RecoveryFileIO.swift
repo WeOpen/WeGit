@@ -2,6 +2,27 @@ import CryptoKit
 import Darwin
 import Foundation
 
+struct RecoveryFileMetadata: Sendable {
+    let path: String
+    let mode: UInt16
+    let version: SnapshotFileStamp?
+    let parents: [ConflictEditorDirectoryIdentity]
+    let missingParent: String?
+}
+
+private final class RecoveryByteBudget: @unchecked Sendable {
+    private let limit: Int
+    private let lock = NSLock()
+    private var bytes = 0
+    init(limit: Int) { self.limit = limit }
+    func reserve(_ count: Int) throws {
+        try lock.withLock {
+            guard count >= 0, count <= limit - bytes else { throw RecoveryBudget.exceeded }
+            bytes += count
+        }
+    }
+}
+
 struct RecoveryFileCapture: Sendable {
     let file: RecoveryFile
     let snapshot: SnapshotFile?
@@ -16,6 +37,67 @@ struct RecoveryFileCapture: Sendable {
 }
 
 enum RecoveryFileIO {
+    @concurrent static func metadataAll(location: RepositoryLocation, paths: [String]) async throws
+        -> [RecoveryFileMetadata]
+    {
+        guard paths.count <= RecoveryBudget.metadataFiles else { throw RecoveryBudget.exceeded }
+        return try await SnapshotIO.run { cancellation in
+            let fence = try RepositoryReadFence(location: location)
+            var values: [RecoveryFileMetadata] = []
+            values.reserveCapacity(paths.count)
+            for path in paths {
+                try cancellation.check()
+                let parent = try Parent(location: location, path: path, readFence: fence)
+                let missing = try parent.probe()
+                if missing != nil {
+                    values.append(
+                        RecoveryFileMetadata(
+                            path: path, mode: 0o644, version: nil,
+                            parents: parent.identities, missingParent: missing))
+                } else {
+                    let reader = try RepositoryFileReader(
+                        location: location, path: path,
+                        cancellation: cancellation, openContents: false, readFence: fence)
+                    try reader.validate()
+                    values.append(
+                        RecoveryFileMetadata(
+                            path: path, mode: reader.mode, version: reader.version,
+                            parents: parent.identities, missingParent: nil))
+                }
+            }
+            try cancellation.check()
+            try fence.validate()
+            return values
+        }
+    }
+
+    @concurrent static func verifyMetadataAll(_ values: [RecoveryFileMetadata], location: RepositoryLocation)
+        async throws
+    {
+        try await SnapshotIO.run { cancellation in
+            let fence = try RepositoryReadFence(location: location)
+            for value in values {
+                try cancellation.check()
+                let parent = try Parent(location: location, path: value.path, readFence: fence)
+                let missing = try parent.probe()
+                guard parent.identities == value.parents, missing == value.missingParent else {
+                    throw ModelFailure.changed
+                }
+                if let version = value.version {
+                    let reader = try RepositoryFileReader(
+                        location: location, path: value.path,
+                        cancellation: cancellation, openContents: false, readFence: fence)
+                    guard reader.version == version, reader.mode == value.mode else {
+                        throw ModelFailure.changed
+                    }
+                    try reader.validate()
+                }
+            }
+            try cancellation.check()
+            try fence.validate()
+        }
+    }
+
     @concurrent static func verify(_ capture: RecoveryFileCapture, location: RepositoryLocation) async throws
     {
         try await verifyAll([capture], location: location)
@@ -85,32 +167,58 @@ enum RecoveryFileIO {
                 location: location, path: path, name: name, storage: storage, cancellation: cancellation)
         }
     }
-    @concurrent static func captureAll(location: RepositoryLocation, paths: [String]) async throws
+    @concurrent static func captureAll(
+        location: RepositoryLocation, paths: [String], limit: Int = RecoveryBudget.bytes
+    ) async throws
         -> [RecoveryFileCapture]
     {
-        guard paths.count <= RecoveryBudget.files else { throw RecoveryBudget.exceeded }
-        return try await SnapshotIO.run { cancellation in
-            let fence = try RepositoryReadFence(location: location)
-            let storage = try SnapshotDirectory()
-            var values: [RecoveryFileCapture] = []
-            var total = 0
-            for (index, path) in paths.enumerated() {
-                let value = try captureNow(
-                    location: location, path: path, name: "blob-\(index)", storage: storage,
-                    cancellation: cancellation, readFence: fence)
-                total += value.file.bytes
-                guard total <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
-                values.append(value)
+        guard paths.count <= RecoveryBudget.files, (0...RecoveryBudget.bytes).contains(limit) else {
+            throw RecoveryBudget.exceeded
+        }
+        if paths.isEmpty {
+            return try await SnapshotIO.run { cancellation in
+                try cancellation.check()
+                try location.validateIdentity()
+                return []
             }
+        }
+        let (fence, storage) = try await SnapshotIO.run { _ in
+            (try RepositoryReadFence(location: location), try SnapshotDirectory())
+        }
+        let budget = RecoveryByteBudget(limit: limit)
+        // Two bounded batches, never one task or temporary directory per file.
+        let width = (paths.count + 1) / 2
+        let chunks = try await withThrowingTaskGroup(of: (Int, [RecoveryFileCapture]).self) { group in
+            for start in stride(from: 0, to: paths.count, by: width) {
+                group.addTask {
+                    try await SnapshotIO.run { cancellation in
+                        var values: [RecoveryFileCapture] = []
+                        for index in start..<min(paths.count, start + width) {
+                            values.append(
+                                try captureNow(
+                                    location: location, path: paths[index], name: "blob-\(index)",
+                                    storage: storage, cancellation: cancellation, readFence: fence,
+                                    budget: budget))
+                        }
+                        try cancellation.check()
+                        return (start, values)
+                    }
+                }
+            }
+            var result: [(Int, [RecoveryFileCapture])] = []
+            for try await value in group { result.append(value) }
+            return result
+        }
+        try await SnapshotIO.run { cancellation in
             try cancellation.check()
             try fence.validate()
-            return values
         }
+        return chunks.sorted { $0.0 < $1.0 }.flatMap(\.1)
     }
 
     private static func captureNow(
         location: RepositoryLocation, path: String, name: String, storage: SnapshotDirectory?,
-        cancellation: IOCancellation, readFence: RepositoryReadFence? = nil
+        cancellation: IOCancellation, readFence: RepositoryReadFence? = nil, budget: RecoveryByteBudget? = nil
     ) throws -> RecoveryFileCapture {
         try validate(path)
         try cancellation.check()
@@ -127,6 +235,7 @@ enum RecoveryFileIO {
         let reader = try RepositoryFileReader(
             location: location, path: path, cancellation: cancellation, readFence: readFence)
         guard reader.size <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
+        try budget?.reserve(Int(reader.size))
         if try reader.clone(to: directory, name: name) {
             let descriptor = Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
             guard descriptor >= 0 else { throw ModelFailure.changed }
@@ -184,31 +293,58 @@ enum RecoveryFileIO {
     @concurrent static func verifyContentsAll(_ sources: [RecoveryFileCapture], location: RepositoryLocation)
         async throws
     {
-        try await SnapshotIO.run { cancellation in
-            let fence = try RepositoryReadFence(location: location)
-            for source in sources {
-                try cancellation.check()
-                let parent = try Parent(location: location, path: source.file.path, readFence: fence)
-                let missing = try parent.probe()
-                if source.file.kind == .absent {
-                    guard missing != nil else { throw ModelFailure.changed }
-                    continue
-                }
-                guard missing == nil else { throw ModelFailure.changed }
-                let reader = try RepositoryFileReader(
-                    location: location, path: source.file.path, cancellation: cancellation, readFence: fence)
-                guard reader.mode == source.file.mode, reader.size == source.file.bytes,
-                    reader.symbolicLink == (source.file.kind == .symbolicLink)
-                else { throw ModelFailure.changed }
-                var digest = SHA256()
-                try reader.read(limit: RecoveryBudget.bytes) { digest.update(data: $0) }
-                guard hex(digest.finalize()) == source.file.sha256 else {
-                    throw ModelFailure.changed
+        if sources.isEmpty {
+            try location.validateIdentity()
+            return
+        }
+        let fence = try await SnapshotIO.run { _ in try RepositoryReadFence(location: location) }
+        let width = (sources.count + 1) / 2
+        let versions = try await withThrowingTaskGroup(of: [RecoveryFileMetadata].self) { group in
+            for start in stride(from: 0, to: sources.count, by: width) {
+                group.addTask {
+                    try await SnapshotIO.run { cancellation in
+                        var values: [RecoveryFileMetadata] = []
+                        for index in start..<min(sources.count, start + width) {
+                            let source = sources[index]
+                            try cancellation.check()
+                            let parent = try Parent(
+                                location: location, path: source.file.path, readFence: fence)
+                            let missing = try parent.probe()
+                            if source.file.kind == .absent {
+                                guard missing != nil else { throw ModelFailure.changed }
+                                values.append(
+                                    RecoveryFileMetadata(
+                                        path: source.file.path, mode: 0o644, version: nil,
+                                        parents: parent.identities, missingParent: missing))
+                                continue
+                            }
+                            guard missing == nil else { throw ModelFailure.changed }
+                            let reader = try RepositoryFileReader(
+                                location: location, path: source.file.path,
+                                cancellation: cancellation, readFence: fence)
+                            guard reader.mode == source.file.mode, reader.size == source.file.bytes,
+                                reader.symbolicLink == (source.file.kind == .symbolicLink)
+                            else { throw ModelFailure.changed }
+                            var digest = SHA256()
+                            try reader.read(limit: RecoveryBudget.bytes) { digest.update(data: $0) }
+                            guard hex(digest.finalize()) == source.file.sha256 else {
+                                throw ModelFailure.changed
+                            }
+                            values.append(
+                                RecoveryFileMetadata(
+                                    path: source.file.path, mode: reader.mode, version: reader.version,
+                                    parents: parent.identities, missingParent: nil))
+                        }
+                        return values
+                    }
                 }
             }
-            try cancellation.check()
-            try fence.validate()
+            var result: [RecoveryFileMetadata] = []
+            for try await value in group { result.append(contentsOf: value) }
+            return result
         }
+        // An earlier file must still match when the complete verification ends.
+        try await verifyMetadataAll(versions, location: location)
     }
 
     static func hashFile(_ descriptor: Int32, expectedBytes: Int, cancellation: IOCancellation) throws
@@ -475,7 +611,9 @@ enum RecoveryFileIO {
                 throw ModelFailure.changed
             }
             var value = data.map { CChar(bitPattern: $0) } + [0]
-            guard symlinkat(&value, parent.descriptor, candidate) == 0 else {
+            guard symlinkat(&value, parent.descriptor, candidate) == 0,
+                fchmodat(parent.descriptor, candidate, mode_t(source.file.mode), AT_SYMLINK_NOFOLLOW) == 0
+            else {
                 throw ProcessFailure.outputWrite(errno)
             }
         } else {
