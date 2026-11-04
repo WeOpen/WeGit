@@ -131,4 +131,13 @@ final class SelectedIndexLease: @unchecked Sendable {
             throw ProcessFailure.outputWrite(errno)
         }
     }
+
+    func removeIndex() throws {
+        try verify()
+        try Task.checkCancellation()
+        if snapshot.bytes != nil, unlinkat(parent, "index", 0) != 0 {
+            throw ProcessFailure.outputWrite(errno)
+        }
+        guard fsync(parent) == 0 else { throw ProcessFailure.outputWrite(errno) }
+    }
 }

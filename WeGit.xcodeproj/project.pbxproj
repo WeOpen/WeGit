@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E2EC9EDB7BEB3D86547E31A9 /* RecoveryWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF53CC607ACF76B95366298 /* RecoveryWorkflowTests.swift */; };
+		799A751D2607462A12F3FA01 /* RecoverySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99813A81680B94453A1AC8A /* RecoverySheet.swift */; };
 		00AAFCBF1DCE1F67071532FE /* RemoteManagementSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59A2067975DEF7405D91C91 /* RemoteManagementSheet.swift */; };
 		027D8DB609EA5D75075A7E9C /* DiffContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068BBD4E6413E716B2FFF7FB /* DiffContentView.swift */; };
 		03322BAE7ED0FC6D96845DF7 /* WeGitCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB01D429917B5A2D4C811F77 /* WeGitCore */; };
@@ -165,6 +167,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CBF53CC607ACF76B95366298 /* RecoveryWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryWorkflowTests.swift; sourceTree = "<group>"; };
+		E99813A81680B94453A1AC8A /* RecoverySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverySheet.swift; sourceTree = "<group>"; };
 		01E44BC7A4D6B018D185CC84 /* StashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StashView.swift; sourceTree = "<group>"; };
 		029D5F7DBFB1C4F806AEBD78 /* ChangesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesView.swift; sourceTree = "<group>"; };
 		0465095E3E7AE6B70D37D9F9 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -349,6 +353,7 @@
 				D8E000D06F4C77D804675ACE /* SelectedLinesWorkflowTests.swift */,
 				FCB041EA4D090DC5B4972BD5 /* SettingsLifecycleTests.swift */,
 				0674C9E8D60771CC8F639A14 /* SettingsReadingTests.swift */,
+				CBF53CC607ACF76B95366298 /* RecoveryWorkflowTests.swift */,
 				29CD7E24679D72EE466E74D2 /* SingleCommitWorkflowTests.swift */,
 				D90B25A1D5B3C8B9965F208F /* SpecialFileReadingTests.swift */,
 				FABF9BDC6250640F1FEE61EF /* StashWorkflowTests.swift */,
@@ -506,6 +511,7 @@
 				DF7E10D7CCC7BECCD9F40129 /* SelectedLinesSheet.swift */,
 				F3A8CC78668A40CFC111A86F /* SettingsView.swift */,
 				1D73B06EA47A30EF556BB101 /* Sheets.swift */,
+				E99813A81680B94453A1AC8A /* RecoverySheet.swift */,
 				D383F9B7E556B3889501BC97 /* SingleCommitSheet.swift */,
 				20AC571FAE93EE55A0C1CC83 /* StashBrowser.swift */,
 				01E44BC7A4D6B018D185CC84 /* StashView.swift */,
@@ -882,6 +888,7 @@
 				99AD119B6CBDF57A417C25A8 /* SelectedLinesWorkflowTests.swift in Sources */,
 				1AE406C2F035ED897B998FD5 /* SettingsLifecycleTests.swift in Sources */,
 				9F4DAE2FBDD1039426B386E1 /* SettingsReadingTests.swift in Sources */,
+				E2EC9EDB7BEB3D86547E31A9 /* RecoveryWorkflowTests.swift in Sources */,
 				240300F4BF42AD40D83B4AD5 /* SingleCommitWorkflowTests.swift in Sources */,
 				2D6F31E66308DA2DE27ED9E3 /* SpecialFileReadingTests.swift in Sources */,
 				510F2F6F84699A83FFEDF337 /* StashWorkflowTests.swift in Sources */,
@@ -961,6 +968,7 @@
 				8C68F8448C673CE3E9696C5C /* SelectedLinesSheet.swift in Sources */,
 				997C7A6078E83BC6AC46EEA1 /* SettingsView.swift in Sources */,
 				13E276DCB1333E635B092E4B /* Sheets.swift in Sources */,
+				799A751D2607462A12F3FA01 /* RecoverySheet.swift in Sources */,
 				48CD515449E276DC8F7AB9D6 /* SingleCommitSheet.swift in Sources */,
 				3AC13E8FF683B2F0F5D99304 /* StashBrowser.swift in Sources */,
 				25E74BC8C0606966859D685C /* StashView.swift in Sources */,

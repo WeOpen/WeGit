@@ -4,24 +4,26 @@
 
 ## 当前批次
 
-M0 / codex/v2-m0-batch-validation / [Issue #115](https://github.com/WeOpen/WeGit/issues/115)：触发/分流、可信批次方法、构建缓存和源输入证据复用已实现，112项工具检查与固定 actionlint通过；托管PR/main、频率和真实复用验收待记录。本机未执行XCTest。最新计划与配套文档同批次纳入，用户PBX差异独立保留。
+M0 已经由 [PR #131](https://github.com/WeOpen/WeGit/pull/131)正常合入 main fc9afa7；[CI 41797958554](https://github.com/WeOpen/WeGit/actions/runs/41797958554)的策略/工具结果实际通过，Native/前端/Core编译/site均skipped、0步骤、无runner。112项本机工具检查、固定actionlint与18份文档/304本地链接通过。草稿/中间head频率与真实复用继续由业务批次核对。
+
+M1 / codex/v2-m1-recovery：内容控件收敛；Reset/Reflog、原字节/索引备份、恢复与原提交引用保护已进入实际实现；核心及视图/UI测试源编译通过，本机未执行XCTest。中间提交为草稿，保持未验收；完整业务批次稳定后统一送验。
 
 ## 全部62子任务
 
 | 子任务 | 模块/Issue | 实施内容 | 实现状态 | 批次证据 |
 | --- | --- | --- | --- | --- |
-| 01a | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 建立按用途选择的控件规范 | 待实施 | — |
-| 01b | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 收敛 `workbenchControlFamily`、主要操作、图标、菜单和 Tabs；移除内容层的全局玻璃继承及内容面板的重复玻璃 | 待实施 | — |
-| 01c | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 检查系统工具栏与自定义表面，避免玻璃叠玻璃；浮动控制条按真实层级判断，不按顶部/底部位置一刀切 | 待实施 | — |
-| 01d | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 逐页替换和渲染检查 | 待实施 | — |
-| 01e | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 滑块、开关等瞬时交互效果遵循系统行为；减少透明度/动态效果、增强对比度和自定义主题的退化路径保持明确 | 待实施 | — |
+| 01a | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 建立按用途选择的控件规范 | 实施中/待批次验收 | — |
+| 01b | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 收敛 `workbenchControlFamily`、主要操作、图标、菜单和 Tabs；移除内容层的全局玻璃继承及内容面板的重复玻璃 | 实施中/待批次验收 | — |
+| 01c | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 检查系统工具栏与自定义表面，避免玻璃叠玻璃；浮动控制条按真实层级判断，不按顶部/底部位置一刀切 | 实施中/待批次验收 | — |
+| 01d | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 逐页替换和渲染检查 | 实施中/待批次验收 | — |
+| 01e | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 滑块、开关等瞬时交互效果遵循系统行为；减少透明度/动态效果、增强对比度和自定义主题的退化路径保持明确 | 实施中/待批次验收 | — |
 | 02a | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 从 Welcome/仓库菜单建立普通仓库，选择目录与初始分支；已有普通文件可保留并作为未跟踪内容显示，拒绝覆写已有仓库或隐式建立嵌套仓库 | 待实施 | — |
 | 02b | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 克隆支持明确选择分支、仅指定分支、深度与递归 Submodule；默认行为保留现有完整克隆，浅仓库支持显式补深/获取完整历史 | 待实施 | — |
 | 02c | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 目录移动、权限/书签失效、Unborn/Detached HEAD、clone 部分完成、网络取消与磁盘不足均可核对 | 待实施 | — |
-| 03a | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 从历史/分支进入 Soft/Mixed/Hard Reset，预览当前分支、固定目标、索引/文件影响和发布历史状态 | 待实施 | — |
-| 03b | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 浏览有界的 HEAD/分支 Reflog，识别条目时间、动作及对象是否仍存在；支持从旧提交创建恢复分支、找回误删分支和撤回最近本地提交 | 待实施 | — |
-| 03c | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 定义工作文件备份、恢复定位记录与保留/清理规则 | 待实施 | — |
-| 03d | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 覆盖外部引用移动、特殊索引标记、Unborn/Detached、多 Worktree 占用、取消及未知回执；不把共享分支 Reset 写到错误工作区 | 待实施 | — |
+| 03a | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 从历史/分支进入 Soft/Mixed/Hard Reset，预览当前分支、固定目标、索引/文件影响和发布历史状态 | 实施中/待批次验收 | — |
+| 03b | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 浏览有界的 HEAD/分支 Reflog，识别条目时间、动作及对象是否仍存在；支持从旧提交创建恢复分支、找回误删分支和撤回最近本地提交 | 实施中/待批次验收 | — |
+| 03c | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 定义工作文件备份、恢复定位记录与保留/清理规则 | 实施中/待批次验收 | — |
+| 03d | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 覆盖外部引用移动、特殊索引标记、Unborn/Detached、多 Worktree 占用、取消及未知回执；不把共享分支 Reset 写到错误工作区 | 实施中/待批次验收 | — |
 | 04a | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 选择两个提交/本地分支/远端跟踪分支/Tag 进行两点比较，先解析并固定实际对象；保留现有父提交比较作为默认快捷入口 | 待实施 | — |
 | 04b | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 提供“共同祖先到目标分支”的范围比较，显示方向、共同祖先、待合入提交和文件；明确两点与共同祖先比较的不同语义 | 待实施 | — |
 | 04c | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 支持文件筛选、重命名、根提交、Merge 多父和有界分页，复用 Unified/Split、磁盘差异与原文复制；缺对象/浅历史边界提示显式获取，不自动下载 | 待实施 | — |

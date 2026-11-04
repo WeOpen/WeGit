@@ -22,6 +22,9 @@ struct HistoryView: View {
             VStack(spacing: 0) {
                 PanelHeader(title: L10n.text("提交历史"), symbol: "clock.arrow.circlepath") {
                     Spacer()
+                    Button("Reflog", systemImage: "clock.arrow.circlepath") {
+                        app.recoveryBrowserRequest = RecoveryBrowserRequest(session: session)
+                    }.accessibilityIdentifier("history-recovery")
                     Button(L10n.text("文件历史…"), systemImage: "doc.text.magnifyingglass") {
                         app.fileHistoryRequest = FileHistoryRequest(session: session, path: "")
                     }.accessibilityIdentifier("history-file-history")
@@ -196,6 +199,8 @@ struct HistoryView: View {
 
     private func commitActions(_ commit: GitCommit) -> some View {
         Menu(L10n.text("操作")) {
+            Button("Reset…") { app.resetRequest = ResetRequest(session: session, target: commit.id) }
+            Divider()
             Button(L10n.text("Cherry-pick…")) {
                 app.singleCommitRequest = SingleCommitRequest(
                     session: session, operation: .cherryPick, target: commit.id)

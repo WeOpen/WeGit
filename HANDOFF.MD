@@ -1,5 +1,14 @@
 # WeGit 开发交接
 
+## 2026-11-04 v2.0 M1 恢复基础实施中
+
+- M0 PR131正常合入mainfc9afa7，CI41797958554的policy/工具真实通过，Native/前端/Core编译/site均0步骤无runner。M1接续同一主计划，草稿中间提交不作为验收；代码/测试源继续实现，不逐项送重验。
+- Reset分开Soft/Mixed/Hard；原工作文件按64KiB流复制、独立摘要与模式，索引原字节另存，备份完整且重新核对HEAD/分支/索引/文件后才执行。256MiB上限包括索引，规模夹具预留索引空间，不在失败后放宽。
+- 恢复记录先落盘再复制，复制中断仍可识别为prepared，Git尚未执行；异常/丢回执保存needsVerification且不自动重复。私有refs/wegit/recovery保留原提交，清理同范围引用时CAS核对原OID；普通历史只采用已有heads/remotes/tags，私有引用不泄露成导航标签。
+- Reflog的commit日期不是操作日期；用date=unix的gD读取条目时间。同秒同对象可重复，UI标识另包含分页位置，写入仍只绑定OID，不能拿显示序号写仓库。Hard Reset显式no-recurse-submodules，忽略/未跟踪阻挡、目录/符号链接父路径在写入前保护。
+- 新UI/测试文件只定向增加PBX引用；用户原InteractiveRebase ID差异保持在工作文件，暂存用去除此原差异的独立blob，不混入开发PR。原始d08f03…摘要文件及user-pbx.patch在.build/v2-m0/original保留。
+- 本机目前仅Core/测试源和原生build-for-testing编译、双语覆盖；未执行XCTest或宣称实际行为/页面/性能通过。新恢复行为与30串行普通/大型Release性能夹具由稳定批次托管执行。
+
 ## 2026-11-04 v2.0 M0 批次校验工程实施
 
 - 当前批次 `codex/v2-m0-batch-validation` / Issue115；16模块已映射Issue115～130，62子任务逐项在 `docs/V2_0_PROGRESS.md` 记录；预算与恢复/窗口/主题/更新契约冻结于 `docs/V2_0_CONTRACTS.md`。新增功能与版本交付尚未验收，继续M1～M5。

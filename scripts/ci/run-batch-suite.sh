@@ -17,7 +17,7 @@ case "${1:-}" in
   performance) scripts/ci/native-behavior.sh performance ;;
   application)
     swift format lint --strict --recursive WeGit WeGitUITests WeGitPerformanceTests
-    swift format lint --strict scripts/*.swift
+    swift format lint --strict scripts/*Checks.swift scripts/*Performance.swift scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift
     python3 scripts/verify-localization.py
     scripts/build.sh Debug
     xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \

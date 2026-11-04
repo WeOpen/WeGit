@@ -2,7 +2,10 @@
   "format": 1,
   "batches": {
     "baseline-controls": {
-      "covers": ["v1.2-regression", "V20-01"],
+      "covers": [
+        "v1.2-regression",
+        "V20-01"
+      ],
       "methods": [
         "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls",
         "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable",
@@ -15,7 +18,13 @@
       ]
     },
     "baseline-recovery": {
-      "covers": ["v1.2-regression", "V20-03", "V20-05", "V20-06", "V20-08"],
+      "covers": [
+        "v1.2-regression",
+        "V20-03",
+        "V20-05",
+        "V20-06",
+        "V20-08"
+      ],
       "methods": [
         "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
         "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch",
@@ -27,7 +36,14 @@
       ]
     },
     "baseline-repository": {
-      "covers": ["v1.2-regression", "V20-02", "V20-04", "V20-10", "V20-11", "V20-12"],
+      "covers": [
+        "v1.2-regression",
+        "V20-02",
+        "V20-04",
+        "V20-10",
+        "V20-11",
+        "V20-12"
+      ],
       "methods": [
         "FileHistoryWorkflowTests/testFileContextRenameSearchAndManualDeletedPath",
         "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
@@ -37,6 +53,18 @@
         "TagWorkflowTests/testCreateCancelInspectAndDeleteLocalTagPreservesBranch",
         "InspectorRestorationTests/testSubmoduleAndLFSResourcesAppearInInspector",
         "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen"
+      ]
+    },
+    "recovery-reset": {
+      "covers": [
+        "03a",
+        "03b",
+        "03c",
+        "03d"
+      ],
+      "methods": [
+        "RecoveryWorkflowTests/testResetPreviewCancelAndRestoreAfterRelaunchPreserveDraftAndRawLayers",
+        "RecoveryWorkflowTests/testReflogCreatesRecoveryBranchAndEnglishDarkControlsRemainReachable"
       ]
     }
   }

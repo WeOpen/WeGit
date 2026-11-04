@@ -57,6 +57,10 @@ enum OperationFeedbackResult: Equatable, Sendable {
     /// even when its underlying error was cancellation or timeout.
     static func from(_ error: any Error) -> Self {
         switch error {
+        case let unknown as RecoveryOutcomeUnknown:
+            .needsReview(
+                message: unknown.localizedDescription,
+                details: unknown.recordID.uuidString + "\n\n" + unknown.details)
         case let unknown as TagPushOutcomeUnknown:
             .needsReview(
                 message: unknown.localizedDescription,

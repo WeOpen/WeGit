@@ -479,6 +479,8 @@ final class AppState {
     var remoteManagementPresented = false
     var tagCreationRequest: TagCreationRequest?
     var singleCommitRequest: SingleCommitRequest?
+    var resetRequest: ResetRequest?
+    var recoveryBrowserRequest: RecoveryBrowserRequest?
     var selectedLinesRequest: SelectedLinesRequest?
     var conflictEditorRequest: ConflictEditorRequest?
     var blameRequest: BlameRequest?
