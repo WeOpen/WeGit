@@ -1,0 +1,13 @@
+{
+  "sourceRun": 41745294466,
+  "originalApplicationSource": "a0d9072bf01efd3c05a6d73fc6f5afd6acc8d60a",
+  "applicationInputsEquivalentTo": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "inputs": 195,
+  "total": 1,
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "displayRestored": true,
+  "osPermissionsChanged": false,
+  "xctestExecutedLocally": false
+}

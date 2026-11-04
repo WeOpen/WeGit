@@ -1,0 +1,191 @@
+{
+  "source": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "validSamples": 450,
+  "allPassed": true,
+  "reports": [
+    {
+      "report": "interactive-rebase",
+      "workloads": [
+        {
+          "name": "ordinary/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 180.71775,
+            "steadyMilliseconds": 180.102708,
+            "recoveredMilliseconds": 178.432708,
+            "cancelMilliseconds": 0.705875,
+            "residentBytes": 14729216,
+            "executeMilliseconds": 705.507666
+          }
+        },
+        {
+          "name": "large-loose/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 1266.9011249999999,
+            "steadyMilliseconds": 1321.411541,
+            "recoveredMilliseconds": 1323.789458,
+            "cancelMilliseconds": 0.939167,
+            "residentBytes": 70811648,
+            "executeMilliseconds": 7973.737791
+          }
+        },
+        {
+          "name": "large-packed/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 1529.8035,
+            "steadyMilliseconds": 1647.2342079999999,
+            "recoveredMilliseconds": 1339.45725,
+            "cancelMilliseconds": 1.05975,
+            "residentBytes": 71745536,
+            "executeMilliseconds": 6712.2462080000005
+          }
+        }
+      ]
+    },
+    {
+      "report": "conflict-editor",
+      "workloads": [
+        {
+          "name": "ordinary/",
+          "samples": 30,
+          "p95": {
+            "readMilliseconds": 291.486375,
+            "saveMilliseconds": 109.457417,
+            "markResolvedMilliseconds": 314.196917,
+            "queuedSaveCancelMilliseconds": 0.096125
+          }
+        },
+        {
+          "name": "large-loose/",
+          "samples": 30,
+          "p95": {
+            "readMilliseconds": 308.690166,
+            "saveMilliseconds": 140.374917,
+            "markResolvedMilliseconds": 406.530125,
+            "queuedSaveCancelMilliseconds": 0.072416
+          }
+        },
+        {
+          "name": "large-packed/",
+          "samples": 30,
+          "p95": {
+            "readMilliseconds": 384.588333,
+            "saveMilliseconds": 181.424667,
+            "markResolvedMilliseconds": 552.838292,
+            "queuedSaveCancelMilliseconds": 0.057375
+          }
+        }
+      ]
+    },
+    {
+      "report": "rebase",
+      "workloads": [
+        {
+          "name": "ordinary/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 542.366084,
+            "steadyMilliseconds": 570.322667,
+            "recoveredMilliseconds": 524.594833,
+            "cancelMilliseconds": 1.419833,
+            "residentBytes": 13844480
+          }
+        },
+        {
+          "name": "large-loose/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 1129.084459,
+            "steadyMilliseconds": 1085.694,
+            "recoveredMilliseconds": 1076.865833,
+            "cancelMilliseconds": 1.420375,
+            "residentBytes": 44056576
+          }
+        },
+        {
+          "name": "large-packed/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 983.090125,
+            "steadyMilliseconds": 1014.004334,
+            "recoveredMilliseconds": 999.943625,
+            "cancelMilliseconds": 1.919,
+            "residentBytes": 44548096
+          }
+        }
+      ]
+    },
+    {
+      "report": "submodule-lfs",
+      "workloads": [
+        {
+          "name": "ordinary/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 238.588042,
+            "steadyMilliseconds": 243.39325,
+            "recoveredMilliseconds": 238.296709,
+            "cancelMilliseconds": 0.846541,
+            "residentBytes": 13975552
+          }
+        },
+        {
+          "name": "large-loose/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 1240.241833,
+            "steadyMilliseconds": 1236.672792,
+            "recoveredMilliseconds": 1214.76275,
+            "cancelMilliseconds": 0.917834,
+            "residentBytes": 27000832
+          }
+        },
+        {
+          "name": "large-packed/",
+          "samples": 30,
+          "p95": {
+            "firstMilliseconds": 745.253334,
+            "steadyMilliseconds": 742.672291,
+            "recoveredMilliseconds": 737.121625,
+            "cancelMilliseconds": 1.085625,
+            "residentBytes": 27115520
+          }
+        }
+      ]
+    },
+    {
+      "report": "worktree-read",
+      "workloads": [
+        {
+          "name": "10/1",
+          "samples": 30,
+          "p95": {
+            "cancelResponse": 1.564375,
+            "firstList": 25.516,
+            "postCancelList": 29.248958
+          }
+        },
+        {
+          "name": "5000/1",
+          "samples": 30,
+          "p95": {
+            "cancelResponse": 1.496042,
+            "firstList": 22.482042,
+            "postCancelList": 22.478792
+          }
+        },
+        {
+          "name": "10/32",
+          "samples": 30,
+          "p95": {
+            "cancelResponse": 2.491042,
+            "firstList": 47.207541,
+            "postCancelList": 44.305292
+          }
+        }
+      ]
+    }
+  ]
+}

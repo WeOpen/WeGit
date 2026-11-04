@@ -1,0 +1,27 @@
+{
+  "run": 41769132434,
+  "commit": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "artifacts": [
+    {
+      "id": 13296650465,
+      "name": "native",
+      "bytes": 19880050,
+      "sha256": "89345f800a73ff21febd5e14c9a8f2a366930805746cdc642b23e9fe80f26627",
+      "crcEntries": 39
+    },
+    {
+      "id": 13293932699,
+      "name": "site",
+      "bytes": 2255103,
+      "sha256": "c4d84dac34cd8467ac88f8b1de178fc77af986f9c41f77638c5c0eefed784eb6",
+      "crcEntries": 72
+    },
+    {
+      "id": 13294171734,
+      "name": "policy",
+      "bytes": 143,
+      "sha256": "821e67561150b7deb9335bf4904d5d858ebaf36dc92e1dc42c4d931207891980",
+      "crcEntries": 1
+    }
+  ]
+}
