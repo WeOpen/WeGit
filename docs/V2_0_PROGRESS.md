@@ -4,6 +4,8 @@
 
 ## 当前批次
 
+M1 固定f9f5250的CI41854802990第三次：三套Git各291/48、隔离签名与功能、普通/大型30样本均实际通过；大型Reset p95 1949.90ms，原2000ms预算不变。application阶段在三处Swift闭包格式检查失败，应用/UI测试源编译和包未执行；修补只改调用格式及批次证据读取，116项工具检查通过。原输入/日志/ZIP已核对，失败保持真实，后续只补受影响范围。
+
 M0 已经由 [PR #131](https://github.com/WeOpen/WeGit/pull/131)正常合入 main fc9afa7；[CI 41797958554](https://github.com/WeOpen/WeGit/actions/runs/41797958554)的策略/工具结果实际通过，Native/前端/Core编译/site均skipped、0步骤、无runner。112项本机工具检查、固定actionlint与18份文档/304本地链接通过。草稿/中间head频率与真实复用继续由业务批次核对。
 
 M1 / [PR #132](https://github.com/WeOpen/WeGit/pull/132)：内容控件、历史/分支Reset、Reflog分页快照、备份/导出/恢复与原提交引用保护已实现。隔离原生预览已核对取消、Hard Reset和工作文件/索引恢复的逐字节结果；这些是开发验证，完整页面矩阵/托管批次仍待验。Core及UI测试源、Release性能夹具只编译，本机未执行XCTest。

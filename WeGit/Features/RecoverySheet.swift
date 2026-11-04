@@ -343,9 +343,10 @@ struct RecoveryBrowser: View {
         let name = branch
         let head = request.session.status.head
         let switchTo = switchAfterCreation
-        request.session.perform(L10n.text("创建恢复分支"), onSuccess: { revision = UUID() }) {
-            try await $0.createBranch(name, start: oid, switchTo: switchTo, expectedHead: head)
-        }
+        request.session.perform(
+            L10n.text("创建恢复分支"), onSuccess: { revision = UUID() },
+            operation: { try await $0.createBranch(name, start: oid, switchTo: switchTo, expectedHead: head) }
+        )
     }
     private func export(_ record: RecoveryRecord) {
         let panel = NSOpenPanel()
@@ -374,10 +375,8 @@ struct RecoveryBrowser: View {
             onSuccess: {
                 selectedRecord = nil
                 revision = UUID()
-            }
-        ) {
-            try await $0.removeRecoveryRecord(record)
-        }
+            },
+            operation: { try await $0.removeRecoveryRecord(record) })
     }
 }
 
@@ -453,10 +452,12 @@ private struct RecoveryRestoreSheet: View {
     private func execute() {
         guard let plan, !attempted else { return }
         attempted = true
-        session.performResult(L10n.text("恢复内容"), onSuccess: { dismiss() }) {
-            _ = try await $0.executeRecoveryRestore(plan)
-            return .completed(message: L10n.text("内容已恢复，HEAD 保持不变。"))
-        }
+        session.performResult(
+            L10n.text("恢复内容"), onSuccess: { dismiss() },
+            operation: {
+                _ = try await $0.executeRecoveryRestore(plan)
+                return .completed(message: L10n.text("内容已恢复，HEAD 保持不变。"))
+            })
     }
 }
 
