@@ -298,7 +298,7 @@ private actor RebaseReadProfilingRunner: ProcessRunning {
                 let pendingReady = ready.appendingPathExtension("pending")
                 let wrapper = location.gitDirectory.appending(path: "performance-git")
                 let script =
-                    "#!/bin/sh\nmatching=0\nfor word in \"$@\"; do [ \"$word\" = merge-base ] && matching=1; done\nif [ \"${WEGIT_REBASE_DELAY:-0}\" = 1 ] && [ \"$matching\" = 1 ]; then\n trap 'exit 143' TERM\n /bin/sleep 10 &\n child=$!\n printf '%s %s\\n' \"$$\" \"$child\" > "
+                    "#!/bin/sh\nmatching=0\nfor word in \"$@\"; do [ \"$word\" = merge-base ] && matching=1; done\nif [ \"${WEGIT_REBASE_DELAY:-0}\" = 1 ] && [ \"$matching\" = 1 ]; then\n trap 'kill -TERM \"$child\" 2>/dev/null || true; wait \"$child\" 2>/dev/null || true; exit 143' TERM\n /bin/sleep 10 &\n child=$!\n printf '%s %s\\n' \"$$\" \"$child\" > "
                     + quote(pendingReady.path) + "\n /bin/mv " + quote(pendingReady.path) + " "
                     + quote(ready.path) + "\n wait \"$child\"\nfi\nexec " + quote(executable.path)
                     + " \"$@\"\n"
