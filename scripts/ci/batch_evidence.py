@@ -33,7 +33,8 @@ SUITE_STEPS = {
 }
 READER_ONLY_FUNCTIONS = {
     "canonical_run", "eligible", "restore", "suite_job_succeeded",
-    "reader_execution_contract", "reader_compatibility",
+    "reader_execution_contract", "reader_compatibility", "source_matches", "ensure_commit",
+    "suite_job_outcome", "failed_execution_matches",
 }
 
 
@@ -106,17 +107,46 @@ def canonical_run(run, workflow_id, repo, allow_partial=False):
                  or run.get("event") == "pull_request"))
 
 
-def suite_job_succeeded(receipt, jobs):
+def suite_job_outcome(receipt, jobs):
     step_name = SUITE_STEPS.get(receipt.get("suite"))
     origin = receipt.get("execution", {})
     if (step_name is None or receipt.get("mode") != "executed"
             or str(origin.get("runId")) != str(receipt.get("runId"))
             or origin.get("sourceCommit") != receipt.get("sourceCommit")):
-        return False
-    return any(job.get("name") == "Native macOS"
-               and any(step.get("name") == step_name and step.get("conclusion") == "success"
-                       and step.get("status") == "completed" for step in job.get("steps", []))
-               for job in jobs)
+        return None
+    for job in jobs:
+        if job.get("name") != "Native macOS":
+            continue
+        for step in job.get("steps", []):
+            if step.get("name") == step_name and step.get("status") == "completed":
+                outcome = step.get("conclusion")
+                return outcome if outcome in {"success", "failure"} else None
+    return None
+
+
+def suite_job_succeeded(receipt, jobs):
+    return suite_job_outcome(receipt, jobs) == "success"
+
+
+def failed_execution_matches(receipt, expected_files, expected_tools, run, workflow_id, repo, reader_proof=None):
+    original = receipt.get("inputFiles", {})
+    origin = receipt.get("execution", {})
+    name = "scripts/ci/batch_evidence.py"
+    equivalent = (isinstance(reader_proof, dict) and reader_proof.get("kind") == "read-only-evidence-reader"
+                  and original.keys() == expected_files.keys()
+                  and [key for key in original if original[key] != expected_files[key]] == [name]
+                  and reader_proof.get("sourceSHA256") == original.get(name)
+                  and reader_proof.get("currentSHA256") == expected_files.get(name))
+    return bool(canonical_run(run, workflow_id, repo, allow_partial=True)
+                and receipt.get("format") == 1 and receipt.get("status") == "failure"
+                and receipt.get("mode") == "executed" and origin.get("kind") == "executed"
+                and isinstance(origin.get("exitCode"), int) and origin["exitCode"] != 0
+                and (original == expected_files or equivalent) and receipt.get("inputDigest") == digest(original)
+                and receipt.get("toolchain") == expected_tools
+                and receipt.get("repository", "").casefold() == repo.casefold()
+                and str(receipt.get("runId")) == str(run.get("id"))
+                and str(origin.get("runId")) == str(run.get("id"))
+                and origin.get("sourceCommit") == receipt.get("sourceCommit"))
 
 
 def reader_execution_contract(source):
@@ -177,7 +207,12 @@ def source_matches(root, repo, receipt, run):
     ensure_commit(root, repo, source)
     if source != run["head_sha"]:
         # pull_request checkout commonly uses GitHub's synthetic merge commit.
-        parents = command_output(["git", "-C", str(root), "show", "-s", "--format=%P", source]).split()
+        # Revision walking hides parents at a shallow boundary. Read the
+        # immutable commit header itself when proving a PR merge's provenance.
+        commit = subprocess.run(["git", "-C", str(root), "cat-file", "-p", source],
+                                capture_output=True, check=True, timeout=15).stdout
+        header = commit.split(b"\n\n", 1)[0]
+        parents = [line[7:].decode("ascii") for line in header.splitlines() if line.startswith(b"parent ")]
         if run.get("event") != "pull_request" or len(parents) != 2 or parents[1] != run["head_sha"]:
             return False
     files = receipt.get("inputFiles")
@@ -225,6 +260,8 @@ def restore(root, repo, output):
     workflow_id = api(repo, "actions/workflows/verify.yml")["id"]
     runs = api(repo, "actions/workflows/verify.yml/runs?status=completed&per_page=20")["workflow_runs"]
     found = {}
+    blocked = {}
+    runs.sort(key=lambda item: item.get("updated_at", item.get("created_at", "")), reverse=True)
     start = time.monotonic()
     expected = {suite: inputs(root, suite) for suite in SUITES if suite != "package"}
     for run in runs:
@@ -260,7 +297,7 @@ def restore(root, repo, output):
             with zipfile.ZipFile(io.BytesIO(archive)) as zip_file:
                 for item in zip_file.infolist():
                     suite = Path(item.filename).stem
-                    if suite in found or suite not in expected or item.file_size > 2 * 1024 * 1024:
+                    if suite in found or suite in blocked or suite not in expected or item.file_size > 2 * 1024 * 1024:
                         continue
                     receipt = json.loads(zip_file.read(item))
                     if receipt.get("suite") != suite or not source_matches(root, repo, receipt, run):
@@ -272,6 +309,11 @@ def restore(root, repo, output):
                         repo, f"actions/runs/{run['id']}/attempts/{attempt}/jobs?per_page=100")["jobs"]
                     phase = suite_job_succeeded(receipt, attempt_jobs)
                     proof = reader_compatibility(root, receipt, expected[suite])
+                    if (suite_job_outcome(receipt, attempt_jobs) == "failure"
+                            and failed_execution_matches(receipt, expected[suite], tools, run, workflow_id, repo, proof)):
+                        blocked[suite] = {"runId": run["id"], "runAttempt": attempt, "status": "failure",
+                                          "sourceCommit": receipt["sourceCommit"], "inputDigest": receipt["inputDigest"]}
+                        continue
                     if not eligible(receipt, expected[suite], tools, run, workflow_id, repo,
                                     phase_verified=phase, reader_proof=proof):
                         continue
@@ -291,7 +333,8 @@ def restore(root, repo, output):
         if len(found) == len(expected):
             break
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps({"format": 1, "toolchain": tools, "suites": found}, indent=2) + "\n")
+    output.write_text(json.dumps({"format": 1, "toolchain": tools, "suites": found,
+                                  "blockedByNewerFailure": blocked}, indent=2) + "\n")
     print("Verified reusable suite inputs: " + (", ".join(sorted(found)) or "none"))
 
 

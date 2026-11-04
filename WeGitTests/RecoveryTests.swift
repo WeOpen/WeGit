@@ -36,6 +36,30 @@ private actor IndexEditAfterReset: ProcessRunning {
 }
 
 struct RecoveryTests {
+    @Test func corruptedFileInParallelCaptureRejectsAllRestorationBeforeAnyRepositoryWrite() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let paths = (0..<24).map { "file-\($0)" }
+        for path in paths { try f.write(path, "target\n") }
+        let target = try await f.commit("Target")
+        for path in paths { try f.write(path, "original working\n") }
+        _ = try await f.commit("Current")
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .hard))
+        let selected = try #require(record.files.last)
+        let backup = f.root.appending(
+            path: ".git/wegit-recovery/" + record.id.uuidString + "/" + selected.storageName)
+        try Data("corrupted backup\n".utf8).write(to: backup)
+        let index = try Data(contentsOf: f.root.appending(path: ".git/index"))
+        await #expect(throws: ModelFailure.self) {
+            try await f.service.prepareRecoveryRestore(record, layer: .both)
+        }
+        #expect(try Data(contentsOf: f.root.appending(path: ".git/index")) == index)
+        #expect(try await f.service.head() == target)
+        for path in paths {
+            #expect(try Data(contentsOf: f.root.appending(path: path)) == Data("target\n".utf8))
+        }
+    }
+
     @Test func unexpectedRecordContentsPreventCleanupBeforeAnyProtectionRefIsRemoved() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }

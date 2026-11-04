@@ -2,6 +2,23 @@ import CryptoKit
 import Darwin
 import Foundation
 
+private final class RecoveryCaptureResults: @unchecked Sendable {
+    private let lock = NSLock()
+    private var values: [Int: [RecoveryFileCapture]] = [:]
+    private var failure: (any Error)?
+    func store(_ files: [RecoveryFileCapture], offset: Int) { lock.withLock { values[offset] = files } }
+    func fail(_ error: any Error) { lock.withLock { if failure == nil { failure = error } } }
+    func finish(count: Int) throws -> [RecoveryFileCapture] {
+        try lock.withLock {
+            if let failure { throw failure }
+            let result = values.sorted { $0.key < $1.key }.flatMap(\.value)
+            guard result.count == count else { throw ModelFailure.changed }
+            return result
+        }
+    }
+}
+
+
 /// Durable per-worktree storage, anchored at the opened Git directory. Flat UUID
 /// directories contain bounded regular files, never arbitrary user paths.
 final class RecoveryStore: @unchecked Sendable {
@@ -193,15 +210,27 @@ final class RecoveryStore: @unchecked Sendable {
                     sharedIndex.file.name, data: sharedIndex.data, directory: directory,
                     cancellation: cancellation)
             }
-            for file in files {
-                try cancellation.check()
-                guard let snapshot = file.snapshot else { continue }
-                guard
-                    try RecoveryFileIO.copy(
-                        snapshot, directory: directory, name: file.file.storageName,
-                        cancellation: cancellation) == file.file.sha256
-                else { throw ModelFailure.changed }
+            let results = RecoveryCaptureResults()
+            let width = max(1, (files.count + 1) / 2)
+            DispatchQueue.concurrentPerform(iterations: files.isEmpty ? 0 : (files.count + width - 1) / width)
+            { batch in
+                let offset = batch * width
+                do {
+                    let selected = Array(files[offset..<min(files.count, offset + width)])
+                    for file in selected {
+                        try cancellation.check()
+                        guard let snapshot = file.snapshot else { continue }
+                        guard
+                            try RecoveryFileIO.copy(
+                                snapshot, directory: directory, name: file.file.storageName,
+                                cancellation: cancellation) == file.file.sha256
+                        else { throw ModelFailure.changed }
+                    }
+                    results.store(selected, offset: offset)
+                } catch { results.fail(error) }
             }
+            _ = try results.finish(count: files.count)
+            try cancellation.check()
             try save(value)
             try validate()
             guard fsync(descriptor) == 0 else { throw ProcessFailure.outputWrite(errno) }
@@ -236,88 +265,108 @@ final class RecoveryStore: @unchecked Sendable {
                 sharedIndex = RecoverySharedIndexSnapshot(file: shared, data: data)
             }
             let storage = try SnapshotDirectory()
-            let files = try (includeFiles ? record.files : []).map { file -> RecoveryFileCapture in
-                if file.kind == .absent {
-                    return RecoveryFileCapture(
-                        file: file, snapshot: nil, version: nil, parents: [], missingParent: nil)
-                }
-                let source = openat(directory, file.storageName, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
-                guard source >= 0 else { throw ModelFailure.changed }
-                defer { Darwin.close(source) }
-                var info = stat()
-                guard fstat(source, &info) == 0, info.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG),
-                    info.st_size == file.bytes
-                else {
-                    throw ModelFailure.changed
-                }
-                let url = storage.url.appending(path: file.storageName)
-                try storage.validate()
-                let temporary = Darwin.open(storage.url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-                guard temporary >= 0 else { throw ModelFailure.changed }
-                defer { Darwin.close(temporary) }
-                if fclonefileat(source, temporary, file.storageName, UInt32(CLONE_NOOWNERCOPY)) == 0 {
-                    let output = openat(temporary, file.storageName, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
-                    guard output >= 0 else { throw ModelFailure.changed }
-                    defer { Darwin.close(output) }
-                    let digest = try RecoveryFileIO.hashFile(
-                        output, expectedBytes: file.bytes, cancellation: cancellation)
-                    var after = stat()
-                    guard digest == file.sha256, fstat(source, &after) == 0,
-                        SnapshotFileStamp(after) == SnapshotFileStamp(info), fchmod(output, 0o600) == 0
-                    else { throw ModelFailure.changed }
-                    try storage.validate()
-                    return RecoveryFileCapture(
-                        file: file,
-                        snapshot: try SnapshotFile(directory: storage, url: url, verifiedSHA256: digest),
-                        version: nil, parents: [], missingParent: nil)
-                }
-                guard [EXDEV, ENOTSUP, EINVAL].contains(errno) else {
-                    throw ProcessFailure.outputWrite(errno)
-                }
-                let output = Darwin.open(
-                    url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
-                guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }
-                defer { Darwin.close(output) }
-                var buffer = [UInt8](repeating: 0, count: 64 * 1024)
-                var copied = 0
-                while true {
-                    try cancellation.check()
-                    let count = Darwin.read(source, &buffer, buffer.count)
-                    if count < 0 && errno == EINTR { continue }
-                    guard count >= 0 else { throw ModelFailure.changed }
-                    if count == 0 { break }
-                    copied += count
-                    guard copied <= file.bytes else { throw ModelFailure.changed }
-                    try RecoveryFileIO.write(
-                        buffer.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: count) },
-                        descriptor: output, cancellation: cancellation)
-                }
-                guard copied == file.bytes else { throw ModelFailure.changed }
-                var after = stat()
-                guard fstat(source, &after) == 0, SnapshotFileStamp(after) == SnapshotFileStamp(info) else {
-                    throw ModelFailure.changed
-                }
-                let snapshot = try SnapshotFile(directory: storage, url: url)
-                let handle = try snapshot.open()
-                defer { Darwin.close(handle) }
-                var digest = CryptoKit.SHA256()
-                while true {
-                    try cancellation.check()
-                    let data =
-                        try FileHandle(fileDescriptor: handle, closeOnDealloc: false).read(upToCount: 65536)
-                        ?? Data()
-                    if data.isEmpty { break }
-                    digest.update(data: data)
-                }
-                let checksum = RecoveryFileIO.hex(digest.finalize())
-                guard checksum == file.sha256 else {
-                    throw ModelFailure.changed
-                }
-                return RecoveryFileCapture(
-                    file: file,
-                    snapshot: try SnapshotFile(directory: storage, url: url, verifiedSHA256: checksum),
-                    version: nil, parents: [], missingParent: nil)
+            try storage.validate()
+            let temporary = Darwin.open(storage.url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            guard temporary >= 0 else { throw ModelFailure.changed }
+            defer { Darwin.close(temporary) }
+            let selectedFiles = includeFiles ? record.files : []
+            let width = max(1, (selectedFiles.count + 1) / 2)
+            let results = RecoveryCaptureResults()
+            DispatchQueue.concurrentPerform(
+                iterations: selectedFiles.isEmpty ? 0 : (selectedFiles.count + width - 1) / width
+            ) { batch in
+                let offset = batch * width
+                do {
+                    let files = try selectedFiles[offset..<min(selectedFiles.count, offset + width)].map {
+                        file -> RecoveryFileCapture in
+                        if file.kind == .absent {
+                            return RecoveryFileCapture(
+                                file: file, snapshot: nil, version: nil, parents: [], missingParent: nil)
+                        }
+                        let source = openat(directory, file.storageName, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+                        guard source >= 0 else { throw ModelFailure.changed }
+                        defer { Darwin.close(source) }
+                        var info = stat()
+                        guard fstat(source, &info) == 0, info.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG),
+                            info.st_size == file.bytes
+                        else {
+                            throw ModelFailure.changed
+                        }
+                        let url = storage.url.appending(path: file.storageName)
+                        if fclonefileat(source, temporary, file.storageName, UInt32(CLONE_NOOWNERCOPY)) == 0 {
+                            let output = openat(
+                                temporary, file.storageName, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+                            guard output >= 0 else { throw ModelFailure.changed }
+                            defer { Darwin.close(output) }
+                            let digest = try RecoveryFileIO.hashFile(
+                                output, expectedBytes: file.bytes, cancellation: cancellation)
+                            var after = stat()
+                            guard digest == file.sha256, fstat(source, &after) == 0,
+                                SnapshotFileStamp(after) == SnapshotFileStamp(info),
+                                fchmod(output, 0o600) == 0
+                            else { throw ModelFailure.changed }
+                            return RecoveryFileCapture(
+                                file: file,
+                                snapshot: try SnapshotFile(
+                                    directory: storage, url: url, verifiedSHA256: digest),
+                                version: nil, parents: [], missingParent: nil)
+                        }
+                        guard [EXDEV, ENOTSUP, EINVAL].contains(errno) else {
+                            throw ProcessFailure.outputWrite(errno)
+                        }
+                        let output = Darwin.open(
+                            url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+                        guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }
+                        defer { Darwin.close(output) }
+                        var buffer = [UInt8](repeating: 0, count: 64 * 1024)
+                        var copied = 0
+                        while true {
+                            try cancellation.check()
+                            let count = Darwin.read(source, &buffer, buffer.count)
+                            if count < 0 && errno == EINTR { continue }
+                            guard count >= 0 else { throw ModelFailure.changed }
+                            if count == 0 { break }
+                            copied += count
+                            guard copied <= file.bytes else { throw ModelFailure.changed }
+                            try RecoveryFileIO.write(
+                                buffer.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: count) },
+                                descriptor: output, cancellation: cancellation)
+                        }
+                        guard copied == file.bytes else { throw ModelFailure.changed }
+                        var after = stat()
+                        guard fstat(source, &after) == 0, SnapshotFileStamp(after) == SnapshotFileStamp(info)
+                        else {
+                            throw ModelFailure.changed
+                        }
+                        let snapshot = try SnapshotFile(directory: storage, url: url)
+                        let handle = try snapshot.open()
+                        defer { Darwin.close(handle) }
+                        var digest = CryptoKit.SHA256()
+                        while true {
+                            try cancellation.check()
+                            let data =
+                                try FileHandle(fileDescriptor: handle, closeOnDealloc: false).read(
+                                    upToCount: 65536)
+                                ?? Data()
+                            if data.isEmpty { break }
+                            digest.update(data: data)
+                        }
+                        let checksum = RecoveryFileIO.hex(digest.finalize())
+                        guard checksum == file.sha256 else {
+                            throw ModelFailure.changed
+                        }
+                        return RecoveryFileCapture(
+                            file: file,
+                            snapshot: try SnapshotFile(
+                                directory: storage, url: url, verifiedSHA256: checksum),
+                            version: nil, parents: [], missingParent: nil)
+                    }
+                    results.store(files, offset: offset)
+                } catch { results.fail(error) }
             }
+            let files = try results.finish(count: selectedFiles.count)
+            try cancellation.check()
+            try storage.validate()
             guard try self.record(record.id) == record else { throw ModelFailure.changed }
             return (files, index, sharedIndex)
         }

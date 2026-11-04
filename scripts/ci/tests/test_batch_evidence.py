@@ -12,7 +12,8 @@ from io import StringIO
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from batch_evidence import (COMMON, canonical_run, digest, eligible, inputs, run_suite, source_matches,
-                            suite_job_succeeded, reader_execution_contract, reader_compatibility)
+                            suite_job_succeeded, suite_job_outcome, failed_execution_matches,
+                            reader_execution_contract, reader_compatibility)
 from ui_probe import batch_methods, verify_batch_summary
 
 
@@ -172,6 +173,45 @@ class EvidenceTests(unittest.TestCase):
         receipt["inputFiles"]["WeGitCore/Core.swift"] = "0" * 64
         receipt["inputDigest"] = digest(receipt["inputFiles"])
         self.assertFalse(source_matches(self.root, "WeOpen/WeGit", receipt, run))
+
+    def test_shallow_merge_provenance_reads_raw_commit_parents(self):
+        def git(*args):
+            return subprocess.check_output(["git", "-C", str(self.root), *args], env=self.env,
+                                           stderr=subprocess.DEVNULL, text=True).strip()
+        git("init", "--initial-branch=main"); git("add", "--all")
+        git("-c", "commit.gpgsign=false", "commit", "-m", "base")
+        base = git("rev-parse", "HEAD")
+        git("checkout", "-b", "head")
+        self.write("WeGitCore/Core.swift", "new backend\n")
+        git("add", "--all"); git("-c", "commit.gpgsign=false", "commit", "-m", "head")
+        head = git("rev-parse", "HEAD")
+        tree = git("rev-parse", "HEAD^{tree}")
+        source = subprocess.check_output(
+            ["git", "-C", str(self.root), "commit-tree", tree, "-p", base, "-p", head],
+            input="fixture merge\n", env=self.env, text=True, stderr=subprocess.DEVNULL).strip()
+        raw = git("cat-file", "-p", source)
+        self.assertEqual(len([row for row in raw.splitlines() if row.startswith("parent ")]), 2)
+        receipt, run, _ = self.receipt()
+        receipt["sourceCommit"] = source
+        run.update(head_sha=head, event="pull_request")
+        self.write(".git/shallow", source + "\n")
+        self.assertEqual(git("show", "-s", "--format=%P", source), "")
+        self.assertTrue(source_matches(self.root, "WeOpen/WeGit", receipt, run))
+
+    def test_newer_matching_failed_execution_cannot_be_replaced_by_an_older_pass(self):
+        receipt, run, files = self.receipt()
+        receipt.update(status="failure")
+        receipt["execution"]["exitCode"] = 1
+        run["conclusion"] = "failure"
+        jobs = [{"name": "Native macOS", "steps": [
+            {"name": "Core regression on Apple, minimum and Homebrew Git",
+             "status": "completed", "conclusion": "failure"}]}]
+        self.assertEqual(suite_job_outcome(receipt, jobs), "failure")
+        self.assertTrue(failed_execution_matches(receipt, files, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+        changed = copy.deepcopy(files)
+        changed["WeGitCore/Core.swift"] = "different"
+        self.assertFalse(failed_execution_matches(receipt, changed, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+        self.assertFalse(eligible(receipt, files, receipt["toolchain"], run, 17, "WeOpen/WeGit", phase_verified=True))
 
     def test_local_tool_checks_cannot_execute_native_suites(self):
         with patch.dict(os.environ, {"GITHUB_ACTIONS": "false"}), patch("batch_evidence.subprocess.run") as execute:
