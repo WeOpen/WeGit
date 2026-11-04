@@ -15,4 +15,15 @@ assert.equal(selectRelease([{...release,tag_name:'v1.1.0-beta.1',prerelease:true
 assert.equal(selectRelease([{...release,tag_name:'v1.1.0-beta.1',prerelease:true}]).prerelease,true);
 assert.equal(selectRelease([{...release,tag_name:'unreviewed build'}]),null);
 assert.throws(()=>selectRelease({}), /Invalid release/);
-console.log('Website release behavior: 11 cases passed.');
+const dmg = 'WeGit-1.0.0-macos-universal-adhoc.dmg';
+const universal = {...release, assets:[...release.assets,asset(dmg),asset(dmg + '.sha256')]};
+assert.equal(selectRelease([universal]).download, asset(dmg).browser_download_url);
+assert.equal(selectRelease([{...universal,assets:universal.assets.filter(item=>item.name !== dmg + '.sha256')}]).download, null);
+assert.equal(selectRelease([{...release,assets:[asset(dmg),asset(dmg + '.sha256'),asset('manifest.json')]}]).download, asset(dmg).browser_download_url);
+const candidateTag = 'v1.2.0-rc.1';
+const candidateName = 'WeGit-1.2.0-rc.1-macos-universal-adhoc.dmg';
+const candidate = {tag_name:candidateTag,draft:false,prerelease:true,assets:[candidateName,candidateName+'.sha256','manifest.json'].map(name=>({name,browser_download_url:`https://github.com/WeOpen/WeGit/releases/download/${candidateTag}/${name}`}))};
+assert.equal(selectRelease([candidate,release]).tag, candidateTag);
+assert.equal(selectRelease([{...candidate,draft:true},release]).tag, 'v1.0.0');
+assert.equal(selectRelease([candidate,universal]).tag, 'v1.0.0');
+console.log('Website release behavior: 17 cases passed.');

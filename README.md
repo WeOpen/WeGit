@@ -1,15 +1,15 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="branding/wegit-v2/mark-dark.png">
-    <img src="branding/wegit-v2/mark.png" width="104" height="104" alt="WeGit logo">
+    <source media="(prefers-color-scheme: dark)" srcset="design/brand/macos/app-icon-dark-1024.png">
+    <img src="design/brand/macos/app-icon-1024.png" width="104" height="104" alt="WeGit app icon">
   </picture>
   <h1>WeGit</h1>
   <p><strong>A native Git workspace for macOS.</strong></p>
   <p>Read changes clearly. Shape your commits. Keep your workflow close.</p>
   <p>
-    <img src="https://img.shields.io/badge/status-public_release-green?style=flat" alt="Public release">
-    <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat" alt="Version 1.0.0">
-    <img src="https://img.shields.io/badge/macOS-27%2B-111111?style=flat&amp;logo=apple&amp;logoColor=white" alt="macOS 27 or later">
+    <img src="https://img.shields.io/badge/status-release_candidate-yellow?style=flat" alt="Release candidate">
+    <img src="https://img.shields.io/badge/version-1.2.0--rc.1-blue?style=flat" alt="Version 1.2.0-rc.1">
+    <img src="https://img.shields.io/badge/macOS-26%2B-111111?style=flat&amp;logo=apple&amp;logoColor=white" alt="macOS 26 or later">
     <img src="https://img.shields.io/badge/Swift-6-F05138?style=flat&amp;logo=swift&amp;logoColor=white" alt="Swift 6">
     <img src="https://img.shields.io/badge/Git-2.46%2B-F05032?style=flat&amp;logo=git&amp;logoColor=white" alt="Git 2.46 or later">
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3DA639?style=flat" alt="MIT license"></a>
@@ -26,7 +26,7 @@ WeGit is a SwiftUI Git client built around the work you do every day: inspect a 
 
 It uses your existing Git installation, configuration, credential helpers, and SSH agent. Native windows, keyboard shortcuts, a menu bar panel, and light, dark, and custom themes keep the experience at home on macOS. The Git core has no third-party runtime dependencies.
 
-> **WeGit 1.0.0** · [Download](https://github.com/WeOpen/WeGit/releases/tag/v1.0.0) · [Website](https://weopen.github.io/WeGit/). Ad-hoc signed, not notarized by Apple. Accessibility acceptance is deferred; see the [release notes and remaining validation limits](docs/releases/v1.0.0.md).
+> **WeGit 1.2.0-rc.1** · [Download](https://github.com/WeOpen/WeGit/releases/tag/v1.2.0-rc.1) · [Website](https://wegit.willxue.com/). Universal DMG for Apple Silicon and Intel. Ad-hoc signed, not notarized by Apple; see the [release notes and validation limits](docs/releases/v1.2.0-rc.1.md).
 
 ## ✨ Features
 
@@ -34,21 +34,20 @@ It uses your existing Git installation, configuration, credential helpers, and S
 | --- | --- |
 | 📂 **Repositories** | Open or clone repositories, drop folders into the app, and switch between recent and favorite repositories. |
 | 🔍 **Diffs** | Read unified or split diffs with syntax highlighting, word changes, hunk navigation, expandable context, and exact source-text selection and copying. Large diffs use paged disk snapshots. |
-| 🧩 **Commits** | Stage or unstage files and hunks, discard changes with confirmation, amend a commit, and keep a draft for each repository. |
+| 🧩 **Commits** | Stage or unstage files, hunks or selected changed lines, discard changes with confirmation, amend a commit, and keep a draft for each repository. |
 | 🌿 **Branches & history** | Browse a paginated commit graph, compare commit files, copy a SHA, create a branch from a commit, or check out a detached HEAD. |
 | 🔄 **Remotes & conflicts** | Fetch, pull, and push to explicit targets; choose merge, rebase, or fast-forward-only pulls; continue or abort supported merge/rebase conflicts. |
 | 🛡️ **Operation recovery** | Reject stale changes, coordinate repository operations, preserve drafts on failures, and verify an uncertain push result before retrying. |
 | 🎨 **Appearance** | Use native light/dark themes or save a separate custom palette with 17 color roles, live preview, contrast hints, and JSON import/export. |
 | ⌨️ **Native workflow** | Use keyboard navigation, repository search, a command palette, configurable panels, and a menu bar quick-access panel. |
 | 🌍 **Languages** | Switch between English, Simplified Chinese, and the system language without restarting the app. |
+| 🗂️ **Git tools** | Manage Stashes, Tags, Remotes and linked worktrees; inspect file history and Blame; preview Cherry-pick/Revert; edit conflicts and plan interactive rebases. |
 
 See the [product specification](docs/WeGit_PRD.md), [interface notes](docs/INTERFACE_POLISH.md), and [compatibility record](docs/COMPATIBILITY.md) for scope and evidence. Product capabilities and completed release acceptance are tracked separately.
 
-**Development branch, 2026-10-20:** the v1.1 M0 baseline adds collapsible change groups, staging checkboxes, a folder display mode, a clickable change map for multi-hunk in-memory diffs, paired pane surfaces, and upstream commit counts on Pull/Push. These additions have been integrated into main and are not part of the published 1.0.0 download. See the [usage and verification notes](docs/INTERFACE_POLISH.md#v11-m0-baseline--2026-10-20).
-
 ## 🖥️ Requirements
 
-- **macOS 27 or later**. Current builds and acceptance evidence cover **Apple Silicon / arm64**.
+- **macOS 26 or later**, on **Apple Silicon or Intel**. One Universal DMG contains native `arm64` and `x86_64` executables, including AskPass. Intel Macs must support macOS 26; macOS 27 runs on Apple Silicon.
 - **Git 2.46 or later**. WeGit checks the required configuration-isolation and remote-address behavior at startup.
 - To build: **Xcode 27**, including the macOS 27 SDK. The verified local toolchain is Swift 6.4.
 - **XcodeGen 2.43+** is optional for normal builds; it is needed to regenerate the project after changing `project.yml`. The generated Xcode project is included.
@@ -57,9 +56,18 @@ See the [product specification](docs/WeGit_PRD.md), [interface notes](docs/INTER
 
 WeGit is distributed through **GitHub Releases and the project website**. It is not planned for the Mac App Store or TestFlight.
 
-Download [WeGit 1.0.0](https://github.com/WeOpen/WeGit/releases/tag/v1.0.0), including the ZIP, SHA-256 checksum and source manifest. The website links to these same versioned assets. See the [installation, data and rollback notes](docs/releases/v1.0.0.md).
+Download [WeGit 1.2.0-rc.1](https://github.com/WeOpen/WeGit/releases/tag/v1.2.0-rc.1) with its **DMG**, SHA-256 checksum and source manifest. Open the DMG and drag **WeGit.app → Applications**. The website links to the same versioned assets. See the [installation, data and rollback notes](docs/releases/v1.2.0-rc.1.md).
 
 There is currently no Apple Developer Program account for this project. Public packages use **ad-hoc signing** and are **not notarized by Apple**. Ad-hoc signing does not provide a verified developer identity, and macOS may block a downloaded build. For an app you have chosen to trust, consult [Apple’s guidance on opening apps safely](https://support.apple.com/102445). Downloaded-package installation on a clean Mac is still pending validation.
+
+If macOS reports **“WeGit is damaged and can’t be opened”**, verify the download’s checksum and, after moving this trusted app into Applications, run:
+
+```bash
+sudo xattr -dr com.apple.quarantine "/Applications/WeGit.app"
+open "/Applications/WeGit.app"
+```
+
+This removes the quarantine attribute from WeGit only. It does not repair a corrupted download; download the DMG again if its checksum does not match.
 
 ## 🚀 Build & run
 
@@ -79,7 +87,7 @@ scripts/build.sh Release
 scripts/package-release.sh --preview
 ```
 
-The package script checks the app’s build-source receipt, embedded AskPass helper, license, signature integrity, and exclusion of test entry points. It writes a ZIP, checksum, and manifest to `.build/releases/package-*`. This command creates a local development package; it does not publish a GitHub Release.
+Release builds default to **Universal**; use `scripts/build.sh Debug x86_64` to compile the Intel slice explicitly. The package script checks the build-source receipt, both executable architectures and deployment versions, startup/theme icons, AskPass, license, signature and exclusion of test entry points. It writes a **DMG**, checksum and manifest to `.build/releases/package-*`, verifies the image and mounts it read-only to check the install layout. Download and installed-bundle budgets are 30 MiB and 60 MiB. This command creates a local development package; it does not publish a GitHub Release.
 
 ## ⌨️ Handy shortcuts
 
@@ -100,36 +108,25 @@ The package script checks the app’s build-source receipt, embedded AskPass hel
 ## 🧪 Development & validation
 
 ```bash
-# Core unit tests and integration tests using real temporary repositories
-swift test
+# Compile Core tests; XCTest execution belongs in hosted CI
+swift build --build-tests
 
-# Strict formatting, migration/localization checks, core tests, and Debug build
-scripts/verify.sh
-
-# Also run native UI, appearance/menu/theme checks, and accessibility audit
-# Requires a working interactive macOS login session
-scripts/verify.sh --ui
+# Compile native views and UI tests
+xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
+  -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app build-for-testing
 ```
 
-Historical verification before M0 passed **183 tests in 32 suites** with both **Apple Git 2.54.0** and an isolated **Git 2.46.0** build. The 2026-10-18 record includes **278 theme checks** (including 216 role/background contrast pairs), alongside earlier **18 appearance/icon behaviors**, **27 native menu behaviors**, and **6 restored-startup combinations**. Dates and source boundaries remain in the [development record](docs/DEVELOPMENT.md); these results do not establish acceptance of the current development source.
+Run costly Core/Git/GPG, backend performance and package checks only for backend-code changes. Site, native frontend, documentation and tooling use their own checks; see [AGENTS.md](AGENTS.md). Local verification compiles tests; actual XCTest runs on hosted macOS machines.
 
-The [2026-10-20 M0 checks](docs/acceptance/2026-10-20/v1-1-baseline/README.md) passed **14 sync-count, 30 file-tree/staging, 13 map, 290 theme, 18 icon, and 27 menu checks**, plus **30 Python policy tests**. Localization covered **1015 string keys, 7 plural keys, and 1325 source literals**. Core tests were compiled with `swift build --build-tests`; Debug and native UI tests were compiled with `xcodebuild build-for-testing`. No local XCTest ran, and the new `SelectionScopeTests` still needs hosted execution.
-
-Hosted smoke **1/1**, the full native functional suite **45/45** (zero failures/skips), and the reading matrix **144/144** passed at `2c2533c` in [run 39137123756](https://github.com/WeOpen/WeGit/actions/runs/39137123756). This is functional evidence on the recorded source, not same-commit full acceptance of the release. Accessibility acceptance is deferred; final-source performance, protected-Mac installation and real Beta feedback remain incomplete. See the [release notes](docs/releases/v1.0.0.md) and [current checklist](docs/V1_RELEASE_CHECKLIST.md) for the retained limits.
+The fixed v1.2 main source `126ca20` passed hosted smoke **1/1**, native functional **69/69**, and **144 reading combinations**. Three Git installations each passed **266 tests / 47 suites**, and five backend performance reports retained **450 valid samples** within their original budgets. These dated results belong to that source; the new macOS deployment target and Intel distribution have their own release checks. See the [evidence and remaining limits](docs/acceptance/2026-11-03/v1-2-final/README.md).
 
 Tests use isolated configuration files, temporary repositories, and separate preferences. Never run write tests against a repository you cannot afford to change.
 
 ## 🗺️ Scope & roadmap
 
-V1.0 focuses on daily Git workflows and readable diffs. **Stash and Tag management, an integrated conflict editor, interactive rebase, Blame, linked worktree/submodule management, and hosting-provider integrations** remain outside the first release. The published V1.0 build does not support opening linked worktrees or bare repositories. Development for v1.2 has started with [existing-worktree opening](https://github.com/WeOpen/WeGit/issues/59); validation and release remain pending.
+The [v1.1](docs/V1_1_PLAN.md) and [v1.2](docs/V1_2_PLAN.md) implementations are combined in 1.2.0-rc.1: Stash/Remote/Tag management, file history, Worktrees, Cherry-pick/Revert, Blame, selected-line staging, a conflict editor, standalone/Interactive Rebase, and Submodule/LFS inspection. Bare repositories remain unsupported; hosting-provider integrations are future work.
 
-The four required features in the [v1.1 plan](docs/V1_1_PLAN.md)—Stash, Remote and Tag management, plus file history with targeted search—are implemented and integrated. Application source `835b8c4` passed 54/54 functional tests with zero failures/skips and retained 144 reading-matrix screenshots; the Beta 1 draft package is verified. Performance, protected-Mac installation, real Beta feedback and stable-release acceptance remain open. See the [source-pinned Beta record](docs/acceptance/2026-10-24/v1-1-beta/README.md).
-
-The [v1.2 requirements](docs/V1_2_PLAN.md) cover linked-worktree opening/management, the deferred single-commit Cherry-pick/Revert workflows, Blame, selected-line staging, the conflict editor, standalone/interactive Rebase, Submodule management and LFS status. Priorities and delivery batches are recommendations; implementation and release dates follow individual requirements.
-
-The development branch now includes single-commit Cherry-pick/Revert previews and recovery. It checks the actual merge destinations, protects ignored content, preserves drafts, and keeps recovery available after a failed commit. Hosted acceptance is tracked separately in the [development record](docs/acceptance/2026-10-26/single-commit-operations/README.md).
-
-The app can hand conflicts to an external editor and continue or abort supported operations. It does not yet include an integrated three-way merge editor. Homebrew Git core and isolated noninteractive OpenPGP checks have passed. GitLab, interactive Pinentry/hardware keys, additional credential-helper setups, and other untested environments remain explicitly pending in the [compatibility matrix](docs/COMPATIBILITY.md).
+Intel hardware and macOS 26 runtime validation, protected-Mac installation, complete VoiceOver, final whole-app performance and real Beta feedback remain separate from compiled Universal support. GitLab, interactive Pinentry/hardware keys and other untested environments are tracked in the [compatibility matrix](docs/COMPATIBILITY.md).
 
 ## 📚 Explore the project
 
@@ -139,7 +136,8 @@ The app can hand conflicts to an external editor and continue or abort supported
 | `WeGitCore/` | Git domain services, process runner, repository queue, snapshots, and watchers |
 | `WeGitAskPass/` | Bundled authentication helper |
 | `WeGitTests/` · `WeGitUITests/` | Core/integration tests and native UI regression suites |
-| `branding/` | Current logo/icon sources and retained earlier resources |
+| `design/brand/` | Current R5 brand and native icon sources |
+| `branding/` | Retained earlier resources |
 | `docs/` | Product, design, architecture, plans, and acceptance evidence; primarily in Chinese |
 
 - 🧭 [Documentation index](docs/README.md)

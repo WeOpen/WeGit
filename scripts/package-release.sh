@@ -27,7 +27,8 @@ if [[ "$release_mode" == "--sign" || "$release_mode" == "--notarize" ]]; then
   esac
   if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
   xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Release \
-    -destination 'platform=macOS,arch=arm64' -derivedDataPath "$release_run/build" \
+    -destination 'generic/platform=macOS' -derivedDataPath "$release_run/build" \
+    ARCHS='arm64 x86_64' ONLY_ACTIVE_ARCH=NO \
     CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$WEGIT_SIGNING_IDENTITY" \
     DEVELOPMENT_TEAM="$WEGIT_TEAM_ID" PRODUCT_BUNDLE_IDENTIFIER="$release_bundle_id" \
     ENABLE_HARDENED_RUNTIME=YES CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp build
@@ -37,7 +38,8 @@ fi
 if [[ "$release_mode" == "--adhoc" ]]; then
   if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
   xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Release \
-    -destination 'platform=macOS,arch=arm64' -derivedDataPath "$release_run/build" \
+    -destination 'generic/platform=macOS' -derivedDataPath "$release_run/build" \
+    ARCHS='arm64 x86_64' ONLY_ACTIVE_ARCH=NO \
     CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- DEVELOPMENT_TEAM= \
     PRODUCT_BUNDLE_IDENTIFIER=com.willxue.wegit \
     CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp=none build
@@ -58,12 +60,12 @@ fi
 codesign --verify --deep --strict "$release_app"
 release_version="$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' "$release_app/Contents/Info.plist")"
 [[ "$release_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Expected a three-part release version" >&2; exit 1; }
-release_suffix=development
+release_suffix=macos-universal-development
 if [[ "$release_mode" == "--sign" || "$release_mode" == "--notarize" ]]; then
   codesign -d --verbose=4 "$release_app" 2> "$release_run/signature.txt"
   /usr/bin/grep -q 'Authority=Developer ID Application:' "$release_run/signature.txt"
   /usr/bin/grep -q 'flags=.*runtime' "$release_run/signature.txt"
-  release_suffix=signed
+  release_suffix=macos-universal-signed
 fi
 
 if [[ "$release_mode" == "--notarize" ]]; then
@@ -79,14 +81,14 @@ PY
   xcrun stapler staple "$release_app"
   xcrun stapler validate "$release_app"
   spctl --assess --type execute --verbose "$release_app"
-  release_suffix=notarized
+  release_suffix=macos-universal-notarized
 fi
 
 archive_version="$release_version"
 if [[ "$release_mode" == "--adhoc" ]]; then
   codesign -d --verbose=4 "$release_app" 2> "$release_run/signature.txt"
   /usr/bin/grep -q 'Signature=adhoc' "$release_run/signature.txt"
-  release_suffix=macos-arm64-adhoc
+  release_suffix=macos-universal-adhoc
   archive_version="$(python3 - "$release_version" "${WEGIT_RELEASE_TAG:-}" <<'PYTAG'
 import re, sys
 version, tag = sys.argv[1:]
@@ -96,33 +98,8 @@ print(tag[1:] if tag else version)
 PYTAG
 )"
 fi
-release_archive="$release_run/WeGit-${archive_version}-${release_suffix}.zip"
-ditto -c -k --keepParent "$release_app" "$release_archive"
-(cd "$release_run" && shasum -a 256 "$(basename "$release_archive")" > "$(basename "$release_archive").sha256")
-python3 - "$project_root" "$release_run" "$release_archive" "$release_mode" <<'PY'
-import hashlib, json, os, plistlib, subprocess, sys
-from datetime import datetime, timezone
-from pathlib import Path
-root, output, archive = map(Path, sys.argv[1:4])
-mode = sys.argv[4]
-info = plistlib.loads((output / "WeGit.app/Contents/Info.plist").read_bytes())
-paths = [root / "Package.swift", root / "project.yml", root / "LICENSE"]
-for name in ("WeGitCore", "WeGit", "WeGitAskPass", "WeGitTests", "WeGitUITests", "WeGitPerformanceTests", "Benchmarks", "scripts"):
-    paths.extend(p for p in (root / name).rglob("*") if p.is_file() and p.suffix in (".swift", ".c", ".h", ".sh", ".py", ".entitlements", ".strings", ".stringsdict"))
-sources = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
-commit = subprocess.run(["git", "rev-parse", "--verify", "HEAD"], cwd=root, text=True,
-                        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-report = {
-    "createdAt": datetime.now(timezone.utc).isoformat(), "version": info["CFBundleShortVersionString"],
-    "bundleIdentifier": info["CFBundleIdentifier"], "mode": mode.removeprefix("--"),
-    "notarized": mode == "--notarize", "signing": "ad-hoc" if mode in ("--preview", "--adhoc") else "developer-id",
-    "releaseTag": os.environ.get("WEGIT_RELEASE_TAG"), "gitCommit": commit.stdout.strip() if commit.returncode == 0 else None,
-    "workspaceDirty": bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=root)),
-    "archive": archive.name, "archiveSHA256": hashlib.sha256(archive.read_bytes()).hexdigest(),
-    "buildReceiptSHA256": hashlib.sha256((output / "WeGit.app/Contents/Resources/build-source.json").read_bytes()).hexdigest(),
-    "sourceFiles": sources,
-}
-(output / "manifest.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
-PY
+release_archive="$release_run/WeGit-${archive_version}-${release_suffix}.dmg"
+python3 scripts/release_artifact.py --source-root "$project_root" --app "$release_app" \
+  --output "$release_run" --archive "$release_archive" --mode "${release_mode#--}"
 echo "Package: $release_archive"
 echo "Manifest: $release_run/manifest.json"

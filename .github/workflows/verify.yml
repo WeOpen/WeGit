@@ -146,7 +146,7 @@ jobs:
             .build/rebase-performance-*/failure-fixture.tar.gz
             .build/appearance-icons-*/result.json
             .build/native-application-menu-*/result.json
-            .build/releases/package-*/*.zip
+            .build/releases/package-*/*.dmg
             .build/releases/package-*/*.sha256
             .build/releases/package-*/manifest.json
             .build-app/Build/Products/Release/WeGit.app/Contents/Resources/build-source.json

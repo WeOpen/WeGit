@@ -49,7 +49,6 @@ jobs:
     timeout-minutes: 60
     env:
       WEGIT_SKIP_PROJECT_GENERATION: '1'
-      WEGIT_SERIAL_CORE_TESTS: '1'
       WEGIT_RELEASE_TAG: ${{ inputs.tag }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -65,16 +64,12 @@ jobs:
       - name: Isolate Git configuration without affecting checkout cleanup
         working-directory: source
         run: scripts/ci/isolate-git.sh
-      - name: Verify tagged source and rebuild ordinary ad-hoc Release
+      - name: Rebuild the validated source as a Universal ad-hoc DMG
         working-directory: source
         run: |
           scripts/ci/check-toolchain.sh
-          scripts/verify.sh
-          scripts/ci/prepare-git-246.sh
-          env WEGIT_TEST_GIT="$(cat .build/git-246-path)" swift test --no-parallel
-          scripts/ci/native-behavior.sh
           scripts/package-release.sh --adhoc
-      - name: Validate and prepare versioned assets
+      - name: Validate Universal DMG and prepare versioned assets
         working-directory: source
         env:
           RELEASE_COMMIT: ${{ needs.resolve.outputs.commit }}

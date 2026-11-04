@@ -1,5 +1,15 @@
 # WeGit 分发与发布操作
 
+## 当前规则：Universal DMG（2026-11-04）
+
+新版本统一分发 DMG，文件名为 `WeGit-X.Y.Z[-rc.N]-macos-universal-adhoc.dmg`，随附 `.sha256`、`manifest.json` 和 `release.json`。同一个镜像包含 `WeGit.app` 与 `/Applications` 快捷入口；主程序与 AskPass 必须同时包含 arm64 / x86_64，最低系统版本为 macOS 26。macOS 27 不运行在 Intel Mac 上，仅添加 x86_64 而保留 27.0 部署目标不能提供 Intel 兼容。
+
+`scripts/build.sh Release` 默认构建 Universal；`scripts/package-release.sh --preview` 生成本地预览 DMG，`--adhoc` 在独立 DerivedData 里重建正式标识。打包核对源码回执、启动/主题图标、全部 Mach-O 架构与部署版本、签名/权限、AskPass/MIT 与测试入口，随后执行 `hdiutil verify` 和只读挂载校验。下载与安装后预算为 30 MiB / 60 MiB，实际字节数进入 manifest。新网站优先选择 DMG，旧版本 ZIP 继续可下载。
+
+1.2.0-rc.1 是公开候选版；稳定版 workflow 的同提交完整验收门禁继续保留。Intel 实机、macOS 26 运行与其他未验范围见[候选版说明](releases/v1.2.0-rc.1.md)。README 的“已损坏”命令仅针对已核对来源和 SHA-256 的 WeGit 应用：`sudo xattr -dr com.apple.quarantine "/Applications/WeGit.app"`。
+
+以下 ZIP、旧品牌与 0.1.0 / 1.0.0 记录是历史证据，保留各自源码与日期。
+
 ## v1.0.0 发布决定（2026-10-19）
 
 维护者已明确要求“跳过辅助功能这块吧，直接上线发布 v1.0”。本次按 **v1.0.0 单次发布例外**执行：保留常规受保护 PR、同提交 main CI、干净正式标识构建与完整制品校验，人工创建草稿并核对后公开发布。完整验收没有通过，`acceptanceRun` 保持 `null`；默认稳定版 workflow 的同提交完整验收要求不修改。

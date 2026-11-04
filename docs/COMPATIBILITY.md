@@ -1,5 +1,11 @@
 # Git 兼容性与测试隔离
 
+## 1.2.0-rc.1 的 CPU 与系统范围（2026-11-04）
+
+用户确认的 Intel 目标系统为 macOS26。新 DMG 的 WeGit 与 AskPass 均包含 arm64 / x86_64；Package 与 Xcode 工程的最低系统版本同步为26.0。普通Release实际双架构编译、全部Mach-O部署版本、签名、源码回执和DMG只读挂载校验通过；本机没有Rosetta或Intel硬件，不能将跨架构编译记成Intel运行通过。
+
+Apple Silicon / macOS27 的既有功能证据保留各自源码边界。Intel / macOS26与Apple Silicon / macOS26的实际运行、干净受保护Mac安装仍待覆盖，见[本次候选版说明](releases/v1.2.0-rc.1.md)。以下Git/系统记录属于对应日期的历史矩阵。
+
 > 总览更新：2026-10-17；历史验证记录保留原日期。环境包含 macOS 27.0.1（26A434）、Xcode 27 / Swift 6.4 的本机 Apple Silicon Mac16,8 与独立托管 arm64 VM，具体来源和范围见各项证据。
 
 ## 1. 最低能力要求

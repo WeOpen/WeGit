@@ -8,7 +8,6 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
-import zipfile
 
 TAG = re.compile(r"v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-((?:alpha|beta|rc)\.(?:0|[1-9][0-9]*)))?")
 SHA = re.compile(r"[0-9a-f]{40}")
@@ -90,11 +89,34 @@ def validate_package(directory, tag, commit):
             "Expected an explicit ad-hoc, non-notarized package")
     require(manifest["bundleIdentifier"] == "com.willxue.wegit", "Expected the confirmed production bundle ID")
     name = manifest["archive"]
-    require(name == f"WeGit-{tag[1:]}-macos-arm64-adhoc.zip", "Unexpected archive name")
+    require(name == f"WeGit-{tag[1:]}-macos-universal-adhoc.dmg", "Unexpected archive name")
     archive = directory / name
     require(hashlib.sha256(archive.read_bytes()).hexdigest() == manifest["archiveSHA256"], "Archive checksum mismatch")
-    with zipfile.ZipFile(archive) as handle:
-        require(handle.testzip() is None, "Archive CRC failure")
+    require(manifest.get("archiveFormat") == "dmg" and archive.stat().st_size >= 512, "Expected a complete DMG")
+    with archive.open("rb") as handle:
+        handle.seek(-512, os.SEEK_END)
+        require(handle.read(4) == b"koly", "Expected a UDIF disk image, not a renamed ZIP")
+    require(manifest.get("architectures") == ["arm64", "x86_64"], "Expected a Universal application")
+    require(manifest.get("minimumSystemVersion") == "26.0", "Expected macOS 26 compatibility")
+    require(manifest.get("imageBytes") == archive.stat().st_size and archive.stat().st_size <= 30 * 1024 * 1024,
+            "Disk image size does not match the manifest or download budget")
+    require(isinstance(manifest.get("bundleBytes"), int) and 0 < manifest["bundleBytes"] <= 60 * 1024 * 1024,
+            "Application size is missing or exceeds the bundle budget")
+    # The trusted macOS build verifies hdiutil checksums, mounts the image read-only
+    # and checks every binary/signature. Linux publication retains that evidence
+    # and rechecks the immutable image bytes and metadata.
+    verification = manifest.get("diskImageVerification", {})
+    require(all(verification.get(key) is True for key in (
+        "hdiutilVerified", "readOnlyMountVerified", "applicationsShortcutVerified")), "Disk image was not fully verified on macOS")
+    binaries = manifest.get("binaries", {})
+    require({"Contents/MacOS/WeGit", "Contents/Helpers/WeGitAskPass"}.issubset(binaries), "Missing app or AskPass architecture evidence")
+    for path, binary in binaries.items():
+        require(binary.get("architectures") == ["arm64", "x86_64"], "Non-Universal bundled binary: " + path)
+        versions = binary.get("minimumSystemVersions", {})
+        require(set(versions) == {"arm64", "x86_64"}, "Missing deployment version evidence: " + path)
+        for version in versions.values():
+            require(isinstance(version, str) and re.fullmatch(r"\d+\.\d+(?:\.\d+)?", version)
+                    and tuple(map(int, version.split("."))) <= (26, 0, 0), "Bundled binary requires a newer macOS: " + path)
     checksum = (directory / (name + ".sha256")).read_text().split()
     require(checksum == [manifest["archiveSHA256"], name], "Checksum file must reference only this archive basename")
     return manifest
@@ -107,15 +129,17 @@ def prepare(directory, output, repo, tag, commit, ci_run, acceptance_run):
         shutil.copyfile(directory / name, output / name)
     version, prerelease = parse_tag(tag)
     metadata = {"version": version, "tag": tag, "commit": commit, "prerelease": prerelease,
-                "platform": "macOS 27+", "architecture": "arm64", "signing": "ad-hoc", "notarized": False,
+                "platform": "macOS 26+", "architecture": "universal", "architectures": manifest["architectures"],
+                "signing": "ad-hoc", "notarized": False,
                 "archive": manifest["archive"], "sha256": manifest["archiveSHA256"],
                 "ciRun": ci_run, "acceptanceRun": acceptance_run or None}
     (output / "release.json").write_text(json.dumps(metadata, indent=2) + "\n")
     note = f"""## 📦 macOS download
 
-- macOS 27+, Apple Silicon / arm64.
+- macOS 26+, Apple Silicon and Intel (Universal: arm64 / x86_64).
 - **Ad-hoc signed; no Developer ID; not notarized by Apple.** macOS may block first launch.
-- Download the ZIP and verify its `.sha256` file. See [Apple's safe-opening guidance](https://support.apple.com/102445).
+- Download the DMG and verify its `.sha256` file. Open it and drag WeGit into Applications.
+- If macOS says the app is damaged, verify the checksum, then run `xattr -dr com.apple.quarantine /Applications/WeGit.app` for this trusted download. See [Apple's safe-opening guidance](https://support.apple.com/102445).
 - Source: `{commit}`. [CI evidence](https://github.com/{repo}/actions/runs/{ci_run}).
 - Full acceptance: {('https://github.com/' + repo + '/actions/runs/' + acceptance_run) if acceptance_run else 'Not required for this prerelease; full release acceptance remains separate.'}
 - `manifest.json` and `release.json` describe this exact artifact. The website must link to this same asset.
@@ -137,7 +161,9 @@ def publish(directory, repo, tag):
     require(info.get("sha256") == manifest["archiveSHA256"] and info.get("archive") == manifest["archive"],
             "Website metadata does not match the artifact")
     require(info.get("notarized") is False and info.get("signing") == "ad-hoc"
-            and info.get("prerelease") == parse_tag(tag)[1], "Misleading release metadata")
+            and info.get("prerelease") == parse_tag(tag)[1]
+            and info.get("platform") == "macOS 26+" and info.get("architecture") == "universal"
+            and info.get("architectures") == manifest["architectures"], "Misleading release metadata")
     # Revalidate server-side gates and tag immediately before the write.
     values = resolve(repo, tag, str(info.get("acceptanceRun") or ""))
     require(values["commit"] == info["commit"], "Tag moved after artifact creation")

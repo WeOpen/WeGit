@@ -13,7 +13,7 @@ import subprocess
 def source_files(root: Path) -> dict[str, str]:
     paths = [root / name for name in (
         "Package.swift", "project.yml", "LICENSE", "WeGit.xcodeproj/project.pbxproj",
-        "scripts/build_provenance.py",
+        "scripts/build_provenance.py", "scripts/install-bundle-icon.sh",
     )]
     for directory in ("WeGitCore", "WeGit", "WeGitAskPass"):
         paths.extend(path for path in (root / directory).rglob("*")
@@ -31,6 +31,7 @@ def write_receipt(root: Path, output: Path) -> None:
         "version": os.environ.get("MARKETING_VERSION"),
         "buildVersion": os.environ.get("CURRENT_PROJECT_VERSION"),
         "architectures": os.environ.get("ARCHS", "").split(),
+        "minimumSystemVersion": os.environ.get("MACOSX_DEPLOYMENT_TARGET"),
         "xcodeBuild": os.environ.get("XCODE_PRODUCT_BUILD_VERSION"),
         "swiftOptimization": os.environ.get("SWIFT_OPTIMIZATION_LEVEL"),
         "swiftConditions": os.environ.get("SWIFT_ACTIVE_COMPILATION_CONDITIONS", ""),
@@ -66,11 +67,17 @@ def verify_bundle(root: Path, bundle: Path) -> None:
         source = root / "WeGit/Resources/AppearanceIcons" / name
         if not bundled.is_file() or bundled.read_bytes() != source.read_bytes():
             raise SystemExit("Release is missing the matching theme icon: " + name)
+    fallback = bundle / "Contents/Resources/AppIcon.icns"
+    light_icon = root / "WeGit/Resources/AppearanceIcons/WeGitLight.icns"
+    if not fallback.is_file() or fallback.read_bytes() != light_icon.read_bytes():
+        raise SystemExit("Release has a stale or incomplete startup icon. Rebuild the application.")
     info = plistlib.loads((bundle / "Contents/Info.plist").read_bytes())
     for key, field in (("CFBundleIdentifier", "bundleIdentifier"),
                        ("CFBundleShortVersionString", "version"), ("CFBundleVersion", "buildVersion")):
         if info.get(key) != report.get(field):
             raise SystemExit("Build receipt does not match bundle metadata: " + key)
+    if info.get("LSMinimumSystemVersion") != report.get("minimumSystemVersion"):
+        raise SystemExit("Build receipt does not match the minimum macOS version.")
     if any(path.name == "WeGitTestGit" or path.suffix == ".xctest" for path in bundle.rglob("*")):
         raise SystemExit("Refusing to package native test fixtures or test bundles.")
     result = subprocess.run(["/usr/bin/codesign", "-d", "--entitlements", ":-", str(bundle)],

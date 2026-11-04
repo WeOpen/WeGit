@@ -12,11 +12,17 @@ function assetURL(value, tag, name) {
 export function selectRelease(releases) {
   if (!Array.isArray(releases)) throw new Error('Invalid release response');
   const published = releases.filter(item => item.draft === false && tagPattern.test(item.tag_name || ''));
-  const release = published.find(item => !item.prerelease) || published[0];
+  const hasUniversal = item => Array.isArray(item.assets) && item.assets.some(
+    asset => asset.name === `WeGit-${item.tag_name.slice(1)}-macos-universal-adhoc.dmg`);
+  // Prefer the distribution that supports the advertised Intel/Apple Silicon
+  // requirements, including a public candidate while the older stable is ZIP.
+  const release = published.find(item => !item.prerelease && hasUniversal(item))
+    || published.find(hasUniversal) || published.find(item => !item.prerelease) || published[0];
   if (!release) return null;
   const assets = Array.isArray(release.assets) ? release.assets : [];
   const version = release.tag_name.slice(1);
-  const archive = assets.find(asset => asset.name === `WeGit-${version}-macos-arm64-adhoc.zip`);
+  const archive = assets.find(asset => asset.name === `WeGit-${version}-macos-universal-adhoc.dmg`)
+    || assets.find(asset => asset.name === `WeGit-${version}-macos-arm64-adhoc.zip`);
   const checksum = archive && assets.find(asset => asset.name === archive.name + '.sha256');
   const manifest = assets.find(asset => asset.name === 'manifest.json');
   const url = item => item && assetURL(item.browser_download_url, release.tag_name, item.name);

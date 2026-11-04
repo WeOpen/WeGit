@@ -40,7 +40,6 @@
 		3AC13E8FF683B2F0F5D99304 /* StashBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC571FAE93EE55A0C1CC83 /* StashBrowser.swift */; };
 		3C1F88DB3DCA9041C08F459E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465095E3E7AE6B70D37D9F9 /* AppState.swift */; };
 		3DACABF897D18942ED59656C /* HistoryTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2C912DA4AA66B4AA2C948F /* HistoryTableView.swift */; };
-		400928107C5A76F517449935 /* WeGitAskPass in Resources */ = {isa = PBXBuildFile; fileRef = 12DBE880AE0FD5BC94A762A3 /* WeGitAskPass */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4117E4AB6E6833898ABA77F9 /* WeGitDark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1C7B58689ADDF9FC83E28F07 /* WeGitDark.icns */; };
 		4351FAB1F2126A7161D87F41 /* RepositoryContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */; };
 		461DEA46B43F53AC35E72678 /* BrandGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C19B279458D6ADB439FB3B7 /* BrandGeometry.swift */; };
@@ -580,6 +579,7 @@
 				AA7C82378352C78DDE6AB1EB /* Record application source provenance */,
 				D7C76CD407BD889E188FF8F2 /* Resources */,
 				509EF0D41959FB56E2FE5B6A /* Frameworks */,
+				416EAE80BF85CB004DC374B7 /* Install complete current app icon */,
 			);
 			buildRules = (
 			);
@@ -722,7 +722,6 @@
 				E526685588F82245FEC09F05 /* LICENSE in Resources */,
 				4117E4AB6E6833898ABA77F9 /* WeGitDark.icns in Resources */,
 				E459B118F08928B17F505892 /* WeGitLight.icns in Resources */,
-				400928107C5A76F517449935 /* WeGitAskPass in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,7 +746,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitAskPass\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass\"\n";
+			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitAskPass\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass\"\nrm -f \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitAskPass\"\n";
+		};
+		416EAE80BF85CB004DC374B7 /* Install complete current app icon */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/WeGit/Resources/AppearanceIcons/WeGitLight.icns",
+			);
+			name = "Install complete current app icon";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/bash \"${SRCROOT}/scripts/install-bundle-icon.sh\"\n";
 		};
 		AA7C82378352C78DDE6AB1EB /* Record application source provenance */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1078,7 +1097,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1160,7 +1179,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1224,7 +1243,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -1310,7 +1329,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1342,7 +1361,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -1378,7 +1397,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
