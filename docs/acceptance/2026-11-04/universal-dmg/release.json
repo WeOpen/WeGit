@@ -1,0 +1,18 @@
+{
+  "version": "1.2.0",
+  "tag": "v1.2.0-rc.1",
+  "commit": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "prerelease": true,
+  "platform": "macOS 26+",
+  "architecture": "universal",
+  "architectures": [
+    "arm64",
+    "x86_64"
+  ],
+  "signing": "ad-hoc",
+  "notarized": false,
+  "archive": "WeGit-1.2.0-rc.1-macos-universal-adhoc.dmg",
+  "sha256": "baf14b0ac8f9921f151fe822c0d36bc49a51961f522d93afe3a9337ff4f708d1",
+  "ciRun": "41769132434",
+  "acceptanceRun": null
+}

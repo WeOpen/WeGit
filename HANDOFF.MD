@@ -1,5 +1,17 @@
 # WeGit 开发交接
 
+## 2026-11-04 RC 发布结果与接续验收
+
+- 接续来源聊天 `01a1a3c0-7d48-7342-b3f6-1414b31fd2d8`。PR112 的最终候选 `8eacbd394fd78170b6d1b01174a75c9a96a1b7de` / CI41756668114 已实际成功；完整原生制品 19,880,881 bytes / 39 CRC 项 / SHA256 `42601df729e2a6edbf4d81719631779388788a538472a95c9f35b7c237b24e69` 已下载核验。365 包来源与195应用输入逐 SHA 匹配候选，三套 Git 各266测试/47组、9+9隔离签名、五份共450有效性能样本按原预算独立重算通过。托管预览 DMG 为20,980,326/59,491,938 bytes；它仍是开发标识、PR合成源的制品，不冒充最终 Release。
+- 更新 PR 验收说明会触发新的 `PR policy`。紧接着合入会真实返回 `Required status check "PR policy" is expected`；等待该轻量检查41769025777通过后再正常 squash，不绕过保护或重新执行已通过的原生性能。PR112 已合入 main `127b553f9c35bb5bff7a1c66fa14eacced7d5798`，整棵 tree 与候选相同；用户原 PBX ID 差异逐字节保留，SHA256 `d08f03d9c5d63698478c56f2997361935e63b98d80eddbcd78dd602fcf8e5685`。
+- 同提交可信 main CI41769132434 已全部成功，Native macOS 实际48分59秒。完整19,880,050 bytes/39 CRC项制品SHA256 `89345f800a73ff21febd5e14c9a8f2a366930805746cdc642b23e9fe80f26627` 已核验，365/195来源、三套Git各266/47、9+9隔离签名与450原始样本均独立通过。固定main的 `v1.2.0-rc.1` tag 已创建；Draft release41774630275成功，仅重建正式标识Universal DMG，不重复后端长流程。
+- RC于2026-11-04 12:57:45 Asia/Shanghai公开。最终正式标识DMG为20,984,079下载/59,508,178安装bytes，SHA256 `baf14b0ac8f9921f151fe822c0d36bc49a51961f522d93afe3a9337ff4f708d1`。下载后365/195源码、全部Mach-O双slice/minos26、深度严格签名/空权限、主题及完整启动图标、MIT/测试排除、hdiutil与只读挂载/Applications入口均实核，挂载已卸载；系统在进程启动前返回的新R5图标原图保留。官网实际点击下载的同一DMG逐字节SHA匹配。永久回执及450原始数组见`docs/acceptance/2026-11-04/universal-dmg/`。Intel/macOS26实机、受保护安装与稳定版Full acceptance等既有边界保留，不将跨架构编译及当前候选版称为这些通过。
+- GitHub草稿的页面及资产URL会暂时使用 `untagged-*` 占位路径，即使真实tag已经存在。草稿校验使用认证资产下载和清单；公开后重新读取实际canonical tag路径并构建网站清单，不能把草稿URL当作最终下载地址。
+- Cloudflare main 构建 `f891a8f0-1516-4298-9cd4-384e248b337b` 实际成功，但生产 `/releases.json` 返回空数组，下载按钮仍指向版本列表；成功部署不证明版本清单已注入。生产与预览基础构建命令现已在构建时用有界curl获取公开Release，保留npm test/build/原资源预算，并设置`WEGIT_RELEASES_JSON=.build/public-releases.json`。本地注入旧公开清单的构建为2,721,122 public bytes、61,844 CSS bytes、142,845 client gzip、255,731 Worker gzip；dry-run及16项本地Worker检查通过。
+- RC公开后，实际生产构建`cf0d248a-a690-4273-89d7-8dbfe8ce392f`以新清单51秒成功部署版本`afe3a881-7d28-4b0c-93f8-ac8a24e60678`。下载的完整24,659 bytes日志保留；原预算检查实测2,721,824 public bytes、61,844 CSS bytes、142,839 client gzip、255,711 Worker gzip，Worker startup24ms。英中页面的按钮与生产清单都指向正式RC DMG，实际浏览器下载SHA匹配；无新增运行时GitHub请求，不清空全局缓存。以后只发布Release而没有site提交时，应同样刷新Cloudflare构建清单；GitHub Pages的release触发运行41776309754/41776310162实际成功。
+- Cloudflare SPA的URL/选中tab先变，输入字段与“未保存”状态稍后更新。必须读取可见字段、等待保存结束并跨reload核对生产和预览各自的实际命令，不能把刚切tab时隐藏/旧字段的值当作当前配置。下载日志的text locator会命中零尺寸文字，实际button ref可正常下载，不操作复制日志按钮以免改变用户剪贴板。本机Wrangler原认证已过期，不新建凭据或修改登录，使用既有Cloudflare浏览器授权完成部署。
+- 旧Ego工作区3及本次曾用4均已不存在，inventory仅剩用户0；按同一目标名称重新打开工作区5完成公开下载验收，不接管用户工作区。任务专用4181本地Worker已正常停止，复验挂载已卸载；现场状态与工具在`.build/release-1.2-preflight/ship-state.json`。后续文档提交只做轻量检查，发行tag仍固定真正通过Native的main127b553，不能以文档tip的skipped Native替代发行来源。
+
 ## 2026-11-04 启动图标、Universal 与 DMG（#111）
 
 - PR112/head4d1eb8c 的CI41746732092真实失败于Rebase性能ordinary第16次cancel，只保留15有效样本。先前Interactive与Conflict各90通过；GPG/Homebrew/最终包后续未执行。6项CRC/37,285bytes失败制品SHA256 `8ef4d6e10454cba5e5a5c69f7e89f871573c87a8526f3802210d5e75f38dbae8`、失败夹具和原数组完整保留于`.build/release-1.2-preflight/`，不改记为通过。

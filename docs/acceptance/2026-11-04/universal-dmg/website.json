@@ -1,0 +1,34 @@
+{
+  "buildId": "cf0d248a-a690-4273-89d7-8dbfe8ce392f",
+  "version": "afe3a881-7d28-4b0c-93f8-ac8a24e60678",
+  "source": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "buildSeconds": 51,
+  "startupMilliseconds": 24,
+  "metrics": {
+    "publicBytes": 2721824,
+    "cssBytes": 61844,
+    "clientScriptGzipBytes": 142839,
+    "workerGzipBytes": 255711
+  },
+  "logBytes": 24659,
+  "logSHA256": "9a562692bff3c9383784fd21a8e1e7b480c8735137cc43d9981bacf43c019261",
+  "runtimeGitHubRequestsAdded": 0,
+  "publishedSnapshotCount": 2,
+  "languagesVerified": [
+    "en",
+    "zh-CN"
+  ],
+  "publicDMGDownload": {
+    "sourcePage": "https://wegit.willxue.com/zh/",
+    "downloadHref": "https://github.com/WeOpen/WeGit/releases/download/v1.2.0-rc.1/WeGit-1.2.0-rc.1-macos-universal-adhoc.dmg",
+    "filename": "WeGit-1.2.0-rc.1-macos-universal-adhoc.dmg",
+    "bytes": 20984079,
+    "sha256": "baf14b0ac8f9921f151fe822c0d36bc49a51961f522d93afe3a9337ff4f708d1",
+    "matchedVerifiedDMG": true
+  },
+  "githubPagesRuns": [
+    41776309754,
+    41776310162
+  ],
+  "allPassed": true
+}

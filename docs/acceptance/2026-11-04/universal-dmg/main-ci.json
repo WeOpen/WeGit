@@ -1,0 +1,23 @@
+{
+  "commit": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "sourceInputs": {
+    "package": 365,
+    "application": 195
+  },
+  "core": {
+    "gitSuites": 3,
+    "testsEach": 266,
+    "suitesEach": 47
+  },
+  "gpgChecks": [
+    9,
+    9
+  ],
+  "performanceSamples": 450,
+  "imageBytes": 20973166,
+  "bundleBytes": 59491938,
+  "startupIconSHA256": "783c30a29d46a908725d8910f841fac13f7b8fa1df95ba55e8d785c1a7ff5e1c",
+  "archiveSHA256": "5e5a3b088ede836252809051ce2f52c0ca137ed94d98074dc1698ec75f479a52",
+  "previewManifest": ".build/releases/package-EvF4nF/manifest.json",
+  "allPassed": true
+}

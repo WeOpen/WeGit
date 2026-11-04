@@ -1,0 +1,14 @@
+{
+  "publishedAt": "2026-11-04T04:57:45Z",
+  "releaseId": 433523119,
+  "source": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "selected": {
+    "tag": "v1.2.0-rc.1",
+    "prerelease": true,
+    "notes": "https://github.com/WeOpen/WeGit/releases/tag/v1.2.0-rc.1",
+    "download": "https://github.com/WeOpen/WeGit/releases/download/v1.2.0-rc.1/WeGit-1.2.0-rc.1-macos-universal-adhoc.dmg",
+    "checksum": "https://github.com/WeOpen/WeGit/releases/download/v1.2.0-rc.1/WeGit-1.2.0-rc.1-macos-universal-adhoc.dmg.sha256",
+    "manifest": "https://github.com/WeOpen/WeGit/releases/download/v1.2.0-rc.1/manifest.json"
+  },
+  "assetCount": 4
+}

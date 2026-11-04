@@ -1,0 +1,43 @@
+{
+  "commit": "127b553f9c35bb5bff7a1c66fa14eacced7d5798",
+  "tag": "v1.2.0-rc.1",
+  "sha256": "baf14b0ac8f9921f151fe822c0d36bc49a51961f522d93afe3a9337ff4f708d1",
+  "imageBytes": 20984079,
+  "bundleBytes": 59508178,
+  "sourceInputs": 365,
+  "applicationInputs": 195,
+  "binaries": {
+    "Contents/Helpers/WeGitAskPass": {
+      "sha256": "6254e33f170a9c5d0ab8fb1883e0ab45c87f216293f8bb766d9148dec367c0b6",
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "minimumSystemVersions": {
+        "arm64": "26.0",
+        "x86_64": "26.0"
+      }
+    },
+    "Contents/MacOS/WeGit": {
+      "sha256": "0be597f380bbb822a962575a191f171048b0913debf38fee73e764c9678319c1",
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "minimumSystemVersions": {
+        "arm64": "26.0",
+        "x86_64": "26.0"
+      }
+    }
+  },
+  "entitlements": {},
+  "startupIconSHA256": "783c30a29d46a908725d8910f841fac13f7b8fa1df95ba55e8d785c1a7ff5e1c",
+  "coldIcon": "startup-icon.png",
+  "coldIconSHA256": "dbbc9da762cd97af8cb5a915ce1c03368ac06b94aad09a0ec2ec15d2bb4fe12b",
+  "xctestExecuted": false,
+  "hdiutilVerified": true,
+  "readOnlyMountVerified": true,
+  "mountDetached": true,
+  "applicationsShortcutVerified": true,
+  "allPassed": true
+}
