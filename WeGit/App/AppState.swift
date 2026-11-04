@@ -496,6 +496,41 @@ final class AppState {
     var syncRequest: SyncRequest?
     var searchRequest: RepositorySearchRequest?
     var worktreeManagementRequest: WorktreeManagementRequest?
+    var themeImportRequest: ThemeImportPayload?
+    @ObservationIgnored private var pendingThemeImports: [ThemeImportPayload] = []
+    private var themeImportReady = false
+
+    var canPresentThemeImport: Bool {
+        themeImportReady && mainWorkspaceMounted && !isOpening && !anyOperationRunning
+            && authentication.request == nil
+            && !clonePresented && !activityPresented && !palettePresented && !branchPresented
+            && !remoteManagementPresented && !repositoryPickerPresented
+            && tagCreationRequest == nil && singleCommitRequest == nil && resetRequest == nil
+            && recoveryBrowserRequest == nil && selectedLinesRequest == nil && conflictEditorRequest == nil
+            && blameRequest == nil && fileHistoryRequest == nil && branchSwitchRequest == nil
+            && syncRequest == nil && searchRequest == nil && worktreeManagementRequest == nil
+            && themeImportRequest == nil
+    }
+
+    func receiveThemeURL(_ url: URL) {
+        do {
+            let payload = try ThemeImportPayload.parse(url)
+            guard themeImportRequest?.id != payload.id,
+                !pendingThemeImports.contains(where: { $0.id == payload.id })
+            else { return }
+            guard pendingThemeImports.count < 8 else {
+                throw ModelFailure.unsupported(L10n.text("待处理的主题请求已满，请先完成当前导入。"))
+            }
+            pendingThemeImports.append(payload)
+            mainWindowRequested = true
+            drainThemeImports()
+        } catch { self.error = error.localizedDescription }
+    }
+
+    func drainThemeImports() {
+        guard canPresentThemeImport, !pendingThemeImports.isEmpty else { return }
+        themeImportRequest = pendingThemeImports.removeFirst()
+    }
     @ObservationIgnored private var worktreeFocusRestoration: WorktreeFocusRestoration?
     var settingsRequestID = UUID()
     var sidebarRequestID = UUID()
@@ -789,6 +824,10 @@ final class AppState {
                 await session.refresh()
             }
             return
+        }
+        defer {
+            themeImportReady = true
+            drainThemeImports()
         }
         do { try await DiffSnapshotStorage.removeAbandoned() } catch {
             self.error = error.localizedDescription

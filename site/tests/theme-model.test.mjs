@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
-import { COLOR_ROLES, MAX_THEME_BYTES, contrastRatio, decodeTheme, prepareTheme, previewProperties, validateTheme } from '../src/scripts/theme-model.js';
+import { COLOR_ROLES, MAX_THEME_BYTES, contrastRatio, decodeTheme, prepareTheme, previewProperties, validateTheme, themeSnapshot, themeImportURI } from '../src/scripts/theme-model.js';
+import { createHash } from 'node:crypto';
 
 const catalog = JSON.parse(readFileSync(new URL('../data/themes.json', import.meta.url)));
 const documents = catalog.map(entry => JSON.parse(readFileSync(new URL(`../public/themes/${entry.id}.json`, import.meta.url))));
@@ -61,5 +62,19 @@ test('accent selection text chooses the more readable foreground', () => {
     const document = prepareTheme(documents[0], { accent });
     const text = previewProperties(document)['--app-selection-text'];
     assert.ok(contrastRatio(accent, text) >= 4.5);
+  }
+});
+
+test('client URI and JSON share the actual edited color bytes with a matching digest', async () => {
+  for (const document of documents) {
+    const edited = prepareTheme(document, { accent: '#268AE5', contrast: 'high' });
+    const uri = new URL(await themeImportURI(edited));
+    assert.equal(uri.protocol, 'wegit:'); assert.equal(uri.host, 'theme'); assert.equal(uri.pathname, '/import');
+    const data = Buffer.from(uri.searchParams.get('data'), 'base64url');
+    assert.equal(data.toString('utf8'), themeSnapshot(edited));
+    assert.equal(uri.searchParams.get('sha256'), createHash('sha256').update(data).digest('hex'));
+    assert.deepEqual(JSON.parse(data), edited);
+    assert.equal(JSON.parse(data).colors.accent, '#268AE5');
+    assert.ok(data.length <= 8192 && uri.href.length <= 16384);
   }
 });
