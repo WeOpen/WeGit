@@ -1,6 +1,22 @@
 # WeGit 分发与发布操作
 
-## 当前规则：Universal DMG（2026-11-04）
+## v2.0计划：三种架构包与自动下载（2026-11-04）
+
+用户要求下一版同时提供以下三种DMG，具体实现与验收见 [V20-13/V20-15](V2_0_PLAN.md)。当前构建/打包仍以v1.2 Universal为基线，不能将本段计划写成已发布制品。
+
+| 变体 | 文件名 | 包内Mach-O要求 |
+| --- | --- | --- |
+| Universal | `WeGit-X.Y.Z[-rc.N]-macos-universal-adhoc.dmg` | arm64 + x86_64 |
+| Apple Silicon | `WeGit-X.Y.Z[-rc.N]-macos-applesilicon-adhoc.dmg` | arm64 |
+| Intel | `WeGit-X.Y.Z[-rc.N]-macos-intel-adhoc.dmg` | x86_64 |
+
+每种包有独立`.sha256`和对应变体manifest，顶层release清单关联同版本/源码/build的所有变体、大小/minimumOS/摘要/来源。主程序、AskPass及其他内嵌Mach-O全部按目标架构核对，不只检查主程序；正式标识与macOS26最低版本一致。三种包完整上传/核对后才公开，网站不跨版本补齐变体。
+
+同源码的Core/Git/GPG/后端性能结果按批次核验一次并复用；三包分别编译/验包，不为每种架构重复相同后端流程。架构特定运行结果单独记录，不将Intel交叉编译当作实机通过。下载/安装预算逐变体核对，默认每包30/60MiB，依赖增量在M0测算。
+
+官网自动刷新公开版本清单并推荐适用薄包，信息不足时默认Universal，三种包均可手选；无site提交的Release发布/编辑/撤销同样触发轻量刷新。版本清单缓存/ETag与有效失败回退保留，不逐访客请求GitHub。新的CI触发/分发脚本属于M0和对应开发批次，当前未修改。
+
+## v1.2当前规则：Universal DMG（2026-11-04）
 
 新版本统一分发 DMG，文件名为 `WeGit-X.Y.Z[-rc.N]-macos-universal-adhoc.dmg`，随附 `.sha256`、`manifest.json` 和 `release.json`。同一个镜像包含 `WeGit.app` 与 `/Applications` 快捷入口；主程序与 AskPass 必须同时包含 arm64 / x86_64，最低系统版本为 macOS 26。macOS 27 不运行在 Intel Mac 上，仅添加 x86_64 而保留 27.0 部署目标不能提供 Intel 兼容。
 

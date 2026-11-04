@@ -1,5 +1,15 @@
 # 🧭 GitHub 开发、需求与 CI/CD 方案
 
+## v2.0 最新要求：业务批次验收（2026-11-04）
+
+用户明确GitHub校验过慢，子任务不逐项触发/等待重CI。多个子任务形成完整用户流程后使用一个批次分支/PR，稳定head统一送验；开发中只在定位问题时做按需局部检查，等待远端时继续独立后续工作。[V20-16](V2_0_PLAN.md#v20-16--批次验证与开发效率)作为M0前置实现触发/排队、可信批次用例集合、构建缓存与输入证据复用。
+
+M0已实现事件级批次决定：草稿/中间synchronize不启动实际编译、site或后端长流程，稳定PR ready_for_review/非草稿opened或重新添加`batch:validate`按范围统一送验。既有label不会授权后来的新head。轻量策略仍运行，未送验的必需汇总明确失败；未知Git范围仍阻断。纯Markdown先按类型识别，包括site/README；CI工具不额外跑网站。对应工具通过，实际托管结果见[进度](V2_0_PROGRESS.md)。
+
+Core/签名/功能/性能/应用分别计算不可变输入与工具链，只从canonical实际成功的main/已审入同仓库PR回执复用，并从源Git对象重算字节。构建缓存独立，不作为通过证据；包始终构建验实物。`Native UI validation`的batch选项从可信main注册表选择完整方法集合，一次编译+smoke后执行一次集合，实际数不符即失败。基线集合不是v2.0新增行为验收。
+
+以下记录保留原日期。分支/Issue可以细分进度，验收单位以本版业务批次为准；最新契约见[V2_0_CONTRACTS.md](V2_0_CONTRACTS.md)。
+
 更新：2026-10-16。适用仓库：[WeOpen/WeGit](https://github.com/WeOpen/WeGit)。仓库已获用户授权设为 public；项目网站采用 [GitHub Pages](https://weopen.github.io/WeGit/)。本方案不需要 Apple Developer Program 账号，不上架商店、不用 TestFlight。
 
 2026-10-19 v1.0.0 单次例外：维护者明确授权暂缓辅助功能并直接发布。本次在受保护 PR、同提交 main CI 和正式制品校验后人工创建并发布草稿；不声称 Full acceptance 通过，也不改变下述默认稳定版 workflow。范围、未完成项与制品来源见 [1.0.0 版本说明](releases/v1.0.0.md)。

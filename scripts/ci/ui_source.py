@@ -25,15 +25,15 @@ def choose_source(main_sha, repository, pull_request=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--candidate", default="")
-    parser.add_argument("--scope", choices=("smoke", "functional", "accessibility"), required=True)
+    parser.add_argument("--scope", choices=("smoke", "functional", "accessibility", "batch"), required=True)
     args = parser.parse_args()
     repo = os.environ["GITHUB_REPOSITORY"]
     if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo):
         raise SystemExit("Invalid repository")
     candidate = None
     if args.candidate:
-        if not re.fullmatch(r"[1-9][0-9]*", args.candidate) or args.scope != "smoke":
-            raise SystemExit("Candidate PR diagnostics require a positive PR number and smoke scope")
+        if not re.fullmatch(r"[1-9][0-9]*", args.candidate) or args.scope not in {"smoke", "batch"}:
+            raise SystemExit("Candidate PR diagnostics require a positive PR number and smoke or trusted batch scope")
         candidate = json.loads(subprocess.check_output(["gh", "api", f"repos/{repo}/pulls/{args.candidate}"], text=True))
     print("sha=" + choose_source(os.environ["GITHUB_SHA"], repo, candidate))
 

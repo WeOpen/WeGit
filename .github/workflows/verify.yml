@@ -1,7 +1,7 @@
 name: CI
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft, labeled]
   push:
     branches: [main]
   workflow_dispatch:
@@ -38,6 +38,7 @@ jobs:
       frontend_changed: ${{ steps.scope.outputs.frontend_changed }}
       core_tests_changed: ${{ steps.scope.outputs.core_tests_changed }}
       docs_only: ${{ steps.scope.outputs.docs_only }}
+      validation_requested: ${{ steps.scope.outputs.validation_requested }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -89,7 +90,7 @@ jobs:
   native:
     name: Native macOS
     needs: [changes, policy]
-    if: needs.changes.outputs.backend_changed == 'true'
+    if: needs.changes.outputs.backend_changed == 'true' && needs.changes.outputs.validation_requested == 'true'
     # GitHub's xcode-27 preview image currently runs macOS 27, arm64.
     # PR code only runs on fresh GitHub-hosted VMs, never a personal Mac.
     runs-on: xcode-27
@@ -97,6 +98,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
       - name: Isolate Git configuration without affecting checkout cleanup
         run: scripts/ci/isolate-git.sh
@@ -104,32 +106,56 @@ jobs:
         run: |
           mkdir -p .build/ci
           scripts/ci/check-toolchain.sh | tee .build/ci/toolchain.txt
-      - name: Formatting, core tests and Debug build
-        run: scripts/verify.sh
-      - name: Minimum Git 2.46 core regression
+      - name: Identify the exact build toolchain
+        id: build_inputs
         run: |
-          scripts/ci/prepare-git-246.sh
-          env WEGIT_TEST_GIT="$(cat .build/git-246-path)" swift test --no-parallel
-      - name: Native feature behavior checks
-        run: scripts/ci/native-behavior.sh
-      - name: Apple and Homebrew Git with isolated OpenPGP signing
-        run: scripts/verify-gpg-compatibility.sh
-      - name: Complete core regression with actual Homebrew Git
-        run: |
-          env WEGIT_TEST_GIT="$(brew --prefix git)/bin/git" swift test --no-parallel | tee .build/ci/homebrew-core.log
-      - name: Compile native UI regressions
-        run: |
-          xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \
-            -destination 'platform=macOS,arch=arm64' -derivedDataPath .build-app \
-            -resultBundlePath .build/ci/native-build.xcresult build-for-testing
-          if [[ -f scripts/verify-ui-git-wrapper.py ]]; then
-            python3 scripts/verify-ui-git-wrapper.py .build-app/Build/Products/Debug/WeGitTestGit
-          fi
-      - name: Ordinary Release and preview package
-        run: |
-          scripts/build.sh Release
-          scripts/package-release.sh --preview
-          git diff --exit-code
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import sys
+          sys.path.insert(0, 'scripts/ci')
+          from batch_evidence import digest, toolchain
+          print('toolchain=' + digest(toolchain()))
+          PY
+      - name: Restore incremental builds, never validation results
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            .build/arm64-apple-macosx
+            .build/workspace-state.json
+            .build-app/Build
+            .build-app/ModuleCache.noindex
+            .build-app/SourcePackages
+          key: native-build-v1-${{ steps.build_inputs.outputs.toolchain }}-${{ hashFiles('Package.swift', 'project.yml', 'WeGitCore/**', 'WeGit/**', 'WeGitAskPass/**', 'WeGitTests/**', 'WeGitUITests/**', 'WeGit.xcodeproj/**') }}
+          restore-keys: native-build-v1-${{ steps.build_inputs.outputs.toolchain }}-
+      - name: Verify canonical evidence against immutable input bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CI_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: python3 scripts/ci/batch_evidence.py restore --repo "$GITHUB_REPOSITORY"
+      - name: Core regression on Apple, minimum and Homebrew Git
+        run: python3 scripts/ci/batch_evidence.py run --suite core
+      - name: Isolated Apple and Homebrew OpenPGP signing
+        run: python3 scripts/ci/batch_evidence.py run --suite signing
+      - name: Native feature behavior
+        run: python3 scripts/ci/batch_evidence.py run --suite behavior
+      - name: Backend performance budgets
+        run: python3 scripts/ci/batch_evidence.py run --suite performance
+      - name: Compile application and native UI regressions
+        run: python3 scripts/ci/batch_evidence.py run --suite application
+      - name: Build and verify the actual Release preview
+        run: python3 scripts/ci/batch_evidence.py run --suite package
+      - name: Retain independently reusable suite receipts
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: batch-receipts-${{ github.sha }}
+          path: |
+            .build/ci/receipts/core.json
+            .build/ci/receipts/signing.json
+            .build/ci/receipts/behavior.json
+            .build/ci/receipts/performance.json
+            .build/ci/receipts/application.json
+            .build/ci/receipts/package.json
+          retention-days: 30
       - name: Retain native evidence and preview
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -155,7 +181,7 @@ jobs:
   site:
     name: Site checks
     needs: changes
-    if: needs.changes.outputs.site_changed == 'true'
+    if: needs.changes.outputs.site_changed == 'true' && needs.changes.outputs.validation_requested == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -228,7 +254,7 @@ jobs:
   frontend:
     name: Native frontend build
     needs: changes
-    if: needs.changes.outputs.frontend_changed == 'true'
+    if: needs.changes.outputs.frontend_changed == 'true' && needs.changes.outputs.validation_requested == 'true'
     runs-on: xcode-27
     timeout-minutes: 20
     steps:
@@ -242,7 +268,7 @@ jobs:
   test_compile:
     name: Core test compilation
     needs: changes
-    if: needs.changes.outputs.core_tests_changed == 'true'
+    if: needs.changes.outputs.core_tests_changed == 'true' && needs.changes.outputs.validation_requested == 'true'
     runs-on: xcode-27
     timeout-minutes: 15
     steps:

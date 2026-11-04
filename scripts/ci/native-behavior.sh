@@ -1,5 +1,7 @@
 #!/bin/bash
 set -euo pipefail
+scope="${1:-all}"
+case "$scope" in all|behavior|performance) ;; *) exit 2 ;; esac
 # Older revisions do not contain every feature. Once a feature is present its
 # behavior check is mandatory; a missing checker is an error, not a silent skip.
 for pair in \
@@ -30,6 +32,10 @@ for pair in \
   WeGit/App/NativeApplicationMenu.swift:scripts/verify-native-application-menu.sh; do
   feature="${pair%%:*}"
   checker="${pair#*:}"
+  case "$checker" in
+    *-performance.sh) if [[ "$scope" == behavior ]]; then continue; fi ;;
+    *) if [[ "$scope" == performance ]]; then continue; fi ;;
+  esac
   if [[ -f "$feature" ]]; then
     test -x "$checker"
     "$checker"

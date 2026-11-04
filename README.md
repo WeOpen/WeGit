@@ -124,6 +124,10 @@ Tests use isolated configuration files, temporary repositories, and separate pre
 
 ## 🗺️ Scope & roadmap
 
+The next version is **v2.0**, focused on a complete local Git client: recovery, comparison, patches, file tools, signing, multiple windows, repository extensions and updates. It also brings Liquid Glass back to navigation and floating controls, with stable content surfaces. See the [complete development plan](docs/V2_0_PLAN.md). Provider collaboration and optional AI are planned after this release; v2.0 implementation has not started.
+
+The plan also includes a custom-theme library, direct website-to-app theme import, automatic release downloads, and Universal, Apple Silicon and Intel installers. The website will recommend a matching installer while retaining manual choice. Development validation runs in workflow-sized batches, with shared backend evidence for the three packages, rather than once per subtask.
+
 The [v1.1](docs/V1_1_PLAN.md) and [v1.2](docs/V1_2_PLAN.md) implementations are combined in 1.2.0-rc.1: Stash/Remote/Tag management, file history, Worktrees, Cherry-pick/Revert, Blame, selected-line staging, a conflict editor, standalone/Interactive Rebase, and Submodule/LFS inspection. Bare repositories remain unsupported; hosting-provider integrations are future work.
 
 Intel hardware and macOS 26 runtime validation, protected-Mac installation, complete VoiceOver, final whole-app performance and real Beta feedback remain separate from compiled Universal support. GitLab, interactive Pinentry/hardware keys and other untested environments are tracked in the [compatibility matrix](docs/COMPATIBILITY.md).

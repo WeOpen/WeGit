@@ -114,6 +114,26 @@ def verify_summary(summary, smoke=False):
     return {key: summary[key] for key in keys}
 
 
+def batch_methods(registry, name):
+    data = json.loads(registry.read_text())
+    methods = data.get("batches", {}).get(name, {}).get("methods")
+    if data.get("format") != 1 or not isinstance(methods, list) or not 1 <= len(methods) <= 128:
+        raise ValueError("Unknown or empty trusted native batch")
+    import re
+    if (len(set(methods)) != len(methods) or any(not re.fullmatch(r"[A-Za-z][A-Za-z0-9]+/test[A-Za-z0-9_]+", method)
+                                               for method in methods)
+            or "WeGitUITests/testWelcomeAndCloneForm" in methods):
+        raise ValueError("Batch methods must be unique explicit tests; smoke runs separately once")
+    return methods
+
+
+def verify_batch_summary(summary, methods):
+    result = verify_summary(summary)
+    if result["totalTestCount"] != len(methods):
+        raise ValueError("Native batch execution count does not match its complete registered method set")
+    return result
+
+
 def result_summary(bundle, output):
     try:
         result = subprocess.run(["xcrun", "xcresulttool", "get", "test-results", "summary",
@@ -130,16 +150,21 @@ def result_summary(bundle, output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("environment", "smoke", "functional", "accessibility"), default="environment")
+    parser.add_argument("--mode", choices=("environment", "smoke", "functional", "accessibility", "batch"), default="environment")
     parser.add_argument("--focus", choices=("none", *FOCUSED_TESTS), default="none")
     parser.add_argument("--require-interactive", action="store_true")
     parser.add_argument("--output", type=Path, default=Path(".build/ci/ui"))
+    parser.add_argument("--batch", default="")
+    parser.add_argument("--registry", type=Path, default=Path(__file__).with_name("ui_batches.json"))
     args = parser.parse_args()
+    if bool(args.batch) != (args.mode == "batch"):
+        parser.error("A batch scope requires exactly one trusted registered batch")
+    methods = batch_methods(args.registry, args.batch) if args.mode == "batch" else []
     if args.focus != "none" and args.mode != "smoke":
         parser.error("A focused diagnostic is only available after the minimal smoke, not in larger scopes.")
     args.output.mkdir(parents=True, exist_ok=True)
     report = inspect_environment()
-    report.update(mode=args.mode, focus=args.focus, tests=[], releaseReady=False)
+    report.update(mode=args.mode, focus=args.focus, batch=args.batch, selectedMethods=methods, tests=[], releaseReady=False)
 
     def save():
         (args.output / (args.mode + ".json")).write_text(json.dumps(report, indent=2) + "\n")
@@ -179,6 +204,19 @@ def main():
             raise SystemExit("Focused native diagnostic failed; retain its log and xcresult.")
         verify_summary(summary, smoke=True)
         print("One allowlisted native diagnostic actually executed and passed:", args.focus, flush=True)
+    elif args.mode == "batch":
+        result = run_logged(base + ["-only-testing:WeGitUITests/" + method for method in methods] + [
+                                "-test-timeouts-enabled", "YES",
+                                "-default-test-execution-time-allowance", "180",
+                                "-maximum-test-execution-time-allowance", "300",
+                                "-resultBundlePath", str(args.output / (args.batch + ".xcresult"))],
+                            args.output / (args.batch + ".log"), min(5400, 300 * len(methods) + 240))
+        summary = result_summary(args.output / (args.batch + ".xcresult"), args.output / (args.batch + "-summary.json"))
+        report["tests"].append({"scope": args.batch, "selectedMethods": methods, **result, "summary": summary})
+        save()
+        if result["timedOut"] or result["exitCode"]:
+            raise SystemExit("Native batch failed; retain the complete selected set, log and xcresult.")
+        verify_batch_summary(summary, methods)
     elif args.mode != "smoke":
         selection = (["-only-testing:WeGitUITests/LayoutTests/testAccessibilityAuditInBothThemes"]
                      if args.mode == "accessibility" else [
