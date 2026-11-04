@@ -9,7 +9,7 @@ options:
     icon:
       file: true
   deploymentTarget:
-    macOS: "27.0"
+    macOS: "26.0"
 packages:
   WeGitCore:
     path: .
@@ -17,7 +17,7 @@ settings:
   base:
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
-    MACOSX_DEPLOYMENT_TARGET: "27.0"
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
     CODE_SIGN_IDENTITY: "-"
     CODE_SIGN_STYLE: Manual
     ENABLE_APP_SANDBOX: NO
@@ -35,11 +35,13 @@ targets:
       - package: WeGitCore
       - target: WeGitAskPass
         link: false
+        embed: false
     postCompileScripts:
       - name: Embed AskPass helper
         script: |
           mkdir -p "${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers"
           ditto "${BUILT_PRODUCTS_DIR}/WeGitAskPass" "${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass"
+          rm -f "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitAskPass"
         inputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitAskPass"]
         outputFiles: ["$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitAskPass"]
       - name: Record application source provenance
@@ -47,6 +49,12 @@ targets:
         script: |
           /usr/bin/python3 "${SRCROOT}/scripts/build_provenance.py" --source-root "${SRCROOT}" --output "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/build-source.json"
         outputFiles: ["$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/build-source.json"]
+    postBuildScripts:
+      - name: Install complete current app icon
+        basedOnDependencyAnalysis: false
+        script: |
+          /bin/bash "${SRCROOT}/scripts/install-bundle-icon.sh"
+        inputFiles: ["$(SRCROOT)/WeGit/Resources/AppearanceIcons/WeGitLight.icns"]
     settings:
       configs:
         ReleasePerformance:
@@ -61,7 +69,7 @@ targets:
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
         INFOPLIST_KEY_NSHumanReadableCopyright: WeOpen
         MARKETING_VERSION: 1.2.0
-        CURRENT_PROJECT_VERSION: 4
+        CURRENT_PROJECT_VERSION: 5
   WeGitAskPass:
     type: tool
     platform: macOS

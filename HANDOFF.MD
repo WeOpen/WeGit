@@ -1,5 +1,23 @@
 # WeGit 开发交接
 
+## 2026-11-04 启动图标、Universal 与 DMG（#111）
+
+- PR112/head4d1eb8c 的CI41746732092真实失败于Rebase性能ordinary第16次cancel，只保留15有效样本。先前Interactive与Conflict各90通过；GPG/Homebrew/最终包后续未执行。6项CRC/37,285bytes失败制品SHA256 `8ef4d6e10454cba5e5a5c69f7e89f871573c87a8526f3802210d5e75f38dbae8`、失败夹具和原数组完整保留于`.build/release-1.2-preflight/`，不改记为通过。
+- RebasePerformance仍使用旧TERM `exit 143` trap，漏掉此前LFS/Interactive已经修正的child回收。连接实际普通Release ProcessRunner的独立控制，旧trap第8次group退出检查失败；新trap终止并wait自己child再exit，64次真实启动/取消/group消失/capacity恢复全部通过，最大0.885583ms。只改性能夹具，ProcessRunner、500ms/2000ms与256/512MiB预算、两PID实际存活和全组消失要求保持；还须完整90新样本及最终head托管重验。
+- 托管smoke41745294466实际1总/1通过/0失败/0跳过，41CRC/296,397bytes制品SHA `572eb118010c90c66c55d966a40438eb03947ca171a846346f13fd89471bb07b`。直接xcresult与summary一致，195应用输入匹配当前应用源码，显示模式恢复；不替代Intel/macOS26实机或完整发布验收。只读挂载正式预检DMG后，系统在应用进程启动前返回的新R5图标原图也已保留。
+- Cloudflare生产root已是site，新增的预览基础root仍为/，PR预览因此ENOENT找不到仓库根package.json；两个环境配置分别核对，预览root改为site，生产/预览均保存NODE_VERSION24。已跨reload核对，不将当前main57739d9的重建当成新PR的预览通过；新预览与最终线上版本仍须实际验收。Git推送超时后的两文件更新使用GitHub REST逐tree/commit SHA验证并按旧ref lease更新，远端与本地4d1eb8c完全一致。
+
+- README 中英文仍引用 `branding/wegit-v2` 的蓝色 W，现改为当前 R5 朱砂印章 App Icon；当前应用的 Composer/主题图标已是 R5，不能把历史 `.build-app/Release` 的 0.1.0 旧输出当成当前源码。系统启动图标与进程内 `applicationIconImage` 是两条路径，只验证运行后 Dock 不覆盖启动前的包图标。
+- Composer 编译的回退 ICNS 只有 16/128 pt 表示。完整当前 ICNS 在 XcodeGen `postBuildScripts` 安装，必须位于 Resources/Frameworks 后、签名前；`postCompileScripts` 在 Resources 前，不能保证最终回退文件。正式/预览包同时核对 `AppIcon.icns` 与完整浅色源字节，以及两份主题图标。构建版本升至5；不全局清空系统图标缓存或重启用户 Dock。
+- Xcode 增量构建会保留已从 Resources phase 移除的文件。第一次 Universal 预览被包检查真实拒绝：`Contents/Resources/WeGitAskPass` 仍是旧 arm64 副本。依赖使用 `embed: false`，只在 Helpers 嵌入；构建阶段定向移除此废弃副本，不清空整个 DerivedData。新包扫描全部 Mach-O，而非只检查主程序。
+- 用户已确认目标Intel Mac运行macOS26。Xcode27 的 `ARCHS_STANDARD` 在27.0部署目标时不含x86_64；macOS27也不支持Intel机器。仅加架构不能提供 Intel 运行兼容，须同步降低 `Package.swift` 与工程目标至26.0。现有玻璃API支持26，Debug及两架构普通Release实际编译成功；所有包内二进制的两slice/minos均核对。Package变化属于真实后端范围，需托管Core/Git/GPG/性能；本机仍不执行XCTest。
+- 新包为Universal DMG，包含WeGit.app和Applications绝对快捷入口。保留源码回执、签名/权限、AskPass/MIT、测试排除及SHA校验；额外执行hdiutil verify和只读挂载后的同包校验。下载/安装后预算为30/60MiB，独立正式标识预检实测20,977,107/59,505,634bytes。42原生图标与101工具检查通过；这些本机结果不等于最终发行提交或Intel实机验收。
+- release resolve仍要求tag的实际可信main CI中Repository policy与Native macOS均成功。构建作业据此只重建正式标识Universal制品并完整验包，不重复同源码已通过的Core/最低Git及450样本重流程；stable仍额外要求canonical Full acceptance。不能以PR的合成SHA或文档分流的skipped Native替代此来源。
+- 网站优先同版本Universal DMG，并在旧stable仍为ZIP时选择公开Universal候选；仍优先Universal稳定版且保留旧ZIP下载。draft不成为下载，DMG缺少对应校验/manifest不下载。双语兼容文案与RC状态同步；旧“页面不得出现Intel”断言按新支持范围更新。
+- 本机默认npm缓存出现EACCES/EEXIST rename。依赖安装改用本任务`.build`私有cache，不删除或修复用户HOME缓存，不使用`--force`。工具/网站/构建证据保留在`.build/release-1.2-preflight/`。
+- 未安装Rosetta的Apple Silicon主机只列出arm64和Any Mac目的地，不能为单独x86_64编译强制选择当前机器。`build.sh`跨架构改用generic macOS，支持任务专用`WEGIT_DERIVED_DATA_PATH`；已在隔离目录实际执行README的Debug x86_64命令并核对主程序、Debug dylib和AskPass均为x86_64/minimum26。只编译不执行，用户正在运行的Debug路径没有被Intel薄包替换。
+- 用户请求发布Release；当前按公开1.2.0-rc.1准备，stable同提交Full acceptance门禁保持。GitHub专用runner目前为0，Intel硬件/macOS26实际运行、受保护安装、完整VoiceOver、整版UI性能与外部Beta保持各自待验，不将既有延期或当前编译结果称为这些验收通过。初始PBX的InteractiveRebaseSheet自动ID变更已单独备份，保持在本地未提交差异，避免混入本次PR。
+
 ## 2026-11-03 后端触发规则已集成与轻量验证
 
 - PR107按最新用户规则正常squash至main30e953e；候选45a074c与main整棵tree相同。run41663586165的Native macOS实际skipped、无步骤/runner且没有原生制品；仅相应CI工具/Site checks与必需结果汇总执行。工具99项、分流和workflow契约通过，网站2,254,918bytes ZIP/72CRC与policy143bytes/1CRC、SHA完整核验。不是仅靠“site之外”触发后端的旧逻辑。

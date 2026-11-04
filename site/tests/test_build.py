@@ -126,7 +126,10 @@ class WebsiteBuildTests(unittest.TestCase):
                 self.assertIn('id="main"', text)
                 self.assertNotIn('src="https://', text)
                 self.assertNotIn('href="https://unpkg', text)
-                self.assertNotIn('Intel', text)
+                self.assertNotIn('macOS 27+ · Apple silicon', text)
+            home = (output / 'index.html').read_text()
+            self.assertIn('macOS 26+', home)
+            self.assertIn('Apple Silicon / Intel', home)
             self.assertFalse((output / 'references').exists())
             self.assertFalse((output / 'previews-v2').exists())
 

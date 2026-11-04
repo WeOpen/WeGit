@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "WeGit",
     defaultLocalization: "zh-Hans",
-    platforms: [.macOS("27.0")],
+    platforms: [.macOS("26.0")],
     products: [
         .library(name: "WeGitCore", targets: ["WeGitCore"]),
         .executable(name: "WeGitAskPass", targets: ["WeGitAskPass"]),

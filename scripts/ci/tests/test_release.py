@@ -35,13 +35,21 @@ class ReleaseTests(unittest.TestCase):
                 validate_run(run, 7, COMMIT, altered, ["Full acceptance"])
 
     def fixture(self, root):
-        name = "WeGit-0.1.0-beta.1-macos-arm64-adhoc.zip"
-        with zipfile.ZipFile(root / name, "w") as handle:
-            handle.writestr("WeGit.app/Contents/fixture.txt", "Release fixture")
+        name = "WeGit-0.1.0-beta.1-macos-universal-adhoc.dmg"
+        # Synthetic UDIF metadata fixture; actual image/mount verification runs
+        # in release_artifact.py on macOS, not in these Linux policy tests.
+        (root / name).write_bytes(b"Release fixture" + b"koly" + bytes(508))
         checksum = hashlib.sha256((root / name).read_bytes()).hexdigest()
         manifest = {"gitCommit": COMMIT, "workspaceDirty": False, "version": "0.1.0", "releaseTag": "v0.1.0-beta.1",
                     "mode": "adhoc", "signing": "ad-hoc", "notarized": False, "bundleIdentifier": "com.willxue.wegit",
-                    "archive": name, "archiveSHA256": checksum}
+                    "archive": name, "archiveFormat": "dmg", "archiveSHA256": checksum,
+                    "architectures": ["arm64", "x86_64"], "minimumSystemVersion": "26.0",
+                    "imageBytes": (root / name).stat().st_size, "bundleBytes": 1024,
+                    "diskImageVerification": {"hdiutilVerified": True, "readOnlyMountVerified": True,
+                                              "applicationsShortcutVerified": True},
+                    "binaries": {path: {"architectures": ["arm64", "x86_64"],
+                                        "minimumSystemVersions": {"arm64": "26.0", "x86_64": "26.0"}}
+                                 for path in ("Contents/MacOS/WeGit", "Contents/Helpers/WeGitAskPass")}}
         (root / "manifest.json").write_text(json.dumps(manifest))
         (root / (name + ".sha256")).write_text(checksum + "  " + name + "\n")
         return manifest
@@ -55,6 +63,8 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(output["commit"], COMMIT)
             self.assertFalse(output["notarized"])
             self.assertTrue(output["prerelease"])
+            self.assertEqual(output["architecture"], "universal")
+            self.assertEqual(output["platform"], "macOS 26+")
             self.assertEqual((root / manifest["archive"]).read_bytes(), (root / "upload" / manifest["archive"]).read_bytes())
             note = (root / "upload/release-notes.md").read_text()
             self.assertIn("only creates a **draft**", note)
@@ -63,7 +73,9 @@ class ReleaseTests(unittest.TestCase):
     def test_modified_archive_dirty_tree_wrong_id_tag_and_manifest_are_refused(self):
         mutations = [{"workspaceDirty": True}, {"gitCommit": "b" * 40}, {"version": "1.0.0"},
                      {"releaseTag": "v0.1.0"}, {"bundleIdentifier": "development"}, {"notarized": True},
-                     {"archive": "../unsafe.zip"}, {"archiveSHA256": "0" * 64}, {"mode": "preview"}]
+                     {"archive": "../unsafe.dmg"}, {"archiveSHA256": "0" * 64}, {"mode": "preview"},
+                     {"archiveFormat": "zip"}, {"architectures": ["arm64"]}, {"minimumSystemVersion": "27.0"},
+                     {"imageBytes": 0}, {"bundleBytes": 61 * 1024 * 1024}, {"diskImageVerification": {}}, {"binaries": {}}]
         for change in mutations:
             with self.subTest(change=change), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
@@ -82,9 +94,32 @@ class ReleaseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             original = self.fixture(root)
-            (root / (original["archive"] + ".sha256")).write_text(original["archiveSHA256"] + "  other.zip\n")
+            (root / (original["archive"] + ".sha256")).write_text(original["archiveSHA256"] + "  other.dmg\n")
             with self.assertRaises(ValueError):
                 validate_package(root, "v0.1.0-beta.1", COMMIT)
+
+    def test_renamed_zip_is_refused_even_with_matching_checksum(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            original = self.fixture(root)
+            with zipfile.ZipFile(root / original["archive"], "w") as handle:
+                handle.writestr("WeGit.app/fixture.txt", "This is not a disk image")
+            original["archiveSHA256"] = hashlib.sha256((root / original["archive"]).read_bytes()).hexdigest()
+            original["imageBytes"] = (root / original["archive"]).stat().st_size
+            (root / "manifest.json").write_text(json.dumps(original))
+            with self.assertRaisesRegex(ValueError, "DMG|UDIF"):
+                validate_package(root, "v0.1.0-beta.1", COMMIT)
+
+    def test_intel_helper_or_deployment_incompatibility_is_refused(self):
+        for change in [{"architectures": ["arm64"]},
+                       {"minimumSystemVersions": {"arm64": "26.0", "x86_64": "27.0"}}]:
+            with self.subTest(change=change), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                original = self.fixture(root)
+                original["binaries"]["Contents/Helpers/WeGitAskPass"].update(change)
+                (root / "manifest.json").write_text(json.dumps(original))
+                with self.assertRaises(ValueError):
+                    validate_package(root, "v0.1.0-beta.1", COMMIT)
 
 class ReleaseResolutionTests(unittest.TestCase):
     def response(self, repo, suffix, payload=None):
