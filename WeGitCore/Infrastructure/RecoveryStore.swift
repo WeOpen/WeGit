@@ -207,6 +207,7 @@ final class RecoveryStore: @unchecked Sendable {
             } else {
                 index = nil
             }
+            let storage = try SnapshotDirectory()
             let files = try record.files.map { file -> RecoveryFileCapture in
                 if file.kind == .absent {
                     return RecoveryFileCapture(
@@ -221,8 +222,7 @@ final class RecoveryStore: @unchecked Sendable {
                 else {
                     throw ModelFailure.changed
                 }
-                let storage = try SnapshotDirectory()
-                let url = storage.url.appending(path: "content")
+                let url = storage.url.appending(path: file.storageName)
                 let output = Darwin.open(
                     url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
                 guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }

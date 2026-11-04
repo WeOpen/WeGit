@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 import WeGitCore
 
@@ -5,11 +6,13 @@ struct ResetRequest: Identifiable {
     let id = UUID()
     let session: RepositorySession
     let target: String
+    var sourceRef: String? = nil
 }
 
 struct RecoveryBrowserRequest: Identifiable {
     let id = UUID()
     let session: RepositorySession
+    var initialTab = 0
 }
 
 struct ResetSheet: View {
@@ -30,11 +33,13 @@ struct ResetSheet: View {
             SheetTitle(title: "Reset", symbol: "arrow.uturn.backward")
             Picker("Reset", selection: $mode) {
                 ForEach(ResetMode.allCases, id: \.self) { Text($0.title).tag($0) }
-            }.pickerStyle(.segmented).disabled(attempted).accessibilityIdentifier("reset-mode")
+            }.pickerStyle(.segmented).labelsHidden().disabled(attempted).accessibilityIdentifier("reset-mode")
             Text(mode.impact).foregroundStyle(colors.secondaryText)
             if let plan {
                 RecoveryContext(label: L10n.text("当前分支"), value: plan.branch, identifier: "reset-branch")
-                RecoveryContext(label: "HEAD", value: plan.head, identifier: "reset-head")
+                RecoveryContext(
+                    label: attempted ? L10n.text("原 HEAD") : "HEAD", value: plan.head,
+                    identifier: "reset-head")
                 RecoveryContext(label: L10n.text("目标提交"), value: plan.target.id, identifier: "reset-target")
                 Text(plan.target.subject).font(.headline).lineLimit(3)
                 if !plan.publishedTrackingRefs.isEmpty {
@@ -75,6 +80,13 @@ struct ResetSheet: View {
                     result: session.operationFeedback, context: .standard, fallback: "")
             }
             HStack {
+                if attempted, !session.isBusy {
+                    Button(L10n.text("查看恢复记录")) {
+                        app.pendingRecoveryAfterReset = RecoveryBrowserRequest(
+                            session: session, initialTab: 1)
+                        dismiss()
+                    }.accessibilityIdentifier("reset-show-recovery")
+                }
                 Spacer()
                 Button(session.isBusy ? L10n.text("取消操作") : attempted ? L10n.text("关闭") : L10n.text("取消")) {
                     if session.isBusy { session.cancel() } else { dismiss() }
@@ -99,7 +111,7 @@ struct ResetSheet: View {
         let requested = mode
         do {
             let value = try await request.session.service.prepareReset(
-                target: request.target, mode: requested)
+                target: request.target, mode: requested, sourceRef: request.sourceRef)
             guard !Task.isCancelled, mode == requested else { return }
             plan = value
         } catch {
@@ -111,7 +123,7 @@ struct ResetSheet: View {
     private func execute() {
         guard let plan, !attempted, app.session === request.session else { return }
         attempted = true
-        request.session.performResult("Reset", onSuccess: { dismiss() }) {
+        request.session.performResult("Reset") {
             _ = try await $0.executeReset(plan)
             return .completed(message: L10n.text("Reset 完成，原 HEAD 和内容已备份。"))
         }
@@ -140,8 +152,15 @@ struct RecoveryBrowser: View {
     @State private var error: String?
     @State private var offset = 0
     @State private var more = false
+    @State private var logVersion: ReflogVersion?
     @State private var revision = UUID()
     @State private var restore: RecoveryRestoreRequest?
+
+    init(app: AppState, request: RecoveryBrowserRequest) {
+        self.app = app
+        self.request = request
+        _tab = State(initialValue: request.initialTab)
+    }
 
     var body: some View {
         @Bindable var session = request.session
@@ -150,12 +169,15 @@ struct RecoveryBrowser: View {
             Picker(L10n.text("恢复来源"), selection: $tab) {
                 Text("Reflog").tag(0)
                 Text(L10n.text("内容备份")).tag(1)
-            }.pickerStyle(.segmented).accessibilityIdentifier("recovery-source")
+            }.pickerStyle(.segmented).labelsHidden().accessibilityIdentifier("recovery-source")
             if tab == 0 {
                 Picker(L10n.text("引用"), selection: $ref) {
                     Text("HEAD").tag("HEAD")
                     ForEach(session.branches.filter { !$0.remote }.prefix(500)) { Text($0.name).tag($0.id) }
                 }.accessibilityIdentifier("reflog-ref")
+                if entries.isEmpty, !loading {
+                    Text(L10n.text("暂无 Reflog 记录")).foregroundStyle(colors.secondaryText)
+                }
                 ScrollView {
                     LazyVStack(spacing: 4) {
                         ForEach(entries) { entry in
@@ -175,7 +197,10 @@ struct RecoveryBrowser: View {
                                 }.padding(8).contentShape(Rectangle())
                                     .background(
                                         selectedObject == entry.object
-                                            ? colors.selectionBackground : colors.surface)
+                                            ? colors.selectionBackground : colors.surface
+                                    )
+                                    .foregroundStyle(
+                                        selectedObject == entry.object ? colors.selectionText : colors.text)
                             }.buttonStyle(.plain).disabled(!entry.objectExists).accessibilityIdentifier(
                                 "reflog:" + entry.id)
                         }
@@ -188,6 +213,9 @@ struct RecoveryBrowser: View {
                     }.disabled(loading || offset >= 900)
                 }
             } else {
+                if records.isEmpty, !loading {
+                    Text(L10n.text("暂无内容备份")).foregroundStyle(colors.secondaryText)
+                }
                 ScrollView {
                     LazyVStack(spacing: 6) {
                         ForEach(records) { record in
@@ -197,7 +225,7 @@ struct RecoveryBrowser: View {
                             } label: {
                                 HStack {
                                     Text(record.createdAt.formatted(date: .abbreviated, time: .shortened))
-                                    Text(record.operation).font(.callout.monospaced())
+                                    Text(record.title).font(.callout)
                                     Spacer()
                                     Text(
                                         ByteCountFormatter.string(
@@ -212,7 +240,10 @@ struct RecoveryBrowser: View {
                                 }.padding(10).contentShape(Rectangle())
                                     .background(
                                         selectedRecord?.id == record.id
-                                            ? colors.selectionBackground : colors.surface)
+                                            ? colors.selectionBackground : colors.surface
+                                    )
+                                    .foregroundStyle(
+                                        selectedRecord?.id == record.id ? colors.selectionText : colors.text)
                             }.buttonStyle(.plain).accessibilityIdentifier(
                                 "recovery-record:" + record.id.uuidString)
                         }
@@ -225,6 +256,7 @@ struct RecoveryBrowser: View {
                     HStack {
                         Button(L10n.text("恢复内容…")) { restore = RecoveryRestoreRequest(record: record) }
                             .disabled(!session.canWrite).accessibilityIdentifier("recovery-restore")
+                        Button(L10n.text("导出备份…")) { export(record) }.disabled(session.isBusy)
                         Spacer()
                         Button(L10n.text("删除备份…"), role: .destructive) { delete(record) }.disabled(
                             !session.canWrite)
@@ -233,10 +265,14 @@ struct RecoveryBrowser: View {
             }
             if let selectedObject {
                 Divider()
-                RecoveryContext(
-                    label: L10n.text("恢复提交"), value: selectedObject, identifier: "recovery-object")
+                if tab == 0 {
+                    RecoveryContext(
+                        label: L10n.text("恢复提交"), value: selectedObject, identifier: "recovery-object")
+                }
                 HStack {
                     TextField(L10n.text("恢复分支名称"), text: $branch).textFieldStyle(.roundedBorder)
+                        .accessibilityLabel(L10n.text("恢复分支名称")).accessibilityIdentifier(
+                            "recovery-branch-name")
                     Toggle(L10n.text("创建后切换"), isOn: $switchAfterCreation)
                     Button(L10n.text("创建恢复分支")) { createBranch(selectedObject) }
                         .disabled(!session.canWrite || branch.isEmpty).accessibilityIdentifier(
@@ -281,8 +317,14 @@ struct RecoveryBrowser: View {
         error = nil
         do {
             if tab == 0 {
+                let version = try await request.session.service.reflogVersion(ref: ref)
+                guard offset == 0 || logVersion == version else { throw ModelFailure.changed }
                 let page = try await request.session.service.reflog(ref: ref, offset: offset)
+                guard try await request.session.service.reflogVersion(ref: ref) == version else {
+                    throw ModelFailure.changed
+                }
                 guard !Task.isCancelled else { return }
+                logVersion = version
                 if offset == 0 { entries = page } else { entries += page }
                 more = page.count == 100
             } else {
@@ -305,6 +347,21 @@ struct RecoveryBrowser: View {
             try await $0.createBranch(name, start: oid, switchTo: switchTo, expectedHead: head)
         }
     }
+    private func export(_ record: RecoveryRecord) {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.canCreateDirectories = true
+        panel.prompt = L10n.text("导出备份")
+        guard panel.runModal() == .OK, let parent = panel.url else { return }
+        Task {
+            do {
+                let url = try await request.session.service.exportRecoveryRecord(record, to: parent)
+                NSWorkspace.shared.activateFileViewerSelecting([url])
+            } catch { self.error = error.localizedDescription }
+        }
+    }
+
     private func delete(_ record: RecoveryRecord) {
         guard
             app.confirm(
@@ -340,7 +397,8 @@ private struct RecoveryRestoreSheet: View {
             SheetTitle(title: L10n.text("恢复内容"), symbol: "arrow.counterclockwise")
             Picker(L10n.text("恢复到"), selection: $layer) {
                 ForEach(RecoveryLayer.allCases, id: \.self) { Text($0.title).tag($0) }
-            }.pickerStyle(.segmented).disabled(attempted).accessibilityIdentifier("recovery-layer")
+            }.pickerStyle(.segmented).labelsHidden().disabled(attempted).accessibilityIdentifier(
+                "recovery-layer")
             RecoveryContext(
                 label: L10n.text("原 HEAD"), value: record.head ?? "—", identifier: "restore-source")
             RecoveryContext(

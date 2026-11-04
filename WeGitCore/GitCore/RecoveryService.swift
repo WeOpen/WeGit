@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 
 extension RepositoryService {
@@ -46,6 +47,24 @@ extension RepositoryService {
         }
     }
 
+    @concurrent public func reflogVersion(ref: String = "HEAD") async throws -> ReflogVersion {
+        guard ref == "HEAD" || ref.hasPrefix("refs/heads/") else { throw ModelFailure.invalidPath }
+        if ref != "HEAD" { _ = try await recoveryEngine.run(["check-ref-format", ref], in: location.root) }
+        return try await SnapshotIO.run { _ in
+            try location.validateIdentity()
+            let base = ref == "HEAD" ? location.gitDirectory : location.commonDirectory
+            let node = try RepositoryNodeIdentity.readIfPresent(base.appending(path: "logs/" + ref))
+            if let node, node.kind != UInt16(S_IFREG) { throw ModelFailure.changed }
+            let fingerprint = node.map {
+                RecoveryFileIO.hash(
+                    Data(
+                        "\($0.device):\($0.inode):\($0.markerSize ?? 0):\($0.markerModifiedSeconds ?? 0):\($0.markerModifiedNanoseconds ?? 0):\($0.markerChangedSeconds ?? 0):\($0.markerChangedNanoseconds ?? 0)"
+                            .utf8))
+            }
+            return ReflogVersion(workspaceID: location.persistenceID, ref: ref, fingerprint: fingerprint)
+        }
+    }
+
     static func parseReflog(_ data: Data) throws -> [ReflogEntry] {
         guard data.isEmpty || data.last == 0 else { throw ModelFailure.invalidOutput("reflog") }
         var fields = data.split(separator: 0, omittingEmptySubsequences: false)
@@ -78,7 +97,67 @@ extension RepositoryService {
         }
     }
 
-    @concurrent public func prepareReset(target: String, mode: ResetMode = .soft) async throws -> ResetPlan {
+    @concurrent public func exportRecoveryRecord(_ record: RecoveryRecord, to parent: URL) async throws -> URL
+    {
+        try await queue.perform {
+            let store = try RecoveryStore(location: location)
+            let (files, index) = try await store.capture(record)
+            return try await SnapshotIO.run { cancellation in
+                let destination = parent.resolvingSymlinksInPath()
+                let identity = try RepositoryNodeIdentity.read(destination, directory: true)
+                let root = Darwin.open(destination.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+                guard root >= 0 else { throw ModelFailure.invalidPath }
+                defer { Darwin.close(root) }
+                var rootInfo = stat()
+                guard fstat(root, &rootInfo) == 0, rootInfo.st_dev == identity.device,
+                    rootInfo.st_ino == identity.inode,
+                    rootInfo.st_birthtimespec.tv_sec == identity.bornSeconds,
+                    rootInfo.st_birthtimespec.tv_nsec == identity.bornNanoseconds
+                else { throw ModelFailure.changed }
+                let name = "WeGit-Recovery-" + record.id.uuidString + ".wegitbackup"
+                guard mkdirat(root, name, 0o700) == 0 else { throw ProcessFailure.outputWrite(errno) }
+                let directory = openat(root, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+                guard directory >= 0 else { throw ProcessFailure.outputWrite(errno) }
+                defer { Darwin.close(directory) }
+                func write(_ name: String, _ data: Data) throws {
+                    let fd = openat(
+                        directory, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+                    guard fd >= 0 else { throw ProcessFailure.outputWrite(errno) }
+                    defer { Darwin.close(fd) }
+                    try RecoveryFileIO.write(data, descriptor: fd, cancellation: cancellation)
+                    guard fsync(fd) == 0 else { throw ProcessFailure.outputWrite(errno) }
+                }
+                if let index { try write("index", index) }
+                for file in files {
+                    guard let snapshot = file.snapshot else { continue }
+                    let fd = openat(
+                        directory, file.file.storageName,
+                        O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+                    guard fd >= 0 else { throw ProcessFailure.outputWrite(errno) }
+                    do {
+                        guard
+                            try RecoveryFileIO.copy(snapshot, to: fd, cancellation: cancellation)
+                                == file.file.sha256
+                        else { throw ModelFailure.changed }
+                        Darwin.close(fd)
+                    } catch {
+                        Darwin.close(fd)
+                        throw error
+                    }
+                }
+                try write("record.json", JSONEncoder().encode(record))
+                guard fsync(directory) == 0, fsync(root) == 0,
+                    try RepositoryNodeIdentity.read(destination, directory: true) == identity,
+                    try store.record(record.id) == record
+                else { throw ModelFailure.changed }
+                return destination.appending(path: name, directoryHint: .isDirectory)
+            }
+        }
+    }
+
+    @concurrent public func prepareReset(target: String, mode: ResetMode = .soft, sourceRef: String? = nil)
+        async throws -> ResetPlan
+    {
         try await queue.perform {
             let state = try await status()
             guard let head = state.head, state.sequencer == .none, state.conflicts.isEmpty else {
@@ -86,6 +165,7 @@ extension RepositoryService {
             }
             let reader = RepositoryService(location: location, engine: recoveryEngine, queue: queue)
             let commit = try await reader.readCommit(target)
+            try await verifyResetSource(sourceRef, target: commit.id)
             let index = try SelectedIndexSnapshot.read(location: location)
             let listing = try await recoveryEngine.run(
                 ["ls-files", "--stage", "-v", "-z"], in: location.root,
@@ -111,6 +191,7 @@ extension RepositoryService {
             }
             guard paths.count <= RecoveryBudget.files else { throw RecoveryBudget.exceeded }
             var captures: [RecoveryFileCapture] = []
+            let currentSubmodules = Set(entries.filter { $0.value == "160000" }.map(\.key))
             if mode == .hard {
                 // Explicitly leave submodule working trees alone, regardless of
                 // the user's submodule.recurse setting. Their gitlinks remain in the index backup.
@@ -118,20 +199,28 @@ extension RepositoryService {
                     ["ls-tree", "-r", "-z", commit.id], in: location.root,
                     outputLimit: 32 * 1024 * 1024
                 ).stdout
-                let submodules = Set(
-                    try tree.split(separator: 0).compactMap { row -> String? in
-                        guard let tab = row.firstIndex(of: 9),
-                            let text = String(data: row[..<tab], encoding: .utf8)
-                        else { throw ModelFailure.changed }
-                        if text.hasPrefix("160000 ") {
-                            return String(data: row[row.index(after: tab)...], encoding: .utf8)
-                        }
-                        return nil
+                var targetModes: [String: String] = [:]
+                for row in tree.split(separator: 0) {
+                    guard let tab = row.firstIndex(of: 9),
+                        let text = String(data: row[..<tab], encoding: .utf8),
+                        let path = String(data: row[row.index(after: tab)...], encoding: .utf8)
+                    else { throw ModelFailure.changed }
+                    targetModes[path] = String(text.prefix(6))
+                }
+                for path in paths {
+                    if let current = entries[path], let target = targetModes[path],
+                        (current == "160000") != (target == "160000")
+                    {
+                        throw ModelFailure.unsupported(
+                            L10n.text("子模块与普通文件的替换需先单独处理；Soft 或 Mixed Reset 会保留工作文件。"))
                     }
-                ).union(entries.filter { $0.value == "160000" }.map(\.key))
+                }
+                let submodules = Set(targetModes.filter { $0.value == "160000" }.map(\.key)).union(
+                    currentSubmodules)
                 let filePaths = paths.subtracting(submodules)
                 try await StashWorktreeGuard.validate(
-                    paths: filePaths, tracked: Set(entries.keys), location: location)
+                    paths: paths, tracked: Set(entries.keys), location: location,
+                    allowedDirectories: currentSubmodules)
                 captures = try await captureRecoveryFiles(filePaths.sorted())
             }
             let refs = try await recoveryEngine.run(
@@ -146,7 +235,9 @@ extension RepositoryService {
             return ResetPlan(
                 id: UUID(), mode: mode, target: commit, head: head, branch: state.branch,
                 files: paths.sorted(), publishedTrackingRefs: refs, location: location,
-                index: index, captures: captures, statusFiles: state.files)
+                index: index, captures: captures, statusFiles: state.files,
+                sourceRef: sourceRef, trackedPaths: Set(entries.keys), submoduleDirectories: currentSubmodules
+            )
         }
     }
 
@@ -209,10 +300,16 @@ extension RepositoryService {
 
     private func validateReset(_ plan: ResetPlan) async throws {
         try await verifyHead(plan.head)
+        try await verifyResetSource(plan.sourceRef, target: plan.target.id)
         let state = try await status()
         guard state.branch == plan.branch, state.sequencer == .none, state.files == plan.statusFiles,
             try SelectedIndexSnapshot.read(location: location) == plan.index
         else { throw ModelFailure.changed }
+        if plan.mode == .hard {
+            try await StashWorktreeGuard.validate(
+                paths: Set(plan.files), tracked: plan.trackedPaths,
+                location: location, allowedDirectories: plan.submoduleDirectories)
+        }
         for capture in plan.captures {
             try await RecoveryFileIO.verify(capture, location: location)
         }
@@ -311,6 +408,17 @@ extension RepositoryService {
         }
     }
 
+    private func verifyResetSource(_ ref: String?, target: String) async throws {
+        guard let ref else { return }
+        guard ref.hasPrefix("refs/heads/") || ref.hasPrefix("refs/remotes/") || ref.hasPrefix("refs/tags/")
+        else { throw ModelFailure.invalidPath }
+        _ = try await recoveryEngine.run(["check-ref-format", ref], in: location.root)
+        let value = try await recoveryEngine.run(
+            ["rev-parse", "--verify", ref + "^{commit}"], in: location.root
+        ).text.removingLastNewline
+        guard value == target else { throw ModelFailure.changed }
+    }
+
     private func recoveryRef(_ record: RecoveryRecord) -> String {
         "refs/wegit/recovery/" + record.id.uuidString.lowercased()
     }
@@ -359,8 +467,10 @@ extension RepositoryService {
         guard paths.count <= RecoveryBudget.files else { throw RecoveryBudget.exceeded }
         var files: [RecoveryFileCapture] = []
         var bytes = 0
+        let storage = try await SnapshotIO.run { _ in try SnapshotDirectory() }
         for (index, path) in paths.enumerated() {
-            let file = try await RecoveryFileIO.capture(location: location, path: path, name: "blob-\(index)")
+            let file = try await RecoveryFileIO.capture(
+                location: location, path: path, name: "blob-\(index)", storage: storage)
             bytes += file.file.bytes
             guard bytes <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
             files.append(file)

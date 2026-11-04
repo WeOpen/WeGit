@@ -49,7 +49,9 @@ enum RecoveryFileIO {
         else { throw ModelFailure.invalidPath }
     }
 
-    @concurrent static func capture(location: RepositoryLocation, path: String, name: String)
+    @concurrent static func capture(
+        location: RepositoryLocation, path: String, name: String, storage: SnapshotDirectory? = nil
+    )
         async throws -> RecoveryFileCapture
     {
         try await SnapshotIO.run { cancellation in
@@ -63,8 +65,8 @@ enum RecoveryFileIO {
                         path: path, kind: .absent, mode: 0o644, bytes: 0, sha256: nil, storageName: name),
                     snapshot: nil, version: nil, parents: parent.identities, missingParent: missing)
             }
-            let directory = try SnapshotDirectory()
-            let url = directory.url.appending(path: "content")
+            let directory = try storage ?? SnapshotDirectory()
+            let url = directory.url.appending(path: name)
             let descriptor = Darwin.open(
                 url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
             guard descriptor >= 0 else { throw ProcessFailure.outputWrite(errno) }
@@ -194,7 +196,9 @@ enum RecoveryFileIO {
                 var next = openat(
                     parent.descriptor, component, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
                 if next < 0 {
-                    guard errno == ENOENT, expected.missingParent != nil, source.file.kind != .absent else {
+                    guard errno == ENOENT, expected.missingParent?.isEmpty == false,
+                        source.file.kind != .absent
+                    else {
                         if errno == ENOENT, source.file.kind == .absent { return created }
                         throw ModelFailure.changed
                     }

@@ -1504,3 +1504,19 @@
 "工作文件与暂存区" = "Working files and index";
 "操作结果需要核对。原始内容已备份；请在恢复记录中检查 HEAD、暂存区和文件，不会自动重试。" = "The result needs review. Original content is backed up. Check HEAD, the index, and files in recovery records before another operation.";
 "备份超过文件数或空间上限。请先导出或清理恢复记录；工作文件尚未修改。" = "The backup exceeds its file or space limit. Export or remove recovery records first. Working files have not changed.";
+
+"导出备份…" = "Export backup…";
+
+"导出备份" = "Export backup";
+
+"恢复前备份" = "Backup before restore";
+
+"查看恢复记录" = "Show recovery records";
+
+"将当前分支重置到这里…" = "Reset the current branch to here…";
+
+"子模块与普通文件的替换需先单独处理；Soft 或 Mixed Reset 会保留工作文件。" = "Handle submodule and regular-file replacements separately. Soft or Mixed Reset preserves working files.";
+
+"暂无 Reflog 记录" = "No Reflog entries";
+
+"暂无内容备份" = "No content backups";

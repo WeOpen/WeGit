@@ -16,6 +16,108 @@ private actor LostResetReply: ProcessRunning {
 }
 
 struct RecoveryTests {
+    @Test func exportPreservesBackupBytesAndRefusesToOverwriteAnExistingExport() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "base\n")
+        let base = try await f.commit("Base")
+        try f.write("file", "current\n")
+        _ = try await f.commit("Current")
+        try f.write("file", "working\r\nlast")
+        let record = try await f.service.executeReset(f.service.prepareReset(target: base, mode: .hard))
+        let parent = f.root.appending(path: "exports")
+        try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: false)
+        let exported = try await f.service.exportRecoveryRecord(record, to: parent)
+        #expect(
+            try Data(contentsOf: exported.appending(path: record.files[0].storageName))
+                == Data("working\r\nlast".utf8))
+        #expect(
+            try JSONDecoder().decode(
+                RecoveryRecord.self, from: Data(contentsOf: exported.appending(path: "record.json")))
+                == record)
+        let original = try Data(contentsOf: exported.appending(path: "index"))
+        await #expect(throws: ProcessFailure.self) {
+            _ = try await f.service.exportRecoveryRecord(record, to: parent)
+        }
+        #expect(try Data(contentsOf: exported.appending(path: "index")) == original)
+        #expect(try await f.service.head() == base)
+    }
+
+    @Test func resetToAMovedBranchReferenceRequiresANewPreview() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "base\n")
+        let base = try await f.commit("Base")
+        try await f.service.createBranch("target", start: base, switchTo: false, expectedHead: base)
+        try f.write("file", "current\n")
+        let head = try await f.commit("Current")
+        let plan = try await f.service.prepareReset(target: base, mode: .hard, sourceRef: "refs/heads/target")
+        _ = try await f.engine.run(["update-ref", "refs/heads/target", head, base], in: f.root)
+        await #expect(throws: ModelFailure.self) { _ = try await f.service.executeReset(plan) }
+        #expect(try await f.service.head() == head)
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("current\n".utf8))
+    }
+
+    @Test func submoduleResetChangesOnlyGitlinksAndPreservesChildHeadAndDirtyBytes() async throws {
+        let f = try await Fixture.create()
+        let child = try await Fixture.create()
+        defer {
+            f.remove()
+            child.remove()
+        }
+        try child.write("file", "child base\n")
+        let childBase = try await child.commit("Child base")
+        _ = try await f.engine.run(
+            ["submodule", "add", child.root.path, "module"], in: f.root,
+            configuration: [(key: "protocol.file.allow", value: "always")])
+        let base = try await f.commit("Parent base")
+        let module = f.root.appending(path: "module")
+        for (key, value) in [
+            ("user.name", "Child fixture"), ("user.email", "fixture@example.invalid"),
+            ("commit.gpgsign", "false"), ("core.hooksPath", child.root.appending(path: "no-hooks").path),
+        ] {
+            _ = try await f.engine.run(["config", key, value], in: module)
+        }
+        try Data("child committed\n".utf8).write(to: module.appending(path: "file"))
+        _ = try await f.engine.run(["commit", "-am", "Child current"], in: module)
+        let childHead = try await f.engine.run(["rev-parse", "HEAD"], in: module).text.removingLastNewline
+        _ = try await f.commit("Parent current")
+        try Data("child private bytes\n".utf8).write(to: module.appending(path: "file"))
+        _ = try await f.engine.run(["config", "submodule.recurse", "true"], in: f.root)
+        let plan = try await f.service.prepareReset(target: base, mode: .hard)
+        _ = try await f.service.executeReset(plan)
+        #expect(
+            try await f.engine.run(["rev-parse", ":module"], in: f.root).text.removingLastNewline == childBase
+        )
+        #expect(
+            try await f.engine.run(["rev-parse", "HEAD"], in: module).text.removingLastNewline == childHead)
+        #expect(try Data(contentsOf: module.appending(path: "file")) == Data("child private bytes\n".utf8))
+    }
+
+    @Test func untrackedFileAtANewGitlinkPathCannotBeRemovedByHardReset() async throws {
+        let f = try await Fixture.create()
+        let child = try await Fixture.create()
+        defer {
+            f.remove()
+            child.remove()
+        }
+        try child.write("file", "child\n")
+        let childHead = try await child.commit("Child")
+        try f.write("file", "parent\n")
+        let base = try await f.commit("Base")
+        _ = try await f.engine.run(
+            ["update-index", "--add", "--cacheinfo", "160000", childHead, "module"], in: f.root)
+        let target = try await f.service.commit(message: "Add gitlink", amend: false, expectedHead: base)
+        _ = try await f.engine.run(["reset", "--hard", base], in: f.root)
+        try f.write("module", "private untracked file\n")
+        await #expect(throws: ModelFailure.self) {
+            _ = try await f.service.prepareReset(target: target, mode: .hard)
+        }
+        #expect(
+            try Data(contentsOf: f.root.appending(path: "module")) == Data("private untracked file\n".utf8))
+        #expect(try await f.service.head() == base)
+    }
+
     @Test(arguments: ResetMode.allCases)
     func resetPreservesEachLayerAndBackupsRestoreExactBytes(mode: ResetMode) async throws {
         let f = try await Fixture.create()
@@ -185,11 +287,13 @@ struct RecoveryTests {
         defer { f.remove() }
         try f.write("file", "base\n")
         let base = try await f.commit("Base")
+        let originalVersion = try await f.service.reflogVersion()
         _ = try await f.engine.run(["switch", "-c", "deleted"], in: f.root)
         try f.write("file", "recoverable\n")
         let old = try await f.commit("Recoverable")
         _ = try await f.engine.run(["switch", "main"], in: f.root)
         _ = try await f.engine.run(["branch", "-D", "deleted"], in: f.root)
+        #expect(try await f.service.reflogVersion() != originalVersion)
         let first = try await f.service.reflog(limit: 2)
         let second = try await f.service.reflog(offset: 2, limit: 2)
         #expect(first.count == 2 && !second.isEmpty)

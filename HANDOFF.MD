@@ -1,5 +1,15 @@
 # WeGit 开发交接
 
+## 2026-11-04 M1 开发验证与稳定批次准备
+
+- PR132草稿head623d7c8的CI41803616136已实核：Native/前端/Core编译/site无runner、0步骤；Repository policy明确因awaits batch validation失败。轻量PR/仓库工具通过，112项工具保持。此为调度验收，不能说后端/版本通过；稳定head之后只ready一次。
+- 本机无XCTest。独立Bundle ID的原生预览用自己的UITests偏好域、内存最近列表和私有临时仓库；Cua取消/Hard Reset/两层恢复实际逐字节核对HEAD、索引、CRLF/无末尾换行工作文件及恢复引用。截图/AX在本聊天，原始JSON/摘要在.build/v2-m1。未借真实仓库、凭据或系统保护验收。
+- 菜单AX条目会在两次工具调用之间消失；读取打开菜单后用原生Down/Return可进入Reset，不为工具瞬时索引改产品语义。渲染发现重复Picker标签/选中行黑字/成功后无下一步，已改为隐藏重复标签、使用selectionText、保留结果并在dismiss回调接续恢复入口。
+- 大备份所有文件共用一次临时快照目录，避免每文件目录/回收线程；64KiB复制仍逐文件fsync/摘要核对，不以缓存替代原字节。先校验各项大小再求总计，损坏记录不能整数溢出。导出创建新私有目录，原已存在导出不覆写。
+- Gitlink不能按普通文件或完全跳过路径保护：已配置子模块只允许真实目录叶子且父路径不跟随symlink，no-recurse保持子仓库HEAD/脏文件；新gitlink路径的未跟踪文件及gitlink/普通文件替换在Hard前拒绝。对应隔离Core测试已加入，实际执行待托管批次。
+- 新Reflog分页固定日志文件版本，外部追加使旧下一页失效；branch Reset固定目标OID并重验来源ref，不能把更新过的分支名称当作原确认。01d逐页全矩阵、完整VoiceOver、Intel/macOS26实机与最终性能/交付仍独立待验。
+- 原推送75001ms连接失败，任务单次HTTP/1.1/有界low-speed选项后6.9秒成功；未改全局Git、代理或认证。用户原PBX的4+4差异仍单独未暂存。
+
 ## 2026-11-04 v2.0 M1 恢复基础实施中
 
 - M0 PR131正常合入mainfc9afa7，CI41797958554的policy/工具真实通过，Native/前端/Core编译/site均0步骤无runner。M1接续同一主计划，草稿中间提交不作为验收；代码/测试源继续实现，不逐项送重验。

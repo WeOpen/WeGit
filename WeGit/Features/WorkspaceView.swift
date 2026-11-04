@@ -207,7 +207,7 @@ struct WorkspaceView: View {
         .sheet(item: $app.singleCommitRequest) {
             SingleCommitSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.resetRequest) {
+        .sheet(item: $app.resetRequest, onDismiss: app.resetDidDismiss) {
             ResetSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
         .sheet(item: $app.recoveryBrowserRequest) {

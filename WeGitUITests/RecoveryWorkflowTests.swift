@@ -57,6 +57,9 @@ final class RecoveryWorkflowTests: XCTestCase {
         enabled(execute)
         capture(sheet, "Hard Reset requires backup and explicit approval")
         execute.click()
+        let showRecovery = app.buttons["reset-show-recovery"]
+        XCTAssertTrue(showRecovery.waitForExistence(timeout: 20))
+        sheet.buttons["reset-cancel"].click()
         gone(sheet)
         XCTAssertEqual(try oid(f, "HEAD"), target)
         XCTAssertEqual(try Data(contentsOf: file), Data("base\r\nlast".utf8))

@@ -368,6 +368,11 @@ struct BranchesView: View {
                                         .accessibilityIdentifier("branch-merge:" + branch.id)
                                 }
                                 Menu {
+                                    Button(L10n.text("将当前分支重置到这里…")) {
+                                        app.resetRequest = ResetRequest(
+                                            session: session, target: branch.oid, sourceRef: branch.id)
+                                    }.disabled(!session.canWrite || branch.symbolicTarget != nil)
+                                    Divider()
                                     if !branch.current && branch.symbolicTarget == nil {
                                         Button(L10n.text("变基到此分支…")) { presentRebase(target: branch) }
                                             .disabled(!session.canRebase)

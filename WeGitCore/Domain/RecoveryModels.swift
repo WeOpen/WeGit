@@ -33,6 +33,12 @@ public struct ReflogEntry: Identifiable, Sendable {
     public var id: String { selector + ":" + object + ":\(position)" }
 }
 
+public struct ReflogVersion: Equatable, Sendable {
+    let workspaceID: String
+    let ref: String
+    let fingerprint: String?
+}
+
 public struct RecoveryFile: Codable, Equatable, Sendable, Identifiable {
     public enum Kind: String, Codable, Sendable { case absent, file, symbolicLink }
     public let path: String
@@ -61,6 +67,15 @@ public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
     public var state: State
     public var observedHead: String?
     public var details: String?
+    public var title: String {
+        switch operation {
+        case "reset-soft": "Soft Reset"
+        case "reset-mixed": "Mixed Reset"
+        case "reset-hard": "Hard Reset"
+        case "restore-backup": L10n.text("恢复前备份")
+        default: L10n.text("内容备份")
+        }
+    }
     public var totalBytes: Int { files.reduce(indexBytes) { $0 + $1.bytes } }
 }
 
@@ -77,6 +92,9 @@ public struct ResetPlan: Sendable, Identifiable {
     let index: SelectedIndexSnapshot
     let captures: [RecoveryFileCapture]
     let statusFiles: [FileChange]
+    let sourceRef: String?
+    let trackedPaths: Set<String>
+    let submoduleDirectories: Set<String>
 }
 
 public struct RecoveryRestorePlan: Sendable, Identifiable {
