@@ -1,6 +1,39 @@
 import Darwin
 import Foundation
 
+/// A read-only batch pins one root and validates the repository redirects on both
+/// boundaries. Per-file readers still check their parents, entry and descriptor.
+/// The batch cannot expose its result until validate() succeeds after all reads.
+final class RepositoryReadFence: @unchecked Sendable {
+    private let location: RepositoryLocation
+    private let root: Int32
+    init(location: RepositoryLocation) throws {
+        self.location = location
+        root = try WorktreePreservationDirectory.pin(location)
+    }
+    deinit { Darwin.close(root) }
+
+    func openRoot(for location: RepositoryLocation) throws -> Int32 {
+        guard self.location == location else { throw ModelFailure.changed }
+        try validateRoot()
+        let descriptor = fcntl(root, F_DUPFD_CLOEXEC, 0)
+        guard descriptor >= 0 else { throw ProcessFailure.outputWrite(errno) }
+        return descriptor
+    }
+    func validateRoot() throws {
+        var info = stat()
+        guard fstat(root, &info) == 0, info.st_dev == location.rootIdentity.device,
+            info.st_ino == location.rootIdentity.inode,
+            info.st_birthtimespec.tv_sec == location.rootIdentity.bornSeconds,
+            info.st_birthtimespec.tv_nsec == location.rootIdentity.bornNanoseconds
+        else { throw ModelFailure.repositoryReplaced }
+    }
+    func validate() throws {
+        try location.validateIdentity()
+        try validateRoot()
+    }
+}
+
 /// A worktree read is anchored at the opened repository directory. Every intermediate
 /// component must be a real directory; a final symlink is read as link text, never followed.
 /// Only a constant number of descriptors is held, even for deep paths.
@@ -28,6 +61,7 @@ final class RepositoryFileReader {
     private let stamp: SnapshotFileStamp
     private let stampMode: UInt16
     private let cancellation: IOCancellation
+    private let readFence: RepositoryReadFence?
     let symbolicLink: Bool
     var mode: UInt16 { UInt16(stampMode) }
     var size: Int64 { stamp.size }
@@ -40,17 +74,22 @@ final class RepositoryFileReader {
         }
     }
 
-    init(location: RepositoryLocation, path: String, cancellation: IOCancellation, openContents: Bool = true)
+    init(
+        location: RepositoryLocation, path: String, cancellation: IOCancellation, openContents: Bool = true,
+        readFence: RepositoryReadFence? = nil
+    )
         throws
     {
         try cancellation.check()
-        try location.validateIdentity()
+        if readFence == nil { try location.validateIdentity() }
         guard !path.isEmpty, !path.hasPrefix("/"), !path.contains("\0") else {
             throw ModelFailure.invalidPath
         }
         let components = path.split(separator: "/").map(String.init).filter { $0 != "." }
         guard let last = components.last, !components.contains("..") else { throw ModelFailure.invalidPath }
-        let rootFD = Darwin.open(location.root.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        let rootFD =
+            try readFence?.openRoot(for: location)
+            ?? Darwin.open(location.root.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard rootFD >= 0 else { throw ModelFailure.repositoryReplaced }
         var parentFD = rootFD
         var fileFD: Int32?
@@ -111,6 +150,7 @@ final class RepositoryFileReader {
         stampMode = UInt16(info.st_mode & UInt16(0o777))
         symbolicLink = kind == UInt16(S_IFLNK)
         self.cancellation = cancellation
+        self.readFence = readFence
         transferred = true
     }
 
@@ -128,7 +168,7 @@ final class RepositoryFileReader {
             let count = readlinkat(parent, name, &bytes, bytes.count)
             guard count >= 0 else { throw ModelFailure.changed }
             guard count < bytes.count, count <= limit else { throw ProcessFailure.outputLimit }
-            try consume(Data(bytes.prefix(count)))
+            try consume(bytes.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: count) })
         } else if let descriptor {
             guard lseek(descriptor, 0, SEEK_SET) == 0 else { throw ModelFailure.changed }
             var bytes = [UInt8](repeating: 0, count: 64 * 1024)
@@ -144,7 +184,7 @@ final class RepositoryFileReader {
                 }
                 if count == 0 { break }
                 guard count <= limit - total else { throw ProcessFailure.outputLimit }
-                try consume(Data(bytes.prefix(count)))
+                try consume(bytes.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: count) })
                 total += count
             }
             guard total == size else { throw ModelFailure.changed }
@@ -154,9 +194,29 @@ final class RepositoryFileReader {
         try validate()
     }
 
+    /// APFS clones preserve a point-in-time byte snapshot without materializing
+    /// another full copy. Other filesystems keep the bounded streaming path.
+    func clone(to directory: SnapshotDirectory, name: String) throws -> Bool {
+        guard !symbolicLink, let descriptor else { return false }
+        try validate()
+        try directory.validate()
+        try cancellation.check()
+        let parent = Darwin.open(directory.url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard parent >= 0 else { throw ModelFailure.changed }
+        defer { Darwin.close(parent) }
+        if fclonefileat(descriptor, parent, name, UInt32(CLONE_NOOWNERCOPY)) != 0 {
+            if [EXDEV, ENOTSUP, EINVAL].contains(errno) { return false }
+            throw ProcessFailure.outputWrite(errno)
+        }
+        try validate()
+        try directory.validate()
+        try cancellation.check()
+        return true
+    }
+
     func validate() throws {
         try cancellation.check()
-        try location.validateIdentity()
+        if let readFence { try readFence.validateRoot() } else { try location.validateIdentity() }
         var current = root
         defer { if current != root { Darwin.close(current) } }
         for (index, folder) in folders.enumerated() {

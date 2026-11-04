@@ -1,5 +1,15 @@
 # WeGit 开发交接
 
+## 2026-11-04 M1 大型恢复性能定位与快照优化
+
+- 固定df73872的CI41818471026：Apple/最低/Homebrew Git分别277测试/48套件通过，374.543/185.268/182.813秒；Apple/Homebrew隔离OpenPGP各9通过，功能作业通过。大型恢复性能失败，应用/UI编译和包未执行；原native ZIP/CRC/SHA与JSON保留主检出.build/v2-m1/failed-native-3。普通100文件/16,751,600bytes通过；大型1000文件/268,179,000bytes的p95预览2509.23ms、Reset5152.44ms、恢复预览2753.78ms、恢复5163.27ms，不能提高2000ms预算或将旧性能项标绿。
+- 第一轮COW/批量调度的本机独立2样本诊断仍失败：大型预览约1527ms、Reset2434ms、恢复2700ms。此为未提交工作区开发诊断，不是30样本托管验收；结果单独标记uncommittedDevelopmentDiagnostic。失败保留，不重复完整XCTest或包流程。
+- 工作文件捕获/校验/安装改为单次有取消标记的批量I/O；常规文件以fclonefileat固定描述符写时复制，EXDEV/ENOTSUP/EINVAL仍走64KiB流；符号链接只读链接文本。临时预览不承担持久化，RecoveryStore在Git写入前逐备份文件fsync并同步目录，权限修改后也同步；新增/删除父目录保持落盘。
+- 不可变SnapshotFile的已验证SHA绑定原inode/大小/mtime/ctime。COW复制前后核对原stamp才复用摘要；没有摘要时实际计算，流复制实际重新计算。备份读取与恢复后内容仍重新摘要，不能把任意持久化文件或变化后的快照当作缓存。只读源用只读描述符哈希并fchmod，避免O_RDWR使444文件失败。新增快照独立性、流复制取消和变化后摘要失效测试源，本机仅编译，实际执行交给稳定托管批次。
+- 只读批次用RepositoryReadFence固定根描述符并在开始/结束验证全部重定向身份；各文件仍核对父目录、叶子及打开描述符，结果必须通过批次末尾校验。实际写入仍逐项核对身份。Reset索引验证直接diff-index --cached比较全部对象/模式，显式含gitlink/intent-to-add，不再为验证额外write-tree写对象。新增根替换和Reset后外部索引篡改保护源测试；本机共新增5项只编译。
+- 最后独立2样本开发诊断的普通/大型均满足原门槛；大型最大预览1384.19ms、Reset1739.01ms、恢复预览1587.59ms、恢复1328.40ms、取消0.66ms、RSS24,150,016bytes。原始JSON位于managed检出.build/v2-m1/io-diagnostic/result-final.json，显式未提交开发诊断；不能当作30样本p95、完整托管或版本通过。共享Reader/Snapshot变化需集中回归，稳定修补候选准备送验。
+
+
 ## 2026-11-04 M1 第二轮真实结果与构建前置修正
 
 - CI41814318775（固定5fecbba）三套Git各277/48通过，分别242.900/184.779/185.102秒；OpenPGP Apple/Homebrew各9项通过。功能作业失败在DiffReadCancellationChecks读取Debug WeGit模块/对象之前，性能/应用UI编译/包未执行；86,435bytes/15CRC原native ZIP及SHA1639697c…保留.build/v2-m1，失败不改记通过。

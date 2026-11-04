@@ -18,27 +18,55 @@ struct RecoveryFileCapture: Sendable {
 enum RecoveryFileIO {
     @concurrent static func verify(_ capture: RecoveryFileCapture, location: RepositoryLocation) async throws
     {
+        try await verifyAll([capture], location: location)
+    }
+    @concurrent static func verifyAll(_ captures: [RecoveryFileCapture], location: RepositoryLocation)
+        async throws
+    {
         try await SnapshotIO.run { cancellation in
+            let fence = try RepositoryReadFence(location: location)
+            for capture in captures {
+                try verifyNow(capture, location: location, cancellation: cancellation, readFence: fence)
+            }
             try cancellation.check()
-            let parent = try Parent(location: location, path: capture.file.path)
-            let missing = try parent.probe()
-            guard parent.identities == capture.parents, missing == capture.missingParent else {
-                throw ModelFailure.changed
-            }
-            if let expected = capture.version {
-                let reader = try RepositoryFileReader(
-                    location: location, path: capture.file.path,
-                    cancellation: cancellation, openContents: false)
-                guard reader.version == expected, reader.mode == capture.file.mode else {
-                    throw ModelFailure.changed
-                }
-                try reader.validate()
-            }
-            try location.validateIdentity()
+            try fence.validate()
         }
     }
+
+    private static func verifyNow(
+        _ capture: RecoveryFileCapture, location: RepositoryLocation, cancellation: IOCancellation,
+        readFence: RepositoryReadFence
+    ) throws {
+        try cancellation.check()
+        let parent = try Parent(location: location, path: capture.file.path, readFence: readFence)
+        let missing = try parent.probe()
+        guard parent.identities == capture.parents, missing == capture.missingParent else {
+            throw ModelFailure.changed
+        }
+        if let expected = capture.version {
+            let reader = try RepositoryFileReader(
+                location: location, path: capture.file.path,
+                cancellation: cancellation, openContents: false, readFence: readFence)
+            guard reader.version == expected, reader.mode == capture.file.mode else {
+                throw ModelFailure.changed
+            }
+            try reader.validate()
+        }
+    }
+
     static func hash(_ data: Data) -> String {
-        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        hex(SHA256.hash(data: data))
+    }
+
+    static func hex<D: Sequence>(_ digest: D) -> String where D.Element == UInt8 {
+        let alphabet = Array("0123456789abcdef".utf8)
+        var bytes: [UInt8] = []
+        bytes.reserveCapacity(64)
+        for value in digest {
+            bytes.append(alphabet[Int(value >> 4)])
+            bytes.append(alphabet[Int(value & 15)])
+        }
+        return String(decoding: bytes, as: UTF8.self)
     }
 
     static func validate(_ path: String) throws {
@@ -51,41 +79,92 @@ enum RecoveryFileIO {
 
     @concurrent static func capture(
         location: RepositoryLocation, path: String, name: String, storage: SnapshotDirectory? = nil
-    )
-        async throws -> RecoveryFileCapture
-    {
+    ) async throws -> RecoveryFileCapture {
         try await SnapshotIO.run { cancellation in
-            try validate(path)
+            try captureNow(
+                location: location, path: path, name: name, storage: storage, cancellation: cancellation)
+        }
+    }
+    @concurrent static func captureAll(location: RepositoryLocation, paths: [String]) async throws
+        -> [RecoveryFileCapture]
+    {
+        guard paths.count <= RecoveryBudget.files else { throw RecoveryBudget.exceeded }
+        return try await SnapshotIO.run { cancellation in
+            let fence = try RepositoryReadFence(location: location)
+            let storage = try SnapshotDirectory()
+            var values: [RecoveryFileCapture] = []
+            var total = 0
+            for (index, path) in paths.enumerated() {
+                let value = try captureNow(
+                    location: location, path: path, name: "blob-\(index)", storage: storage,
+                    cancellation: cancellation, readFence: fence)
+                total += value.file.bytes
+                guard total <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
+                values.append(value)
+            }
             try cancellation.check()
-            let parent = try Parent(location: location, path: path)
-            let missing = try parent.probe()
-            if let missing {
-                return RecoveryFileCapture(
-                    file: RecoveryFile(
-                        path: path, kind: .absent, mode: 0o644, bytes: 0, sha256: nil, storageName: name),
-                    snapshot: nil, version: nil, parents: parent.identities, missingParent: missing)
-            }
-            let directory = try storage ?? SnapshotDirectory()
-            let url = directory.url.appending(path: name)
-            let descriptor = Darwin.open(
-                url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
-            guard descriptor >= 0 else { throw ProcessFailure.outputWrite(errno) }
-            defer { Darwin.close(descriptor) }
-            let reader = try RepositoryFileReader(location: location, path: path, cancellation: cancellation)
-            var digest = SHA256()
-            try reader.read(limit: RecoveryBudget.bytes) { data in
-                digest.update(data: data)
-                try write(data, descriptor: descriptor, cancellation: cancellation)
-            }
-            guard fsync(descriptor) == 0 else { throw ProcessFailure.outputWrite(errno) }
+            try fence.validate()
+            return values
+        }
+    }
+
+    private static func captureNow(
+        location: RepositoryLocation, path: String, name: String, storage: SnapshotDirectory?,
+        cancellation: IOCancellation, readFence: RepositoryReadFence? = nil
+    ) throws -> RecoveryFileCapture {
+        try validate(path)
+        try cancellation.check()
+        let parent = try Parent(location: location, path: path, readFence: readFence)
+        let missing = try parent.probe()
+        if let missing {
             return RecoveryFileCapture(
                 file: RecoveryFile(
-                    path: path, kind: reader.symbolicLink ? .symbolicLink : .file,
-                    mode: reader.mode, bytes: Int(reader.size),
-                    sha256: digest.finalize().map { String(format: "%02x", $0) }.joined(), storageName: name),
-                snapshot: try SnapshotFile(directory: directory, url: url), version: reader.version,
+                    path: path, kind: .absent, mode: 0o644, bytes: 0, sha256: nil, storageName: name),
+                snapshot: nil, version: nil, parents: parent.identities, missingParent: missing)
+        }
+        let directory = try storage ?? SnapshotDirectory()
+        let url = directory.url.appending(path: name)
+        let reader = try RepositoryFileReader(
+            location: location, path: path, cancellation: cancellation, readFence: readFence)
+        guard reader.size <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
+        if try reader.clone(to: directory, name: name) {
+            let descriptor = Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+            guard descriptor >= 0 else { throw ModelFailure.changed }
+            defer { Darwin.close(descriptor) }
+            let digest = try hashFile(
+                descriptor, expectedBytes: Int(reader.size), cancellation: cancellation)
+            // Preview storage is process-owned. The durable copy is synced by
+            // RecoveryStore before any destructive repository write begins.
+            guard fchmod(descriptor, 0o600) == 0 else {
+                throw ProcessFailure.outputWrite(errno)
+            }
+            try reader.validate()
+            return RecoveryFileCapture(
+                file: RecoveryFile(
+                    path: path, kind: .file, mode: reader.mode, bytes: Int(reader.size), sha256: digest,
+                    storageName: name),
+                snapshot: try SnapshotFile(directory: directory, url: url, verifiedSHA256: digest),
+                version: reader.version,
                 parents: parent.identities, missingParent: nil)
         }
+        let descriptor = Darwin.open(
+            url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        guard descriptor >= 0 else { throw ProcessFailure.outputWrite(errno) }
+        defer { Darwin.close(descriptor) }
+        var digest = SHA256()
+        try reader.read(limit: RecoveryBudget.bytes) { data in
+            digest.update(data: data)
+            try write(data, descriptor: descriptor, cancellation: cancellation)
+        }
+        let checksum = hex(digest.finalize())
+        return RecoveryFileCapture(
+            file: RecoveryFile(
+                path: path, kind: reader.symbolicLink ? .symbolicLink : .file,
+                mode: reader.mode, bytes: Int(reader.size),
+                sha256: checksum, storageName: name),
+            snapshot: try SnapshotFile(directory: directory, url: url, verifiedSHA256: checksum),
+            version: reader.version,
+            parents: parent.identities, missingParent: nil)
     }
 
     static func write(_ data: Data, descriptor: Int32, cancellation: IOCancellation) throws {
@@ -102,6 +181,97 @@ enum RecoveryFileIO {
         }
     }
 
+    @concurrent static func verifyContentsAll(_ sources: [RecoveryFileCapture], location: RepositoryLocation)
+        async throws
+    {
+        try await SnapshotIO.run { cancellation in
+            let fence = try RepositoryReadFence(location: location)
+            for source in sources {
+                try cancellation.check()
+                let parent = try Parent(location: location, path: source.file.path, readFence: fence)
+                let missing = try parent.probe()
+                if source.file.kind == .absent {
+                    guard missing != nil else { throw ModelFailure.changed }
+                    continue
+                }
+                guard missing == nil else { throw ModelFailure.changed }
+                let reader = try RepositoryFileReader(
+                    location: location, path: source.file.path, cancellation: cancellation, readFence: fence)
+                guard reader.mode == source.file.mode, reader.size == source.file.bytes,
+                    reader.symbolicLink == (source.file.kind == .symbolicLink)
+                else { throw ModelFailure.changed }
+                var digest = SHA256()
+                try reader.read(limit: RecoveryBudget.bytes) { digest.update(data: $0) }
+                guard hex(digest.finalize()) == source.file.sha256 else {
+                    throw ModelFailure.changed
+                }
+            }
+            try cancellation.check()
+            try fence.validate()
+        }
+    }
+
+    static func hashFile(_ descriptor: Int32, expectedBytes: Int, cancellation: IOCancellation) throws
+        -> String
+    {
+        guard expectedBytes >= 0, expectedBytes <= RecoveryBudget.bytes, lseek(descriptor, 0, SEEK_SET) == 0
+        else { throw ModelFailure.changed }
+        var digest = SHA256()
+        var count = 0
+        var buffer = [UInt8](repeating: 0, count: 64 * 1024)
+        while true {
+            try cancellation.check()
+            let size = Darwin.read(descriptor, &buffer, buffer.count)
+            if size < 0 && errno == EINTR { continue }
+            guard size >= 0 else { throw ModelFailure.changed }
+            if size == 0 { break }
+            count += size
+            guard count <= expectedBytes else { throw ModelFailure.changed }
+            buffer.withUnsafeBytes {
+                digest.update(bufferPointer: UnsafeRawBufferPointer(rebasing: $0.prefix(size)))
+            }
+        }
+        guard count == expectedBytes else { throw ModelFailure.changed }
+        return hex(digest.finalize())
+    }
+
+    static func copy(
+        _ source: SnapshotFile, directory: Int32, name: String, mode: mode_t = 0o600,
+        cancellation: IOCancellation
+    ) throws -> String {
+        let input = try source.open()
+        defer { Darwin.close(input) }
+        try cancellation.check()
+        let checksum =
+            try source.verifiedSHA256
+            ?? hashFile(
+                input, expectedBytes: Int(source.stamp.size), cancellation: cancellation)
+        try source.validate(input)
+        if fclonefileat(input, directory, name, UInt32(CLONE_NOOWNERCOPY)) == 0 {
+            let output = openat(directory, name, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+            guard output >= 0 else { throw ModelFailure.changed }
+            defer { Darwin.close(output) }
+            var info = stat()
+            guard fstat(output, &info) == 0, info.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG),
+                info.st_size == source.stamp.size, info.st_uid == getuid()
+            else { throw ModelFailure.changed }
+            try source.validate(input)
+            guard fchmod(output, mode) == 0, fsync(output) == 0 else {
+                throw ProcessFailure.outputWrite(errno)
+            }
+            // fclonefileat clones the pinned descriptor's exact bytes. Its digest
+            // remains valid only after the original stamp is checked on both sides.
+            return checksum
+        }
+        guard [EXDEV, ENOTSUP, EINVAL].contains(errno) else { throw ProcessFailure.outputWrite(errno) }
+        let output = openat(directory, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, mode)
+        guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }
+        defer { Darwin.close(output) }
+        let digest = try copy(source, to: output, cancellation: cancellation)
+        guard fchmod(output, mode) == 0, fsync(output) == 0 else { throw ProcessFailure.outputWrite(errno) }
+        return digest
+    }
+
     static func copy(_ source: SnapshotFile, to descriptor: Int32, cancellation: IOCancellation) throws
         -> String
     {
@@ -116,15 +286,17 @@ enum RecoveryFileIO {
             if count < 0 && errno == EINTR { continue }
             guard count >= 0 else { throw ProcessFailure.outputWrite(errno) }
             if count == 0 { break }
-            let bytes = Data(buffer.prefix(count))
-            digest.update(data: bytes)
+            let bytes = buffer.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: count) }
+            buffer.withUnsafeBytes {
+                digest.update(bufferPointer: UnsafeRawBufferPointer(rebasing: $0.prefix(count)))
+            }
             try write(bytes, descriptor: descriptor, cancellation: cancellation)
             total += count
             guard total <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
         }
         try source.validate(input)
         guard total == source.stamp.size, fsync(descriptor) == 0 else { throw ModelFailure.changed }
-        return digest.finalize().map { String(format: "%02x", $0) }.joined()
+        return hex(digest.finalize())
     }
 
     /// Open every parent relative to a pinned root; never follow a user symlink.
@@ -136,11 +308,11 @@ enum RecoveryFileIO {
         var identities: [ConflictEditorDirectoryIdentity] = []
         var missingDirectory: String?
         var name: String { components.last! }
-        init(location: RepositoryLocation, path: String) throws {
+        init(location: RepositoryLocation, path: String, readFence: RepositoryReadFence? = nil) throws {
             try validate(path)
             self.location = location
             components = path.split(separator: "/").map(String.init)
-            root = try WorktreePreservationDirectory.pin(location)
+            root = try readFence?.openRoot(for: location) ?? WorktreePreservationDirectory.pin(location)
             descriptor = root
         }
         deinit {
@@ -187,115 +359,141 @@ enum RecoveryFileIO {
         createdDirectories: [String: ConflictEditorDirectoryIdentity]
     ) async throws -> [String: ConflictEditorDirectoryIdentity] {
         try await SnapshotIO.run { cancellation in
-            try cancellation.check()
-            let parent = try Parent(location: location, path: source.file.path)
-            var created = createdDirectories
-            for (index, component) in parent.components.dropLast().enumerated() {
-                let prefix = parent.components.prefix(index + 1).joined(separator: "/")
-                var made = false
-                var next = openat(
-                    parent.descriptor, component, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-                if next < 0 {
-                    guard errno == ENOENT, expected.missingParent?.isEmpty == false,
-                        source.file.kind != .absent
-                    else {
-                        if errno == ENOENT, source.file.kind == .absent { return created }
-                        throw ModelFailure.changed
-                    }
-                    guard mkdirat(parent.descriptor, component, 0o755) == 0 else {
-                        throw ModelFailure.changed
-                    }
-                    made = true
-                    next = openat(
-                        parent.descriptor, component, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            try installNow(
+                source: source, expected: expected, location: location,
+                createdDirectories: createdDirectories, cancellation: cancellation)
+        }
+    }
+    @concurrent static func installAll(
+        sources: [RecoveryFileCapture], expected: [RecoveryFileCapture], location: RepositoryLocation
+    ) async throws {
+        guard sources.count == expected.count else { throw ModelFailure.changed }
+        _ = try await SnapshotIO.run { cancellation in
+            var created: [String: ConflictEditorDirectoryIdentity] = [:]
+            for index in sources.indices {
+                created = try installNow(
+                    source: sources[index], expected: expected[index], location: location,
+                    createdDirectories: created, cancellation: cancellation)
+            }
+            return created
+        }
+    }
+
+    private static func installNow(
+        source: RecoveryFileCapture, expected: RecoveryFileCapture, location: RepositoryLocation,
+        createdDirectories: [String: ConflictEditorDirectoryIdentity], cancellation: IOCancellation
+    ) throws -> [String: ConflictEditorDirectoryIdentity] {
+        try cancellation.check()
+        guard source.file.path == expected.file.path else { throw ModelFailure.changed }
+        let parent = try Parent(location: location, path: source.file.path)
+        var created = createdDirectories
+        for (index, component) in parent.components.dropLast().enumerated() {
+            let prefix = parent.components.prefix(index + 1).joined(separator: "/")
+            var made = false
+            var next = openat(
+                parent.descriptor, component, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            if next < 0 {
+                guard errno == ENOENT, expected.missingParent?.isEmpty == false,
+                    source.file.kind != .absent
+                else {
+                    if errno == ENOENT, source.file.kind == .absent { return created }
+                    throw ModelFailure.changed
                 }
-                guard next >= 0 else { throw ModelFailure.changed }
-                var info = stat()
-                guard fstat(next, &info) == 0 else {
+                guard mkdirat(parent.descriptor, component, 0o755) == 0,
+                    fsync(parent.descriptor) == 0
+                else {
+                    throw ModelFailure.changed
+                }
+                made = true
+                next = openat(
+                    parent.descriptor, component, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            }
+            guard next >= 0 else { throw ModelFailure.changed }
+            var info = stat()
+            guard fstat(next, &info) == 0 else {
+                Darwin.close(next)
+                throw ModelFailure.changed
+            }
+            let identity = Parent.identity(info)
+            if index < expected.parents.count {
+                guard expected.parents[index] == identity else {
                     Darwin.close(next)
                     throw ModelFailure.changed
                 }
-                let identity = Parent.identity(info)
-                if index < expected.parents.count {
-                    guard expected.parents[index] == identity else {
-                        Darwin.close(next)
-                        throw ModelFailure.changed
-                    }
-                } else if let known = created[prefix] {
-                    guard known == identity else {
-                        Darwin.close(next)
-                        throw ModelFailure.changed
-                    }
-                } else {
-                    // A missing parent must be one this operation just created.
-                    guard made,
-                        expected.missingParent == prefix
-                            || created.keys.contains(where: { prefix.hasPrefix($0 + "/") })
-                    else {
-                        Darwin.close(next)
-                        throw ModelFailure.changed
-                    }
-                    created[prefix] = identity
-                }
-                if parent.descriptor != parent.root { Darwin.close(parent.descriptor) }
-                parent.descriptor = next
-            }
-            func validateEntry() throws {
-                try location.validateIdentity()
-                var info = stat()
-                let found = fstatat(parent.descriptor, parent.name, &info, AT_SYMLINK_NOFOLLOW) == 0
-                if let version = expected.version {
-                    guard found, SnapshotFileStamp(info) == version, info.st_uid == geteuid() else {
-                        throw ModelFailure.changed
-                    }
-                } else {
-                    guard !found, errno == ENOENT else { throw ModelFailure.changed }
-                }
-            }
-            try validateEntry()
-            if source.file.kind == .absent {
-                if expected.version != nil {
-                    guard unlinkat(parent.descriptor, parent.name, 0) == 0 else {
-                        throw ProcessFailure.outputWrite(errno)
-                    }
-                }
-                return created
-            }
-            guard let snapshot = source.snapshot else { throw ModelFailure.changed }
-            let candidate = ".wegit-restore-" + UUID().uuidString
-            defer { unlinkat(parent.descriptor, candidate, 0) }
-            if source.file.kind == .symbolicLink {
-                let descriptor = try snapshot.open()
-                defer { Darwin.close(descriptor) }
-                let data =
-                    try FileHandle(fileDescriptor: descriptor, closeOnDealloc: false).read(upToCount: 65537)
-                    ?? Data()
-                guard data.count <= 65536, !data.contains(0), hash(data) == source.file.sha256 else {
+            } else if let known = created[prefix] {
+                guard known == identity else {
+                    Darwin.close(next)
                     throw ModelFailure.changed
                 }
-                var value = data.map { CChar(bitPattern: $0) } + [0]
-                guard symlinkat(&value, parent.descriptor, candidate) == 0 else {
-                    throw ProcessFailure.outputWrite(errno)
+            } else {
+                // A missing parent must be one this operation just created.
+                guard made,
+                    expected.missingParent == prefix
+                        || created.keys.contains(where: { prefix.hasPrefix($0 + "/") })
+                else {
+                    Darwin.close(next)
+                    throw ModelFailure.changed
+                }
+                created[prefix] = identity
+            }
+            if parent.descriptor != parent.root { Darwin.close(parent.descriptor) }
+            parent.descriptor = next
+        }
+        func validateEntry() throws {
+            try location.validateIdentity()
+            var info = stat()
+            let found = fstatat(parent.descriptor, parent.name, &info, AT_SYMLINK_NOFOLLOW) == 0
+            if let version = expected.version {
+                guard found, SnapshotFileStamp(info) == version, info.st_uid == geteuid() else {
+                    throw ModelFailure.changed
                 }
             } else {
-                let output = openat(
-                    parent.descriptor, candidate, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC,
-                    mode_t(source.file.mode))
-                guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }
-                defer { Darwin.close(output) }
-                guard try copy(snapshot, to: output, cancellation: cancellation) == source.file.sha256,
-                    fchmod(output, mode_t(source.file.mode)) == 0
-                else { throw ModelFailure.changed }
+                guard !found, errno == ENOENT else { throw ModelFailure.changed }
             }
-            try cancellation.check()
-            try validateEntry()
-            let result =
-                expected.version == nil
-                ? renameatx_np(
-                    parent.descriptor, candidate, parent.descriptor, parent.name, UInt32(RENAME_EXCL))
-                : renameat(parent.descriptor, candidate, parent.descriptor, parent.name)
-            guard result == 0, fsync(parent.descriptor) == 0 else { throw ProcessFailure.outputWrite(errno) }
+        }
+        try validateEntry()
+        if source.file.kind == .absent {
+            if expected.version != nil {
+                guard unlinkat(parent.descriptor, parent.name, 0) == 0,
+                    fsync(parent.descriptor) == 0
+                else {
+                    throw ProcessFailure.outputWrite(errno)
+                }
+            }
             return created
         }
+        guard let snapshot = source.snapshot else { throw ModelFailure.changed }
+        let candidate = ".wegit-restore-" + UUID().uuidString
+        defer { unlinkat(parent.descriptor, candidate, 0) }
+        if source.file.kind == .symbolicLink {
+            let descriptor = try snapshot.open()
+            defer { Darwin.close(descriptor) }
+            let data =
+                try FileHandle(fileDescriptor: descriptor, closeOnDealloc: false).read(upToCount: 65537)
+                ?? Data()
+            guard data.count <= 65536, !data.contains(0), hash(data) == source.file.sha256 else {
+                throw ModelFailure.changed
+            }
+            var value = data.map { CChar(bitPattern: $0) } + [0]
+            guard symlinkat(&value, parent.descriptor, candidate) == 0 else {
+                throw ProcessFailure.outputWrite(errno)
+            }
+        } else {
+            guard
+                try copy(
+                    snapshot, directory: parent.descriptor, name: candidate,
+                    mode: mode_t(source.file.mode),
+                    cancellation: cancellation) == source.file.sha256
+            else { throw ModelFailure.changed }
+        }
+        try cancellation.check()
+        try validateEntry()
+        let result =
+            expected.version == nil
+            ? renameatx_np(
+                parent.descriptor, candidate, parent.descriptor, parent.name, UInt32(RENAME_EXCL))
+            : renameat(parent.descriptor, candidate, parent.descriptor, parent.name)
+        guard result == 0, fsync(parent.descriptor) == 0 else { throw ProcessFailure.outputWrite(errno) }
+        return created
     }
 }

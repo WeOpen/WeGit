@@ -17,6 +17,7 @@ final class RecoveryStore: @unchecked Sendable {
         defer { Darwin.close(parent) }
         let name = "wegit-recovery"
         if mkdirat(parent, name, 0o700) != 0, errno != EEXIST { throw ProcessFailure.outputWrite(errno) }
+        guard fsync(parent) == 0 else { throw ProcessFailure.outputWrite(errno) }
         let fd = openat(parent, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard fd >= 0 else { throw ModelFailure.changed }
         var info = stat()
@@ -169,25 +170,15 @@ final class RecoveryStore: @unchecked Sendable {
             for file in files {
                 try cancellation.check()
                 guard let snapshot = file.snapshot else { continue }
-                let output = openat(
-                    directory, file.file.storageName, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC,
-                    0o600)
-                guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }
-                do {
-                    guard
-                        try RecoveryFileIO.copy(snapshot, to: output, cancellation: cancellation)
-                            == file.file.sha256
-                    else {
-                        throw ModelFailure.changed
-                    }
-                    Darwin.close(output)
-                } catch {
-                    Darwin.close(output)
-                    throw error
-                }
+                guard
+                    try RecoveryFileIO.copy(
+                        snapshot, directory: directory, name: file.file.storageName,
+                        cancellation: cancellation) == file.file.sha256
+                else { throw ModelFailure.changed }
             }
             try save(value)
             try validate()
+            guard fsync(descriptor) == 0 else { throw ProcessFailure.outputWrite(errno) }
             return value
         }
     }
@@ -223,6 +214,29 @@ final class RecoveryStore: @unchecked Sendable {
                     throw ModelFailure.changed
                 }
                 let url = storage.url.appending(path: file.storageName)
+                try storage.validate()
+                let temporary = Darwin.open(storage.url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+                guard temporary >= 0 else { throw ModelFailure.changed }
+                defer { Darwin.close(temporary) }
+                if fclonefileat(source, temporary, file.storageName, UInt32(CLONE_NOOWNERCOPY)) == 0 {
+                    let output = openat(temporary, file.storageName, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+                    guard output >= 0 else { throw ModelFailure.changed }
+                    defer { Darwin.close(output) }
+                    let digest = try RecoveryFileIO.hashFile(
+                        output, expectedBytes: file.bytes, cancellation: cancellation)
+                    var after = stat()
+                    guard digest == file.sha256, fstat(source, &after) == 0,
+                        SnapshotFileStamp(after) == SnapshotFileStamp(info), fchmod(output, 0o600) == 0
+                    else { throw ModelFailure.changed }
+                    try storage.validate()
+                    return RecoveryFileCapture(
+                        file: file,
+                        snapshot: try SnapshotFile(directory: storage, url: url, verifiedSHA256: digest),
+                        version: nil, parents: [], missingParent: nil)
+                }
+                guard [EXDEV, ENOTSUP, EINVAL].contains(errno) else {
+                    throw ProcessFailure.outputWrite(errno)
+                }
                 let output = Darwin.open(
                     url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
                 guard output >= 0 else { throw ProcessFailure.outputWrite(errno) }
@@ -238,9 +252,14 @@ final class RecoveryStore: @unchecked Sendable {
                     copied += count
                     guard copied <= file.bytes else { throw ModelFailure.changed }
                     try RecoveryFileIO.write(
-                        Data(buffer.prefix(count)), descriptor: output, cancellation: cancellation)
+                        buffer.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: count) },
+                        descriptor: output, cancellation: cancellation)
                 }
-                guard copied == file.bytes, fsync(output) == 0 else { throw ModelFailure.changed }
+                guard copied == file.bytes else { throw ModelFailure.changed }
+                var after = stat()
+                guard fstat(source, &after) == 0, SnapshotFileStamp(after) == SnapshotFileStamp(info) else {
+                    throw ModelFailure.changed
+                }
                 let snapshot = try SnapshotFile(directory: storage, url: url)
                 let handle = try snapshot.open()
                 defer { Darwin.close(handle) }
@@ -253,11 +272,14 @@ final class RecoveryStore: @unchecked Sendable {
                     if data.isEmpty { break }
                     digest.update(data: data)
                 }
-                guard digest.finalize().map({ String(format: "%02x", $0) }).joined() == file.sha256 else {
+                let checksum = RecoveryFileIO.hex(digest.finalize())
+                guard checksum == file.sha256 else {
                     throw ModelFailure.changed
                 }
                 return RecoveryFileCapture(
-                    file: file, snapshot: snapshot, version: nil, parents: [], missingParent: nil)
+                    file: file,
+                    snapshot: try SnapshotFile(directory: storage, url: url, verifiedSHA256: checksum),
+                    version: nil, parents: [], missingParent: nil)
             }
             guard try self.record(record.id) == record else { throw ModelFailure.changed }
             return (files, index)

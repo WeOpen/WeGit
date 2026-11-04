@@ -130,20 +130,11 @@ extension RepositoryService {
                 if let index { try write("index", index) }
                 for file in files {
                     guard let snapshot = file.snapshot else { continue }
-                    let fd = openat(
-                        directory, file.file.storageName,
-                        O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
-                    guard fd >= 0 else { throw ProcessFailure.outputWrite(errno) }
-                    do {
-                        guard
-                            try RecoveryFileIO.copy(snapshot, to: fd, cancellation: cancellation)
-                                == file.file.sha256
-                        else { throw ModelFailure.changed }
-                        Darwin.close(fd)
-                    } catch {
-                        Darwin.close(fd)
-                        throw error
-                    }
+                    guard
+                        try RecoveryFileIO.copy(
+                            snapshot, directory: directory, name: file.file.storageName,
+                            cancellation: cancellation) == file.file.sha256
+                    else { throw ModelFailure.changed }
                 }
                 try write("record.json", JSONEncoder().encode(record))
                 guard fsync(directory) == 0, fsync(root) == 0,
@@ -268,10 +259,15 @@ extension RepositoryService {
                         throw ModelFailure.changed
                     }
                 } else {
-                    let tree = try await recoveryEngine.run(["write-tree"], in: location.root).text
-                        .removingLastNewline
-                    let targetTree = try await singleCommitTree(plan.target.id, engine: recoveryEngine)
-                    guard tree == targetTree else { throw ModelFailure.changed }
+                    // Compare index object IDs/modes directly. Reconstructing a
+                    // tree merely to verify it needlessly writes Git objects.
+                    let compared = try await recoveryEngine.run(
+                        [
+                            "diff-index", "--cached", "--quiet", "--no-ext-diff", "--no-renames",
+                            "--ignore-submodules=none", "--ita-visible-in-index", plan.target.id, "--",
+                        ],
+                        in: location.root, accepted: [0, 1], outputLimit: 64 * 1024)
+                    guard compared.exitCode == 0 else { throw ModelFailure.changed }
                     if plan.mode == .hard {
                         let diff = try await recoveryEngine.run(
                             ["diff", "--exit-code", "--no-ext-diff", "--ignore-submodules=all", "--"],
@@ -310,9 +306,7 @@ extension RepositoryService {
                 paths: Set(plan.files), tracked: plan.trackedPaths,
                 location: location, allowedDirectories: plan.submoduleDirectories)
         }
-        for capture in plan.captures {
-            try await RecoveryFileIO.verify(capture, location: location)
-        }
+        try await RecoveryFileIO.verifyAll(plan.captures, location: location)
         try await verifyHead(plan.head)
     }
 
@@ -345,9 +339,7 @@ extension RepositoryService {
             guard state.branch == plan.currentBranch, state.sequencer == .none,
                 try SelectedIndexSnapshot.read(location: location) == plan.index
             else { throw ModelFailure.changed }
-            for capture in plan.currentFiles {
-                try await RecoveryFileIO.verify(capture, location: location)
-            }
+            try await RecoveryFileIO.verifyAll(plan.currentFiles, location: location)
             let store = try RecoveryStore(location: location)
             guard try store.record(plan.record.id) == plan.record else { throw ModelFailure.changed }
             try await trimRecovery(store, preserving: plan.record.id)
@@ -359,13 +351,9 @@ extension RepositoryService {
                 let lease = try SelectedIndexLease(location: location, snapshot: plan.index)
                 try await verifyHead(plan.currentHead)
                 if plan.layer != .worktree, let bytes = plan.sourceIndex { try lease.write(bytes) }
-                var created: [String: ConflictEditorDirectoryIdentity] = [:]
                 if plan.layer != .index {
-                    for (index, expected) in plan.currentFiles.enumerated() {
-                        created = try await RecoveryFileIO.install(
-                            source: plan.sourceFiles[index], expected: expected,
-                            location: location, createdDirectories: created)
-                    }
+                    try await RecoveryFileIO.installAll(
+                        sources: plan.sourceFiles, expected: plan.currentFiles, location: location)
                 }
                 try await verifyHead(plan.currentHead)
                 try lease.verify()
@@ -382,13 +370,7 @@ extension RepositoryService {
                     }
                 }
                 if plan.layer != .index {
-                    for file in plan.sourceFiles {
-                        let observed = try await RecoveryFileIO.capture(
-                            location: location, path: file.file.path, name: file.file.storageName)
-                        guard observed.file.kind == file.file.kind, observed.file.sha256 == file.file.sha256,
-                            observed.file.mode == file.file.mode
-                        else { throw ModelFailure.changed }
-                    }
+                    try await RecoveryFileIO.verifyContentsAll(plan.sourceFiles, location: location)
                 }
                 backup.state = .succeeded
                 backup.observedHead = plan.currentHead
@@ -464,18 +446,7 @@ extension RepositoryService {
     }
 
     func captureRecoveryFiles(_ paths: [String]) async throws -> [RecoveryFileCapture] {
-        guard paths.count <= RecoveryBudget.files else { throw RecoveryBudget.exceeded }
-        var files: [RecoveryFileCapture] = []
-        var bytes = 0
-        let storage = try await SnapshotIO.run { _ in try SnapshotDirectory() }
-        for (index, path) in paths.enumerated() {
-            let file = try await RecoveryFileIO.capture(
-                location: location, path: path, name: "blob-\(index)", storage: storage)
-            bytes += file.file.bytes
-            guard bytes <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
-            files.append(file)
-        }
-        return files
+        try await RecoveryFileIO.captureAll(location: location, paths: paths)
     }
 
     func recoveryPaths(_ data: Data) throws -> [String] {

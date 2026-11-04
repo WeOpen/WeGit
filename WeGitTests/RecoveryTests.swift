@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 import Testing
 
@@ -15,7 +16,133 @@ private actor LostResetReply: ProcessRunning {
     }
 }
 
+private actor IndexEditAfterReset: ProcessRunning {
+    let engine: GitEngine
+    let root: URL
+    let object: String
+    init(engine: GitEngine, root: URL, object: String) {
+        self.engine = engine
+        self.root = root
+        self.object = object
+    }
+    func run(_ request: ProcessRequest) async throws -> ProcessResult {
+        let result = try await ProcessRunner().run(request)
+        if request.arguments.contains("reset"), result.exitCode == 0 {
+            _ = try await engine.run(
+                ["update-index", "--add", "--cacheinfo", "100644", object, "file"], in: root)
+        }
+        return result
+    }
+}
+
 struct RecoveryTests {
+    @Test func externalIndexChangeAfterResetCannotBeReportedAsVerifiedSuccess() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "external index\n")
+        _ = try await f.commit("Current")
+        let object = try await f.engine.run(["rev-parse", "HEAD:file"], in: f.root).text.removingLastNewline
+        let runner = IndexEditAfterReset(engine: f.engine, root: f.root, object: object)
+        let service = RepositoryService(
+            location: f.service.location,
+            engine: TestGit.engine(runner: runner, environment: f.engine.environment))
+        let plan = try await service.prepareReset(target: target, mode: .hard)
+        await #expect(throws: RecoveryOutcomeUnknown.self) { _ = try await service.executeReset(plan) }
+        #expect(try await service.head() == target)
+        #expect(
+            try await f.engine.run(["show", ":file"], in: f.root).stdout == Data("external index\n".utf8))
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("target\n".utf8))
+        #expect(try await service.recoveryRecords().first?.state == .needsVerification)
+    }
+    @Test func capturedReadOnlyFileRemainsAnIndependentSnapshotAfterAnInPlaceEdit() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let bytes = Data([0, 1, 13, 10, 255]) + Data(repeating: 67, count: 128 * 1024)
+        let file = f.root.appending(path: "read-only")
+        try bytes.write(to: file)
+        try FileManager.default.setAttributes([.posixPermissions: 0o444], ofItemAtPath: file.path)
+        let capture = try await RecoveryFileIO.capture(
+            location: f.service.location, path: "read-only", name: "blob-0")
+        #expect(capture.file.mode == 0o444)
+        let snapshot = try #require(capture.snapshot)
+        try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: file.path)
+        let writer = try FileHandle(forWritingTo: file)
+        try writer.write(contentsOf: Data(repeating: 68, count: bytes.count))
+        try writer.close()
+        #expect(try Data(contentsOf: snapshot.url) == bytes)
+        #expect(capture.file.sha256 == RecoveryFileIO.hash(bytes))
+        await #expect(throws: ModelFailure.self) {
+            try await RecoveryFileIO.verifyAll([capture], location: f.service.location)
+        }
+    }
+
+    @Test func streamingFallbackPreservesBinaryBytesAndRejectsAnAlreadyCancelledCopy() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let bytes = Data(repeating: 255, count: 3 * 64 * 1024) + Data("\r\nlast".utf8)
+        try bytes.write(to: f.root.appending(path: "binary"))
+        let capture = try await RecoveryFileIO.capture(
+            location: f.service.location, path: "binary", name: "blob-0")
+        let snapshot = try #require(capture.snapshot)
+        let output = f.root.appending(path: "streamed")
+        let descriptor = Darwin.open(output.path, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        #expect(descriptor >= 0)
+        guard descriptor >= 0 else { return }
+        defer { Darwin.close(descriptor) }
+        #expect(
+            try RecoveryFileIO.copy(snapshot, to: descriptor, cancellation: IOCancellation())
+                == capture.file.sha256)
+        #expect(try Data(contentsOf: output) == bytes)
+        let cancelled = IOCancellation()
+        cancelled.cancel()
+        #expect(throws: CancellationError.self) {
+            _ = try RecoveryFileIO.copy(snapshot, to: descriptor, cancellation: cancelled)
+        }
+        #expect(try Data(contentsOf: output) == bytes)
+    }
+
+    @Test func aChangedSnapshotInvalidatesItsVerifiedDigestBeforeCreatingAClone() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "original bytes")
+        let capture = try await RecoveryFileIO.capture(
+            location: f.service.location, path: "file", name: "blob-0")
+        let snapshot = try #require(capture.snapshot)
+        #expect(snapshot.verifiedSHA256 == capture.file.sha256)
+        try Data("modified bytes".utf8).write(to: snapshot.url)
+        let directory = Darwin.open(f.root.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        try #require(directory >= 0)
+        defer { Darwin.close(directory) }
+        #expect(throws: ModelFailure.self) {
+            _ = try RecoveryFileIO.copy(
+                snapshot, directory: directory, name: "rejected", cancellation: IOCancellation())
+        }
+        #expect(!FileManager.default.fileExists(atPath: f.root.appending(path: "rejected").path))
+    }
+
+    @Test func readBatchPinsOriginalBytesButRejectsAReplacedRepositoryAtItsBoundary() async throws {
+        let f = try await Fixture.create()
+        let moved = f.root.deletingLastPathComponent().appending(path: "WeGitReadFence-" + UUID().uuidString)
+        defer {
+            f.remove()
+            try? FileManager.default.removeItem(at: moved)
+        }
+        try f.write("file", "original\r\nbytes")
+        let fence = try RepositoryReadFence(location: f.service.location)
+        let reader = try RepositoryFileReader(
+            location: f.service.location, path: "file", cancellation: IOCancellation(), readFence: fence)
+        try FileManager.default.moveItem(at: f.root, to: moved)
+        try FileManager.default.createDirectory(at: f.root, withIntermediateDirectories: false)
+        try f.write("file", "foreign replacement")
+        var bytes = Data()
+        try reader.read(limit: 1024) { bytes.append($0) }
+        #expect(bytes == Data("original\r\nbytes".utf8))
+        #expect(throws: ModelFailure.self) { try fence.validate() }
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("foreign replacement".utf8))
+    }
+
     @Test func exportPreservesBackupBytesAndRefusesToOverwriteAnExistingExport() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }
