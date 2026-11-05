@@ -24,6 +24,13 @@ private struct LFSIndexEntry: Sendable {
 }
 
 extension RepositoryService {
+    public func rasterLFSPointer(_ data: Data) -> RasterLFSPointer? {
+        guard data.count <= LFSReadBudget.pointerBytes,
+            let text = String(data: data, encoding: .utf8), let pointer = parseLFSPointer(text)
+        else { return nil }
+        return RasterLFSPointer(oid: pointer.oid, bytes: pointer.size)
+    }
+
     @concurrent public func lfsInstallation() async throws -> LFSInstallation {
         try location.validateIdentity()
         do {

@@ -127,7 +127,10 @@ public enum SelectedLinePatch {
 
     /// Compute the desired index bytes separately from Git's patch application.
     /// This checks every anchored source line and rejects impossible EOF combinations.
-    public static func expectedIndex(diff: FileDiff, lineIDs: Set<Int>, current: Data) throws -> Data {
+    public static func expectedIndex(diff: FileDiff, lineIDs: Set<Int>, current: Data, reverse: Bool? = nil)
+        throws -> Data
+    {
+        let reverse = reverse ?? (diff.layer == .staged)
         guard current.count <= 8 * 1024 * 1024 else {
             throw ModelFailure.unsupported(L10n.text("此差异只支持文件级操作。"))
         }
@@ -157,7 +160,7 @@ public enum SelectedLinePatch {
             guard old.count + new.count == chunk.count,
                 chunk.map(\.kind) == old.map(\.kind) + new.map(\.kind)
             else { throw ModelFailure.changed }
-            if diff.layer == .unstaged {
+            if !reverse {
                 let additions = new.filter { lineIDs.contains($0.id) }
                 let lastRemoval = old.lastIndex { lineIDs.contains($0.id) }
                 if lastRemoval == nil { result.append(contentsOf: additions.map(value)) }
@@ -181,10 +184,10 @@ public enum SelectedLinePatch {
             try Task.checkCancellation()
             let originalLines = hunk.lines.filter { $0.kind != "\\" }
             let count = originalLines.count { line in
-                line.kind == " " || (diff.layer == .unstaged ? line.kind == "-" : line.kind == "+")
+                line.kind == " " || (!reverse ? line.kind == "-" : line.kind == "+")
             }
             let position = try starts(hunk.header)
-            let anchor = diff.layer == .unstaged ? position.old : position.new
+            let anchor = !reverse ? position.old : position.new
             let target = count == 0 ? anchor : anchor - 1
             guard target >= cursor, target <= original.count else { throw ModelFailure.changed }
             result.append(contentsOf: original[cursor..<target])

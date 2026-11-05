@@ -142,7 +142,10 @@ struct FileHistorySheet: View {
                         CommitFilesView(
                             app: app, session: request.session, detail: state.detail,
                             allowsFileHistory: false, allowsBlame: false,
-                            usesWorkspaceInspector: false
+                            usesWorkspaceInspector: false,
+                            onRestore: { request in
+                                app.restoreFileAfterReader(request)
+                            }
                         )
                     } else {
                         Text(L10n.text("选择一次提交")).foregroundStyle(colors.secondaryText)
@@ -157,7 +160,8 @@ struct FileHistorySheet: View {
                 Spacer()
                 Text(L10n.text("历史路径由 Git 检测，复制关系不保证。")).font(.caption).foregroundStyle(colors.secondaryText)
             }
-        }.textFieldStyle(.roundedBorder).padding(20).frame(width: 1080, height: 680).workbenchControlFamily()
+        }.textFieldStyle(.roundedBorder).padding(20).frame(minWidth: 880, minHeight: 640)
+            .workbenchControlFamily()
             .task(id: FileHistoryReadKey(query: query, reload: reload)) {
                 await state.reload(query, tip: request.tip)
             }

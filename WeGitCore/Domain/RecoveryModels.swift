@@ -78,6 +78,8 @@ public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
     public let indexBytes: Int
     public let sharedIndex: RecoverySharedIndex?
     public var indexTree: String?
+    public var pendingIndexTree: String? = nil
+    public var pendingObjectBytes: Int? = nil
     public var state: State
     public var observedHead: String?
     public var details: String?
@@ -87,10 +89,16 @@ public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
         case "reset-mixed": "Mixed Reset"
         case "reset-hard": "Hard Reset"
         case "restore-backup": L10n.text("恢复前备份")
+        case "discard-lines": L10n.text("丢弃所选行")
+        case "file-restore": L10n.text("恢复历史文件")
+        case "ignore-rule": L10n.text("忽略规则")
+        case "apply-patch": L10n.text("应用补丁")
         default: L10n.text("内容备份")
         }
     }
-    public var totalBytes: Int { files.reduce(indexBytes + (sharedIndex?.bytes ?? 0)) { $0 + $1.bytes } }
+    public var totalBytes: Int {
+        files.reduce(indexBytes + (sharedIndex?.bytes ?? 0) + (pendingObjectBytes ?? 0)) { $0 + $1.bytes }
+    }
 }
 
 public struct ResetPlan: Sendable, Identifiable {
@@ -127,6 +135,29 @@ public struct RecoveryRestorePlan: Sendable, Identifiable {
     let sourceIndex: Data?
     let sourceSharedIndex: RecoverySharedIndexSnapshot?
     let currentSharedIndex: RecoverySharedIndexSnapshot?
+}
+
+public struct FileModificationPlan: Sendable, Identifiable {
+    public let id: UUID
+    public let path: String
+    public let sourceRevision: String?
+    public let layer: RecoveryLayer
+    public let selectedLineCount: Int?
+    public let originalBytes: Int
+    public let resultBytes: Int
+    public let deletesFile: Bool
+    public let resultPreview: String?
+    let operation: String
+    let location: RepositoryLocation
+    let head: String?
+    let branch: String
+    let index: SelectedIndexSnapshot
+    let sharedIndex: RecoverySharedIndexSnapshot?
+    let current: RecoveryFileCapture
+    let desired: RecoveryFileCapture
+    let candidateIndex: Data?
+    let filterPath: String?
+    let sourceObject: String?
 }
 
 public struct RecoveryOutcomeUnknown: Error, LocalizedError, Sendable {

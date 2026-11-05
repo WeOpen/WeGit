@@ -10,6 +10,14 @@ extension NativeApplicationMenu {
                 switch command {
                 case .openRepository: app.openPanel()
                 case .clone: app.presentClone()
+                case .compareReferences:
+                    if let session = app.session, session.status.head != nil {
+                        app.referenceComparisonRequest = ReferenceComparisonRequest(session: session)
+                    }
+                case .initializeRepository: app.presentInitialization()
+                case .importPatch: app.openPatchImport()
+                case .exportWorkingPatch: app.exportWorkspacePatch(layer: .unstaged)
+                case .exportStagedPatch: app.exportWorkspacePatch(layer: .staged)
                 case .switchRepository: app.repositoryPickerPresented = true
                 case .sidebar: app.sidebarRequestID = UUID()
                 case .inspector: app.workspace.inspector.toggle()
@@ -22,6 +30,10 @@ extension NativeApplicationMenu {
                 case .commitAndPush: app.presentSync(.commitAndPush)
                 case .pull: app.presentSync(.pull)
                 case .push: app.presentSync(.push)
+                case .historyDepth:
+                    if let session = app.session, session.canSync {
+                        app.historyDepthRequest = HistoryDepthRequest(session: session)
+                    }
                 case .closeRepository: app.closeRepository()
                 case .activity: app.activityPresented = true
                 case .terminal: app.openTerminal()
@@ -56,6 +68,10 @@ extension NativeApplicationMenu {
                 case .commit: return app.session?.canCommit == true
                 case .commitAndPush: return app.session?.canCommitAndPush == true
                 case .pull, .push: return app.session?.canSync == true
+                case .historyDepth: return app.session?.canSync == true
+                case .compareReferences: return app.session?.status.head != nil
+                case .importPatch: return app.session?.canWrite == true && app.session?.isBusy == false
+                case .exportWorkingPatch, .exportStagedPatch: return app.session != nil
                 case .closeRepository:
                     return app.session != nil && app.session?.isBusy != true
                         && !app.preferences.configurationWriteInProgress

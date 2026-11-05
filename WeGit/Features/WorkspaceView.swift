@@ -194,6 +194,9 @@ struct WorkspaceView: View {
             }
         }
         .sheet(isPresented: $app.clonePresented) { CloneView(app: app).workbenchSheet(app.preferences) }
+        .sheet(isPresented: $app.initializationPresented) {
+            RepositoryInitializationView(app: app).workbenchSheet(app.preferences)
+        }
         .sheet(isPresented: $app.remoteManagementPresented) {
             if let session = app.session {
                 RemoteManagementSheet(app: app, session: session).id(session.id).workbenchSheet(
@@ -216,13 +219,22 @@ struct WorkspaceView: View {
         .sheet(item: $app.selectedLinesRequest) {
             SelectedLinesSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
+        .sheet(item: $app.fileModificationRequest, onDismiss: app.fileModificationDidDismiss) {
+            FileModificationSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.ignoreRuleRequest) {
+            IgnoreRuleSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.patchImportRequest, onDismiss: app.patchImportDidDismiss) {
+            PatchImportSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
         .sheet(item: $app.conflictEditorRequest) {
             ConflictEditorSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.blameRequest) {
+        .sheet(item: $app.blameRequest, onDismiss: app.fileReaderDidDismiss) {
             BlameSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.fileHistoryRequest) {
+        .sheet(item: $app.fileHistoryRequest, onDismiss: app.fileReaderDidDismiss) {
             FileHistorySheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
         .sheet(item: $app.branchSwitchRequest) {
@@ -239,6 +251,12 @@ struct WorkspaceView: View {
             CommandPalette(app: app).workbenchSheet(app.preferences)
         }
         .sheet(item: $app.syncRequest) { SyncSheet(app: app, request: $0).workbenchSheet(app.preferences) }
+        .sheet(item: $app.referenceComparisonRequest, onDismiss: app.fileReaderDidDismiss) {
+            ReferenceComparisonSheet(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.historyDepthRequest) {
+            HistoryDepthSheet(session: $0.session).workbenchSheet(app.preferences)
+        }
         .sheet(item: $app.searchRequest) {
             RepositorySearchView(app: app, request: $0).workbenchSheet(app.preferences)
         }
@@ -591,6 +609,10 @@ struct WelcomeView: View {
                     .controlSize(.large).accessibilityIdentifier("open-repository")
                 Button(L10n.text("克隆仓库…"), systemImage: "arrow.down.to.line", action: app.presentClone)
                     .workbenchControlFamily().controlSize(.large)
+                Button(
+                    L10n.text("新建仓库…"), systemImage: "folder.badge.plus", action: app.presentInitialization
+                )
+                .workbenchControlFamily().controlSize(.large).accessibilityIdentifier("initialize-repository")
             }
             if app.isOpening { ProgressView(L10n.text("正在打开仓库…")) }
             if !app.recents.isEmpty {

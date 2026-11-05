@@ -1,6 +1,91 @@
 import Foundation
 
 extension RepositoryService {
+    @concurrent public func prepareSelectedLineDiscard(diff: FileDiff, lineIDs: Set<Int>) async throws
+        -> FileModificationPlan
+    {
+        guard diff.layer == .unstaged || diff.layer == .untracked else { throw ModelFailure.invalidPath }
+        try await selectedLinesValidateFilter(diff.path)
+        let index = try SelectedIndexSnapshot.read(location: location)
+        guard try await head() == diff.head else { throw ModelFailure.changed }
+        let reader = RepositoryService(location: location, engine: selectedLinesEngine, queue: queue)
+        let fresh = try await reader.diff(path: diff.path, layer: diff.layer, options: diff.options)
+        guard fresh.raw == diff.raw else { throw ModelFailure.changed }
+        let effective =
+            diff.layer == .untracked
+            ? try await selectedUntrackedDiff(
+                path: diff.path, options: diff.options,
+                head: diff.head, index: index) : fresh
+        let current = try await selectedLinesWorkFile(diff.path) ?? Data()
+        let expected = try SelectedLinePatch.expectedIndex(
+            diff: effective, lineIDs: lineIDs, current: current, reverse: true)
+        let entry = try await selectedLinesEntries(engine: selectedLinesEngine)[Data(diff.path.utf8)]
+        guard entry == nil || (entry?.flag == "H" && ["100644", "100755"].contains(entry!.mode)) else {
+            throw ModelFailure.changed
+        }
+        let metadata = try await RecoveryFileIO.metadataAll(location: location, paths: [diff.path])
+        let mode: UInt16 =
+            metadata[0].version != nil ? metadata[0].mode : entry?.mode == "100755" ? 0o755 : 0o644
+        let allChanges = Set(
+            effective.hunks.flatMap(\.lines).filter { $0.kind == "+" || $0.kind == "-" }.map(\.id))
+        let removesUntrackedFile = diff.layer == .untracked && expected.isEmpty && lineIDs == allChanges
+        let desired = try await RecoveryFileIO.replacement(
+            path: diff.path, data: removesUntrackedFile ? nil : expected, mode: mode)
+        let plan = try await prepareFileModification(
+            path: diff.path, desired: desired, operation: "discard-lines",
+            layer: .worktree, selectedLines: lineIDs.count, filterPath: diff.path)
+        guard plan.index == index,
+            plan.current.file.sha256
+                == (current.isEmpty && plan.current.file.kind == .absent ? nil : RecoveryFileIO.hash(current))
+        else { throw ModelFailure.changed }
+        return plan
+    }
+
+    @concurrent func replacementIndex(
+        path: String, mode: String?, object: String?, index: SelectedIndexSnapshot
+    ) async throws -> Data {
+        let original = try await selectedLinesEntries(engine: selectedLinesEngine)
+        if let target = original[Data(path.utf8)] {
+            guard target.flag == "H", target.stage == "0" else { throw ModelFailure.changed }
+        }
+        let shared = try await selectedLinesEngine.run(
+            ["rev-parse", "--shared-index-path"], in: location.root
+        ).text.removingLastNewline
+        guard shared.isEmpty else { throw ModelFailure.unsupported(L10n.text("此索引只支持恢复工作文件，请先处理特殊索引存储。")) }
+        let directory = try await SnapshotIO.run { _ in try SnapshotDirectory() }
+        let candidate = directory.url.appending(path: "index")
+        let objects = directory.url.appending(path: "objects")
+        try FileManager.default.createDirectory(at: objects, withIntermediateDirectories: false)
+        var privateEngine = selectedLinesEngine
+        privateEngine.environment["GIT_INDEX_FILE"] = candidate.path
+        privateEngine.environment["GIT_OBJECT_DIRECTORY"] = objects.path
+        privateEngine.environment["GIT_ALTERNATE_OBJECT_DIRECTORIES"] = singleCommitAlternatePath(
+            location.commonDirectory.appending(path: "objects").path)
+        if let data = index.bytes {
+            try data.write(to: candidate)
+        } else {
+            _ = try await privateEngine.run(["read-tree", "--empty"], in: location.root)
+        }
+        if let mode, let object {
+            _ = try await privateEngine.run(
+                ["update-index", "--add", "--cacheinfo", mode, object, path], in: location.root)
+        } else {
+            _ = try await privateEngine.run(
+                ["update-index", "--force-remove", "--", path], in: location.root)
+        }
+        let after = try await selectedLinesEntries(engine: privateEngine)
+        var beforeOthers = original
+        var afterOthers = after
+        beforeOthers.removeValue(forKey: Data(path.utf8))
+        afterOthers.removeValue(forKey: Data(path.utf8))
+        guard beforeOthers == afterOthers, try SelectedIndexSnapshot.read(location: location) == index else {
+            throw ModelFailure.changed
+        }
+        let data = try Data(contentsOf: candidate)
+        guard data.count <= 32 * 1024 * 1024 else { throw ModelFailure.changed }
+        return data
+    }
+
     private var selectedLinesEngine: GitEngine {
         var reader = engine
         reader.environment["GIT_NO_LAZY_FETCH"] = "1"
@@ -208,7 +293,7 @@ extension RepositoryService {
 
     /// Do not invoke a user-configured clean filter while repeatedly revalidating
     /// a preview; filters may be stateful and can run arbitrary commands.
-    private func selectedLinesValidateFilter(_ path: String) async throws {
+    func selectedLinesValidateFilter(_ path: String) async throws {
         let attributes = try await selectedLinesEngine.run(
             ["check-attr", "-z", "filter", "--", path], in: location.root, outputLimit: 16 * 1024
         ).stdout.split(separator: 0, omittingEmptySubsequences: false)

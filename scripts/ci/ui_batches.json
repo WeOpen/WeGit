@@ -55,6 +55,16 @@
         "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen"
       ]
     },
+    "raster-encoding": {
+      "covers": [
+        "09a",
+        "09c"
+      ],
+      "methods": [
+        "SpecialFileReadingTests/testBinarySymlinkUnknownLanguageAndDeletedFileReading",
+        "SpecialFileReadingTests/testRasterRenderingAndEncodingSelectionPreserveFilesAndIndex"
+      ]
+    },
     "recovery-reset": {
       "covers": [
         "03a",
@@ -65,6 +75,30 @@
       "methods": [
         "RecoveryWorkflowTests/testResetPreviewCancelAndRestoreAfterRelaunchPreserveDraftAndRawLayers",
         "RecoveryWorkflowTests/testReflogCreatesRecoveryBranchAndEnglishDarkControlsRemainReachable"
+      ]
+    },
+    "repository-tools": {
+      "covers": [
+        "02a",
+        "02b",
+        "04a",
+        "04b",
+        "05a",
+        "05b",
+        "05c",
+        "07a",
+        "07b",
+        "09a",
+        "09b",
+        "09c"
+      ],
+      "methods": [
+        "RepositoryToolsWorkflowTests/testInitializationAndExplicitShallowHistoryPreserveFilesAndLayers",
+        "RepositoryToolsWorkflowTests/testDivergentComparisonDirectionAndMergeBaseRemainReadOnly",
+        "RepositoryToolsWorkflowTests/testSelectedDiscardHistoricalRestoreAndIgnoreUndoPreserveRawLayers",
+        "RepositoryToolsWorkflowTests/testRawPatchExportCancelApplyAndBackupRestoreRoundTrip",
+        "SpecialFileReadingTests/testBinarySymlinkUnknownLanguageAndDeletedFileReading",
+        "SpecialFileReadingTests/testRasterRenderingAndEncodingSelectionPreserveFilesAndIndex"
       ]
     }
   }

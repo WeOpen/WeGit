@@ -17,6 +17,32 @@ public struct CommitComparison: Sendable {
     let location: RepositoryLocation
 }
 
+public enum ReferenceComparisonKind: String, CaseIterable, Sendable {
+    case twoPoint, mergeBase
+}
+
+public struct ReferenceComparisonPlan: Identifiable, Sendable {
+    public let id: UUID
+    public let baseName: String
+    public let targetName: String
+    public let base: GitCommit
+    public let target: GitCommit
+    public let kind: ReferenceComparisonKind
+    public let mergeBases: [String]
+    let location: RepositoryLocation
+}
+
+public struct ReferenceComparisonResult: Sendable {
+    public let plan: ReferenceComparisonPlan
+    public let effectiveBase: String
+    public let comparison: CommitComparison
+}
+
+public struct ComparisonCommitPage: Sendable {
+    public let commits: [GitCommit]
+    public let nextOffset: Int?
+}
+
 enum CommitFilesParser {
     static func parse(names: Data, statistics: Data) throws -> [CommitFileChange] {
         guard names.isEmpty || names.last == 0, statistics.isEmpty || statistics.last == 0 else {

@@ -14,9 +14,6 @@ struct WorkspaceCommand: Identifiable {
 }
 
 extension AppState {
-    var anyOperationRunning: Bool {
-        preferences.configurationWriteInProgress || clone.isBusy || sessions.values.contains { $0.isBusy }
-    }
     var canStageAll: Bool {
         session?.canWrite == true
             && session?.status.files.contains { !$0.conflict && ($0.unstaged || $0.untracked) } == true
@@ -29,6 +26,11 @@ extension AppState {
         clone.resetCompleted(defaultDirectory: preferences.defaultDirectory)
         if !clone.isBusy && clone.address.isEmpty { clone.parentPath = preferences.defaultDirectory }
         clonePresented = true
+    }
+
+    func presentInitialization() {
+        initialization.resetCompleted()
+        initializationPresented = true
     }
 
     func commitCurrent() {

@@ -19,6 +19,14 @@ struct SelectedLinesControl: View {
         if diff.canSelectLines, app.workspace.diffOptions == diff.options {
             HStack {
                 Spacer()
+                if diff.layer != .staged {
+                    Button(L10n.text("丢弃所选行…"), role: .destructive) {
+                        guard app.session === session else { return }
+                        app.fileModificationRequest = FileModificationRequest(
+                            session: session, source: .selectedLines(diff, ids))
+                    }.disabled(ids.isEmpty || !session.canWrite || session.isBusy)
+                        .accessibilityIdentifier("diff-discard-selected-lines-preview")
+                }
                 Button(diff.layer == .staged ? L10n.text("取消暂存所选行…") : L10n.text("暂存所选行…")) {
                     guard app.session === session else { return }
                     app.selectedLinesRequest = SelectedLinesRequest(
