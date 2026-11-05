@@ -59,6 +59,7 @@ final class WorkspaceState {
     var diffError: String?
     var commitDiff = ""
     var inspector = false
+    var inspectorResourcesRequestID: UUID?
     var filter = ""
     var changeFilter = ChangeKindFilter.all
     var changesByFolder = false
@@ -454,6 +455,9 @@ final class AppState {
     var session: RepositorySession? {
         didSet {
             if selectedLinesRequest?.session !== session { selectedLinesRequest = nil }
+            if fileModificationRequest?.session !== session { fileModificationRequest = nil }
+            if ignoreRuleRequest?.session !== session { ignoreRuleRequest = nil }
+            if patchImportRequest?.session !== session { patchImportRequest = nil }
             if conflictEditorRequest?.session !== session { conflictEditorRequest = nil }
         }
     }
@@ -470,6 +474,12 @@ final class AppState {
     var clonePresented = false
     private(set) var clone: CloneViewModel
     var cloneRunning: Bool { clone.isBusy }
+    var initializationPresented = false
+    private(set) var initialization: RepositoryInitializationViewModel
+    var anyOperationRunning: Bool {
+        preferences.configurationWriteInProgress || clone.isBusy || initialization.isBusy
+            || sessions.values.contains { $0.isBusy }
+    }
     var activityPresented = false
     var palettePresented = false
     var pendingPaletteCommand: WorkspaceCommand?
@@ -489,11 +499,51 @@ final class AppState {
         if request.session === session { recoveryBrowserRequest = request }
     }
     var selectedLinesRequest: SelectedLinesRequest?
+    var fileModificationRequest: FileModificationRequest?
+    var ignoreRuleRequest: IgnoreRuleRequest?
+    var patchImportRequest: PatchImportRequest?
+    var pendingRecoveryAfterPatch: RecoveryBrowserRequest?
+
+    func patchImportDidDismiss() {
+        guard let request = pendingRecoveryAfterPatch else { return }
+        pendingRecoveryAfterPatch = nil
+        if request.session === session { recoveryBrowserRequest = request }
+    }
+    var pendingFileModificationAfterReader: FileModificationRequest?
+    var pendingRecoveryAfterFileModification: RecoveryBrowserRequest?
+
+    func restoreFileAfterReader(_ request: FileModificationRequest) {
+        guard request.session === session else { return }
+        pendingFileModificationAfterReader = request
+        if referenceComparisonRequest != nil {
+            referenceComparisonRequest = nil
+        } else if fileHistoryRequest != nil {
+            fileHistoryRequest = nil
+        } else if blameRequest != nil {
+            blameRequest = nil
+        } else {
+            fileReaderDidDismiss()
+        }
+    }
+
+    func fileReaderDidDismiss() {
+        guard let request = pendingFileModificationAfterReader else { return }
+        pendingFileModificationAfterReader = nil
+        if request.session === session { fileModificationRequest = request }
+    }
+
+    func fileModificationDidDismiss() {
+        guard let request = pendingRecoveryAfterFileModification else { return }
+        pendingRecoveryAfterFileModification = nil
+        if request.session === session { recoveryBrowserRequest = request }
+    }
     var conflictEditorRequest: ConflictEditorRequest?
     var blameRequest: BlameRequest?
     var fileHistoryRequest: FileHistoryRequest?
     var branchSwitchRequest: BranchSwitchRequest?
     var syncRequest: SyncRequest?
+    var historyDepthRequest: HistoryDepthRequest?
+    var referenceComparisonRequest: ReferenceComparisonRequest?
     var searchRequest: RepositorySearchRequest?
     var worktreeManagementRequest: WorktreeManagementRequest?
     @ObservationIgnored private var worktreeFocusRestoration: WorktreeFocusRestoration?
@@ -570,6 +620,8 @@ final class AppState {
         let cloneModel = CloneViewModel(coordinator: CloneCoordinator(engine: git))
         cloneModel.parentPath = preferences.defaultDirectory
         clone = cloneModel
+        initialization = RepositoryInitializationViewModel(
+            coordinator: RepositoryInitializationCoordinator(engine: git))
         do {
             let configuration: ModelConfiguration
             if testing {
@@ -797,12 +849,16 @@ final class AppState {
             let preferred = defaults.string(forKey: "gitExecutable").map { URL(fileURLWithPath: $0) }
             let installation = try await GitInstallation.detect(preferred: preferred)
             gitVersion = installation.version
-            if installation.executable != engine.executable, sessions.isEmpty, !clone.isBusy {
+            if installation.executable != engine.executable, sessions.isEmpty, !clone.isBusy,
+                !initialization.isBusy
+            {
                 engine = GitEngine(
                     executable: installation.executable, activity: engine.activity,
                     authentication: engine.authentication, environment: engine.environment)
                 clone = CloneViewModel(coordinator: CloneCoordinator(engine: engine))
                 clone.parentPath = preferences.defaultDirectory
+                initialization = RepositoryInitializationViewModel(
+                    coordinator: RepositoryInitializationCoordinator(engine: engine))
             }
         } catch {
             self.error = error.localizedDescription

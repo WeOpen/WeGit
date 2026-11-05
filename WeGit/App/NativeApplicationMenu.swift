@@ -3,13 +3,15 @@ import Observation
 import WeGitCore
 
 enum ApplicationMenuCommand: String {
+    case compareReferences
+    case importPatch, exportWorkingPatch, exportStagedPatch
     case about, settings, hide, hideOthers, showAll, quit
-    case openRepository, clone, switchRepository, close, closeAll
+    case openRepository, clone, initializeRepository, switchRepository, close, closeAll
     case undo, redo, cut, copy, paste, pasteMatchingStyle, delete, selectAll, emojiSymbols
     case sidebar, inspector, fullScreen, minimize, minimizeAll, zoom, zoomAll, showMainWindow,
         bringAllToFront, help
     case switchBranch, refresh, newBranch, stageAll, unstageAll, commit, commitAndPush
-    case pull, push, closeRepository, activity, terminal, xcode, copyPath, search, palette
+    case pull, push, historyDepth, closeRepository, activity, terminal, xcode, copyPath, search, palette
     case changes, history, branches, stashes, tags, quickAccess
     #if DEBUG
         case recoverTrashFixture
@@ -253,8 +255,13 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
 
         let file = menu("file", { L10n.menuTitle("File") })
         add(.openRepository, to: file, key: "o") { L10n.text("打开仓库…") }
+        add(.initializeRepository, to: file) { L10n.text("新建仓库…") }
         add(.clone, to: file, key: "o", modifiers: [.command, .shift]) { L10n.text("克隆仓库…") }
         add(.switchRepository, to: file, key: "k") { L10n.text("切换仓库…") }
+        file.addItem(.separator())
+        add(.importPatch, to: file) { L10n.text("导入文件补丁…") }
+        add(.exportWorkingPatch, to: file) { L10n.text("导出未暂存补丁…") }
+        add(.exportStagedPatch, to: file) { L10n.text("导出暂存补丁…") }
         file.addItem(.separator())
         add(.close, to: file, key: "w") { L10n.menuTitle("Close") }
         add(.closeAll, to: file, key: "w", modifiers: [.command, .option]) { L10n.menuTitle("Close All") }
@@ -297,6 +304,8 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         repository.addItem(.separator())
         add(.pull, to: repository, key: "l", modifiers: [.command, .shift]) { L10n.text("拉取…") }
         add(.push, to: repository, key: "u", modifiers: [.command, .shift]) { L10n.text("推送…") }
+        add(.historyDepth, to: repository) { L10n.text("历史深度…") }
+        add(.compareReferences, to: repository) { L10n.text("比较对象…") }
         add(.closeRepository, to: repository) { L10n.text("关闭仓库") }
         add(.activity, to: repository) { L10n.text("活动记录") }
         add(.terminal, to: repository) { L10n.text("在 Terminal 中打开") }

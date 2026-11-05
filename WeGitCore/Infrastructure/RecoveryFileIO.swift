@@ -52,6 +52,63 @@ private final class RecoveryInstallResults: @unchecked Sendable {
 }
 
 enum RecoveryFileIO {
+    @concurrent static func preview(_ capture: RecoveryFileCapture) async throws -> String? {
+        guard capture.file.kind != .absent, (0...64 * 1024).contains(capture.file.bytes),
+            let snapshot = capture.snapshot
+        else { return nil }
+        return try await SnapshotIO.run { cancellation in
+            let input = try snapshot.open()
+            defer { Darwin.close(input) }
+            var data = Data(count: capture.file.bytes)
+            try data.withUnsafeMutableBytes { bytes in
+                var offset = 0
+                while offset < bytes.count {
+                    try cancellation.check()
+                    let count = Darwin.read(
+                        input, bytes.baseAddress!.advanced(by: offset), bytes.count - offset)
+                    if count < 0, errno == EINTR { continue }
+                    guard count > 0 else { throw ModelFailure.changed }
+                    offset += count
+                }
+            }
+            try snapshot.validate(input)
+            guard hash(data) == capture.file.sha256 else { throw ModelFailure.changed }
+            guard !data.contains(0) else { return nil }
+            return String(data: data, encoding: .utf8)
+        }
+    }
+
+    @concurrent static func replacement(
+        path: String, data: Data?, kind: RecoveryFile.Kind = .file, mode: UInt16
+    )
+        async throws -> RecoveryFileCapture
+    {
+        try validate(path)
+        guard mode <= 0o777, data?.count ?? 0 <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
+        guard let data else {
+            return RecoveryFileCapture(
+                file: RecoveryFile(
+                    path: path, kind: .absent, mode: 0o644, bytes: 0, sha256: nil, storageName: "blob-0"),
+                snapshot: nil, version: nil, parents: [], missingParent: nil)
+        }
+        return try await SnapshotIO.run { cancellation in
+            let storage = try SnapshotDirectory()
+            let pathURL = storage.url.appending(path: "blob-0")
+            let descriptor = Darwin.open(
+                pathURL.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
+            guard descriptor >= 0 else { throw ProcessFailure.outputWrite(errno) }
+            defer { Darwin.close(descriptor) }
+            try write(data, descriptor: descriptor, cancellation: cancellation)
+            let checksum = hash(data)
+            return RecoveryFileCapture(
+                file: RecoveryFile(
+                    path: path, kind: kind, mode: mode, bytes: data.count, sha256: checksum,
+                    storageName: "blob-0"),
+                snapshot: try SnapshotFile(directory: storage, url: pathURL, verifiedSHA256: checksum),
+                version: nil, parents: [], missingParent: nil)
+        }
+    }
+
     @concurrent static func metadataAll(location: RepositoryLocation, paths: [String]) async throws
         -> [RecoveryFileMetadata]
     {
@@ -184,7 +241,8 @@ enum RecoveryFileIO {
     }
     @concurrent static func captureAll(
         location: RepositoryLocation, paths: [String], limit: Int = RecoveryBudget.bytes,
-        storageOffset: Int = 0
+        storageOffset: Int = 0,
+        cloneSource: Bool = true
     ) async throws
         -> [RecoveryFileCapture]
     {
@@ -217,7 +275,7 @@ enum RecoveryFileIO {
                                     location: location, path: paths[index],
                                     name: "blob-\(storageOffset + index)",
                                     storage: storage, cancellation: cancellation, readFence: fence,
-                                    budget: budget))
+                                    budget: budget, cloneSource: cloneSource))
                         }
                         try cancellation.check()
                         try storage.validate()
@@ -253,7 +311,9 @@ enum RecoveryFileIO {
 
     private static func captureNow(
         location: RepositoryLocation, path: String, name: String, storage: SnapshotDirectory?,
-        cancellation: IOCancellation, readFence: RepositoryReadFence? = nil, budget: RecoveryByteBudget? = nil
+        cancellation: IOCancellation, readFence: RepositoryReadFence? = nil,
+        budget: RecoveryByteBudget? = nil,
+        cloneSource: Bool = true
     ) throws -> RecoveryFileCapture {
         try validate(path)
         try cancellation.check()
@@ -271,7 +331,7 @@ enum RecoveryFileIO {
             location: location, path: path, cancellation: cancellation, readFence: readFence)
         guard reader.size <= RecoveryBudget.bytes else { throw RecoveryBudget.exceeded }
         try budget?.reserve(Int(reader.size))
-        if try reader.clone(to: directory, name: name) {
+        if cloneSource, try reader.clone(to: directory, name: name) {
             let descriptor = Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
             guard descriptor >= 0 else { throw ModelFailure.changed }
             defer { Darwin.close(descriptor) }

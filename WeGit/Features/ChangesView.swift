@@ -133,6 +133,11 @@ struct ChangesView: View {
         FileContextMenu(
             app: app, session: session, path: file.path,
             historyPath: file.index == "R" || file.worktree == "R" ? file.oldPath : nil)
+        if layer != .conflict {
+            Button(L10n.text("导出文件补丁…")) {
+                app.exportWorkspacePatch(layer: layer, paths: [file.path])
+            }
+        }
         if layer == .unstaged {
             Divider()
             Button(L10n.text("丢弃未暂存改动…"), role: .destructive) { discardFile(file) }
@@ -141,6 +146,11 @@ struct ChangesView: View {
         }
         if layer == .untracked {
             Divider()
+            Button(L10n.text("忽略…")) {
+                guard app.session === session else { return }
+                app.ignoreRuleRequest = IgnoreRuleRequest(session: session, path: file.path)
+            }.disabled(!session.canWrite || session.isBusy)
+                .accessibilityIdentifier("ignore-untracked:" + file.path)
             Button(L10n.text("移到废纸篓…"), role: .destructive) { removeUntracked(file) }
                 .disabled(!session.canWrite || preparingRemoval || preparingDiscard)
                 .accessibilityIdentifier("trash-untracked:" + file.path)
@@ -375,6 +385,21 @@ struct DiffView: View {
                         Button(L10n.text("恢复默认差异选项")) { app.workspace.diffOptions = DiffReadOptions() }
                     }.padding(.bottom, 20)
                 }
+            } else if let selection = app.workspace.selectedFile,
+                let delimiter = selection.firstIndex(of: "|"),
+                let layer = DiffLayer(rawValue: String(selection[..<delimiter])),
+                layer == .staged || layer == .unstaged || layer == .untracked,
+                RasterComparisonView.supports(String(selection[selection.index(after: delimiter)...]))
+            {
+                let path = String(selection[selection.index(after: delimiter)...])
+                DetailHeader(title: path, subtitle: subtitle(layer)).padding(14).background(colors.chrome)
+                RasterComparisonView(
+                    app: app, session: session,
+                    source: .workspace(
+                        path: path, layer: layer,
+                        oldPath: session.status.files.first(where: { $0.path == path })?.oldPath)
+                )
+                .id("raster:\(session.id):\(session.diffGeneration):\(selection)")
             } else if let summary = app.workspace.diffSummary {
                 summaryView(summary)
             } else if app.workspace.diffCancelled {
@@ -482,9 +507,21 @@ struct DiffView: View {
                 }
                 Divider()
                 if diff.binary {
-                    EmptyPanel(
-                        title: L10n.text("二进制文件已变化"), symbol: "doc.zipper",
-                        message: L10n.text("此文件不支持文本差异，请使用外部工具查看。"))
+                    if diff.layer != .conflict {
+                        EncodedContentView(
+                            app: app, session: session,
+                            source: .workspace(
+                                path: diff.path, layer: diff.layer,
+                                oldPath: session.status.files.first { $0.path == diff.path }?.oldPath)
+                        )
+                        .id(
+                            "encoded:\(session.id):\(session.diffGeneration):\(diff.path):\(diff.layer.rawValue)"
+                        )
+                    } else {
+                        EmptyPanel(
+                            title: L10n.text("二进制文件已变化"), symbol: "doc.zipper",
+                            message: L10n.text("此文件不支持文本差异，请使用外部工具查看。"))
+                    }
                 } else if diff.preview?.isEmpty == true {
                     EmptyPanel(
                         title: L10n.text("空文件"), symbol: "doc", message: L10n.text("文件没有文本内容，仍可在文件列表中暂存。"))

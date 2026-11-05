@@ -29,6 +29,75 @@ struct SyncRequest: Identifiable {
     let session: RepositorySession
 }
 
+struct HistoryDepthRequest: Identifiable {
+    let id = UUID()
+    let session: RepositorySession
+}
+
+@Observable @MainActor
+final class HistoryDepthState {
+    let session: RepositorySession
+    var remotes: [GitRemote] = []
+    var remoteName = ""
+    var complete = false
+    var count = 100
+    var isLoading = true
+    var isPreparing = false
+    var plan: HistoryDepthPlan?
+    var result: HistoryDepthResult?
+    var error: String?
+    private var preparation: Task<Void, Never>?
+    init(_ session: RepositorySession) { self.session = session }
+    var working: Bool { isPreparing || session.isBusy }
+    var valid: Bool {
+        remotes.contains { $0.name == remoteName } && (complete || (1...Int(Int32.max)).contains(count))
+    }
+    func load() async {
+        defer { isLoading = false }
+        do {
+            guard try await session.service.hasShallowHistory() else {
+                error = L10n.text("此仓库已有完整历史，不需要补深。")
+                return
+            }
+            remotes = try await session.service.remoteDetails()
+            let upstream = try await session.service.upstreamTarget()
+            if let upstream, remotes.contains(where: { $0.name == upstream.remote }) {
+                remoteName = upstream.remote
+            } else if remotes.count == 1 {
+                remoteName = remotes[0].name
+            }
+        } catch { self.error = error.localizedDescription }
+    }
+    func prepare() {
+        guard valid, !working, let remote = remotes.first(where: { $0.name == remoteName }) else { return }
+        isPreparing = true
+        error = nil
+        preparation = Task { [self] in
+            defer {
+                isPreparing = false
+                preparation = nil
+            }
+            do {
+                plan = try await session.service.prepareHistoryDepth(
+                    remote: remote, change: complete ? .complete : .deepen(count))
+            } catch { self.error = error.localizedDescription }
+        }
+    }
+    func execute() {
+        guard let plan, !working else { return }
+        session.perform(L10n.text("获取历史")) { [self] service in
+            do {
+                let value = try await service.fetchHistoryDepth(plan)
+                await MainActor.run { self.result = value }
+            } catch {
+                await MainActor.run { self.error = error.localizedDescription }
+                throw error
+            }
+        }
+    }
+    func cancelPreparation() { preparation?.cancel() }
+}
+
 @Observable @MainActor
 final class SyncState {
     let session: RepositorySession

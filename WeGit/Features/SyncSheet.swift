@@ -1,6 +1,62 @@
 import SwiftUI
 import WeGitCore
 
+@MainActor
+struct HistoryDepthSheet: View {
+    @Environment(\.themeColors) private var colors
+    @Environment(\.dismiss) private var dismiss
+    @State private var model: HistoryDepthState
+    init(session: RepositorySession) { _model = State(initialValue: HistoryDepthState(session)) }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            SheetTitle(title: L10n.text("历史深度"), symbol: "clock.arrow.circlepath")
+            if model.isLoading { ProgressView() }
+            Form {
+                Picker(L10n.text("远端"), selection: $model.remoteName) {
+                    Text(L10n.text("选择远端")).tag("")
+                    ForEach(model.remotes) { Text($0.name).tag($0.name) }
+                }.accessibilityIdentifier("depth-remote")
+                Toggle(L10n.text("获取完整历史"), isOn: $model.complete)
+                    .accessibilityIdentifier("depth-complete")
+                TextField(L10n.text("额外提交深度"), value: $model.count, format: .number.grouping(.never))
+                    .disabled(model.complete).accessibilityIdentifier("depth-count")
+            }.disabled(model.isLoading || model.working || model.plan != nil || model.result != nil)
+            if let plan = model.plan {
+                Text(plan.remote.displayFetchURL).font(.callout.monospaced()).textSelection(.enabled)
+                Text(plan.branch + " · " + (plan.head.map { String($0.prefix(12)) } ?? L10n.text("未产生提交")))
+                    .foregroundStyle(colors.secondaryText)
+            }
+            if let result = model.result {
+                Text(result.isShallow ? L10n.text("已补充远端可用历史，仓库仍为浅历史。") : L10n.text("完整历史已获取。"))
+            }
+            if let error = model.error { Text(error).foregroundStyle(colors.negative) }
+            if model.working { ProgressView() }
+            HStack {
+                Spacer()
+                if model.isPreparing {
+                    Button(L10n.text("取消操作"), action: model.cancelPreparation)
+                }
+                if model.session.isBusy { Button(L10n.text("取消操作")) { model.session.cancel() } }
+                Button(L10n.text("关闭")) { dismiss() }.keyboardShortcut(.cancelAction).disabled(model.working)
+                    .accessibilityIdentifier("depth-close")
+                if model.result == nil {
+                    if model.plan != nil {
+                        Button(L10n.text("重新选择")) { model.plan = nil }.disabled(model.working)
+                        Button(L10n.text("获取历史"), action: model.execute).workbenchPrimaryAction().disabled(
+                            model.working
+                        ).accessibilityIdentifier("depth-execute")
+                    } else {
+                        Button(L10n.text("预览"), action: model.prepare).workbenchPrimaryAction().disabled(
+                            !model.valid || model.isLoading || model.working
+                        ).accessibilityIdentifier("depth-preview")
+                    }
+                }
+            }
+        }.padding(26).frame(width: 590).task { await model.load() }.interactiveDismissDisabled(model.working)
+            .onDisappear { model.cancelPreparation() }
+    }
+}
+
 struct SyncSheet: View {
     @Environment(\.themeColors) private var colors
     @Bindable var app: AppState

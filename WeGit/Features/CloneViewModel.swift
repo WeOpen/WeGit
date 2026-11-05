@@ -8,6 +8,11 @@ final class CloneViewModel {
     var address = ""
     var folderName = ""
     var parentPath = FileManager.default.homeDirectoryForCurrentUser.path
+    var branch = ""
+    var singleBranch = false
+    var shallow = false
+    var depth = 100
+    var recurseSubmodules = false
     var phase: Phase = .editing
     var progress = CloneProgress(stage: .connecting)
     var error: String?
@@ -22,6 +27,7 @@ final class CloneViewModel {
     var isBusy: Bool { [.cloning, .cancelling, .cleaning, .opening].contains(phase) }
     var canStart: Bool {
         !isBusy && !address.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !folderName.isEmpty
+            && (!shallow || (1...Int(Int32.max)).contains(depth))
     }
     var destination: String { URL(fileURLWithPath: parentPath).appendingPathComponent(folderName).path }
 
@@ -38,6 +44,11 @@ final class CloneViewModel {
         address = ""
         folderName = ""
         suggestedName = ""
+        branch = ""
+        singleBranch = false
+        shallow = false
+        depth = 100
+        recurseSubmodules = false
         parentPath = defaultDirectory
         phase = .editing
         progress = CloneProgress(stage: .connecting)
@@ -49,7 +60,10 @@ final class CloneViewModel {
     func start(onSuccess: @escaping @MainActor (RepositoryLocation) async -> Void) {
         guard canStart else { return }
         let request = CloneRequest(
-            address: address, parent: URL(fileURLWithPath: parentPath), folderName: folderName)
+            address: address, parent: URL(fileURLWithPath: parentPath), folderName: folderName,
+            options: CloneOptions(
+                branch: branch.isEmpty ? nil : branch, singleBranch: singleBranch,
+                depth: shallow ? depth : nil, recurseSubmodules: recurseSubmodules))
         let id = UUID()
         operationID = id
         let previousCleanup = failure?.cleanup
@@ -103,5 +117,63 @@ final class CloneViewModel {
                 phase = .failed
             }
         }
+    }
+}
+
+@Observable @MainActor
+final class RepositoryInitializationViewModel {
+    enum Phase { case editing, creating, cancelling, opening, failed, completed }
+    var directoryPath = ""
+    var branch = "main"
+    var phase: Phase = .editing
+    var error: String?
+    var createdDirectory: URL?
+    private let coordinator: RepositoryInitializationCoordinator
+    private var task: Task<Void, Never>?
+    init(coordinator: RepositoryInitializationCoordinator) { self.coordinator = coordinator }
+    var isBusy: Bool { [.creating, .cancelling, .opening].contains(phase) }
+    var canStart: Bool {
+        !isBusy && createdDirectory == nil && directoryPath.hasPrefix("/") && !branch.isEmpty
+    }
+    func resetCompleted() {
+        guard phase == .completed else { return }
+        directoryPath = ""
+        branch = "main"
+        phase = .editing
+        error = nil
+        createdDirectory = nil
+    }
+    func start(onSuccess: @escaping @MainActor (RepositoryLocation) async -> Bool) {
+        guard canStart else { return }
+        phase = .creating
+        error = nil
+        let request = RepositoryInitializationRequest(
+            directory: URL(fileURLWithPath: directoryPath), branch: branch)
+        task = Task { [self] in
+            defer { task = nil }
+            do {
+                let plan = try await coordinator.prepare(request)
+                let location = try await coordinator.initialize(plan)
+                createdDirectory = location.root
+                phase = .opening
+                if await onSuccess(location) {
+                    phase = .completed
+                } else {
+                    phase = .failed
+                    error = L10n.text("仓库已建立，但尚未打开。请重新打开该目录。")
+                }
+            } catch {
+                if let failure = error as? RepositoryInitializationFailure {
+                    createdDirectory = failure.createdDirectory
+                }
+                self.error = error.localizedDescription
+                phase = .failed
+            }
+        }
+    }
+    func cancel() {
+        guard phase == .creating else { return }
+        phase = .cancelling
+        task?.cancel()
     }
 }

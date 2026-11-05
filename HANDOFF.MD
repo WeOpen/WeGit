@@ -18,6 +18,32 @@
 - .build/v2-m1/profiled-diagnostic保留99项前后不变输入证明、编译/运行日志及JSON。普通/大型各2个开发样本满足原门槛，大型最大预览749.85ms、Reset1210.96ms、恢复预览1450.98ms、恢复1090.78ms、取消0.85ms、RSS24,461,312bytes；此为未提交阶段的少量开发诊断，不是30样本或版本验收。并行检出两次为297.25/1329.47ms，结果不稳定，未引入产品checkout.workers改动。
 - M2仓库工具已按当前M1前置固定b812293并推送草稿PR134；主题/网站PR133与主检出用户PBX差异仍独立。本修补固定候选只统一送验一次，等待时继续M3，不逐子任务重验。
 
+## 2026-11-05 当前聊天接续与 M2 编译核验
+
+- 接续原聊天 01a1a58e-b596-7b50-bcab-1cecfea91a2e。read_thread 因单轮过长无法返回，先用 wait_threads 的即时快照确认原轮已失败/空闲，再读取明确对应的本地记录；主检出的 HANDOFF 比实际开发进度旧，不能据此重新实现已完成流程。实际开发继续复用 managed 的 v2-m1-validation-fix/WeGit、codex/v2-m2-repository-tools；主检出 PR133 与用户 PBX 差异保持独立。
+- 已核对最后一次 build-for-testing 的真实成功日志 SHA256 6acd572deeefeb7f0f9a66c9f02ad546c5f74e99c2cf3a0f373ebda0e8f38c79：215 项应用输入与当前源逐项一致，35 项 UI 测试输入均未在编译后变化。54 个变更 Swift 文件严格格式、1610 字符串/8 复数及 14 项证据调度工具检查通过。本机未执行 XCTest，原生开发 JSON 不提升为托管验收。
+- 接续前 62 个修改/新增文件已按原字节备份于 .build/v2-m2/continuation-2026-11-05/wip，并保存文件摘要和 compile-proof.json。M2 稳定批次以 M1 当前 0915404 为前置；最新 M1 性能失败仍开放，接续不触发逐子任务重验。
+
+## 2026-11-05 M2 图片刷新循环、忽略写入与补丁往返
+
+- 图片控件无法切换并非只由 Cua 引起：用户已将预览置前，仍无法切换；相同 AppKit/SwiftUI 视口和样式的独立对照可正常操作。临时探针显示 diff generation 约每 0.35 秒递增，4 秒内有 11 个 transparent.png FSEvent，flags 0x410000 为 file/ItemCloned。APFS fclonefileat 读取快照会给源文件产生克隆事件，触发刷新后再次克隆。RasterComparisonService 现在用 RecoveryFileIO.captureAll(cloneSource: false) 的既有有界流读取，保留字节/摘要/版本/父目录检查；破坏性备份默认仍用克隆。修补后相同探针 4 秒 0 事件，单次空闲检查 0.0% CPU（旧44.2%），不是正式性能矩阵。临时 trace 均已移除。
+- CGPattern 的纯棋盘回调须为全局 nonisolated C 函数，不能依赖主 actor 或直接传类静态方法。视口 draw 必须 save/clip(bounds)/restore，避免高倍平移覆盖元数据。最新原生预览实核 977% 和上下越界平移，尺寸信息仍可读；滑杆模式与 AX value 0.25 生效，媒体文件/索引/HEAD 摘要不变。独立两种控制诊断已关闭；关闭后继续向已退出 App 请求 AX 会重新启动该 App，检查退出应只读进程而不再次绑定。
+- git check-ignore 不接受全局 --literal-pathspecs；预览用 literalPathspecs:false，stdin 路径显式加 ./ 并验证/移除返回前缀，避免 :(glob) 等文件名被解释为 pathspec。空候选不运行 check-ignore。临时 --template= bare 仓库必须显式建自己的 info；不操作用户 Git 配置。
+- 本地 exclude 的受控写入/rename 会改变 ctime/mtime，不能在自己写入后仍要求完整 RepositoryNodeIdentity 相等。写前继续核对完整快照；受控写入后以 device/inode/type/birth 固定节点，再独立核对准确字节/模式和写入完成的 lock 快照。置换后验证原文件，只在新文件仍属于本次且未变时回滚，未知输入保留。旧未知结果的两个原输入在 .build/v2-m2/diagnostics/local-ignore-unknown 保留，夹具人工复原不作为产品恢复证据。
+- 最新 native 本地 .git/info/exclude 和仓库 .gitignore 两作用域均实际保存/撤销成功，逐字节恢复原注释文件或原来的缺失状态、无遗留 lock，保留.txt/HEAD/无索引状态正确。Ctrl+点击可打开文件行上下文菜单；右键 AX 点击曾无效果。原生菜单 Escape 曾未关闭，使用其公开 Cancel 动作后再读当前索引。
+- 普通补丁实际导出234字节，SHA c82b6e80…，等于 Git 原始 --binary/--full-index 输出并保留 CRLF/无末尾换行。私有 Shallow 中取消不写；应用到工作文件后字节等于 History 源，索引/HEAD/其他文件不变；通过恢复入口又逐字节还原目标原文件，备份记录 AA5EC96D-297D-44BD-8DD8-6B613269A719 标为已恢复。原始开发 JSON 在 .build/v2-m2/native-tools-{ignore,patch,raster}*；本机没有执行 XCTest，不作为托管或版本验收。
+- 当前 M2 仍为未提交批次，主检出主题/网站 PR133 和用户 PBX 差异独立保留。M1 最新41909998480的292/48三套Core/签名/行为通过，但大型2000ms性能仍失败，应用/UI编译/包未执行；较新失败不能被旧通过覆盖。后续依据已有阶段诊断继续优化，并继续 M3～M5。
+
+## 2026-11-05 M2 原生操作接续与 M1 第七轮证据
+
+- 当前仍为 managed 的 codex/v2-m2-repository-tools，M2 未提交开发批次；主检出的主题/网站 PR133 与用户 PBX 差异独立保留。新建、指定分支/浅克隆、补深、比较、行级丢弃/历史恢复、忽略、图片/编码和普通补丁源码均已接入；批次尚未送验，不逐子任务排 GitHub。M3～M5 仍需继续。
+- 独立 v2toolspreview、UITests 私有偏好与临时仓库已实际核对：行级丢弃取消不写；单行丢弃保留未选 CC、HEAD 和原索引，备份逐字节恢复 CRLF/无末尾换行；历史恢复的工作字节等于固定原 blob。中文/Emoji 草稿保持。已有文件新建为未跟踪、仅 main/深度1克隆、显式补深及完整历史获取均核对原文件/索引/HEAD不变。原始开发 JSON 在 .build/v2-m2，不能作为托管 XCTest 或版本验收。
+- 忽略预览的临时 bare 仓库使用 --template=，不会自动创建 info；直接写 info/exclude 使所有预览报文件不存在。现在只在新建的私有预览目录建立 info，真实缺失的 .git/info 仍由固定元数据写入器处理；新增 Unborn/无 info 的两个作用域保存/撤销测试源，只编译。
+- PNG 实际预览使旧专用进程 SIGTRAP，原报告 .build/v2-m2/diagnostics/WeGit-2026-11-05-074715.ips（SHA3ed49462…）指向 CA::CG::Queue 上的 CGPattern 主线程断言。纯绘制改为全局 nonisolated C 回调；类静态方法不能直接转换成该 C 指针。新 PNG 已实际渲染，补了 NSView 可访问元素、控件/尺寸 ID 和透明图/滑杆/编码只读 UI 测试源；最新 build-for-testing 编译通过，本机未执行 XCTest。余下格式/交互与新 AX 尚需实际继续。
+- 比较菜单需隐藏系统重复箭头；密集文件动作使用有语义图标与可访问名称，并按宽度换行，不能让恢复/导出挤成无名称箭头。克隆分支补可见字段名，移除重复凭据说明。Cua 的前往文件夹窗口应先读取 PathTextField，再 setValue 后核对；仅 paste 可能留下旧路径，不得直接确认旧选择。
+- M1 固定0915404的 CI41909998480 已实际核对：三套 Git 各292/48通过，303.169/176.134/194.757秒；签名与功能通过。普通/大型各30原数组独立重算；大型预览2011.77ms、Reset2271.36ms、恢复预览2043.28ms超2000ms，恢复1846.95ms/取消1.77ms/RSS23,789,568bytes通过。应用/UI编译和包未执行。原175,589bytes/32CRC/SHA2e16617a…native ZIP、36,231bytes/4CRC回执及372 Git blob/4日志SHA证明保留于主检出 .build/v2-m1/failed-native-7；失败不改记通过，下一步依据实际阶段开销定位。
+- Ego Lite 已核对当前主题 JSON/17色/URI负载与SHA；外部应用唤起仍遵守原自动安全拒绝并待手动验证，不改默认 URL 处理器或换工具规避。
+
 ## 2026-11-05 M1 性能新失败与批次来源读取修正
 
 - CI41891234568固定ac9613b：后端输入与f9f5250相同，仅证据读取器变化；实际仍重跑，三套291/48、签名与功能通过，但大型30样本Reset p95 2041.25ms、恢复预览2124.02ms超出2000ms。应用/UI编译和包未执行。原175,580bytes/32CRC/SHA80c7353d…ZIP及36,241bytes/4CRC回执在主检出.build/v2-m1/failed-native-6保留；较新真实失败不得用旧同输入通过遮盖。
@@ -30,6 +56,14 @@
 - 后续application入口2.772秒失败在Swift格式检查，RecoverySheet三处多闭包调用未满足OnlyOneTrailingClosureArgument；应用/UI测试源编译和包均未执行，不是XCTest失败。原232,125bytes/39CRC/SHA500d4cbf…native ZIP、52,638bytes/5CRC回执ZIP和372唯一Git输入/5日志SHA核对在主检出.build/v2-m1/failed-native-5保留。仅将三个operation闭包显式写入参数，不改恢复行为。
 - 原批次复用只找整轮success，导致后端已通过而后续视图格式失败时重复长流程。现在固定canonical workflow/同仓库PR、实际成功阶段和执行来源，失败/跳过阶段仍拒绝；原回执/执行计数不重写。仅证据读取器变动时，从源Git blob核对所有执行声明AST一致，再保留原输入与当前输入的独立等价证明；其他入口/源码/工具链变化仍实际执行。116项工具检查通过，本机未执行XCTest。
 - M2仓库工具继续在managed检出独立开发，主主题/网站PR133与用户PBX差异不混入本修补。新的真实原生操作仍等待用户解锁Mac，网页外部URI继续遵守原自动安全拒绝。
+
+## 2026-11-05 M2 仓库工具接续与环境状态
+
+- 当前 managed 检出沿用 codex/v2-m2-repository-tools，基于固定恢复候选 f9f5250；主检出的主题/官网草稿 PR133 和用户 PBX 差异均独立保留。新建/高级克隆、显式补深、任意比较、行级丢弃及历史文件恢复仍是开发批次，后续还需忽略/图片/普通补丁和稳定批次验收。
+- 文件恢复从提交详情、任意比较和文件历史进入，来源 OID/路径固定，可选工作文件/索引/两者；行级丢弃只修改工作文件。确认/结果宿主在工作台，阅读 Sheet 先 dismiss 再接续，避免同时呈现多个 Sheet。新增7项原始字节/索引/恢复/符号链接/陈旧预览测试源已编译；Core与原生应用源码编译通过，本机未执行 XCTest，尚无这轮原生操作通过证据。
+- 未跟踪文件的 FileDiff.hunks 为空，选择 ID 来自原文预览的行位置；不能从 hunks 生成测试选择。生成受控差异后仍按原位置核对所选变更、原字节与文件版本。
+- M1 CI41854802990第二次 Native作业被取消、0步骤，GitHub annotation 明确为多次未取得 hosted runner；不是源码测试失败。仅重试该作业与依赖，第三次作业126724410995已取得runner并运行，实际测试/性能/包结果待核对。
+- Ego Lite 当前实际主题页、编辑后 JSON、17颜色字段、链接负载与SHA一致；新结果在主检出.build/v2-m2/ego-followup。外部URI仍遵守原安全拒绝，不换浏览器规避。Mac再次锁定，Cua要求手动解锁；已询问用户，源码继续。新原生预览使用v2toolspreview独立Bundle ID、UITests私有偏好域和临时仓库，未更改URL默认处理器或用户Git配置。
 
 ## 2026-11-04 M1 第四轮结果与完整索引保护
 

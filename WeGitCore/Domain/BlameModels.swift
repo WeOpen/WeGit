@@ -111,7 +111,7 @@ enum BlameParser {
         return records
     }
 
-    private static func unquotePath(_ data: Data) throws -> String {
+    static func unquotePath(_ data: Data) throws -> String {
         var bytes: [UInt8] = []
         if data.first == 34 {
             guard data.count >= 2, data.last == 34 else { throw malformed() }
