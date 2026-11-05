@@ -168,11 +168,14 @@ enum RecoveryFileIO {
         }
     }
     @concurrent static func captureAll(
-        location: RepositoryLocation, paths: [String], limit: Int = RecoveryBudget.bytes
+        location: RepositoryLocation, paths: [String], limit: Int = RecoveryBudget.bytes,
+        storageOffset: Int = 0
     ) async throws
         -> [RecoveryFileCapture]
     {
-        guard paths.count <= RecoveryBudget.files, (0...RecoveryBudget.bytes).contains(limit) else {
+        guard paths.count <= RecoveryBudget.files, (0...RecoveryBudget.bytes).contains(limit),
+            (0...(RecoveryBudget.files - paths.count)).contains(storageOffset)
+        else {
             throw RecoveryBudget.exceeded
         }
         if paths.isEmpty {
@@ -196,7 +199,8 @@ enum RecoveryFileIO {
                         for index in start..<min(paths.count, start + width) {
                             values.append(
                                 try captureNow(
-                                    location: location, path: paths[index], name: "blob-\(index)",
+                                    location: location, path: paths[index],
+                                    name: "blob-\(storageOffset + index)",
                                     storage: storage, cancellation: cancellation, readFence: fence,
                                     budget: budget))
                         }

@@ -35,7 +35,80 @@ private actor IndexEditAfterReset: ProcessRunning {
     }
 }
 
+private actor IndexEditDuringResetVerification: ProcessRunning {
+    let engine: GitEngine
+    let root: URL
+    private var resetFinished = false
+    private var indexCompared = false
+    private var waiting: [CheckedContinuation<Void, Never>] = []
+    init(engine: GitEngine, root: URL) {
+        self.engine = engine
+        self.root = root
+    }
+    func run(_ request: ProcessRequest) async throws -> ProcessResult {
+        if resetFinished, request.arguments.contains("diff") {
+            if !indexCompared {
+                await withCheckedContinuation { waiting.append($0) }
+            }
+            try Data("external staged bytes\n".utf8).write(to: root.appending(path: "file"))
+            _ = try await engine.run(["add", "--", "file"], in: root)
+        }
+        let result = try await ProcessRunner().run(request)
+        if request.arguments.contains("reset"), result.exitCode == 0 { resetFinished = true }
+        if resetFinished, request.arguments.contains("diff-index") {
+            indexCompared = true
+            for continuation in waiting { continuation.resume() }
+            waiting = []
+        }
+        return result
+    }
+}
+
 struct RecoveryTests {
+    @Test func targetAndAdditionalDirtyPathsHaveDistinctRestorableBackupFiles() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\r\nlast")
+        try f.write("additional", "unchanged\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\r\nlast")
+        _ = try await f.commit("Current")
+        try f.write("additional", "separate private edit\r\nlast")
+        _ = try await f.engine.run(["add", "--", "additional"], in: f.root)
+        let index = try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index"))
+        let plan = try await f.service.prepareReset(target: target, mode: .hard)
+        let record = try await f.service.executeReset(plan)
+        #expect(Set(record.files.map(\.path)) == ["file", "additional"])
+        #expect(Set(record.files.map(\.storageName)).count == record.files.count)
+        _ = try await f.service.executeRecoveryRestore(
+            f.service.prepareRecoveryRestore(record, layer: .both))
+        #expect(try Data(contentsOf: f.root.appending(path: "file")) == Data("current\r\nlast".utf8))
+        #expect(
+            try Data(contentsOf: f.root.appending(path: "additional"))
+                == Data("separate private edit\r\nlast".utf8))
+        #expect(try Data(contentsOf: f.service.location.gitDirectory.appending(path: "index")) == index)
+    }
+
+    @Test func stagingBetweenCleanResetComparisonsRemainsAnUnknownOutcome() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "current\n")
+        _ = try await f.commit("Current")
+        let runner = IndexEditDuringResetVerification(engine: f.engine, root: f.root)
+        let service = RepositoryService(
+            location: f.service.location,
+            engine: TestGit.engine(runner: runner, environment: f.engine.environment))
+        let plan = try await service.prepareReset(target: target, mode: .hard)
+        await #expect(throws: RecoveryOutcomeUnknown.self) { _ = try await service.executeReset(plan) }
+        #expect(try await service.head() == target)
+        #expect(
+            try await f.engine.run(["show", ":file"], in: f.root).stdout
+                == Data("external staged bytes\n".utf8))
+        #expect(try await service.recoveryRecords().first?.state == .needsVerification)
+    }
+
     @Test func corruptedFileInParallelCaptureRejectsAllRestorationBeforeAnyRepositoryWrite() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }

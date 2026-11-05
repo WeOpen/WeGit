@@ -167,8 +167,7 @@ extension RepositoryService {
                 mode == .hard
                 ? try await RecoveryFileIO.metadataAll(
                     location: location, paths: entries.filter { $0.value != "160000" }.keys.sorted()) : []
-            let state = try await status()
-            guard let head = state.head, state.sequencer == .none, state.conflicts.isEmpty else {
+            guard let head = try await head() else {
                 throw ModelFailure.unsupported(L10n.text("Reset 需要已有提交，并先完成当前 Git 操作。"))
             }
             let reader = RepositoryService(location: location, engine: recoveryEngine, queue: queue)
@@ -179,13 +178,9 @@ extension RepositoryService {
                 in: location.root, outputLimit: 32 * 1024 * 1024
             ).stdout
             var paths = Set(try recoveryPaths(changed))
-            for file in state.files where !file.untracked {
-                paths.insert(file.path)
-                if let old = file.oldPath { paths.insert(old) }
-            }
             guard paths.count <= RecoveryBudget.files else { throw RecoveryBudget.exceeded }
-            var captures: [RecoveryFileCapture] = []
             let currentSubmodules = Set(entries.filter { $0.value == "160000" }.map(\.key))
+            var targetModes: [String: String] = [:]
             if mode == .hard {
                 // Explicitly leave submodule working trees alone, regardless of
                 // the user's submodule.recurse setting. Their gitlinks remain in the index backup.
@@ -193,7 +188,6 @@ extension RepositoryService {
                     ["ls-tree", "-r", "-z", commit.id], in: location.root,
                     outputLimit: 32 * 1024 * 1024
                 ).stdout
-                var targetModes: [String: String] = [:]
                 for row in tree.split(separator: 0) {
                     guard let tab = row.firstIndex(of: 9),
                         let text = String(data: row[..<tab], encoding: .utf8),
@@ -201,6 +195,31 @@ extension RepositoryService {
                     else { throw ModelFailure.changed }
                     targetModes[path] = String(text.prefix(6))
                 }
+            }
+            let submodules = Set(targetModes.filter { $0.value == "160000" }.map(\.key)).union(
+                currentSubmodules)
+            let knownPaths = mode == .hard ? paths.subtracting(submodules).sorted() : []
+            let byteLimit =
+                RecoveryBudget.bytes - (index.bytes?.count ?? 0)
+                - (sharedIndex?.data.count ?? 0)
+            // All indexed versions were fixed before either read starts. Files
+            // already affected by the fixed target can be captured while Git
+            // scans status; any additional dirty paths share the remaining budget.
+            async let readStatus = status()
+            async let knownCaptures = RecoveryFileIO.captureAll(
+                location: location, paths: knownPaths, limit: byteLimit)
+            let state = try await readStatus
+            guard state.head == head else { throw ModelFailure.changed }
+            guard state.sequencer == .none, state.conflicts.isEmpty else {
+                throw ModelFailure.unsupported(L10n.text("Reset 需要已有提交，并先完成当前 Git 操作。"))
+            }
+            for file in state.files where !file.untracked {
+                paths.insert(file.path)
+                if let old = file.oldPath { paths.insert(old) }
+            }
+            guard paths.count <= RecoveryBudget.files else { throw RecoveryBudget.exceeded }
+            var captures = try await knownCaptures
+            if mode == .hard {
                 for path in paths {
                     if let current = entries[path], let target = targetModes[path],
                         (current == "160000") != (target == "160000")
@@ -209,15 +228,15 @@ extension RepositoryService {
                             L10n.text("子模块与普通文件的替换需先单独处理；Soft 或 Mixed Reset 会保留工作文件。"))
                     }
                 }
-                let submodules = Set(targetModes.filter { $0.value == "160000" }.map(\.key)).union(
-                    currentSubmodules)
                 let filePaths = paths.subtracting(submodules)
                 try await StashWorktreeGuard.validate(
                     paths: paths, tracked: Set(entries.keys), location: location,
                     allowedDirectories: currentSubmodules)
-                captures = try await captureRecoveryFiles(
-                    filePaths.sorted(),
-                    limit: RecoveryBudget.bytes - (index.bytes?.count ?? 0) - (sharedIndex?.data.count ?? 0))
+                let remaining = byteLimit - captures.reduce(0) { $0 + $1.file.bytes }
+                let additional = try await captureRecoveryFiles(
+                    filePaths.subtracting(knownPaths).sorted(), limit: remaining,
+                    storageOffset: captures.count)
+                captures = (captures + additional).sorted { $0.file.path < $1.file.path }
             }
             let refs = try await recoveryEngine.run(
                 ["for-each-ref", "--contains=" + head, "--format=%(refname)", "refs/remotes"],
@@ -259,32 +278,7 @@ extension RepositoryService {
                 _ = try await recoveryEngine.run(
                     ["reset", "--" + plan.mode.rawValue, "--no-recurse-submodules", plan.target.id],
                     in: location.root, timeout: 120)
-                let observed = try await recoveryContext()
-                guard observed.head == plan.target.id, observed.branch == plan.branch
-                else {
-                    throw ModelFailure.changed
-                }
-                if plan.mode == .soft {
-                    guard try SelectedIndexSnapshot.read(location: location) == plan.index else {
-                        throw ModelFailure.changed
-                    }
-                } else {
-                    // Compare index object IDs/modes directly. Reconstructing a
-                    // tree merely to verify it needlessly writes Git objects.
-                    let compared = try await recoveryEngine.run(
-                        [
-                            "diff-index", "--cached", "--quiet", "--no-ext-diff", "--no-renames",
-                            "--ignore-submodules=none", "--ita-visible-in-index", plan.target.id, "--",
-                        ],
-                        in: location.root, accepted: [0, 1], outputLimit: 64 * 1024)
-                    guard compared.exitCode == 0 else { throw ModelFailure.changed }
-                    if plan.mode == .hard {
-                        let diff = try await recoveryEngine.run(
-                            ["diff", "--exit-code", "--no-ext-diff", "--ignore-submodules=all", "--"],
-                            in: location.root, accepted: [0, 1], outputLimit: 64 * 1024)
-                        guard diff.exitCode == 0 else { throw ModelFailure.changed }
-                    }
-                }
+                let observed = try await verifyResetResult(plan)
                 record.state = .succeeded
                 record.observedHead = observed.head
                 try store.save(record)
@@ -302,6 +296,42 @@ extension RepositoryService {
                 throw RecoveryOutcomeUnknown(recordID: record.id, details: details)
             }
         }
+    }
+
+    private func verifyResetResult(_ plan: ResetPlan) async throws -> (head: String?, branch: String) {
+        let snapshot = try SelectedIndexSnapshot.read(location: location)
+        if plan.mode == .soft {
+            let observed = try await recoveryContext()
+            guard snapshot == plan.index, observed.head == plan.target.id, observed.branch == plan.branch,
+                try SelectedIndexSnapshot.read(location: location) == snapshot
+            else { throw ModelFailure.changed }
+            return observed
+        }
+        // Independent Git reads must agree on the same raw index version. A
+        // concurrent staging edit could otherwise make both comparisons look clean.
+        var configured = recoveryEngine
+        configured.environment["GIT_OPTIONAL_LOCKS"] = "0"
+        let readEngine = configured
+        async let context = recoveryContext()
+        async let compared = readEngine.run(
+            [
+                "diff-index", "--cached", "--quiet", "--no-ext-diff", "--no-renames",
+                "--ignore-submodules=none", "--ita-visible-in-index", plan.target.id, "--",
+            ],
+            in: location.root, accepted: [0, 1], outputLimit: 64 * 1024)
+        async let working =
+            plan.mode == .hard
+            ? readEngine.run(
+                ["diff", "--exit-code", "--no-ext-diff", "--ignore-submodules=all", "--"],
+                in: location.root, accepted: [0, 1], outputLimit: 64 * 1024) : nil
+        let (observed, indexResult, workResult) = try await (context, compared, working)
+        guard observed.head == plan.target.id, observed.branch == plan.branch, indexResult.exitCode == 0,
+            workResult == nil || workResult?.exitCode == 0,
+            try SelectedIndexSnapshot.read(location: location) == snapshot
+        else { throw ModelFailure.changed }
+        let final = try await recoveryContext()
+        guard final.head == observed.head, final.branch == observed.branch else { throw ModelFailure.changed }
+        return final
     }
 
     private func validateReset(_ plan: ResetPlan) async throws {
@@ -336,15 +366,20 @@ extension RepositoryService {
                 throw ModelFailure.unsupported(L10n.text("请先完成当前 Git 操作，再恢复备份。"))
             }
             let store = try RecoveryStore(location: location)
+            let (index, sourceSharedIndex) =
+                layer == .worktree
+                ? (nil, nil) : try await store.captureIndex(record)
             async let saved = store.capture(
-                record, includeFiles: layer != .index, includeIndex: layer != .worktree)
+                record, includeFiles: layer != .index, includeIndex: false)
             async let captured = captureRecoveryFiles(
                 layer == .index ? [] : record.files.map(\.path),
                 limit: RecoveryBudget.bytes - (snapshot.bytes?.count ?? 0)
                     - (currentSharedIndex?.data.count ?? 0))
-            let ((source, index, sourceSharedIndex), current) = try await (saved, captured)
+            async let indexTree =
+                layer == .worktree
+                ? nil : recoveryIndexTree(index, shared: sourceSharedIndex, persist: false)
+            let ((source, _, _), current, tree) = try await (saved, captured, indexTree)
             if layer != .worktree {
-                let tree = try await recoveryIndexTree(index, shared: sourceSharedIndex, persist: false)
                 guard record.indexTree == nil || record.indexTree == tree else { throw ModelFailure.changed }
             }
             try await verifyHead(state.head)
@@ -536,10 +571,13 @@ extension RepositoryService {
         }
     }
 
-    func captureRecoveryFiles(_ paths: [String], limit: Int = RecoveryBudget.bytes) async throws
+    func captureRecoveryFiles(
+        _ paths: [String], limit: Int = RecoveryBudget.bytes, storageOffset: Int = 0
+    ) async throws
         -> [RecoveryFileCapture]
     {
-        try await RecoveryFileIO.captureAll(location: location, paths: paths, limit: limit)
+        try await RecoveryFileIO.captureAll(
+            location: location, paths: paths, limit: limit, storageOffset: storageOffset)
     }
 
     func recoveryPaths(_ data: Data) throws -> [String] {

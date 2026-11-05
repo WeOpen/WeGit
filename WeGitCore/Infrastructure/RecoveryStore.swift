@@ -210,7 +210,9 @@ final class RecoveryStore: @unchecked Sendable {
                     cancellation: cancellation)
             }
             let results = RecoveryCaptureResults()
-            let width = max(1, (files.count + 1) / 2)
+            // Bounded durable-copy batches overlap fsync latency. Hashing reads
+            // retain their separate two-batch limit below.
+            let width = max(1, (files.count + 3) / 4)
             DispatchQueue.concurrentPerform(iterations: files.isEmpty ? 0 : (files.count + width - 1) / width)
             { batch in
                 let offset = batch * width
@@ -237,6 +239,45 @@ final class RecoveryStore: @unchecked Sendable {
         }
     }
 
+    @concurrent func captureIndex(_ record: RecoveryRecord) async throws
+        -> (Data?, RecoverySharedIndexSnapshot?)
+    {
+        try await SnapshotIO.run { [self] cancellation in
+            try cancellation.check()
+            guard try self.record(record.id) == record else { throw ModelFailure.changed }
+            let directory = try open(record.id)
+            defer { Darwin.close(directory) }
+            let result = try readCapturedIndex(record, directory: directory, include: true)
+            try cancellation.check()
+            guard try self.record(record.id) == record else { throw ModelFailure.changed }
+            return result
+        }
+    }
+
+    private func readCapturedIndex(_ record: RecoveryRecord, directory: Int32, include: Bool) throws
+        -> (Data?, RecoverySharedIndexSnapshot?)
+    {
+        let index: Data?
+        if include, let hash = record.indexSHA256 {
+            let bytes = try read("index", in: directory, limit: 32 * 1024 * 1024)
+            guard RecoveryFileIO.hash(bytes) == hash, bytes.count == record.indexBytes else {
+                throw ModelFailure.changed
+            }
+            index = bytes
+        } else {
+            index = nil
+        }
+        var sharedIndex: RecoverySharedIndexSnapshot?
+        if include, let shared = record.sharedIndex {
+            let data = try read(shared.name, in: directory, limit: 32 * 1024 * 1024)
+            guard data.count == shared.bytes, RecoveryFileIO.hash(data) == shared.sha256 else {
+                throw ModelFailure.changed
+            }
+            sharedIndex = RecoverySharedIndexSnapshot(file: shared, data: data)
+        }
+        return (index, sharedIndex)
+    }
+
     @concurrent func capture(_ record: RecoveryRecord, includeFiles: Bool = true, includeIndex: Bool = true)
         async throws
         -> ([RecoveryFileCapture], Data?, RecoverySharedIndexSnapshot?)
@@ -245,24 +286,8 @@ final class RecoveryStore: @unchecked Sendable {
             guard try self.record(record.id) == record else { throw ModelFailure.changed }
             let directory = try open(record.id)
             defer { Darwin.close(directory) }
-            let index: Data?
-            if includeIndex, let hash = record.indexSHA256 {
-                let bytes = try read("index", in: directory, limit: 32 * 1024 * 1024)
-                guard RecoveryFileIO.hash(bytes) == hash, bytes.count == record.indexBytes else {
-                    throw ModelFailure.changed
-                }
-                index = bytes
-            } else {
-                index = nil
-            }
-            var sharedIndex: RecoverySharedIndexSnapshot?
-            if includeIndex, let shared = record.sharedIndex {
-                let data = try read(shared.name, in: directory, limit: 32 * 1024 * 1024)
-                guard data.count == shared.bytes, RecoveryFileIO.hash(data) == shared.sha256 else {
-                    throw ModelFailure.changed
-                }
-                sharedIndex = RecoverySharedIndexSnapshot(file: shared, data: data)
-            }
+            let (index, sharedIndex) = try readCapturedIndex(
+                record, directory: directory, include: includeIndex)
             let storage = try SnapshotDirectory()
             try storage.validate()
             let temporary = Darwin.open(storage.url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
