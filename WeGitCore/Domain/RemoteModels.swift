@@ -13,6 +13,25 @@ public struct GitRemote: Identifiable, Hashable, Sendable {
     public var displayPushURLs: [String] { pushURLs.map(Redaction.text) }
 }
 
+public enum HistoryDepthChange: Sendable, Equatable {
+    case deepen(Int)
+    case complete
+}
+
+public struct HistoryDepthPlan: Identifiable, Sendable {
+    public let id: UUID
+    public let remote: GitRemote
+    public let change: HistoryDepthChange
+    public let head: String?
+    public let branch: String
+    let location: RepositoryLocation
+    let shallowVersion: RepositoryNodeIdentity
+}
+
+public struct HistoryDepthResult: Sendable {
+    public let isShallow: Bool
+}
+
 public enum PullStrategy: String, CaseIterable, Sendable {
     case fastForwardOnly, merge, rebase
     public var title: String {

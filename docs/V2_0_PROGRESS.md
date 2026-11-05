@@ -4,25 +4,18 @@
 
 ## 当前批次
 
-M1 最新实际 [CI 41909998480](https://github.com/WeOpen/WeGit/actions/runs/41909998480) 固定0915404：三套Git各292/48、签名与功能通过；大型预览、Reset及恢复预览超过原2000ms，应用/UI编译及包未执行。新的阶段并发修补已经完成：已知目标文件与status重叠捕获，额外路径共用剩余预算且名称独立；索引树验证与备份读取重叠，末尾Git比较绑定原始索引版本。两项独立控制实际通过，新增2项Core测试源只编译；普通/大型各2样本开发诊断符合原门槛，大型最大恢复预览1450.98ms。本机未执行XCTest，完整托管批次仍待验，历史失败保留。
+M2 仓库工具在 `codex/v2-m2-repository-tools` 形成开发批次：新建/高级克隆/补深、两点/共同祖先比较、行级丢弃/历史恢复、两个作用域的忽略规则、图片/编码阅读与普通补丁已经接入原生入口。Core、测试源与应用/UI测试源已编译；本机未执行 XCTest，已形成草稿 PR134，完整托管验收等待 M1 前置。主题/网站草稿 [PR #133](https://github.com/WeOpen/WeGit/pull/133) 在主检出独立保留，M3～M5 仍需继续。
 
-M2 仓库工具已固定b812293并形成 [草稿PR #134](https://github.com/WeOpen/WeGit/pull/134)，以M1为前置：新建/浅历史、任意比较、行级丢弃/历史恢复、忽略规则、图片/编码和普通补丁已经接入并做私有原生开发验证。215项应用输入与实际编译回执一致、35项UI测试输入另存摘要，6项repository-tools方法已注册，完整托管验收待执行。主检出主题/网站 [PR #133](https://github.com/WeOpen/WeGit/pull/133)独立保留；当前继续M3～M5。
+私有原生开发预览已逐字节核对：取消不写；选中行丢弃保留未选行和原索引，备份恢复 CRLF/无末尾换行；历史工作文件恢复；已有文件新建、指定分支/深度1克隆、显式补深/完整历史；分叉两点与共同祖先比较；本地 exclude 与仓库 gitignore 保存/准确撤销、无遗留 lock；PNG/JPEG/WebP/缺侧/LFS指针、Shift-JIS原始导出；图片滑杆/缩放/越界平移裁切；234字节原始补丁导出、取消、工作文件应用和备份恢复。原 JSON 保留于 `.build/v2-m2`，这些不是托管批次或版本验收。`repository-tools` 已统一注册6项原生流程方法（新建/浅历史、分叉比较、文件处理/忽略、普通补丁与两项特殊内容），b812293 阶段的应用及测试源已集中编译，215 项应用输入与当时实际编译回执一致；35 项 UI 测试输入另存摘要。M1 前置修补后的共享源码继续按批次核对编译。54 个变更 Swift 文件严格格式、1610 字符串/8复数和14项证据工具检查通过，实际执行仍依托可信main托管批次。
 
-M1 ac9613b的较新大型性能失败保持真实；浅来源证明与负证据复用已修正，118项工具检查通过。备份捕获/持久化2批I/O和新增坏备份保护源已编译；各2样本开发诊断满足原门槛，准备固定候选统一送验，完整实际结果仍待托管。
+M1 候选固定 `bcf8666939e4d337629bb90be5e869021494bb0b`，已对 PR132 请求一次统一托管批次；M2 在此源码前置上继续。M1 最新实际 [CI 41909998480](https://github.com/WeOpen/WeGit/actions/runs/41909998480) 固定0915404：三套Git各292/48、签名与功能通过；大型预览、Reset及恢复预览超过原2000ms，应用/UI编译及包未执行。新的阶段并发修补已经完成：已知目标文件与status重叠捕获，额外路径共用剩余预算且名称独立；索引树验证与备份读取重叠，末尾Git比较绑定原始索引版本。两项独立控制实际通过，新增2项Core测试源只编译；普通/大型各2样本开发诊断符合原门槛，大型最大恢复预览1450.98ms。本机未执行XCTest，完整托管批次仍待验，历史失败保留。
 
-M1 固定f9f5250的CI41854802990第三次：三套Git各291/48、隔离签名与功能、普通/大型30样本均实际通过；大型Reset p95 1949.90ms，原2000ms预算不变。application阶段在三处Swift闭包格式检查失败，应用/UI测试源编译和包未执行；修补只改调用格式及批次证据读取，116项工具检查通过。原输入/日志/ZIP已核对，失败保持真实，后续只补受影响范围。
-
-M0 已经由 [PR #131](https://github.com/WeOpen/WeGit/pull/131)正常合入 main fc9afa7；[CI 41797958554](https://github.com/WeOpen/WeGit/actions/runs/41797958554)的策略/工具结果实际通过，Native/前端/Core编译/site均skipped、0步骤、无runner。112项本机工具检查、固定actionlint与18份文档/304本地链接通过。草稿/中间head频率与真实复用继续由业务批次核对。
-
-M1 / [PR #132](https://github.com/WeOpen/WeGit/pull/132)：内容控件、历史/分支Reset、Reflog分页快照、备份/导出/恢复与原提交引用保护已实现。隔离原生预览已核对取消、Hard Reset和工作文件/索引恢复的逐字节结果；这些是开发验证，完整页面矩阵/托管批次仍待验。Core及UI测试源、Release性能夹具只编译，本机未执行XCTest。
-
-草稿 [CI 41803616136](https://github.com/WeOpen/WeGit/actions/runs/41803616136) 的Native/前端/Core编译/site实际无runner且0步骤，必需汇总失败原因为等待批次验收；PR策略和112项工具实际通过。稳定e01994b已ready送验；CI41812363924在Apple Core实际277测试/48套件中有1夹具准备问题，后续未执行。修补保持保护断言、仅编译测试源，统一重验Core及未执行阶段；M2改动独立保留并继续。
-
-[CI 41818471026](https://github.com/WeOpen/WeGit/actions/runs/41818471026) 固定df73872：三套Git各277/48、OpenPGP各9与功能检查实际通过；大型恢复性能超出2000ms预算，应用/UI编译和包尚未执行。COW、批量I/O和绑定不可变文件版本的摘要优化已在独立M1检出实现并编译，5项新增保护测试源只编译；最后普通/大型各2样本开发诊断满足原门槛，预算不变，准备固定候选集中送验。本机少量隔离诊断不作为30样本批次或版本性能证据。
+M0 已经由 [PR #131](https://github.com/WeOpen/WeGit/pull/131) 正常合入 main `fc9afa7`；[CI 41797958554](https://github.com/WeOpen/WeGit/actions/runs/41797958554) 的策略/工具实际通过，Native/前端/Core编译/site为skipped、0步骤、无runner。112项本机工具检查、固定actionlint与18份文档/304本地链接通过。草稿/中间head频率与真实复用继续由业务批次核对。历史 M1 失败、runner取消和修补详情保留在 [HANDOFF.MD](../HANDOFF.MD)，实际通过、失败和未执行分别记录。
 
 ## 全部62子任务
 
 M1 固定229facf的[CI41829276861](https://github.com/WeOpen/WeGit/actions/runs/41829276861)三套Git各282/48、签名/功能通过，大型恢复30样本超预算，应用/UI编译和包未执行。后续修补用全索引文件版本检查、有限并行快照和原索引对象/拆分依赖保护；四种哈希/索引私有诊断通过，新增测试源只编译，开发2样本不代替托管30样本验收。
+
 
 | 子任务 | 模块/Issue | 实施内容 | 实现状态 | 批次证据 |
 | --- | --- | --- | --- | --- |
@@ -31,31 +24,31 @@ M1 固定229facf的[CI41829276861](https://github.com/WeOpen/WeGit/actions/runs/
 | 01c | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 检查系统工具栏与自定义表面，避免玻璃叠玻璃；浮动控制条按真实层级判断，不按顶部/底部位置一刀切 | 实现完成/待批次验收 | — |
 | 01d | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 逐页替换和渲染检查 | 实施中/待批次验收 | — |
 | 01e | [V20-01](https://github.com/WeOpen/WeGit/issues/116) | 滑块、开关等瞬时交互效果遵循系统行为；减少透明度/动态效果、增强对比度和自定义主题的退化路径保持明确 | 实现完成/待批次验收 | — |
-| 02a | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 从 Welcome/仓库菜单建立普通仓库，选择目录与初始分支；已有普通文件可保留并作为未跟踪内容显示，拒绝覆写已有仓库或隐式建立嵌套仓库 | 待实施 | — |
-| 02b | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 克隆支持明确选择分支、仅指定分支、深度与递归 Submodule；默认行为保留现有完整克隆，浅仓库支持显式补深/获取完整历史 | 待实施 | — |
-| 02c | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 目录移动、权限/书签失效、Unborn/Detached HEAD、clone 部分完成、网络取消与磁盘不足均可核对 | 待实施 | — |
+| 02a | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 从 Welcome/仓库菜单建立普通仓库，选择目录与初始分支；已有普通文件可保留并作为未跟踪内容显示，拒绝覆写已有仓库或隐式建立嵌套仓库 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 02b | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 克隆支持明确选择分支、仅指定分支、深度与递归 Submodule；默认行为保留现有完整克隆，浅仓库支持显式补深/获取完整历史 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 02c | [V20-02](https://github.com/WeOpen/WeGit/issues/117) | 目录移动、权限/书签失效、Unborn/Detached HEAD、clone 部分完成、网络取消与磁盘不足均可核对 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
 | 03a | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 从历史/分支进入 Soft/Mixed/Hard Reset，预览当前分支、固定目标、索引/文件影响和发布历史状态 | 实现完成/待批次验收 | — |
 | 03b | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 浏览有界的 HEAD/分支 Reflog，识别条目时间、动作及对象是否仍存在；支持从旧提交创建恢复分支、找回误删分支和撤回最近本地提交 | 实现完成/待批次验收 | — |
 | 03c | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 定义工作文件备份、恢复定位记录与保留/清理规则 | 实现完成/待批次验收 | — |
 | 03d | [V20-03](https://github.com/WeOpen/WeGit/issues/118) | 覆盖外部引用移动、特殊索引标记、Unborn/Detached、多 Worktree 占用、取消及未知回执；不把共享分支 Reset 写到错误工作区 | 实现完成/待批次验收 | — |
-| 04a | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 选择两个提交/本地分支/远端跟踪分支/Tag 进行两点比较，先解析并固定实际对象；保留现有父提交比较作为默认快捷入口 | 待实施 | — |
-| 04b | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 提供“共同祖先到目标分支”的范围比较，显示方向、共同祖先、待合入提交和文件；明确两点与共同祖先比较的不同语义 | 待实施 | — |
-| 04c | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 支持文件筛选、重命名、根提交、Merge 多父和有界分页，复用 Unified/Split、磁盘差异与原文复制；缺对象/浅历史边界提示显式获取，不自动下载 | 待实施 | — |
-| 05a | [V20-05](https://github.com/WeOpen/WeGit/issues/120) | 按原始差异选择行丢弃，支持预览、取消和备份恢复；默认仅修改工作文件，保留未选变化及索引 | 待实施 | — |
-| 05b | [V20-05](https://github.com/WeOpen/WeGit/issues/120) | 从历史/比较恢复明确时点的单文件，区分恢复到工作文件、恢复到索引及两者；默认仅恢复工作文件 | 待实施 | — |
-| 05c | [V20-05](https://github.com/WeOpen/WeGit/issues/120) | 未跟踪文件可添加精确文件/目录/扩展名忽略规则，选择仓库 `.gitignore` 或本地 `.git/info/exclude`；预览匹配范围、转义和规则位置，保留注释/行尾/原有规则 | 待实施 | — |
+| 04a | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 选择两个提交/本地分支/远端跟踪分支/Tag 进行两点比较，先解析并固定实际对象；保留现有父提交比较作为默认快捷入口 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 04b | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 提供“共同祖先到目标分支”的范围比较，显示方向、共同祖先、待合入提交和文件；明确两点与共同祖先比较的不同语义 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 04c | [V20-04](https://github.com/WeOpen/WeGit/issues/119) | 支持文件筛选、重命名、根提交、Merge 多父和有界分页，复用 Unified/Split、磁盘差异与原文复制；缺对象/浅历史边界提示显式获取，不自动下载 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 05a | [V20-05](https://github.com/WeOpen/WeGit/issues/120) | 按原始差异选择行丢弃，支持预览、取消和备份恢复；默认仅修改工作文件，保留未选变化及索引 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 05b | [V20-05](https://github.com/WeOpen/WeGit/issues/120) | 从历史/比较恢复明确时点的单文件，区分恢复到工作文件、恢复到索引及两者；默认仅恢复工作文件 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 05c | [V20-05](https://github.com/WeOpen/WeGit/issues/120) | 未跟踪文件可添加精确文件/目录/扩展名忽略规则，选择仓库 `.gitignore` 或本地 `.git/info/exclude`；预览匹配范围、转义和规则位置，保留注释/行尾/原有规则 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
 | 06a | [V20-06](https://github.com/WeOpen/WeGit/issues/121) | 历史中选择有序的多个提交，预演 Cherry-pick/Revert 队列的顺序、当前分支及实际文件落点；执行前固定全部提交和起点，不默认自动 Stash | 待实施 | — |
 | 06b | [V20-06](https://github.com/WeOpen/WeGit/issues/121) | Merge 提交提供可理解的 mainline 父提交选择与对应差异；不把用户分支恒定解释为 OURS，也不根据显示顺序猜父提交 | 待实施 | — |
 | 06c | [V20-06](https://github.com/WeOpen/WeGit/issues/121) | 记录已完成、当前与剩余提交；重复冲突、空变更、edit/消息停点、Hooks/签名失败和重开形成继续/跳过/中止闭环 | 待实施 | — |
-| 07a | [V20-07](https://github.com/WeOpen/WeGit/issues/122) | 导出任意比较、选定文件及已暂存/未暂存的原始补丁；支持 Git 文本/二进制补丁，二进制仅文件级 | 待实施 | — |
-| 07b | [V20-07](https://github.com/WeOpen/WeGit/issues/122) | 导入标准补丁，显示路径、状态、目标层与预检查结果；默认应用到工作文件，应用到索引为明确独立选择 | 待实施 | — |
+| 07a | [V20-07](https://github.com/WeOpen/WeGit/issues/122) | 导出任意比较、选定文件及已暂存/未暂存的原始补丁；支持 Git 文本/二进制补丁，二进制仅文件级 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 07b | [V20-07](https://github.com/WeOpen/WeGit/issues/122) | 导入标准补丁，显示路径、状态、目标层与预检查结果；默认应用到工作文件，应用到索引为明确独立选择 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
 | 07c | [V20-07](https://github.com/WeOpen/WeGit/issues/122) | 导入单个/有序邮件提交补丁，使用受控 Git am 序列，预览作者/提交信息及文件；提供冲突继续/跳过/中止和重开识别，区分 Git am 与其他 rebase-apply 状态 | 待实施 | — |
 | 08a | [V20-08](https://github.com/WeOpen/WeGit/issues/123) | 从选定 Stash 创建分支，固定对象/起点/分支名；Apply 成功后才按明确选择删除记录，冲突及删除回执不确定时保留可核对状态 | 待实施 | — |
 | 08b | [V20-08](https://github.com/WeOpen/WeGit/issues/123) | 显式“保存当前任务并切换”，预览跟踪/未跟踪范围与目标，保留索引状态和草稿；保存成功、切换失败分别报告，不自动重复保存或丢弃 | 待实施 | — |
 | 08c | [V20-08](https://github.com/WeOpen/WeGit/issues/123) | 按仓库保存可清空的提交消息历史，去重并保护当前草稿；支持消息模板，读取配置来源和有界原文 | 待实施 | — |
-| 09a | [V20-09](https://github.com/WeOpen/WeGit/issues/124) | PNG/JPEG/WebP 两侧图片对照、尺寸/大小、缩放/平移及滑杆比较；透明图片有可读的背景，内容图像和颜色保持原样 | 待实施 | — |
-| 09b | [V20-09](https://github.com/WeOpen/WeGit/issues/124) | 普通图片、二进制、大文件和 LFS 指针分别展示；固定两侧对象，先检查压缩字节和解码像素预算，大图先缩略预览，原尺寸明确加载且可取消 | 待实施 | — |
-| 09c | [V20-09](https://github.com/WeOpen/WeGit/issues/124) | 特殊编码文本可明确选择阅读编码，解码失败/截断/无法可靠构造部分补丁时保留原始导出及文件级操作；不把替换字符后的显示文本写回仓库 | 待实施 | — |
+| 09a | [V20-09](https://github.com/WeOpen/WeGit/issues/124) | PNG/JPEG/WebP 两侧图片对照、尺寸/大小、缩放/平移及滑杆比较；透明图片有可读的背景，内容图像和颜色保持原样 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 09b | [V20-09](https://github.com/WeOpen/WeGit/issues/124) | 普通图片、二进制、大文件和 LFS 指针分别展示；固定两侧对象，先检查压缩字节和解码像素预算，大图先缩略预览，原尺寸明确加载且可取消 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
+| 09c | [V20-09](https://github.com/WeOpen/WeGit/issues/124) | 特殊编码文本可明确选择阅读编码，解码失败/截断/无法可靠构造部分补丁时保留原始导出及文件级操作；不把替换字符后的显示文本写回仓库 | 实现完成/待批次验收 | M2私有开发验证；托管待验 |
 | 10a | [V20-10](https://github.com/WeOpen/WeGit/issues/125) | 扩展仓库级 GPG/SSH 签名设置、现有密钥标识与工具检测，显示有效值/来源/继承/工作区覆盖；不存储或生成用户私钥 | 待实施 | — |
 | 10b | [V20-10](https://github.com/WeOpen/WeGit/issues/125) | 提交和 Tag 签名结果可查，区分验证通过、无签名、无公钥/无法验证、无效与信任不足；不把密码学有效等同于已信任身份，不自动联网获取密钥 | 待实施 | — |
 | 10c | [V20-10](https://github.com/WeOpen/WeGit/issues/125) | 保留现有身份/整合策略设置；新增编辑键限定为 `commit.gpgsign`、`tag.gpgsign`、`gpg.format`、`user.signingkey`、`gpg.program`、`gpg.ssh.allowedSignersFile`、`commit.template` 和 `core.excludesfile`，工具/文件路径按实际能力校验 | 待实施 | — |

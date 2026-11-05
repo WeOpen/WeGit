@@ -2,6 +2,172 @@ import Darwin
 import Foundation
 
 extension RepositoryService {
+    @concurrent public func prepareFileRestore(
+        revision: String, sourcePath: String, destinationPath: String? = nil,
+        layer: RecoveryLayer = .worktree
+    ) async throws -> FileModificationPlan {
+        try RecoveryFileIO.validate(sourcePath)
+        let path = destinationPath ?? sourcePath
+        try RecoveryFileIO.validate(path)
+        guard !revision.isEmpty, !revision.hasPrefix("-"), !revision.contains("\0"),
+            revision.utf8.count <= 8192
+        else { throw ModelFailure.invalidPath }
+        let commit = try await recoveryEngine.run(
+            ["rev-parse", "--verify", "--end-of-options", revision + "^{commit}"], in: location.root
+        ).text.removingLastNewline
+        guard GitObjectID.valid(commit) else { throw ModelFailure.changed }
+        let tree = try await recoveryEngine.run(
+            ["ls-tree", "-z", commit, "--", sourcePath], in: location.root, outputLimit: 128 * 1024
+        ).stdout
+        let rows = tree.split(separator: 0)
+        guard rows.count <= 1 else { throw ModelFailure.changed }
+        var mode: String?
+        var object: String?
+        var desired: RecoveryFileCapture
+        if let row = rows.first {
+            guard let tab = row.firstIndex(of: 9),
+                String(data: row[row.index(after: tab)...], encoding: .utf8) == sourcePath
+            else { throw ModelFailure.changed }
+            let fields = String(decoding: row[..<tab], as: UTF8.self).split(separator: " ").map(String.init)
+            guard fields.count == 3, fields[1] == "blob", ["100644", "100755", "120000"].contains(fields[0]),
+                GitObjectID.valid(fields[2])
+            else {
+                throw ModelFailure.unsupported(L10n.text("此历史对象不是普通文件或符号链接。"))
+            }
+            mode = fields[0]
+            object = fields[2]
+            let size = try await recoveryEngine.run(["cat-file", "-s", fields[2]], in: location.root).text
+                .removingLastNewline
+            guard let bytes = Int(size), (0...RecoveryBudget.bytes).contains(bytes) else {
+                throw RecoveryBudget.exceeded
+            }
+            let storage = try await SnapshotIO.run { _ in try SnapshotDirectory() }
+            let output = storage.url.appending(path: "blob-0")
+            _ = try await recoveryEngine.run(
+                ["cat-file", "blob", fields[2]], in: location.root, timeout: 120,
+                outputLimit: RecoveryBudget.bytes, stdoutFile: output)
+            let snapshot = try await SnapshotIO.run { cancellation in
+                let source = try SnapshotFile(directory: storage, url: output)
+                let input = try source.open()
+                defer { Darwin.close(input) }
+                let hash = try RecoveryFileIO.hashFile(
+                    input, expectedBytes: bytes, cancellation: cancellation)
+                return (try SnapshotFile(directory: storage, url: output, verifiedSHA256: hash), hash)
+            }
+            desired = RecoveryFileCapture(
+                file: RecoveryFile(
+                    path: path, kind: mode == "120000" ? .symbolicLink : .file,
+                    mode: mode == "120000" ? 0o777 : mode == "100755" ? 0o755 : 0o644,
+                    bytes: bytes, sha256: snapshot.1, storageName: "blob-0"), snapshot: snapshot.0,
+                version: nil, parents: [], missingParent: nil)
+        } else {
+            desired = try await RecoveryFileIO.replacement(path: path, data: nil, mode: 0o644)
+        }
+        return try await prepareFileModification(
+            path: path, desired: desired, operation: "file-restore", layer: layer,
+            sourceRevision: commit, sourceMode: mode, sourceObject: object)
+    }
+
+    @concurrent func prepareFileModification(
+        path: String, desired: RecoveryFileCapture, operation: String,
+        layer: RecoveryLayer, sourceRevision: String? = nil, sourceMode: String? = nil,
+        sourceObject: String? = nil,
+        selectedLines: Int? = nil, filterPath: String? = nil
+    ) async throws -> FileModificationPlan {
+        try await queue.perform {
+            try RecoveryFileIO.validate(path)
+            let context = try await recoveryContext()
+            let index = try SelectedIndexSnapshot.read(location: location)
+            let shared = try await captureRecoverySharedIndex(index)
+            let current = try await RecoveryFileIO.capture(location: location, path: path, name: "blob-0")
+            let candidate =
+                layer == .worktree
+                ? nil
+                : try await replacementIndex(path: path, mode: sourceMode, object: sourceObject, index: index)
+            let preview = try await RecoveryFileIO.preview(desired)
+            let final = try await recoveryContext()
+            guard final.head == context.head, final.branch == context.branch, desired.file.path == path,
+                try SelectedIndexSnapshot.read(location: location) == index
+            else { throw ModelFailure.changed }
+            try await RecoveryFileIO.verifyAll([current], location: location)
+            return FileModificationPlan(
+                id: UUID(), path: path, sourceRevision: sourceRevision, layer: layer,
+                selectedLineCount: selectedLines, originalBytes: current.file.bytes,
+                resultBytes: desired.file.bytes,
+                deletesFile: desired.file.kind == .absent, resultPreview: preview,
+                operation: operation, location: location,
+                head: context.head,
+                branch: context.branch, index: index, sharedIndex: shared, current: current, desired: desired,
+                candidateIndex: candidate, filterPath: filterPath, sourceObject: sourceObject)
+        }
+    }
+
+    public func executeFileModification(_ plan: FileModificationPlan) async throws -> RecoveryRecord {
+        try await withSharedOperation {
+            guard plan.location == location else { throw ModelFailure.changed }
+            let context = try await recoveryContext()
+            guard context.head == plan.head, context.branch == plan.branch,
+                try SelectedIndexSnapshot.read(location: location) == plan.index
+            else { throw ModelFailure.changed }
+            try await RecoveryFileIO.verifyAll([plan.current], location: location)
+            try await verifyRecoverySharedIndex(plan.sharedIndex)
+            if let filterPath = plan.filterPath { try await selectedLinesValidateFilter(filterPath) }
+            let store = try RecoveryStore(location: location)
+            try await trimRecovery(store)
+            var record = try await store.persist(
+                operation: plan.operation, head: plan.head, branch: plan.branch,
+                target: plan.sourceRevision, index: plan.index, files: [plan.current],
+                sharedIndex: plan.sharedIndex)
+            do {
+                record.indexTree = try await recoveryIndexTree(
+                    plan.index.bytes, shared: plan.sharedIndex, persist: true)
+                try store.save(record)
+                try await protectRecovery(record)
+                let lease = try SelectedIndexLease(location: location, snapshot: plan.index)
+                try await RecoveryFileIO.verifyAll([plan.current], location: location)
+                if let filterPath = plan.filterPath { try await selectedLinesValidateFilter(filterPath) }
+                let fresh = try await recoveryContext()
+                guard fresh.head == plan.head, fresh.branch == plan.branch else { throw ModelFailure.changed }
+                if plan.layer != .worktree, let object = plan.sourceObject,
+                    let snapshot = plan.desired.snapshot
+                {
+                    let written = try await recoveryEngine.run(
+                        ["hash-object", "-w", "--no-filters", "--", snapshot.url.path],
+                        in: location.root, configuration: [(key: "core.fsync", value: "loose-object")]
+                    ).text.removingLastNewline
+                    guard written == object else { throw ModelFailure.changed }
+                }
+                if let candidate = plan.candidateIndex { try lease.write(candidate) }
+                if plan.layer != .index {
+                    try await RecoveryFileIO.installAll(
+                        sources: [plan.desired], expected: [plan.current], location: location)
+                }
+                let final = try await recoveryContext()
+                guard final.head == plan.head, final.branch == plan.branch else { throw ModelFailure.changed }
+                try lease.verify()
+                if plan.candidateIndex != nil { try lease.install() }
+                if plan.layer != .index {
+                    try await RecoveryFileIO.verifyContentsAll([plan.desired], location: location)
+                }
+                let observed = try SelectedIndexSnapshot.read(location: location)
+                guard observed.bytes == (plan.candidateIndex ?? plan.index.bytes),
+                    observed.mode == plan.index.mode
+                else { throw ModelFailure.changed }
+                record.state = .succeeded
+                record.observedHead = plan.head
+                try store.save(record)
+                withExtendedLifetime(lease) {}
+                return record
+            } catch {
+                record.state = .needsVerification
+                record.details = Redaction.text(error.localizedDescription)
+                let saved = record
+                await Task.detached { try? store.save(saved) }.value
+                throw RecoveryOutcomeUnknown(recordID: record.id, details: error.localizedDescription)
+            }
+        }
+    }
+
     var recoveryEngine: GitEngine {
         var value = engine
         value.environment["GIT_NO_LAZY_FETCH"] = "1"
@@ -472,7 +638,7 @@ extension RepositoryService {
 
     /// These checks need repository identity and Git state, not a repeat content
     /// scan. Raw index and all affected/indexed entry versions are fenced separately.
-    private func recoveryContext() async throws -> (head: String?, branch: String) {
+    func recoveryContext() async throws -> (head: String?, branch: String) {
         async let head = head()
         async let symbolic = recoveryEngine.run(
             ["symbolic-ref", "--quiet", "HEAD"], in: location.root, accepted: [0, 1])
@@ -515,7 +681,11 @@ extension RepositoryService {
         "refs/wegit/recovery-index/" + record.id.uuidString.lowercased()
     }
 
-    private func protectRecovery(_ record: RecoveryRecord) async throws {
+    func pendingRecoveryIndexRef(_ record: RecoveryRecord) -> String {
+        "refs/wegit/recovery-target/" + record.id.uuidString.lowercased()
+    }
+
+    func protectRecovery(_ record: RecoveryRecord) async throws {
         var commands = ["start"]
         if let head = record.head {
             try await verifyCommit(head)
@@ -523,6 +693,9 @@ extension RepositoryService {
         }
         if let tree = record.indexTree {
             commands.append("create " + recoveryIndexRef(record) + " " + tree)
+        }
+        if let tree = record.pendingIndexTree {
+            commands.append("create " + pendingRecoveryIndexRef(record) + " " + tree)
         }
         if commands.count > 1 {
             commands += ["prepare", "commit"]
@@ -538,6 +711,7 @@ extension RepositoryService {
         var commands = ["start"]
         for (ref, object) in [
             (recoveryRef(record), record.head), (recoveryIndexRef(record), record.indexTree),
+            (pendingRecoveryIndexRef(record), record.pendingIndexTree),
         ] {
             guard let object else { continue }
             let symbolic = try await recoveryEngine.run(
@@ -559,7 +733,7 @@ extension RepositoryService {
         try await SnapshotIO.run { _ in try store.remove(record) }
     }
 
-    private func trimRecovery(_ store: RecoveryStore, preserving: UUID? = nil) async throws {
+    func trimRecovery(_ store: RecoveryStore, preserving: UUID? = nil) async throws {
         let records = try await SnapshotIO.run { _ in try store.records() }
         for (index, record) in records.enumerated()
         where record.id != preserving && (record.state == .succeeded || record.state == .restored) {

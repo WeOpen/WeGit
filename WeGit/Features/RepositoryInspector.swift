@@ -151,6 +151,12 @@ struct RepositoryInspector: View {
                 }
             }
         }.background(colors.sidebar)
+            .onChange(of: app.workspace.inspectorResourcesRequestID, initial: true) { _, request in
+                guard request != nil else { return }
+                tab = .resources
+                resourceRefreshID = UUID()
+                app.workspace.inspectorResourcesRequestID = nil
+            }
             .task(id: "\(session.id):\(session.statusRenderID):\(tab):\(resourceRefreshID)") {
                 guard tab == .resources else { return }
                 await loadResources()
