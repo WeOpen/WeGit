@@ -262,7 +262,9 @@ extension RepositoryService {
     public func executeReset(_ plan: ResetPlan) async throws -> RecoveryRecord {
         try await withSharedOperation {
             guard plan.location == location else { throw ModelFailure.changed }
+            async let command = resetCommandArguments(plan)
             try await validateReset(plan)
+            let resetArguments = try await command
             let store = try RecoveryStore(location: location)
             try await trimRecovery(store)
             var record = try await store.persist(
@@ -276,7 +278,7 @@ extension RepositoryService {
                 try await protectRecovery(record)
                 try await validateReset(plan)
                 _ = try await recoveryEngine.run(
-                    ["reset", "--" + plan.mode.rawValue, "--no-recurse-submodules", plan.target.id],
+                    resetArguments,
                     in: location.root, timeout: 120)
                 let observed = try await verifyResetResult(plan)
                 record.state = .succeeded
@@ -296,6 +298,21 @@ extension RepositoryService {
                 throw RecoveryOutcomeUnknown(recordID: record.id, details: details)
             }
         }
+    }
+
+    /// Parallel checkout is bounded and only used for substantial hard resets.
+    /// An explicit repository/global/system worker setting remains authoritative.
+    private func resetCommandArguments(_ plan: ResetPlan) async throws -> [String] {
+        let arguments = ["reset", "--" + plan.mode.rawValue, "--no-recurse-submodules", plan.target.id]
+        let processors = ProcessInfo.processInfo.activeProcessorCount
+        guard plan.mode == .hard, plan.captures.count >= 128, processors > 1,
+            plan.captures.reduce(0, { $0 + $1.file.bytes }) >= 16 * 1024 * 1024
+        else { return arguments }
+        let configured = try await recoveryEngine.run(
+            ["config", "--get", "checkout.workers"], in: location.root,
+            accepted: [0, 1], outputLimit: 16 * 1024)
+        guard configured.exitCode == 1 else { return arguments }
+        return ["-c", "checkout.workers=\(min(4, processors))"] + arguments
     }
 
     private func verifyResetResult(_ plan: ResetPlan) async throws -> (head: String?, branch: String) {
