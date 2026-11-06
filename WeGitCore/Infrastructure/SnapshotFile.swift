@@ -34,6 +34,14 @@ final class SnapshotDirectory: @unchecked Sendable {
             }
         }
     }
+
+    func validate() throws {
+        var info = stat()
+        guard lstat(url.path, &info) == 0, info.st_dev == device, info.st_ino == inode,
+            info.st_mode & UInt16(S_IFMT) == UInt16(S_IFDIR), info.st_uid == getuid(),
+            info.st_mode & 0o077 == 0
+        else { throw ModelFailure.changed }
+    }
 }
 
 public enum DiffSnapshotStorage {
@@ -132,8 +140,11 @@ struct SnapshotFile: Sendable {
     let directory: SnapshotDirectory
     let url: URL
     let stamp: SnapshotFileStamp
+    /// A digest of bytes already read and verified for this exact immutable stamp.
+    /// General diff snapshots have no digest and must hash before a clone is trusted.
+    let verifiedSHA256: String?
 
-    init(directory: SnapshotDirectory, url: URL) throws {
+    init(directory: SnapshotDirectory, url: URL, verifiedSHA256: String? = nil) throws {
         var info = stat()
         guard lstat(url.path, &info) == 0, info.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG),
             info.st_size >= 0
@@ -141,6 +152,7 @@ struct SnapshotFile: Sendable {
         self.directory = directory
         self.url = url
         stamp = SnapshotFileStamp(info)
+        self.verifiedSHA256 = verifiedSHA256
     }
 
     func open() throws -> Int32 {

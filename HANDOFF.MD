@@ -1,5 +1,92 @@
 # WeGit 开发交接
 
+## 2026-11-06 M1 原后端预算通过与包体积修补
+
+- 固定56f863a的CI42168490552实际三种Git各299测试/48套件通过（259.896/159.458/202.530秒），隔离签名与功能、原性能、应用/UI测试源编译均成功；package在60MiB安装预算失败，整轮仍失败。原413440bytes native ZIP/50CRC/SHA33db2719…和69019bytes receipts/6CRC/SHA472ebe56…均保留于.build/v2-m1/final-profile/hosted-42168490552。原普通/大型各30样本独立重算，大型p95预览1225.69ms、Reset1591.04ms、恢复预览991.97ms、恢复1070.53ms，取消1.01ms/RSS24,379,392bytes；原2000ms不变，这仍不替代原生实际XCTest或完整版本验收。
+- 本机原始Universal Release实际64,910,877bytes，主程序46,010,704bytes、AskPass12,501,472bytes；不是资源预算应放宽。只对Release/ReleasePerformance启用系统DEPLOYMENT_POSTPROCESSING、STRIP_INSTALLED_PRODUCT、non-global符号剥离及COPY_PHASE_STRIP，Debug保留原配置。新包32,520,813bytes，实际DMG18,084,300bytes/SHAa86a4d5c2c00365d22ce2f226aa28c9f5880a8412b8dcc253df9621d4e781bc5；两个架构/26.0 minos、源回执、严格签名、只读挂载及Applications链接均核对，所有原预算保留。
+- 主程序与AskPass的arm64/x86_64 dSYM UUID均与剥离后程序相同，保留独立符号化资料。未变Core147项、签名106项和性能119项输入与56f863a逐Git blob相同；该修补仅配置和包输入，受影响阶段集中重验，不额外重跑未变后端。开发DMG显式workspaceDirty，源码证明和原始数据在.build/v2-m1/final-profile；不把本机包测试改写成托管通过。
+- M4工作区开发已独立保存到stash，确切OID在.build/v2-m4/wip-stash-sha.txt，完整patch/清单保留。恢复时回codex/v2-m4-workspaces-and-delivery并按该OIDapply，不能用drop或覆盖主检出。主PBX当前SHA1343632f188d600b0111634b939732f3ae618021e9192e4c43a73e3fe52c66f9保持。当前M4私有预览仍可运行，用户的WindowFlow历史窗口置前请求待答；不要动真实WeGit进程或用户域。原始URI自动审查拒绝边界继续保留，heartbeat未恢复。
+
+## 2026-11-06 M1 有界核对与恢复预览候选
+
+- 最新实际托管失败仍为固定bcf8666的CI42043325839：三种Git各294测试/48套件、签名及功能通过；大型30样本p95预览1606.41ms、Reset2385.34ms、恢复预览2130.95ms、恢复2104.56ms，原2000ms预算未改变。应用/UI编译与包未执行；主检出.build/v2-m1/failed-native-8的原ZIP/CRC/SHA及独立重算继续保留。
+- Reset后的工作文件核对先固定实际索引及全部普通路径版本，大型且参数有界时最多两组Git diff，末尾再核对所有文件、索引、HEAD/分支及序列状态。已有且不同inode的普通叶子恢复最多四批；新目录、链接、别名及相关路径仍串行，身份、内容SHA和逐文件/父目录fsync不删。
+- 恢复预览把上下文、拆分索引查询、冲突查询、原索引读取和备份捕获重叠，当前内容捕获仍先取得拆分索引的准确剩余预算。冲突结果优先阻断并取消临时读取；全部子任务结束后统一重验文件/共享索引/原索引及Git上下文。已保存树的40/64位OID只提供隔离Git目录的对象格式，write-tree仍实际重算原始备份索引并比较完整OID；没有替换成信任元数据。快照目录也在整个捕获结束后统一核对。
+- 本机Release模块及五项新增Core测试源编译通过，严格格式通过，未执行XCTest。新独立非XCTest控制6条、旧控制2条及SHA-1/SHA-256×完整/拆分索引4种GC后恢复均实际通过；覆盖原字节/权限/索引、分组后编辑、预览期间并发暂存、新目录和替换临时存储拒绝。普通/大型各2个串行Release开发样本满足原门槛；大型最大预览507.82ms、Reset959.95ms、恢复预览463.73ms、恢复712.93ms、取消0.75ms、RSS26,574,848bytes。这不是30样本、UI或版本验收，文件系统缓存未控制。
+- .build/v2-m1/final-profile保留原/新阶段数据、12条控制、4个开发样本、96项模块/资源输入与测试源/静态链接对象SHA。CommonCrypto流式SHA和每批独立快照目录两次源码实验没有稳定端到端提升，均已撤回；原JSON、日志和patch保留，不能用内存微基准宣称产品提升。M1的RecoveryCaptureResults为文件私有类型，跨文件结果使用独立RecoveryInstallResults；空返回字典需明确Sendable元素类型。ModelFailure不符合Equatable，Testing的throws值宏不能直接传.changed，使用throws类型检查。单独链接Release CLI必须把资源bundle复制到程序旁，且SwiftPM当前输出为.build/out，先查询实际bin路径。
+- 实际修补工作树为/Users/willxue/.codex/worktrees/v2-m1-validation-fix/WeGit，候选从远端PR132的真实bcf8666继续，不以本地旧0915404覆盖远端。后续M2固定6096236/草稿PR134、M3固定cee02a4/草稿PR135；稳定候选只统一送一次受影响托管批次，等待时继续M4/M5并保持父批次栈。主检出主题/网站PR133和用户PBX差异独立，PBX当前SHA1343632f188d600b0111634b939732f3ae618021e9192e4c43a73e3fe52c66f9未变；用户已置前的M3邮件原生复验已结束，不重复请求。heartbeat未恢复。
+
+## 2026-11-05 M1 阶段并发修补与独立控制
+
+- 最新实际失败仍为固定0915404的CI41909998480：三套Git各292/48、隔离签名和功能通过，大型30样本的预览2011.77ms、Reset2271.36ms、恢复预览2043.28ms超2000ms；应用/UI编译及包未执行。原失败与原预算保留，不用旧同输入通过覆盖。
+- 硬Reset先固定全部已索引文件版本，再将固定目标已知的受影响文件捕获与Git status重叠；额外脏路径使用剩余单项预算及独立storageOffset，组合排序但不复用存储名。恢复索引先读取/核对原始备份，再与文件捕获重叠验证索引树。摘要读取仍最多2批，逐文件fsync的持久化最多4批；Git写入仍等完整备份、保护引用与写前重新校验。
+- 并发的index/worktree比较必须绑定同一原始索引版本，并显式GIT_OPTIONAL_LOCKS=0，避免自身刷新stat缓存。否则外部进程在两次比较之间暂存相同工作内容时，两次Git比较都可能显得干净。末尾重新核对索引、HEAD/分支和序列状态；未知结果保留needsVerification。配置后的GitEngine应冻结为let再进入多个async let，避免Swift的并发可变捕获编译错误。
+- 独立非XCTest控制已实际核对：目标与额外脏文件的两组备份有独立名称，准确恢复CRLF/无末尾换行文件及原始索引；比较间隙的并发暂存被拦截且保留未知结果。新增2项Core测试源只编译。Debug测试源、Release诊断模块与严格格式通过。
+- .build/v2-m1/profiled-diagnostic保留99项前后不变输入证明、编译/运行日志及JSON。普通/大型各2个开发样本满足原门槛，大型最大预览749.85ms、Reset1210.96ms、恢复预览1450.98ms、恢复1090.78ms、取消0.85ms、RSS24,461,312bytes；此为未提交阶段的少量开发诊断，不是30样本或版本验收。并行检出两次为297.25/1329.47ms，结果不稳定，未引入产品checkout.workers改动。
+- M2仓库工具已按当前M1前置固定b812293并推送草稿PR134；主题/网站PR133与主检出用户PBX差异仍独立。本修补固定候选只统一送验一次，等待时继续M3，不逐子任务重验。
+
+## 2026-11-05 M1 性能新失败与批次来源读取修正
+
+- CI41891234568固定ac9613b：后端输入与f9f5250相同，仅证据读取器变化；实际仍重跑，三套291/48、签名与功能通过，但大型30样本Reset p95 2041.25ms、恢复预览2124.02ms超出2000ms。应用/UI编译和包未执行。原175,580bytes/32CRC/SHA80c7353d…ZIP及36,241bytes/4CRC回执在主检出.build/v2-m1/failed-native-6保留；较新真实失败不得用旧同输入通过遮盖。
+- 证据抓取使用depth=1后，revision walk不提供合成提交父对象；现在读取commit原始header，不依赖可变PR头或显示父对象。浅提交夹具使用commit-tree显式双父，来源校验与较新失败阻断测试通过；真实GitHub只读诊断已复用Core/签名/功能，明确阻断旧性能回执。118项工具检查通过。
+- 备份持久化与备份捕获改为最多2个有界批次，临时目录描述符单次固定且开始/结束验证；逐文件类型、模式、摘要、落盘及源版本检查保留。新增并行捕获坏备份不写仓库的测试源，只编译。本机普通/大型各2样本开发诊断通过，大型最大预览728.73ms、Reset837.31ms、恢复预览410.45ms、恢复701.67ms；不是30样本或版本证据，原门槛不变，共享I/O修改集中回归。
+
+## 2026-11-05 M1 实际后端通过与原生前置格式修补
+
+- 固定f9f5250的CI41854802990第三次已实际执行：Apple/最低/Homebrew Git各291测试、48套件通过，344.193/176.665/171.044秒；隔离OpenPGP各9项与功能通过。普通/大型各30样本按原门槛独立重算；大型p95预览1673.02ms、Reset1949.90ms、恢复预览1572.09ms、恢复1469.72ms，取消1.37ms/RSS23,691,264bytes。2000ms预算不变，余量有限，不能推定全应用或最终版本性能。
+- 后续application入口2.772秒失败在Swift格式检查，RecoverySheet三处多闭包调用未满足OnlyOneTrailingClosureArgument；应用/UI测试源编译和包均未执行，不是XCTest失败。原232,125bytes/39CRC/SHA500d4cbf…native ZIP、52,638bytes/5CRC回执ZIP和372唯一Git输入/5日志SHA核对在主检出.build/v2-m1/failed-native-5保留。仅将三个operation闭包显式写入参数，不改恢复行为。
+- 原批次复用只找整轮success，导致后端已通过而后续视图格式失败时重复长流程。现在固定canonical workflow/同仓库PR、实际成功阶段和执行来源，失败/跳过阶段仍拒绝；原回执/执行计数不重写。仅证据读取器变动时，从源Git blob核对所有执行声明AST一致，再保留原输入与当前输入的独立等价证明；其他入口/源码/工具链变化仍实际执行。116项工具检查通过，本机未执行XCTest。
+- M2仓库工具继续在managed检出独立开发，主主题/网站PR133与用户PBX差异不混入本修补。新的真实原生操作仍等待用户解锁Mac，网页外部URI继续遵守原自动安全拒绝。
+
+## 2026-11-04 M1 第四轮结果与完整索引保护
+
+- 固定229facf的CI41829276861：三套Git各282/48通过（390.475/126.195/176.620秒），隔离签名与功能通过；普通30样本通过，大型30样本仍超预算：预览2276.24ms、Reset3425.64ms、恢复预览2746.72ms、恢复2166.23ms，取消1.15ms/RSS22,396,928bytes通过。应用/UI编译、包未执行。173,608bytes/32CRC原ZIP与SHA7e4d3795…保留主检出.build/v2-m1/failed-native-4，不记通过。
+- 重复status会再次读取同尺寸脏文件；硬Reset改为status前固定全部已索引普通路径版本（最多100000），预览/写入前逐版本重验，包括原来干净而不在备份清单中的文件。HEAD/实际分支/序列标记、原索引字节、目标ref及符号链接父路径检查保留；恢复源与当前文件独立并行读取，捕获/最终摘要各最多2批，共用单项字节预算，安装仍顺序执行。取消/未跟踪阻挡保护未删除。
+- 原提交引用不能保护新暂存blob。记录新增可选indexTree与sharedIndex：隔离Git目录读取原索引/拆分依赖，预览树只写临时对象库，写入前的保护树/松散对象落盘后以私有ref保留。两类私有ref原子创建/清理并CAS检查，失配不删除另一类保护；恢复仅校验所选层，不因未选工作备份损坏阻断索引恢复。索引/链接原权限分别恢复，包含新目录/索引安装后的fsync。
+- 独立私有仓库诊断实核SHA-1/SHA-256×完整/拆分索引四种组合，gc --prune=now后原暂存对象、工作字节、原索引字节/600权限恢复；不是XCTest。新增原干净文件变更、序列插入、GC、拆分依赖、分层损坏、并行预算、链接权限及成对ref清理保护测试源，本机只编译。普通/大型各2样本最后开发诊断约129/770ms预览、214/915ms Reset、116/721ms恢复预览、185/820ms恢复；原30样本/2000ms预算不变，下一固定候选集中送验。
+
+
+## 2026-11-04 M1 大型恢复性能定位与快照优化
+
+- 固定df73872的CI41818471026：Apple/最低/Homebrew Git分别277测试/48套件通过，374.543/185.268/182.813秒；Apple/Homebrew隔离OpenPGP各9通过，功能作业通过。大型恢复性能失败，应用/UI编译和包未执行；原native ZIP/CRC/SHA与JSON保留主检出.build/v2-m1/failed-native-3。普通100文件/16,751,600bytes通过；大型1000文件/268,179,000bytes的p95预览2509.23ms、Reset5152.44ms、恢复预览2753.78ms、恢复5163.27ms，不能提高2000ms预算或将旧性能项标绿。
+- 第一轮COW/批量调度的本机独立2样本诊断仍失败：大型预览约1527ms、Reset2434ms、恢复2700ms。此为未提交工作区开发诊断，不是30样本托管验收；结果单独标记uncommittedDevelopmentDiagnostic。失败保留，不重复完整XCTest或包流程。
+- 工作文件捕获/校验/安装改为单次有取消标记的批量I/O；常规文件以fclonefileat固定描述符写时复制，EXDEV/ENOTSUP/EINVAL仍走64KiB流；符号链接只读链接文本。临时预览不承担持久化，RecoveryStore在Git写入前逐备份文件fsync并同步目录，权限修改后也同步；新增/删除父目录保持落盘。
+- 不可变SnapshotFile的已验证SHA绑定原inode/大小/mtime/ctime。COW复制前后核对原stamp才复用摘要；没有摘要时实际计算，流复制实际重新计算。备份读取与恢复后内容仍重新摘要，不能把任意持久化文件或变化后的快照当作缓存。只读源用只读描述符哈希并fchmod，避免O_RDWR使444文件失败。新增快照独立性、流复制取消和变化后摘要失效测试源，本机仅编译，实际执行交给稳定托管批次。
+- 只读批次用RepositoryReadFence固定根描述符并在开始/结束验证全部重定向身份；各文件仍核对父目录、叶子及打开描述符，结果必须通过批次末尾校验。实际写入仍逐项核对身份。Reset索引验证直接diff-index --cached比较全部对象/模式，显式含gitlink/intent-to-add，不再为验证额外write-tree写对象。新增根替换和Reset后外部索引篡改保护源测试；本机共新增5项只编译。
+- 最后独立2样本开发诊断的普通/大型均满足原门槛；大型最大预览1384.19ms、Reset1739.01ms、恢复预览1587.59ms、恢复1328.40ms、取消0.66ms、RSS24,150,016bytes。原始JSON位于managed检出.build/v2-m1/io-diagnostic/result-final.json，显式未提交开发诊断；不能当作30样本p95、完整托管或版本通过。共享Reader/Snapshot变化需集中回归，稳定修补候选准备送验。
+
+
+## 2026-11-04 M1 第二轮真实结果与构建前置修正
+
+- CI41814318775（固定5fecbba）三套Git各277/48通过，分别242.900/184.779/185.102秒；OpenPGP Apple/Homebrew各9项通过。功能作业失败在DiffReadCancellationChecks读取Debug WeGit模块/对象之前，性能/应用UI编译/包未执行；86,435bytes/15CRC原native ZIP及SHA1639697c…保留.build/v2-m1，失败不改记通过。
+- M0拆分core/application时漏掉旧verify.sh先Debug build的依赖。behavior入口现在先build.sh Debug，保证AppState检查使用同源模块/对象/receipt；回执不是构建artifact，不能靠缓存可能有文件替代前置。新增真实临时脚本依赖调度测试。共享执行入口变化按规则扩大回归，不删除原检查或报绿。
+- 修补使用managed检出v2-m1-validation-fix（从最新5fecbba，包含当前16模块/62子任务计划），主目录M2源码和用户PBX差异均未移动。M2继续独立开发，仍不逐项验收。
+
+## 2026-11-04 M1 托管首轮失败与夹具修正
+
+- 固定e01994b的CI41812363924真实失败于Apple Git Core：277测试/48套件、326.427秒、1问题；最低Git/Homebrew/签名/功能/性能/应用编译/包未执行，不计通过。原native ZIP/CRC/SHA及core.log/source回执保留.build/v2-m1。
+- RecoveryTests的ignoredObstacles夹具先git rm暂存删除，再调用会对所有status路径git add的Fixture.commit，已不存在路径导致fatal pathspec。这是准备阶段错误，尚未进入Reset。改为service.commit直接提交已暂存删除，保护断言保持；本机仅测试源编译。稳定修补后统一重验Core及未执行范围，不重开各子任务。
+- M2的AppPreferences/CustomTheme未提交改动已在.build/v2-m2/wip.patch独立备份，修补提交只纳入M1测试/进度文档，用户PBX 4+4差异继续独立。API运输逐blob/tree/commit保留原author/committer时区后与本地SHA完全相等，再以旧head lease移动分支；不重写为不同提交。
+
+## 2026-11-04 M1 开发验证与稳定批次准备
+
+- PR132草稿head623d7c8的CI41803616136已实核：Native/前端/Core编译/site无runner、0步骤；Repository policy明确因awaits batch validation失败。轻量PR/仓库工具通过，112项工具保持。此为调度验收，不能说后端/版本通过；稳定head之后只ready一次。
+- 本机无XCTest。独立Bundle ID的原生预览用自己的UITests偏好域、内存最近列表和私有临时仓库；Cua取消/Hard Reset/两层恢复实际逐字节核对HEAD、索引、CRLF/无末尾换行工作文件及恢复引用。截图/AX在本聊天，原始JSON/摘要在.build/v2-m1。未借真实仓库、凭据或系统保护验收。
+- 菜单AX条目会在两次工具调用之间消失；读取打开菜单后用原生Down/Return可进入Reset，不为工具瞬时索引改产品语义。渲染发现重复Picker标签/选中行黑字/成功后无下一步，已改为隐藏重复标签、使用selectionText、保留结果并在dismiss回调接续恢复入口。
+- 大备份所有文件共用一次临时快照目录，避免每文件目录/回收线程；64KiB复制仍逐文件fsync/摘要核对，不以缓存替代原字节。先校验各项大小再求总计，损坏记录不能整数溢出。导出创建新私有目录，原已存在导出不覆写。
+- Gitlink不能按普通文件或完全跳过路径保护：已配置子模块只允许真实目录叶子且父路径不跟随symlink，no-recurse保持子仓库HEAD/脏文件；新gitlink路径的未跟踪文件及gitlink/普通文件替换在Hard前拒绝。对应隔离Core测试已加入，实际执行待托管批次。
+- 新Reflog分页固定日志文件版本，外部追加使旧下一页失效；branch Reset固定目标OID并重验来源ref，不能把更新过的分支名称当作原确认。01d逐页全矩阵、完整VoiceOver、Intel/macOS26实机与最终性能/交付仍独立待验。
+- 原推送75001ms连接失败，任务单次HTTP/1.1/有界low-speed选项后6.9秒成功；未改全局Git、代理或认证。用户原PBX的4+4差异仍单独未暂存。
+
+## 2026-11-04 v2.0 M1 恢复基础实施中
+
+- M0 PR131正常合入mainfc9afa7，CI41797958554的policy/工具真实通过，Native/前端/Core编译/site均0步骤无runner。M1接续同一主计划，草稿中间提交不作为验收；代码/测试源继续实现，不逐项送重验。
+- Reset分开Soft/Mixed/Hard；原工作文件按64KiB流复制、独立摘要与模式，索引原字节另存，备份完整且重新核对HEAD/分支/索引/文件后才执行。256MiB上限包括索引，规模夹具预留索引空间，不在失败后放宽。
+- 恢复记录先落盘再复制，复制中断仍可识别为prepared，Git尚未执行；异常/丢回执保存needsVerification且不自动重复。私有refs/wegit/recovery保留原提交，清理同范围引用时CAS核对原OID；普通历史只采用已有heads/remotes/tags，私有引用不泄露成导航标签。
+- Reflog的commit日期不是操作日期；用date=unix的gD读取条目时间。同秒同对象可重复，UI标识另包含分页位置，写入仍只绑定OID，不能拿显示序号写仓库。Hard Reset显式no-recurse-submodules，忽略/未跟踪阻挡、目录/符号链接父路径在写入前保护。
+- 新UI/测试文件只定向增加PBX引用；用户原InteractiveRebase ID差异保持在工作文件，暂存用去除此原差异的独立blob，不混入开发PR。原始d08f03…摘要文件及user-pbx.patch在.build/v2-m0/original保留。
+- 本机目前仅Core/测试源和原生build-for-testing编译、双语覆盖；未执行XCTest或宣称实际行为/页面/性能通过。新恢复行为与30串行普通/大型Release性能夹具由稳定批次托管执行。
+
 ## 2026-11-04 v2.0 M0 批次校验工程实施
 
 - 当前批次 `codex/v2-m0-batch-validation` / Issue115；16模块已映射Issue115～130，62子任务逐项在 `docs/V2_0_PROGRESS.md` 记录；预算与恢复/窗口/主题/更新契约冻结于 `docs/V2_0_CONTRACTS.md`。新增功能与版本交付尚未验收，继续M1～M5。

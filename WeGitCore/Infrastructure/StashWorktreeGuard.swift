@@ -5,8 +5,10 @@ import Foundation
 /// Probe every materialized path without following links before asking Git to write.
 /// File/directory replacements that cannot preserve every unsaved entry are rejected.
 enum StashWorktreeGuard {
-    static func validate(paths: Set<String>, tracked: Set<String>, location: RepositoryLocation) async throws
-    {
+    static func validate(
+        paths: Set<String>, tracked: Set<String>, location: RepositoryLocation,
+        allowedDirectories: Set<String> = []
+    ) async throws {
         try await SnapshotIO.run { cancellation in
             try location.validateIdentity()
             let root = Darwin.open(location.root.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
@@ -38,6 +40,10 @@ enum StashWorktreeGuard {
                     }
                     let kind = info.st_mode & UInt16(S_IFMT)
                     if index == components.count - 1 {
+                        if allowedDirectories.contains(path) {
+                            guard tracked.contains(path), kind == UInt16(S_IFDIR) else { throw reject() }
+                            return
+                        }
                         guard tracked.contains(path), [UInt16(S_IFREG), UInt16(S_IFLNK)].contains(kind) else {
                             throw reject()
                         }

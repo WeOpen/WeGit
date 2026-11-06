@@ -11,13 +11,16 @@ case "${1:-}" in
     ;;
   signing) scripts/verify-gpg-compatibility.sh ;;
   behavior)
+    # AppState checks link the Debug module/objects and its source receipt.
+    # A validation receipt is not a build artifact; build the prerequisite here.
+    scripts/build.sh Debug
     scripts/verify-preference-migration.sh
     scripts/ci/native-behavior.sh behavior
     ;;
   performance) scripts/ci/native-behavior.sh performance ;;
   application)
     swift format lint --strict --recursive WeGit WeGitUITests WeGitPerformanceTests
-    swift format lint --strict scripts/*.swift
+    swift format lint --strict scripts/*Checks.swift scripts/*Performance.swift scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift
     python3 scripts/verify-localization.py
     scripts/build.sh Debug
     xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Debug \

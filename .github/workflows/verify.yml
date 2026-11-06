@@ -166,6 +166,7 @@ jobs:
             .build/*-checks-*/result.json
             .build/worktree-read-performance-*/result.json
             .build/rebase-performance-*/result.json
+            .build/recovery-performance-*/result.json
             .build/conflict-editor-performance-*/result.json
             .build/interactive-rebase-performance-*/result.json
             .build/submodule-lfs-performance-*/result.json

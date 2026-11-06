@@ -5,6 +5,7 @@ case "$scope" in all|behavior|performance) ;; *) exit 2 ;; esac
 # Older revisions do not contain every feature. Once a feature is present its
 # behavior check is mandatory; a missing checker is an error, not a silent skip.
 for pair in \
+  WeGitCore/GitCore/RecoveryService.swift:scripts/verify-recovery-performance.sh \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase.sh \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase-performance.sh \
   WeGitCore/GitCore/ConflictEditorService.swift:scripts/verify-conflict-editor.sh \

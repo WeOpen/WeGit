@@ -479,6 +479,15 @@ final class AppState {
     var remoteManagementPresented = false
     var tagCreationRequest: TagCreationRequest?
     var singleCommitRequest: SingleCommitRequest?
+    var resetRequest: ResetRequest?
+    var recoveryBrowserRequest: RecoveryBrowserRequest?
+    var pendingRecoveryAfterReset: RecoveryBrowserRequest?
+
+    func resetDidDismiss() {
+        guard let request = pendingRecoveryAfterReset else { return }
+        pendingRecoveryAfterReset = nil
+        if request.session === session { recoveryBrowserRequest = request }
+    }
     var selectedLinesRequest: SelectedLinesRequest?
     var conflictEditorRequest: ConflictEditorRequest?
     var blameRequest: BlameRequest?
@@ -510,6 +519,9 @@ final class AppState {
     private static var isUITesting: Bool {
         #if DEBUG || WEGIT_PERFORMANCE
             ProcessInfo.processInfo.arguments.contains("--uitesting")
+                || (ProcessInfo.processInfo.environment["WEGIT_UI_TEST_PREVIEW"] == "1"
+                    && ProcessInfo.processInfo.environment["WEGIT_UI_TEST_PREFERENCE_DOMAIN"]?
+                        .hasPrefix("com.willxue.wegit.UITests.") == true)
         #else
             false
         #endif
@@ -518,9 +530,19 @@ final class AppState {
     /// Standalone model checks can own a private preference domain.
     init(defaultsOverride: UserDefaults? = nil) {
         let testing = Self.isUITesting
+        var testingDomain = "com.willxue.wegit.UITests"
+        #if DEBUG
+            if testing,
+                let requested = ProcessInfo.processInfo.environment["WEGIT_UI_TEST_PREFERENCE_DOMAIN"],
+                requested.hasPrefix(testingDomain + "."), requested.count <= 128,
+                requested.allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "." || $0 == "-") })
+            {
+                testingDomain = requested
+            }
+        #endif
         if !testing, defaultsOverride == nil { PreferenceMigration.migrateStandardPreferences() }
         defaults =
-            defaultsOverride ?? (testing ? UserDefaults(suiteName: "com.willxue.wegit.UITests")! : .standard)
+            defaultsOverride ?? (testing ? UserDefaults(suiteName: testingDomain)! : .standard)
         #if DEBUG
             let preserveTestPreferences =
                 testing && ProcessInfo.processInfo.arguments.contains("--uitesting-keep-preferences")
@@ -528,7 +550,7 @@ final class AppState {
             let preserveTestPreferences = false
         #endif
         if testing && !preserveTestPreferences && defaultsOverride == nil {
-            defaults.removePersistentDomain(forName: "com.willxue.wegit.UITests")
+            defaults.removePersistentDomain(forName: testingDomain)
         }
         preferences = AppPreferences(defaults: defaults)
         let authentication = AuthenticationController()
