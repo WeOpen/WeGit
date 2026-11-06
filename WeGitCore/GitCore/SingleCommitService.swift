@@ -2,13 +2,16 @@ import Darwin
 import Foundation
 
 extension RepositoryService {
-    @concurrent public func prepareSingleCommit(_ operation: SingleCommitOperation, target: String)
+    @concurrent public func prepareSingleCommit(
+        _ operation: SingleCommitOperation, target: String, mainline: Int? = nil
+    )
         async throws -> SingleCommitPlan
     {
-        try await queue.perform { try await singleCommitPlan(operation, target: target) }
+        try await queue.perform { try await singleCommitPlan(operation, target: target, mainline: mainline) }
     }
 
-    private func singleCommitPlan(_ operation: SingleCommitOperation, target: String) async throws
+    func singleCommitPlan(_ operation: SingleCommitOperation, target: String, mainline: Int? = nil)
+        async throws
         -> SingleCommitPlan
     {
         try location.validateIdentity()
@@ -18,8 +21,12 @@ extension RepositoryService {
         }
         let source = RepositoryService(location: location, engine: singleCommitEngine, queue: queue)
         let commit = try await source.readCommit(target)
-        guard commit.parents.count <= 1 else {
-            throw ModelFailure.unsupported(L10n.text("请选取一个普通提交；合并提交需要另行选择主线。"))
+        if commit.parents.count > 1 {
+            guard let mainline, (1...commit.parents.count).contains(mainline) else {
+                throw ModelFailure.unsupported(L10n.text("请为合并提交选择主线父提交。"))
+            }
+        } else if mainline != nil {
+            throw ModelFailure.unsupported(L10n.text("普通提交不需要主线父提交。"))
         }
         let index = try await singleCommitIndex()
         let directory = try await SnapshotIO.run { _ in try SnapshotDirectory() }
@@ -31,8 +38,8 @@ extension RepositoryService {
         previewEngine.environment["GIT_ALTERNATE_OBJECT_DIRECTORIES"] = singleCommitAlternatePath(
             location.commonDirectory.appending(path: "objects").path)
         let parent: String
-        if let first = commit.parents.first {
-            parent = first
+        if !commit.parents.isEmpty {
+            parent = commit.parents[(mainline ?? 1) - 1]
         } else {
             parent = try await previewEngine.run(
                 ["hash-object", "-w", "-t", "tree", "--stdin"], in: location.root, input: Data()
@@ -57,115 +64,126 @@ extension RepositoryService {
             try await singleCommitIndex().raw == index.raw
         else { throw ModelFailure.changed }
         return SingleCommitPlan(
-            operation: operation, target: commit, head: head, branch: state.branch,
+            operation: operation, target: commit, head: head, branch: state.branch, mainline: mainline,
             files: files, conflictPaths: merge.conflicts, location: location, index: index.raw,
             resultTree: merge.tree, writePaths: paths)
     }
 
     public func executeSingleCommit(_ plan: SingleCommitPlan) async throws -> SingleCommitOutcome {
-        try await withSharedOperation {
-            guard plan.location == location else { throw ModelFailure.changed }
-            try await verifyHead(plan.head)
-            let fresh = try await singleCommitPlan(plan.operation, target: plan.target.id)
-            guard fresh.head == plan.head, fresh.branch == plan.branch, fresh.target == plan.target,
-                fresh.index == plan.index, fresh.resultTree == plan.resultTree, fresh.files == plan.files,
-                fresh.conflictPaths == plan.conflictPaths, fresh.writePaths == plan.writePaths
-            else { throw ModelFailure.changed }
-            guard plan.hasChanges else {
-                throw ModelFailure.unsupported(L10n.text("此提交在当前 HEAD 上没有可应用的改动。"))
-            }
-            try Task.checkCancellation()
-            var failure: (any Error)?
-            do {
-                if plan.operation == .revert {
-                    // A one-shot revert removes REVERT_HEAD before committing; a
-                    // failed hook/signature then has no Git recovery entry. First
-                    // apply with --no-commit, which keeps REVERT_HEAD, and let the
-                    // native --continue commit and clear it only after success.
-                    _ = try await singleCommitEngine.run(
-                        ["revert", "--no-commit", "--no-edit", "--strategy=ort", plan.target.id],
-                        in: location.root, timeout: 120)
-                    let ready = try await status()
-                    guard ready.head == plan.head, ready.branch == plan.branch,
-                        ready.singleCommitRecovery?.target == plan.target.id, ready.conflicts.isEmpty
-                    else { throw ModelFailure.changed }
-                    let tree = try await singleCommitEngine.run(["write-tree"], in: location.root).text
-                        .removingLastNewline
-                    guard tree == plan.resultTree else { throw ModelFailure.changed }
-                    _ = try await singleCommitEngine.run(
-                        ["revert", "--continue"], in: location.root, timeout: 120)
-                } else {
-                    _ = try await singleCommitEngine.run(
-                        ["cherry-pick", "--no-edit", "--strategy=ort", plan.target.id],
-                        in: location.root, timeout: 120)
-                }
-            } catch { failure = error }
-            let observed = await singleCommitObservation()
-            let details = failure.map { ($0 as? GitFailure)?.details ?? $0.localizedDescription } ?? ""
-            guard let observed else {
-                throw SingleCommitOutcomeUnknown(
-                    operation: plan.operation, previousHead: plan.head, observedHead: nil, details: details)
-            }
-            if let recovery = observed.status.singleCommitRecovery,
-                recovery.operation == plan.operation, recovery.target == plan.target.id,
-                observed.status.head == plan.head, observed.status.branch == plan.branch
-            {
-                if !observed.status.conflicts.isEmpty {
-                    return .conflicts(observed.status.conflicts.count)
-                }
-                return .pending(details)
-            }
-            if let failure, observed.status.head == plan.head, observed.status.branch == plan.branch,
-                observed.status.files.isEmpty, observed.status.sequencer == .none
-            {
-                throw failure
-            }
-            guard failure == nil, let commit = observed.commit, commit.id != plan.head,
-                commit.parents == [plan.head], observed.tree == plan.resultTree,
-                observed.status.branch == plan.branch, observed.status.sequencer == .none,
-                observed.status.files.isEmpty
-            else {
-                throw SingleCommitOutcomeUnknown(
-                    operation: plan.operation, previousHead: plan.head,
-                    observedHead: observed.status.head, details: details)
-            }
-            return .committed(commit.id)
+        try await withSharedOperation { try await executeSingleCommitUnderPermit(plan) }
+    }
+
+    func executeSingleCommitUnderPermit(_ plan: SingleCommitPlan) async throws -> SingleCommitOutcome {
+        guard plan.location == location else { throw ModelFailure.changed }
+        try await verifyHead(plan.head)
+        let fresh = try await singleCommitPlan(
+            plan.operation, target: plan.target.id, mainline: plan.mainline)
+        guard fresh.head == plan.head, fresh.branch == plan.branch, fresh.target == plan.target,
+            fresh.index == plan.index, fresh.resultTree == plan.resultTree, fresh.files == plan.files,
+            fresh.conflictPaths == plan.conflictPaths, fresh.writePaths == plan.writePaths
+        else { throw ModelFailure.changed }
+        guard plan.hasChanges else {
+            throw ModelFailure.unsupported(L10n.text("此提交在当前 HEAD 上没有可应用的改动。"))
         }
+        try Task.checkCancellation()
+        var failure: (any Error)?
+        let parentOption = plan.mainline.map { ["--mainline", String($0)] } ?? []
+        do {
+            if plan.operation == .revert {
+                // A one-shot revert removes REVERT_HEAD before committing; a
+                // failed hook/signature then has no Git recovery entry. First
+                // apply with --no-commit, which keeps REVERT_HEAD, and let the
+                // native --continue commit and clear it only after success.
+                _ = try await singleCommitEngine.run(
+                    ["revert", "--no-commit", "--no-edit", "--strategy=ort"] + parentOption + [
+                        plan.target.id
+                    ],
+                    in: location.root, timeout: 120)
+                let ready = try await status()
+                guard ready.head == plan.head, ready.branch == plan.branch,
+                    ready.singleCommitRecovery?.target == plan.target.id, ready.conflicts.isEmpty
+                else { throw ModelFailure.changed }
+                let tree = try await singleCommitEngine.run(["write-tree"], in: location.root).text
+                    .removingLastNewline
+                guard tree == plan.resultTree else { throw ModelFailure.changed }
+                _ = try await singleCommitEngine.run(
+                    ["revert", "--continue"], in: location.root, timeout: 120)
+            } else {
+                _ = try await singleCommitEngine.run(
+                    ["cherry-pick", "--no-edit", "--strategy=ort"] + parentOption + [plan.target.id],
+                    in: location.root, timeout: 120)
+            }
+        } catch { failure = error }
+        let observed = await singleCommitObservation()
+        let details = failure.map { ($0 as? GitFailure)?.details ?? $0.localizedDescription } ?? ""
+        guard let observed else {
+            throw SingleCommitOutcomeUnknown(
+                operation: plan.operation, previousHead: plan.head, observedHead: nil, details: details)
+        }
+        if let recovery = observed.status.singleCommitRecovery,
+            recovery.operation == plan.operation, recovery.target == plan.target.id,
+            observed.status.head == plan.head, observed.status.branch == plan.branch
+        {
+            if !observed.status.conflicts.isEmpty {
+                return .conflicts(observed.status.conflicts.count)
+            }
+            return .pending(details)
+        }
+        if let failure, observed.status.head == plan.head, observed.status.branch == plan.branch,
+            observed.status.files.isEmpty, observed.status.sequencer == .none
+        {
+            throw failure
+        }
+        guard failure == nil, let commit = observed.commit, commit.id != plan.head,
+            commit.parents == [plan.head], observed.tree == plan.resultTree,
+            observed.status.branch == plan.branch, observed.status.sequencer == .none,
+            observed.status.files.isEmpty
+        else {
+            throw SingleCommitOutcomeUnknown(
+                operation: plan.operation, previousHead: plan.head,
+                observedHead: observed.status.head, details: details)
+        }
+        return .committed(commit.id)
     }
 
     public func recoverSingleCommit(continueOperation: Bool, expected: SingleCommitRecovery) async throws {
         try await withSharedOperation {
-            let state = try await status()
-            guard expected.location == location, state.singleCommitRecovery == expected else {
-                throw ModelFailure.changed
-            }
-            guard !continueOperation || state.conflicts.isEmpty else {
-                throw ModelFailure.unsupported(L10n.text("请先解决所有冲突。"))
-            }
-            try await verifyHead(expected.head)
-            var failure: (any Error)?
-            do {
-                _ = try await singleCommitEngine.run(
-                    [expected.operation.rawValue, continueOperation ? "--continue" : "--abort"],
-                    in: location.root, timeout: 120)
-            } catch { failure = error }
-            let observed = await singleCommitObservation()
-            let details = failure.map { ($0 as? GitFailure)?.details ?? $0.localizedDescription } ?? ""
-            if let failure, observed?.status.head == expected.head,
-                observed?.status.singleCommitRecovery?.target == expected.target
-            {
-                throw failure
-            }
-            guard failure == nil, let observed, observed.status.sequencer == .none,
-                observed.status.branch == expected.branch,
-                continueOperation
-                    ? observed.commit?.parents == [expected.head]
-                    : observed.status.head == expected.head
-            else {
-                throw SingleCommitOutcomeUnknown(
-                    operation: expected.operation, previousHead: expected.head,
-                    observedHead: observed?.status.head, details: details)
-            }
+            try await recoverSingleCommitUnderPermit(continueOperation: continueOperation, expected: expected)
+        }
+    }
+
+    func recoverSingleCommitUnderPermit(continueOperation: Bool, expected: SingleCommitRecovery) async throws
+    {
+        let state = try await status()
+        guard expected.location == location, state.singleCommitRecovery == expected else {
+            throw ModelFailure.changed
+        }
+        guard !continueOperation || state.conflicts.isEmpty else {
+            throw ModelFailure.unsupported(L10n.text("请先解决所有冲突。"))
+        }
+        try await verifyHead(expected.head)
+        var failure: (any Error)?
+        do {
+            _ = try await singleCommitEngine.run(
+                [expected.operation.rawValue, continueOperation ? "--continue" : "--abort"],
+                in: location.root, timeout: 120)
+        } catch { failure = error }
+        let observed = await singleCommitObservation()
+        let details = failure.map { ($0 as? GitFailure)?.details ?? $0.localizedDescription } ?? ""
+        if let failure, observed?.status.head == expected.head,
+            observed?.status.singleCommitRecovery?.target == expected.target
+        {
+            throw failure
+        }
+        guard failure == nil, let observed, observed.status.sequencer == .none,
+            observed.status.branch == expected.branch,
+            continueOperation
+                ? observed.commit?.parents == [expected.head]
+                : observed.status.head == expected.head
+        else {
+            throw SingleCommitOutcomeUnknown(
+                operation: expected.operation, previousHead: expected.head,
+                observedHead: observed?.status.head, details: details)
         }
     }
 

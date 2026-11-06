@@ -16,6 +16,7 @@ extension NativeApplicationMenu {
                     }
                 case .initializeRepository: app.presentInitialization()
                 case .importPatch: app.openPatchImport()
+                case .importMailPatches: app.openMailPatchImport()
                 case .exportWorkingPatch: app.exportWorkspacePatch(layer: .unstaged)
                 case .exportStagedPatch: app.exportWorkspacePatch(layer: .staged)
                 case .switchRepository: app.repositoryPickerPresented = true
@@ -70,7 +71,8 @@ extension NativeApplicationMenu {
                 case .pull, .push: return app.session?.canSync == true
                 case .historyDepth: return app.session?.canSync == true
                 case .compareReferences: return app.session?.status.head != nil
-                case .importPatch: return app.session?.canWrite == true && app.session?.isBusy == false
+                case .importPatch, .importMailPatches:
+                    return app.session?.canWrite == true && app.session?.isBusy == false
                 case .exportWorkingPatch, .exportStagedPatch: return app.session != nil
                 case .closeRepository:
                     return app.session != nil && app.session?.isBusy != true

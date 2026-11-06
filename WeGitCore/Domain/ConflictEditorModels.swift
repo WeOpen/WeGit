@@ -55,6 +55,7 @@ enum ConflictEditorOperationSnapshot: Hashable, Sendable {
     case rebase(RebaseRecovery)
     case cherryPick(SingleCommitRecovery, Data)
     case revert(SingleCommitRecovery, Data)
+    case mailPatch(UUID, String)
 
     var sequencer: Sequencer {
         switch self {
@@ -62,6 +63,7 @@ enum ConflictEditorOperationSnapshot: Hashable, Sendable {
         case .rebase: .rebase
         case .cherryPick: .cherryPick
         case .revert: .revert
+        case .mailPatch: .mailApply
         }
     }
 }

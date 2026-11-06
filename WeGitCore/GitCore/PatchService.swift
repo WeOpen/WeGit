@@ -314,7 +314,7 @@ extension RepositoryService {
         try await validatePatchFilters(plan.originals.map { $0.file.path })
     }
 
-    private func validatePatchFilters(_ paths: [String]) async throws {
+    func validatePatchFilters(_ paths: [String]) async throws {
         var input = Data()
         for path in paths {
             input.append(Data(path.utf8))
@@ -361,7 +361,7 @@ extension RepositoryService {
         return result
     }
 
-    private func parsePatchFiles(_ data: Data, patch: Data) throws -> [PatchFileChange] {
+    func parsePatchFiles(_ data: Data, patch: Data) throws -> [PatchFileChange] {
         guard !data.isEmpty, data.last == 0 else { throw ModelFailure.changed }
         let renameSources = try patchRenameSources(patch)
         let rows = data.split(separator: 0, omittingEmptySubsequences: false)

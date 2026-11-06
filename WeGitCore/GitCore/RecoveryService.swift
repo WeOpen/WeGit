@@ -591,10 +591,14 @@ extension RepositoryService {
                 layer == .worktree
                 ? nil
                 : recoveryIndexTree(
-                    index, shared: sourceSharedIndex, persist: false, formatFrom: record.indexTree)
+                    index, shared: sourceSharedIndex, persist: false,
+                    preservingConflictStages: record.conflictIndexTree != nil,
+                    formatFrom: record.retainedIndexTree)
             let (state, (source, _, _), current, tree) = try await (context, saved, captured, indexTree)
             if layer != .worktree {
-                guard record.indexTree == nil || record.indexTree == tree else { throw ModelFailure.changed }
+                guard record.retainedIndexTree == nil || record.retainedIndexTree == tree else {
+                    throw ModelFailure.changed
+                }
             }
             async let finalContext = recoveryContext()
             async let filesVerified: Void = RecoveryFileIO.verifyAll(current, location: location)
@@ -739,7 +743,7 @@ extension RepositoryService {
             try await verifyCommit(head)
             commands.append("create " + recoveryRef(record) + " " + head)
         }
-        if let tree = record.indexTree {
+        if let tree = record.retainedIndexTree {
             commands.append("create " + recoveryIndexRef(record) + " " + tree)
         }
         if let tree = record.pendingIndexTree {
@@ -758,7 +762,7 @@ extension RepositoryService {
         try await SnapshotIO.run { _ in try store.validateRemoval(record) }
         var commands = ["start"]
         for (ref, object) in [
-            (recoveryRef(record), record.head), (recoveryIndexRef(record), record.indexTree),
+            (recoveryRef(record), record.head), (recoveryIndexRef(record), record.retainedIndexTree),
             (pendingRecoveryIndexRef(record), record.pendingIndexTree),
         ] {
             guard let object else { continue }

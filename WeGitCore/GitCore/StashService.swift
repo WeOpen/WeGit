@@ -42,78 +42,97 @@ extension RepositoryService {
         -> GitStash
     {
         try await withSharedOperation {
-            try await verifyHead(expectedHead)
-            let state = try await status()
-            guard state.head != nil, state.sequencer == .none, state.conflicts.isEmpty else {
-                throw ModelFailure.unsupported(L10n.text("请先创建提交并完成当前 Git 操作或冲突。"))
-            }
-            guard expectedFiles == nil || state.files == expectedFiles else { throw ModelFailure.changed }
-            guard !message.contains("\0"), message.utf8.count <= 4096 else { throw ModelFailure.invalidPath }
-            guard state.files.contains(where: { !$0.untracked || includeUntracked }) else {
-                throw ModelFailure.unsupported(L10n.text("没有可保存的改动，请检查是否需要包含未跟踪文件。"))
-            }
-            try await protectStashObstructions(state, includeUntracked: includeUntracked)
-            let previous = try await stashes()
-            // These commands take no file pathspec. Forcing literal pathspecs
-            // also affects Git's internal clean command and can leave specially
-            // named untracked files behind after they have been saved.
-            var arguments = ["stash", "push"]
-            if !message.isEmpty { arguments += ["--message", message] }
-            if includeUntracked { arguments.append("--include-untracked") }
-            try await verifyHead(expectedHead)
-            do {
-                _ = try await engine.run(arguments, in: location.root, timeout: 120, literalPathspecs: false)
-            } catch {
-                let observed = await Task.detached { try? await stashes() }.value
-                if let observed, observed.token != previous.token {
-                    throw ModelFailure.unsupported(L10n.text("暂存操作未完整返回，记录列表已变化。请刷新核对，不要直接重复保存。"))
-                }
-                throw error
-            }
-            let fresh = try await stashes()
-            guard fresh.token != previous.token, let created = fresh.entries.first else {
-                throw ModelFailure.unsupported(L10n.text("未能确认新的储藏，请核对工作区和记录列表。"))
-            }
-            return created
+            try await createStashUnderPermit(
+                message: message, includeUntracked: includeUntracked, expectedHead: expectedHead,
+                expectedFiles: expectedFiles)
         }
+    }
+
+    func createStashUnderPermit(
+        message: String, includeUntracked: Bool, expectedHead: String?, expectedFiles: [FileChange]? = nil
+    )
+        async throws -> GitStash
+    {
+        try await verifyHead(expectedHead)
+        let state = try await status()
+        guard state.head != nil, state.sequencer == .none, state.conflicts.isEmpty else {
+            throw ModelFailure.unsupported(L10n.text("请先创建提交并完成当前 Git 操作或冲突。"))
+        }
+        guard expectedFiles == nil || state.files == expectedFiles else { throw ModelFailure.changed }
+        guard !message.contains("\0"), message.utf8.count <= 4096 else { throw ModelFailure.invalidPath }
+        guard state.files.contains(where: { !$0.untracked || includeUntracked }) else {
+            throw ModelFailure.unsupported(L10n.text("没有可保存的改动，请检查是否需要包含未跟踪文件。"))
+        }
+        try await protectStashObstructions(state, includeUntracked: includeUntracked)
+        let previous = try await stashes()
+        // These commands take no file pathspec. Forcing literal pathspecs
+        // also affects Git's internal clean command and can leave specially
+        // named untracked files behind after they have been saved.
+        var arguments = ["stash", "push"]
+        if !message.isEmpty { arguments += ["--message", message] }
+        if includeUntracked { arguments.append("--include-untracked") }
+        try await verifyHead(expectedHead)
+        do {
+            _ = try await engine.run(arguments, in: location.root, timeout: 120, literalPathspecs: false)
+        } catch {
+            let observed = await Task.detached { try? await stashes() }.value
+            if let observed, observed.token != previous.token {
+                throw ModelFailure.unsupported(L10n.text("暂存操作未完整返回，记录列表已变化。请刷新核对，不要直接重复保存。"))
+            }
+            throw error
+        }
+        let fresh = try await stashes()
+        guard fresh.token != previous.token, let created = fresh.entries.first else {
+            throw ModelFailure.unsupported(L10n.text("未能确认新的储藏，请核对工作区和记录列表。"))
+        }
+        return created
     }
 
     public func restoreStash(
         _ entry: GitStash, in list: StashList, restoreIndex: Bool, pop: Bool, expectedHead: String?
     ) async throws -> StashRestoreOutcome {
         try await withSharedOperation {
-            try await verifyHead(expectedHead)
-            let state = try await status()
-            guard state.head != nil, state.sequencer == .none, state.files.allSatisfy(\.untracked) else {
-                throw ModelFailure.unsupported(L10n.text("恢复前请先提交或保存已跟踪文件的改动，并完成进行中的 Git 操作。"))
+            try await restoreStashUnderPermit(
+                entry, in: list, restoreIndex: restoreIndex, pop: pop, expectedHead: expectedHead)
+        }
+    }
+
+    func restoreStashUnderPermit(
+        _ entry: GitStash, in list: StashList, restoreIndex: Bool, pop: Bool, expectedHead: String?
+    )
+        async throws -> StashRestoreOutcome
+    {
+        try await verifyHead(expectedHead)
+        let state = try await status()
+        guard state.head != nil, state.sequencer == .none, state.files.allSatisfy(\.untracked) else {
+            throw ModelFailure.unsupported(L10n.text("恢复前请先提交或保存已跟踪文件的改动，并完成进行中的 Git 操作。"))
+        }
+        let contents = try await stashContents(entry, in: list)
+        try await protectStashRestore(contents, restoreIndex: restoreIndex)
+        try await verifyStashEntry(entry, in: list)
+        var arguments = ["stash", "apply"]
+        if restoreIndex { arguments.append("--index") }
+        arguments.append(entry.objectID)
+        try await verifyHead(expectedHead)
+        do {
+            _ = try await engine.run(arguments, in: location.root, timeout: 120, literalPathspecs: false)
+        } catch {
+            let fresh = await Task.detached { try? await status() }.value
+            if let fresh, !fresh.conflicts.isEmpty {
+                throw ModelFailure.unsupported(L10n.text("恢复产生冲突，储藏已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。"))
             }
-            let contents = try await stashContents(entry, in: list)
-            try await protectStashRestore(contents, restoreIndex: restoreIndex)
+            throw error
+        }
+        guard pop else { return .applied }
+        do {
+            // Apply is pinned to the immutable object. Removal is a separate
+            // operation, permitted only while the confirmed reflog is unchanged.
+            try await verifyHead(expectedHead)
             try await verifyStashEntry(entry, in: list)
-            var arguments = ["stash", "apply"]
-            if restoreIndex { arguments.append("--index") }
-            arguments.append(entry.objectID)
-            try await verifyHead(expectedHead)
-            do {
-                _ = try await engine.run(arguments, in: location.root, timeout: 120, literalPathspecs: false)
-            } catch {
-                let fresh = await Task.detached { try? await status() }.value
-                if let fresh, !fresh.conflicts.isEmpty {
-                    throw ModelFailure.unsupported(L10n.text("恢复产生冲突，储藏已保留。请在更改页面解决冲突，再正常提交；这不是可中止的合并操作。"))
-                }
-                throw error
-            }
-            guard pop else { return .applied }
-            do {
-                // Apply is pinned to the immutable object. Removal is a separate
-                // operation, permitted only while the confirmed reflog is unchanged.
-                try await verifyHead(expectedHead)
-                try await verifyStashEntry(entry, in: list)
-                try await dropStashEntry(entry)
-                return .popped
-            } catch {
-                return .appliedNeedsReview(error.localizedDescription)
-            }
+            try await dropStashEntry(entry)
+            return .popped
+        } catch {
+            return .appliedNeedsReview(error.localizedDescription)
         }
     }
 
@@ -168,7 +187,7 @@ extension RepositoryService {
         throw ModelFailure.unsupported(L10n.text("删除结果未能可靠确认，请刷新记录列表后核对。"))
     }
 
-    private func verifyStashEntry(_ entry: GitStash, in list: StashList) async throws {
+    func verifyStashEntry(_ entry: GitStash, in list: StashList) async throws {
         guard list.location == location, list.entries.contains(entry) else { throw ModelFailure.changed }
         let fresh = try await stashes(limit: list.limit)
         guard fresh.token == list.token, fresh.entries.contains(entry) else { throw ModelFailure.changed }
@@ -199,7 +218,7 @@ extension RepositoryService {
         try await StashWorktreeGuard.validate(paths: targets, tracked: saved, location: location)
     }
 
-    private func stashIndexFiles() async throws -> Set<String> {
+    func stashIndexFiles() async throws -> Set<String> {
         let raw = try await engine.run(
             ["ls-files", "--stage", "-v", "-z"], in: location.root, outputLimit: 32 * 1024 * 1024
         ).stdout
@@ -221,7 +240,7 @@ extension RepositoryService {
         return paths
     }
 
-    private func protectStashRestore(_ contents: StashContents, restoreIndex: Bool) async throws {
+    func protectStashRestore(_ contents: StashContents, restoreIndex: Bool) async throws {
         let working = try await commitComparison(id: contents.working.id, parent: contents.base)
         var paths = Set(working.files.flatMap { [$0.path] + [$0.oldPath].compactMap { $0 } })
         if restoreIndex {

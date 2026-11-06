@@ -136,6 +136,32 @@ final class RepositorySession {
     var pendingPushCommit: String? { pendingPush?.commit }
     var legacyDraft: String?
     var message: String { didSet { if preferences.saveDrafts { defaults.set(message, forKey: draftKey) } } }
+    private var replacedMessage: (before: String, after: String)?
+    var canUndoMessageReplacement: Bool { replacedMessage?.after == message }
+    func replaceMessage(_ text: String) {
+        replacedMessage = (message, text)
+        message = text
+    }
+    func undoMessageReplacement() {
+        guard let previous = replacedMessage, previous.after == message else { return }
+        message = previous.before
+        replacedMessage = nil
+    }
+    func savedMessages() throws -> [String] {
+        try CommitMessageHistory(defaults: defaults).messages(in: location)
+    }
+    private var clearedMessageHistory: Data?
+    var canUndoHistoryClear: Bool {
+        clearedMessageHistory != nil && !CommitMessageHistory(defaults: defaults).hasSavedData(in: location)
+    }
+    func clearSavedMessages() {
+        clearedMessageHistory = CommitMessageHistory(defaults: defaults).clear(in: location)
+    }
+    func undoHistoryClear() {
+        guard let data = clearedMessageHistory, canUndoHistoryClear else { return }
+        CommitMessageHistory(defaults: defaults).restore(data, in: location)
+        clearedMessageHistory = nil
+    }
     var amend = false
     private var refreshID = UUID()
     private var watcher: RepositoryWatcher?
@@ -175,15 +201,18 @@ final class RepositorySession {
     }
     var canCommit: Bool {
         canWrite && status.conflicts.isEmpty && (status.sequencer == .none || isEditingRebase)
+            && status.commitQueue?.phase.pending != true && status.commitQueueUnavailable == nil
             && !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && (amend ? status.head != nil : status.files.contains(where: \.staged))
     }
     var canSync: Bool {
         canWrite && status.head != nil && !status.isDetached
+            && status.commitQueue?.phase.pending != true
             && status.sequencer == .none && status.conflicts.isEmpty && !remotes.isEmpty
     }
     var canRebase: Bool {
         canWrite && status.head != nil && !status.isDetached && status.files.isEmpty
+            && status.commitQueue?.phase.pending != true
             && status.sequencer == .none
     }
     var rebaseReason: String? {
@@ -427,6 +456,8 @@ final class RepositorySession {
     }
     func cancel() { operationTask?.cancel() }
     func completeCommit(message text: String) {
+        try? CommitMessageHistory(defaults: defaults).append(text, in: location)
+        replacedMessage = nil
         if message == text { message = "" }
         if defaults.string(forKey: draftKey) == text { defaults.removeObject(forKey: draftKey) }
         amend = false
@@ -489,6 +520,12 @@ final class AppState {
     var remoteManagementPresented = false
     var tagCreationRequest: TagCreationRequest?
     var singleCommitRequest: SingleCommitRequest?
+    var commitQueueRequest: CommitQueueRequest?
+    var taskSwitchRequest: TaskSwitchRequest?
+    var stashBranchRequest: StashBranchRequest?
+    var signatureRequest: SignatureRequest?
+    var commitMessageRequest: CommitMessageRequest?
+    var pendingSignatureAfterReader: SignatureRequest?
     var resetRequest: ResetRequest?
     var recoveryBrowserRequest: RecoveryBrowserRequest?
     var pendingRecoveryAfterReset: RecoveryBrowserRequest?
@@ -502,6 +539,7 @@ final class AppState {
     var fileModificationRequest: FileModificationRequest?
     var ignoreRuleRequest: IgnoreRuleRequest?
     var patchImportRequest: PatchImportRequest?
+    var mailPatchRequest: MailPatchRequest?
     var pendingRecoveryAfterPatch: RecoveryBrowserRequest?
 
     func patchImportDidDismiss() {
@@ -527,9 +565,28 @@ final class AppState {
     }
 
     func fileReaderDidDismiss() {
-        guard let request = pendingFileModificationAfterReader else { return }
+        if let request = pendingFileModificationAfterReader {
+            pendingFileModificationAfterReader = nil
+            if request.session === session { fileModificationRequest = request }
+        } else if let request = pendingSignatureAfterReader {
+            pendingSignatureAfterReader = nil
+            if request.session === session { signatureRequest = request }
+        }
+    }
+
+    func presentSignature(_ request: SignatureRequest) {
+        guard request.session === session else { return }
         pendingFileModificationAfterReader = nil
-        if request.session === session { fileModificationRequest = request }
+        pendingSignatureAfterReader = request
+        if referenceComparisonRequest != nil {
+            referenceComparisonRequest = nil
+        } else if fileHistoryRequest != nil {
+            fileHistoryRequest = nil
+        } else if blameRequest != nil {
+            blameRequest = nil
+        } else {
+            fileReaderDidDismiss()
+        }
     }
 
     func fileModificationDidDismiss() {

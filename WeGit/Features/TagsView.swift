@@ -104,6 +104,12 @@ struct TagsView: View {
                                 Text(tag.name).font(.title3.weight(.semibold)).lineLimit(2).textSelection(
                                     .enabled)
                                 Spacer()
+                                Button(L10n.text("验证签名")) {
+                                    app.presentSignature(
+                                        SignatureRequest(
+                                            session: session, objectID: tag.objectID, object: .tag,
+                                            title: tag.name))
+                                }.disabled(tag.symbolicTarget != nil).accessibilityIdentifier("tag-signature")
                                 Button(L10n.text("推送标签…")) { pushing = tag }
                                     .disabled(
                                         !session.canWrite || tag.targetCommit == nil

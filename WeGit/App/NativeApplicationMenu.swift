@@ -4,7 +4,7 @@ import WeGitCore
 
 enum ApplicationMenuCommand: String {
     case compareReferences
-    case importPatch, exportWorkingPatch, exportStagedPatch
+    case importPatch, importMailPatches, exportWorkingPatch, exportStagedPatch
     case about, settings, hide, hideOthers, showAll, quit
     case openRepository, clone, initializeRepository, switchRepository, close, closeAll
     case undo, redo, cut, copy, paste, pasteMatchingStyle, delete, selectAll, emojiSymbols
@@ -260,6 +260,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         add(.switchRepository, to: file, key: "k") { L10n.text("切换仓库…") }
         file.addItem(.separator())
         add(.importPatch, to: file) { L10n.text("导入文件补丁…") }
+        add(.importMailPatches, to: file) { L10n.text("导入提交补丁…") }
         add(.exportWorkingPatch, to: file) { L10n.text("导出未暂存补丁…") }
         add(.exportStagedPatch, to: file) { L10n.text("导出暂存补丁…") }
         file.addItem(.separator())

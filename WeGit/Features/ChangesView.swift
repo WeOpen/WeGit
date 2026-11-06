@@ -335,6 +335,20 @@ struct ChangesView: View {
                         }
                     }
                 }
+                Menu {
+                    Button(L10n.text("消息历史…")) {
+                        app.commitMessageRequest = CommitMessageRequest(session: session, source: .history)
+                    }
+                    Button(L10n.text("使用模板…")) {
+                        app.commitMessageRequest = CommitMessageRequest(session: session, source: .template)
+                    }
+                } label: {
+                    Label(L10n.text("提交消息"), systemImage: "text.badge.plus")
+                }.disabled(session.isBusy).accessibilityIdentifier("commit-message-sources")
+                if session.canUndoMessageReplacement {
+                    Button(L10n.text("撤销替换")) { session.undoMessageReplacement() }
+                        .disabled(session.isBusy).accessibilityIdentifier("message-source-undo")
+                }
                 Spacer()
                 if let path = session.lastTrashedFile {
                     Button(L10n.text("查看废纸篓中的文件")) { NSWorkspace.shared.activateFileViewerSelecting([path]) }
