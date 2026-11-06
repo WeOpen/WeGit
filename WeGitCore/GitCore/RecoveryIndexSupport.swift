@@ -51,13 +51,22 @@ extension RepositoryService {
     /// A disposable Git directory reads the exact saved index, including its
     /// split-index companion. Preview trees stay private; protected backup trees
     /// are written into this repository's object store without refreshing its index.
-    @concurrent func recoveryIndexTree(_ bytes: Data?, shared: RecoverySharedIndexSnapshot?, persist: Bool)
-        async throws -> String?
-    {
+    @concurrent func recoveryIndexTree(
+        _ bytes: Data?, shared: RecoverySharedIndexSnapshot?, persist: Bool,
+        formatFrom objectID: String? = nil
+    ) async throws -> String? {
         guard let bytes else { return nil }
         guard bytes.count <= 32 * 1024 * 1024 else { throw RecoveryBudget.exceeded }
-        let format = try await recoveryEngine.run(["rev-parse", "--show-object-format"], in: location.root)
-            .text.removingLastNewline
+        let format: String
+        if let objectID {
+            guard GitObjectID.valid(objectID) else { throw ModelFailure.changed }
+            // A saved tree already fixes its hash format. write-tree still
+            // rebuilds the exact raw backup index and the caller compares OIDs.
+            format = objectID.count == 40 ? "sha1" : "sha256"
+        } else {
+            format = try await recoveryEngine.run(["rev-parse", "--show-object-format"], in: location.root)
+                .text.removingLastNewline
+        }
         guard ["sha1", "sha256"].contains(format) else { throw ModelFailure.changed }
         let storage = try await SnapshotIO.run { _ in try SnapshotDirectory() }
         let gitDirectory = storage.url.appending(path: "git", directoryHint: .isDirectory)

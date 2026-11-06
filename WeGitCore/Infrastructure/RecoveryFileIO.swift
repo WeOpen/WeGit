@@ -36,6 +36,21 @@ struct RecoveryFileCapture: Sendable {
     }
 }
 
+private final class RecoveryInstallResults: @unchecked Sendable {
+    private let lock = NSLock()
+    private var failure: (any Error)?
+    private var completed = 0
+    func check() throws { try lock.withLock { if let failure { throw failure } } }
+    func finishBatch(_ count: Int) { lock.withLock { completed += count } }
+    func fail(_ error: any Error) { lock.withLock { if failure == nil { failure = error } } }
+    func finish(_ count: Int) throws {
+        try lock.withLock {
+            if let failure { throw failure }
+            guard completed == count else { throw ModelFailure.changed }
+        }
+    }
+}
+
 enum RecoveryFileIO {
     @concurrent static func metadataAll(location: RepositoryLocation, paths: [String]) async throws
         -> [RecoveryFileMetadata]
@@ -205,6 +220,7 @@ enum RecoveryFileIO {
                                     budget: budget))
                         }
                         try cancellation.check()
+                        try storage.validate()
                         return (start, values)
                     }
                 }
@@ -213,11 +229,26 @@ enum RecoveryFileIO {
             for try await value in group { result.append(value) }
             return result
         }
+        let captures = chunks.sorted { $0.0 < $1.0 }.flatMap(\.1)
         try await SnapshotIO.run { cancellation in
             try cancellation.check()
             try fence.validate()
+            try validateSnapshotStorage(captures, cancellation: cancellation)
         }
-        return chunks.sorted { $0.0 < $1.0 }.flatMap(\.1)
+        return captures
+    }
+
+    static func validateSnapshotStorage(_ captures: [RecoveryFileCapture], cancellation: IOCancellation)
+        throws
+    {
+        var directories: Set<ObjectIdentifier> = []
+        for capture in captures {
+            try cancellation.check()
+            guard let directory = capture.snapshot?.directory,
+                directories.insert(ObjectIdentifier(directory)).inserted
+            else { continue }
+            try directory.validate()
+        }
     }
 
     private static func captureNow(
@@ -509,6 +540,46 @@ enum RecoveryFileIO {
     ) async throws {
         guard sources.count == expected.count else { throw ModelFailure.changed }
         _ = try await SnapshotIO.run { cancellation in
+            let independent =
+                sources.count >= 128
+                && sources.indices.allSatisfy {
+                    sources[$0].file.kind == .file && expected[$0].file.kind == .file
+                        && sources[$0].file.path == expected[$0].file.path
+                        && expected[$0].missingParent == nil && expected[$0].version != nil
+                }
+            let identities = expected.compactMap { value in
+                value.version.map { "\($0.device):\($0.inode)" }
+            }
+            let paths = Set(sources.map(\.file.path))
+            let related = paths.contains { path in
+                var prefix = ""
+                for component in path.split(separator: "/").dropLast() {
+                    prefix = prefix.isEmpty ? String(component) : prefix + "/" + component
+                    if paths.contains(prefix) { return true }
+                }
+                return false
+            }
+            if independent, !related, paths.count == sources.count, Set(identities).count == sources.count {
+                // Only distinct existing regular leaves may overlap. Directory
+                // creation, links, aliases and related paths retain serial order.
+                let results = RecoveryInstallResults()
+                let width = (sources.count + 3) / 4
+                DispatchQueue.concurrentPerform(iterations: (sources.count + width - 1) / width) { batch in
+                    let offset = batch * width
+                    do {
+                        for index in offset..<min(sources.count, offset + width) {
+                            try results.check()
+                            _ = try installNow(
+                                source: sources[index], expected: expected[index], location: location,
+                                createdDirectories: [:], cancellation: cancellation)
+                        }
+                        results.finishBatch(min(sources.count, offset + width) - offset)
+                    } catch { results.fail(error) }
+                }
+                try results.finish(sources.count)
+                try location.validateIdentity()
+                return [String: ConflictEditorDirectoryIdentity]()
+            }
             var created: [String: ConflictEditorDirectoryIdentity] = [:]
             for index in sources.indices {
                 created = try installNow(

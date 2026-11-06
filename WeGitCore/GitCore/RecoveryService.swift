@@ -321,17 +321,58 @@ extension RepositoryService {
             in: location.root, accepted: [0, 1], outputLimit: 64 * 1024)
         async let working =
             plan.mode == .hard
-            ? readEngine.run(
-                ["diff", "--exit-code", "--no-ext-diff", "--ignore-submodules=all", "--"],
-                in: location.root, accepted: [0, 1], outputLimit: 64 * 1024) : nil
+            ? verifyResetWorkingTree(snapshot, engine: readEngine) : nil
         let (observed, indexResult, workResult) = try await (context, compared, working)
         guard observed.head == plan.target.id, observed.branch == plan.branch, indexResult.exitCode == 0,
-            workResult == nil || workResult?.exitCode == 0,
+            workResult == nil || workResult == true,
             try SelectedIndexSnapshot.read(location: location) == snapshot
         else { throw ModelFailure.changed }
         let final = try await recoveryContext()
         guard final.head == observed.head, final.branch == observed.branch else { throw ModelFailure.changed }
         return final
+    }
+
+    private func verifyResetWorkingTree(_ index: SelectedIndexSnapshot, engine: GitEngine) async throws
+        -> Bool
+    {
+        let listing = try await engine.run(
+            ["ls-files", "--stage", "-v", "-z"], in: location.root, outputLimit: 32 * 1024 * 1024
+        ).stdout
+        let entries = try recoveryIndexEntries(listing, requireOrdinary: false)
+        let paths = entries.filter { $0.value != "160000" }.map(\.key).sorted()
+        guard paths.count <= RecoveryBudget.metadataFiles,
+            try SelectedIndexSnapshot.read(location: location) == index
+        else { throw ModelFailure.changed }
+        // A successful earlier shard must still describe the same files when
+        // all other shards finish. Index bytes fence every Git comparison too.
+        let versions = try await RecoveryFileIO.metadataAll(location: location, paths: paths)
+        let arguments = ["diff", "--exit-code", "--no-ext-diff", "--ignore-submodules=all", "--"]
+        let clean: Bool
+        if paths.count >= 128, paths.reduce(0, { $0 + $1.utf8.count + 1 }) <= 128 * 1024 {
+            let width = (paths.count + 1) / 2
+            clean = try await withThrowingTaskGroup(of: Bool.self) { group in
+                for offset in stride(from: 0, to: paths.count, by: width) {
+                    let selected = Array(paths[offset..<min(paths.count, offset + width)])
+                    group.addTask {
+                        try await engine.run(
+                            arguments + selected, in: location.root, accepted: [0, 1],
+                            outputLimit: 64 * 1024
+                        ).exitCode == 0
+                    }
+                }
+                var result = true
+                for try await value in group { result = result && value }
+                return result
+            }
+        } else {
+            clean =
+                try await engine.run(
+                    arguments, in: location.root, accepted: [0, 1], outputLimit: 64 * 1024
+                ).exitCode == 0
+        }
+        try await RecoveryFileIO.verifyMetadataAll(versions, location: location)
+        guard try SelectedIndexSnapshot.read(location: location) == index else { throw ModelFailure.changed }
+        return clean
     }
 
     private func validateReset(_ plan: ResetPlan) async throws {
@@ -356,39 +397,46 @@ extension RepositoryService {
         async throws -> RecoveryRestorePlan
     {
         try await queue.perform {
-            let state = try await recoveryContext()
             let snapshot = try SelectedIndexSnapshot.read(location: location)
-            let currentSharedIndex = try await captureRecoverySharedIndex(snapshot)
-            let unmerged = try await recoveryEngine.run(
+            let store = try RecoveryStore(location: location)
+            // These reads do not write the repository. Their results become a
+            // plan only after one final identity/index/file/context fence.
+            async let context = recoveryContext()
+            async let sharedIndex = captureRecoverySharedIndex(snapshot)
+            async let unmerged = recoveryEngine.run(
                 ["ls-files", "--unmerged", "-z"], in: location.root,
                 outputLimit: 32 * 1024 * 1024)
-            guard unmerged.stdout.isEmpty else {
-                throw ModelFailure.unsupported(L10n.text("请先完成当前 Git 操作，再恢复备份。"))
-            }
-            let store = try RecoveryStore(location: location)
-            let (index, sourceSharedIndex) =
+            async let indexBackup: (Data?, RecoverySharedIndexSnapshot?) =
                 layer == .worktree
                 ? (nil, nil) : try await store.captureIndex(record)
             async let saved = store.capture(
                 record, includeFiles: layer != .index, includeIndex: false)
+            let currentSharedIndex = try await sharedIndex
+            let unmergedResult = try await unmerged
+            guard unmergedResult.stdout.isEmpty else {
+                throw ModelFailure.unsupported(L10n.text("请先完成当前 Git 操作，再恢复备份。"))
+            }
             async let captured = captureRecoveryFiles(
                 layer == .index ? [] : record.files.map(\.path),
                 limit: RecoveryBudget.bytes - (snapshot.bytes?.count ?? 0)
                     - (currentSharedIndex?.data.count ?? 0))
+            let (index, sourceSharedIndex) = try await indexBackup
             async let indexTree =
                 layer == .worktree
-                ? nil : recoveryIndexTree(index, shared: sourceSharedIndex, persist: false)
-            let ((source, _, _), current, tree) = try await (saved, captured, indexTree)
+                ? nil
+                : recoveryIndexTree(
+                    index, shared: sourceSharedIndex, persist: false, formatFrom: record.indexTree)
+            let (state, (source, _, _), current, tree) = try await (context, saved, captured, indexTree)
             if layer != .worktree {
                 guard record.indexTree == nil || record.indexTree == tree else { throw ModelFailure.changed }
             }
-            try await verifyHead(state.head)
-            let final = try await recoveryContext()
+            async let finalContext = recoveryContext()
+            async let filesVerified: Void = RecoveryFileIO.verifyAll(current, location: location)
+            async let sharedVerified: Void = verifyRecoverySharedIndex(currentSharedIndex)
+            let (final, _, _) = try await (finalContext, filesVerified, sharedVerified)
             guard final.head == state.head, final.branch == state.branch,
                 try SelectedIndexSnapshot.read(location: location) == snapshot
             else { throw ModelFailure.changed }
-            try await RecoveryFileIO.verifyAll(current, location: location)
-            try await verifyRecoverySharedIndex(currentSharedIndex)
             return RecoveryRestorePlan(
                 id: UUID(), record: record, layer: layer,
                 currentHead: state.head, currentBranch: state.branch,

@@ -64,7 +64,176 @@ private actor IndexEditDuringResetVerification: ProcessRunning {
     }
 }
 
+private actor WorkEditAfterResetShard: ProcessRunning {
+    let root: URL
+    private var resetFinished = false
+    private(set) var changed = false
+    init(root: URL) { self.root = root }
+    func run(_ request: ProcessRequest) async throws -> ProcessResult {
+        let result = try await ProcessRunner().run(request)
+        if request.arguments.contains("reset"), result.exitCode == 0 { resetFinished = true }
+        if resetFinished, !changed, request.arguments.contains("diff"),
+            request.arguments.contains("file-0"), result.exitCode == 0
+        {
+            try Data("external after verified shard\n".utf8).write(to: root.appending(path: "file-0"))
+            changed = true
+        }
+        return result
+    }
+}
+
+private actor IndexEditDuringRecoveryPreview: ProcessRunning {
+    let engine: GitEngine
+    let root: URL
+    private(set) var changed = false
+    init(engine: GitEngine, root: URL) {
+        self.engine = engine
+        self.root = root
+    }
+    func run(_ request: ProcessRequest) async throws -> ProcessResult {
+        let result = try await ProcessRunner().run(request)
+        if !changed, request.arguments.contains("ls-files"), request.arguments.contains("--unmerged") {
+            changed = true
+            try Data("external staged preview edit\n".utf8).write(to: root.appending(path: "file"))
+            _ = try await engine.run(["add", "--", "file"], in: root)
+        }
+        return result
+    }
+}
+
 struct RecoveryTests {
+    @Test func externalStagingDuringOverlappedRecoveryPreviewKeepsItsBytesAndRejectsThePlan() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "target\n")
+        let target = try await f.commit("Target")
+        try f.write("file", "original working\n")
+        _ = try await f.commit("Current")
+        let record = try await f.service.executeReset(f.service.prepareReset(target: target, mode: .hard))
+        let runner = IndexEditDuringRecoveryPreview(engine: f.engine, root: f.root)
+        let service = RepositoryService(
+            location: f.service.location,
+            engine: TestGit.engine(runner: runner, environment: f.engine.environment))
+        await #expect(throws: ModelFailure.self) {
+            try await service.prepareRecoveryRestore(record, layer: .both)
+        }
+        #expect(await runner.changed)
+        #expect(try await service.head() == target)
+        #expect(
+            try await f.engine.run(["show", ":file"], in: f.root).stdout
+                == Data("external staged preview edit\n".utf8))
+        #expect(try await service.recoveryRecords().first?.state == .succeeded)
+    }
+
+    @Test func capturedBatchesKeepOriginalBytesAndRejectAReplacedStorageDirectory() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let paths = (0..<128).map { "file-\($0)" }
+        let original = Data("original\r\nlast".utf8)
+        for path in paths { try original.write(to: f.root.appending(path: path)) }
+        let head = try await f.commit("Initial")
+        let index = try SelectedIndexSnapshot.read(location: f.service.location)
+        let captures = try await RecoveryFileIO.captureAll(location: f.service.location, paths: paths)
+        for path in paths { try f.write(path, "later edit\n") }
+        for capture in captures {
+            let snapshot = try #require(capture.snapshot)
+            let descriptor = try snapshot.open()
+            let bytes = try FileHandle(fileDescriptor: descriptor, closeOnDealloc: true).readToEnd()
+            #expect(bytes == original)
+        }
+        let storage = try #require(captures.last?.snapshot?.directory)
+        let moved = storage.url.appendingPathExtension("moved")
+        try FileManager.default.moveItem(at: storage.url, to: moved)
+        try FileManager.default.createDirectory(
+            at: storage.url, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+        defer {
+            try? FileManager.default.removeItem(at: storage.url)
+            try? FileManager.default.moveItem(at: moved, to: storage.url)
+        }
+        await #expect(throws: ModelFailure.self) {
+            try await SnapshotIO.run { cancellation in
+                try RecoveryFileIO.validateSnapshotStorage(captures, cancellation: cancellation)
+            }
+        }
+        #expect(try await f.service.head() == head)
+        #expect(try SelectedIndexSnapshot.read(location: f.service.location) == index)
+    }
+
+    @Test func independentRestoreLeavesKeepExactBytesModesAndTheOriginalIndex() async throws {
+        let f = try await Fixture.create()
+        let source = try await Fixture.create()
+        defer {
+            f.remove()
+            source.remove()
+        }
+        let paths = (0..<128).map { "file-\($0)" }
+        for path in paths { try f.write(path, "original\r\nlast") }
+        _ = try await f.commit("Initial")
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o444], ofItemAtPath: f.root.appending(path: paths[0]).path)
+        let index = try SelectedIndexSnapshot.read(location: f.service.location)
+        let expected = try await RecoveryFileIO.captureAll(location: f.service.location, paths: paths)
+        for (position, capture) in expected.enumerated() {
+            try source.write(capture.file.path, "restored \(position)\r\nlast")
+            try FileManager.default.setAttributes(
+                [.posixPermissions: NSNumber(value: capture.file.mode)],
+                ofItemAtPath: source.root.appending(path: capture.file.path).path)
+        }
+        let sources = try await RecoveryFileIO.captureAll(location: source.service.location, paths: paths)
+        try await RecoveryFileIO.installAll(
+            sources: sources, expected: expected, location: f.service.location)
+        try await RecoveryFileIO.verifyContentsAll(sources, location: f.service.location)
+        #expect(try SelectedIndexSnapshot.read(location: f.service.location) == index)
+        let mode =
+            try FileManager.default.attributesOfItem(atPath: f.root.appending(path: paths[0]).path)[
+                .posixPermissions] as? NSNumber
+        #expect(mode?.intValue == 0o444)
+    }
+
+    @Test func restoreWithNewParentDirectoriesPreservesItsSerialIdentityChain() async throws {
+        let f = try await Fixture.create()
+        let source = try await Fixture.create()
+        defer {
+            f.remove()
+            source.remove()
+        }
+        let paths = (0..<128).map { "created/nested/file-\($0)" }
+        let expected = try await RecoveryFileIO.captureAll(location: f.service.location, paths: paths)
+        try FileManager.default.createDirectory(
+            at: source.root.appending(path: "created/nested"), withIntermediateDirectories: true)
+        for path in paths {
+            try source.write(path, "created\r\nlast")
+        }
+        let sources = try await RecoveryFileIO.captureAll(location: source.service.location, paths: paths)
+        try await RecoveryFileIO.installAll(
+            sources: sources, expected: expected, location: f.service.location)
+        try await RecoveryFileIO.verifyContentsAll(sources, location: f.service.location)
+        #expect(try await f.service.head() == nil)
+        #expect(try SelectedIndexSnapshot.read(location: f.service.location).bytes == nil)
+    }
+
+    @Test func editingAnAlreadyVerifiedWorkShardPreventsAResetSuccessReceipt() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let paths = (0..<128).map { "file-\($0)" }
+        for path in paths { try f.write(path, "target\n") }
+        let target = try await f.commit("Target")
+        for path in paths { try f.write(path, "current\n") }
+        _ = try await f.commit("Current")
+        let runner = WorkEditAfterResetShard(root: f.root)
+        let service = RepositoryService(
+            location: f.service.location,
+            engine: TestGit.engine(runner: runner, environment: f.engine.environment))
+        let plan = try await service.prepareReset(target: target, mode: .hard)
+        await #expect(throws: RecoveryOutcomeUnknown.self) { _ = try await service.executeReset(plan) }
+        #expect(await runner.changed)
+        #expect(try await service.head() == target)
+        #expect(
+            try Data(contentsOf: f.root.appending(path: "file-0"))
+                == Data("external after verified shard\n".utf8))
+        #expect(try await service.recoveryRecords().first?.state == .needsVerification)
+    }
+
     @Test func targetAndAdditionalDirtyPathsHaveDistinctRestorableBackupFiles() async throws {
         let f = try await Fixture.create()
         defer { f.remove() }
