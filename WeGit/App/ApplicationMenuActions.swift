@@ -6,8 +6,15 @@ extension NativeApplicationMenu {
     convenience init(app: AppState) {
         self.init(
             perform: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 guard let app else { return }
                 switch command {
+                case .newWindow: app.runtime.windowCoordinator?.newWindow()
+                case .openInNewWindow:
+                    if let url = app.session?.location.root {
+                        app.runtime.windowCoordinator?.newWindow(repository: url)
+                    }
+                case .reopenWindow: app.runtime.windowCoordinator?.reopenClosedWindow()
                 case .openRepository: app.openPanel()
                 case .clone: app.presentClone()
                 case .compareReferences:
@@ -55,8 +62,12 @@ extension NativeApplicationMenu {
                 }
             },
             enabled: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 guard let app else { return false }
                 switch command {
+                case .openInNewWindow: return app.session != nil
+                case .reopenWindow:
+                    return app.runtime.persistence?.windows.contains(where: { !$0.open }) == true
                 case .sidebar, .inspector, .changes, .history, .branches, .stashes, .tags, .refresh,
                     .terminal,
                     .copyPath,
@@ -86,6 +97,7 @@ extension NativeApplicationMenu {
                 }
             },
             selected: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 guard let app else { return false }
                 switch command {
                 case .changes: return app.workspace.route == .changes
@@ -97,6 +109,7 @@ extension NativeApplicationMenu {
                 }
             },
             title: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 switch command {
                 case .sidebar:
                     return L10n.menuTitle(app?.sidebarVisible == true ? "Hide Sidebar" : "Show Sidebar")
@@ -107,7 +120,8 @@ extension NativeApplicationMenu {
                 }
             },
             appearance: { [weak app] in
-                AppPresentation.appearance(for: app?.preferences.resolvedAppearance ?? "system")
+                AppPresentation.appearance(
+                    for: (app?.runtime.activeState ?? app)?.preferences.resolvedAppearance ?? "system")
             })
     }
 }

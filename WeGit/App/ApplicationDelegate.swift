@@ -25,6 +25,9 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
     var applicationMenu: NativeApplicationMenu?
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard let state, state.anyOperationRunning else {
+            if let coordinator = state?.runtime.windowCoordinator, !coordinator.saveAllWindows() {
+                return .terminateCancel
+            }
             return .terminateNow
         }
         let alert = NSAlert()
@@ -40,7 +43,7 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     func applicationWillTerminate(_ notification: Notification) {
-        state?.saveCurrentWorkspace()
+        _ = state?.runtime.windowCoordinator?.saveAllWindows()
         state?.authentication.cancelAll()
     }
 }

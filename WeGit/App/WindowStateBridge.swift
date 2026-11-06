@@ -53,6 +53,8 @@ final class WindowStateProbe: NSView {
         guard let window, let app else { return }
         if app.sidebarVisible != sidebarVisible { app.sidebarVisible = sidebarVisible }
         if configuredWindow !== window {
+            app.nativeWindow = window
+            app.runtime.windowCoordinator?.register(window, app: app)
             NotificationCenter.default.removeObserver(
                 self, name: NSWindow.didResizeNotification, object: configuredWindow)
             configuredWindow = window

@@ -201,8 +201,8 @@ struct RepositorySearchView: View {
             app.workspace.route = .branches
             app.workspace.branchFilter = branch.name
         case .commit(let commit):
-            request.session.historyState.searchField = .sha
-            request.session.historyState.query = commit.id
+            app.historyState(for: request.session).searchField = .sha
+            app.historyState(for: request.session).query = commit.id
             app.workspace.route = .history
         }
         dismiss()

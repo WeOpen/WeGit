@@ -291,7 +291,26 @@ struct ChangesView: View {
         let stagedCount = session.status.files.lazy.filter(\.staged).count
         return VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .bottom, spacing: 12) {
-                WorkbenchMessageField(message: $session.message)
+                if let owner = session.draftOwner, owner != app.windowID {
+                    Button(L10n.text("在此窗口编辑草稿")) { session.claimDraft(app.windowID) }
+                        .buttonStyle(.bordered).accessibilityIdentifier("commit-draft-claim")
+                }
+                WorkbenchMessageField(
+                    message: $session.message,
+                    enabled: session.draftOwner == nil || session.draftOwner == app.windowID,
+                    revision: session.draftRevision,
+                    edit: { text, revision in
+                        session.editDraft(text, owner: app.windowID, revision: revision)
+                            ? session.draftRevision : nil
+                    },
+                    onFocus: {
+                        if session.draftOwner == nil || session.draftOwner == app.windowID {
+                            session.claimDraft(app.windowID)
+                        }
+                    })
+                if let error = session.draftSaveError {
+                    Text(error).font(.caption).foregroundStyle(colors.negative)
+                }
                 VStack(spacing: 6) {
                     Button {
                         app.commitCurrent()

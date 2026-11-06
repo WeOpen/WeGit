@@ -10,6 +10,7 @@
 		00AAFCBF1DCE1F67071532FE /* RemoteManagementSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59A2067975DEF7405D91C91 /* RemoteManagementSheet.swift */; };
 		027D8DB609EA5D75075A7E9C /* DiffContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068BBD4E6413E716B2FFF7FB /* DiffContentView.swift */; };
 		03322BAE7ED0FC6D96845DF7 /* WeGitCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB01D429917B5A2D4C811F77 /* WeGitCore */; };
+		03812552E0C25F370383BDFE /* WorkspaceWindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93841E46FE790EA4CE0BB032 /* WorkspaceWindowCoordinator.swift */; };
 		05D4D427F5D79062058608E1 /* FileHistorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2317C18D68C98A3BDA5E56DA /* FileHistorySheet.swift */; };
 		06514071541003C7462D2826 /* RepositorySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EA8B0AC419E9437CB3682 /* RepositorySearchView.swift */; };
 		07D05BC2FD3B320730C59B5D /* HistoryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FC5FD06684428CC7A3D1B0 /* HistoryState.swift */; };
@@ -256,6 +257,7 @@
 		82EEFAE49C6A81275649EAA8 /* AppIcon.icon */ = {isa = PBXFileReference; path = AppIcon.icon; sourceTree = "<group>"; };
 		8B6E81CBD8CE053ADDDEC25C /* RepositorySyncCounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositorySyncCounts.swift; sourceTree = "<group>"; };
 		8D27256E0799DF46A4E82712 /* NativeApplicationMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeApplicationMenu.swift; sourceTree = "<group>"; };
+		93841E46FE790EA4CE0BB032 /* WorkspaceWindowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceWindowCoordinator.swift; sourceTree = "<group>"; };
 		957BABF702DA076BC91DF14F /* SignatureSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureSheet.swift; sourceTree = "<group>"; };
 		9C19B279458D6ADB439FB3B7 /* BrandGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandGeometry.swift; sourceTree = "<group>"; };
 		9CA57D9AB3E86BE4A2FB5E6C /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 				EEEBBEC752F134B78D33F291 /* WeGitApp.swift */,
 				5294B154B492B77C3F4D7B39 /* WindowStateBridge.swift */,
 				49DC2838B27F440F9A2D2CB6 /* WorkspaceActions.swift */,
+				93841E46FE790EA4CE0BB032 /* WorkspaceWindowCoordinator.swift */,
 				6D4F557B4DD38A63558B7B92 /* WorktreeManagementState.swift */,
 			);
 			path = App;
@@ -1041,6 +1044,7 @@
 				1CE26F1775F2B3C254783A89 /* WorkspaceActions.swift in Sources */,
 				15E5B26FD697DE40D8086422 /* WorkspaceToolbar.swift in Sources */,
 				DFB86BD71085978D3CCB335F /* WorkspaceView.swift in Sources */,
+				03812552E0C25F370383BDFE /* WorkspaceWindowCoordinator.swift in Sources */,
 				2B4C6795007A7A3055317B84 /* WorktreeManagementSheet.swift in Sources */,
 				D0D949786CBFDBAA77312144 /* WorktreeManagementState.swift in Sources */,
 				1CBD17630CE45AF80A6B48A4 /* YinYangLoadingGlyph.swift in Sources */,

@@ -15,7 +15,7 @@ struct HistoryView: View {
     init(app: AppState, session: RepositorySession) {
         self.app = app
         self.session = session
-        history = session.historyState
+        history = app.historyState(for: session)
     }
     var body: some View {
         HSplitView {
@@ -172,7 +172,7 @@ struct HistoryView: View {
             }.frame(minWidth: 420, maxWidth: .infinity, maxHeight: .infinity)
                 .accessibilityElement(children: .contain).accessibilityLabel(L10n.text("提交详情"))
         }.background(colors.canvas)
-            .task(id: "\(session.id):\(session.historyGeneration)") { await session.loadHistory() }
+            .task(id: "\(session.id):\(session.historyGeneration)") { await history.synchronize() }
             .onChange(of: history.scope) { _, _ in reload() }
             .onChange(of: history.query) { _, _ in reload(delayed: true) }
             .onChange(of: history.searchField) { _, _ in reload(delayed: true) }
@@ -256,8 +256,8 @@ struct HistoryView: View {
     }
 
     private func selectedCommits(fallback: GitCommit) -> [GitCommit] {
-        let selected = session.historyState.commits.filter {
-            session.historyState.selectedIDs.contains($0.id)
+        let selected = history.commits.filter {
+            history.selectedIDs.contains($0.id)
         }
         return selected.isEmpty ? [fallback] : selected
     }

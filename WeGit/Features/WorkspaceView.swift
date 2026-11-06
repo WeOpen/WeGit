@@ -328,12 +328,12 @@ struct WorkspaceView: View {
         .onAppear {
             app.mainWorkspaceMounted = true
             app.mainWindowRequested = false
-            app.session?.activate()
+            app.session?.activate(owner: app.windowID)
         }
         .onDisappear {
             app.mainWorkspaceMounted = false
             app.saveCurrentWorkspace()
-            if !app.menuBarPresented && !app.mainWindowRequested { app.session?.deactivate() }
+            if !app.menuBarPresented && !app.mainWindowRequested { app.session?.deactivate(owner: app.windowID) }
         }
         .alert(
             L10n.text("操作未完成"),

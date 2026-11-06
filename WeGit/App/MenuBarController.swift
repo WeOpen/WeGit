@@ -11,7 +11,13 @@ struct MenuBarRegistration: View {
 
     var body: some View {
         Color.clear.accessibilityHidden(true).onAppear {
-            delegate.state = app
+            delegate.state = app.runtime.activeState ?? app
+            if app.runtime.windowCoordinator == nil {
+                let coordinator = WorkspaceWindowCoordinator(primary: app, delegate: delegate)
+                coordinator.showPrimary = { openWindow(id: "main") }
+                app.runtime.windowCoordinator = coordinator
+            }
+            if let window = app.nativeWindow { app.runtime.windowCoordinator?.register(window, app: app) }
             if delegate.menuBarController == nil {
                 delegate.menuBarController = MenuBarController(app: app)
             }

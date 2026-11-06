@@ -7,6 +7,7 @@ enum ApplicationMenuCommand: String {
     case importPatch, importMailPatches, exportWorkingPatch, exportStagedPatch
     case about, settings, hide, hideOthers, showAll, quit
     case openRepository, clone, initializeRepository, switchRepository, close, closeAll
+    case newWindow, openInNewWindow, reopenWindow
     case undo, redo, cut, copy, paste, pasteMatchingStyle, delete, selectAll, emojiSymbols
     case sidebar, inspector, fullScreen, minimize, minimizeAll, zoom, zoomAll, showMainWindow,
         bringAllToFront, help
@@ -254,6 +255,10 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         add(.quit, to: application, key: "q") { L10n.menuTitle("Quit WeGit") }
 
         let file = menu("file", { L10n.menuTitle("File") })
+        add(.newWindow, to: file, key: "n") { L10n.text("新建窗口") }
+        add(.openInNewWindow, to: file) { L10n.text("在新窗口中打开") }
+        add(.reopenWindow, to: file, key: "t", modifiers: [.command, .shift]) { L10n.text("重新打开关闭的窗口") }
+        file.addItem(.separator())
         add(.openRepository, to: file, key: "o") { L10n.text("打开仓库…") }
         add(.initializeRepository, to: file) { L10n.text("新建仓库…") }
         add(.clone, to: file, key: "o", modifiers: [.command, .shift]) { L10n.text("克隆仓库…") }

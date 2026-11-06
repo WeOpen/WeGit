@@ -319,6 +319,7 @@ final class SyncState {
         let index = pushIndex
         let upstream = setUpstream
         let text = commitMessage
+        let draftRevision = session.draftRevision
         let amend = amend
         let head = initialHead
         let localBranch = localBranch
@@ -335,7 +336,7 @@ final class SyncState {
                             self.session.pendingPush = PendingPushRecord(
                                 commit: oid, localBranch: localBranch,
                                 remote: remote.name, branch: branch, pushIndex: index)
-                            self.session.completeCommit(message: text)
+                            self.session.completeCommit(message: text, revision: draftRevision)
                             self.session.activityLabel = L10n.text("推送")
                         }
                     }
