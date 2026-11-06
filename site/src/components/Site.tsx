@@ -3,17 +3,20 @@ import { flushSync } from 'react-dom'
 import { createThemeTransition } from '../lib/theme-transition'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import { localeFromPath, pageFromPath, route, translate, type Locale, type Mode } from '../lib/site'
-import { selectRelease } from '../scripts/release.mjs'
+import { selectRelease, architectureHint, chooseArtifact } from '../scripts/release.mjs'
 import { workbenchHTML } from '../scripts/workbench.js'
 import { previewProperties } from '../scripts/theme-model.js'
 import { catalog, type ThemeDocument, type ThemeDraft } from '../lib/catalog'
 import build from '../../.generated/build-meta.json'
+import initialRelease from '../../.generated/release-default.json'
 import { topNavigationItem } from '../lib/navigation.mjs'
 
 type SiteState = {
   locale: Locale; mode: Mode; tr: (key: string) => string; toggleMode: () => void
   notice: string; notify: (message: string) => void; overlay: boolean; setOverlay: (value: boolean) => void
   download: string; switchLanguage: () => void
+  release: ReturnType<typeof selectRelease>; architecture: string; setArchitecture: (value: string) => void
+  releaseResolved: boolean
   themeDraft: { current: ThemeDraft | null }
 }
 const SiteContext = createContext<SiteState | null>(null)
@@ -49,6 +52,25 @@ export function TextBlock({ value }: { value: string }) {
 export function DownloadLink({ children, className }: { children: ReactNode; className?: string }) {
   const { download } = useSite()
   return <a href={download} className={className} data-action="app-download">{children}</a>
+}
+export function DownloadRequirements() {
+  const { release, architecture, tr } = useSite()
+  const value = release?.artifacts?.[architecture]?.minimumOS
+  const minimumOS = typeof value === 'string' && /^\d{1,2}(?:\.\d{1,2}){0,2}$/.test(value) ? value : '26'
+  return <p className="microcopy">{tr('home.compat').replace('macOS 26+', 'macOS ' + minimumOS + '+')}</p>
+}
+export function DownloadOptions({ id }: { id: string }) {
+  const { release, architecture, setArchitecture, locale, releaseResolved } = useSite()
+  const labels = { universal: 'Universal', arm64: 'Apple Silicon', x86_64: 'Intel' }
+  const available = release?.artifacts || {}
+  const selected = available[architecture]
+  return <div className="download-options">
+    <select id={id} value={architecture} aria-label={locale === 'zh' ? '下载架构' : 'Download architecture'} onChange={event => setArchitecture(event.target.value)}>
+      {Object.entries(labels).map(([value, label]) => <option value={value} key={value} disabled={!available[value]}>{label}</option>)}
+    </select>
+    {releaseResolved && release && <span>{release.version}{release.prerelease ? (locale === 'zh' ? ' · 候选版' : ' · Prerelease') : ''}{selected?.bytes ? ' · ' + (selected.bytes / 1048576).toFixed(1) + ' MiB' : ''}</span>}
+    <noscript><a href="/download/universal">Universal</a> · <a href="/download/arm64">Apple Silicon</a> · <a href="/download/x86_64">Intel</a></noscript>
+  </div>
 }
 export function NativeImage() {
   const { mode, tr } = useSite()
@@ -128,7 +150,17 @@ export function SiteShell({ children }: { children: ReactNode }) {
   useEffect(() => { document.dispatchEvent(new Event('wegit-route-change')) }, [pathname])
   const [notice, notify] = useState('')
   const [overlay, setOverlay] = useState(false)
-  const [download, setDownload] = useState(RELEASES)
+  const [release, setRelease] = useState<ReturnType<typeof selectRelease>>(initialRelease)
+  const [releaseResolved, setReleaseResolved] = useState(false)
+  const [architecture, setSelectedArchitecture] = useState('universal')
+  const [hintArchitecture, setHintArchitecture] = useState('universal')
+  const manualArchitecture = useRef(false)
+  const setArchitecture = (value: string) => { manualArchitecture.current = true; setSelectedArchitecture(value) }
+  const selectedArtifact = manualArchitecture.current ? release?.artifacts?.[architecture] : chooseArtifact(release, architecture)
+  const download = releaseResolved ? selectedArtifact?.download || release?.notes || RELEASES : '/download/' + architecture
+  useEffect(() => {
+    if (!manualArchitecture.current) setSelectedArchitecture(release?.artifacts?.[hintArchitecture] ? hintArchitecture : 'universal')
+  }, [release, hintArchitecture])
   const themeDraft = useRef<ThemeDraft | null>(null)
   const tr = useCallback((key: string) => translate(locale, key), [locale])
   useEffect(() => {
@@ -148,8 +180,17 @@ export function SiteShell({ children }: { children: ReactNode }) {
   }, [locale, page])
   useEffect(() => {
     const controller = new AbortController()
-    void fetch('/releases.json', { signal: controller.signal }).then(response => response.ok ? response.json() : []).then(value => { const release = selectRelease(value); setDownload(release?.download || release?.notes || RELEASES) }).catch(() => {})
+    void fetch('/releases.json', { signal: controller.signal }).then(response => { if (!response.ok) throw new Error('Release snapshot unavailable'); return response.json() }).then(value => { setRelease(selectRelease(value)); setReleaseResolved(true) }).catch(() => {})
     return () => controller.abort()
+  }, [])
+  useEffect(() => {
+    const data = (navigator as Navigator & { userAgentData?: { platform?: string, getHighEntropyValues: (hints: string[]) => Promise<Record<string, unknown>> } }).userAgentData
+    if (!data || data.platform?.toLowerCase() !== 'macos') return
+    let cancelled = false
+    void data.getHighEntropyValues(['architecture', 'bitness']).then(value => {
+      if (!cancelled && !manualArchitecture.current) setHintArchitecture(architectureHint({ ...value, platform: data.platform }))
+    }).catch(() => {})
+    return () => { cancelled = true }
   }, [])
   useEffect(() => { if (!notice) return; const timer = setTimeout(() => notify(''), 4200); return () => clearTimeout(timer) }, [notice])
   useEffect(() => { document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'dark' ? '#151719' : '#faf8f3') }, [mode])
@@ -166,5 +207,5 @@ export function SiteShell({ children }: { children: ReactNode }) {
     const to = knownRoute(route(other, page))
     if (to) void navigate({ to, search: previous => previous, hash: window.location.hash.slice(1) })
   }
-  return <SiteContext.Provider value={{ locale, mode, tr, toggleMode, notice, notify, overlay, setOverlay, download, switchLanguage, themeDraft }}><a className="skip-link" href="#main">{tr('a11y.skip')}</a><Header />{children}<Footer />{!overlay && <Toast />}</SiteContext.Provider>
+  return <SiteContext.Provider value={{ locale, mode, tr, toggleMode, notice, notify, overlay, setOverlay, download, release, releaseResolved, architecture, setArchitecture, switchLanguage, themeDraft }}><a className="skip-link" href="#main">{tr('a11y.skip')}</a><Header />{children}<Footer />{!overlay && <Toast />}</SiteContext.Provider>
 }

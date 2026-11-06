@@ -11,6 +11,7 @@ struct SettingsView: View {
     @State private var notice: String?
     @State private var selectedTab: Int
     @State private var themeEditorPresented = false
+    @State private var themeLibraryPresented = false
 
     init(app: AppState) {
         self.app = app
@@ -52,6 +53,9 @@ struct SettingsView: View {
             .sheet(isPresented: $themeEditorPresented) {
                 ThemeEditor(preferences: preferences)
                     .workbenchControlFamily().workbenchAppearance(preferences)
+            }
+            .sheet(isPresented: $themeLibraryPresented) {
+                ThemeLibraryView(preferences: preferences).workbenchSheet(preferences)
             }
             .alert(
                 L10n.text("设置操作未完成"),
@@ -131,11 +135,16 @@ struct SettingsView: View {
             Section(L10n.text("自定义配色")) {
                 LabeledContent(L10n.text("已保存主题")) {
                     HStack(spacing: 10) {
-                        Text(preferences.customTheme.name).lineLimit(1).truncationMode(.middle)
+                        Text(
+                            preferences.activeCustomThemeID == nil
+                                ? L10n.text("未选择自定义主题") : preferences.customTheme.name
+                        ).lineLimit(1).truncationMode(.middle)
                         Button(L10n.text("编辑…")) { themeEditorPresented = true }
                             .accessibilityLabel(L10n.text("编辑自定义主题…"))
                             .accessibilityIdentifier("settings-custom-theme")
                             .help(L10n.text("自定义配色独立保存，内置浅色与深色保持不变。"))
+                        Button(L10n.text("主题库…")) { themeLibraryPresented = true }.accessibilityIdentifier(
+                            "settings-theme-library")
                     }
                 }
                 if preferences.customThemeLoadFailed {

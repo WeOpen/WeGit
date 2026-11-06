@@ -24,7 +24,7 @@ on:
       batch:
         description: Trusted main registry entry; one build, one smoke, then its complete method set
         type: choice
-        options: [none, baseline-controls, baseline-recovery, baseline-repository, recovery-reset]
+        options: [none, baseline-controls, baseline-recovery, baseline-repository, recovery-reset, theme-library]
         default: none
 permissions:
   contents: read

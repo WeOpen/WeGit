@@ -2,6 +2,59 @@ import AppKit
 import XCTest
 
 final class ThemeInteractionTests: XCTestCase {
+    @MainActor func testThemeLibraryKeepsSameNamesIndependentAndEditorCancelPreservesSelection() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["--uitesting", "-appearance", "light"]
+        app.launchEnvironment["GIT_CONFIG_GLOBAL"] = "/dev/null"
+        app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
+        app.launchWeGit()
+        defer { app.terminate() }
+        app.typeKey(",", modifierFlags: .command)
+        let settings = app.windows["com_apple_SwiftUI_Settings_window"]
+        XCTAssertTrue(settings.waitForExistence(timeout: 10))
+        settings.radioButtons["外观"].click()
+        let libraryButton = settings.buttons["settings-theme-library"]
+        XCTAssertTrue(libraryButton.waitForExistence(timeout: 5))
+        libraryButton.click()
+        let addTheme = app.buttons["theme-library-add"]
+        XCTAssertTrue(addTheme.waitForExistence(timeout: 5))
+        for _ in 0..<2 {
+            addTheme.click()
+            let name = app.textFields["theme-name"]
+            XCTAssertTrue(name.waitForExistence(timeout: 5))
+            name.click()
+            name.typeKey("a", modifierFlags: .command)
+            name.typeText("Same name")
+            app.buttons["theme-apply"].click()
+            let gone = XCTNSPredicateExpectation(
+                predicate: NSPredicate(format: "exists == false"), object: name)
+            XCTAssertEqual(XCTWaiter.wait(for: [gone], timeout: 10), .completed)
+        }
+        let entries = app.descendants(matching: .any).matching(
+            NSPredicate(format: "identifier BEGINSWITH 'theme-entry:'"))
+        XCTAssertEqual(entries.count, 2)
+        let ids = entries.allElementsBoundByIndex.map(\.identifier)
+        XCTAssertEqual(Set(ids).count, 2)
+        let edits = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'theme-edit:'"))
+        XCTAssertEqual(edits.count, 2)
+        edits.element(boundBy: 0).click()
+        let name = app.textFields["theme-name"]
+        XCTAssertTrue(name.waitForExistence(timeout: 5))
+        name.click()
+        name.typeKey("a", modifierFlags: .command)
+        name.typeText("Cancelled change")
+        app.buttons["theme-cancel"].click()
+        let gone = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: name)
+        XCTAssertEqual(XCTWaiter.wait(for: [gone], timeout: 10), .completed)
+        XCTAssertFalse(app.staticTexts["Cancelled change"].exists)
+        XCTAssertEqual(Set(entries.allElementsBoundByIndex.map(\.identifier)), Set(ids))
+        let attachment = XCTAttachment(screenshot: settings.screenshot())
+        attachment.name = "Stable same-name theme IDs and cancellation"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     @MainActor func testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus() throws {
         continueAfterFailure = false
         let fixture = try UITestGit(prefix: "WeGitThemeInteraction")

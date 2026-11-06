@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
 import { readdirSync } from 'node:fs'
 import { decodeTheme } from '../src/scripts/theme-model.js'
+import { selectRelease } from '../src/scripts/release.mjs'
 
 const site = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const root = resolve(site, '..')
@@ -37,11 +38,15 @@ cpSync(join(site, 'src/scripts/boot.js'), join(publicDir, 'appearance.js'))
 const source = process.env.WEGIT_RELEASES_JSON
 const releases = source ? JSON.parse(readFileSync(source, 'utf8')) : []
 if (!Array.isArray(releases)) throw new Error('Release snapshot must be an array')
-const snapshot = releases.filter(item => item.draft === false).map(item => ({
+const snapshot = releases.filter(item => item.draft === false).slice(0, 100).map(item => ({
   tag_name: item.tag_name, draft: false, prerelease: item.prerelease,
-  assets: (item.assets ?? []).map(asset => ({ name: asset.name, browser_download_url: asset.browser_download_url })),
+  wegit: item.wegit,
+  assets: (item.assets ?? []).slice(0, 30).map(asset => ({ name: asset.name, browser_download_url: asset.browser_download_url,
+    digest: asset.digest, size: asset.size, state: asset.state })),
 }))
+if (new TextEncoder().encode(JSON.stringify(snapshot)).length > 262144) throw new Error('Release snapshot exceeds 256 KiB')
 writeFileSync(join(publicDir, 'releases.json'), JSON.stringify(snapshot) + '\n')
+writeFileSync(join(output, 'release-default.json'), JSON.stringify(selectRelease(snapshot)) + '\n')
 writeFileSync(join(publicDir, '_headers'), ['/assets/brand/*', '  Cache-Control: public, max-age=0, must-revalidate', '/assets/illustrations/*', '  Cache-Control: public, max-age=0, must-revalidate', '/assets/screenshots/*', '  Cache-Control: public, max-age=0, must-revalidate', '/assets/icons/*', '  Cache-Control: public, max-age=0, must-revalidate', '/assets/*.js', '  Cache-Control: public, max-age=31536000, immutable', '/assets/*.css', '  Cache-Control: public, max-age=31536000, immutable', '/themes/*.json', '  Cache-Control: no-cache', '/releases.json', '  Cache-Control: no-cache'].join('\n') + '\n')
 const digest = createHash('sha256')
 function hashDirectory(folder) {

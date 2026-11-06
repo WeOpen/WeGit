@@ -124,6 +124,18 @@
         "CommitTaskWorkflowTests/testMailOrderExportAndConflictContinueAcrossRelaunch",
         "CommitTaskWorkflowTests/testMailAbortCancelAndConfirmationPreserveOriginalTaskAndBackup"
       ]
+    },
+    "theme-library": {
+      "covers": [
+        "14a",
+        "14b",
+        "14c",
+        "14d"
+      ],
+      "methods": [
+        "ThemeInteractionTests/testThemeLibraryKeepsSameNamesIndependentAndEditorCancelPreservesSelection",
+        "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus"
+      ]
     }
   }
 }

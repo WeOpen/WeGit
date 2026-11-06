@@ -1,4 +1,4 @@
-import { useSite, Icon, TextBlock, DownloadLink, NativeImage, SiteLink, HomeThemeTeasers, IconSizes, Workbench } from '../components/Site'
+import { useSite, Icon, TextBlock, DownloadLink, DownloadOptions, DownloadRequirements, NativeImage, SiteLink, HomeThemeTeasers, IconSizes, Workbench } from '../components/Site'
 import { route } from '../lib/site'
 import { catalog } from '../lib/catalog'
 
@@ -12,7 +12,8 @@ export function HomePage() {
 <h1><TextBlock value={tr("home.heroTitle")} /></h1>
 <p className="lead"><TextBlock value={tr("home.heroText")} /></p>
 <div className="button-row"><DownloadLink className="button button-red"><Icon name="download" /><span>{tr("btn.downloadApp")}</span><Icon name="arrow" /></DownloadLink><SiteLink href={"#features"} className="button button-white"><span>{tr("btn.viewFeatures")}</span><Icon name="arrow" /></SiteLink></div>
-<p className="microcopy">{tr("home.compat")}</p>
+<DownloadOptions id="hero-download-architecture" />
+<DownloadRequirements />
 </div>
 <div className="hero-visual"><div className="laptop laptop-hero"><div className="laptop-screen"><NativeImage /></div><div className="laptop-base"></div></div></div>
 <img className="floating-seal" src="/assets/brand/seal-red.svg" width="120" height="120" alt="" aria-hidden="true" />
@@ -36,6 +37,6 @@ export function HomePage() {
 <section className="section icon-display">
 <div className="wrap"><div className="icon-heading"><h2>{tr("home.iconsTitle")}</h2><p>{tr("home.iconsDesc")}</p></div><IconSizes /></div>
 </section>
-<section className="final-cta ink-back" id="download"><div className="wrap final-cta-inner"><h2>{tr("home.ctaTitle")}</h2><p>{tr("home.ctaText")}</p><DownloadLink className="button button-red"><Icon name="download" /><span>{tr("btn.downloadApp")}</span><Icon name="arrow" /></DownloadLink><p className="microcopy">{"macOS 27+ · Apple silicon · Git 2.46+"}</p></div></section>
+<section className="final-cta ink-back" id="download"><div className="wrap final-cta-inner"><h2>{tr("home.ctaTitle")}</h2><p>{tr("home.ctaText")}</p><DownloadOptions id="download-architecture" /><DownloadLink className="button button-red"><Icon name="download" /><span>{tr("btn.downloadApp")}</span><Icon name="arrow" /></DownloadLink><DownloadRequirements /></div></section>
 </main>)
 }

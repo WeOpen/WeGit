@@ -315,6 +315,11 @@ struct WorkspaceView: View {
         .sheet(item: $app.searchRequest) {
             RepositorySearchView(app: app, request: $0).workbenchSheet(app.preferences)
         }
+        .sheet(item: $app.themeImportRequest, onDismiss: app.drainThemeImports) {
+            ThemeImportSheet(preferences: app.preferences, payload: $0).id($0.id).workbenchSheet(
+                app.preferences)
+        }
+        .onChange(of: app.canPresentThemeImport) { _, available in if available { app.drainThemeImports() } }
         .onChange(of: app.settingsRequestID) { _, _ in openSettings() }
         .onChange(of: app.sidebarRequestID) { _, _ in
             columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly

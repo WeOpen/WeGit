@@ -1794,3 +1794,65 @@
 "提交补丁序列已中止，原起点已恢复。" = "Mail patch sequence aborted and its starting point restored.";
 "重新核对" = "Review again";
 "处理冲突" = "Resolve conflicts";
+"主题已保存到主题库" = "Theme saved to the library";
+
+"主题已启用" = "Theme activated";
+
+"主题库" = "Theme library";
+
+"主题库…" = "Theme library…";
+
+"主题库已达到 100 项或空间上限，请先导出或删除主题。" = "The library reached its 100 theme or storage limit. Export or delete themes first.";
+
+"主题库无法读取，原数据已保留，请先恢复主题库备份。" = "The theme library cannot be read. Original data is retained. Restore its backup first.";
+
+"主题操作" = "Theme actions";
+
+"主题链接格式或大小无效，请改用 JSON 文件导入。" = "The theme link format or size is invalid. Import the JSON file instead.";
+
+"主题链接的内容摘要不匹配，请重新发送或下载 JSON。" = "The theme link checksum does not match. Send it again or download JSON.";
+
+"从旧主题恢复主题库？" = "Restore the library from the legacy theme?";
+
+"保存到主题库" = "Save to library";
+
+"删除主题" = "Delete theme";
+
+"删除主题…" = "Delete theme…";
+
+"删除这个主题？" = "Delete this theme?";
+
+"原损坏数据会单独备份，当前外观将跟随系统。" = "Original damaged data will be backed up separately. Appearance will follow the system.";
+
+"另一个窗口正在预览主题，请先结束该预览。" = "Another window is previewing a theme. End that preview first.";
+
+
+"启用主题" = "Activate theme";
+
+"复制主题" = "Duplicate theme";
+
+"导入 JSON…" = "Import JSON…";
+
+"导入主题" = "Import theme";
+
+"导出 JSON…" = "Export JSON…";
+
+"已删除 %1$@" = "Deleted %1$@";
+
+"当前主题" = "Active theme";
+
+"当前主题删除后将跟随系统外观。" = "Deleting the active theme switches to system appearance.";
+
+"待处理的主题请求已满，请先完成当前导入。" = "The pending theme queue is full. Finish the current import first.";
+
+"恢复旧主题…" = "Restore legacy theme…";
+
+
+"新增主题" = "New theme";
+
+"未选择自定义主题" = "No custom theme selected";
+
+"此主题已在其他窗口修改或删除，请重新打开。" = "This theme was edited or deleted in another window. Open it again.";
+
+"还没有保存的自定义主题" = "No saved custom themes yet";
+"使用主题" = "Use Theme";

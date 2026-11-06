@@ -1,5 +1,7 @@
 /** The desktop client's v1 JSON contract. No website-only settings are exported. */
 export const MAX_THEME_BYTES = 65_536;
+export const MAX_THEME_URI_BYTES = 16_384;
+export const MAX_THEME_URI_PAYLOAD_BYTES = 8_192;
 export const COLOR_ROLES = Object.freeze('accent canvas chrome sidebar surface border text secondaryText positive negative modified diffAdded diffRemoved keyword string number comment'.split(' '));
 const FOREGROUNDS = ['text', 'secondaryText', 'positive', 'negative', 'modified', 'keyword', 'string', 'number', 'comment'];
 const BACKGROUNDS = ['canvas', 'chrome', 'sidebar', 'surface', 'diffAdded', 'diffRemoved'];
@@ -24,6 +26,22 @@ export function validateTheme(value) {
 export function decodeTheme(text) {
   if (new TextEncoder().encode(text).length > MAX_THEME_BYTES) throw new Error('Theme is larger than 64 KiB');
   return validateTheme(JSON.parse(text));
+}
+
+/** One normalized byte snapshot is shared by JSON download and the local URI. */
+export function themeSnapshot(document) {
+  return JSON.stringify(validateTheme(document)) + '\n';
+}
+
+export async function themeImportURI(document) {
+  const bytes = new TextEncoder().encode(themeSnapshot(document));
+  if (bytes.length > MAX_THEME_URI_PAYLOAD_BYTES) throw new Error('Theme exceeds URI payload limit');
+  const checksum = [...new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256', bytes))]
+    .map(value => value.toString(16).padStart(2, '0')).join('');
+  const encoded = btoa(String.fromCharCode(...bytes)).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+  const uri = 'wegit://theme/import?v=1&data=' + encoded + '&sha256=' + checksum;
+  if (new TextEncoder().encode(uri).length > MAX_THEME_URI_BYTES) throw new Error('Theme URI is too large');
+  return uri;
 }
 
 export function luminance(hex) {
