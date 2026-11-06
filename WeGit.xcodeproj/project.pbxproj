@@ -20,6 +20,7 @@
 		10993AA44DE4E740B18B752F /* LayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35ED6F3020AE96FCB957830 /* LayoutTests.swift */; };
 		11E4FF0F2984994ED34B5C72 /* FileModificationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4636829BA09B874BB638FF /* FileModificationSheet.swift */; };
 		12BB2E5EC3C9529CF9144E8A /* WorktreeWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691EEA2002AF912273BB99C /* WorktreeWorkflowTests.swift */; };
+		13DE4862B8136E5F83873E20 /* CommitTaskWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB5390DCAC7519AE5067E6C /* CommitTaskWorkflowTests.swift */; };
 		13E276DCB1333E635B092E4B /* Sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73B06EA47A30EF556BB101 /* Sheets.swift */; };
 		154D942E5031530FCF143E56 /* CommitQueueSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00AF0352511CC1A63FA76B5 /* CommitQueueSheet.swift */; };
 		15E5B26FD697DE40D8086422 /* WorkspaceToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF720B7D33FB8C39517EFF3 /* WorkspaceToolbar.swift */; };
@@ -74,8 +75,7 @@
 		6A3FD3FCBEA5BFBE9B818BA5 /* AppStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2474B45C92EBA9AECC2B494E /* AppStyle.swift */; };
 		6E1130C864F8CE0AAA4A35C9 /* ViewPerformanceJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7406090F3F3D453C8C2A796 /* ViewPerformanceJournal.swift */; };
 		6F309C0718D7376D5D244954 /* BrandAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBC590C6F10217599AF4A392 /* BrandAssets.xcassets */; };
-		820D158AF187D49165E22D6F /* RepositoryToolsWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34B038C803482F5422512EA /* RepositoryToolsWorkflowTests.swift */; };
-		8002FCEFB3E961EDA0A43E33 /* CommitTaskWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17190343A54FCFA29EBC45C0 /* CommitTaskWorkflowTests.swift */; };
+		7078F78EF2DEEACF4F094F5B /* RepositoryToolsWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3664BC2B90011974CDC04306 /* RepositoryToolsWorkflowTests.swift */; };
 		709A8103FC06B8BE84E83C04 /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7D913455ACBB969181615B /* AuthenticationController.swift */; };
 		71BAE29AE13D381FED3130F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 079FCB2A155FE054AACEAE5A /* InfoPlist.strings */; };
 		7255F461F562A83B14327E42 /* WindowLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C5E9CA800E3E0AE246165 /* WindowLifecycleTests.swift */; };
@@ -212,8 +212,7 @@
 		2B5DFEF17F1F72DD8EDC9BF2 /* TagWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagWorkflowTests.swift; sourceTree = "<group>"; };
 		2BF720B7D33FB8C39517EFF3 /* WorkspaceToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceToolbar.swift; sourceTree = "<group>"; };
 		3439F1FF0CC719EA0E7B354E /* RepositoryContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryContextMenu.swift; sourceTree = "<group>"; };
-		F34B038C803482F5422512EA /* RepositoryToolsWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryToolsWorkflowTests.swift; sourceTree = "<group>"; };
-		17190343A54FCFA29EBC45C0 /* CommitTaskWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitTaskWorkflowTests.swift; sourceTree = "<group>"; };
+		3664BC2B90011974CDC04306 /* RepositoryToolsWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryToolsWorkflowTests.swift; sourceTree = "<group>"; };
 		3691EEA2002AF912273BB99C /* WorktreeWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeWorkflowTests.swift; sourceTree = "<group>"; };
 		3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		3C5B9523CA4BAF7A324606E1 /* DiskDiffDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDiffDisplayState.swift; sourceTree = "<group>"; };
@@ -243,6 +242,7 @@
 		69851F96AE048E02B867508A /* WeGit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeGit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB7DCA8173B212F363D34B9 /* CommitDetailState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitDetailState.swift; sourceTree = "<group>"; };
 		6AF2BE943982E3430E8EB2FD /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
+		6CB5390DCAC7519AE5067E6C /* CommitTaskWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitTaskWorkflowTests.swift; sourceTree = "<group>"; };
 		6D2DC43C55F585E79B9108EA /* WorktreeManagementSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeManagementSheet.swift; sourceTree = "<group>"; };
 		6D4F557B4DD38A63558B7B92 /* WorktreeManagementState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorktreeManagementState.swift; sourceTree = "<group>"; };
 		6EE6C5522DB85CB59E6C5C6C /* CommitFilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitFilesView.swift; sourceTree = "<group>"; };
@@ -364,6 +364,7 @@
 			children = (
 				D0D76EC00C8BC8A04E98ED29 /* BlameWorkflowTests.swift */,
 				BBA763BCB4493EC8B7C35D44 /* ChangesListTests.swift */,
+				6CB5390DCAC7519AE5067E6C /* CommitTaskWorkflowTests.swift */,
 				ABBD62AD5BEEA0F025C5A11B /* DiffReaderTests.swift */,
 				E04044492C96A4E8F875261B /* FileHistoryWorkflowTests.swift */,
 				5C9E903CDDF3740DD68FD87C /* GitConfigurationInterfaceTests.swift */,
@@ -379,8 +380,7 @@
 				4C8BE4C1B5381182CD7D1A27 /* RecoveryWorkflowTests.swift */,
 				28006F84E2ABEFA3D101BBCD /* RemoteManagementWorkflowTests.swift */,
 				DE95A5E39419B153C6284C5F /* RepositoryPickerTests.swift */,
-				F34B038C803482F5422512EA /* RepositoryToolsWorkflowTests.swift */,
-				17190343A54FCFA29EBC45C0 /* CommitTaskWorkflowTests.swift */,
+				3664BC2B90011974CDC04306 /* RepositoryToolsWorkflowTests.swift */,
 				D8E000D06F4C77D804675ACE /* SelectedLinesWorkflowTests.swift */,
 				FCB041EA4D090DC5B4972BD5 /* SettingsLifecycleTests.swift */,
 				0674C9E8D60771CC8F639A14 /* SettingsReadingTests.swift */,
@@ -913,6 +913,7 @@
 			files = (
 				B17FD935F949705FEAFEAE29 /* BlameWorkflowTests.swift in Sources */,
 				912482B2DB0CA8509E9FFE16 /* ChangesListTests.swift in Sources */,
+				13DE4862B8136E5F83873E20 /* CommitTaskWorkflowTests.swift in Sources */,
 				5D93C609116608C0234463F2 /* DiffReaderTests.swift in Sources */,
 				D605AE2D42515263127C7539 /* FileHistoryWorkflowTests.swift in Sources */,
 				A2B254D2EC7B9CABFE5E7D19 /* GitConfigurationInterfaceTests.swift in Sources */,
@@ -928,8 +929,7 @@
 				A614B8A801395E39280E0A45 /* RecoveryWorkflowTests.swift in Sources */,
 				D326869E95CBBFD9860792BC /* RemoteManagementWorkflowTests.swift in Sources */,
 				DF5F748199E35EAD4B76A6A3 /* RepositoryPickerTests.swift in Sources */,
-				820D158AF187D49165E22D6F /* RepositoryToolsWorkflowTests.swift in Sources */,
-				8002FCEFB3E961EDA0A43E33 /* CommitTaskWorkflowTests.swift in Sources */,
+				7078F78EF2DEEACF4F094F5B /* RepositoryToolsWorkflowTests.swift in Sources */,
 				99AD119B6CBDF57A417C25A8 /* SelectedLinesWorkflowTests.swift in Sources */,
 				1AE406C2F035ED897B998FD5 /* SettingsLifecycleTests.swift in Sources */,
 				9F4DAE2FBDD1039426B386E1 /* SettingsReadingTests.swift in Sources */,
@@ -1228,8 +1228,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1248,6 +1249,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -1379,8 +1382,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1399,6 +1403,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;

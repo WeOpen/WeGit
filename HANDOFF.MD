@@ -1,5 +1,12 @@
 # WeGit 开发交接
 
+## 2026-11-06 M1 原后端预算通过与包体积修补
+
+- 固定56f863a的CI42168490552实际三种Git各299测试/48套件通过（259.896/159.458/202.530秒），隔离签名与功能、原性能、应用/UI测试源编译均成功；package在60MiB安装预算失败，整轮仍失败。原413440bytes native ZIP/50CRC/SHA33db2719…和69019bytes receipts/6CRC/SHA472ebe56…均保留于.build/v2-m1/final-profile/hosted-42168490552。原普通/大型各30样本独立重算，大型p95预览1225.69ms、Reset1591.04ms、恢复预览991.97ms、恢复1070.53ms，取消1.01ms/RSS24,379,392bytes；原2000ms不变，这仍不替代原生实际XCTest或完整版本验收。
+- 本机原始Universal Release实际64,910,877bytes，主程序46,010,704bytes、AskPass12,501,472bytes；不是资源预算应放宽。只对Release/ReleasePerformance启用系统DEPLOYMENT_POSTPROCESSING、STRIP_INSTALLED_PRODUCT、non-global符号剥离及COPY_PHASE_STRIP，Debug保留原配置。新包32,520,813bytes，实际DMG18,084,300bytes/SHAa86a4d5c2c00365d22ce2f226aa28c9f5880a8412b8dcc253df9621d4e781bc5；两个架构/26.0 minos、源回执、严格签名、只读挂载及Applications链接均核对，所有原预算保留。
+- 主程序与AskPass的arm64/x86_64 dSYM UUID均与剥离后程序相同，保留独立符号化资料。未变Core147项、签名106项和性能119项输入与56f863a逐Git blob相同；该修补仅配置和包输入，受影响阶段集中重验，不额外重跑未变后端。开发DMG显式workspaceDirty，源码证明和原始数据在.build/v2-m1/final-profile；不把本机包测试改写成托管通过。
+- M4工作区开发已独立保存到stash，确切OID在.build/v2-m4/wip-stash-sha.txt，完整patch/清单保留。恢复时回codex/v2-m4-workspaces-and-delivery并按该OIDapply，不能用drop或覆盖主检出。主PBX当前SHA1343632f188d600b0111634b939732f3ae618021e9192e4c43a73e3fe52c66f9保持。当前M4私有预览仍可运行，用户的WindowFlow历史窗口置前请求待答；不要动真实WeGit进程或用户域。原始URI自动审查拒绝边界继续保留，heartbeat未恢复。
+
 ## 2026-11-06 M1 有界核对与恢复预览候选
 
 - 最新实际托管失败仍为固定bcf8666的CI42043325839：三种Git各294测试/48套件、签名及功能通过；大型30样本p95预览1606.41ms、Reset2385.34ms、恢复预览2130.95ms、恢复2104.56ms，原2000ms预算未改变。应用/UI编译与包未执行；主检出.build/v2-m1/failed-native-8的原ZIP/CRC/SHA及独立重算继续保留。
