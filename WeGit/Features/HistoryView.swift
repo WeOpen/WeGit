@@ -200,24 +200,28 @@ struct HistoryView: View {
     private func commitActions(_ commit: GitCommit) -> some View {
         Menu(L10n.text("操作")) {
             Button("Reset…") { app.resetRequest = ResetRequest(session: session, target: commit.id) }
+                .disabled(!session.canWrite)
             Divider()
             Button(L10n.text("Cherry-pick…")) {
-                app.singleCommitRequest = SingleCommitRequest(
-                    session: session, operation: .cherryPick, target: commit.id)
-            }.disabled(commit.parents.count > 1)
+                presentCommitOperation(.cherryPick, commit: commit)
+            }.disabled(!session.canWrite)
             Button(L10n.text("Revert…")) {
-                app.singleCommitRequest = SingleCommitRequest(
-                    session: session, operation: .revert, target: commit.id)
-            }.disabled(commit.parents.count > 1)
+                presentCommitOperation(.revert, commit: commit)
+            }.disabled(!session.canWrite)
+            Button(L10n.text("导出提交邮件补丁…"), systemImage: "envelope") {
+                app.exportCommitMailPatches(
+                    Array(selectedCommits(fallback: commit).reversed()), session: session)
+            }.disabled(selectedCommits(fallback: commit).contains { $0.parents.count > 1 })
+                .accessibilityIdentifier("history-export-mail-patches")
             Divider()
             Button(L10n.text("从此提交创建标签…")) {
                 app.tagCreationRequest = TagCreationRequest(
                     session: session, target: commit.id)
-            }
+            }.disabled(!session.canWrite)
             Button(L10n.text("从此提交新建分支…")) {
                 branchStart = commit.id
                 createBranch = true
-            }
+            }.disabled(!session.canWrite)
             Button(L10n.text("检出此提交…")) {
                 let head = session.status.head
                 if app.confirm(
@@ -232,11 +236,30 @@ struct HistoryView: View {
                         try await $0.checkoutCommit(commit.id, expectedHead: head)
                     }
                 }
-            }
-        }.fixedSize().disabled(!session.canWrite)
+            }.disabled(!session.canWrite)
+        }.fixedSize()
             .tint(colors.accentText)
             .accessibilityIdentifier("history-operations")
             .accessibilityLabel(L10n.text("所选提交的操作"))
+    }
+
+    private func presentCommitOperation(_ operation: SingleCommitOperation, commit: GitCommit) {
+        var selected = selectedCommits(fallback: commit)
+        if selected.count > 1 || selected[0].parents.count > 1 {
+            if operation == .cherryPick { selected.reverse() }
+            app.commitQueueRequest = CommitQueueRequest(
+                session: session, operation: operation, commits: selected)
+        } else {
+            app.singleCommitRequest = SingleCommitRequest(
+                session: session, operation: operation, target: commit.id)
+        }
+    }
+
+    private func selectedCommits(fallback: GitCommit) -> [GitCommit] {
+        let selected = session.historyState.commits.filter {
+            session.historyState.selectedIDs.contains($0.id)
+        }
+        return selected.isEmpty ? [fallback] : selected
     }
 
     private var scopePicker: some View {

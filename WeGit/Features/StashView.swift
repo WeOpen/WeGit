@@ -13,7 +13,10 @@ struct StashView: View {
                 perform: { name, context, operation in
                     guard app.session === session else { return }
                     session.performResult(name, context: context, operation: operation)
-                }, showChanges: { app.workspace.route = .changes }
+                }, showChanges: { app.workspace.route = .changes },
+                createBranch: { entry, list in
+                    app.stashBranchRequest = StashBranchRequest(session: session, entry: entry, list: list)
+                }
             ) { contents, part in
                 StashDiffView(app: app, session: session, contents: contents, part: part)
             }

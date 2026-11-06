@@ -543,10 +543,15 @@ extension RepositoryService {
                     - (currentSharedIndex?.data.count ?? 0))
             async let indexTree =
                 layer == .worktree
-                ? nil : recoveryIndexTree(index, shared: sourceSharedIndex, persist: false)
+                ? nil
+                : recoveryIndexTree(
+                    index, shared: sourceSharedIndex, persist: false,
+                    preservingConflictStages: record.conflictIndexTree != nil)
             let ((source, _, _), current, tree) = try await (saved, captured, indexTree)
             if layer != .worktree {
-                guard record.indexTree == nil || record.indexTree == tree else { throw ModelFailure.changed }
+                guard record.retainedIndexTree == nil || record.retainedIndexTree == tree else {
+                    throw ModelFailure.changed
+                }
             }
             try await verifyHead(state.head)
             let final = try await recoveryContext()
@@ -691,7 +696,7 @@ extension RepositoryService {
             try await verifyCommit(head)
             commands.append("create " + recoveryRef(record) + " " + head)
         }
-        if let tree = record.indexTree {
+        if let tree = record.retainedIndexTree {
             commands.append("create " + recoveryIndexRef(record) + " " + tree)
         }
         if let tree = record.pendingIndexTree {
@@ -710,7 +715,7 @@ extension RepositoryService {
         try await SnapshotIO.run { _ in try store.validateRemoval(record) }
         var commands = ["start"]
         for (ref, object) in [
-            (recoveryRef(record), record.head), (recoveryIndexRef(record), record.indexTree),
+            (recoveryRef(record), record.head), (recoveryIndexRef(record), record.retainedIndexTree),
             (pendingRecoveryIndexRef(record), record.pendingIndexTree),
         ] {
             guard let object else { continue }

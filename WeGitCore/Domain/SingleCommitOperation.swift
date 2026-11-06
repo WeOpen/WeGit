@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SingleCommitOperation: String, CaseIterable, Sendable {
+public enum SingleCommitOperation: String, CaseIterable, Codable, Sendable {
     case cherryPick = "cherry-pick"
     case revert
 
@@ -22,6 +22,7 @@ public struct SingleCommitPlan: Sendable {
     public let target: GitCommit
     public let head: String
     public let branch: String
+    public let mainline: Int?
     public let files: [SingleCommitFileChange]
     public let conflictPaths: [String]
     public var hasChanges: Bool { !files.isEmpty || !conflictPaths.isEmpty }

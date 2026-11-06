@@ -63,7 +63,7 @@ public struct FileChange: Hashable, Sendable, Identifiable {
 }
 
 public enum Sequencer: String, Sendable {
-    case none, merge, rebase, cherryPick, revert, unknown
+    case none, merge, rebase, cherryPick, revert, mailApply, unknown
     public var title: String {
         switch self {
         case .none: L10n.text("无进行中操作")
@@ -71,6 +71,7 @@ public enum Sequencer: String, Sendable {
         case .rebase: L10n.text("变基")
         case .cherryPick: "Cherry-pick"
         case .revert: "Revert"
+        case .mailApply: L10n.text("导入提交补丁")
         case .unknown: L10n.text("未支持的 Git 序列操作")
         }
     }
@@ -88,6 +89,10 @@ public struct RepositoryStatus: Sendable {
     public var singleCommitRecovery: SingleCommitRecovery?
     public var rebaseRecovery: RebaseRecovery?
     public var rebaseRecoveryUnavailable: String?
+    public var commitQueue: CommitQueueRecord?
+    public var commitQueueUnavailable: String?
+    public var mailPatch: MailPatchRecord?
+    public var mailPatchUnavailable: String?
     public var conflicts: [FileChange] { files.filter(\.conflict) }
     public var isDetached: Bool { branch == "(detached)" }
     public var displayBranch: String { isDetached ? "Detached · \(head?.prefix(7) ?? "")" : branch }

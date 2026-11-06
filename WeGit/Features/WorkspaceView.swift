@@ -24,6 +24,33 @@ struct WorkspaceView: View {
                                 let leadingInset = max(
                                     0, column.frame(in: .global).minX - geometry.frame(in: .global).minX)
                                 VStack(spacing: 0) {
+                                    if let record = session.status.commitQueue {
+                                        HStack {
+                                            Label(
+                                                record.operation.title
+                                                    + " · \(record.next)/\(record.items.count)",
+                                                systemImage: "list.number")
+                                            Spacer()
+                                            Button(L10n.text("查看提交队列…")) {
+                                                app.commitQueueRequest = CommitQueueRequest(
+                                                    session: session, operation: record.operation,
+                                                    commits: [], record: record)
+                                            }.accessibilityIdentifier("commit-queue-recovery")
+                                        }.padding(10).background(colors.chrome)
+                                    }
+                                    if let record = session.status.mailPatch {
+                                        HStack {
+                                            Label(
+                                                L10n.text("提交补丁")
+                                                    + " · \(record.next)/\(record.entries.count)",
+                                                systemImage: "envelope")
+                                            Spacer()
+                                            Button(L10n.text("查看提交补丁序列…")) {
+                                                app.mailPatchRequest = MailPatchRequest(
+                                                    session: session, sources: [], record: record)
+                                            }.accessibilityIdentifier("mail-patch-recovery")
+                                        }.padding(10).background(colors.chrome)
+                                    }
                                     statusBanner(session).padding(.leading, leadingInset)
                                     switch app.workspace.route {
                                     case .changes:
@@ -163,6 +190,16 @@ struct WorkspaceView: View {
                     .help(app.workspace.inspector ? L10n.text("隐藏检查器") : L10n.text("显示检查器"))
                     .accessibilityIdentifier("toolbar-inspector")
                     Menu {
+                        Button(L10n.text("保存任务并切换…"), systemImage: "archivebox") {
+                            app.taskSwitchRequest = TaskSwitchRequest(session: session)
+                        }.disabled(
+                            session.isBusy || session.status.files.isEmpty
+                                || session.status.commitQueue?.phase.pending == true
+                        )
+                        .accessibilityIdentifier("task-save-and-switch")
+                        Button(L10n.text("导入提交补丁…"), systemImage: "envelope") { app.openMailPatchImport() }
+                            .disabled(session.isBusy).accessibilityIdentifier("mail-patch-import")
+                        Divider()
                         if app.preferences.showMenuBar {
                             Button(L10n.text("菜单栏快捷面板"), systemImage: "menubar.rectangle") {
                                 app.menuBarRequestID = UUID()
@@ -210,6 +247,21 @@ struct WorkspaceView: View {
         .sheet(item: $app.singleCommitRequest) {
             SingleCommitSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
+        .sheet(item: $app.commitQueueRequest) {
+            CommitQueueSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.taskSwitchRequest) {
+            TaskSwitchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.stashBranchRequest) {
+            StashBranchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.signatureRequest) {
+            SignatureSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.commitMessageRequest) {
+            CommitMessageSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
         .sheet(item: $app.resetRequest, onDismiss: app.resetDidDismiss) {
             ResetSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
@@ -227,6 +279,9 @@ struct WorkspaceView: View {
         }
         .sheet(item: $app.patchImportRequest, onDismiss: app.patchImportDidDismiss) {
             PatchImportSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.mailPatchRequest) {
+            MailPatchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
         .sheet(item: $app.conflictEditorRequest) {
             ConflictEditorSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
@@ -413,7 +468,12 @@ struct WorkspaceView: View {
                 }
             }.font(.callout).modifier(BannerSurface(tint: colors.negative))
         }
-        if session.status.sequencer != .none {
+        if let unavailable = session.status.mailPatchUnavailable {
+            Text(unavailable).font(.caption).foregroundStyle(colors.modified).padding(10)
+        }
+        if session.status.sequencer != .none,
+            !(session.status.sequencer == .mailApply && session.status.mailPatch != nil)
+        {
             HStack {
                 let rebase = session.status.rebaseRecovery
                 Label(
@@ -484,8 +544,13 @@ struct WorkspaceView: View {
                     )
                     .accessibilityIdentifier("sequencer-continue")
                 } else {
-                    Text(session.status.rebaseRecoveryUnavailable ?? L10n.text("请在 Terminal 完成当前操作"))
-                        .foregroundStyle(colors.secondaryText)
+                    Text(
+                        session.status.rebaseRecoveryUnavailable
+                            ?? (session.status.sequencer == .mailApply
+                                ? L10n.text("此邮件序列由其他工具开始，请在原工具中处理。")
+                                : L10n.text("请在 Terminal 完成当前操作"))
+                    )
+                    .foregroundStyle(colors.secondaryText)
                 }
             }.font(.callout).modifier(BannerSurface(tint: colors.modified))
         }

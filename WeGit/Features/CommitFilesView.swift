@@ -360,6 +360,16 @@ struct CommitFilesView: View {
 
     private func comparisonActions(_ comparison: CommitComparison) -> some View {
         HStack(spacing: 10) {
+            if !stashContext {
+                Button {
+                    app.presentSignature(
+                        SignatureRequest(
+                            session: session, objectID: comparison.commit.id, object: .commit,
+                            title: comparison.commit.subject))
+                } label: {
+                    Label(L10n.text("验证签名"), systemImage: "checkmark.seal")
+                }.accessibilityIdentifier("commit-signature").help(L10n.text("验证签名"))
+            }
             if !stashContext,
                 let file = comparison.files.first(where: { $0.path == detail.selectedPath })
             {

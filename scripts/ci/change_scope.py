@@ -14,6 +14,7 @@ BACKEND_FILES = {
     "WeGit/App/WorktreeManagementState.swift", "WeGit/App/AuthenticationController.swift",
     "WeGit/App/AppPreferences.swift", "WeGit/App/PreferenceMigration.swift",
     "WeGit/Features/CloneViewModel.swift",
+    "WeGit/App/CommitMessageHistory.swift", "WeGit/App/PatchActions.swift",
 }
 CORE_FRONTEND_FILES = {
     "WeGitCore/Domain/Localization.swift", "WeGitCore/Domain/CodeTextPresentation.swift",
