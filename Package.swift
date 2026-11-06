@@ -8,11 +8,13 @@ let package = Package(
     products: [
         .library(name: "WeGitCore", targets: ["WeGitCore"]),
         .executable(name: "WeGitAskPass", targets: ["WeGitAskPass"]),
+        .executable(name: "WeGitUpdater", targets: ["WeGitUpdater"]),
         .executable(name: "WeGitBenchmarks", targets: ["WeGitBenchmarks"]),
     ],
     targets: [
         .target(name: "WeGitCore", path: "WeGitCore", resources: [.process("Resources")]),
         .executableTarget(name: "WeGitAskPass", dependencies: ["WeGitCore"], path: "WeGitAskPass"),
+        .executableTarget(name: "WeGitUpdater", dependencies: ["WeGitCore"], path: "WeGitUpdater"),
         .executableTarget(name: "WeGitBenchmarks", dependencies: ["WeGitCore"], path: "Benchmarks"),
         .testTarget(name: "WeGitCoreTests", dependencies: ["WeGitCore", "WeGitAskPass"], path: "WeGitTests"),
     ]

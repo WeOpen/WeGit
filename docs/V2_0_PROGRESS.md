@@ -4,6 +4,8 @@
 
 ## 当前批次
 
+M4后续已接独立WeGitUpdater、持久handoff/真实退出/新PID readiness/当前v2数据回退，以及独立v2 suite/SwiftData迁移、明确旧格式恢复/继续入口。production公钥/feed按用户要求在最终门禁提醒，当前空配置。新helper计入CI输入/必需控制/三包；Root已接M1有界checkout候选，原托管Reset2394.34ms失败仍待重验。私有更新30组、CLI7组+2例、迁移13组及完整AppState注入为开发证据；本机只编译XCTest源。原始失败/差异/字节与IDs核对在HANDOFF和.build目录留存，完整托管、真实三包/生产信任、URI及M5仍未全部验收。
+
 最新[CI42180305762](https://github.com/WeOpen/WeGit/actions/runs/42180305762)固定0d8bd7c：同一Core输入重新核验时runner image由20261104.0337.1变为20261026.0314.1，大型30样本Reset p952394.34ms再次超过原2000ms；预览1706.89ms、恢复预览1964.04ms、恢复1922.08ms，应用/包阶段未执行。旧成功与新的真实失败分开保留，不强制复用不同镜像性能，恢复性能仍开放。
 
 M4在 `codex/v2-m4-workspaces-and-delivery` 继续集成：窗口/草稿归属、快捷键及原生菜单/提示同步、七类统一查询、Submodule/LFS管理和更新基础已接原生入口。新增 `workspace-delivery` 7项托管方法只编译；私有资源16/16、更新14/14、窗口/面板/精确Tag14组及快捷键/查询5组控制已有开发证据，60项批次工具和32项发布工具通过。生产更新公钥/feed/installer、迁移全矩阵、真实三包、托管XCTest、URI和M5尚未完成；M1最新性能失败仍开放。独立NSWorkspace单实例预览已实核文件搜索导航、草稿保留、自定义组合真实触发、冲突/清除/恢复及提示同步；末尾Core/App/UI源编译、1892字符串/8复数和源码回执一致。完整多窗口键盘/页面验收不能由局部控制推定。

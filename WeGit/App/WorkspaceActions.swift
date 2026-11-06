@@ -36,12 +36,14 @@ extension AppState {
     }
 
     func presentClone() {
+        guard !isMigrationBlocked, !runtime.updateHandoffInProgress else { return }
         clone.resetCompleted(defaultDirectory: preferences.defaultDirectory)
         if !clone.isBusy && clone.address.isEmpty { clone.parentPath = preferences.defaultDirectory }
         clonePresented = true
     }
 
     func presentInitialization() {
+        guard !isMigrationBlocked, !runtime.updateHandoffInProgress else { return }
         initialization.resetCompleted()
         initializationPresented = true
     }

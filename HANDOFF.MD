@@ -1,5 +1,22 @@
 # WeGit 开发交接
 
+## 2026-11-06 M1 checkout 候选与 M4 安装、迁移接线
+
+- 当前开发源码版本已改v2.0.0/build6；尚无tag、Release、生产安装或自动更新信任配置。Root App/UI/helper build-for-testing和Core/全测试源编译成功（本机无XCTest），1910字符串/8复数、79相关工具与末尾严格Swift格式通过；三变体真实包将在固定开发源码后统一验，源/资源回执逐SHA另存。
+- 用户明确生产更新公钥/feed尚无配置，要求在最终交付门禁时提醒；本轮不生成生产私钥/公钥、不配置生产feed，不反复询问。App与独立WeGitUpdater共用编译公钥配置，空配置停止自动更新。此提醒是最终任务门禁，不创建跟踪本任务结束的自动化。
+- M1最新实际托管失败仍是42180305762/0d8bd7的Reset p952394.34ms>原2000ms。本轮git archive固定0d8私有源码测全Reset阶段，首次大型2样本891.59/889.24ms中Git checkout约368/384ms、后验约236/241ms，持久化85/89ms、meta约6.5ms；不能靠删除meta验证解决394ms缺口。候选仅substantial Hard（>=128文件/16MiB且多CPU）每命令最多4 checkout worker，任何明确checkout.workers仍由Git处理，不写Git配置、不删SHA/fsync/HEAD/索引/序列/路径围栏。补丁已接本M4源码；最终无hook普通/大型各2开发样本、大型665.69/670.93ms，5条私有控制通过，实际4worker取消16.98ms整组退出并保留unknown备份。缓存/同机负载未控制，不推定托管30样本或固定百分比改善。
+- 新WeGitUpdater是独立可执行目标并嵌入Helpers；生产安装不在仍运行的app内替换。持久ticket/journal含source PID+启动/执行身份、目录/包/原与当前prefs/当前v2 DB/helper+资源指纹和token；source只真实kernel zero退出允许swap，ESRCH不算正常成功。rename先fsync意图，恢复实际旧/新fingerprint，不凭phase猜；启动后实际新PID+完整版本/变体+迁移/窗口/prefs ready才确认，崩溃后未能注册新PID留blocked，不kill、不重放prepared。
+- Source abort需独立授权intent与helper的退出等待竞速，apply前复查。App超时不能因同flock争锁失败后解冻，否则以后普通Quit可能触发未授权install。App只在helper abort ack或精确helper Process退出后解除冻结；Delegate只接受固定generation/pref/store基线未变的已授权退出。重开ready独立签名验证，不争helper持有的lease。Pipeline之前固定A快照，不能prepare后把晚来的B设成新基准而备份仍是A。
+- 普通v2更新失败恢复current-v2 prefs和DB，original-v1只给明确旧格式降级；返回数据描述符只使用Configuration.standard的固定production.v2/production-v2 store路径，不能采信handoff自带任意写入URL。current-store fingerprint核对DB/WAL身份、birth/size/m/ctime/SHA及SHM metadata，freeze/capture/prepare/ready/exit再核对，late SQLite或prefs写入阻断安装。来源scope production强制核验在任何mutation前。所有ticket/备份/helper/resource/DMG/DB计入空间预算，20ticket/1GiB上限未知输入阻断且不删除。
+- 新App init先ApplicationDataMigration，接独立com.willxue.wegit.v2 suite与AppSupport/WeGit/v2/Repositories.store；development域/目录独立，但历史shared legacy DB的真实来源单独记，不按包名猜行归属。原DB/WAL/SHM只捕获原始字节，不直接SQLite打开原或sealed archive；一致备份在私有copy上sqlite3_backup，source前后身份/字节/CAS不变。坏主题/页/草稿/marker/损坏archive阻断迁移，使用不持久的失败偏好且关闭仓库写入口，不能回落standard污染原域。
+- 原格式恢复与继续v2为明确动作，恢复后保留v2目录并要求退出/重开或安装旧版；Settings新增数据备份/恢复入口。系统AppKit frame autosave仍有standard域机制，不宣称原全NSUserDefaults文件字节绝不改变；业务旧值保持，frame改v2名称并在当前suite另存frame；读取旧frame迁入不覆盖旧键。Swift importer是setFrame(from:)。
+- SwiftData PersistentIdentifier跨container的managedObjectID backing coordinator指针不能比较；本机失败原记录保留。真实SQL UUID/PK/业务路径/名称/date bits/pinned均一致，按排序编码的持久ID/URI核对才是跨存储成功标准。实际migrationOverride完整AppState注入还核对recents/theme/两Worktree草稿与路由落在v2数据。14组正式薄控制、14组完整App控制及末轮首次16.85ms/30 warm p950.695ms为Debug私有诊断，不替代正式Release迁移/启动矩阵。
+- Helper的pipe协议CRLF按Data尾10/13处理，不能String.removeLast把Swift CRLF一个Character当两个；真实7组argv/pipe/zero/signal/sourceabort控制及2个独立copied helper CLI布局通过，取消约101ms，源程序仍活；空production key/--trust注入都退出1，所有私有子进程停止。资源置Installer/Resources/WeGit_WeGitCore.bundle，exe置Installer/Helpers，L10n既有Helpers fallback可用，不修改生成Bundle.module。token只在私有0600文件/管道，不放argv/env或日志。
+- 转交的ticket归Core installer持久ownership；App transient app清理先candidate map→preflight→unchanged才授权，不在preflight后吸收新输入。原始StoreSnapshot捕获独立保留，不因app预览清理数据库未知输入；仅验证相等的Replacement/Mount可删除，未seal/变更/未知保留，stage目录数有界10。正常阶段备份和因失败保留的输入需未来明确导出/清理，不改记自动清理已完成。
+- WeGitReleaseVersion保留RC全版本，CFBundleShortVersionString仍base版本；否则已安装RC会被当stable并拒绝下一RC。打包显式tag传实际raw版本，无tag用Xcode MARKETING_VERSION，Bash3.2避免set-u空array展开。新helper必须进入source provenance、变体Mach-O/signature/minos和CI输入/分流；仅新增目录而漏输入会错误复用旧证据。目标只定向加入17对象及新App引用，现有372 IDs/主检出用户PBX保留，未用xcodegen覆盖项目。
+- CI behavior将新迁移/持久更新检查登记为feature存在即mandatory，正式checker私有源码/二进制/前后hash绑定；native/checker编译仍不是XCTest。Core/应用lint包括WeGitUpdater，package在稳定批次分别构建/验Universal/Apple Silicon/Intel，共用一套同源码后端证据，不逐子任务请求GitHub。当前仍未发布/执行生产安装或生成信任根，M5全页面/支持矩阵/完整托管与原性能门禁继续待验。
+- 失败/补验留存：新worktree工具未返回注册结果，registry无checkout，M1改用固定git archive私有snapshot；错误cwd开始上层M4编译仅产物且未采用，Release测试module解析失败改正常Debug源编译；按绝对parts排除.build会错误清空嵌套snapshot源集合，校正为3145明确路径，不使用空映射当源码证据。工具测试包导入要相应PYTHONPATH/discovery，原missing test_release失败保留，79项末尾工具真实通过。各源临时compile失败与字节/IDs重验分别保留.build/v2-m4-delivery和各agent目录。
+
 ## 2026-11-06 M4 工作区、资源与交付基础集成
 
 - 继续使用 managed 的 v2-m1-validation-fix/WeGit、codex/v2-m4-workspaces-and-delivery；主检出主题/网站分支和用户 PBX 未移动。快捷键、七类统一查询、Submodule/LFS 与更新状态已接原生入口，本轮只做开发编译/隔离控制，尚未请求新的托管批次或发布。M1 最新 CI42180305762 的大型 Reset p95 2394.34ms / 原预算2000ms仍为失败。

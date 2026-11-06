@@ -6,7 +6,10 @@ import Security
 public struct UpdateDataBackup: Sendable {
     public let originalPreferences: Data
     public let currentPreferences: Data
-    public init(originalPreferences: Data, currentPreferences: Data) throws {
+    public let currentStoreBackup: ApplicationStoreBackup?
+    public init(
+        originalPreferences: Data, currentPreferences: Data, currentStoreBackup: ApplicationStoreBackup? = nil
+    ) throws {
         for data in [originalPreferences, currentPreferences] {
             guard data.count <= 8 * 1024 * 1024,
                 let value = try PropertyListSerialization.propertyList(from: data, format: nil)
@@ -16,8 +19,16 @@ public struct UpdateDataBackup: Sendable {
         }
         self.originalPreferences = originalPreferences
         self.currentPreferences = currentPreferences
+        self.currentStoreBackup = currentStoreBackup
+        if let store = currentStoreBackup {
+            guard store.bytes <= 64 * 1024 * 1024, store.data.prefix(16) == Data("SQLite format 3\0".utf8),
+                UpdateManifestValidator.digest(store.data) == store.sha256
+            else { throw UpdateFailure.invalidManifest }
+        }
     }
-    public var byteCount: Int64 { Int64(originalPreferences.count + currentPreferences.count) }
+    public var byteCount: Int64 {
+        Int64(originalPreferences.count + currentPreferences.count + (currentStoreBackup?.bytes ?? 0))
+    }
 
     /// A caller restores this explicit original-format snapshot into its isolated
     /// preference domain after exiting v2. A running app's domain is never replaced here.
@@ -46,7 +57,7 @@ public struct UpdateInstallationActivity: Equatable, Sendable {
         self.persistenceFlushed = persistenceFlushed
         self.generation = generation
     }
-    fileprivate func validate() throws {
+    func validate() throws {
         guard busyTasks == 0, windowIDs.count <= 32, windowIDs == persistedWindowIDs, persistenceFlushed
         else {
             throw UpdateFailure.busy
@@ -62,7 +73,7 @@ public final class UpdateInstallationSandbox: @unchecked Sendable {
     public var currentApp: URL { root.appending(path: "WeGit.app") }
     public var replacementApp: URL { root.appending(path: "Replacement.app") }
     private let identity: RepositoryNodeIdentity
-    fileprivate static func canonical(_ url: URL) throws -> URL {
+    static func canonical(_ url: URL) throws -> URL {
         guard let path = realpath(url.path, nil) else { throw UpdateFailure.changed }
         defer { free(path) }
         return URL(fileURLWithPath: String(cString: path))
@@ -82,7 +93,7 @@ public final class UpdateInstallationSandbox: @unchecked Sendable {
                 decoding: template.prefix(while: { $0 != 0 }).map { UInt8(bitPattern: $0) }, as: UTF8.self))
         identity = try RepositoryNodeIdentity.read(root, directory: true)
     }
-    fileprivate func validate() throws {
+    func validate() throws {
         var info = stat()
         guard try RepositoryNodeIdentity.read(root, directory: true) == identity,
             lstat(root.path, &info) == 0, info.st_uid == getuid(), info.st_mode & 0o077 == 0
@@ -103,11 +114,12 @@ public struct UpdateInstallPlan: Sendable {
     public let replacementApp: URL
     public let requiredBytes: Int64
     public let update: TrustedUpdate
-    fileprivate let oldTree: UpdateAppTree
-    fileprivate let newTree: UpdateAppTree
-    fileprivate let parent: RepositoryNodeIdentity
-    fileprivate let activity: UpdateInstallationActivity
-    fileprivate let backup: UpdateDataBackup
+    public let packageManifest: Data
+    let oldTree: UpdateAppTree
+    let newTree: UpdateAppTree
+    let parent: RepositoryNodeIdentity
+    let activity: UpdateInstallationActivity
+    let backup: UpdateDataBackup
 }
 
 public struct UpdateInstallReceipt: Sendable {
@@ -161,7 +173,8 @@ public enum UpdateInstaller {
             }
             return UpdateInstallPlan(
                 id: UUID(), currentApp: current, replacementApp: replacement,
-                requiredBytes: required, update: update, oldTree: old, newTree: new, parent: parent,
+                requiredBytes: required, update: update, packageManifest: packageManifest, oldTree: old,
+                newTree: new, parent: parent,
                 activity: activity, backup: dataBackup)
         }
     }
@@ -301,7 +314,7 @@ public enum UpdateInstaller {
         }
     }
 
-    private static func validatePackage(_ data: Data, tree: UpdateAppTree, app: URL, update: TrustedUpdate)
+    static func validatePackage(_ data: Data, tree: UpdateAppTree, app: URL, update: TrustedUpdate)
         throws
     {
         let infoBytes = try readSmall(app.appending(path: "Contents/Info.plist"), limit: 64 * 1024)
@@ -335,15 +348,47 @@ public enum UpdateInstaller {
             info["CFBundleShortVersionString"] as? String == report["version"] as? String,
             info["CFBundleVersion"] as? String == report["buildVersion"] as? String
         else { throw UpdateFailure.invalidManifest }
+        try validateReleaseVersion(info: info, expected: update.manifest.version)
+        let sourceData = try readSmall(
+            app.appending(path: "Contents/Resources/build-source.json"), limit: 256 * 1024)
+        let sourceReport = try JSONSerialization.jsonObject(with: sourceData) as? [String: Any]
+        let sources = sourceReport?["sourceFiles"] as? [String: String] ?? [:]
+        let declaresUpdater = sources.keys.contains { $0.hasPrefix("WeGitUpdater/") }
+        if declaresUpdater {
+            guard binaries["Contents/Helpers/WeGitUpdater"] != nil,
+                tree.files["Contents/Helpers/WeGitUpdater"] != nil
+            else {
+                throw UpdateFailure.invalidManifest
+            }
+        }
         for (path, value) in binaries {
             guard let file = tree.files[path], let expected = value["sha256"] as? String,
                 file.hash == expected,
                 value["architectures"] as? [String] == update.artifact.variant.architectures
             else { throw UpdateFailure.changed }
+            if declaresUpdater {
+                guard let minimums = value["minimumSystemVersions"] as? [String: String],
+                    Set(minimums.keys) == Set(update.artifact.variant.architectures)
+                else { throw UpdateFailure.incompatible }
+                for version in minimums.values {
+                    guard
+                        version.range(of: #"^[0-9]+\.[0-9]+(\.[0-9]+)?$"#, options: .regularExpression) != nil
+                    else {
+                        throw UpdateFailure.incompatible
+                    }
+                    let parts = version.split(separator: ".").compactMap { Int($0) }
+                    guard parts.count >= 2, parts.count == version.split(separator: ".").count,
+                        ![26, 0, 0].lexicographicallyPrecedes(
+                            parts + Array(repeating: 0, count: 3 - parts.count))
+                    else {
+                        throw UpdateFailure.incompatible
+                    }
+                }
+            }
         }
     }
 
-    private static func validateCurrent(_ app: URL, update: TrustedUpdate) throws {
+    static func validateCurrent(_ app: URL, update: TrustedUpdate) throws {
         let data = try readSmall(app.appending(path: "Contents/Info.plist"), limit: 64 * 1024)
         guard
             let info = try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
@@ -352,6 +397,7 @@ public enum UpdateInstaller {
                 == String(update.installed.version.rawValue.split(separator: "-")[0]),
             info["CFBundleVersion"] as? String == String(update.installed.build)
         else { throw UpdateFailure.changed }
+        try validateReleaseVersion(info: info, expected: update.installed.version.rawValue)
         let source = try readSmall(
             app.appending(path: "Contents/Resources/build-source.json"), limit: 256 * 1024)
         guard let receipt = try JSONSerialization.jsonObject(with: source) as? [String: Any],
@@ -359,7 +405,17 @@ public enum UpdateInstaller {
         else { throw UpdateFailure.incompatible }
     }
 
-    private static func readSmall(_ url: URL, limit: Int) throws -> Data {
+    static func validateReleaseVersion(info: [String: Any], expected: String) throws {
+        if let version = info["WeGitReleaseVersion"] as? String {
+            guard version == expected else { throw UpdateFailure.changed }
+        } else {
+            guard try UpdateVersion(expected).prerelease == nil,
+                info["CFBundleShortVersionString"] as? String == expected
+            else { throw UpdateFailure.changed }
+        }
+    }
+
+    static func readSmall(_ url: URL, limit: Int) throws -> Data {
         let identity = try RepositoryNodeIdentity.read(url)
         var info = stat()
         guard lstat(url.path, &info) == 0, info.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG),
@@ -383,7 +439,7 @@ public enum UpdateInstaller {
         return result
     }
 
-    private static func verifySignature(_ app: URL) throws {
+    static func verifySignature(_ app: URL) throws {
         var code: SecStaticCode?
         guard SecStaticCodeCreateWithPath(app as CFURL, [], &code) == errSecSuccess, let code,
             SecStaticCodeCheckValidity(
@@ -394,7 +450,7 @@ public enum UpdateInstaller {
         else { throw UpdateFailure.signature }
     }
 
-    private static func validateParents(_ path: URL) throws {
+    static func validateParents(_ path: URL) throws {
         var parent = path.deletingLastPathComponent()
         while parent.path != "/" {
             _ = try RepositoryNodeIdentity.read(parent, directory: true)
@@ -404,13 +460,13 @@ public enum UpdateInstaller {
         guard lstat(path.path, &info) == 0, info.st_uid == getuid() else { throw UpdateFailure.changed }
     }
 
-    private static func moveExclusive(_ source: URL, _ target: URL) throws {
+    static func moveExclusive(_ source: URL, _ target: URL) throws {
         guard renameatx_np(AT_FDCWD, source.path, AT_FDCWD, target.path, UInt32(RENAME_EXCL)) == 0 else {
             throw UpdateFailure.changed
         }
     }
 
-    private static func exclusiveWrite(_ data: Data, to url: URL) throws {
+    static func exclusiveWrite(_ data: Data, to url: URL) throws {
         let fd = Darwin.open(url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o600)
         guard fd >= 0 else { throw UpdateFailure.changed }
         defer { Darwin.close(fd) }
@@ -427,7 +483,7 @@ public enum UpdateInstaller {
         try sync(url.deletingLastPathComponent())
     }
 
-    private static func sync(_ directory: URL) throws {
+    static func sync(_ directory: URL) throws {
         let fd = Darwin.open(directory.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard fd >= 0 else { throw UpdateFailure.changed }
         defer { Darwin.close(fd) }
@@ -468,13 +524,13 @@ public enum UpdateInstaller {
     }
 }
 
-private struct UpdateAppFile: Equatable, Sendable {
+struct UpdateAppFile: Equatable, Sendable {
     let identity: RepositoryNodeIdentity
     let hash: String
     let mode: UInt16
 }
 
-private struct UpdateAppTree: Equatable, Sendable {
+struct UpdateAppTree: Equatable, Sendable {
     let root: RepositoryNodeIdentity
     let files: [String: UpdateAppFile]
     let bytes: Int64

@@ -111,6 +111,7 @@ struct WorkspaceView: View {
         // Reserve both work panes and the widest optional columns without adding
         // another minimum inside the detail area's safe-inset compensation.
         .frame(minWidth: app.workspace.inspector ? 1292 : 980, minHeight: 640)
+        .disabled(app.runtime.updateHandoffInProgress || app.isMigrationBlocked)
         .animation(nil, value: app.appearance)
         .accessibilityElement(children: .contain)
         .accessibilityLabel(L10n.text("WeGit 工作区"))
@@ -118,6 +119,7 @@ struct WorkspaceView: View {
             WindowStateBridge(
                 app: app, sidebarVisible: columnVisibility != .detailOnly,
                 toggleSidebar: {
+                    guard !app.runtime.updateHandoffInProgress, !app.isMigrationBlocked else { return }
                     columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
                 }
             ).frame(width: 0, height: 0).accessibilityHidden(true)

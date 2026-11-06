@@ -42,6 +42,9 @@ def inspect_bundle(root, app, variant="universal"):
     verify_bundle(root, app)
     command(["/usr/bin/codesign", "--verify", "--deep", "--strict", str(app)])
     info = plistlib.loads((app / "Contents/Info.plist").read_bytes())
+    if os.environ.get("WEGIT_RELEASE_TAG"):
+        require(info.get("WeGitReleaseVersion") == os.environ["WEGIT_RELEASE_TAG"].removeprefix("v"),
+                "Installed release version must retain the full reviewed tag version")
     installed_variant = info.get("WeGitDistributionVariant")
     require(installed_variant == variant or (installed_variant is None and variant == "universal"),
             "Info.plist distribution variant must match the packaged CPU variant")
@@ -68,7 +71,10 @@ def inspect_bundle(root, app, variant="universal"):
             require(tuple(map(int, version[1].split("."))) <= (26, 0, 0), "Executable requires macOS newer than 26: " + str(path.relative_to(app)))
             minimums[architecture] = version[1]
         binaries[str(path.relative_to(app))] = {"sha256": sha256(path), "architectures": architectures, "minimumSystemVersions": minimums}
-    require({"Contents/MacOS/WeGit", "Contents/Helpers/WeGitAskPass"}.issubset(binaries), "App or AskPass executable missing")
+    required_binaries = {"Contents/MacOS/WeGit", "Contents/Helpers/WeGitAskPass"}
+    if any(name.startswith("WeGitUpdater/") for name in receipt.get("sourceFiles", {})):
+        required_binaries.add("Contents/Helpers/WeGitUpdater")
+    require(required_binaries.issubset(binaries), "App or declared helper executable missing")
     require(bundle_bytes <= BUDGETS["bundleBytes"], "Application exceeds the 60 MiB release bundle budget")
     return {
         "variant": variant, "distributionVariantSource": "info-plist" if installed_variant is not None else "legacy-universal",
@@ -88,7 +94,7 @@ def check_udif(path):
 
 def source_files(root):
     paths = [root / "Package.swift", root / "project.yml", root / "LICENSE"]
-    for name in ("WeGitCore", "WeGit", "WeGitAskPass", "WeGitTests", "WeGitUITests", "WeGitPerformanceTests", "Benchmarks", "scripts"):
+    for name in ("WeGitCore", "WeGit", "WeGitAskPass", "WeGitUpdater", "WeGitTests", "WeGitUITests", "WeGitPerformanceTests", "Benchmarks", "scripts"):
         paths.extend(path for path in (root / name).rglob("*") if path.is_file() and path.suffix in
                      (".swift", ".c", ".h", ".sh", ".py", ".entitlements", ".strings", ".stringsdict"))
     return {str(path.relative_to(root)): sha256(path) for path in sorted(paths)}

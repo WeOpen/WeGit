@@ -1974,3 +1974,23 @@
 "⌥↩ 换行" = "⌥↩ New line";
 "⌥↩ 换行添加详细描述" = "⌥↩ Add a new line for details";
 "提交已暂存内容" = "Commit staged changes";
+
+/* v2.0 installation and data migration */
+"v2 数据已启用。请退出并重新打开 WeGit。" = "Version 2 data is enabled. Quit and reopen WeGit.";
+"将恢复升级前的设置和最近仓库记录。当前 v2 数据会保留在独立目录；恢复后请退出，再安装旧版。" = "Restore the settings and recent repositories saved before the upgrade. Version 2 data remains in its separate directory. Quit after restoring, then install the previous version.";
+"已恢复旧版数据，继续使用 v2.0 需要明确恢复迁移。" = "Previous-version data was restored. Explicitly resume migration to use v2.0 again.";
+"恢复旧格式数据" = "Restore previous-format data";
+"恢复旧格式数据…" = "Restore previous-format data…";
+"恢复旧格式数据？" = "Restore previous-format data?";
+"数据与兼容" = "Data and compatibility";
+"数据已恢复为旧格式。v2 数据保留在独立目录，请明确选择后再继续。" = "Data was restored to the previous format. Version 2 data remains in a separate directory. Choose how to continue.";
+"旧格式数据已恢复。请退出 WeGit，再安装旧版；v2 数据已保留。" = "Previous-format data was restored. Quit WeGit, then install the previous version. Version 2 data was retained.";
+"最近仓库数据库无法读取，原始数据已保留。" = "The recent repositories database could not be read. Original data was retained.";
+"查看原始数据备份" = "View original data backup";
+"正在准备更新安装" = "Preparing update installation";
+"继续使用 v2 数据" = "Resume version 2 data";
+"请先关闭其他 WeGit 实例并完成当前任务。" = "Close other WeGit instances and finish the current task first.";
+"迁移数据已变化，请核对后重试。" = "Migration data changed. Verify it before trying again.";
+"迁移数据无法读取，原始数据已保留。" = "Migration data could not be read. Original data was retained.";
+"迁移数据超过读取上限，原始数据已保留。" = "Migration data exceeded the read limit. Original data was retained.";
+"迁移超过时间预算，原始数据已保留。" = "Migration exceeded its time budget. Original data was retained.";

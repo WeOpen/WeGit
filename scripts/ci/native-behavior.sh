@@ -6,6 +6,8 @@ case "$scope" in all|behavior|performance) ;; *) exit 2 ;; esac
 # behavior check is mandatory; a missing checker is an error, not a silent skip.
 for pair in \
   WeGitCore/GitCore/RecoveryService.swift:scripts/verify-recovery-performance.sh \
+  WeGitCore/Infrastructure/ProductionUpdateInstaller.swift:scripts/verify-production-update.sh \
+  WeGitCore/Domain/ApplicationDataMigration.swift:scripts/verify-application-migration.py \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase.sh \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase-performance.sh \
   WeGitCore/GitCore/ConflictEditorService.swift:scripts/verify-conflict-editor.sh \

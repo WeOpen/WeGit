@@ -45,7 +45,7 @@ def digest(value):
 def inputs(root, suite):
     if suite not in SUITES:
         raise ValueError("Unknown validation suite")
-    directories = ["WeGitCore", "WeGitAskPass"]
+    directories = ["WeGitCore", "WeGitAskPass", "WeGitUpdater"]
     if suite == "core":
         directories += ["WeGitTests", "Benchmarks"]
     if suite in {"behavior", "application", "package"}:

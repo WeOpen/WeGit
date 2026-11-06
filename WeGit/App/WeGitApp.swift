@@ -19,6 +19,18 @@ struct WeGitApp: App {
                     guard !Task.isCancelled else { return }
                     await app.restore()
                     app.runtime.windowCoordinator?.restoreOpenWindows()
+                    let arguments = ProcessInfo.processInfo.arguments
+                    if let index = arguments.firstIndex(of: "--update-handoff"), index + 1 < arguments.count {
+                        do {
+                            guard let bridge = app.runtime.services.updateBridge else {
+                                throw UpdateFailure.configurationMissing
+                            }
+                            try await bridge.reportStartupReadiness(
+                                ticketURL: URL(fileURLWithPath: arguments[index + 1]))
+                        } catch {
+                            app.error = error.localizedDescription
+                        }
+                    }
                 }
                 .onReceive(
                     NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)

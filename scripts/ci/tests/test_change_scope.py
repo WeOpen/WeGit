@@ -54,7 +54,7 @@ class ChangeScopeTests(unittest.TestCase):
 
     def test_only_backend_code_schedules_costly_backend_validation(self):
         for path in ["WeGitCore/GitCore/GitEngine.swift", "WeGitCore/Infrastructure/ProcessRunner.swift",
-                     "WeGitCore/Domain/Models.swift", "WeGitAskPass/WeGitAskPass.swift", "Package.swift",
+                     "WeGitCore/Domain/Models.swift", "WeGitAskPass/WeGitAskPass.swift", "WeGitUpdater/WeGitUpdater.swift", "Package.swift",
                      "WeGit/App/AppState.swift", "WeGit/App/SyncState.swift", "WeGit/Features/CloneViewModel.swift"]:
             with self.subTest(path=path):
                 scope = classify([path])

@@ -25,6 +25,13 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
     var applicationMenu: NativeApplicationMenu?
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         let state = state ?? menuBarController?.app
+        if let state, state.runtime.updateHandoffInProgress {
+            guard state.runtime.services.updateBridge?.permitsNormalExit() == true else {
+                return .terminateCancel
+            }
+            state.runtime.updateTerminationApproved = true
+            return .terminateNow
+        }
         guard let state, state.anyOperationRunning else {
             if let coordinator = state?.runtime.windowCoordinator, !coordinator.saveAllWindows() {
                 return .terminateCancel
@@ -45,7 +52,9 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         let state = state ?? menuBarController?.app
-        _ = state?.runtime.windowCoordinator?.saveAllWindows()
+        if state?.runtime.updateTerminationApproved != true {
+            _ = state?.runtime.windowCoordinator?.saveAllWindows()
+        }
         state?.authentication.cancelAll()
     }
 }

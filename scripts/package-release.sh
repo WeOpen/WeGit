@@ -5,6 +5,11 @@ cd "$project_root"
 release_mode="${1:---preview}"
 if [[ $# -gt 0 ]]; then shift; fi
 release_variant=universal
+release_version_argument='WEGIT_RELEASE_VERSION=$(MARKETING_VERSION)'
+if [[ -n "${WEGIT_RELEASE_TAG:-}" ]]; then
+  [[ "$WEGIT_RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-(rc|beta)\.[0-9]+)?$ ]] || { echo "Invalid release tag" >&2; exit 2; }
+  release_version_argument="WEGIT_RELEASE_VERSION=${WEGIT_RELEASE_TAG#v}"
+fi
 if [[ $# -gt 0 ]]; then
   [[ $# == 2 && "$1" == --variant ]] || { echo "Expected --variant universal|applesilicon|intel" >&2; exit 2; }
   release_variant="$2"
@@ -40,7 +45,7 @@ if [[ "$release_mode" == "--sign" || "$release_mode" == "--notarize" ]]; then
   if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
   xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Release \
     -destination 'generic/platform=macOS' -derivedDataPath "$release_run/build" \
-    ARCHS="$release_archs" ONLY_ACTIVE_ARCH=NO WEGIT_DISTRIBUTION_VARIANT="$release_variant" \
+    ARCHS="$release_archs" ONLY_ACTIVE_ARCH=NO WEGIT_DISTRIBUTION_VARIANT="$release_variant" "$release_version_argument" \
     CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$WEGIT_SIGNING_IDENTITY" \
     DEVELOPMENT_TEAM="$WEGIT_TEAM_ID" PRODUCT_BUNDLE_IDENTIFIER="$release_bundle_id" \
     ENABLE_HARDENED_RUNTIME=YES CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp build
@@ -51,7 +56,7 @@ if [[ "$release_mode" == "--adhoc" ]]; then
   if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
   xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Release \
     -destination 'generic/platform=macOS' -derivedDataPath "$release_run/build" \
-    ARCHS="$release_archs" ONLY_ACTIVE_ARCH=NO WEGIT_DISTRIBUTION_VARIANT="$release_variant" \
+    ARCHS="$release_archs" ONLY_ACTIVE_ARCH=NO WEGIT_DISTRIBUTION_VARIANT="$release_variant" "$release_version_argument" \
     CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- DEVELOPMENT_TEAM= \
     PRODUCT_BUNDLE_IDENTIFIER=com.willxue.wegit \
     CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp=none build

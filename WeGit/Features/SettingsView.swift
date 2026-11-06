@@ -36,16 +36,21 @@ struct SettingsView: View {
                     GlassTab(value: 5, title: L10n.text("高级"), symbol: "slider.horizontal.3"),
                 ], height: 40, identifier: "settings-tabs")
             Group {
-                switch selectedTab {
-                case 1: GitSettingsView(app: app)
-                case 2: appearance
-                case 3: diff
-                case 4: commit
-                case 5: advanced
-                default: general
+                if app.isMigrationBlocked {
+                    migrationRecovery
+                } else {
+                    switch selectedTab {
+                    case 1: GitSettingsView(app: app)
+                    case 2: appearance
+                    case 3: diff
+                    case 4: commit
+                    case 5: advanced
+                    default: general
+                    }
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }.frame(width: 700, height: 560).padding(12)
+            .disabled(app.runtime.updateHandoffInProgress)
             .background(colors.canvas)
             .onChange(of: selectedTab) { _, value in
                 app.defaults.set(value, forKey: "settingsTab")
@@ -80,6 +85,23 @@ struct SettingsView: View {
             } message: {
                 Text(error ?? "")
             }
+    }
+
+    private var migrationRecovery: some View {
+        ThemedForm {
+            Section(L10n.text("数据与兼容")) {
+                if let error = app.error { Text(verbatim: error).textSelection(.enabled) }
+                if app.migrationState != nil {
+                    Button(L10n.text("查看原始数据备份"), action: app.showOriginalDataBackup)
+                        .accessibilityIdentifier("settings-data-backup")
+                    if app.migrationState?.phase == .rolledBack {
+                        Button(L10n.text("继续使用 v2 数据"), action: app.resumeVersion2Data)
+                            .accessibilityIdentifier("settings-data-resume")
+                    }
+                }
+                Button(L10n.text("退出 WeGit")) { NSApp.terminate(nil) }
+            }
+        }
     }
 
     private var general: some View {
@@ -291,6 +313,13 @@ struct SettingsView: View {
 
     private var advanced: some View {
         ThemedForm {
+            Section(L10n.text("数据与兼容")) {
+                Button(L10n.text("查看原始数据备份"), action: app.showOriginalDataBackup)
+                    .disabled(app.migrationState == nil).accessibilityIdentifier("settings-data-backup")
+                Button(L10n.text("恢复旧格式数据…"), action: app.restoreOriginalData)
+                    .disabled(app.migrationState?.canUseVersion2 != true || app.anyOperationRunning)
+                    .accessibilityIdentifier("settings-data-restore")
+            }
             Section(L10n.text("快捷键")) {
                 Button(L10n.text("修改快捷键…")) { shortcutsPresented = true }
                     .disabled(app.runtime.services.shortcuts == nil)

@@ -219,15 +219,17 @@ public struct TrustedUpdate: Sendable {
     public let manifest: UpdateManifest
     public let artifact: UpdateArtifact
     public let payloadSHA256: String
+    public let signedManifest: Data
     public let expiresAt: Date
     public let installed: InstalledUpdateVersion
     fileprivate init(
-        manifest: UpdateManifest, artifact: UpdateArtifact, payload: Data, expiresAt: Date,
+        manifest: UpdateManifest, artifact: UpdateArtifact, payload: Data, envelope: Data, expiresAt: Date,
         installed: InstalledUpdateVersion
     ) {
         self.manifest = manifest
         self.artifact = artifact
         payloadSHA256 = UpdateManifestValidator.digest(payload)
+        signedManifest = envelope
         self.expiresAt = expiresAt
         self.installed = installed
     }
@@ -321,7 +323,7 @@ public enum UpdateManifestValidator {
         else { throw UpdateFailure.incompatible }
         return .available(
             TrustedUpdate(
-                manifest: manifest, artifact: artifact, payload: signed.payload,
+                manifest: manifest, artifact: artifact, payload: signed.payload, envelope: envelope,
                 expiresAt: min(expires, key.notAfter), installed: installed))
     }
 

@@ -23,7 +23,7 @@ struct UpdateInstallRequest: Sendable {
     let installed: InstalledUpdateVersion
     @ObservationIgnored private let ring: UpdateKeyRing?
     @ObservationIgnored private let client = UpdateHTTPClient()
-    @ObservationIgnored private let installer: (@MainActor (UpdateInstallRequest) async throws -> Void)?
+    @ObservationIgnored private var installer: (@MainActor (UpdateInstallRequest) async throws -> Void)?
     @ObservationIgnored private var operation: Task<Void, Never>?
     @ObservationIgnored private var operationID = UUID()
     @ObservationIgnored private var request: UpdateInstallRequest?
@@ -138,6 +138,15 @@ struct UpdateInstallRequest: Sendable {
     }
 
     func cancel() { if cancellable { operation?.cancel() } }
+    func configureInstaller(_ installer: @escaping @MainActor (UpdateInstallRequest) async throws -> Void) {
+        guard !running else { return }
+        self.installer = installer
+    }
+    func installerHandoffFailed(_ message: String) {
+        guard phase == .handedOff else { return }
+        phase = .ready
+        error = message
+    }
     func channelChanged() {
         guard !running else { return }
         request = nil

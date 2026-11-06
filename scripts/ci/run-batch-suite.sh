@@ -3,7 +3,7 @@ set -euo pipefail
 # Fixed commands, not a shell program supplied by a PR label/manual input.
 case "${1:-}" in
   core)
-    swift format lint --strict --recursive WeGitCore WeGitAskPass WeGitTests Benchmarks Package.swift
+    swift format lint --strict --recursive WeGitCore WeGitAskPass WeGitUpdater WeGitTests Benchmarks Package.swift
     swift test --no-parallel
     scripts/ci/prepare-git-246.sh
     env WEGIT_TEST_GIT="$(cat .build/git-246-path)" swift test --no-parallel
@@ -19,7 +19,7 @@ case "${1:-}" in
     ;;
   performance) scripts/ci/native-behavior.sh performance ;;
   application)
-    swift format lint --strict --recursive WeGit WeGitUITests WeGitPerformanceTests
+    swift format lint --strict --recursive WeGit WeGitUpdater WeGitUITests WeGitPerformanceTests
     swift format lint --strict scripts/*Checks.swift scripts/*Performance.swift scripts/LocalizationSources.swift scripts/verify-inspector-startup.swift
     python3 scripts/verify-localization.py
     scripts/build.sh Debug
@@ -29,8 +29,11 @@ case "${1:-}" in
     python3 scripts/verify-ui-git-wrapper.py .build-app/Build/Products/Debug/WeGitTestGit
     ;;
   package)
-    scripts/build.sh Release
-    scripts/package-release.sh --preview
+    for variant in universal applesilicon intel; do
+      case "$variant" in universal) architecture=universal ;; applesilicon) architecture=arm64 ;; intel) architecture=x86_64 ;; esac
+      scripts/build.sh Release "$architecture"
+      scripts/package-release.sh --preview --variant "$variant"
+    done
     git diff --exit-code
     ;;
   *) echo 'Unknown registered backend validation suite' >&2; exit 2 ;;

@@ -29,6 +29,7 @@ settings:
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
     WEGIT_DISTRIBUTION_VARIANT: universal
+    WEGIT_RELEASE_VERSION: "$(MARKETING_VERSION)"
     MACOSX_DEPLOYMENT_TARGET: "26.0"
     CODE_SIGN_IDENTITY: "-"
     CODE_SIGN_STYLE: Manual
@@ -49,14 +50,18 @@ targets:
       - target: WeGitAskPass
         link: false
         embed: false
+      - target: WeGitUpdater
+        link: false
+        embed: false
     postCompileScripts:
       - name: Embed AskPass helper
         script: |
           mkdir -p "${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers"
           ditto "${BUILT_PRODUCTS_DIR}/WeGitAskPass" "${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass"
           rm -f "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitAskPass"
-        inputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitAskPass"]
-        outputFiles: ["$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitAskPass"]
+          ditto "${BUILT_PRODUCTS_DIR}/WeGitUpdater" "${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitUpdater"
+        inputFiles: ["$(BUILT_PRODUCTS_DIR)/WeGitAskPass", "$(BUILT_PRODUCTS_DIR)/WeGitUpdater"]
+        outputFiles: ["$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitAskPass", "$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitUpdater"]
       - name: Record application source provenance
         basedOnDependencyAnalysis: false
         script: |
@@ -82,8 +87,8 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: WeGit
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
         INFOPLIST_KEY_NSHumanReadableCopyright: WeOpen
-        MARKETING_VERSION: 1.2.0
-        CURRENT_PROJECT_VERSION: 5
+        MARKETING_VERSION: 2.0.0
+        CURRENT_PROJECT_VERSION: 6
   WeGitAskPass:
     type: tool
     platform: macOS
@@ -94,6 +99,17 @@ targets:
       base:
         PRODUCT_NAME: WeGitAskPass
         PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.AskPass
+        SKIP_INSTALL: YES
+  WeGitUpdater:
+    type: tool
+    platform: macOS
+    sources: [WeGitUpdater]
+    dependencies:
+      - package: WeGitCore
+    settings:
+      base:
+        PRODUCT_NAME: WeGitUpdater
+        PRODUCT_BUNDLE_IDENTIFIER: com.willxue.wegit.Updater
         SKIP_INSTALL: YES
   WeGitUITests:
     type: bundle.ui-testing

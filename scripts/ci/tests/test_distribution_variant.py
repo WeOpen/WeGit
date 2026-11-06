@@ -17,6 +17,16 @@ ROOT = Path(__file__).resolve().parents[3]
 
 
 class DistributionBuildArgumentTests(unittest.TestCase):
+    def test_candidate_tag_is_retained_in_installed_version_without_a_real_build(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            env = self.sandbox(root, "package-release.sh", status=91)
+            env["WEGIT_RELEASE_TAG"] = "v2.0.0-rc.1"
+            result = subprocess.run(["/bin/bash", str(root / "scripts/package-release.sh"), "--adhoc", "--variant", "universal"], env=env, capture_output=True)
+            self.assertEqual(result.returncode, 91, result.stderr)
+            call = json.loads((root / "arguments.json").read_bytes())
+            self.assertIn("WEGIT_RELEASE_VERSION=2.0.0-rc.1", call)
+
     def sandbox(self, root, script, status=0):
         (root / "scripts").mkdir()
         shutil.copyfile(ROOT / "scripts" / script, root / "scripts" / script)

@@ -65,6 +65,9 @@ extension NativeApplicationMenu {
             enabled: { [weak app] command in
                 let app = app?.runtime.activeState ?? app
                 guard let app else { return false }
+                if app.runtime.updateHandoffInProgress || app.isMigrationBlocked {
+                    return command == .updates
+                }
                 switch command {
                 case .openInNewWindow: return app.session != nil
                 case .reopenWindow:

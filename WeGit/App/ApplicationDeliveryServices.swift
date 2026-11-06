@@ -15,6 +15,7 @@ extension Notification.Name {
     let updateError: String?
     private(set) var shortcutRevision = 0
     @ObservationIgnored private var updateWindow: NSWindowController?
+    @ObservationIgnored private(set) var updateBridge: UpdateApplicationBridge?
 
     init(defaults: UserDefaults) {
         do {
@@ -27,14 +28,15 @@ extension Notification.Name {
         }
         do {
             let info = Bundle.main.infoDictionary ?? [:]
-            guard let version = info["CFBundleShortVersionString"] as? String,
+            guard
+                let version = (info["WeGitReleaseVersion"] ?? info["CFBundleShortVersionString"]) as? String,
                 let buildText = info["CFBundleVersion"] as? String, let build = UInt64(buildText)
             else { throw UpdateFailure.configurationMissing }
             let variant = UpdateVariant(rawValue: info["WeGitDistributionVariant"] as? String ?? "universal")
             guard let variant else { throw UpdateFailure.configurationMissing }
             let installed = try InstalledUpdateVersion(version: version, build: build, variant: variant)
-            let keyURL = Bundle.main.url(forResource: "UpdatePublicKeys", withExtension: "json")
-            let ring = try keyURL.map { try UpdateKeyRing.load(from: $0) }
+            let ring =
+                UpdateTrustConfiguration.isConfigured ? try UpdateTrustConfiguration.productionRing() : nil
             updates = UpdateState(installed: installed, ring: ring)
             updateError = nil
         } catch {
@@ -53,6 +55,19 @@ extension Notification.Name {
     func shortcutsChanged() {
         shortcutRevision += 1
         NotificationCenter.default.post(name: .applicationShortcutsChanged, object: self)
+    }
+
+    func configureUpdates(app: AppState) {
+        guard updateBridge == nil, Bundle.main.bundleIdentifier == "com.willxue.wegit",
+            FileManager.default.isExecutableFile(
+                atPath: Bundle.main.bundleURL.appending(path: "Contents/Helpers/WeGitUpdater").path)
+        else { return }
+        let bridge = UpdateApplicationBridge(app: app)
+        updateBridge = bridge
+        updates?.configureInstaller { [weak bridge] request in
+            guard let bridge else { throw UpdateFailure.configurationMissing }
+            try await bridge.install(request)
+        }
     }
 
     func showUpdates(preferences: AppPreferences) {

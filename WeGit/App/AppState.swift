@@ -120,6 +120,7 @@ final class RepositorySession {
     private(set) var lastUsed = Date()
     var onIdle: (@MainActor () -> Void)?
     var isBusy = false
+    private(set) var updateHandoffSuspended = false
     var activityLabel = ""
     var error: String?
     var details = ""
@@ -212,10 +213,10 @@ final class RepositorySession {
     }
     var location: RepositoryLocation { service.location }
     func canEditDraft(owner: UUID) -> Bool {
-        activeOwners.contains(owner) && (draftOwner == nil || draftOwner == owner)
+        !updateHandoffSuspended && activeOwners.contains(owner) && (draftOwner == nil || draftOwner == owner)
     }
     func claimDraft(_ owner: UUID) {
-        guard activeOwners.contains(owner) else { return }
+        guard !updateHandoffSuspended, activeOwners.contains(owner) else { return }
         if draftOwner != owner {
             amendFillTask?.cancel()
             draftLeaseID = UUID()
@@ -301,8 +302,19 @@ final class RepositorySession {
             draftSaveError = nil
         } catch { draftSaveError = error.localizedDescription }
     }
-    var canWrite: Bool { hasLoaded && !isStale && !isBusy && !preferences.configurationWriteInProgress }
+    func suspendForUpdate(_ value: Bool) {
+        updateHandoffSuspended = value
+        if value {
+            amendFillTask?.cancel()
+            draftLeaseID = UUID()
+        }
+    }
+    var canWrite: Bool {
+        !updateHandoffSuspended && hasLoaded && !isStale && !isBusy
+            && !preferences.configurationWriteInProgress
+    }
     var writeReason: String {
+        if updateHandoffSuspended { return L10n.text("正在准备更新安装") }
         if preferences.configurationWriteInProgress { return L10n.text("正在保存 Git 配置") }
         if isBusy { return L10n.text("正在执行 \(activityLabel)") }
         if isStale { return L10n.text("仓库状态已过期，请先刷新") }
@@ -621,6 +633,10 @@ final class ApplicationWorkspaceRuntime {
     var activeWindowID: UUID?
     private(set) var primaryWindowID: UUID?
     var installationReady = false
+    var updateHandoffInProgress = false
+    var updateExitAuthorized = false
+    var updateTerminationApproved = false
+    var persistenceGeneration: UInt64 = 0
     var liveStates: [AppState] { peers.values.compactMap(\.value) }
     var activeState: AppState? {
         if let window = NSApp.keyWindow,
@@ -683,6 +699,15 @@ final class AppState {
     let windowID: UUID
     let runtime: ApplicationWorkspaceRuntime
     let defaults: UserDefaults
+    let migrationState: ApplicationMigrationState?
+    let migrationFailure: String?
+    var migrationRestartRequired = false
+    var isMigrationBlocked: Bool {
+        migrationFailure != nil || migrationRestartRequired || migrationState?.canUseVersion2 == false
+    }
+    var readyForUpdate: Bool {
+        !isMigrationBlocked && initialRestoreCompleted && !isOpening && workspaceSaveError == nil
+    }
     let preferences: AppPreferences
     private(set) var engine: GitEngine
     let authentication: AuthenticationController
@@ -895,7 +920,10 @@ final class AppState {
     }
 
     /// Standalone model checks can own a private preference domain.
-    init(defaultsOverride: UserDefaults? = nil, sharedWith parent: AppState? = nil, windowID: UUID? = nil) {
+    init(
+        defaultsOverride: UserDefaults? = nil, sharedWith parent: AppState? = nil, windowID: UUID? = nil,
+        migrationOverride: ApplicationMigrationState? = nil
+    ) {
         let testing = Self.isUITesting
         var testingDomain = "com.willxue.wegit.UITests"
         #if DEBUG
@@ -907,11 +935,38 @@ final class AppState {
                 testingDomain = requested
             }
         #endif
-        if !testing, defaultsOverride == nil, parent == nil {
-            PreferenceMigration.migrateStandardPreferences()
+        let preparedMigration: ApplicationMigrationState?
+        let migrationError: String?
+        if let parent {
+            preparedMigration = parent.migrationState
+            migrationError = parent.migrationFailure
+        } else if let migrationOverride {
+            preparedMigration = migrationOverride
+            migrationError = nil
+        } else if !testing, defaultsOverride == nil {
+            do {
+                guard let identifier = Bundle.main.bundleIdentifier,
+                    let support = FileManager.default.urls(
+                        for: .applicationSupportDirectory, in: .userDomainMask
+                    ).first
+                else { throw ApplicationMigrationFailure.invalid }
+                preparedMigration = try ApplicationMigrationState.prepareStandard(
+                    defaults: .standard, applicationSupportDirectory: support,
+                    applicationIdentifier: identifier)
+                migrationError = nil
+            } catch {
+                preparedMigration = nil
+                migrationError = error.localizedDescription
+            }
+        } else {
+            preparedMigration = nil
+            migrationError = nil
         }
+        migrationState = preparedMigration
+        migrationFailure = migrationError
         defaults =
-            parent?.defaults ?? defaultsOverride
+            parent?.defaults ?? preparedMigration?.currentDefaults
+            ?? (migrationError == nil ? nil : FailedMigrationPreferences()) ?? defaultsOverride
             ?? (testing ? UserDefaults(suiteName: testingDomain)! : .standard)
         #if DEBUG
             let preserveTestPreferences =
@@ -927,7 +982,8 @@ final class AppState {
             ?? ApplicationWorkspaceRuntime(
                 defaults: defaults,
                 domainName: defaultsOverride == nil
-                    ? (testing ? testingDomain : Bundle.main.bundleIdentifier) : nil)
+                    ? (testing ? testingDomain : preparedMigration?.storage.configuration.currentDomain) : nil
+            )
         self.windowID = windowID ?? (parent == nil ? runtime.persistence?.primaryID ?? UUID() : UUID())
         preferences = parent?.preferences ?? AppPreferences(defaults: defaults)
         let authentication = parent?.authentication ?? AuthenticationController()
@@ -953,10 +1009,15 @@ final class AppState {
             coordinator: RepositoryInitializationCoordinator(engine: git))
         if let parent {
             container = parent.container
+        } else if migrationError != nil || preparedMigration?.canUseVersion2 == false {
+            container = nil
         } else {
             do {
                 let configuration: ModelConfiguration
-                if testing {
+                if let migrationState {
+                    configuration = ModelConfiguration(
+                        url: migrationState.currentStoreURL, cloudKitDatabase: .none)
+                } else if testing {
                     if let path = ProcessInfo.processInfo.environment["WEGIT_UI_TEST_PERSISTENCE_DIRECTORY"],
                         !path.isEmpty
                     {
@@ -971,14 +1032,11 @@ final class AppState {
                             isStoredInMemoryOnly: true, cloudKitDatabase: .none)
                     }
                 } else {
-                    let directory = FileManager.default.urls(
-                        for: .applicationSupportDirectory, in: .userDomainMask)[0]
-                        .appending(path: "WeGit", directoryHint: .isDirectory)
-                    try FileManager.default.createDirectory(
-                        at: directory, withIntermediateDirectories: true,
-                        attributes: [.posixPermissions: 0o700])
+                    guard let storeURL = migrationState?.currentStoreURL else {
+                        throw ApplicationMigrationFailure.invalid
+                    }
                     configuration = ModelConfiguration(
-                        url: directory.appending(path: "Repositories.store"), cloudKitDatabase: .none)
+                        url: storeURL, cloudKitDatabase: .none)
                 }
                 container = try ModelContainer(for: RecentRepository.self, configurations: configuration)
             } catch {
@@ -987,6 +1045,12 @@ final class AppState {
             }
         }
         runtime.register(self)
+        if parent == nil { runtime.services.configureUpdates(app: self) }
+        if let migrationFailure {
+            self.error = migrationFailure
+        } else if migrationState?.canUseVersion2 == false {
+            self.error = L10n.text("数据已恢复为旧格式。v2 数据保留在独立目录，请明确选择后再继续。")
+        }
         if let parent { gitVersion = parent.gitVersion }
         if let error = runtime.persistenceError { self.error = error }
         reloadRecents()
@@ -1013,6 +1077,7 @@ final class AppState {
     }
 
     func openPanel() {
+        guard !isMigrationBlocked, !runtime.updateHandoffInProgress else { return }
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
@@ -1022,7 +1087,63 @@ final class AppState {
         if panel.runModal() == .OK, let url = panel.url { Task { await open(url) } }
     }
 
+    func flushPersistentState() throws {
+        try container?.mainContext.save()
+        guard defaults.synchronize() else { throw WindowSessionPersistence.Failure.changed }
+    }
+
+    func showOriginalDataBackup() {
+        guard let migrationState else { return }
+        do {
+            _ = try migrationState.originalPreferencesSnapshot()
+            NSWorkspace.shared.activateFileViewerSelecting([migrationState.originalBackupURL])
+        } catch { self.error = error.localizedDescription }
+    }
+
+    func restoreOriginalData() {
+        guard let migrationState, migrationState.canUseVersion2, !runtime.hasOperations,
+            !runtime.updateHandoffInProgress,
+            !NSWorkspace.shared.runningApplications.contains(where: {
+                [
+                    "com.willxue.wegit", "com.willxue.wegit.development", "com.willxue.WeGit",
+                    "org.weopen.WeGit", "org.weopen.WeGit.development",
+                ].contains($0.bundleIdentifier ?? "")
+                    && $0.processIdentifier != getpid()
+            })
+        else {
+            error = L10n.text("请先关闭其他 WeGit 实例并完成当前任务。")
+            return
+        }
+        do {
+            try flushPersistentState()
+            guard runtime.windowCoordinator?.saveAllWindows(forceForUpdate: true) == true else {
+                throw UpdateFailure.busy
+            }
+            let plan = try migrationState.prepareOriginalRestore()
+            guard
+                confirm(
+                    title: L10n.text("恢复旧格式数据？"),
+                    message: L10n.text("将恢复升级前的设置和最近仓库记录。当前 v2 数据会保留在独立目录；恢复后请退出，再安装旧版。"),
+                    action: L10n.text("恢复旧格式数据"))
+            else { return }
+            try migrationState.restoreOriginalData(plan)
+            migrationRestartRequired = true
+            for session in runtime.sessions.values { session.suspendForUpdate(true) }
+            error = L10n.text("旧格式数据已恢复。请退出 WeGit，再安装旧版；v2 数据已保留。")
+        } catch { self.error = error.localizedDescription }
+    }
+
+    func resumeVersion2Data() {
+        guard let migrationState, !runtime.hasOperations else { return }
+        do {
+            try migrationState.resumeVersion2()
+            migrationRestartRequired = true
+            error = L10n.text("v2 数据已启用。请退出并重新打开 WeGit。")
+        } catch { self.error = error.localizedDescription }
+    }
+
     func open(_ url: URL) async {
+        guard !isMigrationBlocked, !runtime.updateHandoffInProgress else { return }
         let request = UUID()
         openingID = request
         ViewPerformanceJournal.begin("shell", id: request)
@@ -1172,6 +1293,7 @@ final class AppState {
     }
 
     func restore() async {
+        guard !isMigrationBlocked else { return }
         if initialRestoreCompleted {
             session?.activate(owner: windowID)
             if let session, !session.isBusy, !preferences.configurationWriteInProgress {
@@ -1427,6 +1549,7 @@ final class AppState {
         saved?.restore(sessionID: session?.id)
     }
 
+    var nativeFrameStorageKey: String { "v2.window-frame:" + windowID.uuidString }
     var nativeWindowStateName: String {
         #if DEBUG
             let arguments = ProcessInfo.processInfo.arguments
@@ -1437,6 +1560,7 @@ final class AppState {
                     + (windowID == runtime.primaryWindowID ? "" : "." + windowID.uuidString)
             }
         #endif
+        if let migrationState { return migrationState.nativeWindowStateName(windowID) }
         return windowID == runtime.primaryWindowID ? "WeGit.main" : "WeGit.window." + windowID.uuidString
     }
     var nativeSplitStatePrefix: String {
@@ -1453,8 +1577,12 @@ final class AppState {
         workspace.diffOptions.ignoreWhitespace = preferences.ignoreWhitespace
     }
 
-    @discardableResult func saveCurrentWorkspace(open: Bool? = nil) -> Bool {
-        guard initialRestoreCompleted, session != nil || !isOpening, preferences.restoreWindow else {
+    @discardableResult func saveCurrentWorkspace(open: Bool? = nil, forceForUpdate: Bool = false) -> Bool {
+        guard !isMigrationBlocked else { return true }
+        if runtime.updateHandoffInProgress { return true }
+        guard initialRestoreCompleted, session != nil || !isOpening,
+            preferences.restoreWindow || forceForUpdate
+        else {
             return true
         }
         guard let persistence = runtime.persistence else {
@@ -1476,11 +1604,18 @@ final class AppState {
                 history: try reading.map { try JSONEncoder().encode($0) },
                 selectedCommit: workspace.selectedCommit?.id ?? pendingSelectedCommitID,
                 open: open ?? mainWorkspaceMounted)
+            guard runtime.persistenceGeneration < UInt64.max else {
+                throw WindowSessionPersistence.Failure.exceeded
+            }
+            if let window = nativeWindow, !runtime.updateHandoffInProgress {
+                defaults.set(NSStringFromRect(window.frame), forKey: nativeFrameStorageKey)
+            }
             try persistence.save(snapshot, active: runtime.activeWindowID == windowID)
             if let id = snapshot.workspaceID {
                 defaults.set(try JSONEncoder().encode(snapshot), forKey: workspaceReadingKey(id))
             }
             workspaceSaveError = nil
+            runtime.persistenceGeneration += 1
             return true
         } catch {
             workspaceSaveError = error.localizedDescription
@@ -1594,6 +1729,7 @@ final class AppState {
     }
 
     func prepareWindowClose() -> Bool {
+        guard !runtime.updateHandoffInProgress else { return false }
         guard !cloneRunning, !initialization.isBusy, session?.draftSaveError == nil else { return false }
         guard saveCurrentWorkspace(open: false) else { return false }
         do {

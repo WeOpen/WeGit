@@ -39,6 +39,7 @@ final class WorkspaceWindowCoordinator: NSObject {
 
     func newWindow(repository: URL? = nil, restoring id: UUID? = nil) {
         guard let primary else { return }
+        guard !primary.isMigrationBlocked, !primary.runtime.updateHandoffInProgress else { return }
         if let id, let existing = windows[id]?.value {
             existing.makeKeyAndOrderFront(nil)
             return
@@ -89,12 +90,12 @@ final class WorkspaceWindowCoordinator: NSObject {
         if let previousActiveID { windows[previousActiveID]?.value?.makeKeyAndOrderFront(nil) }
     }
 
-    func saveAllWindows() -> Bool {
+    func saveAllWindows(forceForUpdate: Bool = false) -> Bool {
         guard let primary else { return true }
         var saved = true
         for app in primary.runtime.liveStates where app.mainWorkspaceMounted || app.workspaceSaveError != nil
         {
-            if !app.saveCurrentWorkspace() { saved = false }
+            if !app.saveCurrentWorkspace(forceForUpdate: forceForUpdate) { saved = false }
         }
         guard saved else { return false }
         guard primary.runtime.persistence != nil || !primary.preferences.restoreWindow else { return false }

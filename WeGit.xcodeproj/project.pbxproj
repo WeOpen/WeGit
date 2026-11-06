@@ -156,6 +156,12 @@
 		727F0A93CF25138141F9F764 /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830528B1AA53D80F9E42C4B4 /* UpdateView.swift */; };
 		0EAD31EB96F70487A41FBED7 /* WorkspaceDeliveryWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408638B9C201CCED82F2A6BD /* WorkspaceDeliveryWorkflowTests.swift */; };
 		31FFEC103C04A15197E1CF95 /* ResourceManagementWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBEF38507530C9F4F9FA47F /* ResourceManagementWorkflowTests.swift */; };
+		0DA1E7C76D7B26D639D42B9B /* UpdaterArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EDEC7F94DC31467D6D2C12 /* UpdaterArguments.swift */; };
+		90721D3194BBFFF232E96D09 /* WeGitUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66728FE2CF46DD3E43E35C5B /* WeGitUpdater.swift */; };
+		90FB9154AD4970118A0E8D64 /* WeGitCore in Frameworks */ = {isa = PBXBuildFile; productRef = 986157C111FC17C7A51E19F1 /* WeGitCore */; };
+		888127D2F5E655B7102F1F4C /* ApplicationMigrationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88E27445DE941C5C91E8B6F /* ApplicationMigrationState.swift */; };
+		F8D56321F602CE6344D0A296 /* FailedMigrationPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD4345BB870A06A7954F8C /* FailedMigrationPreferences.swift */; };
+		A0636AC17DBA594845F93BB9 /* UpdateApplicationBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89872DFB82710C4924E90BE6 /* UpdateApplicationBridge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +192,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5672E00EC09F177F577DB7AF;
 			remoteInfo = WeGitAskPass;
+		};
+		0ACD9C78F120BD7A199DE747 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5782557ED84E3ECDC5685464 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AEF5E29105E8F9AD9C39DC0;
+			remoteInfo = WeGitUpdater;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -345,6 +358,12 @@
 		830528B1AA53D80F9E42C4B4 /* UpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateView.swift; sourceTree = "<group>"; };
 		408638B9C201CCED82F2A6BD /* WorkspaceDeliveryWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceDeliveryWorkflowTests.swift; sourceTree = "<group>"; };
 		ABBEF38507530C9F4F9FA47F /* ResourceManagementWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManagementWorkflowTests.swift; sourceTree = "<group>"; };
+		31EDEC7F94DC31467D6D2C12 /* UpdaterArguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterArguments.swift; sourceTree = "<group>"; };
+		447C4B0360EE25877833C2B2 /* WeGitUpdater */ = {isa = PBXFileReference; includeInIndex = 0; path = WeGitUpdater; sourceTree = BUILT_PRODUCTS_DIR; };
+		66728FE2CF46DD3E43E35C5B /* WeGitUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeGitUpdater.swift; sourceTree = "<group>"; };
+		B88E27445DE941C5C91E8B6F /* ApplicationMigrationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationMigrationState.swift; sourceTree = "<group>"; };
+		E9CD4345BB870A06A7954F8C /* FailedMigrationPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailedMigrationPreferences.swift; sourceTree = "<group>"; };
+		89872DFB82710C4924E90BE6 /* UpdateApplicationBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateApplicationBridge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,6 +380,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				51B975F3C5D23EE535A8D3BE /* WeGitCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDF22CA45789E61BCB6AF054 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90FB9154AD4970118A0E8D64 /* WeGitCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +460,7 @@
 		42CB53DBC0ADB913EDD268B9 = {
 			isa = PBXGroup;
 			children = (
+				342240E84C9C693B605880D2 /* WeGitUpdater */,
 				AA65280343026C6B41C79970 /* LICENSE */,
 				555F2DCE2E88E2F29EED2011 /* Packages */,
 				D10A7E9E371CA0131A8D7656 /* TestGit */,
@@ -485,6 +513,9 @@
 		7FFE329DCC676BF4D477504B /* App */ = {
 			isa = PBXGroup;
 			children = (
+				89872DFB82710C4924E90BE6 /* UpdateApplicationBridge.swift */,
+				E9CD4345BB870A06A7954F8C /* FailedMigrationPreferences.swift */,
+				B88E27445DE941C5C91E8B6F /* ApplicationMigrationState.swift */,
 				A102567F86C924346F3FFE18 /* UpdateState.swift */,
 				ADDA83D1CAECF0AC23A28E89 /* KeyboardShortcutBridge.swift */,
 				10C4824C24C08E70C3FDBCFF /* ApplicationDeliveryServices.swift */,
@@ -521,6 +552,7 @@
 		9D513A640248D818AA7E62BB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				447C4B0360EE25877833C2B2 /* WeGitUpdater */,
 				69851F96AE048E02B867508A /* WeGit.app */,
 				12DBE880AE0FD5BC94A762A3 /* WeGitAskPass */,
 				711B64B734DBFFE85D5ADBF7 /* WeGitPerformanceTests.xctest */,
@@ -624,6 +656,16 @@
 			path = DesignSystem;
 			sourceTree = "<group>";
 		};
+		342240E84C9C693B605880D2 /* WeGitUpdater */ = {
+			isa = PBXGroup;
+			children = (
+				31EDEC7F94DC31467D6D2C12 /* UpdaterArguments.swift */,
+				66728FE2CF46DD3E43E35C5B /* WeGitUpdater.swift */,
+			);
+			name = WeGitUpdater;
+			path = WeGitUpdater;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -659,6 +701,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				278185A7B7FF87CC2C0654F6 /* PBXTargetDependency */,
 				3EED146632856FC2D7C94B56 /* PBXTargetDependency */,
 			);
 			name = WeGit;
@@ -726,6 +769,25 @@
 			productReference = 427BBA1EC78DD6B32995F4E3 /* WeGitUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		9AEF5E29105E8F9AD9C39DC0 /* WeGitUpdater */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 931B5A5719BA7858C89B7609 /* Build configuration list for PBXNativeTarget "WeGitUpdater" */;
+			buildPhases = (
+				1F1CDEDD121DCEB4CDA8CE77 /* Sources */,
+				DDF22CA45789E61BCB6AF054 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeGitUpdater;
+			packageProductDependencies = (
+				986157C111FC17C7A51E19F1 /* WeGitCore */,
+			);
+			productName = WeGitUpdater;
+			productReference = 447C4B0360EE25877833C2B2 /* WeGitUpdater */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -777,6 +839,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				9AEF5E29105E8F9AD9C39DC0 /* WeGitUpdater */,
 				22DB15EF8D230F29B1F334DB /* WeGit */,
 				5672E00EC09F177F577DB7AF /* WeGitAskPass */,
 				0CE4C7B6BE1DA90BBD5466CB /* WeGitPerformanceTests */,
@@ -812,16 +875,18 @@
 			);
 			inputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/WeGitAskPass",
+				"$(BUILT_PRODUCTS_DIR)/WeGitUpdater",
 			);
 			name = "Embed AskPass helper";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitAskPass",
+				"$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/WeGitUpdater",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitAskPass\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass\"\nrm -f \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitAskPass\"\n";
+			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitAskPass\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitAskPass\"\nrm -f \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeGitAskPass\"\nditto \"${BUILT_PRODUCTS_DIR}/WeGitUpdater\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/WeGitUpdater\"\n";
 		};
 		416EAE80BF85CB004DC374B7 /* Install complete current app icon */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -981,6 +1046,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0636AC17DBA594845F93BB9 /* UpdateApplicationBridge.swift in Sources */,
+				F8D56321F602CE6344D0A296 /* FailedMigrationPreferences.swift in Sources */,
+				888127D2F5E655B7102F1F4C /* ApplicationMigrationState.swift in Sources */,
 				727F0A93CF25138141F9F764 /* UpdateView.swift in Sources */,
 				74F8B3082174935803AEFFF6 /* ResourceManagementSheets.swift in Sources */,
 				40C85845E2A521600B981F29 /* KeyboardShortcutSettingsView.swift in Sources */,
@@ -1084,6 +1152,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1F1CDEDD121DCEB4CDA8CE77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DA1E7C76D7B26D639D42B9B /* UpdaterArguments.swift in Sources */,
+				90721D3194BBFFF232E96D09 /* WeGitUpdater.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1106,6 +1183,11 @@
 			isa = PBXTargetDependency;
 			target = 22DB15EF8D230F29B1F334DB /* WeGit */;
 			targetProxy = 22649254632B1613EE8E1113 /* PBXContainerItemProxy */;
+		};
+		278185A7B7FF87CC2C0654F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AEF5E29105E8F9AD9C39DC0 /* WeGitUpdater */;
+			targetProxy = 0ACD9C78F120BD7A199DE747 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1207,6 +1289,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				WEGIT_DISTRIBUTION_VARIANT = universal;
+				WEGIT_RELEASE_VERSION = "$(MARKETING_VERSION)";
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
@@ -1292,6 +1375,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				WEGIT_DISTRIBUTION_VARIANT = universal;
+				WEGIT_RELEASE_VERSION = "$(MARKETING_VERSION)";
 				SWIFT_VERSION = 6.0;
 			};
 			name = ReleasePerformance;
@@ -1348,7 +1432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WeGit/Resources/AppInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
@@ -1358,7 +1442,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.performanceHarness;
 				PRODUCT_NAME = WeGit;
 				SDKROOT = macosx;
@@ -1447,6 +1531,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				WEGIT_DISTRIBUTION_VARIANT = universal;
+				WEGIT_RELEASE_VERSION = "$(MARKETING_VERSION)";
 				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
@@ -1471,7 +1556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WeGit/Resources/AppInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
@@ -1481,7 +1566,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.development;
 				PRODUCT_NAME = WeGit;
 				SDKROOT = macosx;
@@ -1508,7 +1593,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WeGit/Resources/AppInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WeGit;
@@ -1518,7 +1603,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.development;
 				PRODUCT_NAME = WeGit;
 				SDKROOT = macosx;
@@ -1592,6 +1677,51 @@
 			};
 			name = Debug;
 		};
+		007A22FD506E196368558313 /* ReleasePerformance */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.Updater;
+				PRODUCT_NAME = WeGitUpdater;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = ReleasePerformance;
+		};
+		513122F190E0BA09532F111C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.Updater;
+				PRODUCT_NAME = WeGitUpdater;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		ED0AD8E4513AF2EF2369FC56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.willxue.wegit.Updater;
+				PRODUCT_NAME = WeGitUpdater;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1655,6 +1785,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		931B5A5719BA7858C89B7609 /* Build configuration list for PBXNativeTarget "WeGitUpdater" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED0AD8E4513AF2EF2369FC56 /* Debug */,
+				513122F190E0BA09532F111C /* Release */,
+				007A22FD506E196368558313 /* ReleasePerformance */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -1670,6 +1810,10 @@
 			productName = WeGitCore;
 		};
 		FB01D429917B5A2D4C811F77 /* WeGitCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WeGitCore;
+		};
+		986157C111FC17C7A51E19F1 /* WeGitCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WeGitCore;
 		};
