@@ -5,7 +5,7 @@ import WeGitCore
 enum ApplicationMenuCommand: String {
     case compareReferences
     case importPatch, importMailPatches, exportWorkingPatch, exportStagedPatch
-    case about, settings, hide, hideOthers, showAll, quit
+    case about, settings, updates, hide, hideOthers, showAll, quit
     case openRepository, clone, initializeRepository, switchRepository, close, closeAll
     case newWindow, openInNewWindow, reopenWindow
     case undo, redo, cut, copy, paste, pasteMatchingStyle, delete, selectAll, emojiSymbols
@@ -55,6 +55,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
     private let preferredAppearance: @MainActor () -> NSAppearance
     private let targetForAction: @MainActor (Selector, NSMenuItem) -> AnyObject?
     private let sendAction: @MainActor (Selector, AnyObject, NSMenuItem) -> Bool
+    private let shortcutOverride: @MainActor (ApplicationMenuCommand) -> KeyboardShortcutOverride?
     private var mainMenuObservation: NSKeyValueObservation?
     private var scheduled = false
     private var started = false
@@ -69,6 +70,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         selected: @escaping @MainActor (ApplicationMenuCommand) -> Bool = { _ in false },
         title: @escaping @MainActor (ApplicationMenuCommand) -> String? = { _ in nil },
         appearance: @escaping @MainActor () -> NSAppearance = { NSApp.effectiveAppearance },
+        shortcut: @escaping @MainActor (ApplicationMenuCommand) -> KeyboardShortcutOverride? = { _ in nil },
         target: @escaping @MainActor (Selector, NSMenuItem) -> AnyObject? = {
             NSApp.target(forAction: $0, to: nil, from: $1) as AnyObject?
         },
@@ -81,6 +83,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         appCommandSelected = selected
         dynamicTitle = title
         preferredAppearance = appearance
+        shortcutOverride = shortcut
         targetForAction = target
         sendAction = send
         super.init()
@@ -112,7 +115,11 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
                 self, selector: #selector(menuChanged), name: name, object: nil)
         }
         observeLanguage()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(shortcutsChanged), name: .applicationShortcutsChanged, object: nil)
     }
+
+    @objc private func shortcutsChanged(_ notification: Notification) { refreshLabels() }
 
     private func observeLanguage() {
         withObservationTracking {
@@ -190,6 +197,13 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
     func refreshLabels() {
         for (item, title) in labels {
             item.title = title()
+            if let raw = item.representedObject as? String,
+                let command = ApplicationMenuCommand(rawValue: raw),
+                let override = shortcutOverride(command)
+            {
+                item.keyEquivalent = override.binding?.key ?? ""
+                item.keyEquivalentModifierMask = override.binding?.nativeModifiers ?? []
+            }
             if let submenu = item.submenu { submenu.title = item.title }
         }
         updateSettingsWindowTitle()
@@ -238,6 +252,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
     private func build() {
         let application = menu("app", { "WeGit" })
         add(.about, to: application) { L10n.menuTitle("About WeGit") }
+        add(.updates, to: application) { L10n.text("检查更新…") }
         application.addItem(.separator())
         add(.settings, to: application, key: ",") { L10n.menuTitle("Settings…") }
         application.addItem(.separator())
@@ -501,7 +516,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
             }
         case .help: NSWorkspace.shared.open(URL(string: "https://github.com/WeOpen/WeGit#readme")!)
         default:
-            if ![.copyPath, .refresh, .quickAccess].contains(command) { showMainWindow() }
+            if ![.copyPath, .refresh, .quickAccess, .updates].contains(command) { showMainWindow() }
             performAppCommand(command)
         }
     }

@@ -66,6 +66,7 @@ public struct SharedDraftSnapshot: Codable, Equatable, Sendable {
     private static let draftPrefix = "v2.shared-draft:"
     private let defaults: UserDefaults
     private var state: State
+    private var stateBytes: Data?
     public var primaryID: UUID { state.primary }
     public var lastActiveID: UUID? { state.lastActive }
     public var windows: [WindowReadingSnapshot] { state.windows }
@@ -78,6 +79,7 @@ public struct SharedDraftSnapshot: Codable, Equatable, Sendable {
             else { throw Failure.invalid }
             try Self.validate(decoded)
             state = decoded
+            stateBytes = data
         } else {
             state = State()
             try backupOriginalDomain(domainName)
@@ -115,7 +117,11 @@ public struct SharedDraftSnapshot: Codable, Equatable, Sendable {
 
     public func readDraft(workspaceID: String, legacyKey: String) throws -> SharedDraftSnapshot? {
         try Self.validateWorkspaceID(workspaceID)
-        if let data = defaults.data(forKey: Self.draftPrefix + workspaceID) {
+        let key = Self.draftPrefix + workspaceID
+        guard defaults.object(forKey: key) == nil || defaults.data(forKey: key) != nil else {
+            throw Failure.invalid
+        }
+        if let data = defaults.data(forKey: key) {
             guard data.count <= 2 * 1024 * 1024,
                 let draft = try? JSONDecoder().decode(SharedDraftSnapshot.self, from: data),
                 draft.format == 2, draft.text.utf8.count <= 1024 * 1024,
@@ -130,17 +136,24 @@ public struct SharedDraftSnapshot: Codable, Equatable, Sendable {
 
     public func saveDraft(_ draft: SharedDraftSnapshot, workspaceID: String) throws {
         try Self.validateWorkspaceID(workspaceID)
+        let key = Self.draftPrefix + workspaceID
+        guard defaults.object(forKey: key) == nil || defaults.data(forKey: key) != nil else {
+            throw Failure.invalid
+        }
         guard draft.format == 2, draft.revision < UInt64.max,
             draft.text.utf8.count <= 1024 * 1024
         else { throw Failure.exceeded }
-        if let bytes = defaults.data(forKey: Self.draftPrefix + workspaceID) {
-            guard let current = try? JSONDecoder().decode(SharedDraftSnapshot.self, from: bytes),
-                current.format == 2, current == draft || current.revision < draft.revision
+        if let bytes = defaults.data(forKey: key) {
+            guard bytes.count <= 2 * 1024 * 1024,
+                let current = try? JSONDecoder().decode(SharedDraftSnapshot.self, from: bytes),
+                current.format == 2, current.revision < UInt64.max,
+                current.text.utf8.count <= 1024 * 1024,
+                current == draft || current.revision < draft.revision
             else { throw Failure.changed }
         }
         let data = try JSONEncoder().encode(draft)
-        defaults.set(data, forKey: Self.draftPrefix + workspaceID)
-        guard defaults.data(forKey: Self.draftPrefix + workspaceID) == data else { throw Failure.changed }
+        defaults.set(data, forKey: key)
+        guard defaults.data(forKey: key) == data else { throw Failure.changed }
     }
 
     public func removeDraft(workspaceID: String, matching draft: SharedDraftSnapshot) throws {
@@ -153,7 +166,9 @@ public struct SharedDraftSnapshot: Codable, Equatable, Sendable {
     }
 
     public func flush() throws {
+        try validateCurrentState()
         guard defaults.synchronize() else { throw Failure.changed }
+        try validateCurrentState()
     }
 
     /// Returns the original property-list bytes for an explicit rollback. It does
@@ -196,10 +211,18 @@ public struct SharedDraftSnapshot: Codable, Equatable, Sendable {
 
     private func write(_ next: State) throws {
         try Self.validate(next)
+        try validateCurrentState()
         let data = try JSONEncoder().encode(next)
         guard data.count <= 4 * 1024 * 1024 else { throw Failure.exceeded }
         defaults.set(data, forKey: Self.stateKey)
         guard defaults.data(forKey: Self.stateKey) == data else { throw Failure.changed }
+        stateBytes = data
+    }
+
+    private func validateCurrentState() throws {
+        guard defaults.data(forKey: Self.stateKey) == stateBytes,
+            stateBytes != nil || defaults.object(forKey: Self.stateKey) == nil
+        else { throw Failure.changed }
     }
 
     private static func validateWorkspaceID(_ id: String) throws {

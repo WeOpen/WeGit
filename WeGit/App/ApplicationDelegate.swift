@@ -24,6 +24,7 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
     var menuBarController: MenuBarController?
     var applicationMenu: NativeApplicationMenu?
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        let state = state ?? menuBarController?.app
         guard let state, state.anyOperationRunning else {
             if let coordinator = state?.runtime.windowCoordinator, !coordinator.saveAllWindows() {
                 return .terminateCancel
@@ -43,6 +44,7 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     func applicationWillTerminate(_ notification: Notification) {
+        let state = state ?? menuBarController?.app
         _ = state?.runtime.windowCoordinator?.saveAllWindows()
         state?.authentication.cancelAll()
     }

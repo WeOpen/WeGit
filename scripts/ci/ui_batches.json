@@ -136,6 +136,27 @@
         "ThemeInteractionTests/testThemeLibraryKeepsSameNamesIndependentAndEditorCancelPreservesSelection",
         "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus"
       ]
+    },
+    "workspace-delivery": {
+      "covers": [
+        "11a",
+        "11b",
+        "11c",
+        "11d",
+        "12a",
+        "12b",
+        "12c",
+        "13b-configuration-boundary"
+      ],
+      "methods": [
+        "WorkspaceDeliveryWorkflowTests/testShortcutChangeClearReopenAndRestoreUseNativeMenu",
+        "WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand",
+        "WorkspaceDeliveryWorkflowTests/testUnconfiguredUpdatesKeepDraftAndUseOneWindow",
+        "ResourceManagementWorkflowTests/testSubmoduleAddSourceChangeAndRemovalPreserveParentDraftAndChildData",
+        "ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles",
+        "WindowLifecycleTests/testSharedDraftMutationOwnershipAndTemplateSnapshot",
+        "WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen"
+      ]
     }
   }
 }

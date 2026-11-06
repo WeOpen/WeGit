@@ -9,6 +9,7 @@ extension NativeApplicationMenu {
                 let app = app?.runtime.activeState ?? app
                 guard let app else { return }
                 switch command {
+                case .updates: app.runtime.services.showUpdates(preferences: app.preferences)
                 case .newWindow: app.runtime.windowCoordinator?.newWindow()
                 case .openInNewWindow:
                     if let url = app.session?.location.root {
@@ -122,6 +123,7 @@ extension NativeApplicationMenu {
             appearance: { [weak app] in
                 AppPresentation.appearance(
                     for: (app?.runtime.activeState ?? app)?.preferences.resolvedAppearance ?? "system")
-            })
+            },
+            shortcut: { [weak app] command in app?.runtime.services.shortcutOverride(for: command) })
     }
 }

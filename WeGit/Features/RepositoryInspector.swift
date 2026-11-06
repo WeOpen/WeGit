@@ -16,6 +16,16 @@ struct RepositoryInspector: View {
     @State private var lfsObjects: [LFSObjectStatus] = []
     @State private var resourceError: String?
     @State private var resourceRefreshID = UUID()
+    @State private var moduleSheet: ModuleSheetRequest?
+    @State private var lfsRuleSheet = false
+    @State private var resourceReceipts: [SubmoduleChangeReceipt] = []
+    @State private var receiptSheet: SubmoduleChangeReceipt?
+    private struct ModuleSheetRequest: Identifiable {
+        let id = UUID()
+        let operation: SubmoduleChangeOperation
+        let path: String
+        let source: String
+    }
 
     private var inspection: CommitInspection? {
         guard let value = app.workspace.commitInspection,
@@ -161,12 +171,41 @@ struct RepositoryInspector: View {
                 guard tab == .resources else { return }
                 await loadResources()
             }
+            .sheet(item: $moduleSheet, onDismiss: { resourceRefreshID = UUID() }) { request in
+                SubmoduleManagementSheet(
+                    session: session, operation: request.operation, path: request.path, source: request.source
+                )
+            }
+            .sheet(isPresented: $lfsRuleSheet, onDismiss: { resourceRefreshID = UUID() }) {
+                LFSRuleSheet(session: session)
+            }
+            .sheet(item: $receiptSheet) { receipt in SubmoduleReceiptReviewSheet(receipt: receipt) }
     }
 
     private var resourcesView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                resourceSectionTitle(L10n.text("子模块"), symbol: "shippingbox")
+                HStack {
+                    resourceSectionTitle(L10n.text("子模块"), symbol: "shippingbox")
+                    Spacer()
+                    Button {
+                        moduleSheet = ModuleSheetRequest(operation: .add, path: "", source: "")
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .workbenchIconButton().accessibilityLabel(L10n.text("添加子模块"))
+                    .disabled(session.isBusy || !session.canWrite).accessibilityIdentifier(
+                        "inspector-submodule-add")
+                }
+                ForEach(resourceReceipts) { receipt in
+                    Button {
+                        receiptSheet = receipt
+                    } label: {
+                        Label(receipt.path, systemImage: "exclamationmark.triangle")
+                    }.foregroundStyle(colors.negative).disabled(session.isBusy)
+                        .accessibilityLabel(L10n.text("核对子模块操作") + " " + receipt.path)
+                        .accessibilityIdentifier("inspector-submodule-receipt:" + receipt.id.uuidString)
+                }
                 if submodules.isEmpty {
                     Text(L10n.text("没有配置子模块")).foregroundStyle(colors.secondaryText)
                 } else {
@@ -185,6 +224,33 @@ struct RepositoryInspector: View {
                                         .foregroundStyle(colors.secondaryText)
                                 }
                                 HStack {
+                                    if module.initialized {
+                                        Button(L10n.text("打开")) {
+                                            Task {
+                                                await app.open(
+                                                    session.location.root.appending(path: module.path))
+                                            }
+                                        }
+                                        .disabled(session.isBusy).accessibilityIdentifier(
+                                            "inspector-submodule-open:" + module.path)
+                                    }
+                                    Menu {
+                                        Button(L10n.text("更改子模块来源")) {
+                                            moduleSheet = ModuleSheetRequest(
+                                                operation: .changeSource, path: module.path,
+                                                source: module.url ?? "")
+                                        }
+                                        Button(L10n.text("移除子模块")) {
+                                            moduleSheet = ModuleSheetRequest(
+                                                operation: .remove, path: module.path,
+                                                source: module.url ?? "")
+                                        }
+                                    } label: {
+                                        Image(systemName: "ellipsis")
+                                    }
+                                    .workbenchIconButton().accessibilityLabel(L10n.text("管理子模块"))
+                                    .disabled(session.isBusy || !session.canWrite).accessibilityIdentifier(
+                                        "inspector-submodule-manage:" + module.path)
                                     Spacer(minLength: 0)
                                     if let recorded = module.recordedOID,
                                         module.state == .uninitialized || module.state == .childChanged
@@ -207,7 +273,13 @@ struct RepositoryInspector: View {
                 }
 
                 Divider()
-                resourceSectionTitle("Git LFS", symbol: "externaldrive")
+                HStack {
+                    resourceSectionTitle("Git LFS", symbol: "externaldrive")
+                    Spacer()
+                    Button(L10n.text("规则…")) { lfsRuleSheet = true }
+                        .disabled(session.isBusy || !session.canWrite).accessibilityIdentifier(
+                            "inspector-lfs-rules")
+                }
                 if lfsObjects.isEmpty {
                     Text(L10n.text("没有 LFS 指针")).foregroundStyle(colors.secondaryText)
                 } else {
@@ -273,11 +345,15 @@ struct RepositoryInspector: View {
         var modules: [SubmoduleStatus] = []
         var objects: [LFSObjectStatus] = []
         var failure: String?
+        var receipts: [SubmoduleChangeReceipt] = []
         do {
             modules = try await session.service.submodules()
         } catch {
             failure = error.localizedDescription
         }
+        do {
+            receipts = try await session.service.submoduleChangeReceipts().filter { $0.phase != .completed }
+        } catch { failure = failure ?? error.localizedDescription }
         guard !Task.isCancelled else { return }
         do {
             objects = try await session.service.lfsObjects()
@@ -288,6 +364,7 @@ struct RepositoryInspector: View {
         submodules = modules
         lfsObjects = objects
         resourceError = failure
+        resourceReceipts = receipts
     }
 
     private func submoduleTitle(_ state: SubmoduleState) -> String {

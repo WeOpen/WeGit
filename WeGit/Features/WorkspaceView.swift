@@ -132,7 +132,9 @@ struct WorkspaceView: View {
                     )
                 }
                 .workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-repository")
-                .help(L10n.text("\(app.session?.location.root.path ?? L10n.text("打开仓库"))\n切换仓库 ⌘K"))
+                .help(
+                    (app.session?.location.root.path ?? L10n.text("打开仓库")) + "\n"
+                        + app.shortcutHelp(L10n.text("切换仓库"), for: .switchRepository))
             }.sharedBackgroundVisibility(.hidden)
             if let session = app.session {
                 ToolbarItem(placement: .primaryAction) { branchMenu(session) }
@@ -176,10 +178,12 @@ struct WorkspaceView: View {
                                     isActive: session.isRefreshing && !reduceMotion
                                         && app.preferences.interfaceMotion)
                         }
-                    }.workbenchIconButton(toolbar: true).help(L10n.text("刷新 ⌘R")).accessibilityLabel(
+                    }.workbenchIconButton(toolbar: true).help(
+                        app.shortcutHelp(L10n.text("刷新"), for: .refresh)
+                    ).accessibilityLabel(
                         L10n.text("刷新"))
                     Button(L10n.text("搜索仓库"), systemImage: "magnifyingglass", action: app.presentSearch).help(
-                        L10n.text("搜索当前仓库 ⌘⇧F")
+                        app.shortcutHelp(L10n.text("搜索当前仓库…"), for: .search)
                     ).workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-search")
                     Button(L10n.text("检查器"), systemImage: "sidebar.right") {
                         app.workspace.inspector.toggle()
@@ -312,7 +316,7 @@ struct WorkspaceView: View {
         .sheet(item: $app.historyDepthRequest) {
             HistoryDepthSheet(session: $0.session).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.searchRequest) {
+        .sheet(item: $app.searchRequest, onDismiss: app.searchDidDismiss) {
             RepositorySearchView(app: app, request: $0).workbenchSheet(app.preferences)
         }
         .sheet(item: $app.themeImportRequest, onDismiss: app.drainThemeImports) {
@@ -333,7 +337,9 @@ struct WorkspaceView: View {
         .onDisappear {
             app.mainWorkspaceMounted = false
             app.saveCurrentWorkspace()
-            if !app.menuBarPresented && !app.mainWindowRequested { app.session?.deactivate(owner: app.windowID) }
+            if !app.menuBarPresented && !app.mainWindowRequested {
+                app.session?.deactivate(owner: app.windowID)
+            }
         }
         .alert(
             L10n.text("操作未完成"),
@@ -412,7 +418,9 @@ struct WorkspaceView: View {
             }
         }.listStyle(.sidebar).tint(colors.accent).scrollContentBackground(.hidden).background(colors.sidebar)
             .safeAreaInset(edge: .bottom, spacing: 0) {
-                SidebarBrandCard(openPanel: app.openPanel)
+                SidebarBrandCard(
+                    openPanel: app.openPanel,
+                    openHelp: app.shortcutHelp(L10n.text("打开仓库"), for: .openRepository))
             }
     }
 
@@ -627,6 +635,7 @@ struct WorkspaceView: View {
 private struct SidebarBrandCard: View {
     @Environment(\.themeColors) private var colors
     let openPanel: @MainActor () -> Void
+    let openHelp: String
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.colorSchemeContrast) private var contrast
 
@@ -655,7 +664,7 @@ private struct SidebarBrandCard: View {
                 Image(systemName: "plus").frame(width: 26, height: 26)
             }.accessibilityLabel(L10n.text("打开仓库"))
                 .workbenchIconButton().controlSize(.regular)
-                .accessibilityIdentifier("sidebar-add-repository").help(L10n.text("打开仓库 ⌘O"))
+                .accessibilityIdentifier("sidebar-add-repository").help(openHelp)
         }.padding(12).frame(maxWidth: .infinity)
     }
 }
@@ -691,7 +700,10 @@ struct WelcomeView: View {
                         Label(L10n.text("最近打开"), systemImage: "clock").font(.caption.weight(.medium))
                             .foregroundStyle(colors.secondaryText)
                         Spacer()
-                        Text(L10n.text("⌘O 打开")).font(.caption).foregroundStyle(colors.secondaryText)
+                        if let shortcut = app.shortcutDisplay(for: .openRepository) {
+                            Text(L10n.text("\(shortcut) 打开")).font(.caption).foregroundStyle(
+                                colors.secondaryText)
+                        }
                     }
                     ForEach(app.recents.prefix(5)) { record in
                         Button {

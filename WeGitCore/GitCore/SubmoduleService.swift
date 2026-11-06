@@ -6,7 +6,7 @@ extension RepositoryService {
         try await queue.perform { try await self.readSubmodulesDirect() }
     }
 
-    private func readSubmodulesDirect() async throws -> [SubmoduleStatus] {
+    func readSubmodulesDirect() async throws -> [SubmoduleStatus] {
         let config = try await self.engine.run(
             [
                 "config", "--file", ".gitmodules", "--null", "--get-regexp",
@@ -20,9 +20,9 @@ extension RepositoryService {
             else { continue }
             let key = String(text[..<separator])
             let value = String(text[text.index(after: separator)...])
-            let keyParts = key.split(separator: ".")
-            guard keyParts.count >= 3, let property = keyParts.last else { continue }
-            let name = keyParts.dropFirst().dropLast().joined(separator: ".")
+            guard key.hasPrefix("submodule."), let last = key.lastIndex(of: ".") else { continue }
+            let property = String(key[key.index(after: last)...])
+            let name = String(key[key.index(key.startIndex, offsetBy: 10)..<last])
             var item = configured[name] ?? (nil, nil)
             if property == "path" { item.path = value }
             if property == "url" { item.url = value }
@@ -141,7 +141,10 @@ extension RepositoryService {
     }
 
     public func initializeOrUpdateSubmodule(path: String, expectedOID: String) async throws {
-        try await withSharedOperation {
+        try self.validate(path)
+        let child = try await submoduleChild(path: path)
+        try await withSubmoduleOperation(child: child.location) {
+            guard child.retention.locks.isEmpty else { throw ModelFailure.changed }
             try self.validate(path)
             guard GitObjectID.valid(expectedOID), let beforeHead = try await self.head() else {
                 throw ModelFailure.invalidPath
@@ -211,9 +214,9 @@ extension RepositoryService {
                     let separator = line.firstIndex(of: "\n"),
                     String(line[line.index(after: separator)...]) == path
                 else { return nil }
-                let key = String(line[..<separator]).split(separator: ".")
-                guard key.count >= 3 else { return nil }
-                return key.dropFirst().dropLast().joined(separator: ".")
+                let key = String(line[..<separator])
+                guard key.hasPrefix("submodule."), key.hasSuffix(".path") else { return nil }
+                return String(key.dropFirst(10).dropLast(5))
             }.first
             guard let name else { throw ModelFailure.unsupported(L10n.text("父仓库的 .gitmodules 未配置此路径。")) }
 

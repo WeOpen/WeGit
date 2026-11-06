@@ -7,6 +7,12 @@ struct CommitMessageRequest: Identifiable {
     let id = UUID()
     let session: RepositorySession
     let source: Source
+    let draftRevision: UInt64
+    @MainActor init(session: RepositorySession, source: Source) {
+        self.session = session
+        self.source = source
+        draftRevision = session.draftRevision
+    }
 }
 
 struct CommitMessageSheet: View {
@@ -81,10 +87,19 @@ struct CommitMessageSheet: View {
                 Button(L10n.text("取消")) { dismiss() }.keyboardShortcut(.cancelAction)
                 Button(request.session.message.isEmpty ? L10n.text("使用消息") : L10n.text("替换草稿")) {
                     guard let chosen, app.session === request.session else { return }
-                    request.session.replaceMessage(chosen)
+                    guard
+                        request.session.replaceDraft(
+                            chosen, owner: app.windowID, revision: request.draftRevision)
+                    else {
+                        error = L10n.text("草稿已变化，请关闭后重新选择消息。")
+                        return
+                    }
                     dismiss()
                 }.keyboardShortcut(.defaultAction).workbenchPrimaryAction()
-                    .disabled(loading || chosen == nil || request.session.isBusy)
+                    .disabled(
+                        loading || chosen == nil || request.session.isBusy
+                            || !request.session.canEditDraft(owner: app.windowID)
+                    )
                     .accessibilityIdentifier("message-source-use")
             }.workbenchControlFamily()
         }.accessibilityElement(children: .contain).padding(24).frame(width: 730).task { await load() }

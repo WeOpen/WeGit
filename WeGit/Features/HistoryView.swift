@@ -172,7 +172,11 @@ struct HistoryView: View {
             }.frame(minWidth: 420, maxWidth: .infinity, maxHeight: .infinity)
                 .accessibilityElement(children: .contain).accessibilityLabel(L10n.text("提交详情"))
         }.background(colors.canvas)
-            .task(id: "\(session.id):\(session.historyGeneration)") { await history.synchronize() }
+            .task(id: "\(session.id):\(session.historyGeneration)") {
+                await history.synchronize()
+                guard !Task.isCancelled else { return }
+                await app.restoreSelectedCommit(for: session)
+            }
             .onChange(of: history.scope) { _, _ in reload() }
             .onChange(of: history.query) { _, _ in reload(delayed: true) }
             .onChange(of: history.searchField) { _, _ in reload(delayed: true) }

@@ -8,6 +8,8 @@ final class WorkspaceWindowCoordinator: NSObject {
     private weak var delegate: ApplicationDelegate?
     private var controllers: [UUID: WorkspaceWindowController] = [:]
     private var windows: [UUID: WeakWorkspaceWindow] = [:]
+    private var closeDelegates: [UUID: WorkspaceCloseDelegate] = [:]
+    private var failedClosedWindows: [UUID: (AppState, NSWindow)] = [:]
     private let previousActiveID: UUID?
     private var restored = false
     var showPrimary: @MainActor () -> Void = {}
@@ -26,6 +28,11 @@ final class WorkspaceWindowCoordinator: NSObject {
     func register(_ window: NSWindow, app: AppState) {
         windows[app.windowID] = WeakWorkspaceWindow(window)
         app.nativeWindow = window
+        if window.delegate !== closeDelegates[app.windowID] {
+            let proxy = WorkspaceCloseDelegate(app: app, original: window.delegate)
+            closeDelegates[app.windowID] = proxy
+            window.delegate = proxy
+        }
         window.setAccessibilityIdentifier("workspace-window-" + app.windowID.uuidString)
         if window.isKeyWindow { activate(app) }
     }
@@ -84,7 +91,13 @@ final class WorkspaceWindowCoordinator: NSObject {
 
     func saveAllWindows() -> Bool {
         guard let primary else { return true }
-        for app in primary.runtime.liveStates where app.mainWorkspaceMounted { app.saveCurrentWorkspace() }
+        var saved = true
+        for app in primary.runtime.liveStates where app.mainWorkspaceMounted || app.workspaceSaveError != nil
+        {
+            if !app.saveCurrentWorkspace() { saved = false }
+        }
+        guard saved else { return false }
+        guard primary.runtime.persistence != nil || !primary.preferences.restoreWindow else { return false }
         guard !primary.runtime.sessions.values.contains(where: { $0.draftSaveError != nil }) else {
             return false
         }
@@ -115,12 +128,23 @@ final class WorkspaceWindowCoordinator: NSObject {
             let pair = windows.first(where: { $0.value.value === window }), let primary,
             let app = primary.runtime.liveStates.first(where: { $0.windowID == pair.key })
         else { return }
-        app.windowDidClose()
+        guard app.windowDidClose() else {
+            // A direct NSWindow.close can bypass delegate validation. Keep the
+            // state and window alive so failed persistence cannot discard input.
+            failedClosedWindows[pair.key] = (app, window)
+            return
+        }
+        failedClosedWindows.removeValue(forKey: pair.key)
         windows.removeValue(forKey: pair.key)
-        controllers.removeValue(forKey: pair.key)
+        let closeDelegate = closeDelegates.removeValue(forKey: pair.key)
+        let controller = controllers.removeValue(forKey: pair.key)
+        // Keep forwarding and the hosting owner alive through this notification
+        // delivery, including SwiftUI's own windowWillClose callback.
+        DispatchQueue.main.async { withExtendedLifetime((closeDelegate, controller)) {} }
         if app.runtime.activeWindowID == app.windowID {
             app.runtime.activeWindowID = app.runtime.liveStates.first(where: \.mainWorkspaceMounted)?.windowID
         }
+        delegate?.state = app.runtime.liveStates.first(where: \.mainWorkspaceMounted) ?? primary
     }
 }
 
@@ -129,7 +153,7 @@ final class WorkspaceWindowCoordinator: NSObject {
     init(_ value: NSWindow) { self.value = value }
 }
 
-@MainActor private final class WorkspaceWindowController: NSWindowController, NSWindowDelegate {
+@MainActor private final class WorkspaceWindowController: NSWindowController {
     let app: AppState
     init(app: AppState, repository: URL?) {
         self.app = app
@@ -143,16 +167,41 @@ final class WorkspaceWindowCoordinator: NSObject {
         window.contentViewController = NSHostingController(
             rootView: AdditionalWorkspaceRoot(app: app, repository: repository))
         super.init(window: window)
-        window.delegate = self
         window.center()
     }
     required init?(coder: NSCoder) { fatalError("init(coder:) is not supported") }
+}
+
+/// Retains SwiftUI's own delegate and forwards every delegate method except the
+/// close decision, which first verifies the window's persistence transaction.
+@MainActor private final class WorkspaceCloseDelegate: NSObject, NSWindowDelegate {
+    private weak var app: AppState?
+    // NSObject's forwarding hooks are nonisolated. AppKit delegate access is
+    // still confined to the main actor, checked at both forwarding entry points.
+    nonisolated(unsafe) private weak var original: (any NSWindowDelegate)?
+    init(app: AppState, original: (any NSWindowDelegate)?) {
+        self.app = app
+        self.original = original
+        super.init()
+    }
+    nonisolated override func responds(to selector: Selector!) -> Bool {
+        MainActor.preconditionIsolated()
+        return super.responds(to: selector) || original?.responds(to: selector) == true
+    }
+    nonisolated override func forwardingTarget(for selector: Selector!) -> Any? {
+        MainActor.preconditionIsolated()
+        if original?.responds(to: selector) == true { return original }
+        return super.forwardingTarget(for: selector)
+    }
     func windowShouldClose(_ sender: NSWindow) -> Bool {
-        if app.cloneRunning || app.initialization.isBusy || app.session?.draftSaveError != nil {
+        guard original?.windowShouldClose?(sender) != false else { return false }
+        guard let app else { return true }
+        if !app.prepareWindowClose() {
             let alert = NSAlert()
             alert.messageText = L10n.text("请先完成当前窗口的操作")
             alert.informativeText =
                 app.session?.draftSaveError
+                ?? app.workspaceSaveError
                 ?? L10n.text("请等待克隆或仓库创建完成，或在操作面板中取消并核对结果。")
             AppPresentation.configure(
                 alert, appearance: AppPresentation.appearance(for: app.preferences.resolvedAppearance))

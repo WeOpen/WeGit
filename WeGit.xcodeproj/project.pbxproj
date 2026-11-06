@@ -148,6 +148,14 @@
 		F92B258CAE4444F3CDA9A5ED /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE785C1633B52AB944B1A7B /* Components.swift */; };
 		F93DA2D0FD44D14C20CF8CE6 /* FileContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FB96334024A02ED9F6ABE4 /* FileContextMenu.swift */; };
 		FF1EE79A96620F5C67EE4393 /* DiffCodeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF09152392658C1A0497D7A /* DiffCodeRow.swift */; };
+		819D96FAEC82ED016C56A015 /* ApplicationDeliveryServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C4824C24C08E70C3FDBCFF /* ApplicationDeliveryServices.swift */; };
+		5FEC174BF9EEAC1198974055 /* KeyboardShortcutBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDA83D1CAECF0AC23A28E89 /* KeyboardShortcutBridge.swift */; };
+		0E96CAE6156BD05E54EFB833 /* UpdateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A102567F86C924346F3FFE18 /* UpdateState.swift */; };
+		40C85845E2A521600B981F29 /* KeyboardShortcutSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56390F8004B85704EE1841FA /* KeyboardShortcutSettingsView.swift */; };
+		74F8B3082174935803AEFFF6 /* ResourceManagementSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C545203296921F19FA0485A /* ResourceManagementSheets.swift */; };
+		727F0A93CF25138141F9F764 /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830528B1AA53D80F9E42C4B4 /* UpdateView.swift */; };
+		0EAD31EB96F70487A41FBED7 /* WorkspaceDeliveryWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408638B9C201CCED82F2A6BD /* WorkspaceDeliveryWorkflowTests.swift */; };
+		31FFEC103C04A15197E1CF95 /* ResourceManagementWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBEF38507530C9F4F9FA47F /* ResourceManagementWorkflowTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -329,6 +337,14 @@
 		FABF9BDC6250640F1FEE61EF /* StashWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StashWorkflowTests.swift; sourceTree = "<group>"; };
 		FBC590C6F10217599AF4A392 /* BrandAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = BrandAssets.xcassets; sourceTree = "<group>"; };
 		FCB041EA4D090DC5B4972BD5 /* SettingsLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLifecycleTests.swift; sourceTree = "<group>"; };
+		10C4824C24C08E70C3FDBCFF /* ApplicationDeliveryServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDeliveryServices.swift; sourceTree = "<group>"; };
+		ADDA83D1CAECF0AC23A28E89 /* KeyboardShortcutBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutBridge.swift; sourceTree = "<group>"; };
+		A102567F86C924346F3FFE18 /* UpdateState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateState.swift; sourceTree = "<group>"; };
+		56390F8004B85704EE1841FA /* KeyboardShortcutSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutSettingsView.swift; sourceTree = "<group>"; };
+		9C545203296921F19FA0485A /* ResourceManagementSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManagementSheets.swift; sourceTree = "<group>"; };
+		830528B1AA53D80F9E42C4B4 /* UpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateView.swift; sourceTree = "<group>"; };
+		408638B9C201CCED82F2A6BD /* WorkspaceDeliveryWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceDeliveryWorkflowTests.swift; sourceTree = "<group>"; };
+		ABBEF38507530C9F4F9FA47F /* ResourceManagementWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManagementWorkflowTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,6 +380,8 @@
 		07BE59A938A1D6A3F01C1D9F /* WeGitUITests */ = {
 			isa = PBXGroup;
 			children = (
+				ABBEF38507530C9F4F9FA47F /* ResourceManagementWorkflowTests.swift */,
+				408638B9C201CCED82F2A6BD /* WorkspaceDeliveryWorkflowTests.swift */,
 				D0D76EC00C8BC8A04E98ED29 /* BlameWorkflowTests.swift */,
 				BBA763BCB4493EC8B7C35D44 /* ChangesListTests.swift */,
 				6CB5390DCAC7519AE5067E6C /* CommitTaskWorkflowTests.swift */,
@@ -467,6 +485,9 @@
 		7FFE329DCC676BF4D477504B /* App */ = {
 			isa = PBXGroup;
 			children = (
+				A102567F86C924346F3FFE18 /* UpdateState.swift */,
+				ADDA83D1CAECF0AC23A28E89 /* KeyboardShortcutBridge.swift */,
+				10C4824C24C08E70C3FDBCFF /* ApplicationDeliveryServices.swift */,
 				3B5E50BAC2AE7E717A003FA9 /* ApplicationDelegate.swift */,
 				1DA32AB51AEBEB8AD95DB129 /* ApplicationMenuActions.swift */,
 				9CA57D9AB3E86BE4A2FB5E6C /* AppPreferences.swift */,
@@ -512,6 +533,9 @@
 		C58450F0AD5998BC97172A23 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				830528B1AA53D80F9E42C4B4 /* UpdateView.swift */,
+				9C545203296921F19FA0485A /* ResourceManagementSheets.swift */,
+				56390F8004B85704EE1841FA /* KeyboardShortcutSettingsView.swift */,
 				82D04262B8415A61E0D18CE9 /* AuthenticationView.swift */,
 				B42D666687D0916B44B3453F /* BlameSheet.swift */,
 				7183C67E493C4FB81DECA942 /* BranchSheets.swift */,
@@ -914,6 +938,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31FFEC103C04A15197E1CF95 /* ResourceManagementWorkflowTests.swift in Sources */,
+				0EAD31EB96F70487A41FBED7 /* WorkspaceDeliveryWorkflowTests.swift in Sources */,
 				B17FD935F949705FEAFEAE29 /* BlameWorkflowTests.swift in Sources */,
 				912482B2DB0CA8509E9FFE16 /* ChangesListTests.swift in Sources */,
 				13DE4862B8136E5F83873E20 /* CommitTaskWorkflowTests.swift in Sources */,
@@ -955,6 +981,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				727F0A93CF25138141F9F764 /* UpdateView.swift in Sources */,
+				74F8B3082174935803AEFFF6 /* ResourceManagementSheets.swift in Sources */,
+				40C85845E2A521600B981F29 /* KeyboardShortcutSettingsView.swift in Sources */,
+				0E96CAE6156BD05E54EFB833 /* UpdateState.swift in Sources */,
+				5FEC174BF9EEAC1198974055 /* KeyboardShortcutBridge.swift in Sources */,
+				819D96FAEC82ED016C56A015 /* ApplicationDeliveryServices.swift in Sources */,
 				2ACD82F9B02CCECABEB73492 /* AppColors.swift in Sources */,
 				E052F4D3E6F119600D2D541C /* AppPreferences.swift in Sources */,
 				5068264D82A0586CCB565E25 /* AppPresentation.swift in Sources */,
@@ -1174,6 +1206,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
+				WEGIT_DISTRIBUTION_VARIANT = universal;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
@@ -1258,6 +1291,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
+				WEGIT_DISTRIBUTION_VARIANT = universal;
 				SWIFT_VERSION = 6.0;
 			};
 			name = ReleasePerformance;
@@ -1412,6 +1446,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
+				WEGIT_DISTRIBUTION_VARIANT = universal;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Release;

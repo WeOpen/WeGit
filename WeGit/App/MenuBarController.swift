@@ -3,6 +3,18 @@ import Observation
 import SwiftUI
 import WeGitCore
 
+@MainActor final class MenuBarSessionSubscription {
+    private let owner = UUID()
+    private var session: RepositorySession?
+    func use(_ next: RepositorySession?) {
+        guard session !== next else { return }
+        session?.deactivate(owner: owner)
+        session = next
+        next?.activate(owner: owner)
+    }
+    func release() { use(nil) }
+}
+
 struct MenuBarRegistration: View {
     let app: AppState
     let delegate: ApplicationDelegate
@@ -21,14 +33,14 @@ struct MenuBarRegistration: View {
             if delegate.menuBarController == nil {
                 delegate.menuBarController = MenuBarController(app: app)
             }
-            delegate.menuBarController?.showMainWindow = { openWindow(id: "main") }
+            delegate.menuBarController?.showMainWindow = { app.runtime.windowCoordinator?.showActiveWindow() }
             delegate.menuBarController?.showSettings = { openSettings() }
             if delegate.applicationMenu == nil {
                 delegate.applicationMenu = NativeApplicationMenu(app: app)
             }
             delegate.applicationMenu?.showMainWindow = {
                 if !app.mainWorkspaceMounted { app.mainWindowRequested = true }
-                openWindow(id: "main")
+                app.runtime.windowCoordinator?.showActiveWindow()
             }
             delegate.applicationMenu?.showSettings = { openSettings() }
             delegate.applicationMenu?.start()
@@ -44,11 +56,13 @@ final class MenuBarController: NSObject, NSPopoverDelegate {
     var showSettings: @MainActor () -> Void = {}
     private var item: NSStatusItem?
     private let popover = NSPopover()
-    private var lastRequest: UUID
+    private var lastRequests: [UUID: UUID]
+    private weak var contentApp: AppState?
+    private let subscription = MenuBarSessionSubscription()
 
     init(app: AppState) {
         self.app = app
-        lastRequest = app.menuBarRequestID
+        lastRequests = [app.windowID: app.menuBarRequestID]
         super.init()
         popover.behavior = .transient
         popover.animates = false
@@ -59,11 +73,18 @@ final class MenuBarController: NSObject, NSPopoverDelegate {
     private func observe() {
         withObservationTracking {
             update(enabled: app.preferences.showMenuBar && app.allowsMenuBarExtra)
-            let request = app.menuBarRequestID
-            if request != lastRequest {
-                lastRequest = request
-                togglePanel()
+            let states = app.runtime.liveStates
+            lastRequests = lastRequests.filter { id, _ in states.contains { $0.windowID == id } }
+            for state in states {
+                _ = state.session
+                let request = state.menuBarRequestID
+                if let previous = lastRequests[state.windowID], previous != request {
+                    showPanel(for: state)
+                }
+                lastRequests[state.windowID] = request
             }
+            _ = app.runtime.activeWindowID
+            if popover.isShown { subscription.use(contentApp?.session) }
         } onChange: { [weak self] in
             Task { @MainActor in self?.observe() }
         }
@@ -91,6 +112,10 @@ final class MenuBarController: NSObject, NSPopoverDelegate {
     }
 
     @objc private func togglePanel() {
+        showPanel(for: app.runtime.activeState ?? app)
+    }
+
+    private func showPanel(for app: AppState) {
         guard let button = item?.button else { return }
         if popover.isShown {
             popover.performClose(nil)
@@ -102,6 +127,8 @@ final class MenuBarController: NSObject, NSPopoverDelegate {
             closePanel: { [weak self] in self?.popover.performClose(nil) }
         ).workbenchAppearance(app.preferences)
         let host = NSHostingController(rootView: content)
+        contentApp = app
+        subscription.use(app.session)
         popover.contentViewController = host
         popover.contentSize = host.view.fittingSize
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
@@ -109,8 +136,9 @@ final class MenuBarController: NSObject, NSPopoverDelegate {
     }
 
     func popoverDidClose(_ notification: Notification) {
-        app.menuBarPresented = false
-        if !app.mainWorkspaceMounted && !app.mainWindowRequested { app.session?.deactivate() }
+        contentApp?.menuBarPresented = false
+        subscription.release()
+        contentApp = nil
         popover.contentViewController = nil
     }
 }

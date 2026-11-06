@@ -16,6 +16,9 @@ struct StashView: View {
                 }, showChanges: { app.workspace.route = .changes },
                 createBranch: { entry, list in
                     app.stashBranchRequest = StashBranchRequest(session: session, entry: entry, list: list)
+                }, searchTarget: app.stashSearchTarget,
+                searchTargetConsumed: { target in
+                    if app.stashSearchTarget == target { app.stashSearchTarget = nil }
                 }
             ) { contents, part in
                 StashDiffView(app: app, session: session, contents: contents, part: part)

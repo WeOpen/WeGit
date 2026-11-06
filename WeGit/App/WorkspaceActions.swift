@@ -14,6 +14,19 @@ struct WorkspaceCommand: Identifiable {
 }
 
 extension AppState {
+    func shortcutDisplay(for command: ApplicationMenuCommand) -> String? {
+        let _ = runtime.services.shortcutRevision
+        if let override = runtime.services.shortcutOverride(for: command) {
+            return override.binding?.displayValue
+        }
+        return ApplicationShortcutCatalog.commands.first { $0.id == command.rawValue }?.defaultBinding?
+            .displayValue
+    }
+
+    func shortcutHelp(_ title: String, for command: ApplicationMenuCommand) -> String {
+        shortcutDisplay(for: command).map { title + " " + $0 } ?? title
+    }
+
     var canStageAll: Bool {
         session?.canWrite == true
             && session?.status.files.contains { !$0.conflict && ($0.unstaged || $0.untracked) } == true
@@ -62,7 +75,50 @@ extension AppState {
 
     func presentSearch() {
         guard let session else { return }
-        searchRequest = RepositorySearchRequest(session: session, route: workspace.route)
+        pendingSearchResult = nil
+        pendingSearchSession = nil
+        searchRequest = RepositorySearchRequest(session: session, route: workspace.route) {
+            [weak self] result in
+            self?.pendingSearchResult = result
+            self?.pendingSearchSession = session
+        }
+    }
+
+    func searchDidDismiss() {
+        let result = pendingSearchResult
+        let target = pendingSearchSession
+        pendingSearchResult = nil
+        pendingSearchSession = nil
+        guard let result, let target, session === target else { return }
+        switch result {
+        case .commit(let commit):
+            let history = historyState(for: target)
+            history.searchField = .sha
+            history.query = commit.id
+            history.selectedIDs = [commit.id]
+            workspace.selectedCommit = commit
+            workspace.route = .history
+        case .trackedPath(let path):
+            fileHistoryRequest = FileHistoryRequest(session: target, path: path, tip: target.status.head)
+        case .branch(let branch):
+            workspace.branchFilter = branch.name
+            workspace.route = .branches
+        case .tag(let tag):
+            tagSearchTarget = tag
+            workspace.route = .tags
+        case .stash(let stash):
+            stashSearchTarget = stash
+            workspace.route = .stashes
+        case .worktree(let tree):
+            runtime.windowCoordinator?.newWindow(repository: URL(fileURLWithPath: tree.path))
+        case .command(let result):
+            guard let command = commands.first(where: { $0.id == result.id }) else { return }
+            guard command.enabled else {
+                error = command.reason
+                return
+            }
+            command.action()
+        }
     }
 
     func presentBranchSwitcher() {
@@ -251,6 +307,25 @@ extension AppState {
                 .init(
                     id: "route:" + route.id, title: route.title, symbol: route.icon, enabled: available,
                     reason: reason, shortcut: "⌘\(index + 1)", action: { self.workspace.route = route }))
+        }
+        let _ = runtime.services.shortcutRevision
+        let menuIDs: [String: ApplicationMenuCommand] = [
+            "open": .openRepository, "clone": .clone, "switch": .switchRepository,
+            "search": .search, "refresh": .refresh, "branch": .newBranch, "switch-branch": .switchBranch,
+            "stage": .stageAll, "unstage": .unstageAll, "commit": .commit, "pull": .pull, "push": .push,
+            "terminal": .terminal, "copy-path": .copyPath, "xcode": .xcode, "activity": .activity,
+            "route:" + WorkspaceRoute.changes.id: .changes,
+            "route:" + WorkspaceRoute.history.id: .history,
+            "route:" + WorkspaceRoute.branches.id: .branches,
+            "route:" + WorkspaceRoute.stashes.id: .stashes,
+            "route:" + WorkspaceRoute.tags.id: .tags,
+        ]
+        for index in commands.indices {
+            if let command = menuIDs[commands[index].id],
+                let override = runtime.services.shortcutOverride(for: command)
+            {
+                commands[index].shortcut = override.binding?.displayValue ?? ""
+            }
         }
         return commands
     }

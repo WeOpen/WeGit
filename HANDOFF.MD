@@ -1,5 +1,22 @@
 # WeGit 开发交接
 
+## 2026-11-06 M4 工作区、资源与交付基础集成
+
+- 继续使用 managed 的 v2-m1-validation-fix/WeGit、codex/v2-m4-workspaces-and-delivery；主检出主题/网站分支和用户 PBX 未移动。快捷键、七类统一查询、Submodule/LFS 与更新状态已接原生入口，本轮只做开发编译/隔离控制，尚未请求新的托管批次或发布。M1 最新 CI42180305762 的大型 Reset p95 2394.34ms / 原预算2000ms仍为失败。
+- 快捷键存储只写 v2.keyboard-shortcuts；清除与缺省不同，冲突/macOS编辑保留组合拒绝，原生自有菜单即时取有效绑定。菜单、命令列表、Toolbar/Sidebar/Composer 的提示共用绑定，清除后不再显示旧快捷键。命令面板的路由 ID 沿用 WorkspaceRoute 的中文 raw value，不能按英文名称映射；复制路径的真实 ID 是 copy-path。
+- 统一查询复用固定提交 tips/路径/引用快照，首批和下一页各最多100，默认不读所有文件正文或未跟踪内容。结果在搜索 sheet onDismiss 后导航；路径打开准确文件历史，Tag/储藏按引用与对象绑定，Worktree 打开独立窗口，命令执行前重验可用状态。标签目标必须独立验证，不能因前200个 substring 匹配中没有目标就虚报消失；异步结果消费只能清除同一目标。
+- 所有草稿入口（输入、模板、历史、撤销、设置恢复/清除、Amend）统一 owner/revision，只有明确接管改变归属。异步 Amend 由 Session 单独持 lease/固定 HEAD，填充前后核对修订号，避免同工作树两个窗口重复填充。旧JSON即使能解码，超1MiB文本/非法revision也必须拒绝覆盖。保存/关闭/退出传回真实Bool并flush；原NSWindowDelegate通过代理保留与转发，代理和hosting须活到willClose通知完成；初始化期间关闭保留原路由，恢复提交读取晚到时不覆盖用户新选择。
+- 菜单栏面板必须有自己的固定订阅 owner，切换 Session 先释放旧订阅，关闭时无条件释放自己的订阅。不能用 legacyOwner 激活后仅在主窗口已关时释放，否则最后窗口关掉仍遗留 watcher。关闭最后一个次窗口后 delegate.state 要回到仍挂载的窗口或 primary；退出同时以主应用状态兜底，不能因weak state归零跳过背景任务/持久化检查。
+- Submodule 的添加/来源变更/移除都有预览和分阶段回执；移除只取消父登记/gitlink，保留子文件和Git数据。子origin同步默认关闭，明确开启才核对本仓库的单一URL、备份/摘要及独立写入阶段，不fetch。父/子common/private许可按固定顺序取得；下载落地逐父层openat/O_NOFOLLOW并固定目录身份，不把URL尾斜杠当成身份变化。literal option-like路径、带多个点的subsection、CRLF及无末尾换行均保留；按Data行区间处理，Swift CRLF是一个Character。自有child config.lock在前置校验后取得，并在锁复查前释放。
+- LFS规则用Git核对匹配及实际来源，保留其他属性/注释/行尾；工作文件缺失时Git可回退索引，不能当成没有有效来源。未安装Git LFS仍可保存规则，不安装工具/Hook，不在Diff读取时下载。gitlink暂存不应掩盖 .gitmodules/.gitattributes 仍未暂存的状态。RecoveryStore拒绝非manifest/嵌套的下载回执，资源操作使用独立有界命名空间。
+- 更新基础校验Ed25519来源、SHA字节、通道/版本/密钥范围/过期、变体/固定来源和大小/超时；共享UpdateState不会因单个窗口关闭而取消下载。安装控制覆盖包签名、目标/目录身份、窗口保存代次、空间、旧包/原数据备份、替换与明确回退。生产公钥/签名feed和独立生产installer/崩溃后重开协议仍未配置，自动检查/安装保持真实不可用，提供官网入口；不能把14条独立控制改写成生产更新验收。
+- 更新安装陷阱：NSObject.hash会与辅助方法重名；Diff快照清理不能拥有安装备份；Foundation归一可重引入/var符号链接，相同目录URL也可仅因尾斜杠不相等，比较canonical path加固定文件系统身份。原/修复失败日志分别保留；最早原日志被覆盖的观察只作为明确的观察记录，不冒充留存原始日志。临时安装控制只使用自有ad-hoc包和私有偏好，没有生产私钥。
+- 三分发工具接入实际Info变体和发布准备：v2+必须同tag/source/build/源文件集合的三包；v1仍兼容4/5资产的旧/新单Universal报告。三包准备11资产，发布仍只draft且上传前后重验。release.yml按tag主版本选择v2三包循环/旧版单包；三包共用一个源码CI结果，各自验架构、签名、大小和DMG。原30MiB下载/60MiB安装预算不变；未构建本批次真实三包或执行发布。
+- 隔离开发证据：Submodule/LFS 16/16控制、13 Core+2 UI测试方法源；更新14/14控制，30份2349bytes tiny manifest p95约0.65ms仅诊断；快捷键/查询5组控制；窗口/面板/精确Tag共14组控制及4项完整性测试源。新增workspace-delivery注册7项托管流程（窗口2、快捷键/搜索/更新配置3、资源2），本机不执行XCTest。60项批次/范围/回执工具和32项发布/变体工具通过，actionlint1.7.12通过。最终编译/界面记录在.build/v2-m4，实际托管/原生性能/支持矩阵/URI/生产更新及M5仍待。
+- 独立NSWorkspace.OpenConfiguration预览固定bundle/PID/私有UITests域，去掉wegit注册，未再请求用户置前或操作真实应用。实际观察：中文/Emoji草稿经更新窗口关闭和进程重开保留，精确路径搜索接到FileHistory。CUA typeText中文曾只插入空格；改用工具自带paste（保留系统剪贴板）取得完整文本，记录实际含前置空格的值。快捷键selectable List合并行内AX按钮，children:contain单独未解决，改为ScrollView/LazyVStack普通配置行；搜索Picker隐藏重复标签修正字段挤压。末尾已重新编译且实际复验：独立按钮AX出现，系统Cmd-C拒绝、Cmd-Option-G保存并真正打开搜索，Toolbar/查询提示同步，清除/恢复后默认显示正确；Picker字段不再截断。最后正常退出私有PID91676，原HEAD/索引/工作文件SHA保持。完整多窗口键盘/VoiceOver/中英主题矩阵仍待。
+- 最终本机Core与全部测试源编译4.13秒；App/UI源build-for-testing成功，无产品Swift警告，1892字符串/8复数及严格格式通过。Debug应用回执的全部源/资源逐SHA一致，UI源另存SHA；Release打包验证入口拒绝Debug是预期边界，Debug源码相等核对不走该入口。最终窗口/面板/Tag控制14/14，226项当前源码/对象等价；原失败和补验保留。所有证据仍是开发状态，不把编译或局部UI改记为托管/版本通过。
+- M1只读补核：两镜像Core147/performance119项输入一致，Reset源码13698bytes同原候选；最新大型Reset7/30超2000ms，median1701.30ms（旧1206.35ms）。其他恢复阶段同步变慢，托管没有内部分段，incompleteSamples是原30数组重复，不能当新增样本。下一批先测validate/persist/protect/validate-before-Git/reset/post-diff各单调时钟边界；已有6～8ms元数据批验证仅支持小幅去重，不足以覆盖394.34ms缺口，不删SHA/fsync/围栏。
+
 ## 2026-11-06 最新真实性能失败与窗口工具边界
 
 - 最新CI42180305762固定0d8bd7c8e809de430b1d0e7ebdcfdf92a705211c仍失败在后端性能，后续应用/包未执行；不能用42168490552的旧成功覆盖。原native176330bytes/SHA76a512c2264cf335b9920a4a5c057c1d84dc899bc0081ff2f8a2a2761c0768af/32CRC与receipts36252bytes/SHA7258f90861562685b6bc3af317aa5a945ec00c12fab41edd15c21bc0734acb46/4CRC完整核对并保留.build/v2-m1/final-profile/hosted-42180305762。普通/大型各30原数组独立重算，大型预览1706.89ms、Reset2394.34ms、恢复预览1964.04ms、恢复1922.08ms，原2000ms不变，Reset失败。

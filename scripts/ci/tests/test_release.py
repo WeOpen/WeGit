@@ -167,6 +167,14 @@ class ReleaseResolutionTests(unittest.TestCase):
         with patch("github_release.api", side_effect=altered), self.assertRaises(ValueError):
             resolve("WeOpen/WeGit", "v0.1.0-beta.1", "")
 
+    def test_supplied_prerelease_acceptance_id_is_verified_instead_of_ignored(self):
+        from unittest.mock import patch
+        from github_release import resolve
+        with patch("github_release.api", side_effect=self.response):
+            self.assertEqual(resolve("WeOpen/WeGit", "v0.1.0-beta.1", "20")["acceptance_run"], "20")
+            with self.assertRaises(ValueError):
+                resolve("WeOpen/WeGit", "v0.1.0-beta.1", "10")
+
     def test_publication_is_always_draft_and_refuses_moved_tag_or_misleading_metadata(self):
         from unittest.mock import patch
         from github_release import publish

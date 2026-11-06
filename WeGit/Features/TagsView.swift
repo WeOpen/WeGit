@@ -23,6 +23,7 @@ struct TagsView: View {
     @State private var entries: [GitTag] = []
     @State private var hasMore = false
     @State private var selection: String?
+    @State private var retainedSearchTag: GitTag?
     @State private var loading = false
     @State private var error: String?
     @State private var reload = UUID()
@@ -102,7 +103,10 @@ struct TagsView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
                                 Text(tag.name).font(.title3.weight(.semibold)).lineLimit(2).textSelection(
-                                    .enabled)
+                                    .enabled
+                                )
+                                .accessibilityIdentifier("tag-selected-reference")
+                                .accessibilityLabel(tag.reference).accessibilityValue(tag.objectID)
                                 Spacer()
                                 Button(L10n.text("验证签名")) {
                                     app.presentSignature(
@@ -160,6 +164,16 @@ struct TagsView: View {
         }.background(colors.canvas)
             .task(id: "\(query):\(limit):\(session.historyGeneration):\(reload)") { await read() }
             .onChange(of: query) { _, _ in limit = 200 }
+            .onChange(of: selection) { _, value in
+                if retainedSearchTag?.id != value { retainedSearchTag = nil }
+            }
+            .onAppear { if let target = app.tagSearchTarget { query = target.name } }
+            .onChange(of: app.tagSearchTarget) { _, target in
+                if let target {
+                    query = target.name
+                    reload = UUID()
+                }
+            }
             .sheet(item: $pushing) {
                 TagPushSheet(app: app, session: session, tag: $0).workbenchSheet(app.preferences)
             }
@@ -184,16 +198,50 @@ struct TagsView: View {
     }
 
     private func read() async {
+        let requestedTarget = app.tagSearchTarget
+        let requestedSelection = selection
+        let requestedQuery = query
+        let retained = retainedSearchTag.flatMap { tag in
+            query.isEmpty || tag.name.localizedCaseInsensitiveContains(query) ? tag : nil
+        }
         loading = true
         defer { if !Task.isCancelled { loading = false } }
         do {
             try await Task.sleep(for: .milliseconds(200))
             let result = try await session.service.tags(query: query, limit: limit)
-            guard !Task.isCancelled else { return }
+            let exact: GitTag?
+            if let target = requestedTarget ?? retained {
+                exact = try await session.service.readTag(target)
+            } else {
+                exact = nil
+            }
+            guard !Task.isCancelled, app.tagSearchTarget == requestedTarget,
+                selection == requestedSelection, query == requestedQuery
+            else { return }
             entries = result.entries
+            if let exact, !entries.contains(where: { $0.id == exact.id }) { entries.insert(exact, at: 0) }
             hasMore = result.hasMore
             error = nil
-            if !entries.contains(where: { $0.id == selection }) { selection = entries.first?.id }
+            if let target = requestedTarget {
+                guard
+                    let exact = entries.first(where: {
+                        $0.reference == target.reference && $0.objectID == target.objectID
+                    })
+                else {
+                    selection = nil
+                    if app.tagSearchTarget == target { app.tagSearchTarget = nil }
+                    error = L10n.text("搜索结果已变化，请重新搜索。")
+                    return
+                }
+                selection = exact.id
+                retainedSearchTag = exact
+                if app.tagSearchTarget == target { app.tagSearchTarget = nil }
+            } else if let exact {
+                selection = exact.id
+                retainedSearchTag = exact
+            } else if !entries.contains(where: { $0.id == selection }) {
+                selection = entries.first?.id
+            }
         } catch { if !Task.isCancelled { self.error = error.localizedDescription } }
     }
 

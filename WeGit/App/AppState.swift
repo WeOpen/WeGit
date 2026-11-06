@@ -139,17 +139,12 @@ final class RepositorySession {
     @ObservationIgnored private var draftInitialized = false
     private(set) var draftOwner: UUID?
     var draftSaveError: String?
-    var message: String { didSet { if message != oldValue { draftChanged() } } }
-    private var replacedMessage: (before: String, after: String)?
-    var canUndoMessageReplacement: Bool { replacedMessage?.after == message }
-    func replaceMessage(_ text: String) {
-        replacedMessage = (message, text)
-        message = text
-    }
-    func undoMessageReplacement() {
-        guard let previous = replacedMessage, previous.after == message else { return }
-        message = previous.before
-        replacedMessage = nil
+    private(set) var message: String { didSet { if message != oldValue { draftChanged() } } }
+    private var replacedMessage: (before: String, after: String, revision: UInt64)?
+    @ObservationIgnored private var amendFillTask: Task<Void, Never>?
+    @ObservationIgnored private var draftLeaseID = UUID()
+    var canUndoMessageReplacement: Bool {
+        replacedMessage?.after == message && replacedMessage?.revision == draftRevision
     }
     func savedMessages() throws -> [String] {
         try CommitMessageHistory(defaults: defaults).messages(in: location)
@@ -166,7 +161,7 @@ final class RepositorySession {
         CommitMessageHistory(defaults: defaults).restore(data, in: location)
         clearedMessageHistory = nil
     }
-    var amend = false { didSet { if amend != oldValue { draftChanged() } } }
+    private(set) var amend = false { didSet { if amend != oldValue { draftChanged() } } }
     @ObservationIgnored private var activeOwners: Set<UUID> = []
     @ObservationIgnored private let legacyOwner = UUID()
     @ObservationIgnored var historyOwner: UUID?
@@ -216,17 +211,74 @@ final class RepositorySession {
         draftInitialized = true
     }
     var location: RepositoryLocation { service.location }
+    func canEditDraft(owner: UUID) -> Bool {
+        activeOwners.contains(owner) && (draftOwner == nil || draftOwner == owner)
+    }
     func claimDraft(_ owner: UUID) {
         guard activeOwners.contains(owner) else { return }
+        if draftOwner != owner {
+            amendFillTask?.cancel()
+            draftLeaseID = UUID()
+        }
         draftOwner = owner
     }
+    private func canMutateDraft(owner: UUID, revision: UInt64) -> Bool {
+        canEditDraft(owner: owner) && draftRevision == revision && revision < UInt64.max - 1
+    }
     func editDraft(_ text: String, owner: UUID, revision: UInt64) -> Bool {
-        guard activeOwners.contains(owner), draftOwner == nil || draftOwner == owner,
-            draftRevision == revision
-        else { return false }
+        guard canMutateDraft(owner: owner, revision: revision) else { return false }
         draftOwner = owner
+        if message != text { amendFillTask?.cancel() }
         message = text
         return true
+    }
+    func replaceDraft(_ text: String, owner: UUID, revision: UInt64) -> Bool {
+        guard canMutateDraft(owner: owner, revision: revision) else { return false }
+        let previous = message
+        guard editDraft(text, owner: owner, revision: revision) else { return false }
+        replacedMessage = (previous, text, draftRevision)
+        return true
+    }
+    func undoDraftReplacement(owner: UUID, revision: UInt64) -> Bool {
+        guard canMutateDraft(owner: owner, revision: revision), canUndoMessageReplacement,
+            let previous = replacedMessage
+        else { return false }
+        guard editDraft(previous.before, owner: owner, revision: revision) else { return false }
+        replacedMessage = nil
+        return true
+    }
+    func setAmend(_ value: Bool, owner: UUID, revision: UInt64) -> Bool {
+        guard canMutateDraft(owner: owner, revision: revision) else { return false }
+        if amend == value { return true }
+        claimDraft(owner)
+        amendFillTask?.cancel()
+        amend = value
+        guard value, message.isEmpty, let head = status.head else { return true }
+        let expectedRevision = draftRevision
+        let lease = draftLeaseID
+        // The session starts one read for the explicit toggle. Sibling views do not
+        // observe amend changes and independently fill or overwrite the shared draft.
+        amendFillTask = Task {
+            do {
+                let commit = try await service.readCommit(head)
+                try Task.checkCancellation()
+                guard draftLeaseID == lease, status.head == head, amend, message.isEmpty,
+                    canMutateDraft(owner: owner, revision: expectedRevision)
+                else { return }
+                _ = editDraft(commit.message, owner: owner, revision: expectedRevision)
+            } catch {
+                if !Task.isCancelled, draftLeaseID == lease,
+                    canMutateDraft(owner: owner, revision: expectedRevision)
+                {
+                    show(error)
+                }
+            }
+        }
+        return true
+    }
+    func copyDraftIfEmpty(_ text: String) {
+        guard message.isEmpty, draftRevision == 0, draftOwner == nil, activeOwners.isEmpty else { return }
+        message = text
     }
     private func draftChanged() {
         guard draftInitialized else { return }
@@ -335,7 +387,11 @@ final class RepositorySession {
     func deactivate(owner: UUID? = nil) {
         let owner = owner ?? legacyOwner
         activeOwners.remove(owner)
-        if draftOwner == owner { draftOwner = nil }
+        if draftOwner == owner {
+            amendFillTask?.cancel()
+            draftLeaseID = UUID()
+            draftOwner = nil
+        }
         guard activeOwners.isEmpty else { return }
         isActive = false
         suspendRefresh()
@@ -525,6 +581,7 @@ final class RepositorySession {
     func completeCommit(message text: String, revision: UInt64? = nil) {
         try? CommitMessageHistory(defaults: defaults).append(text, in: location)
         if revision == draftRevision && message == text {
+            amendFillTask?.cancel()
             replacedMessage = nil
             amend = false
             message = ""
@@ -557,6 +614,7 @@ final class ApplicationWorkspaceRuntime {
     var sessions: [String: RepositorySession] = [:]
     var recents: [RecentRepository] = []
     let persistence: WindowSessionPersistence?
+    let services: ApplicationDeliveryServices
     let persistenceError: String?
     @ObservationIgnored private var peers: [UUID: WeakWindowState] = [:]
     @ObservationIgnored var windowCoordinator: WorkspaceWindowCoordinator?
@@ -581,6 +639,7 @@ final class ApplicationWorkspaceRuntime {
     }
 
     init(defaults: UserDefaults, domainName: String?) {
+        services = ApplicationDeliveryServices(defaults: defaults)
         do {
             persistence = try WindowSessionPersistence(defaults: defaults, domainName: domainName)
             persistenceError = nil
@@ -629,6 +688,13 @@ final class AppState {
     let authentication: AuthenticationController
     var session: RepositorySession? {
         didSet {
+            if session !== oldValue {
+                cancelPendingHistoryRestore()
+                pendingSearchResult = nil
+                pendingSearchSession = nil
+                tagSearchTarget = nil
+                stashSearchTarget = nil
+            }
             if selectedLinesRequest?.session !== session { selectedLinesRequest = nil }
             if fileModificationRequest?.session !== session { fileModificationRequest = nil }
             if ignoreRuleRequest?.session !== session { ignoreRuleRequest = nil }
@@ -645,6 +711,9 @@ final class AppState {
         set { runtime.recents = newValue }
     }
     @ObservationIgnored private var histories: [UUID: HistoryState] = [:]
+    @ObservationIgnored private var pendingSelectedCommitID: String?
+    @ObservationIgnored private var pendingHistorySelectionIDs: Set<String>?
+    @ObservationIgnored private var historyRestoreID = UUID()
     @ObservationIgnored weak var nativeWindow: NSWindow?
     var error: String?
     var isOpening = false
@@ -753,6 +822,11 @@ final class AppState {
     var historyDepthRequest: HistoryDepthRequest?
     var referenceComparisonRequest: ReferenceComparisonRequest?
     var searchRequest: RepositorySearchRequest?
+    var pendingSearchResult: RepositoryQueryResult?
+    var pendingSearchSession: RepositorySession?
+    var tagSearchTarget: GitTag?
+    var stashSearchTarget: GitStash?
+    var workspaceSaveError: String?
     var worktreeManagementRequest: WorktreeManagementRequest?
     var themeImportRequest: ThemeImportPayload?
     @ObservationIgnored private var pendingThemeImports: [ThemeImportPayload] = []
@@ -983,7 +1057,7 @@ final class AppState {
                     defaults: defaults, preferences: preferences,
                     persistence: runtime.persistence, allowLegacyPersistence: false)
                 if let matching, matching.location.id != location.id {
-                    if value.message.isEmpty { value.message = matching.message }
+                    value.copyDraftIfEmpty(matching.message)
                     if !matching.isActive { sessions.removeValue(forKey: matching.location.id) }
                 }
             }
@@ -1379,38 +1453,52 @@ final class AppState {
         workspace.diffOptions.ignoreWhitespace = preferences.ignoreWhitespace
     }
 
-    func saveCurrentWorkspace() {
-        guard initialRestoreCompleted, session != nil || !isOpening,
-            preferences.restoreWindow, let persistence = runtime.persistence
-        else { return }
+    @discardableResult func saveCurrentWorkspace(open: Bool? = nil) -> Bool {
+        guard initialRestoreCompleted, session != nil || !isOpening, preferences.restoreWindow else {
+            return true
+        }
+        guard let persistence = runtime.persistence else {
+            workspaceSaveError = runtime.persistenceError ?? L10n.text("窗口设置无法保存，原始数据已保留。")
+            error = workspaceSaveError
+            return false
+        }
         let history = session.map { historyState(for: $0) }
         let reading = history.map {
             WindowHistoryReading(
                 scope: $0.scope.rawValue, query: $0.query, field: $0.searchField.rawValue,
-                selected: Array($0.selectedIDs).sorted())
+                selected: Array(pendingHistorySelectionIDs ?? $0.selectedIDs).sorted())
         }
-        let snapshot = WindowReadingSnapshot(
-            id: windowID, repository: session?.location.root.path,
-            workspaceID: session?.location.persistenceID,
-            view: try? JSONEncoder().encode(workspace.savedView),
-            history: reading.flatMap { try? JSONEncoder().encode($0) },
-            selectedCommit: workspace.selectedCommit?.id, open: mainWorkspaceMounted)
         do {
+            let snapshot = WindowReadingSnapshot(
+                id: windowID, repository: session?.location.root.path,
+                workspaceID: session?.location.persistenceID,
+                view: try JSONEncoder().encode(workspace.savedView),
+                history: try reading.map { try JSONEncoder().encode($0) },
+                selectedCommit: workspace.selectedCommit?.id ?? pendingSelectedCommitID,
+                open: open ?? mainWorkspaceMounted)
             try persistence.save(snapshot, active: runtime.activeWindowID == windowID)
             if let id = snapshot.workspaceID {
                 defaults.set(try JSONEncoder().encode(snapshot), forKey: workspaceReadingKey(id))
             }
-        } catch { self.error = error.localizedDescription }
+            workspaceSaveError = nil
+            return true
+        } catch {
+            workspaceSaveError = error.localizedDescription
+            self.error = error.localizedDescription
+            return false
+        }
     }
 
     private func restoreWorkspace(for location: RepositoryLocation) {
+        cancelPendingHistoryRestore()
         workspace = WorkspaceState()
         applyDefaultDiffPreferences()
-        let windowView = runtime.persistence?.snapshot(windowID).flatMap {
-            $0.workspaceID == location.persistenceID ? $0.view : nil
+        let windowSnapshot = runtime.persistence?.snapshot(windowID).flatMap {
+            $0.workspaceID == location.persistenceID ? $0 : nil
         }
+        let readingSnapshot = workspaceSnapshot(location.persistenceID) ?? windowSnapshot
         guard preferences.restoreWindow,
-            let data = workspaceSnapshot(location.persistenceID)?.view ?? windowView
+            let data = readingSnapshot?.view
                 ?? defaults.data(forKey: "workspace:" + location.persistenceID),
             let saved = try? JSONDecoder().decode(RepositoryViewPreferences.self, from: data)
         else { return }
@@ -1427,8 +1515,7 @@ final class AppState {
             [3, 20, 80, 200].contains(saved.contextLines) ? saved.contextLines : 3
         workspace.diffOptions.ignoreWhitespace = saved.ignoreWhitespace
         if let session,
-            let data = workspaceSnapshot(location.persistenceID)?.history
-                ?? runtime.persistence?.snapshot(windowID)?.history,
+            let data = readingSnapshot?.history,
             let reading = try? JSONDecoder().decode(WindowHistoryReading.self, from: data),
             reading.query.utf8.count <= 4096, reading.selected.count <= 100
         {
@@ -1436,11 +1523,53 @@ final class AppState {
             history.scope = HistoryScope(rawValue: reading.scope) ?? .all
             history.query = reading.query
             history.searchField = HistorySearchField(rawValue: reading.field) ?? .message
-            history.selectedIDs = Set(
+            pendingHistorySelectionIDs = Set(
                 reading.selected.filter {
                     [40, 64].contains($0.utf8.count)
                         && $0.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) }
                 })
+        }
+        pendingSelectedCommitID = readingSnapshot?.selectedCommit
+    }
+
+    func cancelPendingHistoryRestore() {
+        historyRestoreID = UUID()
+        pendingSelectedCommitID = nil
+        pendingHistorySelectionIDs = nil
+    }
+
+    func restoreSelectedCommit(for session: RepositorySession) async {
+        guard self.session === session else { return }
+        let token = historyRestoreID
+        let targetWorkspace = workspace
+        let history = historyState(for: session)
+        let selection = pendingHistorySelectionIDs
+        guard let oid = pendingSelectedCommitID else {
+            if let selection {
+                history.selectedIDs = selection
+                pendingHistorySelectionIDs = nil
+            }
+            return
+        }
+        do {
+            let commit: GitCommit
+            if let loaded = history.commits.first(where: { $0.id == oid }) {
+                commit = loaded
+            } else {
+                commit = try await session.service.readCommit(oid)
+            }
+            try Task.checkCancellation()
+            guard self.session === session, workspace === targetWorkspace, historyRestoreID == token,
+                pendingSelectedCommitID == oid, workspace.selectedCommit == nil
+            else { return }
+            workspace.selectedCommit = commit
+            if let selection { history.selectedIDs = selection }
+            pendingSelectedCommitID = nil
+            pendingHistorySelectionIDs = nil
+        } catch {
+            if !Task.isCancelled, self.session === session, historyRestoreID == token {
+                self.error = L10n.text("无法恢复所选提交：\(error.localizedDescription)")
+            }
         }
     }
 
@@ -1464,15 +1593,33 @@ final class AppState {
         return saved
     }
 
-    func windowDidClose() {
-        saveCurrentWorkspace()
+    func prepareWindowClose() -> Bool {
+        guard !cloneRunning, !initialization.isBusy, session?.draftSaveError == nil else { return false }
+        guard saveCurrentWorkspace(open: false) else { return false }
+        do {
+            // Closing during initial restoration must preserve the saved route,
+            // while still marking the existing window record as closed.
+            if runtime.persistence?.snapshot(windowID)?.open == true {
+                try runtime.persistence?.setClosed(windowID)
+            }
+            try runtime.persistence?.flush()
+            workspaceSaveError = nil
+            return true
+        } catch {
+            workspaceSaveError = error.localizedDescription
+            self.error = error.localizedDescription
+            return false
+        }
+    }
+
+    @discardableResult func windowDidClose() -> Bool {
+        let saved = prepareWindowClose()
         mainWorkspaceMounted = false
-        try? runtime.persistence?.setClosed(windowID)
-        try? runtime.persistence?.flush()
         session?.deactivate(owner: windowID)
         cancelDiffRead()
         if let session { historyState(for: session).releaseCache() }
         trimSessionCache()
+        return saved
     }
 
     func resetInterface() {

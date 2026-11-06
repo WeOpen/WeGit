@@ -5,44 +5,8 @@ struct RepositorySearchRequest: Identifiable {
     let id = UUID()
     let session: RepositorySession
     let route: WorkspaceRoute
-}
-
-private enum RepositorySearchScope: String, CaseIterable {
-    case files = "更改文件"
-    case commits = "提交"
-    case branches = "分支"
-    var title: String { L10n.key(rawValue) }
-}
-
-private enum RepositorySearchResult: Identifiable {
-    case file(FileChange)
-    case commit(GitCommit)
-    case branch(GitBranch)
-    var id: String {
-        switch self {
-        case .file(let value): "file:" + value.id
-        case .commit(let value): "commit:" + value.id
-        case .branch(let value): "branch:" + value.id
-        }
-    }
-    var title: String {
-        switch self {
-        case .file(let value): value.path
-        case .commit(let value): value.subject
-        case .branch(let value): value.name
-        }
-    }
-    var subtitle: String {
-        switch self {
-        case .file(let value):
-            value.conflict
-                ? L10n.text("存在冲突")
-                : value.untracked ? L10n.text("未跟踪") : value.staged ? L10n.text("已暂存") : L10n.text("未暂存")
-        case .commit(let value): "\(value.id.prefix(12)) · \(value.author)"
-        case .branch(let value):
-            "\(value.oid.prefix(12)) · \(value.remote ? L10n.text("远端跟踪分支") : L10n.text("本地分支"))"
-        }
-    }
+    /// The app records this destination and opens it after the search sheet dismisses.
+    var openResult: (@MainActor (RepositoryQueryResult) -> Void)? = nil
 }
 
 struct RepositorySearchView: View {
@@ -50,54 +14,34 @@ struct RepositorySearchView: View {
     @Bindable var app: AppState
     let request: RepositorySearchRequest
     @Environment(\.dismiss) private var dismiss
-    @State private var scope: RepositorySearchScope
+    @State private var scope = RepositoryQueryScope.all
     @State private var query = ""
     @State private var field = HistorySearchField.message
-    @State private var commits: [GitCommit] = []
-    @State private var more = false
+    @State private var results: [RepositoryQueryResult] = []
+    @State private var anchor: RepositoryQueryAnchor?
+    @State private var cursor: RepositoryQueryCursor?
     @State private var loading = false
     @State private var error: String?
     @State private var selected: String?
+    @State private var readID = UUID()
+    @State private var nextTask: Task<Void, Never>?
     @FocusState private var searchFocused: Bool
 
-    init(app: AppState, request: RepositorySearchRequest) {
-        self.app = app
-        self.request = request
-        _scope = State(
-            initialValue: request.route == .changes
-                ? .files : request.route == .branches ? .branches : .commits)
+    private var readKey: String {
+        "\(scope.rawValue):\(field.rawValue):\(query):\(request.session.historyGeneration):\(request.session.generation):\(L10n.language.rawValue)"
     }
-
-    private var results: [RepositorySearchResult] {
-        switch scope {
-        case .files:
-            request.session.status.files.filter {
-                query.isEmpty || $0.path.localizedCaseInsensitiveContains(query)
-            }.prefix(100).map { .file($0) }
-        case .branches:
-            request.session.branches.filter {
-                query.isEmpty || $0.name.localizedCaseInsensitiveContains(query)
-            }.prefix(100).map { .branch($0) }
-        case .commits: commits.map { .commit($0) }
-        }
-    }
+    private var selectedResult: RepositoryQueryResult? { results.first { $0.id == selected } }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             SheetTitle(title: L10n.text("搜索 \(request.session.location.name)"), symbol: "magnifyingglass")
-            WorkbenchGlassTabs(
-                title: L10n.text("搜索范围"), selection: $scope,
-                tabs: RepositorySearchScope.allCases.map { GlassTab(value: $0, title: $0.title) },
-                height: 36, identifier: "repository-search-scope")
-            HStack {
-                if scope == .commits {
-                    Picker(L10n.text("提交字段"), selection: $field) {
-                        ForEach(HistorySearchField.allCases, id: \.self) { Text($0.title).tag($0) }
-                    }.frame(width: 110).accessibilityIdentifier("repository-search-field")
-                }
+            HStack(spacing: 10) {
+                Picker(L10n.text("搜索范围"), selection: $scope) {
+                    ForEach(RepositoryQueryScope.allCases, id: \.self) { Text($0.title).tag($0) }
+                }.labelsHidden().frame(width: 140).accessibilityIdentifier("repository-search-scope")
                 WorkbenchSearchField(
-                    prompt: scope == .commits ? L10n.text("搜索提交\(field.title)") : L10n.text("输入名称或路径"),
-                    text: $query, identifier: "repository-search-query", focus: $searchFocused
+                    prompt: L10n.text("输入名称、路径或命令"), text: $query,
+                    identifier: "repository-search-query", focus: $searchFocused
                 )
                 .onSubmit { openSelected() }
                 .onKeyPress(.downArrow) {
@@ -108,76 +52,135 @@ struct RepositorySearchView: View {
                     move(-1)
                     return .handled
                 }
+                if scope == .commits || scope == .all {
+                    Picker(L10n.text("提交字段"), selection: $field) {
+                        ForEach(HistorySearchField.allCases, id: \.self) { Text($0.title).tag($0) }
+                    }.labelsHidden().frame(width: 105).accessibilityIdentifier("repository-search-field")
+                }
             }
-            if loading { ProgressView(L10n.text("搜索提交…")).controlSize(.small) }
             if let error { Text(error).font(.callout).foregroundStyle(colors.negative) }
             List(selection: $selected) {
                 ForEach(results) { result in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(result.title).lineLimit(1).truncationMode(.middle)
-                        Text(result.subtitle).font(.caption).foregroundStyle(colors.secondaryText)
-                    }.padding(.vertical, 3).tag(result.id).contentShape(Rectangle())
-                        .onTapGesture(count: 2) {
-                            selected = result.id
-                            openSelected()
+                    HStack(spacing: 12) {
+                        Image(systemName: symbol(result)).frame(width: 20).accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(result.title).lineLimit(1).truncationMode(.middle)
+                            if !result.detail.isEmpty {
+                                Text(result.detail).font(.caption).foregroundStyle(
+                                    selected == result.id ? colors.selectionText : colors.secondaryText
+                                )
+                                .lineLimit(1).truncationMode(.middle)
+                            }
                         }
+                        Spacer(minLength: 12)
+                        if scope == .all {
+                            Text(result.scope.title).font(.caption).foregroundStyle(
+                                selected == result.id ? colors.selectionText : colors.secondaryText)
+                        }
+                    }
+                    .foregroundStyle(
+                        selected == result.id
+                            ? colors.selectionText : result.enabled ? colors.text : colors.secondaryText
+                    )
+                    .accessibilityIdentifier("repository-search-result:" + result.id)
+                    .padding(.vertical, 3).tag(result.id).contentShape(Rectangle())
+                    .onTapGesture(count: 2) {
+                        selected = result.id
+                        openSelected()
+                    }
                 }
             }.overlay {
                 if results.isEmpty && !loading && error == nil {
-                    Text(
-                        scope == .commits && query.isEmpty
-                            ? L10n.text("输入提交消息、作者或 SHA 开始搜索") : L10n.text("没有匹配结果")
-                    )
-                    .foregroundStyle(colors.secondaryText)
+                    Text(L10n.text("没有匹配结果")).foregroundStyle(colors.secondaryText)
                 }
             }.accessibilityIdentifier("repository-search-results")
-            HStack {
-                Text(
-                    scope == .commits
-                        ? (more ? L10n.text("显示前 50 项，可在历史页面继续搜索") : L10n.text("\(results.count) 项结果"))
-                        : L10n.text("最多显示 100 项；更改文件仅包含当前未提交内容")
-                )
-                .font(.caption).foregroundStyle(colors.secondaryText)
+            HStack(spacing: 12) {
+                if loading { ProgressView().controlSize(.small).accessibilityLabel(L10n.text("搜索中")) }
+                Text(L10n.text("\(results.count) 项结果")).font(.caption).foregroundStyle(colors.secondaryText)
+                if cursor != nil {
+                    Button(L10n.text("加载更多")) { loadNext() }.disabled(loading)
+                        .accessibilityIdentifier("repository-search-more")
+                }
                 Spacer()
                 Button(L10n.text("关闭")) { dismiss() }.keyboardShortcut(.cancelAction)
                 Button(L10n.text("打开结果")) { openSelected() }.keyboardShortcut(.defaultAction)
-                    .disabled(selected == nil || app.session !== request.session)
+                    .disabled(selectedResult?.enabled != true || app.session !== request.session)
             }
-        }.padding(22).frame(width: 630, height: 490)
-            .task {
-                searchFocused = true
-                selected = results.first?.id
-            }
-            .task(id: "\(scope.rawValue):\(field.rawValue):\(query):\(request.session.historyGeneration)") {
-                await search()
-            }
+        }.padding(22).frame(width: 720, height: 520)
+            .task { searchFocused = true }
+            .task(id: readKey) { await search() }
             .onChange(of: results.map(\.id)) { _, ids in
-                if !ids.contains(selected ?? "") { selected = ids.first }
+                if !ids.contains(selected ?? "") {
+                    selected = results.first(where: \.enabled)?.id ?? ids.first
+                }
             }
+            .onDisappear { nextTask?.cancel() }
     }
 
     private func search() async {
-        commits = []
-        more = false
+        nextTask?.cancel()
+        let current = UUID()
+        readID = current
+        anchor = nil
+        cursor = nil
+        results = []
         error = nil
-        guard scope == .commits && !query.isEmpty else {
-            loading = false
-            return
-        }
         loading = true
         do {
-            try await Task.sleep(for: .milliseconds(200))
-            let anchor = try await request.session.service.historyAnchor(query: query, searchField: field)
-            let page = try await request.session.service.historyPage(anchor, count: 50)
+            try await Task.sleep(for: .milliseconds(180))
+            let commands = app.commands.map {
+                RepositoryQueryCommand(
+                    id: $0.id, title: $0.title, symbol: $0.symbol, enabled: $0.enabled,
+                    reason: $0.reason, shortcut: $0.shortcut)
+            }
+            let value = try await request.session.service.repositoryQueryAnchor(
+                scope: scope, query: query, commitField: field, commands: commands)
+            let page = try await request.session.service.repositoryQueryPage(value)
             try Task.checkCancellation()
-            commits = page.commits
-            more = page.next != nil
+            guard readID == current else { return }
+            anchor = value
+            results = page.results
+            cursor = page.next
             loading = false
         } catch {
-            if !Task.isCancelled {
+            if !Task.isCancelled && readID == current {
                 self.error = error.localizedDescription
                 loading = false
             }
+        }
+    }
+
+    private func loadNext() {
+        guard !loading, let anchor, let cursor else { return }
+        let current = readID
+        loading = true
+        error = nil
+        nextTask = Task {
+            do {
+                let page = try await request.session.service.repositoryQueryPage(anchor, after: cursor)
+                try Task.checkCancellation()
+                guard current == readID else { return }
+                results += page.results
+                self.cursor = page.next
+                loading = false
+            } catch {
+                if !Task.isCancelled && current == readID {
+                    self.error = error.localizedDescription
+                    loading = false
+                }
+            }
+        }
+    }
+
+    private func symbol(_ result: RepositoryQueryResult) -> String {
+        switch result {
+        case .commit: "clock.arrow.circlepath"
+        case .trackedPath: "doc"
+        case .branch: "arrow.triangle.branch"
+        case .tag: "tag"
+        case .stash: "archivebox"
+        case .worktree: "folder"
+        case .command(let command): command.symbol
         }
     }
 
@@ -188,22 +191,25 @@ struct RepositorySearchView: View {
     }
 
     private func openSelected() {
-        guard app.session === request.session, let result = results.first(where: { $0.id == selected }) else {
-            return
-        }
-        switch result {
-        case .file(let file):
-            app.workspace.route = .changes
-            app.workspace.filter = ""
-            app.workspace.changeFilter = .all
-            app.workspace.selectedFile = file.layers.first.map { $0.rawValue + "|" + file.path }
-        case .branch(let branch):
-            app.workspace.route = .branches
-            app.workspace.branchFilter = branch.name
-        case .commit(let commit):
-            app.historyState(for: request.session).searchField = .sha
-            app.historyState(for: request.session).query = commit.id
-            app.workspace.route = .history
+        guard app.session === request.session, let result = selectedResult, result.enabled else { return }
+        if let openResult = request.openResult {
+            openResult(result)
+        } else {
+            switch result {
+            case .commit(let commit):
+                app.historyState(for: request.session).searchField = .sha
+                app.historyState(for: request.session).query = commit.id
+                app.workspace.route = .history
+            case .branch(let branch):
+                app.workspace.route = .branches
+                app.workspace.branchFilter = branch.name
+            case .trackedPath(let path):
+                app.workspace.route = .changes
+                app.workspace.filter = path
+            case .tag: app.workspace.route = .tags
+            case .stash: app.workspace.route = .stashes
+            case .worktree, .command: return
+            }
         }
         dismiss()
     }

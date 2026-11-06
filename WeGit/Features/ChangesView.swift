@@ -296,8 +296,13 @@ struct ChangesView: View {
                         .buttonStyle(.bordered).accessibilityIdentifier("commit-draft-claim")
                 }
                 WorkbenchMessageField(
-                    message: $session.message,
-                    enabled: session.draftOwner == nil || session.draftOwner == app.windowID,
+                    message: Binding(
+                        get: { session.message },
+                        set: {
+                            _ = session.editDraft($0, owner: app.windowID, revision: session.draftRevision)
+                        }),
+                    enabled: session.canEditDraft(owner: app.windowID),
+                    commitShortcut: app.shortcutDisplay(for: .commit),
                     revision: session.draftRevision,
                     edit: { text, revision in
                         session.editDraft(text, owner: app.windowID, revision: revision)
@@ -322,7 +327,9 @@ struct ChangesView: View {
                             !session.canCommit
                         )
                         .accessibilityIdentifier("commit-button")
-                        .help(session.canCommit ? L10n.text("提交已暂存内容 ⌘↩") : session.commitReason)
+                        .help(
+                            session.canCommit
+                                ? app.shortcutHelp(L10n.text("提交已暂存内容"), for: .commit) : session.commitReason)
                     Button {
                         app.presentSync(.commitAndPush)
                     } label: {
@@ -337,23 +344,17 @@ struct ChangesView: View {
             }
             HStack(spacing: 10) {
                 CommitReadiness(count: stagedCount)
-                Toggle(L10n.text("修改上次提交（Amend）"), isOn: $session.amend).toggleStyle(.checkbox).disabled(
-                    session.status.head == nil || session.isBusy
+                Toggle(
+                    L10n.text("修改上次提交（Amend）"),
+                    isOn: Binding(
+                        get: { session.amend },
+                        set: {
+                            _ = session.setAmend($0, owner: app.windowID, revision: session.draftRevision)
+                        })
+                ).toggleStyle(.checkbox).disabled(
+                    session.status.head == nil || session.isBusy || !session.canEditDraft(owner: app.windowID)
                 )
                 .accessibilityIdentifier("commit-amend")
-                .onChange(of: session.amend) { _, new in
-                    if new && session.message.isEmpty {
-                        Task {
-                            do {
-                                let commits = try await session.service.history(
-                                    limit: 1, tips: session.status.head.map { [$0] })
-                                if session.amend && session.message.isEmpty {
-                                    session.message = commits.first?.message ?? ""
-                                }
-                            } catch { session.show(error) }
-                        }
-                    }
-                }
                 Menu {
                     Button(L10n.text("消息历史…")) {
                         app.commitMessageRequest = CommitMessageRequest(session: session, source: .history)
@@ -363,10 +364,13 @@ struct ChangesView: View {
                     }
                 } label: {
                     Label(L10n.text("提交消息"), systemImage: "text.badge.plus")
-                }.disabled(session.isBusy).accessibilityIdentifier("commit-message-sources")
+                }.disabled(session.isBusy || !session.canEditDraft(owner: app.windowID))
+                    .accessibilityIdentifier("commit-message-sources")
                 if session.canUndoMessageReplacement {
-                    Button(L10n.text("撤销替换")) { session.undoMessageReplacement() }
-                        .disabled(session.isBusy).accessibilityIdentifier("message-source-undo")
+                    Button(L10n.text("撤销替换")) {
+                        _ = session.undoDraftReplacement(owner: app.windowID, revision: session.draftRevision)
+                    }.disabled(session.isBusy || !session.canEditDraft(owner: app.windowID))
+                        .accessibilityIdentifier("message-source-undo")
                 }
                 Spacer()
                 if let path = session.lastTrashedFile {
@@ -377,7 +381,9 @@ struct ChangesView: View {
                 OperationFeedback(
                     busy: session.isBusy, activity: session.activityLabel, result: session.operationFeedback,
                     context: session.operationFeedbackContext,
-                    fallback: session.canCommit ? L10n.text("⌥↩ 换行 · ⌘↩ 提交") : session.commitReason)
+                    fallback: session.canCommit
+                        ? L10n.text("⌥↩ 换行") + " · " + app.shortcutHelp(L10n.text("提交"), for: .commit)
+                        : session.commitReason)
             }
         }.padding(16).background(colors.chrome)
             .overlay(alignment: .top) {

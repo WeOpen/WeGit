@@ -64,12 +64,21 @@ jobs:
       - name: Isolate Git configuration without affecting checkout cleanup
         working-directory: source
         run: scripts/ci/isolate-git.sh
-      - name: Rebuild the validated source as a Universal ad-hoc DMG
+      - name: Rebuild the validated source for its required distribution variants
         working-directory: source
         run: |
           scripts/ci/check-toolchain.sh
-          scripts/package-release.sh --adhoc
-      - name: Validate Universal DMG and prepare versioned assets
+          version="${WEGIT_RELEASE_TAG#v}"
+          major="${version%%.*}"
+          [[ "$major" =~ ^[0-9]+$ ]]
+          if (( major >= 2 )); then
+            for variant in universal applesilicon intel; do
+              scripts/package-release.sh --adhoc --variant "$variant"
+            done
+          else
+            scripts/package-release.sh --adhoc
+          fi
+      - name: Validate the complete variant set and prepare versioned assets
         working-directory: source
         env:
           RELEASE_COMMIT: ${{ needs.resolve.outputs.commit }}
@@ -77,11 +86,19 @@ jobs:
           ACCEPTANCE_RUN: ${{ needs.resolve.outputs.acceptance_run }}
         run: |
           packages=(.build/releases/package-*)
-          test "${#packages[@]}" -eq 1
+          version="${WEGIT_RELEASE_TAG#v}"
+          major="${version%%.*}"
+          if (( major >= 2 )); then
+            test "${#packages[@]}" -eq 3
+            package_directory=.build/releases
+          else
+            test "${#packages[@]}" -eq 1
+            package_directory="${packages[0]}"
+          fi
           python3 ../tooling/scripts/ci/github_release.py prepare \
             --repo "$GITHUB_REPOSITORY" --tag "$WEGIT_RELEASE_TAG" --commit "$RELEASE_COMMIT" \
             --ci-run "$CI_RUN" --acceptance-run "$ACCEPTANCE_RUN" \
-            --directory "${packages[0]}" --output .build/release-upload
+            --directory "$package_directory" --output .build/release-upload
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: release-assets
