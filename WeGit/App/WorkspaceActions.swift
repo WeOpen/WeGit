@@ -113,6 +113,7 @@ extension AppState {
     }
 
     func branchSwitchReason(_ branch: GitBranch, in session: RepositorySession) -> String? {
+        if session.status.commitQueue?.phase.pending == true { return L10n.text("请先完成提交队列。") }
         if session.isBusy { return L10n.text("正在执行 \(session.activityLabel)") }
         if !session.canWrite { return L10n.text("请先读取最新仓库状态") }
         if session.status.sequencer != .none { return L10n.text("请先完成\(session.status.sequencer.title)") }

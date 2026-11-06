@@ -45,6 +45,7 @@ struct StashBrowser<Detail: View>: View {
             @escaping @Sendable (RepositoryService) async throws -> OperationFeedbackOutcome
         ) -> Void
     let showChanges: () -> Void
+    var createBranch: (@MainActor (GitStash, StashList) -> Void)? = nil
     @ViewBuilder let detail: (StashContents, StashPart) -> Detail
     @State private var list: StashList?
     @State private var selection: String?
@@ -181,6 +182,10 @@ struct StashBrowser<Detail: View>: View {
                         Toggle(L10n.text("恢复原暂存状态"), isOn: $restoreIndex)
                             .accessibilityIdentifier("stash-restore-index")
                         Spacer()
+                        if let createBranch, let list {
+                            Button(L10n.text("从储藏新建分支…")) { createBranch(entry, list) }
+                                .disabled(!canRestore).accessibilityIdentifier("stash-create-branch")
+                        }
                         Button(L10n.text("应用")) { requestAction(.apply) }
                             .disabled(!canRestore).help(restoreReason).accessibilityIdentifier("stash-apply")
                         Button(L10n.text("取出…")) { requestAction(.pop) }

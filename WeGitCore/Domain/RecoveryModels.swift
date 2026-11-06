@@ -78,6 +78,8 @@ public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
     public let indexBytes: Int
     public let sharedIndex: RecoverySharedIndex?
     public var indexTree: String?
+    public var conflictIndexTree: String?
+    var retainedIndexTree: String? { indexTree ?? conflictIndexTree }
     public var pendingIndexTree: String? = nil
     public var pendingObjectBytes: Int? = nil
     public var state: State
@@ -93,6 +95,9 @@ public struct RecoveryRecord: Codable, Equatable, Sendable, Identifiable {
         case "file-restore": L10n.text("恢复历史文件")
         case "ignore-rule": L10n.text("忽略规则")
         case "apply-patch": L10n.text("应用补丁")
+        case "git-am": L10n.text("导入提交补丁")
+        case "git-am-interruption-backup": L10n.text("提交补丁操作前备份")
+        case "commit-queue-interruption-backup": L10n.text("提交队列操作前备份")
         default: L10n.text("内容备份")
         }
     }

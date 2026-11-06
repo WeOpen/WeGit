@@ -75,7 +75,7 @@ public struct RepositoryService: Sendable {
         let base = location.gitDirectory
         if FileManager.default.fileExists(atPath: base.appending(path: "rebase-apply/applying").path) {
             // git am uses rebase-apply too, but must not be driven by rebase --continue.
-            value.sequencer = .unknown
+            value.sequencer = .mailApply
         } else if FileManager.default.fileExists(atPath: base.appending(path: "rebase-merge").path)
             || FileManager.default.fileExists(atPath: base.appending(path: "rebase-apply").path)
         {
@@ -108,6 +108,16 @@ public struct RepositoryService: Sendable {
                 // and conflicts. It only disables automatic recovery controls.
                 value.rebaseRecoveryUnavailable = error.localizedDescription
             }
+        }
+        do { value.commitQueue = try await commitQueue() } catch is CancellationError {
+            throw CancellationError()
+        } catch ProcessFailure.cancelled { throw ProcessFailure.cancelled } catch {
+            value.commitQueueUnavailable = error.localizedDescription
+        }
+        do { value.mailPatch = try await mailPatchRecord() } catch is CancellationError {
+            throw CancellationError()
+        } catch ProcessFailure.cancelled { throw ProcessFailure.cancelled } catch {
+            value.mailPatchUnavailable = error.localizedDescription
         }
         return value
     }

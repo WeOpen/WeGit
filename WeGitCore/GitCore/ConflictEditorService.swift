@@ -190,7 +190,7 @@ extension RepositoryService {
         guard state.conflicts.contains(where: { $0.path == path }) else {
             throw ModelFailure.changed
         }
-        guard [.merge, .rebase, .cherryPick, .revert].contains(state.sequencer) else {
+        guard [.merge, .rebase, .cherryPick, .revert, .mailApply].contains(state.sequencer) else {
             throw ModelFailure.unsupported(L10n.text("此冲突来源暂不支持内置编辑，请使用外部工具。"))
         }
         let attributes = try await conflictAttributes(path: path)
@@ -339,6 +339,8 @@ extension RepositoryService {
         case .revert:
             guard let recovery = state.singleCommitRecovery else { throw ModelFailure.changed }
             return .revert(recovery, try operationMarkerData(["REVERT_HEAD"]))
+        case .mailApply:
+            return try await mailConflictOperationSnapshot(state)
         default:
             throw ModelFailure.changed
         }
@@ -372,6 +374,16 @@ extension RepositoryService {
                 theirsTitle: String
             )
         switch state.sequencer {
+        case .mailApply:
+            _ = try await mailConflictOperationSnapshot(state)
+            // Git am synthesizes stage 3 from the patch. Its source commit need
+            // not exist locally; the pinned native mail and index bind these blobs.
+            try await verifyBlob(currentHead, path: path, expected: ours)
+            return (
+                ConflictEditorSource(title: L10n.text("补丁基准内容"), revision: base),
+                ConflictEditorSource(title: L10n.text("当前分支 (branch)"), revision: currentHead),
+                ConflictEditorSource(title: L10n.text("邮件补丁内容"), revision: theirs)
+            )
         case .merge:
             guard let other = try await stateRevision("MERGE_HEAD") else { throw ModelFailure.changed }
             let mergeBase = try await uniqueMergeBase(currentHead, other)

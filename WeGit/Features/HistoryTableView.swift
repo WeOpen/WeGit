@@ -7,11 +7,17 @@ struct HistoryTableView: View {
     let session: RepositorySession
     @Bindable var history: HistoryState
 
-    private var selection: Binding<String?> {
+    private var selection: Binding<Set<String>> {
         Binding(
-            get: { app.workspace.selectedCommit?.id },
-            set: { id in
-                app.workspace.selectedCommit = history.commits.first { $0.id == id }
+            get: {
+                if !history.selectedIDs.isEmpty { return history.selectedIDs }
+                return Set(app.workspace.selectedCommit.map { [$0.id] } ?? [])
+            },
+            set: { ids in
+                history.selectedIDs = ids
+                if app.workspace.selectedCommit.map({ ids.contains($0.id) }) != true {
+                    app.workspace.selectedCommit = history.commits.first { ids.contains($0.id) }
+                }
             })
     }
 

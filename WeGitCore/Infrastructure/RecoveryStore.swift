@@ -104,6 +104,9 @@ final class RecoveryStore: @unchecked Sendable {
             record.indexBytes >= 0, record.indexBytes <= 32 * 1024 * 1024,
             record.indexMode <= 0o777,
             record.indexTree == nil || (record.indexSHA256 != nil && GitObjectID.valid(record.indexTree!)),
+            record.conflictIndexTree == nil
+                || (record.indexSHA256 != nil && record.indexTree == nil
+                    && GitObjectID.valid(record.conflictIndexTree!)),
             record.pendingIndexTree == nil || GitObjectID.valid(record.pendingIndexTree!),
             record.pendingObjectBytes == nil || (0...32 * 1024 * 1024).contains(record.pendingObjectBytes!),
             (record.pendingIndexTree == nil) == (record.pendingObjectBytes == nil),

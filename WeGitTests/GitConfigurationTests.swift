@@ -3,7 +3,94 @@ import Testing
 
 @testable import WeGitCore
 
+private actor DisableWorktreeConfigDuringEdit: ProcessRunning {
+    let engine: GitEngine
+    let root: URL
+    init(engine: GitEngine, root: URL) {
+        self.engine = engine
+        self.root = root
+    }
+    func run(_ request: ProcessRequest) async throws -> ProcessResult {
+        let result = try await ProcessRunner().run(request)
+        if request.arguments.contains("--file"), request.arguments.contains("--replace-all"),
+            result.exitCode == 0
+        {
+            _ = try await engine.run(["config", "--local", "extensions.worktreeConfig", "false"], in: root)
+        }
+        return result
+    }
+}
+
 struct GitConfigurationTests {
+    @Test func signingOverridesInLinkedWorktreeDoNotChangeSharedConfiguration() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "original\n")
+        let head = try await f.commit("Base")
+        _ = try await f.engine.run(["config", "--local", "extensions.worktreeConfig", "true"], in: f.root)
+        let primary = try service(f)
+        _ = try await primary.set("true", scope: .local, expected: primary.read(.commitSigning))
+        let linked = f.root.appending(path: "linked")
+        _ = try await f.engine.run(["worktree", "add", "--detach", linked.path, head], in: f.root)
+        let location = try await RepositoryService.discover(linked, engine: f.engine)
+        let settings = GitConfigurationService(engine: f.engine, location: location)
+        let shared = try Data(contentsOf: f.service.location.commonDirectory.appending(path: "config"))
+        let index = try Data(contentsOf: location.gitDirectory.appending(path: "index"))
+        let before = try await settings.read(.commitSigning)
+        #expect(before.worktreeConfigEnabled && before.effective?.scope == "local")
+        let updated = try await settings.set("false", scope: .worktree, expected: before)
+        #expect(updated.worktreeValues == ["false"] && updated.effective?.scope == "worktree")
+        #expect(try await primary.read(.commitSigning).effective?.value == "true")
+        #expect(try Data(contentsOf: f.service.location.commonDirectory.appending(path: "config")) == shared)
+        #expect(try Data(contentsOf: location.gitDirectory.appending(path: "index")) == index)
+        let inherited = try await settings.set(nil, scope: .worktree, expected: updated)
+        #expect(inherited.worktreeValues.isEmpty && inherited.effective?.value == "true")
+        #expect(
+            !FileManager.default.fileExists(
+                atPath: location.gitDirectory.appending(path: "config.worktree.lock").path))
+    }
+
+    @Test func disablingWorktreeConfigurationInvalidatesAnOlderConfirmation() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        let settings = try service(f)
+        _ = try await f.engine.run(["config", "--local", "extensions.worktreeConfig", "true"], in: f.root)
+        let snapshot = try await settings.read(.commitSigning)
+        _ = try await f.engine.run(["config", "--local", "extensions.worktreeConfig", "false"], in: f.root)
+        let original = try Data(contentsOf: f.service.location.commonDirectory.appending(path: "config"))
+        await #expect(throws: ModelFailure.self) {
+            _ = try await settings.set("true", scope: .worktree, expected: snapshot)
+        }
+        #expect(
+            try Data(contentsOf: f.service.location.commonDirectory.appending(path: "config")) == original)
+        #expect(
+            !FileManager.default.fileExists(
+                atPath: f.service.location.gitDirectory.appending(path: "config.worktree").path))
+    }
+
+    @Test func worktreeToggleDuringPrivateEditCannotRedirectTheWriteToSharedConfig() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        _ = try await f.engine.run(["config", "--local", "extensions.worktreeConfig", "true"], in: f.root)
+        _ = try await f.engine.run(["config", "--local", "commit.gpgsign", "true"], in: f.root)
+        let runner = DisableWorktreeConfigDuringEdit(engine: f.engine, root: f.root)
+        let settings = GitConfigurationService(
+            engine: TestGit.engine(runner: runner, environment: f.engine.environment),
+            location: f.service.location)
+        let snapshot = try await settings.read(.commitSigning)
+        await #expect(throws: ConfigurationWriteOutcomeUnknown.self) {
+            _ = try await settings.set("false", scope: .worktree, expected: snapshot)
+        }
+        #expect(
+            try await f.engine.run(["config", "--local", "--get", "commit.gpgsign"], in: f.root).text
+                == "true\n")
+        let file = f.service.location.gitDirectory.appending(path: "config.worktree")
+        #expect(
+            try await f.engine.run(["config", "--file", file.path, "--get", "commit.gpgsign"], in: f.root)
+                .text == "false\n")
+        #expect(try await settings.worktreeConfigurationEnabled() == false)
+    }
+
     private func service(_ fixture: Fixture) throws -> GitConfigurationService {
         return GitConfigurationService(
             engine: TestGit.engine(
