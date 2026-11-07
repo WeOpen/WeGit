@@ -119,11 +119,13 @@ class TrustedBatchTests(unittest.TestCase):
         self.assertIn("test-without-building", selected)
         self.assertNotIn("build-for-testing", selected)
 
-    def test_every_registered_method_exists_and_is_unique_in_real_native_sources(self):
+    def test_every_baseline_method_exists_and_is_unique_in_main_native_sources(self):
         root = Path(__file__).resolve().parents[3]
         registry = root / "scripts/ci/ui_batches.json"
         sources = list((root / "WeGitUITests").glob("*.swift"))
-        for name in json.loads(registry.read_text())["batches"]:
+        # New candidate-only batches are checked against the actual candidate
+        # checkout by the trusted probe before build and again before execution.
+        for name in ("baseline-controls", "baseline-recovery", "baseline-repository"):
             methods = batch_methods(registry, name)
             for target in methods:
                 suite, method = target.split("/")

@@ -2,7 +2,10 @@
   "format": 1,
   "batches": {
     "baseline-controls": {
-      "covers": ["v1.2-regression", "V20-01"],
+      "covers": [
+        "v1.2-regression",
+        "V20-01"
+      ],
       "methods": [
         "LayoutTests/testMinimumWindowPreservesNavigationAndPrimaryControls",
         "ToolbarMenuBarTests/testCompactToolbarKeepsSyncAndMoreActionsReachable",
@@ -15,7 +18,13 @@
       ]
     },
     "baseline-recovery": {
-      "covers": ["v1.2-regression", "V20-03", "V20-05", "V20-06", "V20-08"],
+      "covers": [
+        "v1.2-regression",
+        "V20-03",
+        "V20-05",
+        "V20-06",
+        "V20-08"
+      ],
       "methods": [
         "SelectedLinesWorkflowTests/testPreviewCancelStageUnstageAndStaleConfirmation",
         "SingleCommitWorkflowTests/testPreviewApplyRevertAndRecoverAfterRelaunch",
@@ -27,7 +36,14 @@
       ]
     },
     "baseline-repository": {
-      "covers": ["v1.2-regression", "V20-02", "V20-04", "V20-10", "V20-11", "V20-12"],
+      "covers": [
+        "v1.2-regression",
+        "V20-02",
+        "V20-04",
+        "V20-10",
+        "V20-11",
+        "V20-12"
+      ],
       "methods": [
         "FileHistoryWorkflowTests/testFileContextRenameSearchAndManualDeletedPath",
         "BlameWorkflowTests/testCommittedAttributionPagingAndHistoricalNavigation",
@@ -37,6 +53,109 @@
         "TagWorkflowTests/testCreateCancelInspectAndDeleteLocalTagPreservesBranch",
         "InspectorRestorationTests/testSubmoduleAndLFSResourcesAppearInInspector",
         "WindowLifecycleTests/testWindowFrameRestoresAndClosedWorkspaceCanReopen"
+      ]
+    },
+    "raster-encoding": {
+      "covers": [
+        "09a",
+        "09c"
+      ],
+      "methods": [
+        "SpecialFileReadingTests/testBinarySymlinkUnknownLanguageAndDeletedFileReading",
+        "SpecialFileReadingTests/testRasterRenderingAndEncodingSelectionPreserveFilesAndIndex"
+      ]
+    },
+    "recovery-reset": {
+      "covers": [
+        "03a",
+        "03b",
+        "03c",
+        "03d"
+      ],
+      "methods": [
+        "RecoveryWorkflowTests/testResetPreviewCancelAndRestoreAfterRelaunchPreserveDraftAndRawLayers",
+        "RecoveryWorkflowTests/testReflogCreatesRecoveryBranchAndEnglishDarkControlsRemainReachable"
+      ]
+    },
+    "repository-tools": {
+      "covers": [
+        "02a",
+        "02b",
+        "04a",
+        "04b",
+        "05a",
+        "05b",
+        "05c",
+        "07a",
+        "07b",
+        "09a",
+        "09b",
+        "09c"
+      ],
+      "methods": [
+        "RepositoryToolsWorkflowTests/testInitializationAndExplicitShallowHistoryPreserveFilesAndLayers",
+        "RepositoryToolsWorkflowTests/testDivergentComparisonDirectionAndMergeBaseRemainReadOnly",
+        "RepositoryToolsWorkflowTests/testSelectedDiscardHistoricalRestoreAndIgnoreUndoPreserveRawLayers",
+        "RepositoryToolsWorkflowTests/testRawPatchExportCancelApplyAndBackupRestoreRoundTrip",
+        "SpecialFileReadingTests/testBinarySymlinkUnknownLanguageAndDeletedFileReading",
+        "SpecialFileReadingTests/testRasterRenderingAndEncodingSelectionPreserveFilesAndIndex"
+      ]
+    },
+    "commit-tasks": {
+      "covers": [
+        "06a",
+        "06b",
+        "06c",
+        "07a",
+        "07c",
+        "08a",
+        "08b",
+        "08c",
+        "10a",
+        "10b",
+        "10c",
+        "10d"
+      ],
+      "methods": [
+        "CommitTaskWorkflowTests/testOrderedQueueReopensAndSkipsOnlyTheConflictingItem",
+        "CommitTaskWorkflowTests/testMergeQueueRequiresAndUsesTheSelectedMainlineParent",
+        "CommitTaskWorkflowTests/testSaveTaskSwitchAndStashBranchRestoreExactLayersAndDraft",
+        "CommitTaskWorkflowTests/testTemplateHistorySSHSignatureWorktreeOverrideAndHookFailureKeepDrafts",
+        "CommitTaskWorkflowTests/testMailOrderExportAndConflictContinueAcrossRelaunch",
+        "CommitTaskWorkflowTests/testMailAbortCancelAndConfirmationPreserveOriginalTaskAndBackup"
+      ]
+    },
+    "theme-library": {
+      "covers": [
+        "14a",
+        "14b",
+        "14c",
+        "14d"
+      ],
+      "methods": [
+        "ThemeInteractionTests/testThemeLibraryKeepsSameNamesIndependentAndEditorCancelPreservesSelection",
+        "ThemeInteractionTests/testThemesUpdateOpenWindowsAndTabsKeepNeutralKeyboardFocus"
+      ]
+    },
+    "workspace-delivery": {
+      "covers": [
+        "11a",
+        "11b",
+        "11c",
+        "11d",
+        "12a",
+        "12b",
+        "12c",
+        "13b-configuration-boundary"
+      ],
+      "methods": [
+        "WorkspaceDeliveryWorkflowTests/testShortcutChangeClearReopenAndRestoreUseNativeMenu",
+        "WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand",
+        "WorkspaceDeliveryWorkflowTests/testUnconfiguredUpdatesKeepDraftAndUseOneWindow",
+        "ResourceManagementWorkflowTests/testSubmoduleAddSourceChangeAndRemovalPreserveParentDraftAndChildData",
+        "ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles",
+        "WindowLifecycleTests/testSharedDraftMutationOwnershipAndTemplateSnapshot",
+        "WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen"
       ]
     }
   }
