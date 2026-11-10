@@ -23,3 +23,9 @@
 第四轮后端[CI42855164847](https://github.com/WeOpen/WeGit/actions/runs/42855164847)复用同源Core/签名，完整行为415项输入实执行1153.108秒成功。恢复性能普通/大型各30样本，大型预览p95 **2221.16ms**、Reset **2106.63ms**超原2000ms；恢复预览1930.82ms、恢复1790.04ms、取消1.78ms与RSS25,575,424bytes符合原门槛。阅读/其余性能、应用验收和包未执行。
 
 预览最慢样本的status命令为1834/1890ms；最慢Reset样本中实际reset约826ms、两条并行diff的墙钟并集约760ms。非命令耗时包含多种保护与I/O，不能等同fsync；并发命令不直接相加。与较早独立诊断的环境上下文不同，不以一次成功诊断替代本次canonical失败。原预算和全部保护保留。见[来源与分段核验](42855164847.json)、[60个原样本与命令时序](recovery-performance-42855164847.json)。
+
+## 工作区批次最终通过
+
+[UI42860707458](https://github.com/WeOpen/WeGit/actions/runs/42860707458)固定`8d1a9f101a5396ed9ea8370d346643d0a733b6c9`，smoke实际1/1、0失败/跳过，workspace-delivery实际7/7、0失败/跳过，485.55秒。七项覆盖快捷键、统一搜索、无配置更新窗口、Submodule、LFS、共享草稿/模板，以及选中提交/草稿跨进程重开。266项App输入与36份UI源逐Git blob匹配，方法集合与可信main注册表一致。
+
+原ZIP128,466,336bytes、2138CRC项，SHA256 `1dd4b91e2afe57914dd27c235427a03619aadf0449ddeb4717b370d818d4e7e2`，匹配GitHub artifact digest。[独立核验](42860707458.json)、[smoke原摘要](workspace-smoke-summary.json)、[完整7方法原摘要](workspace-delivery-summary.json)永久保留。此结果仅关闭该工作区UI批次，后端恢复性能仍失败，其他原生批次/性能/包/生产更新/发布未由此通过。
