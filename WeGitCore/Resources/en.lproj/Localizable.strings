@@ -1994,3 +1994,33 @@
 "迁移数据无法读取，原始数据已保留。" = "Migration data could not be read. Original data was retained.";
 "迁移数据超过读取上限，原始数据已保留。" = "Migration data exceeded the read limit. Original data was retained.";
 "迁移超过时间预算，原始数据已保留。" = "Migration exceeded its time budget. Original data was retained.";
+
+/* Update retention management */
+"更新记录" = "Update records";
+"清理更新记录？" = "Clean up this update record?";
+"清理" = "Clean up";
+"清理…" = "Clean up…";
+"将删除此记录保留的文件，无法撤销。" = "The files retained by this record will be deleted. This cannot be undone.";
+"正在读取更新记录…" = "Reading update records…";
+"暂无更新记录" = "No update records";
+"请先处理保留记录，再准备新更新。" = "Review retained records before preparing another update.";
+"导出诊断…" = "Export diagnostics…";
+"时间未知" = "Unknown date";
+"未识别的记录" = "Unrecognized record";
+"大小未知" = "Unknown size";
+"正在核对记录…" = "Reviewing record…";
+"正在清理记录…" = "Cleaning up record…";
+"准备未完成" = "Preparation incomplete";
+"等待安装" = "Awaiting installation";
+"等待启动核对" = "Awaiting launch verification";
+"已回退" = "Rolled back";
+"未验证" = "Unverified";
+"无法验证此记录，请先在 Finder 中核对。" = "This record could not be verified. Review it in Finder.";
+"准备过程尚未完成，保留现有文件。" = "Preparation is incomplete. The existing files are retained.";
+"安装器仍在使用此记录。" = "The installer is still using this record.";
+"恢复尚未完成，暂不可清理。" = "Recovery is incomplete. This record cannot be cleaned up yet.";
+"保留文件已变化，请先在 Finder 中核对。" = "The retained files have changed. Review them in Finder.";
+"无法完整读取此记录，请先在 Finder 中核对。" = "This record could not be fully read. Review it in Finder.";
+"无法读取更新记录" = "Update records could not be read";
+"更新操作结束后可读取记录" = "Records can be read after the update operation finishes";
+"已中止" = "Aborted";

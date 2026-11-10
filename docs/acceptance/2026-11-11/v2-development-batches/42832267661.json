@@ -1,0 +1,185 @@
+{
+  "run": 42832267661,
+  "headSHA": "c8a35632d7814b856cc42aef1b0f25c33e645428",
+  "actualSourceCommit": "6b02f30a85be873e752e3edae3c9b949cfe59f1c",
+  "inputDigest": "ed3c2866cd9e2d234b00a48412b35204cc6319592687d2cd16ea935c889e759c",
+  "verifiedCoreInputsAgainstCandidate": 211,
+  "coreStatus": "failure",
+  "toolchain": {
+    "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "architecture": "arm64",
+    "image": "20261104.0337.1",
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+    "appleGit": "git version 2.54.0 (Apple Git-157)",
+    "homebrewGit": "git version 2.56.0",
+    "gpg": "gpg (GnuPG) 2.5.24"
+  },
+  "execution": {
+    "kind": "executed",
+    "exitCode": 1,
+    "seconds": 490.078,
+    "sourceCommit": "6b02f30a85be873e752e3edae3c9b949cfe59f1c",
+    "runId": "42832267661",
+    "log": ".build/ci/receipts/core.log",
+    "logSHA256": "ff807bfd669744149e41cd7712916cbd6d424bbe87cca9c3e7a09727e6061bb3"
+  },
+  "appleCore": {
+    "tests": 407,
+    "suites": 70,
+    "seconds": 407.822,
+    "issues": 6,
+    "passed": false
+  },
+  "unexecuted": [
+    "minimum Git Core",
+    "Homebrew Git Core",
+    "signing",
+    "behavior",
+    "performance",
+    "application/UI source compilation in this CI",
+    "package"
+  ],
+  "failedCases": [
+    "\u2718 Test templateReadsOriginsAndExactCRLFBytesWithoutChangingRepositoryLayers() recorded an issue at CommitMessageTemplateTests.swift:7:6: Caught error: .unsupported(\"\u6d4b\u8bd5\u7684\u5168\u5c40\u914d\u7f6e\u64cd\u4f5c\u5fc5\u987b\u663e\u5f0f\u63d0\u4f9b\u79c1\u6709\u914d\u7f6e\u6587\u4ef6\u3002\")",
+    "\u2718 Test undecodableAndOversizedTemplatesNeverBecomeReplacementMessages() recorded an issue at CommitMessageTemplateTests.swift:27:6: Caught error: .unsupported(\"\u6d4b\u8bd5\u7684\u5168\u5c40\u914d\u7f6e\u64cd\u4f5c\u5fc5\u987b\u663e\u5f0f\u63d0\u4f9b\u79c1\u6709\u914d\u7f6e\u6587\u4ef6\u3002\")",
+    "\u2718 Test signingOverridesInLinkedWorktreeDoNotChangeSharedConfiguration() recorded an issue at GitConfigurationTests.swift:25:6: Caught error: .unsupported(\"\u6d4b\u8bd5\u7684\u5168\u5c40\u914d\u7f6e\u64cd\u4f5c\u5fc5\u987b\u663e\u5f0f\u63d0\u4f9b\u79c1\u6709\u914d\u7f6e\u6587\u4ef6\u3002\")",
+    "\u2718 Test worktreeToggleDuringPrivateEditCannotRedirectTheWriteToSharedConfig() recorded an issue at GitConfigurationTests.swift:71:6: Caught error: .unsupported(\"\u6d4b\u8bd5\u7684\u5168\u5c40\u914d\u7f6e\u64cd\u4f5c\u5fc5\u987b\u663e\u5f0f\u63d0\u4f9b\u79c1\u6709\u914d\u7f6e\u6587\u4ef6\u3002\")",
+    "\u2718 Test failedGitAmIsNotMisidentifiedAsAnAppSupportedRebase() recorded an issue at SequencerAndGraphTests.swift:135:9: Expectation failed: try await f.service.status().sequencer == .unknown",
+    "\u2718 Test verifiedDownloadHasExactBytesAndRejectsLaterChanges() recorded an issue at UpdateDownloadTests.swift:56:15: Expectation failed: expected error of type UpdateFailure, but \".changed\" of type ModelFailure was thrown instead"
+  ],
+  "jobs": [
+    {
+      "name": "Change scope",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Site checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Repository validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Native frontend build",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Documentation checks",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Core test compilation",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Native macOS",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "name": "Repository policy",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ],
+  "nativeSteps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Isolate Git configuration without affecting checkout cleanup",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify actual OS, architecture and Xcode",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Identify the exact build toolchain",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Restore incremental builds, never validation results",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Verify canonical evidence against immutable input bytes",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Core regression on Apple, minimum and Homebrew Git",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "name": "Isolated Apple and Homebrew OpenPGP signing",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Native feature behavior",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Backend performance budgets",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Compile application and native UI regressions",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Build and verify the actual Release preview",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Retain independently reusable suite receipts",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Retain native evidence and preview",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Restore incremental builds, never validation results",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+# v2 开发批次的实际回归记录
+
+这些记录来自稳定候选 PR138 的前三轮集中验证；当前固定候选与后续结果见 [v2 进度](../../../V2_0_PROGRESS.md)。整体失败保留，只有实际成功且来源与工具链一致的子范围允许复用。它们不是 v2 发布验收。
+
+| 固定候选 | 后端 CI | 实际通过与失败 | 工作区 UI |
+| --- | --- | --- | --- |
+| c8a3563 | [42832267661](https://github.com/WeOpen/WeGit/actions/runs/42832267661) | Apple Core407/70中6问题：私有配置夹具、旧am状态预期、公开下载错误类型；后续未执行 | [42832410175](https://github.com/WeOpen/WeGit/actions/runs/42832410175)：smoke1/1，专项0/7 |
+| cfbbf9e | [42839694951](https://github.com/WeOpen/WeGit/actions/runs/42839694951) | 三套Git各407/70、OpenPGP各9通过；行为在迁移脚本缺rg处失败 | [42839695901](https://github.com/WeOpen/WeGit/actions/runs/42839695901)：smoke1/1，专项3/7（Submodule、快捷键、更新窗） |
+| e9ae775 | [42848714148](https://github.com/WeOpen/WeGit/actions/runs/42848714148) | 同输入/工具链复用前轮Core和签名；迁移、685主题、42图标通过，独立菜单checker缺桥接源编译失败 | [42848712718](https://github.com/WeOpen/WeGit/actions/runs/42848712718)：smoke1/1，专项3/7（共享草稿模板、快捷键、更新窗） |
+
+上述全部UI专项均实际执行7项，跳过为0；不能把跨不同源码轮次的通过项相加成完整通过。第三轮历史重开实际丢失选中提交，修补同步持久化；私有控制只证明同进程新AppState恢复，跨进程仍以正式UI为准。资源就绪、窗口遮挡、文本截断和AX字段的失败均以原截图/AX/执行日志定位，未增加timeout或放宽Git字节与对象断言。
+
+第四轮固定c414906的[UI42855165361](https://github.com/WeOpen/WeGit/actions/runs/42855165361)为smoke1/1、专项5/7通过、0跳过：历史跨进程重开、共享草稿模板、Submodule、快捷键和更新窗口均通过。剩余LFS实际已显示成功消息但测试等不存在的AX value；活动命令已打开“Git 活动”但测试等命令名“活动记录”。两处修补保留后续原字节与完整对象断言，不能在补验前记为7/7。原始来源核验见[第四轮UI记录](42855165361.json)。
+
+每份JSON记录原ZIP大小/CRC/SHA、实际源码输入逐Git blob核验、job与测试结果。二进制、完整xcresult、截图与日志保留在原工作树`.build/v2-m5-flow/hosted-<run>`，不复制到文档或宣称已发布。
+
+- [首轮后端来源核验](42832267661.json) · [首轮UI来源核验](42832410175.json)
+- [第二轮后端来源核验](42839694951.json) · [第二轮UI来源核验](42839695901.json)
+- [第三轮后端与复用核验](42848714148.json) · [第三轮UI来源核验](42848712718.json)
+
+本机没有执行XCTest；实际XCTest均来自上述托管运行。生产更新key/feed、支持设备矩阵、正式性能、安装和发布仍保留独立门禁。
+
+第四轮后端[CI42855164847](https://github.com/WeOpen/WeGit/actions/runs/42855164847)复用同源Core/签名，完整行为415项输入实执行1153.108秒成功。恢复性能普通/大型各30样本，大型预览p95 **2221.16ms**、Reset **2106.63ms**超原2000ms；恢复预览1930.82ms、恢复1790.04ms、取消1.78ms与RSS25,575,424bytes符合原门槛。阅读/其余性能、应用验收和包未执行。
+
+预览最慢样本的status命令为1834/1890ms；最慢Reset样本中实际reset约826ms、两条并行diff的墙钟并集约760ms。非命令耗时包含多种保护与I/O，不能等同fsync；并发命令不直接相加。与较早独立诊断的环境上下文不同，不以一次成功诊断替代本次canonical失败。原预算和全部保护保留。见[来源与分段核验](42855164847.json)、[60个原样本与命令时序](recovery-performance-42855164847.json)。
+
+## 工作区批次最终通过
+
+[UI42860707458](https://github.com/WeOpen/WeGit/actions/runs/42860707458)固定`8d1a9f101a5396ed9ea8370d346643d0a733b6c9`，smoke实际1/1、0失败/跳过，workspace-delivery实际7/7、0失败/跳过，485.55秒。七项覆盖快捷键、统一搜索、无配置更新窗口、Submodule、LFS、共享草稿/模板，以及选中提交/草稿跨进程重开。266项App输入与36份UI源逐Git blob匹配，方法集合与可信main注册表一致。
+
+原ZIP128,466,336bytes、2138CRC项，SHA256 `1dd4b91e2afe57914dd27c235427a03619aadf0449ddeb4717b370d818d4e7e2`，匹配GitHub artifact digest。[独立核验](42860707458.json)、[smoke原摘要](workspace-smoke-summary.json)、[完整7方法原摘要](workspace-delivery-summary.json)永久保留。此结果仅关闭该工作区UI批次，后端恢复性能仍失败，其他原生批次/性能/包/生产更新/发布未由此通过。

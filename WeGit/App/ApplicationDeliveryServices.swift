@@ -33,7 +33,7 @@ import WeGitCore
             let installed = try InstalledUpdateVersion(version: version, build: build, variant: variant)
             let ring =
                 UpdateTrustConfiguration.isConfigured ? try UpdateTrustConfiguration.productionRing() : nil
-            updates = UpdateState(installed: installed, ring: ring)
+            updates = UpdateState(installed: installed, ring: ring, retentionTarget: Bundle.main.bundleURL)
             updateError = nil
         } catch {
             updates = nil

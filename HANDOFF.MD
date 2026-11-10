@@ -1,5 +1,22 @@
 # WeGit 开发交接
 
+## 2026-11-11 工作区原生批次通过与剩余性能门禁
+
+- PR138当前产品候选8d1a9f1的UI42860707458实际smoke1/1、workspace-delivery7/7，失败/跳过均0，485.55秒。7方法覆盖快捷键/统一搜索/更新空配置/Submodule/LFS/共享草稿模板/跨进程选中提交和草稿恢复。266App+36UI逐blob相等；原ZIP128466336bytes/2138CRC/SHA1dd4b91e…保留旧M4树`.build/v2-m5-flow/hosted-42860707458`，永久JSON在docs/acceptance/2026-11-11/v2-development-batches。此前各失败仍保留，不跨源码拼接通过数。
+- 最新canonical后端CI42855164847固定c414906：Core211/签名148输入真实复用已通过来源，完整behavior415输入实执行1153.108秒成功；恢复性能普通/大型各30，大型preview p95 2221.157292ms、Reset2106.629792ms超原2000ms，恢复预览1930.816375/恢复1790.035958/取消1.780875ms及RSS25575424bytes通过。后续阅读/其余性能、应用验收与三包未执行，不因UI成功改变失败。
+- 60份命令trace确认preview最慢两样本status1834/1890ms为主要成本；Reset同时含checkout与并行后验diff。与独立诊断的checker及Reset核心区域相同但整个Core不同、执行上下文不同；未据此猜VM或fsync根因，也未删SHA/落盘/HEAD/index/路径保护或放宽预算。下一轮优先按真实成本研究status和后验读路径，小额重复HEAD/对象格式查询只支持几十毫秒机会。
+- 更新留存管理已保留为草稿PR139（codex/v2-m5-update-retention），正常同步M4全部修补；28项留存+原30项持久更新控制、中文深色/英文浅色真实记录计划与取消、App/UI源编译、1938字符串/8复数通过。末尾合入只改M4显示/历史与检查器，无生产key/feed/发布动作，原用户PBX SHA1343632f…保持。正式满容量留存扫描/取消性能尚无证据；后台执行不等于性能已验，1GiB是新准备容量门槛而非累计读取字节。
+
+## 2026-11-10 M5 更新记录与中断清理实施
+
+- PR138固定M4送验时，在复用的v2-validation-entry工作树建立codex/v2-m5-update-retention继续无依赖开发，不改在跑候选。Update窗口增加记录页，使用真实Core列表/容量/验证状态；未知仅定位，明确终态先prepareCleanup固定计划再确认execute。诊断导出不含路径/token/偏好/数据库，安装与管理互斥。缺生产公钥仍可显示无法验证记录，不授权清理或安装。
+- ProductionUpdateInstaller.prepare在昂贵复制前写preparation记录并持父目录/事务lease，合法无ticket准备也计入20项/1GiB；未知/损坏/无法计量仍阻断新准备但不让其他记录从列表消失。只有全部已创建字节匹配受控范围、原目标仍一致的准备残留可显式清理，partial/变化/未知继续保留；不宣称所有中断都能自动清除。
+- 清理plan绑定完整目录身份/文件SHA/journal revision/原签名请求与无恢复义务终态。父目录持久sidecar保留到事务根确认消失，每个unlink前fsync唯一pending，完成后保存已删除前缀；取消/崩溃后必须重新确认并复验剩余清单。没有调用recover当列表读取，也没有引入外部公钥/helper信任。已完成应用仍运行时只清旧留存，不触碰安装目标或用户原DB。
+- 实质性陷阱已修并保留原失败：JSON默认数值Date与iso8601 decoder不兼容；Set编码非确定性会使同一续清plan SHA变化；URL尾斜杠会让sidecar与原目录重复计项；仅`_ = lease`不足以保证Release ARC持锁到I/O结束，使用defer withExtendedLifetime；sidecar临时文件不能让整个列表抛错；公开有效签名和自报canClean不授权任意本地文件，必须重绑原request/preparation、终态、恢复义务及精确清单；RC包version是base且releaseTag保留完整RC。
+- 28/28真实私有留存控制通过`.build/update-retention-oxog83uw`，含prepare前ticket取消、确认后变化、unknown/缺key/active lease、实际中途清理→磁盘重载→再次确认续清、rmdir后尾部恢复、伪造intent拒绝及真实mock app退出/安装/ready/完成后清理。原30/30持久更新控制在`.build/production-update-checks-38i3YV`通过；均非XCTest/非用户安装，原输入和失败日志保留。
+- 完整App及UI测试源build-for-testing、Core全部测试源只编译通过；185工具/策略/actionlint通过，268应用输入SHA相同。中文深色/英文浅色真实NSHosting预览使用3条真实Core记录（明确abort/准备/unknown），核对选择/禁用/计划确认/取消保留，未从UI执行删除；fixture source与预览均正常退出，证据`.build/v2-m5-retention`。首次私有预览误用默认Date decoder崩溃，修为iso8601后实际呈现；原日志不删除。新增28键本地化集中核对，不把片段UI称作全部明暗/双语或生产验收。
+- 尚未完成：原helper --recover的交互接线、原无证据历史残留人工处理、更新/迁移正式Release预算、1/2/4窗口和图片性能、M5全页面/支持矩阵。生产key/feed仍按用户要求最后门禁提醒；正式安装与v2发布未进行。
+
 ## 2026-11-11 M4 第四轮工作区结果
 
 - UI42855165361固定c414906：smoke实际1/1、完整workspace-delivery实际5/7通过、2失败、0跳过。历史跨进程重开、共享草稿模板、Submodule、快捷键、无配置更新窗均通过；完整266App/36UI来源匹配，146750996bytes/2286CRC原ZIP及AX在`.build/v2-m5-flow/hosted-42855165361`。

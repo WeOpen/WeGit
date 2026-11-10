@@ -1,0 +1,66 @@
+{
+  "run": 42848712718,
+  "sourceCommit": "e9ae7752666e6c8b058be4c8eff3ec39e56b7c25",
+  "trustedMainSHA": "5c46c6348934e51691bd87f98bffff61769c1a74",
+  "artifactBytes": 135495832,
+  "artifactSHA256": "11b1c1352f9c798c98a7d85acab2b7e720dcdbbfdfe961b91307b7a38b17d8e2",
+  "artifactCRCEntries": 2234,
+  "verifiedBuildSourceFiles": 266,
+  "verifiedUISourceFiles": 36,
+  "selectedMethods": [
+    "WorkspaceDeliveryWorkflowTests/testShortcutChangeClearReopenAndRestoreUseNativeMenu",
+    "WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand",
+    "WorkspaceDeliveryWorkflowTests/testUnconfiguredUpdatesKeepDraftAndUseOneWindow",
+    "ResourceManagementWorkflowTests/testSubmoduleAddSourceChangeAndRemovalPreserveParentDraftAndChildData",
+    "ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles",
+    "WindowLifecycleTests/testSharedDraftMutationOwnershipAndTemplateSnapshot",
+    "WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen"
+  ],
+  "smoke": {
+    "totalTestCount": 1,
+    "passedTests": 1,
+    "failedTests": 0,
+    "skippedTests": 0
+  },
+  "batch": {
+    "totalTestCount": 7,
+    "passedTests": 3,
+    "failedTests": 4,
+    "skippedTests": 0
+  },
+  "outcome": "failed",
+  "failures": [
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles",
+      "testName": "testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles()"
+    },
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 3,
+      "testIdentifierString": "WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen",
+      "testName": "testSelectedCommitAndDraftRestoreAfterApplicationReopen()"
+    },
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 2,
+      "testIdentifierString": "ResourceManagementWorkflowTests/testSubmoduleAddSourceChangeAndRemovalPreserveParentDraftAndChildData()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ResourceManagementWorkflowTests/testSubmoduleAddSourceChangeAndRemovalPreserveParentDraftAndChildData",
+      "testName": "testSubmoduleAddSourceChangeAndRemovalPreserveParentDraftAndChildData()"
+    },
+    {
+      "failureText": "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\")",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 7,
+      "testIdentifierString": "WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand",
+      "testName": "testUnifiedSearchOpensExactPathTagStashAndCommand()"
+    }
+  ]
+}

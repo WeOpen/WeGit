@@ -1,0 +1,67 @@
+{
+  "run": 42848714148,
+  "candidate": "e9ae7752666e6c8b058be4c8eff3ec39e56b7c25",
+  "actualSourceCommit": "91ddabfbcd904c256cb5c2c70fccc5750678b82f",
+  "suites": {
+    "core": {
+      "status": "success",
+      "mode": "reused",
+      "verifiedInputs": 211,
+      "execution": {
+        "kind": "executed",
+        "exitCode": 0,
+        "seconds": 1132.887,
+        "sourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+        "runId": "42839694951",
+        "log": ".build/ci/receipts/core.log",
+        "logSHA256": "0e60cfba4f50fa6f6a7a9cbd1e79bc462c7510c3b4f088e9fce22dff0e94f3c0"
+      },
+      "reusedFrom": {
+        "runId": 42839694951,
+        "artifactId": 13775539191,
+        "artifactSHA256": "787101f424025515aa4f7b06fbfebedf4cf7a1967a12e01af0a68f4c6dc0c26d"
+      }
+    },
+    "signing": {
+      "status": "success",
+      "mode": "reused",
+      "verifiedInputs": 148,
+      "execution": {
+        "kind": "executed",
+        "exitCode": 0,
+        "seconds": 14.334,
+        "sourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+        "runId": "42839694951",
+        "log": ".build/ci/receipts/signing.log",
+        "logSHA256": "31abe392a2f0e23cab18ddb9cacf74fccf7bd05a7325565313bb2526d699a7a9"
+      },
+      "reusedFrom": {
+        "runId": 42839694951,
+        "artifactId": 13775539191,
+        "artifactSHA256": "787101f424025515aa4f7b06fbfebedf4cf7a1967a12e01af0a68f4c6dc0c26d"
+      }
+    },
+    "behavior": {
+      "status": "failure",
+      "mode": "executed",
+      "verifiedInputs": 413,
+      "execution": {
+        "kind": "executed",
+        "exitCode": 1,
+        "seconds": 1327.087,
+        "sourceCommit": "91ddabfbcd904c256cb5c2c70fccc5750678b82f",
+        "runId": "42848714148",
+        "log": ".build/ci/receipts/behavior.log",
+        "logSHA256": "74cfeeb70c61d0ed52c9e821f9510d34d11bba5485d658f92f5d8ad096fa9297"
+      },
+      "reusedFrom": null
+    }
+  },
+  "failure": "verify-native-application-menu.sh omitted KeyboardShortcutBridge/ApplicationDeliveryServices dependency from standalone compilation",
+  "unexecuted": [
+    "remaining behavior after native application menu",
+    "backend performance",
+    "application/UI compilation phase",
+    "package"
+  ]
+}

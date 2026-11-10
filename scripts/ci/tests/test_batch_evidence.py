@@ -156,6 +156,9 @@ class EvidenceTests(unittest.TestCase):
             ".build/update-stage-success/" + name for name in
             ["inputs-before.json", "inputs.json", "result.json", "core-build.log", "compile.log", "run.log"]
         } | {
+            ".build/update-retention-success/" + name for name in
+            ["inputs-before.json", "inputs.json", "result.json", "core-build.log", "compile.log", "run.log"]
+        } | {
             ".build/theme-import-queue-checks-success/" + name for name in
             ["input-receipt.json", "compiled-inputs.json", "result.json", "compile.log", "runtime.log"]
         } | {
@@ -166,6 +169,7 @@ class EvidenceTests(unittest.TestCase):
             ".build/production-update-checks-failed/compile.log",
             ".build/production-update-checks-failed/run.log",
             ".build/update-stage-failed/compile.log",
+            ".build/update-retention-failed/compile.log",
             ".build/theme-import-queue-checks-failed/runtime.log",
         }
         private = {
@@ -180,6 +184,8 @@ class EvidenceTests(unittest.TestCase):
             ".build/production-update-checks-success/checks",
             ".build/update-stage-success/ActualUpdateStageControl.swift",
             ".build/update-stage-success/fixtures/Repositories.store",
+            ".build/update-retention-success/ActualRetentionControls.swift",
+            ".build/update-retention-success/fixtures/ticket.json",
             ".build/theme-import-queue-checks-success/tmp/Repositories.store",
         }
         for name in expected | private:

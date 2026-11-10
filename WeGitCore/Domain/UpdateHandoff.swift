@@ -34,6 +34,10 @@ public struct UpdateAppFingerprint: Codable, Equatable, Sendable {
 
     static func capture(_ url: URL, cancellation: IOCancellation) throws -> Self {
         let tree = try UpdateAppTree.read(url, cancellation: cancellation)
+        return try capture(tree: tree, root: UpdateNodeIdentity.read(url, directory: true))
+    }
+
+    static func capture(tree: UpdateAppTree, root: UpdateNodeIdentity) throws -> Self {
         var content = SHA256()
         var stamps = SHA256()
         for path in tree.files.keys.sorted() {
@@ -50,7 +54,7 @@ public struct UpdateAppFingerprint: Codable, Equatable, Sendable {
             stamps.update(data: try nodeBytes(tree.directories[path]!))
         }
         return Self(
-            root: try UpdateNodeIdentity.read(url, directory: true), bytes: tree.bytes,
+            root: root, bytes: tree.bytes,
             contentSHA256: hex(content.finalize()), stampSHA256: hex(stamps.finalize()))
     }
 

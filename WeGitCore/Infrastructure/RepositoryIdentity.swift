@@ -2,7 +2,7 @@ import CryptoKit
 import Darwin
 import Foundation
 
-struct RepositoryNodeIdentity: Hashable, Sendable {
+struct RepositoryNodeIdentity: Hashable, Codable, Sendable {
     let device: dev_t
     let inode: ino_t
     let kind: UInt16
