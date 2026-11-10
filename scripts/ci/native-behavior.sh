@@ -15,6 +15,7 @@ for pair in \
   WeGitCore/Infrastructure/UpdateRetentionStore.swift:scripts/verify-update-retention.py \
   WeGit/App/UpdateApplicationBridge.swift:scripts/verify-update-stage.py \
   WeGit/App/UpdateApplicationBridge.swift:scripts/verify-theme-import-queue.sh \
+  WeGit/App/WorkspaceWindowCoordinator.swift:scripts/verify-history-reading.sh \
   WeGitCore/Domain/ApplicationDataMigration.swift:scripts/verify-application-migration.py \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase.sh \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase-performance.sh \

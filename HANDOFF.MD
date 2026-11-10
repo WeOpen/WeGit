@@ -10,6 +10,14 @@
 - 完整App及UI测试源build-for-testing、Core全部测试源只编译通过；185工具/策略/actionlint通过，268应用输入SHA相同。中文深色/英文浅色真实NSHosting预览使用3条真实Core记录（明确abort/准备/unknown），核对选择/禁用/计划确认/取消保留，未从UI执行删除；fixture source与预览均正常退出，证据`.build/v2-m5-retention`。首次私有预览误用默认Date decoder崩溃，修为iso8601后实际呈现；原日志不删除。新增28键本地化集中核对，不把片段UI称作全部明暗/双语或生产验收。
 - 尚未完成：原helper --recover的交互接线、原无证据历史残留人工处理、更新/迁移正式Release预算、1/2/4窗口和图片性能、M5全页面/支持矩阵。生产key/feed仍按用户要求最后门禁提醒；正式安装与v2发布未进行。
 
+## 2026-11-11 M4 第三轮证据与历史选择持久化修补
+
+- 固定e9ae775/CI42848714148实际复用了42839694951的Core211/签名148输入与同工具链成功回执，没有重跑407×3及9×2。行为执行1327.087秒，迁移portable入口已实际通过（11.447秒），685主题和42图标通过；最后独立native菜单checker漏快捷键桥接定义而编译失败，性能/应用验收/包未执行。原219892bytes/46CRC ZIP与回执留`.build/v2-m5-flow/hosted-42848714148`。
+- NativeApplicationMenu已依赖applicationShortcutsChanged/nativeModifiers，独立编译入口必须包括真实KeyboardShortcutBridge；notification从DeliveryServices移到该桥接文件，语义不变、不用测试stub。本机32/32原生菜单控制通过，编译日志在`.build/v2-m5-flow/native-menu-fix.log`。
+- 第三轮UI42848712718 smoke1/1，专项3/7（共享草稿与模板、快捷键、更新窗）通过，资源两例被新增branch.label断言卡住、储藏详情label字段等待失败、历史重开丢选择。135495832bytes/2234CRC原ZIP/266App+36UI匹配e9ae775，实际AX/源证据保留。branch内容断言是上一轮多余新增，改保留准确repo/current-branch存在+真实clean/list；储藏保留完整ref|OID唯一选中行并核对准确diff-code TextView原文，不依赖截断/不同AX字段的详情文本。
+- 历史选择实际不在workspace.savedView，之前只在正常退出/关闭时补存；强制停止后route保留但selection丢失。新增applyHistorySelection由Table明确输入边界同步保存，no-op不取消pending，旧session拒绝。11/11真实AppState私有控制通过`.build/history-reading-checks-RNpLqT`：A即时保存/新实例重开A、pendingA被B覆盖、明确clear再次重开空、原HEAD/index/work与草稿保持；268输入/104对象摘要前后一致。只保留五类证据到`.build/ci/history-reading-checks-*`，不上传私有仓库/偏好/二进制。
+- App/UI源build-for-testing与187工具通过，无本机XCTest。Core211/签名148输入仍与已成功回执完全相同；下一轮仅按同工具链复用规则补受影响范围，原失败保持。更新留存后续PR139独立草稿，不混入本轮稳定补验。
+
 ## 2026-11-10 M4 第二轮回归结果与可复用范围
 
 - 固定cfbbf9e的CI42839694951：三套Git各407测试/70套件通过，Apple470.501/最低241.746/Homebrew268.871秒；隔离OpenPGP各9通过且私有服务清理确认。Core211/签名148/行为413项输入逐blob相同。行为先通过15偏好迁移、30持久更新、15stage、20主题队列，再因verify-application-migration.py调用runner没有的rg抛FileNotFoundError；迁移尚未开始，性能/应用/包未执行。原ZIP/CRC/SHA/log在`.build/v2-m5-flow/hosted-42839694951`。

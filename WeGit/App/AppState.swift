@@ -1712,6 +1712,23 @@ final class AppState {
         pendingHistorySelectionIDs = nil
     }
 
+    /// Persist an explicit table selection at the same boundary as its model
+    /// mutation; selecting a commit does not change workspace.savedView.
+    func applyHistorySelection(_ ids: Set<String>, for session: RepositorySession) {
+        guard self.session === session else { return }
+        let history = historyState(for: session)
+        let current =
+            !history.selectedIDs.isEmpty
+            ? history.selectedIDs : Set(workspace.selectedCommit.map { [$0.id] } ?? [])
+        guard ids != current else { return }
+        cancelPendingHistoryRestore()
+        history.selectedIDs = ids
+        if workspace.selectedCommit.map({ ids.contains($0.id) }) != true {
+            workspace.selectedCommit = history.commits.first { ids.contains($0.id) }
+        }
+        saveCurrentWorkspace()
+    }
+
     func restoreSelectedCommit(for session: RepositorySession) async {
         guard self.session === session else { return }
         let token = historyRestoreID

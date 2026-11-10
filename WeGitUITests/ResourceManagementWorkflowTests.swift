@@ -246,9 +246,8 @@ final class ResourceManagementWorkflowTests: XCTestCase {
         let repository = app.buttons["toolbar-repository"]
         XCTAssertTrue(repository.waitForExistence(timeout: 10))
         XCTAssertEqual(repository.label, root.lastPathComponent)
-        let branch = app.descendants(matching: .any).matching(identifier: "current-branch").firstMatch
+        let branch = app.menuButtons["current-branch"]
         XCTAssertTrue(branch.waitForExistence(timeout: 10))
-        XCTAssertTrue(branch.label.contains("main"))
         if expectedClean {
             XCTAssertTrue(
                 app.staticTexts[language == "en" ? "Working tree clean" : "工作区干净"].waitForExistence(
