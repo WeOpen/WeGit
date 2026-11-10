@@ -12,6 +12,8 @@ for pair in \
   WeGitCore/GitCore/RecoveryService.swift:scripts/verify-recovery-performance.sh \
   WeGitCore/GitCore/RepositoryQueryService.swift:scripts/verify-reading-performance.sh \
   WeGitCore/Infrastructure/ProductionUpdateInstaller.swift:scripts/verify-production-update.sh \
+  WeGit/App/UpdateApplicationBridge.swift:scripts/verify-update-stage.py \
+  WeGit/App/UpdateApplicationBridge.swift:scripts/verify-theme-import-queue.sh \
   WeGitCore/Domain/ApplicationDataMigration.swift:scripts/verify-application-migration.py \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase.sh \
   WeGitCore/GitCore/InteractiveRebaseService.swift:scripts/verify-interactive-rebase-performance.sh \

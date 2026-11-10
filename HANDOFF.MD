@@ -1,5 +1,16 @@
 # WeGit 开发交接
 
+## 2026-11-10 M4 面板排队与更新暂存闭环
+
+- 继续M4实际产品树，M2主题/官网已包含ec1ef53祖先，不能重复搬运。62子任务均有实现记录，页面矩阵/URI外部冷热唤起/三包下载生产联动和完整交付仍开放。原生可信入口要求候选PR base=main，旧stacked PR134/135不能直接作为新批次候选；不放宽可信来源限制。
+- 新增操作sheet未进入旧主题导入阻挡条件，会在补丁/比较/提交队列等预览期间抢占presentation。本轮把全部workspace sheet与reader→恢复/签名等后续意图统一列入占用条件，onDismiss先执行原后续动作再异步取主题。队列移到共享runtime，跨窗口按内容去重、全局最多8待处理、一次仅一处显示；目标关闭后交给仍挂载窗口，全部窗口关闭收到有效URL会通过coordinator唤回。迁移阻挡/更新冻结/错误警告期间保持等待，不提前写主题库。
+- ThemeImportQueueChecks实际链接本次AppState/104对象及Core，20/20私有真实Git/AppState控制通过，覆盖12个原遗漏sheet、后续动作、去重/目标关闭/单展示/FIFO/冻结；HEAD/index/CRLF无末尾换行字节、中文Emoji草稿修订与主题库不变。268项输入前后核对，证据`.build/theme-import-queue-checks-NIntad`，不是外部URI或XCTest验收。
+- 更新数据库StoreSnapshot以前永远保留，成功10次也会耗尽stage上限。本轮只在ProductionUpdateInstaller.prepare持久成功后授权清理本次快照，固定目录/文件版本/白名单/SHA并用fd逐叶删除、rmdir空目录；哈希/校验在可取消utility任务，await后重验根身份。原DB路径不参与删除，失败/变化/未知保留。15/15真实私有SQLite控制通过，含连续12次成功、仅preflight不清、同字节换inode、额外文件/目录替换和取消；证据`.build/update-stage-pr8kfdy8`。
+- 迁移/更新/新队列控制的CI归档补齐实际输入回执与失败日志，用真实glob正反夹具确认不会上传数据库/plist/token/私钥/源码副本/二进制。185项工具、actionlint/策略/严格Swift与差异检查通过；完整App及UI测试源build-for-testing通过，266应用输入与最终源SHA一致，本机未执行XCTest。首次构建中agent仍在完善utility取消，因此以app-build-final.log与ui-source-build.log为最终编译证据。
+- 隔离新Bundle ID/UITests域原生预览实际核对双窗口草稿只读→明确接管、搜索精确文件→文件历史→签名面板、关闭次窗口回主窗口，中文Emoji草稿保持；原HEAD/index/工作字节复核未变，预览正常退出。截图/AX在当前聊天，JSON在`.build/v2-m5-flow/preview`。没有尝试历史自动审查拒绝的外部URI唤起，不把局部原生观察等同全部页面矩阵。
+- ThemeChecks保留1/10/100项各30 load/activate，新增8KiB payload/16KiB URI及各超限1byte的30次真实解析（<50ms）、30私有旧customTheme迁移（<100ms）；逐样本保存原数组，失败不丢数据。标准Release helper只编译，4URI+4迁移选择小控制通过；正式240组样本未本机执行，applicationStartupMeasured=false，不能冒充整app启动额外100ms通过。
+- 后续明确缺口：ProductionUpdateInstaller.prepare在ticket落盘前创建.WeGit-update目录，准备中断会留下无ticket目录使retainedCapacity阻断，成功ticket也缺管理入口。下一批需有界preparation记录、只读状态列表、明确导出/身份清单和journal绑定的清理/既有helper恢复，保持20项/1GiB，未知不删、prepared不重放、恢复义务未完成不清。图片/1-2-4窗口/更新迁移正式Release性能及全页面矩阵仍需补齐，生产公钥/feed按约定最后提醒。
+
 ## 2026-11-10 可信入口集成与七类阅读性能收尾
 
 - 当前会话接续 `01a1bd60-9960-7961-a04d-c381f6638b53`，继续M4产品树；主检出的PR133和用户PBX未移动。独立工具PR137已正常合入main `5c46c6348934e51691bd87f98bffff61769c1a74`，PR CI42826080946与main CI42826338680真实通过；144项工具通过，分流仅policy，Core/GPG/后端性能/前端编译/包均未执行。main整棵tree等于已验证工具候选07ea0dc。

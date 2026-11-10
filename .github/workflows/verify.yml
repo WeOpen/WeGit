@@ -164,6 +164,18 @@ jobs:
           path: |
             .build/ci/
             .build/*-checks-*/result.json
+            .build/production-update-checks-*/inputs-before.json
+            .build/production-update-checks-*/inputs.json
+            .build/production-update-checks-*/core-build.log
+            .build/production-update-checks-*/compile.log
+            .build/production-update-checks-*/run.log
+            .build/application-migration-*/inputs.json
+            .build/application-migration-*/receipt.json
+            .build/application-migration-*/core-library-receipt.json
+            .build/application-migration-*/core-build.log
+            .build/application-migration-*/source-build.log
+            .build/application-migration-*/run.log
+            .build/application-migration-*/fixtures/WeGitMigrationControl-*/result.json
             .build/worktree-read-performance-*/result.json
             .build/rebase-performance-*/result.json
             .build/recovery-performance-*/result.json
@@ -178,6 +190,17 @@ jobs:
             .build/reading-performance-*/fixture.log
             .build/reading-performance-*/verification.log
             .build/reading-performance-*/fixture-root.txt
+            .build/update-stage-*/result.json
+            .build/update-stage-*/inputs.json
+            .build/update-stage-*/inputs-before.json
+            .build/update-stage-*/core-build.log
+            .build/update-stage-*/compile.log
+            .build/update-stage-*/run.log
+            .build/theme-import-queue-*/result.json
+            .build/theme-import-queue-*/input-receipt.json
+            .build/theme-import-queue-*/compiled-inputs.json
+            .build/theme-import-queue-*/compile.log
+            .build/theme-import-queue-*/runtime.log
             .build/conflict-editor-performance-*/result.json
             .build/interactive-rebase-performance-*/result.json
             .build/submodule-lfs-performance-*/result.json

@@ -2,6 +2,9 @@
 set -euo pipefail
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
+mode="${1:-run}"
+case "$mode" in run|--compile-only) ;; *) exit 2 ;; esac
+[[ "$#" -le 1 ]] || exit 2
 check_run="$(mktemp -d "$project_root/.build/theme-checks-XXXXXX")"
 swift build -c release --product WeGitAskPass
 sdk_path="$(xcrun --sdk macosx --show-sdk-path)"
@@ -15,5 +18,9 @@ xcrun swiftc -O -sdk "$sdk_path" -target arm64-apple-macosx27.0 \
   WeGit/DesignSystem/YinYangLoadingGlyph.swift WeGit/DesignSystem/YinYangLoadingStyle.swift \
   WeGit/App/AppPreferences.swift scripts/ThemeChecks.swift -o "$check_run/checks"
 ditto "$library_path/WeGit_WeGitCore.bundle" "$check_run/WeGit_WeGitCore.bundle"
+if [[ "$mode" == --compile-only ]]; then
+  printf 'Compiled theme checker only: %s\n' "$check_run"
+  exit 0
+fi
 echo "Report: $check_run/result.json"
 "$check_run/checks" "$check_run/result.json"

@@ -134,6 +134,64 @@ class EvidenceTests(unittest.TestCase):
         self.assertTrue(expected <= paths)
         self.assertFalse(any("**" in path for path in paths if "reading-performance" in path))
 
+    def test_native_artifacts_keep_migration_and_update_proof_without_private_fixtures(self):
+        import yaml
+        from check_policy import Loader
+        root = Path(__file__).resolve().parents[3]
+        workflow = yaml.load((root / ".github/workflows/verify.yml").read_text(), Loader=Loader)
+        retained = next(step for step in workflow["jobs"]["native"]["steps"]
+                        if step.get("name") == "Retain native evidence and preview")
+        self.assertEqual(retained["if"], "always()")
+        # Match the actual layouts emitted by verify-application-migration.py
+        # and verify-production-update.sh, including runs that failed before
+        # creating a result or final receipt.
+        expected = {
+            ".build/application-migration-success/" + name for name in
+            ["inputs.json", "receipt.json", "core-library-receipt.json", "core-build.log",
+             "source-build.log", "run.log", "fixtures/WeGitMigrationControl-123456/result.json"]
+        } | {
+            ".build/production-update-checks-success/" + name for name in
+            ["inputs-before.json", "inputs.json", "result.json", "core-build.log", "compile.log", "run.log"]
+        } | {
+            ".build/update-stage-success/" + name for name in
+            ["inputs-before.json", "inputs.json", "result.json", "core-build.log", "compile.log", "run.log"]
+        } | {
+            ".build/theme-import-queue-checks-success/" + name for name in
+            ["input-receipt.json", "compiled-inputs.json", "result.json", "compile.log", "runtime.log"]
+        } | {
+            ".build/application-migration-failed/core-build.log",
+            ".build/application-migration-failed/source-build.log",
+            ".build/application-migration-failed/run.log",
+            ".build/production-update-checks-failed/inputs-before.json",
+            ".build/production-update-checks-failed/compile.log",
+            ".build/production-update-checks-failed/run.log",
+            ".build/update-stage-failed/compile.log",
+            ".build/theme-import-queue-checks-failed/runtime.log",
+        }
+        private = {
+            ".build/application-migration-success/fixtures/WeGitMigrationControl-123456/legacy/Repositories.store",
+            ".build/application-migration-success/fixtures/WeGitMigrationControl-123456/v2/preferences.plist",
+            ".build/application-migration-success/fixtures/unrelated/result.json",
+            ".build/application-migration-success/source/CurrentMigrationModels.swift",
+            ".build/application-migration-success/checks",
+            ".build/production-update-checks-success/private-key.pem",
+            ".build/production-update-checks-success/token",
+            ".build/production-update-checks-success/fixtures/ticket.json",
+            ".build/production-update-checks-success/checks",
+            ".build/update-stage-success/ActualUpdateStageControl.swift",
+            ".build/update-stage-success/fixtures/Repositories.store",
+            ".build/theme-import-queue-checks-success/tmp/Repositories.store",
+        }
+        for name in expected | private:
+            self.write(name, "isolated artifact fixture\n")
+        selected = set()
+        for pattern in retained["with"]["path"].splitlines():
+            for path in self.root.glob(pattern):
+                files = path.rglob("*") if path.is_dir() else [path]
+                selected.update(str(item.relative_to(self.root)) for item in files if item.is_file())
+        self.assertEqual(expected - selected, set(), "Actual result/input/failure evidence would be lost")
+        self.assertEqual(private & selected, set(), "Private fixtures or binaries must not be uploaded")
+
     def receipt(self):
         files = inputs(self.root, "core")
         run = {"id": 11, "workflow_id": 17, "head_sha": "a" * 40, "head_branch": "main",

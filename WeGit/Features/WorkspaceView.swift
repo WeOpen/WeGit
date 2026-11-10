@@ -236,96 +236,128 @@ struct WorkspaceView: View {
                 }.sharedBackgroundVisibility(.hidden)
             }
         }
-        .sheet(isPresented: $app.clonePresented) { CloneView(app: app).workbenchSheet(app.preferences) }
-        .sheet(isPresented: $app.initializationPresented) {
+        .sheet(isPresented: $app.clonePresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            CloneView(app: app).workbenchSheet(app.preferences)
+        }
+        .sheet(isPresented: $app.initializationPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
             RepositoryInitializationView(app: app).workbenchSheet(app.preferences)
         }
-        .sheet(isPresented: $app.remoteManagementPresented) {
+        .sheet(isPresented: $app.remoteManagementPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
             if let session = app.session {
                 RemoteManagementSheet(app: app, session: session).id(session.id).workbenchSheet(
                     app.preferences)
             }
         }
-        .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app).workbenchSheet(app.preferences) }
-        .sheet(item: $app.tagCreationRequest) {
+        .sheet(isPresented: $app.branchPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            NewBranchView(app: app).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.tagCreationRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             TagCreationSheet(app: app, request: $0).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.singleCommitRequest) {
+        .sheet(item: $app.singleCommitRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             SingleCommitSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.commitQueueRequest) {
+        .sheet(item: $app.commitQueueRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             CommitQueueSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.taskSwitchRequest) {
+        .sheet(item: $app.taskSwitchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             TaskSwitchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.stashBranchRequest) {
+        .sheet(item: $app.stashBranchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             StashBranchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.signatureRequest) {
+        .sheet(item: $app.signatureRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             SignatureSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.commitMessageRequest) {
+        .sheet(item: $app.commitMessageRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             CommitMessageSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.resetRequest, onDismiss: app.resetDidDismiss) {
+        .sheet(item: $app.resetRequest, onDismiss: { app.workspaceSheetDidDismiss(app.resetDidDismiss) }) {
             ResetSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.recoveryBrowserRequest) {
+        .sheet(item: $app.recoveryBrowserRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             RecoveryBrowser(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.selectedLinesRequest) {
+        .sheet(item: $app.selectedLinesRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             SelectedLinesSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.fileModificationRequest, onDismiss: app.fileModificationDidDismiss) {
+        .sheet(
+            item: $app.fileModificationRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.fileModificationDidDismiss) }
+        ) {
             FileModificationSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.ignoreRuleRequest) {
+        .sheet(item: $app.ignoreRuleRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             IgnoreRuleSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.patchImportRequest, onDismiss: app.patchImportDidDismiss) {
+        .sheet(
+            item: $app.patchImportRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.patchImportDidDismiss) }
+        ) {
             PatchImportSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.mailPatchRequest) {
+        .sheet(item: $app.mailPatchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             MailPatchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.conflictEditorRequest) {
+        .sheet(item: $app.conflictEditorRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             ConflictEditorSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.blameRequest, onDismiss: app.fileReaderDidDismiss) {
+        .sheet(item: $app.blameRequest, onDismiss: { app.workspaceSheetDidDismiss(app.fileReaderDidDismiss) })
+        {
             BlameSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.fileHistoryRequest, onDismiss: app.fileReaderDidDismiss) {
+        .sheet(
+            item: $app.fileHistoryRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.fileReaderDidDismiss) }
+        ) {
             FileHistorySheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.branchSwitchRequest) {
+        .sheet(item: $app.branchSwitchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             BranchSwitcherView(app: app, request: $0).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.worktreeManagementRequest, onDismiss: app.restoreWorktreeManagementFocus) {
+        .sheet(
+            item: $app.worktreeManagementRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.restoreWorktreeManagementFocus) }
+        ) {
             WorktreeManagementSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(isPresented: $app.activityPresented) { ActivityView(app: app).workbenchSheet(app.preferences) }
-        .sheet(isPresented: $app.repositoryPickerPresented, onDismiss: app.repositoryPickerDidDismiss) {
+        .sheet(isPresented: $app.activityPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            ActivityView(app: app).workbenchSheet(app.preferences)
+        }
+        .sheet(
+            isPresented: $app.repositoryPickerPresented,
+            onDismiss: { app.workspaceSheetDidDismiss(app.repositoryPickerDidDismiss) }
+        ) {
             RepositoryPicker(app: app).workbenchSheet(app.preferences)
         }
-        .sheet(isPresented: $app.palettePresented, onDismiss: app.paletteDidDismiss) {
+        .sheet(
+            isPresented: $app.palettePresented,
+            onDismiss: { app.workspaceSheetDidDismiss(app.paletteDidDismiss) }
+        ) {
             CommandPalette(app: app).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.syncRequest) { SyncSheet(app: app, request: $0).workbenchSheet(app.preferences) }
-        .sheet(item: $app.referenceComparisonRequest, onDismiss: app.fileReaderDidDismiss) {
+        .sheet(item: $app.syncRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            SyncSheet(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(
+            item: $app.referenceComparisonRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.fileReaderDidDismiss) }
+        ) {
             ReferenceComparisonSheet(app: app, request: $0).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.historyDepthRequest) {
+        .sheet(item: $app.historyDepthRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             HistoryDepthSheet(session: $0.session).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.searchRequest, onDismiss: app.searchDidDismiss) {
+        .sheet(item: $app.searchRequest, onDismiss: { app.workspaceSheetDidDismiss(app.searchDidDismiss) }) {
             RepositorySearchView(app: app, request: $0).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.themeImportRequest, onDismiss: app.drainThemeImports) {
+        .sheet(item: $app.themeImportRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             ThemeImportSheet(preferences: app.preferences, payload: $0).id($0.id).workbenchSheet(
                 app.preferences)
         }
-        .onChange(of: app.canPresentThemeImport) { _, available in if available { app.drainThemeImports() } }
+        .onChange(of: app.canPresentThemeImport) { _, available in
+            if available { app.workspaceSheetDidDismiss() }
+        }
         .onChange(of: app.settingsRequestID) { _, _ in openSettings() }
         .onChange(of: app.sidebarRequestID) { _, _ in
             columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
@@ -338,6 +370,7 @@ struct WorkspaceView: View {
         }
         .onDisappear {
             app.mainWorkspaceMounted = false
+            app.drainThemeImports()
             app.saveCurrentWorkspace()
             if !app.menuBarPresented && !app.mainWindowRequested {
                 app.session?.deactivate(owner: app.windowID)

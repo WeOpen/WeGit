@@ -623,7 +623,12 @@ final class RepositorySession {
 
 @Observable @MainActor
 final class ApplicationWorkspaceRuntime {
+    struct PendingThemeImport {
+        let payload: ThemeImportPayload
+        let windowID: UUID
+    }
     var sessions: [String: RepositorySession] = [:]
+    var pendingThemeImports: [PendingThemeImport] = []
     var recents: [RecentRepository] = []
     let persistence: WindowSessionPersistence?
     let services: ApplicationDeliveryServices
@@ -854,39 +859,73 @@ final class AppState {
     var workspaceSaveError: String?
     var worktreeManagementRequest: WorktreeManagementRequest?
     var themeImportRequest: ThemeImportPayload?
-    @ObservationIgnored private var pendingThemeImports: [ThemeImportPayload] = []
     private var themeImportReady = false
+
+    /// Includes queued sheet-to-sheet transitions so an external request cannot
+    /// take the presentation slot between a reader and its follow-up action.
+    var hasWorkspacePresentation: Bool {
+        clonePresented || initializationPresented || activityPresented || palettePresented
+            || branchPresented || remoteManagementPresented || repositoryPickerPresented
+            || tagCreationRequest != nil || singleCommitRequest != nil || commitQueueRequest != nil
+            || taskSwitchRequest != nil || stashBranchRequest != nil || signatureRequest != nil
+            || commitMessageRequest != nil || resetRequest != nil || recoveryBrowserRequest != nil
+            || selectedLinesRequest != nil || fileModificationRequest != nil || ignoreRuleRequest != nil
+            || patchImportRequest != nil || mailPatchRequest != nil || conflictEditorRequest != nil
+            || blameRequest != nil || fileHistoryRequest != nil || branchSwitchRequest != nil
+            || syncRequest != nil || searchRequest != nil || worktreeManagementRequest != nil
+            || referenceComparisonRequest != nil || historyDepthRequest != nil || themeImportRequest != nil
+            || pendingRecoveryAfterReset != nil || pendingRecoveryAfterPatch != nil
+            || pendingFileModificationAfterReader != nil || pendingSignatureAfterReader != nil
+            || pendingRecoveryAfterFileModification != nil || pendingSearchResult != nil
+            || pendingPaletteCommand != nil || pendingPaletteBranch != nil
+            || pendingRepositoryPickerAction != nil
+    }
 
     var canPresentThemeImport: Bool {
         themeImportReady && mainWorkspaceMounted && !isOpening && !anyOperationRunning
-            && authentication.request == nil
-            && !clonePresented && !activityPresented && !palettePresented && !branchPresented
-            && !remoteManagementPresented && !repositoryPickerPresented
-            && tagCreationRequest == nil && singleCommitRequest == nil && resetRequest == nil
-            && recoveryBrowserRequest == nil && selectedLinesRequest == nil && conflictEditorRequest == nil
-            && blameRequest == nil && fileHistoryRequest == nil && branchSwitchRequest == nil
-            && syncRequest == nil && searchRequest == nil && worktreeManagementRequest == nil
-            && themeImportRequest == nil
+            && !isMigrationBlocked && !runtime.updateHandoffInProgress
+            && authentication.request == nil && error == nil && !hasWorkspacePresentation
     }
 
     func receiveThemeURL(_ url: URL) {
         do {
             let payload = try ThemeImportPayload.parse(url)
-            guard themeImportRequest?.id != payload.id,
-                !pendingThemeImports.contains(where: { $0.id == payload.id })
+            guard !runtime.liveStates.contains(where: { $0.themeImportRequest?.id == payload.id }),
+                !runtime.pendingThemeImports.contains(where: { $0.payload.id == payload.id })
             else { return }
-            guard pendingThemeImports.count < 8 else {
+            guard runtime.pendingThemeImports.count < 8 else {
                 throw ModelFailure.unsupported(L10n.text("待处理的主题请求已满，请先完成当前导入。"))
             }
-            pendingThemeImports.append(payload)
+            runtime.pendingThemeImports.append(.init(payload: payload, windowID: windowID))
             mainWindowRequested = true
+            runtime.windowCoordinator?.showActiveWindow()
             drainThemeImports()
         } catch { self.error = error.localizedDescription }
     }
 
     func drainThemeImports() {
-        guard canPresentThemeImport, !pendingThemeImports.isEmpty else { return }
-        themeImportRequest = pendingThemeImports.removeFirst()
+        guard let pending = runtime.pendingThemeImports.first,
+            !runtime.liveStates.contains(where: { $0.themeImportRequest != nil })
+        else { return }
+        let target =
+            runtime.liveStates.first {
+                $0.windowID == pending.windowID && $0.mainWorkspaceMounted
+            } ?? runtime.activeState.flatMap { $0.mainWorkspaceMounted ? $0 : nil }
+            ?? runtime.liveStates.first(where: \.mainWorkspaceMounted)
+        guard let target else { return }
+        guard target === self else {
+            target.drainThemeImports()
+            return
+        }
+        guard canPresentThemeImport, nativeWindow?.attachedSheet == nil else { return }
+        themeImportRequest = runtime.pendingThemeImports.removeFirst().payload
+    }
+
+    func workspaceSheetDidDismiss(_ continuation: () -> Void = {}) {
+        continuation()
+        // SwiftUI has released the old sheet before it gives the next request
+        // the same window; follow-up repository actions keep priority.
+        DispatchQueue.main.async { [weak self] in self?.drainThemeImports() }
     }
     @ObservationIgnored private var worktreeFocusRestoration: WorktreeFocusRestoration?
     var settingsRequestID = UUID()
@@ -1751,6 +1790,10 @@ final class AppState {
     @discardableResult func windowDidClose() -> Bool {
         let saved = prepareWindowClose()
         mainWorkspaceMounted = false
+        if saved {
+            themeImportRequest = nil
+            workspaceSheetDidDismiss()
+        }
         session?.deactivate(owner: windowID)
         cancelDiffRead()
         if let session { historyState(for: session).releaseCache() }

@@ -471,67 +471,216 @@ struct ThemeChecks {
             }, "Explicit recovery retains original damaged bytes separately")
         libraryDefaults.set(originalLibrary, forKey: CustomThemeLibrary.key)
 
-        var libraryWorkloads: [[String: Any]] = []
         let libraryReport = URL(fileURLWithPath: FileManager.default.currentDirectoryPath).appending(
             path: ".build/ci/theme-library-performance.json")
         try FileManager.default.createDirectory(
             at: libraryReport.deletingLastPathComponent(), withIntermediateDirectories: true)
-        for count in [1, 10, 100] {
-            var library = CustomThemeLibrary()
-            library.entries = (0..<count).map { index in
-                var value = theme
-                value.name = "Theme \(index)"
-                return CustomThemeEntry(theme: value)
-            }
-            library.activeThemeID = library.entries[0].id
-            library.selectedAppearance = "custom"
-            let data = try library.encoded()
-            var samples: [[String: Any]] = []
-            let clock = ContinuousClock()
-            func milliseconds(_ duration: Duration) -> Double {
-                Double(duration.components.seconds) * 1000 + Double(duration.components.attoseconds) / 1e15
-            }
-            for iteration in 0..<30 {
-                libraryDefaults.set(data, forKey: CustomThemeLibrary.key)
-                var start = clock.now
-                let loaded = AppPreferences(defaults: libraryDefaults)
-                let load = milliseconds(start.duration(to: clock.now))
-                start = clock.now
-                try loaded.activateCustomTheme(library.entries[iteration % count].id)
-                let activate = milliseconds(start.duration(to: clock.now))
-                try require(
-                    loaded.customThemes.count == count
-                        && loaded.customTheme == library.entries[iteration % count].theme,
-                    "Library sample preserves all entries and selected colors")
-                samples.append([
-                    "iteration": iteration + 1, "loadMilliseconds": load, "activateMilliseconds": activate,
-                ])
-                let progress: [String: Any] = [
-                    "format": 1, "requiredSerialSamples": 30,
-                    "scope":
-                        "Optimized standalone preferences helper; filesystem/defaults caches uncontrolled. Not complete application startup or UI acceptance.",
-                    "workloads": libraryWorkloads, "activeCount": count, "activeSamples": samples,
-                ]
-                try JSONSerialization.data(withJSONObject: progress, options: [.prettyPrinted, .sortedKeys])
-                    .write(to: libraryReport, options: .atomic)
-            }
-            func p95(_ key: String) -> Double { samples.map { $0[key] as! Double }.sorted()[28] }
-            let p95Load = p95("loadMilliseconds")
-            let p95Activate = p95("activateMilliseconds")
-            libraryWorkloads.append([
-                "count": count, "samples": samples, "p95Load": p95Load, "p95Activate": p95Activate,
-            ])
-            try require(
-                p95Load < 100 && p95Activate < 50,
-                "Library load/activation keeps the frozen 100/50 ms budgets")
+        var libraryWorkloads: [[String: Any]] = []
+        var uriWorkloads: [[String: Any]] = []
+        var migrationSamples: [[String: Any]] = []
+        var activeSamples: [[String: Any]] = []
+        var activeWorkload = "library"
+        var activeCount = 0
+        let clock = ContinuousClock()
+        func milliseconds(_ duration: Duration) -> Double {
+            Double(duration.components.seconds) * 1000 + Double(duration.components.attoseconds) / 1e15
         }
-        try JSONSerialization.data(
-            withJSONObject: [
-                "format": 1, "requiredSerialSamples": 30, "workloads": libraryWorkloads, "allPassed": true,
+        func p95(_ samples: [[String: Any]], _ key: String) -> Double {
+            samples.map { $0[key] as! Double }.sorted()[28]
+        }
+        func savePerformance(passed: Bool = false, failure: String? = nil) throws {
+            var report: [String: Any] = [
+                "format": 1, "requiredSerialSamples": 30, "allPassed": passed,
+                "workloads": libraryWorkloads, "uriWorkloads": uriWorkloads,
+                "migrationSamples": migrationSamples, "activeWorkload": activeWorkload,
+                "activeCount": activeCount, "activeSamples": activeSamples,
+                "budgets": [
+                    "loadMilliseconds": 100, "activateMilliseconds": 50,
+                    "uriParseMilliseconds": 50, "legacyMigrationMilliseconds": 100,
+                ],
                 "scope":
-                    "Optimized standalone preferences helper, not complete application startup or UI acceptance.",
-            ], options: [.prettyPrinted, .sortedKeys]
-        ).write(to: libraryReport, options: .atomic)
+                    "Optimized standalone preferences helper; fresh legacy domain per migration, filesystem/defaults caches uncontrolled. Not full application startup, cold process launch or UI acceptance.",
+                "applicationStartupMeasured": false,
+            ]
+            if migrationSamples.count == 30 {
+                report["p95MigrationMilliseconds"] = p95(migrationSamples, "migrationMilliseconds")
+            }
+            if let failure { report["failure"] = failure }
+            try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])
+                .write(to: libraryReport, options: .atomic)
+        }
+        func exactTheme(_ actual: CustomTheme, _ expected: CustomTheme) -> Bool {
+            ThemeColorRole.allCases.count == 17 && actual.name == expected.name
+                && actual.controls == expected.controls
+                && ThemeColorRole.allCases.allSatisfy { actual[$0] == expected[$0] }
+        }
+        func payload(bytes: Int) throws -> Data {
+            let original = try changed.normalizedData()
+            try require(original.count <= bytes, "Fixed URI content fits the boundary fixture")
+            // JSON trailing whitespace changes transport size, not the theme's
+            // allowed fields, normalized content or content identity.
+            return original + Data(repeating: 32, count: bytes - original.count)
+        }
+        func themeURI(_ data: Data, bytes: Int? = nil) throws -> URL {
+            let encoded = data.base64EncodedString().replacingOccurrences(of: "+", with: "-")
+                .replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "=", with: "")
+            let digest = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+            let prefix = "wegit://theme/import?v=1&data="
+            let suffix = "&sha256=" + digest
+            let originalSize = prefix.utf8.count + encoded.utf8.count + suffix.utf8.count
+            let extra = (bytes ?? originalSize) - originalSize
+            try require(
+                extra >= 0 && extra % 2 == 0 && extra / 2 <= encoded.utf8.count,
+                "Exact URI boundary can be formed without adding fields")
+            // Percent-encoding legal base64url bytes pads the transport while
+            // URLComponents still decodes the same canonical payload.
+            let padded = encoded.utf8.enumerated().map { index, byte in
+                index < extra / 2 ? String(format: "%%%02X", byte) : String(UnicodeScalar(byte))
+            }.joined()
+            let url = URL(string: prefix + padded + suffix)!
+            try require(
+                url.absoluteString.utf8.count == bytes ?? originalSize,
+                "URI fixture has its exact declared transport size")
+            return url
+        }
+        do {
+            try savePerformance()
+            for count in [1, 10, 100] {
+                activeWorkload = "library"
+                activeCount = count
+                activeSamples = []
+                var library = CustomThemeLibrary()
+                library.entries = (0..<count).map { index in
+                    var value = theme
+                    value.name = "Theme \(index)"
+                    return CustomThemeEntry(theme: value)
+                }
+                library.activeThemeID = library.entries[0].id
+                library.selectedAppearance = "custom"
+                let data = try library.encoded()
+                for iteration in 0..<30 {
+                    libraryDefaults.set(data, forKey: CustomThemeLibrary.key)
+                    var start = clock.now
+                    let loaded = AppPreferences(defaults: libraryDefaults)
+                    let load = milliseconds(start.duration(to: clock.now))
+                    let expectedEntry = library.entries[iteration % count]
+                    start = clock.now
+                    try loaded.activateCustomTheme(expectedEntry.id)
+                    let activate = milliseconds(start.duration(to: clock.now))
+                    let valid =
+                        loaded.customThemes.map(\.id) == library.entries.map(\.id)
+                        && loaded.activeCustomThemeID == expectedEntry.id && loaded.appearance == "custom"
+                        && exactTheme(loaded.customTheme, expectedEntry.theme)
+                    activeSamples.append([
+                        "iteration": iteration + 1, "loadMilliseconds": load,
+                        "activateMilliseconds": activate,
+                        "selectedID": expectedEntry.id.uuidString, "identityAndColorsVerified": valid,
+                    ])
+                    try savePerformance()
+                    try require(valid, "Library sample preserves all IDs, selected theme and 17 colors")
+                }
+                let p95Load = p95(activeSamples, "loadMilliseconds")
+                let p95Activate = p95(activeSamples, "activateMilliseconds")
+                let passed = p95Load < 100 && p95Activate < 50
+                libraryWorkloads.append([
+                    "count": count, "samples": activeSamples, "p95Load": p95Load,
+                    "p95Activate": p95Activate, "passed": passed,
+                ])
+                try savePerformance()
+                try require(passed, "Library load/activation keeps the frozen 100/50 ms budgets")
+            }
+            try require(
+                ThemeImportPayload.maximumPayloadBytes == 8192
+                    && ThemeImportPayload.maximumURIBytes == 16384,
+                "URI limits retain the frozen 8/16 KiB contract")
+            let uriFixtures: [(name: String, data: Data, uriBytes: Int?, accepted: Bool)] = [
+                ("payload-limit", try payload(bytes: 8192), nil, true),
+                ("uri-limit", try payload(bytes: 8191), 16384, true),
+                ("payload-over-limit", try payload(bytes: 8193), nil, false),
+                ("uri-over-limit", try payload(bytes: 8192), 16385, false),
+            ]
+            for fixture in uriFixtures {
+                let url = try themeURI(fixture.data, bytes: fixture.uriBytes)
+                activeWorkload = fixture.name
+                activeCount = fixture.data.count
+                activeSamples = []
+                for iteration in 1...30 {
+                    let start = clock.now
+                    let result = Result { try ThemeImportPayload.parse(url) }
+                    let elapsed = milliseconds(start.duration(to: clock.now))
+                    let valid: Bool
+                    switch result {
+                    case .success(let value):
+                        valid =
+                            fixture.accepted && exactTheme(value.theme, changed)
+                            && value.id == changed.contentDigest
+                    case .failure(let error):
+                        valid = !fixture.accepted && error is ThemeImportPayload.Failure
+                    }
+                    activeSamples.append([
+                        "iteration": iteration, "parseMilliseconds": elapsed,
+                        "expectedOutcomeVerified": valid,
+                    ])
+                    try savePerformance()
+                    try require(
+                        valid, "URI sample preserves 17 colors/identity or rejects the exact oversized input")
+                }
+                let percentile = p95(activeSamples, "parseMilliseconds")
+                uriWorkloads.append([
+                    "name": fixture.name, "payloadBytes": fixture.data.count,
+                    "uriBytes": url.absoluteString.utf8.count, "expectedAccepted": fixture.accepted,
+                    "payloadSHA256": SHA256.hash(data: fixture.data).map { String(format: "%02x", $0) }
+                        .joined(),
+                    "samples": activeSamples, "p95ParseMilliseconds": percentile, "passed": percentile < 50,
+                ])
+                try savePerformance()
+                try require(percentile < 50, "URI parsing keeps the frozen 50 ms budget")
+            }
+            activeWorkload = "legacy-migration"
+            activeCount = 1
+            activeSamples = []
+            let legacyBytes = try changed.encoded()
+            for iteration in 1...30 {
+                let domain = suite + ".Migration.\(iteration)"
+                let privateDefaults = UserDefaults(suiteName: domain)!
+                defer { privateDefaults.removePersistentDomain(forName: domain) }
+                let appearance = ["custom", "system", "light", "dark"][(iteration - 1) % 4]
+                privateDefaults.set(legacyBytes, forKey: "customTheme")
+                privateDefaults.set(appearance, forKey: "appearance")
+                try require(
+                    privateDefaults.data(forKey: CustomThemeLibrary.key) == nil,
+                    "Migration sample starts without a versioned theme library")
+                let start = clock.now
+                let value = AppPreferences(defaults: privateDefaults)
+                let elapsed = milliseconds(start.duration(to: clock.now))
+                let entry = value.customThemes.first
+                let reopened = AppPreferences(defaults: privateDefaults)
+                let valid =
+                    value.customThemes.count == 1 && value.activeCustomThemeID == entry?.id
+                    && exactTheme(value.customTheme, changed) && value.appearance == appearance
+                    && value.themeLibrary.selectedAppearance == appearance
+                    && reopened.activeCustomThemeID == entry?.id && reopened.customThemes.count == 1
+                    && exactTheme(reopened.customTheme, changed) && reopened.appearance == appearance
+                    && privateDefaults.data(forKey: "customTheme") == legacyBytes
+                    && !value.themeLibraryLoadFailed && !value.customThemeLoadFailed
+                migrationSamples.append([
+                    "iteration": iteration, "migrationMilliseconds": elapsed, "appearance": appearance,
+                    "migratedID": entry?.id.uuidString ?? "", "identityAndColorsVerified": valid,
+                ])
+                try savePerformance()
+                try require(
+                    valid, "Legacy migration preserves 17 colors, original bytes, selection and stable ID")
+            }
+            try require(
+                p95(migrationSamples, "migrationMilliseconds") < 100,
+                "Legacy migration keeps the frozen 100 ms budget")
+            activeWorkload = "complete"
+            activeSamples = []
+            try savePerformance(passed: true)
+        } catch {
+            try savePerformance(failure: String(describing: error))
+            throw error
+        }
 
         // Exercise the same decoder, contrast checks and persistence used by the theme editor.
         let websiteThemes = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
