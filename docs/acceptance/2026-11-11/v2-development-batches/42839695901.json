@@ -1,0 +1,66 @@
+{
+  "run": 42839695901,
+  "sourceCommit": "cfbbf9e87823ccabf7a7d40a1518e05dd603eb7c",
+  "trustedMainSHA": "5c46c6348934e51691bd87f98bffff61769c1a74",
+  "artifactBytes": 137427198,
+  "artifactSHA256": "f0550151b7b05974f8765e9e121b7d5cf3875d74fb44e9d29791da87c2e5d555",
+  "artifactCRCEntries": 2300,
+  "verifiedBuildSourceFiles": 266,
+  "verifiedUISourceFiles": 36,
+  "selectedMethods": [
+    "WorkspaceDeliveryWorkflowTests/testShortcutChangeClearReopenAndRestoreUseNativeMenu",
+    "WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand",
+    "WorkspaceDeliveryWorkflowTests/testUnconfiguredUpdatesKeepDraftAndUseOneWindow",
+    "ResourceManagementWorkflowTests/testSubmoduleAddSourceChangeAndRemovalPreserveParentDraftAndChildData",
+    "ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles",
+    "WindowLifecycleTests/testSharedDraftMutationOwnershipAndTemplateSnapshot",
+    "WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen"
+  ],
+  "smoke": {
+    "totalTestCount": 1,
+    "passedTests": 1,
+    "failedTests": 0,
+    "skippedTests": 0
+  },
+  "batch": {
+    "totalTestCount": 7,
+    "passedTests": 3,
+    "failedTests": 4,
+    "skippedTests": 0
+  },
+  "outcome": "failed",
+  "failures": [
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 1,
+      "testIdentifierString": "ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/ResourceManagementWorkflowTests/testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles",
+      "testName": "testLFSRuleTrackCancelAndUntrackPreserveIndexRawAttributesAndFiles()"
+    },
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 3,
+      "testIdentifierString": "WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WindowLifecycleTests/testSelectedCommitAndDraftRestoreAfterApplicationReopen",
+      "testName": "testSelectedCommitAndDraftRestoreAfterApplicationReopen()"
+    },
+    {
+      "failureText": "Failed to click \"\u4f7f\u7528\u6a21\u677f\u2026\" MenuItem: No matches found for Descendants matching type MenuItem from input {(\n    Application, pid: 23789, title: 'WeGit'\n)}",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 4,
+      "testIdentifierString": "WindowLifecycleTests/testSharedDraftMutationOwnershipAndTemplateSnapshot()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WindowLifecycleTests/testSharedDraftMutationOwnershipAndTemplateSnapshot",
+      "testName": "testSharedDraftMutationOwnershipAndTemplateSnapshot()"
+    },
+    {
+      "failureText": "XCTAssertTrue failed",
+      "targetName": "WeGitUITests",
+      "testIdentifier": 7,
+      "testIdentifierString": "WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand()",
+      "testIdentifierURL": "test://com.apple.xcode/WeGit/WeGitUITests/WorkspaceDeliveryWorkflowTests/testUnifiedSearchOpensExactPathTagStashAndCommand",
+      "testName": "testUnifiedSearchOpensExactPathTagStashAndCommand()"
+    }
+  ]
+}

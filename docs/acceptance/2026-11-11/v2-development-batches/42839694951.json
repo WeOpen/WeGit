@@ -1,0 +1,129 @@
+{
+  "run": 42839694951,
+  "candidate": "cfbbf9e87823ccabf7a7d40a1518e05dd603eb7c",
+  "suites": {
+    "core": {
+      "status": "success",
+      "actualSourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+      "verifiedInputsAgainstCandidate": 211,
+      "execution": {
+        "kind": "executed",
+        "exitCode": 0,
+        "seconds": 1132.887,
+        "sourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+        "runId": "42839694951",
+        "log": ".build/ci/receipts/core.log",
+        "logSHA256": "0e60cfba4f50fa6f6a7a9cbd1e79bc462c7510c3b4f088e9fce22dff0e94f3c0"
+      }
+    },
+    "signing": {
+      "status": "success",
+      "actualSourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+      "verifiedInputsAgainstCandidate": 148,
+      "execution": {
+        "kind": "executed",
+        "exitCode": 0,
+        "seconds": 14.334,
+        "sourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+        "runId": "42839694951",
+        "log": ".build/ci/receipts/signing.log",
+        "logSHA256": "31abe392a2f0e23cab18ddb9cacf74fccf7bd05a7325565313bb2526d699a7a9"
+      }
+    },
+    "behavior": {
+      "status": "failure",
+      "actualSourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+      "verifiedInputsAgainstCandidate": 413,
+      "execution": {
+        "kind": "executed",
+        "exitCode": 1,
+        "seconds": 238.825,
+        "sourceCommit": "cb1e36b2a456c4211b580832faf7690e392396cc",
+        "runId": "42839694951",
+        "log": ".build/ci/receipts/behavior.log",
+        "logSHA256": "f274b6f714b6fc7a275ec9d9aa739218956331838c2b26ec11f419232b75c9b5"
+      }
+    }
+  },
+  "jobs": [
+    {
+      "name": "Change scope",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Site checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Repository validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "Documentation checks",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Native frontend build",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Core test compilation",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Native macOS",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "name": "Repository policy",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ],
+  "failure": "verify-application-migration.py core_inputs requires rg, absent from hosted runner",
+  "unexecuted": [
+    "application migration controls",
+    "remaining feature behavior",
+    "performance",
+    "application/UI source compilation phase",
+    "package"
+  ],
+  "coreExecuted": {
+    "testsEach": 407,
+    "suitesEach": 70,
+    "appleSeconds": 470.501,
+    "minimumSeconds": 241.746,
+    "homebrewSeconds": 268.871,
+    "allThreePassed": true
+  },
+  "signingExecuted": {
+    "appleChecks": 9,
+    "homebrewChecks": 9,
+    "bothPassed": true,
+    "isolatedFixturesRemoved": true,
+    "privateServicesStopped": true
+  },
+  "partialBehaviorControls": {
+    "production-update-checks": {
+      "artifactPath": "native/.build/production-update-checks-ifdoxV/result.json",
+      "sha256": "5697ed39aba4b4c3a3a393c7a4c56ec62c7bf13a5aca00842e14c2ec28d67b64"
+    },
+    "update-stage": {
+      "artifactPath": "native/.build/update-stage-eoqdpmjp/result.json",
+      "sha256": "1de1583ccc4c9c92085424c3a264d54eba264b3b4873921fd2d99d0b4b5ccdc6"
+    },
+    "theme-import-queue-checks": {
+      "artifactPath": "native/.build/theme-import-queue-checks-QsqHst/result.json",
+      "sha256": "60063452dcdda00cecacab478128b510cb856084471fbac851fced66692c494a",
+      "verifiedInputs": 268,
+      "passedChecks": 20
+    }
+  }
+}
