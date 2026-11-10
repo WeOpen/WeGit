@@ -7,6 +7,7 @@
 - 新恢复诊断先保存可信main检查器，再固定PR132/028b627，对97个Core/AskPass源资源blob以固定无依赖Package隔离编译；本机仅实际编译通过，原HEAD/index未变。托管诊断42826412388实际成功，普通/大型各30样本通过原预算；大型p95预览1017.79ms、Reset1492.51ms、恢复预览1119.77ms、恢复1341.04ms、取消1.15ms，RSS24,313,856bytes。原ZIP2,217,108bytes/18CRC/SHA698c4921…和97源码blob/检查器/原数组独立核验通过；永久记录见docs/acceptance/2026-11-10/recovery-diagnostic。相同产品源本次未复现原超标，不将原失败改绿，也不因未复现推断根因。并发命令按区间并集计算墙钟，不能直接相加或把进程外耗时认定为某个I/O函数。新诊断只做定位，不生成canonical验收。
 - 阅读检查器补齐提交/路径/分支/Tag/Stash/Worktree/命令七类真实查询；夹具使用标准双父Stash，最多200提交/200引用的精确OID对照及路径编号核对，不加载10万项oracle污染RSS。只有前缀/非空断言不能声称身份通过；首批/后页数量、去重、取消及替换查询保持原预算，所有新夹具/验证器进入性能输入回执，缺入口即失败。
 - 最终独立Release编译及普通/大型各2小样本控制在`.build/reading-performance-mmybpx`通过，7项阅读证据工具与18项批次工具通过，当前M4完整184项工具/actionlint/策略通过；formalPassed=false，未执行正式规模或XCTest。故意更改changedPaths的真实失败控制在`.build/reading-performance-failure-control-dq6_vpyl`退出1，保留iteration1/比较首批/75.674ms的partialMeasurements，无完整样本且不报绿。实际runtime.log和源/夹具/二进制/资源/工具链SHA全部归档接线。
+- 本轮工具收尾提交7d02564并将可信main正常合入M4；只发生HANDOFF历史追加冲突，双方记录已保留。合入后146项阅读输入及制品摘要再次逐项核对通过，产品/测试/工程输入仍与903407e相同，不重跑未变的编译/性能。15条本地文档链接及新增诊断JSON的原secret策略通过，用户主PBX仍为1343632f188d600b0111634b939732f3ae618021e9192e4c43a73e3fe52c66f9。下一步按稳定批次继续正式后端/原生/阅读性能与M5，生产公钥/feed仍按既有约定留到最终门禁提醒。
 
 ## 2026-11-10 v2 可信批次与恢复性能诊断入口
 

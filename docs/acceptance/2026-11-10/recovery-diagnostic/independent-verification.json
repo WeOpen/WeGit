@@ -1,0 +1,583 @@
+{
+  "run": 42826412388,
+  "sourceCommit": "028b627a6950afe370e1eb14f018818087b25738",
+  "trustedMainSHA": "5c46c6348934e51691bd87f98bffff61769c1a74",
+  "zipBytes": 2217108,
+  "zipSHA256": "698c4921357dea0c15787aa1dcf5e07bb126b9ce2d9d2d2662d1e6e97380fbcb",
+  "zipCRCEntries": 18,
+  "verifiedSourceFiles": 97,
+  "toolchain": {
+    "appleGit": "git version 2.54.0 (Apple Git-157)",
+    "architecture": "arm64",
+    "image": "20261104.0337.1",
+    "logicalCPUs": "3",
+    "memoryBytes": "7516192768",
+    "os": "27.0.1",
+    "physicalCPUs": "3",
+    "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+    "xcode": "Xcode 27.1\nBuild version 27A9275"
+  },
+  "diagnosticOnly": true,
+  "canonicalValidation": false,
+  "outcome": "completedDiagnostic",
+  "failure": null,
+  "workloads": {
+    "ordinary": {
+      "validSamples": 30,
+      "p95": {
+        "previewMilliseconds": 317.585209,
+        "resetMilliseconds": 515.28775,
+        "restorePreviewMilliseconds": 173.747584,
+        "restoreMilliseconds": 364.78725,
+        "reflogMilliseconds": 64.510584,
+        "cancelMilliseconds": 1.430209,
+        "residentBytes": 16760832
+      },
+      "measurementPassed": true
+    },
+    "large": {
+      "validSamples": 30,
+      "p95": {
+        "previewMilliseconds": 1017.793083,
+        "resetMilliseconds": 1492.506667,
+        "restorePreviewMilliseconds": 1119.768917,
+        "restoreMilliseconds": 1341.039625,
+        "reflogMilliseconds": 55.978667,
+        "cancelMilliseconds": 1.147792,
+        "residentBytes": 24313856
+      },
+      "measurementPassed": true
+    }
+  },
+  "slowestResetSamples": {
+    "ordinary": [
+      {
+        "iteration": 13,
+        "phases": {
+          "preview": {
+            "callMilliseconds": 245.077042,
+            "processWallMilliseconds": 237.167879,
+            "outsideProcessMilliseconds": 7.909163,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "ls-files": 13.343667,
+              "rev-parse": 58.864293,
+              "cat-file": 34.043959,
+              "diff": 16.858542,
+              "ls-tree": 17.563292,
+              "status": 79.060292,
+              "other": 14.996167,
+              "symbolic-ref": 17.205792
+            }
+          },
+          "reset": {
+            "callMilliseconds": 587.615792,
+            "processWallMilliseconds": 540.346085,
+            "outsideProcessMilliseconds": 47.269707,
+            "commandCount": 22,
+            "commandTotalMilliseconds": {
+              "rev-parse": 217.136416,
+              "symbolic-ref": 99.59571,
+              "init": 26.556208,
+              "write-tree": 20.795166,
+              "ls-tree": 23.910542,
+              "cat-file": 20.818625,
+              "update-ref": 29.468667,
+              "reset": 94.935334,
+              "diff-index": 23.578875,
+              "ls-files": 22.362167,
+              "diff": 89.222709
+            }
+          },
+          "restorePreview": {
+            "callMilliseconds": 138.070875,
+            "processWallMilliseconds": 134.720417,
+            "outsideProcessMilliseconds": 3.350458,
+            "commandCount": 8,
+            "commandTotalMilliseconds": {
+              "ls-files": 26.680625,
+              "symbolic-ref": 46.031125,
+              "rev-parse": 88.685541,
+              "init": 50.533917,
+              "write-tree": 21.940125
+            }
+          },
+          "restore": {
+            "callMilliseconds": 361.961875,
+            "processWallMilliseconds": 245.829041,
+            "outsideProcessMilliseconds": 116.132834,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "rev-parse": 96.600542,
+              "symbolic-ref": 22.653208,
+              "init": 28.845917,
+              "write-tree": 62.1795,
+              "ls-tree": 17.126541,
+              "cat-file": 16.493167,
+              "update-ref": 18.452291
+            }
+          },
+          "reflog": {
+            "callMilliseconds": 34.916333,
+            "processWallMilliseconds": 34.337875,
+            "outsideProcessMilliseconds": 0.578458,
+            "commandCount": 2,
+            "commandTotalMilliseconds": {
+              "reflog": 17.232583,
+              "cat-file": 17.105292
+            }
+          },
+          "cancel": {
+            "callMilliseconds": 25.766417,
+            "processWallMilliseconds": 24.857625,
+            "outsideProcessMilliseconds": 0.908792,
+            "commandCount": 1,
+            "commandTotalMilliseconds": {
+              "reflog": 24.857625
+            }
+          }
+        }
+      },
+      {
+        "iteration": 15,
+        "phases": {
+          "preview": {
+            "callMilliseconds": 252.399042,
+            "processWallMilliseconds": 243.027251,
+            "outsideProcessMilliseconds": 9.371791,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "ls-files": 13.54175,
+              "rev-parse": 68.127001,
+              "cat-file": 16.215459,
+              "diff": 17.312166,
+              "ls-tree": 16.397542,
+              "status": 86.01175,
+              "other": 20.404792,
+              "symbolic-ref": 20.186333
+            }
+          },
+          "reset": {
+            "callMilliseconds": 515.294125,
+            "processWallMilliseconds": 470.792626,
+            "outsideProcessMilliseconds": 44.501499,
+            "commandCount": 22,
+            "commandTotalMilliseconds": {
+              "rev-parse": 194.700209,
+              "symbolic-ref": 92.278166,
+              "init": 27.465167,
+              "write-tree": 47.548083,
+              "ls-tree": 23.377583,
+              "cat-file": 17.908958,
+              "update-ref": 15.962584,
+              "reset": 68.108042,
+              "diff-index": 22.045,
+              "ls-files": 24.417084,
+              "diff": 67.069958
+            }
+          },
+          "restorePreview": {
+            "callMilliseconds": 173.666917,
+            "processWallMilliseconds": 120.836916,
+            "outsideProcessMilliseconds": 52.830001,
+            "commandCount": 8,
+            "commandTotalMilliseconds": {
+              "ls-files": 32.118375,
+              "symbolic-ref": 58.056083,
+              "rev-parse": 98.519041,
+              "init": 27.171667,
+              "write-tree": 29.162833
+            }
+          },
+          "restore": {
+            "callMilliseconds": 346.982833,
+            "processWallMilliseconds": 228.513751,
+            "outsideProcessMilliseconds": 118.469082,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "rev-parse": 79.792417,
+              "symbolic-ref": 19.706125,
+              "init": 18.607333,
+              "write-tree": 60.041334,
+              "ls-tree": 26.115584,
+              "cat-file": 23.237958,
+              "update-ref": 20.610125
+            }
+          },
+          "reflog": {
+            "callMilliseconds": 39.921083,
+            "processWallMilliseconds": 39.337874,
+            "outsideProcessMilliseconds": 0.583209,
+            "commandCount": 2,
+            "commandTotalMilliseconds": {
+              "reflog": 20.631166,
+              "cat-file": 18.706708
+            }
+          },
+          "cancel": {
+            "callMilliseconds": 27.996625,
+            "processWallMilliseconds": 27.233791,
+            "outsideProcessMilliseconds": 0.762834,
+            "commandCount": 1,
+            "commandTotalMilliseconds": {
+              "reflog": 27.233791
+            }
+          }
+        }
+      },
+      {
+        "iteration": 16,
+        "phases": {
+          "preview": {
+            "callMilliseconds": 286.467,
+            "processWallMilliseconds": 270.022167,
+            "outsideProcessMilliseconds": 16.444833,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "ls-files": 19.896375,
+              "rev-parse": 80.03775,
+              "cat-file": 23.214417,
+              "diff": 15.04425,
+              "ls-tree": 18.97075,
+              "status": 91.659,
+              "other": 17.357334,
+              "symbolic-ref": 21.440708
+            }
+          },
+          "reset": {
+            "callMilliseconds": 494.135292,
+            "processWallMilliseconds": 463.311751,
+            "outsideProcessMilliseconds": 30.823541,
+            "commandCount": 22,
+            "commandTotalMilliseconds": {
+              "rev-parse": 169.966792,
+              "symbolic-ref": 82.862708,
+              "init": 23.015584,
+              "write-tree": 53.78025,
+              "ls-tree": 24.88625,
+              "cat-file": 19.781833,
+              "update-ref": 24.356375,
+              "reset": 62.66675,
+              "diff-index": 22.917625,
+              "ls-files": 23.118916,
+              "diff": 77.267
+            }
+          },
+          "restorePreview": {
+            "callMilliseconds": 134.630083,
+            "processWallMilliseconds": 132.082458,
+            "outsideProcessMilliseconds": 2.547625,
+            "commandCount": 8,
+            "commandTotalMilliseconds": {
+              "ls-files": 32.746291,
+              "rev-parse": 88.03675,
+              "symbolic-ref": 57.025833,
+              "init": 39.557917,
+              "write-tree": 37.177583
+            }
+          },
+          "restore": {
+            "callMilliseconds": 278.453541,
+            "processWallMilliseconds": 175.860209,
+            "outsideProcessMilliseconds": 102.593332,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "rev-parse": 78.835833,
+              "symbolic-ref": 18.099333,
+              "init": 27.219042,
+              "write-tree": 14.952375,
+              "ls-tree": 14.704875,
+              "cat-file": 19.594834,
+              "update-ref": 19.5345
+            }
+          },
+          "reflog": {
+            "callMilliseconds": 29.121375,
+            "processWallMilliseconds": 28.612042,
+            "outsideProcessMilliseconds": 0.509333,
+            "commandCount": 2,
+            "commandTotalMilliseconds": {
+              "reflog": 14.677959,
+              "cat-file": 13.934083
+            }
+          },
+          "cancel": {
+            "callMilliseconds": 26.3165,
+            "processWallMilliseconds": 25.626333,
+            "outsideProcessMilliseconds": 0.690167,
+            "commandCount": 1,
+            "commandTotalMilliseconds": {
+              "reflog": 25.626333
+            }
+          }
+        }
+      }
+    ],
+    "large": [
+      {
+        "iteration": 19,
+        "phases": {
+          "preview": {
+            "callMilliseconds": 840.048042,
+            "processWallMilliseconds": 532.470084,
+            "outsideProcessMilliseconds": 307.577958,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "ls-files": 15.7335,
+              "rev-parse": 59.855334,
+              "cat-file": 16.342792,
+              "diff": 16.502583,
+              "ls-tree": 17.508042,
+              "status": 393.619833,
+              "other": 12.877625,
+              "symbolic-ref": 11.924667
+            }
+          },
+          "reset": {
+            "callMilliseconds": 1642.908625,
+            "processWallMilliseconds": 1408.603375,
+            "outsideProcessMilliseconds": 234.30525,
+            "commandCount": 24,
+            "commandTotalMilliseconds": {
+              "rev-parse": 197.438707,
+              "config": 17.948459,
+              "symbolic-ref": 113.506417,
+              "init": 88.876917,
+              "write-tree": 60.46,
+              "ls-tree": 16.41175,
+              "cat-file": 42.080334,
+              "update-ref": 41.598333,
+              "reset": 527.688875,
+              "ls-files": 51.866792,
+              "diff-index": 49.314416,
+              "diff": 766.336293
+            }
+          },
+          "restorePreview": {
+            "callMilliseconds": 925.457416,
+            "processWallMilliseconds": 586.426499,
+            "outsideProcessMilliseconds": 339.030917,
+            "commandCount": 8,
+            "commandTotalMilliseconds": {
+              "ls-files": 23.776875,
+              "rev-parse": 92.345082,
+              "symbolic-ref": 59.114709,
+              "init": 471.963791,
+              "write-tree": 56.001833
+            }
+          },
+          "restore": {
+            "callMilliseconds": 1489.969167,
+            "processWallMilliseconds": 164.237834,
+            "outsideProcessMilliseconds": 1325.731333,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "rev-parse": 94.0625,
+              "symbolic-ref": 14.304209,
+              "init": 14.362292,
+              "write-tree": 13.813708,
+              "ls-tree": 13.989958,
+              "cat-file": 12.914292,
+              "update-ref": 15.072667
+            }
+          },
+          "reflog": {
+            "callMilliseconds": 26.771458,
+            "processWallMilliseconds": 26.28725,
+            "outsideProcessMilliseconds": 0.484208,
+            "commandCount": 2,
+            "commandTotalMilliseconds": {
+              "reflog": 12.828417,
+              "cat-file": 13.458833
+            }
+          },
+          "cancel": {
+            "callMilliseconds": 28.484667,
+            "processWallMilliseconds": 27.976291,
+            "outsideProcessMilliseconds": 0.508376,
+            "commandCount": 1,
+            "commandTotalMilliseconds": {
+              "reflog": 27.976291
+            }
+          }
+        }
+      },
+      {
+        "iteration": 3,
+        "phases": {
+          "preview": {
+            "callMilliseconds": 797.945208,
+            "processWallMilliseconds": 523.309376,
+            "outsideProcessMilliseconds": 274.635832,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "ls-files": 17.222292,
+              "rev-parse": 52.202751,
+              "cat-file": 13.464709,
+              "diff": 14.12275,
+              "ls-tree": 13.652583,
+              "status": 397.874417,
+              "other": 14.742291,
+              "symbolic-ref": 12.367917
+            }
+          },
+          "reset": {
+            "callMilliseconds": 1492.509875,
+            "processWallMilliseconds": 1212.524582,
+            "outsideProcessMilliseconds": 279.985293,
+            "commandCount": 24,
+            "commandTotalMilliseconds": {
+              "config": 12.694375,
+              "rev-parse": 170.451164,
+              "symbolic-ref": 83.601999,
+              "init": 44.083,
+              "write-tree": 24.515584,
+              "ls-tree": 26.934375,
+              "cat-file": 12.529042,
+              "update-ref": 19.754958,
+              "reset": 391.975167,
+              "diff-index": 23.121292,
+              "ls-files": 25.229625,
+              "diff": 1027.031958
+            }
+          },
+          "restorePreview": {
+            "callMilliseconds": 1350.225167,
+            "processWallMilliseconds": 989.766666,
+            "outsideProcessMilliseconds": 360.458501,
+            "commandCount": 8,
+            "commandTotalMilliseconds": {
+              "ls-files": 36.213708,
+              "rev-parse": 127.096,
+              "symbolic-ref": 76.281042,
+              "init": 114.521708,
+              "write-tree": 783.124542
+            }
+          },
+          "restore": {
+            "callMilliseconds": 1341.043458,
+            "processWallMilliseconds": 219.305209,
+            "outsideProcessMilliseconds": 1121.738249,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "rev-parse": 128.089625,
+              "symbolic-ref": 30.727041,
+              "init": 20.052583,
+              "write-tree": 21.149917,
+              "ls-tree": 16.494459,
+              "cat-file": 15.662125,
+              "update-ref": 17.756875
+            }
+          },
+          "reflog": {
+            "callMilliseconds": 29.005416,
+            "processWallMilliseconds": 28.402916,
+            "outsideProcessMilliseconds": 0.6025,
+            "commandCount": 2,
+            "commandTotalMilliseconds": {
+              "reflog": 15.478708,
+              "cat-file": 12.924208
+            }
+          },
+          "cancel": {
+            "callMilliseconds": 11.757833,
+            "processWallMilliseconds": 10.607708,
+            "outsideProcessMilliseconds": 1.150125,
+            "commandCount": 1,
+            "commandTotalMilliseconds": {
+              "reflog": 10.607708
+            }
+          }
+        }
+      },
+      {
+        "iteration": 28,
+        "phases": {
+          "preview": {
+            "callMilliseconds": 540.586333,
+            "processWallMilliseconds": 496.930749,
+            "outsideProcessMilliseconds": 43.655584,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "ls-files": 16.164541,
+              "rev-parse": 43.834667,
+              "cat-file": 10.449458,
+              "diff": 12.452333,
+              "ls-tree": 11.601792,
+              "status": 387.929917,
+              "other": 14.478333,
+              "symbolic-ref": 11.624667
+            }
+          },
+          "reset": {
+            "callMilliseconds": 1461.073209,
+            "processWallMilliseconds": 1249.133081,
+            "outsideProcessMilliseconds": 211.940128,
+            "commandCount": 24,
+            "commandTotalMilliseconds": {
+              "config": 12.66075,
+              "rev-parse": 171.790833,
+              "symbolic-ref": 102.367708,
+              "init": 17.423375,
+              "write-tree": 20.538458,
+              "ls-tree": 16.092333,
+              "cat-file": 14.664208,
+              "update-ref": 14.961667,
+              "reset": 458.995416,
+              "diff-index": 33.354625,
+              "ls-files": 31.717125,
+              "diff": 1030.313042
+            }
+          },
+          "restorePreview": {
+            "callMilliseconds": 1043.107375,
+            "processWallMilliseconds": 211.138709,
+            "outsideProcessMilliseconds": 831.968666,
+            "commandCount": 8,
+            "commandTotalMilliseconds": {
+              "ls-files": 53.62575,
+              "symbolic-ref": 75.588584,
+              "rev-parse": 153.116042,
+              "init": 73.63075,
+              "write-tree": 40.923292
+            }
+          },
+          "restore": {
+            "callMilliseconds": 912.558583,
+            "processWallMilliseconds": 164.398125,
+            "outsideProcessMilliseconds": 748.160458,
+            "commandCount": 11,
+            "commandTotalMilliseconds": {
+              "rev-parse": 90.830834,
+              "symbolic-ref": 18.337792,
+              "init": 15.920625,
+              "write-tree": 15.313333,
+              "ls-tree": 14.700333,
+              "cat-file": 13.924625,
+              "update-ref": 13.708375
+            }
+          },
+          "reflog": {
+            "callMilliseconds": 29.204334,
+            "processWallMilliseconds": 28.6625,
+            "outsideProcessMilliseconds": 0.541834,
+            "commandCount": 2,
+            "commandTotalMilliseconds": {
+              "reflog": 15.227875,
+              "cat-file": 13.434625
+            }
+          },
+          "cancel": {
+            "callMilliseconds": 46.276792,
+            "processWallMilliseconds": 45.695292,
+            "outsideProcessMilliseconds": 0.5815,
+            "commandCount": 1,
+            "commandTotalMilliseconds": {
+              "reflog": 45.695292
+            }
+          }
+        }
+      }
+    ]
+  }
+}
