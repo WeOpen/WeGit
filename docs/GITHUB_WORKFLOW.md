@@ -10,6 +10,14 @@ Core/签名/功能/性能/应用分别计算不可变输入与工具链，只从
 
 以下记录保留原日期。分支/Issue可以细分进度，验收单位以本版业务批次为准；最新契约见[V2_0_CONTRACTS.md](V2_0_CONTRACTS.md)。
 
+### 恢复性能定位入口（2026-11-10）
+
+`Recovery performance diagnostic` 仅从 main 手动运行。`candidate_pr` 选择开放、同仓库且目标为 main 的 PR，`candidate_sha` 必须是其完整固定 head；空 PR 只选择本次 main 源码。入口保存可信 main 检查器后再签出候选，以逐 Git blob 提取的 Core/AskPass 和固定 Package 做私有 Release 编译，不执行候选 manifest。尚未含恢复 API 的 main 需选择恢复候选，不能作为测量目标。
+
+诊断保留普通/大型各30个原样本及原预算，额外输出各调用阶段、命令类别/退出状态与单调时序。命令重叠时按区间并集计算墙钟；`outsideProcessMilliseconds` 是调用期间未被命令覆盖的时间，不能直接视作某个 I/O 函数耗时。超时仅清理此运行拥有的进程 session。`recovery-performance-diagnostic-<SHA>` artifact 保存固定源码/工具链/编译输入、原数组、时序、独立重算与失败日志；失败继续返回失败状态。
+
+该入口不执行 XCTest、UI smoke 或完整后端回归，不生成可复用的 canonical 验收回执。它用于已有性能失败的局部定位；产品修补仍按稳定开发批次验收。原生批次的注册表同样只从可信 main 获取，并在编译前、执行前分别对候选的实际 UI 测试源码核对类/方法与唯一性。
+
 更新：2026-10-16。适用仓库：[WeOpen/WeGit](https://github.com/WeOpen/WeGit)。仓库已获用户授权设为 public；项目网站采用 [GitHub Pages](https://weopen.github.io/WeGit/)。本方案不需要 Apple Developer Program 账号，不上架商店、不用 TestFlight。
 
 2026-10-19 v1.0.0 单次例外：维护者明确授权暂缓辅助功能并直接发布。本次在受保护 PR、同提交 main CI 和正式制品校验后人工创建并发布草稿；不声称 Full acceptance 通过，也不改变下述默认稳定版 workflow。范围、未完成项与制品来源见 [1.0.0 版本说明](releases/v1.0.0.md)。

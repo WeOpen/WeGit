@@ -4,9 +4,17 @@
 
 - 当前会话接续 `01a1bd60-9960-7961-a04d-c381f6638b53`，继续M4产品树；主检出的PR133和用户PBX未移动。独立工具PR137已正常合入main `5c46c6348934e51691bd87f98bffff61769c1a74`，PR CI42826080946与main CI42826338680真实通过；144项工具通过，分流仅policy，Core/GPG/后端性能/前端编译/包均未执行。main整棵tree等于已验证工具候选07ea0dc。
 - 老scene-controls.yml按ui_probe.py路径无条件启动场景XCTest，忽略当前工具批次分流；本次非必需run42826081045已明确取消并保留cancelled，不作通过。未删必需检查或扩大本机测试。正式新原生批次现在可从可信main选择，48条候选方法预检通过不等于XCTest通过。
-- 新恢复诊断先保存可信main检查器，再固定PR132/028b627，对97个Core/AskPass源资源blob以固定无依赖Package隔离编译；本机仅实际编译通过，原HEAD/index未变。托管诊断42826412388已启动，保留原30+30样本、2000ms/500ms和RSS门槛。并发命令按区间并集计算墙钟，不能直接相加或把进程外耗时认定为某个I/O函数。新诊断只做定位，不生成canonical验收。
+- 新恢复诊断先保存可信main检查器，再固定PR132/028b627，对97个Core/AskPass源资源blob以固定无依赖Package隔离编译；本机仅实际编译通过，原HEAD/index未变。托管诊断42826412388实际成功，普通/大型各30样本通过原预算；大型p95预览1017.79ms、Reset1492.51ms、恢复预览1119.77ms、恢复1341.04ms、取消1.15ms，RSS24,313,856bytes。原ZIP2,217,108bytes/18CRC/SHA698c4921…和97源码blob/检查器/原数组独立核验通过；永久记录见docs/acceptance/2026-11-10/recovery-diagnostic。相同产品源本次未复现原超标，不将原失败改绿，也不因未复现推断根因。并发命令按区间并集计算墙钟，不能直接相加或把进程外耗时认定为某个I/O函数。新诊断只做定位，不生成canonical验收。
 - 阅读检查器补齐提交/路径/分支/Tag/Stash/Worktree/命令七类真实查询；夹具使用标准双父Stash，最多200提交/200引用的精确OID对照及路径编号核对，不加载10万项oracle污染RSS。只有前缀/非空断言不能声称身份通过；首批/后页数量、去重、取消及替换查询保持原预算，所有新夹具/验证器进入性能输入回执，缺入口即失败。
-- 最终独立Release编译及普通/大型各2小样本控制在`.build/reading-performance-mmybpx`通过，7项阅读证据工具与18项批次工具通过；formalPassed=false，未执行正式规模或XCTest。故意更改changedPaths的真实失败控制在`.build/reading-performance-failure-control-dq6_vpyl`退出1，保留iteration1/比较首批/75.674ms的partialMeasurements，无完整样本且不报绿。实际runtime.log和源/夹具/二进制/资源/工具链SHA全部归档接线。
+- 最终独立Release编译及普通/大型各2小样本控制在`.build/reading-performance-mmybpx`通过，7项阅读证据工具与18项批次工具通过，当前M4完整184项工具/actionlint/策略通过；formalPassed=false，未执行正式规模或XCTest。故意更改changedPaths的真实失败控制在`.build/reading-performance-failure-control-dq6_vpyl`退出1，保留iteration1/比较首批/75.674ms的partialMeasurements，无完整样本且不报绿。实际runtime.log和源/夹具/二进制/资源/工具链SHA全部归档接线。
+
+## 2026-11-10 v2 可信批次与恢复性能诊断入口
+
+- 接续聊天 `01a1bd60-9960-7961-a04d-c381f6638b53`。产品主体在 `v2-m1-validation-fix/WeGit` 的 M4 分支 `903407e`，主检出仍为主题/官网 PR133 并保留用户 PBX 差异；不能按主检出旧进度重新实施 M2～M4。本工具批次在独立 `v2-validation-entry/WeGit`，只集成可信入口和诊断，不挪动产品候选。
+- 原生 workflow 选项与可信 `ui_batches.json` 必须一致；新增方法存在于候选而非旧 main，因此编译前与执行前都验证候选的实际类/方法/唯一性，仍要求先 1/1 smoke 再运行完整明确集合，失败/跳过/数量不符均阻断。当前 M4 的36份UI源可解析全部9批次/48条选择，这只是预检，不是执行通过。
+- 独立恢复诊断从可信 main 固定 Python/Swift 检查器，再解析开放同仓库 PR 与明确 SHA，重复核对 head。逐 blob 提取 Core/AskPass，使用固定无依赖 Package 和私有编译缓存；候选 manifest 不执行。首次需传 PR132 与 `028b627a6950afe370e1eb14f018818087b25738`，旧 main 没有恢复 API，不能用空候选代替。
+- 普通/大型各30样本及原2000ms/500ms/内存预算保持，记录最多6阶段/256命令时序。并发命令墙钟必须取区间并集；相加会重复计算并产生负的进程外耗时。阶段重叠/事件截断/缺命令/非有限值/规模变化拒绝。失败阶段与源/编译/实际进程组清理记录保留，诊断永不生成 canonical 验收回执。
+- 本机144项CI工具、固定actionlint、策略、5项secret策略及220提交历史扫描通过。固定M1的97个源/资源blob使用原入口命令编译Release Core/AskPass与检查器，分别退出0；前后源码与原HEAD/index不变，完整私有回执在`.build/recovery-entry-compile-w8adzggw/compile-receipt.json`。独立审查另实核22项恢复与10项批次工具。没有本机XCTest或正式性能采样。M1现有托管失败仍为CI42243209630、大型Reset p95 2209.83ms超原2000ms；新入口须正常合入main后才能采样，诊断结果也不替代必需验收。
 
 ## 2026-11-07 当前会话接续与最新 M1 托管失败
 
