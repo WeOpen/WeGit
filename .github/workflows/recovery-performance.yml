@@ -1,0 +1,58 @@
+name: Recovery performance diagnostic
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_pr:
+        description: Optional open same-repository PR targeting main; empty selects this main source
+        type: string
+        default: ''
+      candidate_sha:
+        description: Required immutable SHA matching the selected PR head or this main source
+        type: string
+        required: true
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+concurrency:
+  group: recovery-performance-diagnostic
+  cancel-in-progress: false
+jobs:
+  diagnostic:
+    name: Recovery performance diagnostic only
+    if: github.ref == 'refs/heads/main'
+    runs-on: xcode-27
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Resolve the fixed source and preserve trusted main collector
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RECOVERY_CANDIDATE_PR: ${{ inputs.candidate_pr }}
+          RECOVERY_CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+        run: |
+          python3 scripts/ci/recovery_diagnostic.py resolve \
+            --candidate "$RECOVERY_CANDIDATE_PR" --expected-sha "$RECOVERY_CANDIDATE_SHA" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          persist-credentials: false
+      - name: Compile isolated Release Core and run the original thirty samples
+        run: python3 "$RUNNER_TEMP/wegit-recovery-diagnostic/trusted/recovery_diagnostic.py" run
+      - name: Retain diagnostic source, toolchain, timings and actual failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recovery-performance-diagnostic-${{ steps.source.outputs.sha }}
+          path: ${{ runner.temp }}/wegit-recovery-diagnostic/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

@@ -2,6 +2,7 @@
 """Read UI prerequisites and bound native XCTest runs without changing OS permissions."""
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -134,6 +135,118 @@ def verify_batch_summary(summary, methods):
     return result
 
 
+def verify_batch_sources(root, methods):
+    """Check selected methods in their actual candidate classes before building."""
+    import re
+    literal_pattern = re.compile(r'(#{0,})((?:""")|")')
+    token_pattern = re.compile(r"[A-Za-z_][A-Za-z0-9_]*|[{}:]")
+
+    def tokens(text):
+        def skip_comment(index):
+            if text.startswith("//", index):
+                end = text.find("\n", index + 2)
+                return len(text) if end < 0 else end + 1
+            depth = 1
+            index += 2
+            while index < len(text) and depth:
+                if text.startswith("/*", index):
+                    depth += 1
+                    index += 2
+                elif text.startswith("*/", index):
+                    depth -= 1
+                    index += 2
+                else:
+                    index += 1
+            if depth:
+                raise ValueError("Unterminated candidate Swift comment")
+            return index
+
+        def skip_interpolation(index):
+            depth = 1
+            while index < len(text) and depth:
+                if text.startswith(("//", "/*"), index):
+                    index = skip_comment(index)
+                elif literal_pattern.match(text, index):
+                    index = skip_literal(index)
+                else:
+                    if text[index] == "(":
+                        depth += 1
+                    elif text[index] == ")":
+                        depth -= 1
+                    index += 1
+            if depth:
+                raise ValueError("Unterminated candidate Swift interpolation")
+            return index
+
+        def skip_literal(index):
+            literal = literal_pattern.match(text, index)
+            hashes, quote = literal.groups()
+            index = literal.end()
+            interpolation = "\\" + hashes + "("
+            escape = "\\" + hashes
+            closing = quote + hashes
+            while index < len(text):
+                if text.startswith(interpolation, index):
+                    index = skip_interpolation(index + len(interpolation))
+                elif text.startswith(escape, index):
+                    index += len(escape) + 1
+                elif text.startswith(closing, index):
+                    return index + len(closing)
+                else:
+                    index += 1
+            raise ValueError("Unterminated candidate Swift string")
+
+        index = 0
+        while index < len(text):
+            if text.startswith(("//", "/*"), index):
+                index = skip_comment(index)
+            elif literal_pattern.match(text, index):
+                index = skip_literal(index)
+            else:
+                token = token_pattern.match(text, index)
+                if token:
+                    yield token.group()
+                    index = token.end()
+                else:
+                    index += 1
+
+    classes = {}
+    methods_by_class = {}
+    fingerprints = {}
+    source_directory = root / "WeGitUITests"
+    if source_directory.is_symlink() or not source_directory.is_dir():
+        raise ValueError("Candidate native source directory must be real")
+    for path in sorted(source_directory.glob("*.swift")):
+        if path.is_symlink() or not path.is_file():
+            raise ValueError("Candidate native source must be a regular file")
+        source = path.read_bytes()
+        sequence = list(tokens(source.decode("utf-8")))
+        stack = []
+        pending_class = None
+        for index, token in enumerate(sequence):
+            if token in {"class", "extension"} and index + 2 < len(sequence) and sequence[index + 2] in {":", "{"}:
+                pending_class = sequence[index + 1]
+                if token == "class":
+                    classes.setdefault(pending_class, []).append(path)
+            elif token == "{":
+                stack.append(pending_class)
+                pending_class = None
+            elif token == "}":
+                if not stack:
+                    raise ValueError("Unbalanced candidate native source")
+                stack.pop()
+            elif token == "func" and index + 1 < len(sequence) and stack and stack[-1]:
+                methods_by_class.setdefault((stack[-1], sequence[index + 1]), []).append(path)
+        if stack:
+            raise ValueError("Unbalanced candidate native source")
+        fingerprints[str(path.relative_to(root))] = hashlib.sha256(source).hexdigest()
+    for target in methods:
+        suite, method = target.split("/")
+        if len(classes.get(suite, [])) != 1 or len(methods_by_class.get((suite, method), [])) != 1:
+            raise ValueError("Candidate must define exactly one registered native class and method: " + target)
+    return fingerprints
+
+
 def result_summary(bundle, output):
     try:
         result = subprocess.run(["xcrun", "xcresulttool", "get", "test-results", "summary",
@@ -150,19 +263,29 @@ def result_summary(bundle, output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("environment", "smoke", "functional", "accessibility", "batch"), default="environment")
+    parser.add_argument("--mode", choices=("environment", "smoke", "functional", "accessibility", "batch", "batch-preflight"), default="environment")
     parser.add_argument("--focus", choices=("none", *FOCUSED_TESTS), default="none")
     parser.add_argument("--require-interactive", action="store_true")
     parser.add_argument("--output", type=Path, default=Path(".build/ci/ui"))
     parser.add_argument("--batch", default="")
     parser.add_argument("--registry", type=Path, default=Path(__file__).with_name("ui_batches.json"))
     args = parser.parse_args()
-    if bool(args.batch) != (args.mode == "batch"):
+    is_batch = args.mode in {"batch", "batch-preflight"}
+    if bool(args.batch) != is_batch:
         parser.error("A batch scope requires exactly one trusted registered batch")
-    methods = batch_methods(args.registry, args.batch) if args.mode == "batch" else []
+    methods = batch_methods(args.registry, args.batch) if is_batch else []
     if args.focus != "none" and args.mode != "smoke":
         parser.error("A focused diagnostic is only available after the minimal smoke, not in larger scopes.")
     args.output.mkdir(parents=True, exist_ok=True)
+    sources = verify_batch_sources(Path.cwd(), methods) if is_batch else {}
+    if args.mode == "batch-preflight":
+        (args.output / "batch-preflight.json").write_text(json.dumps({
+            "batch": args.batch, "selectedMethods": methods, "sourceFiles": sources,
+            "registrySHA256": hashlib.sha256(args.registry.read_bytes()).hexdigest(),
+            "xctestExecuted": False, "releaseReady": False,
+        }, indent=2) + "\n")
+        print("Complete trusted native batch found in the candidate source; no build or XCTest executed.")
+        return
     report = inspect_environment()
     report.update(mode=args.mode, focus=args.focus, batch=args.batch, selectedMethods=methods, tests=[], releaseReady=False)
 
