@@ -5,9 +5,10 @@ import Security
 
 final class UpdateTransactionLease: @unchecked Sendable {
     let descriptor: Int32
-    init(directory: URL) throws {
+    init(directory: URL, create: Bool = true, name: String = "lock") throws {
         descriptor = open(
-            directory.appending(path: "lock").path, O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, 0o600)
+            directory.appending(path: name).path, O_RDWR | (create ? O_CREAT : 0) | O_NOFOLLOW | O_CLOEXEC,
+            0o600)
         guard descriptor >= 0 else { throw UpdateFailure.changed }
         var info = stat()
         guard fstat(descriptor, &info) == 0, info.st_mode & UInt16(S_IFMT) == UInt16(S_IFREG),
@@ -94,18 +95,26 @@ public enum ProductionUpdateInstaller {
             else { throw UpdateFailure.configurationMissing }
             let originalResources = try fingerprint(resourcePath, cancellation)
             let required =
-                plan.requiredBytes + download.byteCount + helperBytes + originalResources.bytes + 1024 * 1024
+                plan.requiredBytes + download.byteCount + helperBytes + originalResources.bytes + 2 * 1024
+                * 1024
             try availableSpace(parent, required: required)
+            let retentionLease = try UpdateTransactionLease(directory: parent, name: ".WeGit-retention.lock")
+            defer { withExtendedLifetime(retentionLease) {} }
             try retainedCapacity(parent, proposed: required)
             let directory = parent.appending(path: ".WeGit-update-" + plan.id.uuidString)
             guard mkdir(directory.path, 0o700) == 0 else { throw UpdateFailure.changed }
             let lease = try UpdateTransactionLease(directory: directory)
-            _ = lease
+            defer { withExtendedLifetime(lease) {} }
             var random = [UInt8](repeating: 0, count: 32)
             guard SecRandomCopyBytes(kSecRandomDefault, random.count, &random) == errSecSuccess else {
                 throw UpdateFailure.changed
             }
             let token = random.map { String(format: "%02x", $0) }.joined()
+            var preparation = try preparationRecord(
+                plan: plan, source: source, scope: scope, directory: directory,
+                helperPath: helperPath, resourcePath: resourcePath, download: download,
+                cancellation: cancellation)
+            try savePreparation(preparation, directory: directory)
             let stage = directory.appending(path: "Replacement.app")
             try FileManager.default.copyItem(at: plan.replacementApp, to: stage)
             try cancellation.check()
@@ -201,10 +210,14 @@ public enum ProductionUpdateInstaller {
             guard data.count <= 512 * 1024 else { throw UpdateFailure.exceeded }
             let ticket = UpdateHandoffTicket(
                 id: plan.id, directory: directory.path, token: token, documentSHA256: hash(data))
+            let journalData = try encode(
+                UpdateInstallJournal(id: plan.id, handoffSHA256: ticket.documentSHA256))
+            preparation.files["request.json"] = .init(bytes: Int64(data.count), sha256: hash(data))
+            preparation.files["journal.json"] = .init(
+                bytes: Int64(journalData.count), sha256: hash(journalData))
+            try savePreparation(preparation, directory: directory)
             try UpdateInstaller.exclusiveWrite(data, to: directory.appending(path: "request.json"))
-            try UpdateInstaller.exclusiveWrite(
-                try encode(UpdateInstallJournal(id: plan.id, handoffSHA256: ticket.documentSHA256)),
-                to: request.journal)
+            try UpdateInstaller.exclusiveWrite(journalData, to: request.journal)
             try UpdateInstaller.exclusiveWrite(try encode(ticket), to: ticket.ticketURL)
             try UpdateInstaller.sync(directory)
             try UpdateInstaller.sync(parent)
@@ -686,7 +699,8 @@ public enum ProductionUpdateInstaller {
         try await SnapshotIO.run { cancellation in
             let checked = try loadTicket(at: ticket.ticketURL, token: ticket.token)
             guard checked == ticket else { throw UpdateFailure.changed }
-            let lease = try UpdateTransactionLease(directory: URL(fileURLWithPath: ticket.directory))
+            let lease = try UpdateTransactionLease(
+                directory: URL(fileURLWithPath: ticket.directory), create: false)
             let request = try readRequest(ticket)
             guard requiredScope == nil || request.scope == requiredScope else { throw UpdateFailure.changed }
             let installed = try InstalledUpdateVersion(
@@ -1025,43 +1039,15 @@ public enum ProductionUpdateInstaller {
         else { throw UpdateFailure.insufficientSpace }
     }
     private static func retainedCapacity(_ parent: URL, proposed: Int64) throws {
-        var count = 1
         var total = proposed
         guard proposed <= 1024 * 1024 * 1024 else { throw UpdateFailure.exceeded }
-        let directories = try FileManager.default.contentsOfDirectory(
-            at: parent, includingPropertiesForKeys: nil)
-        guard directories.count <= 10000 else { throw UpdateFailure.exceeded }
-        for directory in directories where directory.lastPathComponent.hasPrefix(".WeGit-update-") {
-            count += 1
-            guard count <= 20 else { throw UpdateFailure.exceeded }
-            let ticket = try loadTicket(at: directory.appending(path: "ticket.json"))
-            let request = try readRequest(ticket)
-            guard request.directory.path == directory.path else { throw UpdateFailure.changed }
-            let journal = try decode(
-                UpdateInstallJournal.self, data: UpdateInstaller.readSmall(request.journal, limit: 64 * 1024))
-            guard journal.format == 1, journal.id == ticket.id, journal.handoffSHA256 == ticket.documentSHA256
-            else {
-                throw UpdateFailure.changed
-            }
-            guard
-                let iterator = FileManager.default.enumerator(at: directory, includingPropertiesForKeys: nil)
-            else { throw UpdateFailure.changed }
-            var entries = 0
-            for case let file as URL in iterator {
-                entries += 1
-                guard entries <= 10000 else { throw UpdateFailure.exceeded }
-                var info = stat()
-                guard lstat(file.path, &info) == 0, info.st_uid == getuid() else {
-                    throw UpdateFailure.changed
-                }
-                let kind = info.st_mode & UInt16(S_IFMT)
-                if kind == UInt16(S_IFDIR) { continue }
-                guard kind == UInt16(S_IFREG), info.st_size >= 0, info.st_size <= 1024 * 1024 * 1024 - total
-                else {
-                    throw UpdateFailure.exceeded
-                }
-                total += info.st_size
-            }
+        let directories = try retentionDirectories(parent)
+        guard directories.count < 20 else { throw UpdateFailure.exceeded }
+        for directory in directories {
+            try recognizeRetention(directory)
+            let bytes = try retainedBytes(directory, cancellation: IOCancellation())
+            guard bytes <= 1024 * 1024 * 1024 - total else { throw UpdateFailure.exceeded }
+            total += bytes
         }
     }
     private static func copyFile(
@@ -1145,5 +1131,721 @@ public enum ProductionUpdateInstaller {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return try decoder.decode(type, from: data)
+    }
+}
+
+extension ProductionUpdateInstaller {
+    public static func inventory(
+        target: URL, trustedKeyRing: UpdateKeyRing, requiredScope: UpdateHandoffScope = .production
+    ) async throws -> UpdateRetentionInventory {
+        let target = try UpdateInstallationSandbox.canonical(target)
+        try validateScope(requiredScope, target: target)
+        let directories = try retentionDirectories(target.deletingLastPathComponent())
+        var entries: [UpdateRetentionEntry] = []
+        var total: Int64 = 0
+        var complete = true
+        for directory in directories {
+            try Task.checkCancellation()
+            let bytes: Int64?
+            do {
+                bytes = try await SnapshotIO.run { cancellation in
+                    try retainedBytes(directory, cancellation: cancellation)
+                }
+            } catch is CancellationError { throw CancellationError() } catch { bytes = nil }
+            if let bytes, total <= 1024 * 1024 * 1024 - bytes { total += bytes } else { complete = false }
+            do {
+                let inspected = try await inspectRetention(
+                    directory: directory, target: target, ring: trustedKeyRing, scope: requiredScope)
+                entries.append(inspected.entry)
+            } catch is CancellationError { throw CancellationError() } catch {
+                let busy = (error as? UpdateFailure) == .busy
+                if !busy { complete = false }
+                entries.append(
+                    UpdateRetentionEntry(
+                        id: retentionID(directory), directory: directory, created: nil, version: nil,
+                        build: nil,
+                        state: busy ? .busy : .unverified, bytes: bytes, canClean: false,
+                        detail: busy ? "active-transaction" : "verification-failed"))
+            }
+        }
+        return UpdateRetentionInventory(
+            entries: entries, totalBytes: complete ? total : nil,
+            capacityBlocked: !complete || entries.count >= 20 || total >= 1024 * 1024 * 1024)
+    }
+
+    public static func prepareCleanup(
+        entry: UpdateRetentionEntry, target: URL, trustedKeyRing: UpdateKeyRing,
+        requiredScope: UpdateHandoffScope = .production
+    ) async throws -> UpdateRetentionCleanupPlan {
+        let target = try UpdateInstallationSandbox.canonical(target)
+        try validateScope(requiredScope, target: target)
+        guard entry.directory.deletingLastPathComponent().path == target.deletingLastPathComponent().path,
+            entry.id == retentionID(entry.directory), entry.canClean
+        else { throw UpdateFailure.changed }
+        let inspected = try await inspectRetention(
+            directory: entry.directory, target: target,
+            ring: trustedKeyRing, scope: requiredScope)
+        guard inspected.entry.canClean, inspected.entry.state == entry.state,
+            inspected.entry.bytes == entry.bytes
+        else { throw UpdateFailure.changed }
+        return UpdateRetentionCleanupPlan(
+            entry: inspected.entry, target: target, scope: requiredScope,
+            parent: try UpdateNodeIdentity.read(target.deletingLastPathComponent(), directory: true),
+            tree: inspected.tree, binding: inspected.binding)
+    }
+
+    public static func executeCleanup(_ plan: UpdateRetentionCleanupPlan, trustedKeyRing: UpdateKeyRing)
+        async throws
+    {
+        let parentLease = try UpdateTransactionLease(
+            directory: plan.target.deletingLastPathComponent(), name: ".WeGit-retention.lock")
+        guard
+            try UpdateNodeIdentity.read(plan.target.deletingLastPathComponent(), directory: true)
+                == plan.parent
+        else {
+            throw UpdateFailure.changed
+        }
+        let inspected = try await inspectRetention(
+            directory: plan.entry.directory, target: plan.target,
+            ring: trustedKeyRing, scope: plan.scope, parentLease: parentLease)
+        guard inspected.entry.canClean, inspected.entry.state == plan.entry.state,
+            inspected.tree == plan.tree, inspected.binding == plan.binding
+        else { throw UpdateFailure.changed }
+        try await SnapshotIO.run { cancellation in
+            defer { withExtendedLifetime(inspected.leases) {} }
+            var progress =
+                inspected.progress
+                ?? UpdateCleanupProgress(
+                    format: 1, entry: inspected.entry,
+                    target: plan.target, scope: plan.scope, parent: plan.parent, tree: plan.tree,
+                    binding: plan.binding, authorization: inspected.authorization, deleted: [], pending: nil,
+                    rootRemoved: false)
+            if inspected.progress == nil {
+                guard try RepositoryNodeIdentity.readIfPresent(progress.url) == nil else {
+                    throw UpdateFailure.changed
+                }
+                try progress.save()
+            }
+            try progress.execute(cancellation: cancellation)
+        }
+    }
+
+    public static func diagnosticSummary(_ inventory: UpdateRetentionInventory) throws -> Data {
+        struct Item: Encodable {
+            let id: String
+            let created: Date?
+            let version: String?
+            let build: UInt64?
+            let state: UpdateRetentionState
+            let bytes: Int64?
+            let canClean: Bool
+            let detail: String?
+        }
+        struct Summary: Encodable {
+            let format = 1
+            let recoveryBackup = false
+            let includesUserData = false
+            let totalBytes: Int64?
+            let capacityBlocked: Bool
+            let entries: [Item]
+        }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(
+            Summary(
+                totalBytes: inventory.totalBytes, capacityBlocked: inventory.capacityBlocked,
+                entries: inventory.entries.map {
+                    Item(
+                        id: $0.id, created: $0.created, version: $0.version,
+                        build: $0.build, state: $0.state, bytes: $0.bytes, canClean: $0.canClean,
+                        detail: $0.detail)
+                }))
+    }
+
+    private struct InspectedRetention: Sendable {
+        let entry: UpdateRetentionEntry
+        let tree: UpdateRetentionTree
+        let binding: String
+        let leases: [UpdateTransactionLease]
+        let authorization: UpdateRetentionAuthorization
+        let progress: UpdateCleanupProgress?
+    }
+
+    private static func inspectRetention(
+        directory: URL, target: URL, ring: UpdateKeyRing, scope: UpdateHandoffScope,
+        parentLease: UpdateTransactionLease? = nil
+    ) async throws
+        -> InspectedRetention
+    {
+        guard directory.deletingLastPathComponent().path == target.deletingLastPathComponent().path,
+            UUID(uuidString: String(directory.lastPathComponent.dropFirst(".WeGit-update-".count))) != nil,
+            directory.lastPathComponent.hasPrefix(".WeGit-update-"), !ring.keys.isEmpty
+        else { throw UpdateFailure.changed }
+        let cleanupURL = target.deletingLastPathComponent().appending(
+            path: ".WeGit-cleanup-" + retentionID(directory) + ".json")
+        if try RepositoryNodeIdentity.readIfPresent(cleanupURL) != nil {
+            return try await inspectCleanupProgress(
+                directory: directory, target: target, ring: ring,
+                scope: scope, parentLease: parentLease)
+        }
+        if try RepositoryNodeIdentity.readIfPresent(directory.appending(path: "ticket.json")) != nil {
+            let ticket = try loadTicket(at: directory.appending(path: "ticket.json"))
+            let verified = try await readAndValidateForRecovery(
+                ticket: ticket, trustedKeyRing: ring, requiredScope: scope)
+            guard verified.request.target.path == target.path else { throw UpdateFailure.changed }
+            return try await SnapshotIO.run { cancellation in
+                let tree = try UpdateRetentionTree.read(directory, hashing: true, cancellation: cancellation)
+                let journal = try readJournal(verified)
+                let clean = try cleanableRetention(
+                    verified, journal: journal, tree: tree, cancellation: cancellation)
+                let state: UpdateRetentionState
+                switch journal.phase {
+                case .prepared: state = .prepared
+                case .sourceExited, .swapIntent, .awaitingLaunch: state = .awaitingLaunch
+                case .launchVerified: state = .completed
+                case .rolledBack: state = .rolledBack
+                case .rollbackIntent, .blocked: state = .blocked
+                }
+                return InspectedRetention(
+                    entry: UpdateRetentionEntry(
+                        id: retentionID(directory), directory: directory,
+                        created: verified.request.created, version: verified.update.manifest.version,
+                        build: verified.update.manifest.build, state: state, bytes: tree.bytes,
+                        canClean: clean,
+                        detail: clean ? nil : "recovery-required"), tree: tree,
+                    binding: hash(try encode(journal)) + ":" + ticket.documentSHA256,
+                    leases: [verified.lease] + (parentLease.map { [$0] } ?? []),
+                    authorization: UpdateRetentionAuthorization(
+                        signedManifest: verified.request.signedManifest,
+                        installedVersion: verified.request.installedVersion,
+                        installedBuild: verified.request.installedBuild,
+                        installedVariant: verified.request.installedVariant,
+                        created: verified.request.created,
+                        helper: try retainedHelper(verified.request),
+                        evidence: try retentionEvidence(directory: directory, tree: tree)), progress: nil)
+            }
+        }
+        return try await SnapshotIO.run { cancellation in
+            let lease = try UpdateTransactionLease(directory: directory, create: false)
+            let tree = try UpdateRetentionTree.read(directory, hashing: true, cancellation: cancellation)
+            let data = try UpdateInstaller.readSmall(
+                directory.appending(path: "preparation.json"), limit: 2 * 1024 * 1024)
+            let preparation = try decode(UpdatePreparationRecord.self, data: data)
+            guard preparation.format == 1, preparation.scope == scope, preparation.target.path == target.path,
+                directory.lastPathComponent == ".WeGit-update-" + preparation.id.uuidString,
+                preparation.parentIdentity
+                    == (try UpdateNodeIdentity.read(target.deletingLastPathComponent(), directory: true)),
+                preparation.storageIdentity == tree.root
+            else { throw UpdateFailure.changed }
+            let envelope = try JSONDecoder().decode(
+                SignedUpdateManifest.self, from: preparation.signedManifest)
+            let metadata = try JSONDecoder().decode(UpdateManifest.self, from: envelope.payload)
+            let installed = try InstalledUpdateVersion(
+                version: preparation.installedVersion,
+                build: preparation.installedBuild, variant: preparation.installedVariant)
+            guard
+                case .available(let update) = try UpdateManifestValidator.validate(
+                    preparation.signedManifest,
+                    ring: ring, channel: metadata.channel, installed: installed, now: preparation.created)
+            else { throw UpdateFailure.changed }
+            try validatePreparation(preparation, update: update)
+            let targetMatches = try fingerprint(target, cancellation) == preparation.oldApp
+            let matches = preparation.matches(tree) && targetMatches
+            return InspectedRetention(
+                entry: UpdateRetentionEntry(
+                    id: retentionID(directory), directory: directory,
+                    created: preparation.created, version: update.manifest.version,
+                    build: update.manifest.build,
+                    state: .preparing, bytes: tree.bytes, canClean: matches,
+                    detail: matches ? nil : "preparation-incomplete"), tree: tree, binding: hash(data),
+                leases: [lease] + (parentLease.map { [$0] } ?? []),
+                authorization: UpdateRetentionAuthorization(
+                    signedManifest: preparation.signedManifest,
+                    installedVersion: preparation.installedVersion,
+                    installedBuild: preparation.installedBuild,
+                    installedVariant: preparation.installedVariant, created: preparation.created, helper: nil,
+                    evidence: try retentionEvidence(directory: directory, tree: tree)),
+                progress: nil)
+        }
+    }
+
+    private static func cleanableRetention(
+        _ verified: VerifiedUpdateHandoff, journal: UpdateInstallJournal,
+        tree: UpdateRetentionTree, cancellation: IOCancellation
+    ) throws -> Bool {
+        guard !journal.preferencesRestoreRequired, !journal.storeRestoreRequired else { return false }
+        let request = verified.request
+        guard tree.files["lock"]?.bytes == 0, tree.files["lock"]?.mode == 0o600 else { return false }
+        if try RepositoryNodeIdentity.readIfPresent(request.helperReadyURL) != nil {
+            let ready = try decode(
+                UpdateHelperReadiness.self,
+                data: UpdateInstaller.readSmall(request.helperReadyURL, limit: 16 * 1024))
+            guard ready.id == request.id, ready.documentSHA256 == verified.ticket.documentSHA256,
+                ready.authorizationSHA256 == request.authorizationSHA256,
+                ready.source == request.source, !ready.helper.stillRunning()
+            else { throw UpdateFailure.busy }
+        }
+        let metadata: Set<String> = [
+            "lock", "ticket.json", "request.json", "journal.json", "preparation.json",
+            "archive.dmg", "package-manifest.json", "original-preferences.plist", "current-preferences.plist",
+            "current-store-backup.plist", "helper-ready.json", "helper-aborted.json", "source-abort.json",
+            "ready.json",
+        ]
+        let prefixes = [
+            "Replacement.app/", "Previous.app/", "FailedReplacement.app/",
+            "Installer/Resources/WeGit_WeGitCore.bundle/",
+        ]
+        guard
+            tree.files.keys.allSatisfy({
+                metadata.contains($0) || $0 == "Installer/Helpers/WeGitUpdater"
+                    || prefixes.contains(where: $0.hasPrefix)
+            }),
+            tree.directories.keys.allSatisfy({
+                [
+                    "Replacement.app", "Previous.app", "FailedReplacement.app", "Installer",
+                    "Installer/Helpers",
+                    "Installer/Resources", "Installer/Resources/WeGit_WeGitCore.bundle",
+                ].contains($0)
+                    || prefixes.contains(where: $0.hasPrefix)
+            })
+        else { return false }
+        for (url, expected) in [
+            (request.stage, request.newApp), (request.previousApp, request.oldApp),
+            (request.directory.appending(path: "FailedReplacement.app"), request.newApp),
+        ] {
+            if let actual = try optionalFingerprint(url, cancellation), actual != expected { return false }
+        }
+        switch journal.phase {
+        case .launchVerified:
+            guard let ready = journal.readiness, let launched = journal.launchedProcess,
+                ready.process == launched, ready.id == request.id,
+                ready.documentSHA256 == verified.ticket.documentSHA256,
+                ready.authorizationSHA256 == request.authorizationSHA256, ready.migrationCompleted,
+                ready.windowsRestored, ready.preferencesFlushed,
+                ready.version == verified.update.manifest.version,
+                ready.build == verified.update.manifest.build, journal.sourceExitStatus == 0,
+                journal.sourceExitObservedAt != nil
+            else { return false }
+            return true
+        case .rolledBack:
+            return try fingerprint(request.target, cancellation) == request.oldApp
+        case .blocked:
+            guard
+                let abort = try? decode(
+                    UpdateHelperAbort.self,
+                    data: UpdateInstaller.readSmall(
+                        request.directory.appending(path: "helper-aborted.json"), limit: 16 * 1024)),
+                abort.id == request.id, abort.documentSHA256 == verified.ticket.documentSHA256,
+                abort.authorizationSHA256 == request.authorizationSHA256
+            else { return false }
+            return try fingerprint(request.target, cancellation) == request.oldApp
+        default: return false
+        }
+    }
+
+    private static func retentionID(_ directory: URL) -> String {
+        let name = directory.lastPathComponent
+        let suffix = String(name.dropFirst(".WeGit-update-".count))
+        return UUID(uuidString: suffix)?.uuidString ?? "unverified-"
+            + String(hash(Data(name.utf8)).prefix(16))
+    }
+    private static func retentionDirectories(_ parent: URL) throws -> [URL] {
+        let paths = try FileManager.default.contentsOfDirectory(at: parent, includingPropertiesForKeys: nil)
+        guard paths.count <= 10_000 else { throw UpdateFailure.exceeded }
+        var values = Dictionary(
+            uniqueKeysWithValues: paths.filter { $0.lastPathComponent.hasPrefix(".WeGit-update-") }.map {
+                ($0.path, $0)
+            })
+        for path in paths where path.lastPathComponent.hasPrefix(".WeGit-cleanup-") {
+            let name = path.lastPathComponent
+            let suffix = String(name.dropFirst(".WeGit-cleanup-".count).dropLast(".json".count))
+            guard name.hasSuffix(".json"), let id = UUID(uuidString: suffix) else {
+                values[path.path] = path
+                continue
+            }
+            let directory = parent.appending(path: ".WeGit-update-" + id.uuidString)
+            values[directory.path] = directory
+        }
+        guard values.count <= 100 else { throw UpdateFailure.exceeded }
+        return values.values.sorted { $0.lastPathComponent < $1.lastPathComponent }
+    }
+    private static func cleanupURL(_ directory: URL) -> URL {
+        directory.deletingLastPathComponent().appending(
+            path: ".WeGit-cleanup-" + retentionID(directory) + ".json")
+    }
+    private static func retainedBytes(_ directory: URL, cancellation: IOCancellation) throws -> Int64 {
+        var bytes: Int64 = 0
+        if try RepositoryNodeIdentity.readIfPresent(directory) != nil {
+            bytes = try UpdateRetentionTree.read(directory, hashing: false, cancellation: cancellation).bytes
+        }
+        let sidecar = cleanupURL(directory)
+        if let node = try RepositoryNodeIdentity.readIfPresent(sidecar) {
+            guard node.kind == UInt16(S_IFREG), let size = node.markerSize,
+                (0...4 * 1024 * 1024).contains(size),
+                bytes <= 1024 * 1024 * 1024 - size
+            else { throw UpdateFailure.exceeded }
+            bytes += size
+        }
+        return bytes
+    }
+    private static func recognizeRetention(_ directory: URL) throws {
+        let sidecar = cleanupURL(directory)
+        if try RepositoryNodeIdentity.readIfPresent(sidecar) != nil {
+            let progress = try readCleanupProgress(sidecar)
+            guard progress.entry.directory.path == directory.path else { throw UpdateFailure.changed }
+            _ = try progress.validateRemaining(cancellation: IOCancellation())
+        } else if try RepositoryNodeIdentity.readIfPresent(directory.appending(path: "ticket.json")) != nil {
+            let ticket = try loadTicket(at: directory.appending(path: "ticket.json"))
+            let request = try readRequest(ticket)
+            let journal = try decode(
+                UpdateInstallJournal.self,
+                data: UpdateInstaller.readSmall(request.journal, limit: 64 * 1024))
+            guard journal.format == 1, journal.id == ticket.id,
+                journal.handoffSHA256 == ticket.documentSHA256
+            else { throw UpdateFailure.changed }
+        } else {
+            let preparation = try decode(
+                UpdatePreparationRecord.self,
+                data: UpdateInstaller.readSmall(
+                    directory.appending(path: "preparation.json"), limit: 2 * 1024 * 1024))
+            guard preparation.format == 1,
+                directory.lastPathComponent == ".WeGit-update-" + preparation.id.uuidString,
+                preparation.storageIdentity == (try UpdateNodeIdentity.read(directory, directory: true)),
+                preparation.parentIdentity
+                    == (try UpdateNodeIdentity.read(directory.deletingLastPathComponent(), directory: true))
+            else { throw UpdateFailure.changed }
+        }
+    }
+    private static func readCleanupProgress(_ url: URL) throws -> UpdateCleanupProgress {
+        let node = try UpdateNodeIdentity.read(url)
+        guard node.owner == getuid(), node.permissions == 0o600 else { throw UpdateFailure.changed }
+        let progress = try decode(
+            UpdateCleanupProgress.self, data: UpdateInstaller.readSmall(url, limit: 4 * 1024 * 1024))
+        guard progress.url.path == url.path else { throw UpdateFailure.changed }
+        return progress
+    }
+    private static func inspectCleanupProgress(
+        directory: URL, target: URL, ring: UpdateKeyRing,
+        scope: UpdateHandoffScope, parentLease: UpdateTransactionLease?
+    ) async throws -> InspectedRetention {
+        let parentLease =
+            try parentLease
+            ?? UpdateTransactionLease(
+                directory: target.deletingLastPathComponent(),
+                create: false, name: ".WeGit-retention.lock")
+        return try await SnapshotIO.run { cancellation in
+            let progress = try readCleanupProgress(cleanupURL(directory))
+            guard progress.target.path == target.path, progress.scope == scope,
+                progress.entry.canClean, progress.entry.directory.path == directory.path
+            else { throw UpdateFailure.changed }
+            try validateCleanupAuthorization(progress, ring: ring, cancellation: cancellation)
+            let authorization = progress.authorization
+            if authorization.helper?.stillRunning() == true { throw UpdateFailure.busy }
+            let envelope = try JSONDecoder().decode(
+                SignedUpdateManifest.self, from: authorization.signedManifest)
+            let metadata = try JSONDecoder().decode(UpdateManifest.self, from: envelope.payload)
+            let installed = try InstalledUpdateVersion(
+                version: authorization.installedVersion,
+                build: authorization.installedBuild, variant: authorization.installedVariant)
+            guard
+                case .available(let update) = try UpdateManifestValidator.validate(
+                    authorization.signedManifest,
+                    ring: ring, channel: metadata.channel, installed: installed, now: authorization.created),
+                update.manifest.version == progress.entry.version,
+                update.manifest.build == progress.entry.build
+            else {
+                throw UpdateFailure.changed
+            }
+            var leases = [parentLease]
+            if try RepositoryNodeIdentity.readIfPresent(directory.appending(path: "lock")) != nil {
+                leases.append(try UpdateTransactionLease(directory: directory, create: false))
+            }
+            _ = try progress.validateRemaining(cancellation: cancellation)
+            let bytes = try retainedBytes(directory, cancellation: cancellation)
+            return InspectedRetention(
+                entry: UpdateRetentionEntry(
+                    id: progress.entry.id, directory: directory,
+                    created: progress.entry.created, version: progress.entry.version,
+                    build: progress.entry.build,
+                    state: progress.entry.state, bytes: bytes, canClean: true, detail: nil),
+                tree: progress.tree, binding: hash(try progress.encoded()), leases: leases,
+                authorization: authorization, progress: progress)
+        }
+    }
+    private static func retainedHelper(_ request: UpdateHandoffRequest) throws -> UpdateProcessIdentity? {
+        guard try RepositoryNodeIdentity.readIfPresent(request.helperReadyURL) != nil else { return nil }
+        return try decode(
+            UpdateHelperReadiness.self,
+            data: UpdateInstaller.readSmall(request.helperReadyURL, limit: 16 * 1024)
+        ).helper
+    }
+
+    private static func preparationRecord(
+        plan: UpdateInstallPlan, source: UpdateProcessIdentity,
+        scope: UpdateHandoffScope, directory: URL, helperPath: URL, resourcePath: URL,
+        download: UpdateDownload, cancellation: IOCancellation
+    ) throws -> UpdatePreparationRecord {
+        var files: [String: UpdatePreparationRecord.File] = [:]
+        var directories: Set<String> = [
+            "Replacement.app", "Installer", "Installer/Helpers", "Installer/Resources",
+            "Installer/Resources/WeGit_WeGitCore.bundle",
+        ]
+        func addTree(_ tree: UpdateAppTree, prefix: String) {
+            for (path, file) in tree.files {
+                files[prefix + path] = .init(bytes: file.identity.markerSize!, sha256: file.hash)
+            }
+            for path in tree.directories.keys { directories.insert(prefix + path) }
+        }
+        addTree(plan.newTree, prefix: "Replacement.app/")
+        addTree(
+            try UpdateAppTree.read(resourcePath, cancellation: cancellation),
+            prefix: "Installer/Resources/WeGit_WeGitCore.bundle/")
+        let helper = plan.oldTree.files["Contents/Helpers/WeGitUpdater"]!
+        files["Installer/Helpers/WeGitUpdater"] = .init(
+            bytes: helper.identity.markerSize!, sha256: helper.hash)
+        files["archive.dmg"] = .init(bytes: download.byteCount, sha256: download.sha256)
+        for (name, data) in [
+            ("original-preferences.plist", plan.backup.originalPreferences),
+            ("current-preferences.plist", plan.backup.currentPreferences),
+            ("package-manifest.json", plan.packageManifest),
+        ] {
+            files[name] = .init(bytes: Int64(data.count), sha256: hash(data))
+        }
+        if let store = plan.backup.currentStoreBackup {
+            let encoder = PropertyListEncoder()
+            encoder.outputFormat = .binary
+            let data = try encoder.encode(store)
+            files["current-store-backup.plist"] = .init(bytes: Int64(data.count), sha256: hash(data))
+        }
+        return UpdatePreparationRecord(
+            format: 1, id: plan.id, created: Date(), scope: scope,
+            target: plan.currentApp,
+            parentIdentity: try UpdateNodeIdentity.read(
+                plan.currentApp.deletingLastPathComponent(), directory: true),
+            storageIdentity: try UpdateNodeIdentity.read(directory, directory: true), source: source,
+            signedManifest: plan.update.signedManifest, packageManifest: plan.packageManifest,
+            installedVersion: plan.update.installed.version.rawValue,
+            installedBuild: plan.update.installed.build, installedVariant: plan.update.installed.variant,
+            oldApp: try fingerprint(plan.currentApp, cancellation), files: files, directories: directories)
+    }
+    private static func savePreparation(_ preparation: UpdatePreparationRecord, directory: URL) throws {
+        let data = try encode(preparation)
+        guard data.count <= 2 * 1024 * 1024 else { throw UpdateFailure.exceeded }
+        let temporary = directory.appending(path: "preparation-" + UUID().uuidString + ".tmp")
+        try UpdateInstaller.exclusiveWrite(data, to: temporary)
+        guard rename(temporary.path, directory.appending(path: "preparation.json").path) == 0 else {
+            throw UpdateFailure.changed
+        }
+        try UpdateInstaller.sync(directory)
+        try UpdateInstaller.sync(directory.deletingLastPathComponent())
+    }
+}
+
+extension ProductionUpdateInstaller {
+    private static let retentionMetadata: Set<String> = [
+        "ticket.json", "request.json", "journal.json", "preparation.json", "package-manifest.json",
+        "helper-ready.json", "helper-aborted.json", "source-abort.json", "ready.json",
+    ]
+    private static func retentionEvidence(directory: URL, tree: UpdateRetentionTree) throws -> [String: Data]
+    {
+        var result: [String: Data] = [:]
+        var total = 0
+        for name in retentionMetadata where tree.files[name] != nil {
+            let data = try UpdateInstaller.readSmall(directory.appending(path: name), limit: 2 * 1024 * 1024)
+            total += data.count
+            guard total <= 3 * 1024 * 1024, hash(data) == tree.files[name]?.sha256 else {
+                throw UpdateFailure.changed
+            }
+            result[name] = data
+        }
+        return result
+    }
+    private static func validateCleanupAuthorization(
+        _ progress: UpdateCleanupProgress, ring: UpdateKeyRing,
+        cancellation: IOCancellation
+    ) throws {
+        let tree = progress.tree
+        let evidence = progress.authorization.evidence
+        guard progress.entry.canClean, tree.root.owner == getuid(), tree.root.permissions == 0o700,
+            tree.files["lock"]?.bytes == 0, tree.files["lock"]?.mode == 0o600,
+            evidence.keys.allSatisfy(retentionMetadata.contains)
+        else { throw UpdateFailure.changed }
+        for (name, data) in evidence {
+            guard let file = tree.files[name], Int64(data.count) == file.bytes, hash(data) == file.sha256
+            else {
+                throw UpdateFailure.changed
+            }
+        }
+        guard Set(tree.files.keys).intersection(retentionMetadata) == Set(evidence.keys) else {
+            throw UpdateFailure.changed
+        }
+        if evidence["ticket.json"] == nil {
+            guard progress.entry.state == .preparing, let data = evidence["preparation.json"] else {
+                throw UpdateFailure.changed
+            }
+            let preparation = try decode(UpdatePreparationRecord.self, data: data)
+            guard preparation.format == 1, preparation.matches(tree), preparation.scope == progress.scope,
+                preparation.id.uuidString == progress.entry.id,
+                preparation.target.path == progress.target.path,
+                preparation.storageIdentity == tree.root, preparation.parentIdentity == progress.parent,
+                hash(data) == progress.binding,
+                preparation.signedManifest == progress.authorization.signedManifest,
+                preparation.installedVersion == progress.authorization.installedVersion,
+                preparation.installedBuild == progress.authorization.installedBuild,
+                preparation.installedVariant == progress.authorization.installedVariant,
+                preparation.created == progress.authorization.created,
+                progress.authorization.helper == nil,
+                try fingerprint(progress.target, cancellation) == preparation.oldApp
+            else { throw UpdateFailure.changed }
+            let envelope = try JSONDecoder().decode(
+                SignedUpdateManifest.self, from: preparation.signedManifest)
+            let metadata = try JSONDecoder().decode(UpdateManifest.self, from: envelope.payload)
+            let installed = try InstalledUpdateVersion(
+                version: preparation.installedVersion,
+                build: preparation.installedBuild, variant: preparation.installedVariant)
+            guard
+                case .available(let update) = try UpdateManifestValidator.validate(
+                    preparation.signedManifest,
+                    ring: ring, channel: metadata.channel, installed: installed, now: preparation.created)
+            else { throw UpdateFailure.changed }
+            try validatePreparation(preparation, update: update)
+            return
+        }
+        guard let ticketData = evidence["ticket.json"], let requestData = evidence["request.json"],
+            let journalData = evidence["journal.json"], let packageData = evidence["package-manifest.json"]
+        else { throw UpdateFailure.changed }
+        let ticket = try decode(UpdateHandoffTicket.self, data: ticketData)
+        let request = try decode(UpdateHandoffRequest.self, data: requestData)
+        let journal = try decode(UpdateInstallJournal.self, data: journalData)
+        guard ticket.id.uuidString == progress.entry.id, ticket.directory == progress.entry.directory.path,
+            request.format == 1, request.id == ticket.id, request.directory.path == ticket.directory,
+            hash(requestData) == ticket.documentSHA256,
+            hash(Data(ticket.token.utf8)) == request.authorizationSHA256,
+            request.target.path == progress.target.path, request.scope == progress.scope,
+            request.parentIdentity == progress.parent, request.storageIdentity == tree.root,
+            journal.format == 1, journal.id == ticket.id, journal.handoffSHA256 == ticket.documentSHA256,
+            !journal.preferencesRestoreRequired, !journal.storeRestoreRequired,
+            hash(try encode(journal)) + ":" + ticket.documentSHA256 == progress.binding,
+            request.signedManifest == progress.authorization.signedManifest,
+            request.installedVersion == progress.authorization.installedVersion,
+            request.installedBuild == progress.authorization.installedBuild,
+            request.installedVariant == progress.authorization.installedVariant,
+            request.created == progress.authorization.created
+        else { throw UpdateFailure.changed }
+        let envelope = try JSONDecoder().decode(SignedUpdateManifest.self, from: request.signedManifest)
+        let metadata = try JSONDecoder().decode(UpdateManifest.self, from: envelope.payload)
+        let installed = try InstalledUpdateVersion(
+            version: request.installedVersion, build: request.installedBuild,
+            variant: request.installedVariant)
+        guard
+            case .available(let update) = try UpdateManifestValidator.validate(
+                request.signedManifest,
+                ring: ring, channel: metadata.channel, installed: installed, now: request.created),
+            request.archive.sha256 == update.artifact.sha256,
+            request.archive.bytes == update.artifact.downloadBytes,
+            request.packageManifest.sha256 == update.artifact.manifestSHA256,
+            hash(packageData) == update.artifact.manifestSHA256
+        else { throw UpdateFailure.changed }
+        let metadataFiles: Set<String> = retentionMetadata.union([
+            "lock", "archive.dmg", "original-preferences.plist", "current-preferences.plist",
+            "current-store-backup.plist",
+        ])
+        let prefixes = [
+            "Replacement.app/", "Previous.app/", "FailedReplacement.app/",
+            "Installer/Resources/WeGit_WeGitCore.bundle/",
+        ]
+        guard
+            tree.files.keys.allSatisfy({
+                metadataFiles.contains($0) || $0 == "Installer/Helpers/WeGitUpdater"
+                    || prefixes.contains(where: $0.hasPrefix)
+            }),
+            tree.directories.keys.allSatisfy({
+                [
+                    "Replacement.app", "Previous.app", "FailedReplacement.app", "Installer",
+                    "Installer/Helpers", "Installer/Resources", "Installer/Resources/WeGit_WeGitCore.bundle",
+                ].contains($0) || prefixes.contains(where: $0.hasPrefix)
+            })
+        else { throw UpdateFailure.changed }
+        for stored in [
+            request.archive, request.packageManifest, request.originalPreferences, request.currentPreferences,
+            request.helper,
+        ] + (request.currentStoreBackup.map { [$0] } ?? []) {
+            guard let file = tree.files[stored.name], file.bytes == stored.bytes,
+                file.sha256 == stored.sha256,
+                Int64(file.node.device) == stored.identity.device, file.node.inode == stored.identity.inode,
+                file.node.kind == stored.identity.kind, file.node.bornSeconds == stored.identity.bornSeconds,
+                file.node.bornNanoseconds == stored.identity.bornNanoseconds,
+                file.mode == stored.identity.permissions
+            else { throw UpdateFailure.changed }
+        }
+        guard try tree.fingerprint("Installer/Resources/WeGit_WeGitCore.bundle") == request.helperResources
+        else { throw UpdateFailure.changed }
+        for (prefix, expected) in [
+            ("Replacement.app", request.newApp), ("Previous.app", request.oldApp),
+            ("FailedReplacement.app", request.newApp),
+        ] {
+            if let fingerprint = try tree.fingerprint(prefix), fingerprint != expected {
+                throw UpdateFailure.changed
+            }
+        }
+        if let readyData = evidence["helper-ready.json"] {
+            let ready = try decode(UpdateHelperReadiness.self, data: readyData)
+            guard ready.id == request.id, ready.documentSHA256 == ticket.documentSHA256,
+                ready.authorizationSHA256 == request.authorizationSHA256, ready.source == request.source,
+                ready.helper == progress.authorization.helper
+            else { throw UpdateFailure.changed }
+        } else {
+            guard progress.authorization.helper == nil else { throw UpdateFailure.changed }
+        }
+        switch journal.phase {
+        case .launchVerified:
+            guard progress.entry.state == .completed, let ready = journal.readiness,
+                ready.process == journal.launchedProcess, ready.id == request.id,
+                ready.documentSHA256 == ticket.documentSHA256,
+                ready.authorizationSHA256 == request.authorizationSHA256,
+                ready.migrationCompleted, ready.windowsRestored, ready.preferencesFlushed,
+                ready.version == update.manifest.version, ready.build == update.manifest.build,
+                journal.sourceExitStatus == 0, journal.sourceExitObservedAt != nil
+            else { throw UpdateFailure.changed }
+        case .rolledBack:
+            guard progress.entry.state == .rolledBack,
+                try fingerprint(progress.target, cancellation) == request.oldApp
+            else { throw UpdateFailure.changed }
+        case .blocked:
+            guard progress.entry.state == .blocked, let data = evidence["helper-aborted.json"] else {
+                throw UpdateFailure.changed
+            }
+            let abort = try decode(UpdateHelperAbort.self, data: data)
+            guard abort.id == request.id, abort.documentSHA256 == ticket.documentSHA256,
+                abort.authorizationSHA256 == request.authorizationSHA256,
+                try fingerprint(progress.target, cancellation) == request.oldApp
+            else { throw UpdateFailure.changed }
+        default: throw UpdateFailure.changed
+        }
+    }
+}
+
+extension ProductionUpdateInstaller {
+    private static func validatePreparation(_ preparation: UpdatePreparationRecord, update: TrustedUpdate)
+        throws
+    {
+        guard preparation.source.owner == getuid(),
+            preparation.source.executable == preparation.target.appending(path: "Contents/MacOS/WeGit").path,
+            preparation.files["archive.dmg"]?.sha256 == update.artifact.sha256,
+            preparation.files["archive.dmg"]?.bytes == update.artifact.downloadBytes,
+            preparation.files["package-manifest.json"]?.sha256 == update.artifact.manifestSHA256,
+            hash(preparation.packageManifest) == update.artifact.manifestSHA256,
+            preparation.packageManifest.count <= UpdateManifestValidator.metadataBytes
+        else { throw UpdateFailure.changed }
+        guard
+            let package = try JSONSerialization.jsonObject(with: preparation.packageManifest)
+                as? [String: Any],
+            package["version"] as? String == String(update.manifest.version.split(separator: "-")[0]),
+            package["releaseTag"] as? String == update.manifest.tag,
+            package["buildVersion"] as? String == String(update.manifest.build),
+            package["gitCommit"] as? String == update.manifest.sourceCommit,
+            package["archiveSHA256"] as? String == update.artifact.sha256
+        else { throw UpdateFailure.changed }
     }
 }

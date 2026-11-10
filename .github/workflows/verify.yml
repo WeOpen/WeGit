@@ -196,6 +196,12 @@ jobs:
             .build/update-stage-*/core-build.log
             .build/update-stage-*/compile.log
             .build/update-stage-*/run.log
+            .build/update-retention-*/result.json
+            .build/update-retention-*/inputs.json
+            .build/update-retention-*/inputs-before.json
+            .build/update-retention-*/core-build.log
+            .build/update-retention-*/compile.log
+            .build/update-retention-*/run.log
             .build/theme-import-queue-*/result.json
             .build/theme-import-queue-*/input-receipt.json
             .build/theme-import-queue-*/compiled-inputs.json

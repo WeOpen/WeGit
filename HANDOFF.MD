@@ -1,5 +1,15 @@
 # WeGit 开发交接
 
+## 2026-11-10 M5 更新记录与中断清理实施
+
+- PR138固定M4送验时，在复用的v2-validation-entry工作树建立codex/v2-m5-update-retention继续无依赖开发，不改在跑候选。Update窗口增加记录页，使用真实Core列表/容量/验证状态；未知仅定位，明确终态先prepareCleanup固定计划再确认execute。诊断导出不含路径/token/偏好/数据库，安装与管理互斥。缺生产公钥仍可显示无法验证记录，不授权清理或安装。
+- ProductionUpdateInstaller.prepare在昂贵复制前写preparation记录并持父目录/事务lease，合法无ticket准备也计入20项/1GiB；未知/损坏/无法计量仍阻断新准备但不让其他记录从列表消失。只有全部已创建字节匹配受控范围、原目标仍一致的准备残留可显式清理，partial/变化/未知继续保留；不宣称所有中断都能自动清除。
+- 清理plan绑定完整目录身份/文件SHA/journal revision/原签名请求与无恢复义务终态。父目录持久sidecar保留到事务根确认消失，每个unlink前fsync唯一pending，完成后保存已删除前缀；取消/崩溃后必须重新确认并复验剩余清单。没有调用recover当列表读取，也没有引入外部公钥/helper信任。已完成应用仍运行时只清旧留存，不触碰安装目标或用户原DB。
+- 实质性陷阱已修并保留原失败：JSON默认数值Date与iso8601 decoder不兼容；Set编码非确定性会使同一续清plan SHA变化；URL尾斜杠会让sidecar与原目录重复计项；仅`_ = lease`不足以保证Release ARC持锁到I/O结束，使用defer withExtendedLifetime；sidecar临时文件不能让整个列表抛错；公开有效签名和自报canClean不授权任意本地文件，必须重绑原request/preparation、终态、恢复义务及精确清单；RC包version是base且releaseTag保留完整RC。
+- 28/28真实私有留存控制通过`.build/update-retention-oxog83uw`，含prepare前ticket取消、确认后变化、unknown/缺key/active lease、实际中途清理→磁盘重载→再次确认续清、rmdir后尾部恢复、伪造intent拒绝及真实mock app退出/安装/ready/完成后清理。原30/30持久更新控制在`.build/production-update-checks-38i3YV`通过；均非XCTest/非用户安装，原输入和失败日志保留。
+- 完整App及UI测试源build-for-testing、Core全部测试源只编译通过；185工具/策略/actionlint通过，268应用输入SHA相同。中文深色/英文浅色真实NSHosting预览使用3条真实Core记录（明确abort/准备/unknown），核对选择/禁用/计划确认/取消保留，未从UI执行删除；fixture source与预览均正常退出，证据`.build/v2-m5-retention`。首次私有预览误用默认Date decoder崩溃，修为iso8601后实际呈现；原日志不删除。新增28键本地化集中核对，不把片段UI称作全部明暗/双语或生产验收。
+- 尚未完成：原helper --recover的交互接线、原无证据历史残留人工处理、更新/迁移正式Release预算、1/2/4窗口和图片性能、M5全页面/支持矩阵。生产key/feed仍按用户要求最后门禁提醒；正式安装与v2发布未进行。
+
 ## 2026-11-10 M4 面板排队与更新暂存闭环
 
 - 继续M4实际产品树，M2主题/官网已包含ec1ef53祖先，不能重复搬运。62子任务均有实现记录，页面矩阵/URI外部冷热唤起/三包下载生产联动和完整交付仍开放。原生可信入口要求候选PR base=main，旧stacked PR134/135不能直接作为新批次候选；不放宽可信来源限制。
