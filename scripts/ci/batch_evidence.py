@@ -24,6 +24,11 @@ COMMON = ("Package.swift", "scripts/ci/batch_evidence.py", "scripts/ci/run-batch
           "scripts/ci/isolate-git.sh", "scripts/ci/check-toolchain.sh", ".github/workflows/verify.yml")
 SHA = re.compile(r"[0-9a-f]{40}")
 MAX_ARCHIVE = 8 * 1024 * 1024
+READING_PERFORMANCE_INPUTS = (
+    "scripts/ReadingPerformance.swift", "scripts/verify-reading-performance.sh",
+    "scripts/create-reading-performance-fixtures.py", "scripts/verify-reading-performance.py",
+    "scripts/create-benchmark-fixtures.py",
+)
 SUITE_STEPS = {
     "core": "Core regression on Apple, minimum and Homebrew Git",
     "signing": "Isolated Apple and Homebrew OpenPGP signing",
@@ -64,6 +69,10 @@ def inputs(root, suite):
         paths.update(str(path.relative_to(root)) for pattern in ("*Performance.swift", "verify-*-performance.sh")
                      for path in (root / "scripts").glob(pattern))
         paths.add("scripts/ci/native-behavior.sh")
+        # Older revisions lack the unified query service. Once it is present,
+        # every combined reading fixture and verifier is mandatory and bound.
+        if (root / "WeGitCore/GitCore/RepositoryQueryService.swift").is_file():
+            paths.update(READING_PERFORMANCE_INPUTS)
     else:
         paths.update(str(path.relative_to(root)) for path in (root / "scripts").glob("*")
                      if path.suffix in {".sh", ".swift", ".py"})

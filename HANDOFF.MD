@@ -1,5 +1,24 @@
 # WeGit 开发交接
 
+## 2026-11-10 可信入口集成与七类阅读性能收尾
+
+- 当前会话接续 `01a1bd60-9960-7961-a04d-c381f6638b53`，继续M4产品树；主检出的PR133和用户PBX未移动。独立工具PR137已正常合入main `5c46c6348934e51691bd87f98bffff61769c1a74`，PR CI42826080946与main CI42826338680真实通过；144项工具通过，分流仅policy，Core/GPG/后端性能/前端编译/包均未执行。main整棵tree等于已验证工具候选07ea0dc。
+- 老scene-controls.yml按ui_probe.py路径无条件启动场景XCTest，忽略当前工具批次分流；本次非必需run42826081045已明确取消并保留cancelled，不作通过。未删必需检查或扩大本机测试。正式新原生批次现在可从可信main选择，48条候选方法预检通过不等于XCTest通过。
+- 新恢复诊断先保存可信main检查器，再固定PR132/028b627，对97个Core/AskPass源资源blob以固定无依赖Package隔离编译；本机仅实际编译通过，原HEAD/index未变。托管诊断42826412388已启动，保留原30+30样本、2000ms/500ms和RSS门槛。并发命令按区间并集计算墙钟，不能直接相加或把进程外耗时认定为某个I/O函数。新诊断只做定位，不生成canonical验收。
+- 阅读检查器补齐提交/路径/分支/Tag/Stash/Worktree/命令七类真实查询；夹具使用标准双父Stash，最多200提交/200引用的精确OID对照及路径编号核对，不加载10万项oracle污染RSS。只有前缀/非空断言不能声称身份通过；首批/后页数量、去重、取消及替换查询保持原预算，所有新夹具/验证器进入性能输入回执，缺入口即失败。
+- 最终独立Release编译及普通/大型各2小样本控制在`.build/reading-performance-mmybpx`通过，7项阅读证据工具与18项批次工具通过；formalPassed=false，未执行正式规模或XCTest。故意更改changedPaths的真实失败控制在`.build/reading-performance-failure-control-dq6_vpyl`退出1，保留iteration1/比较首批/75.674ms的partialMeasurements，无完整样本且不报绿。实际runtime.log和源/夹具/二进制/资源/工具链SHA全部归档接线。
+
+## 2026-11-07 当前会话接续与最新 M1 托管失败
+
+- 接续原聊天01a1aaef-38ce-7f60-b6b5-7461c7aba8c2，实际开发仍在managed的v2-m1-validation-fix/WeGit、codex/v2-m4-workspaces-and-delivery，固定903407e。主检出仍为主题/网站分支，用户PBX差异独立保留；原聊天已中断，没有遗留构建、下载、预览或Git操作进程。M2/M3/M4主体已经实现，不能用主检出旧进度重新认定为待实施。
+- 最新M1为028b627 / CI42243209630 / 实际合成源f892a9a。原native ZIP176478bytes/SHA176aa0ed7970d5f038e919b6ecc923ed3be27f1902f9ab623563f095f973f2b3、receipts ZIP36299bytes/SHAe2ac957cd5684961616e1baa8649bbcd71f893aea5309ce2871a83429acfc4aa与CRC、回执/逐Git blob核对保留.build/v2-m1-reset-profile/hosted-42243209630。三套Git各300测试/49套件实际通过，326.357/158.861/163.159秒；Core148/签名106/行为329/性能119项输入与候选一致。签名、行为通过，性能失败，应用/UI编译和包未执行。
+- 普通/大型各30原样本独立重算，大型p95预览1381.63ms、Reset2209.83ms、恢复预览1816.11ms、恢复1591.78ms；仅Reset iteration2=2209.834875ms、20=3081.866083ms超过原2000ms，其余最高1637.893583ms。incompleteSamples重复大型原30数组，不新增计数。现有托管数据缺内部阶段，不能据本机两样本或总耗时推定fsync、checkout或后验就是瓶颈；先给检查器补命令时序，whole-call预算/正确性断言保持。
+- 固定903407e的Universal/Apple Silicon/Intel三种实际本机开发DMG已重新核对源码、原manifest、原字节SHA和原30MiB下载/60MiB安装预算。下载/安装分别29948526/61875551、17895064/32482536、19369948/35788882bytes，workspaceDirty=false。完整包回执在.build/v2-m4-delivery/three-package-results.json；旧pending-ci摘要原样保留，另存batch-results-reviewed-2026-11-07.json记录真实失败。开发包不能替代M1托管失败、正式生产安装或M5验收。
+- 原生ui_batches.json有条目不代表workflow_dispatch可以选择。真实新增回归先指出raster-encoding、repository-tools、commit-tasks、workspace-delivery四项遗漏，再补齐workflow选项及一致性/可信main先复制/拒绝外仓候选检查；46项相关工具、策略和actionlint通过。修补尚未正常进入可信main，不能提前调度或声称新的托管批次已部署。生产公钥/feed按用户原约定最终门禁提醒，不新建heartbeat、不生成生产信任根、不绕过历史URI自动审查边界。
+- 性能检查器新增每样本独立、256命令/6阶段上限的ProcessRunning委托，记录白名单命令类别/状态与单调起止时间；fixture/cleanup排除，失败阶段另存processTrace。原30样本、完整调用预算、字节与取消断言不变，Core/生产API无变化。编译及8组非XCTest控制通过；复用旧Release对象的来源明确未与当前全Core等价，不能把checker编译提升成当前产品验收。
+- 比较/统一查询正式入口固定普通1万/大型10万提交、各1万引用/10万索引路径、100/1000变更路径和30串行样本，测首批/后页/取消/替换查询/RSS，独立重算原2000/1000/500ms与256/512MiB门槛。首次准备与缓存条件、真实进程组退出和源/对象/资源/夹具SHA另存；当前只完成250/400提交、各32引用/512路径的2×2小控制，formalPassed=false。证据在.build/reading-performance-control-uh5flxdr；正式规模尚未执行。
+- 新实质性工具陷阱：Bash运行中修改同一shell入口会让它继续按旧读取位置执行，造成ReadingPerformance.swift路径错位；原失败在.build/reading-performance-W0UlD4，冻结脚本后独立Release编译通过在reading-performance-UZqV9l。使用GIT_INDEX_FILE的私有index环境时，git rev-parse --git-path index返回私有index，不能拿该SHA与真实用户index比较；已用无此变量的环境核对，真实HEAD/index/主PBX未变化，不回写或恢复错误的index。
+
 ## 2026-11-06 M1 checkout 候选与 M4 安装、迁移接线
 
 - 当前开发源码版本已改v2.0.0/build6；尚无tag、Release、生产安装或自动更新信任配置。Root App/UI/helper build-for-testing和Core/全测试源编译成功（本机无XCTest），1910字符串/8复数、79相关工具与末尾严格Swift格式通过；三变体真实包将在固定开发源码后统一验，源/资源回执逐SHA另存。

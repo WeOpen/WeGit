@@ -167,6 +167,17 @@ jobs:
             .build/worktree-read-performance-*/result.json
             .build/rebase-performance-*/result.json
             .build/recovery-performance-*/result.json
+            .build/reading-performance-*/result.json
+            .build/reading-performance-*/fixtures.json
+            .build/reading-performance-*/input-receipt.json
+            .build/reading-performance-*/source-before.json
+            .build/reading-performance-*/independent-verification.json
+            .build/reading-performance-*/build.log
+            .build/reading-performance-*/checker-build.log
+            .build/reading-performance-*/runtime.log
+            .build/reading-performance-*/fixture.log
+            .build/reading-performance-*/verification.log
+            .build/reading-performance-*/fixture-root.txt
             .build/conflict-editor-performance-*/result.json
             .build/interactive-rebase-performance-*/result.json
             .build/submodule-lfs-performance-*/result.json

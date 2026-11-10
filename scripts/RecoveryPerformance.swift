@@ -3,6 +3,152 @@ import Darwin
 import Foundation
 import WeGitCore
 
+private enum RecoveryTracePhase: String, Codable, Sendable {
+    case preview, reset, restorePreview, restore, reflog, cancel
+}
+
+private final class RecoveryProcessTrace: @unchecked Sendable {
+    struct Command: Codable, Sendable {
+        let phase: RecoveryTracePhase
+        let command: String
+        let state: String
+        let exitCode: Int32?
+        let startNanoseconds: UInt64
+        let endNanoseconds: UInt64
+    }
+    struct Phase: Codable, Sendable {
+        let phase: RecoveryTracePhase
+        let startNanoseconds: UInt64
+        let endNanoseconds: UInt64
+        let completed: Bool
+    }
+    struct Report: Codable, Sendable {
+        let workload: String
+        let iteration: Int
+        let phases: [Phase]
+        let commands: [Command]
+        let droppedCommandEvents: Int
+    }
+    struct Token: Sendable {
+        let phase: RecoveryTracePhase
+        let command: String
+        let startNanoseconds: UInt64
+    }
+
+    private let lock = NSLock()
+    private let workload: String
+    private let iteration: Int
+    private let maximumCommands: Int
+    private var activePhase: (name: RecoveryTracePhase, start: UInt64)?
+    private var phases: [Phase] = []
+    private var commands: [Command] = []
+    private var reservedCommands = 0
+    private var droppedCommands = 0
+
+    init(workload: String, iteration: Int, maximumCommands: Int = 256) {
+        self.workload = workload
+        self.iteration = iteration
+        self.maximumCommands = min(256, max(1, maximumCommands))
+    }
+
+    func begin(_ phase: RecoveryTracePhase) {
+        lock.withLock {
+            precondition(activePhase == nil && phases.count < 6)
+            activePhase = (phase, DispatchTime.now().uptimeNanoseconds)
+        }
+    }
+
+    func end(completed: Bool = true) {
+        lock.withLock {
+            guard let activePhase else { return }
+            phases.append(
+                Phase(
+                    phase: activePhase.name, startNanoseconds: activePhase.start,
+                    endNanoseconds: DispatchTime.now().uptimeNanoseconds, completed: completed))
+            self.activePhase = nil
+        }
+    }
+
+    func start(_ request: ProcessRequest) -> Token? {
+        lock.withLock {
+            guard let activePhase else { return nil }
+            guard reservedCommands < maximumCommands else {
+                droppedCommands += 1
+                return nil
+            }
+            reservedCommands += 1
+            return Token(
+                phase: activePhase.name, command: Self.command(request.arguments),
+                startNanoseconds: DispatchTime.now().uptimeNanoseconds)
+        }
+    }
+
+    func finish(_ token: Token?, state: String, exitCode: Int32?) {
+        guard let token else { return }
+        let finished = DispatchTime.now().uptimeNanoseconds
+        lock.withLock {
+            commands.append(
+                Command(
+                    phase: token.phase, command: token.command, state: state, exitCode: exitCode,
+                    startNanoseconds: token.startNanoseconds, endNanoseconds: finished))
+        }
+    }
+
+    func report() -> Report {
+        lock.withLock {
+            Report(
+                workload: workload, iteration: iteration, phases: phases,
+                commands: commands.sorted { $0.startNanoseconds < $1.startNanoseconds },
+                droppedCommandEvents: droppedCommands)
+        }
+    }
+
+    // Only the leading Git command is retained. Paths, OIDs, configuration,
+    // environment, input and process output never enter this diagnostic report.
+    private static func command(_ arguments: [String]) -> String {
+        let allowed: Set<String> = [
+            "status", "diff", "diff-index", "ls-files", "ls-tree", "config", "rev-parse",
+            "symbolic-ref", "cat-file", "update-ref", "update-index", "write-tree", "read-tree",
+            "init", "reset", "reflog", "check-ref-format",
+        ]
+        var index = 0
+        while index < arguments.count {
+            let argument = arguments[index]
+            if ["--no-pager", "--literal-pathspecs", "--no-optional-locks"].contains(argument) {
+                index += 1
+            } else if argument == "-c" {
+                index += 2
+            } else {
+                return allowed.contains(argument) ? argument : "other"
+            }
+        }
+        return "other"
+    }
+}
+
+private struct RecoveryTraceRunner: ProcessRunning {
+    let runner: any ProcessRunning
+    let trace: RecoveryProcessTrace
+
+    func run(_ request: ProcessRequest) async throws -> ProcessResult {
+        let token = trace.start(request)
+        do {
+            let result = try await runner.run(request)
+            trace.finish(token, state: "exited", exitCode: result.exitCode)
+            return result
+        } catch {
+            let state: String
+            switch error {
+            case is CancellationError, ProcessFailure.cancelled: state = "cancelled"
+            case ProcessFailure.timedOut: state = "timedOut"
+            default: state = "failed"
+            }
+            trace.finish(token, state: state, exitCode: nil)
+            throw error
+        }
+    }
+}
+
 private final class RecoveryMemorySampler: @unchecked Sendable {
     private let lock = NSLock()
     private let timer = DispatchSource.makeTimerSource(queue: .global(qos: .utility))
@@ -117,6 +263,7 @@ private final class RecoveryMemorySampler: @unchecked Sendable {
         var phase = "fixture"
         var activeName = ""
         var failure: String?
+        var traces: [RecoveryProcessTrace] = []
         do {
             for (name, fileCount, volume, memory) in [
                 ("ordinary", 100, 16 * 1024 * 1024, 256 * 1024 * 1024),
@@ -170,8 +317,7 @@ private final class RecoveryMemorySampler: @unchecked Sendable {
                     """
                 try Data(script.utf8).write(to: wrapper)
                 try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: wrapper.path)
-                let delayed = RepositoryService(
-                    location: location, engine: GitEngine(executable: wrapper, environment: environment))
+                let delayedActivity = ActivityStore()
                 for iteration in 1...30 {
                     phase = "prepare fixture"
                     try await run(["reset", "--hard", current])
@@ -180,29 +326,51 @@ private final class RecoveryMemorySampler: @unchecked Sendable {
                     try await run(
                         ["add", "--"] + paths.enumerated().filter { $0.offset % 2 == 0 }.map(\.element))
                     let originalIndex = try Data(contentsOf: location.gitDirectory.appending(path: "index"))
-                    let service = RepositoryService(location: location, engine: engine)
+                    let trace = RecoveryProcessTrace(workload: name, iteration: iteration)
+                    traces.append(trace)
+                    let runner = RecoveryTraceRunner(runner: engine.runner, trace: trace)
+                    let service = RepositoryService(
+                        location: location,
+                        engine: GitEngine(
+                            executable: git, runner: runner, activity: engine.activity,
+                            environment: environment))
+                    let delayed = RepositoryService(
+                        location: location,
+                        engine: GitEngine(
+                            executable: wrapper, runner: runner, activity: delayedActivity,
+                            environment: environment))
                     let sampler = RecoveryMemorySampler()
                     let clock = ContinuousClock()
                     phase = "preview"
+                    trace.begin(.preview)
                     var start = clock.now
                     let plan = try await service.prepareReset(target: target, mode: .hard)
                     let preview = milliseconds(start.duration(to: clock.now))
+                    trace.end()
                     phase = "reset"
+                    trace.begin(.reset)
                     start = clock.now
                     let record = try await service.executeReset(plan)
                     let reset = milliseconds(start.duration(to: clock.now))
+                    trace.end()
                     phase = "restore preview"
+                    trace.begin(.restorePreview)
                     start = clock.now
                     let restorePlan = try await service.prepareRecoveryRestore(record, layer: .both)
                     let restorePreview = milliseconds(start.duration(to: clock.now))
+                    trace.end()
                     phase = "restore"
+                    trace.begin(.restore)
                     start = clock.now
                     _ = try await service.executeRecoveryRestore(restorePlan)
                     let restore = milliseconds(start.duration(to: clock.now))
+                    trace.end()
                     phase = "reflog"
+                    trace.begin(.reflog)
                     start = clock.now
                     let log = try await service.reflog()
                     let reflog = milliseconds(start.duration(to: clock.now))
+                    trace.end()
                     try require(
                         !log.isEmpty && log.allSatisfy(\.objectExists), "Reflog lost existing objects")
                     try require(
@@ -214,7 +382,9 @@ private final class RecoveryMemorySampler: @unchecked Sendable {
                             "Restore changed raw file bytes")
                     }
                     phase = "cancel"
+                    trace.begin(.cancel)
                     let cancel = try await cancellation(service: delayed, marker: marker)
+                    trace.end()
                     let resident = sampler.finish()
                     active.append(
                         Sample(
@@ -249,6 +419,9 @@ private final class RecoveryMemorySampler: @unchecked Sendable {
                 try require(passed, "Recovery performance budget exceeded: " + name)
             }
         } catch { failure = String(describing: error) }
+        // A failed operation may have no completed Sample, but its command
+        // timings still explain the retained fixture and are kept independently.
+        for trace in traces { trace.end(completed: false) }
         let report: [String: Any] = [
             "format": 1, "sourceCommit": revision,
             "diagnosticOnly": true,
@@ -257,6 +430,8 @@ private final class RecoveryMemorySampler: @unchecked Sendable {
             "requiredSamples": 30, "allPassed": failure == nil, "failure": failure as Any? ?? NSNull(),
             "phase": phase, "activeWorkload": activeName,
             "workloads": try JSONSerialization.jsonObject(with: JSONEncoder().encode(reports)),
+            "processTrace": try JSONSerialization.jsonObject(
+                with: JSONEncoder().encode(traces.map { $0.report() })),
             "incompleteSamples": failure == nil
                 ? [] : try JSONSerialization.jsonObject(with: JSONEncoder().encode(active)),
         ]

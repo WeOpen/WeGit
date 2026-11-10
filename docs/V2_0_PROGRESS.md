@@ -4,6 +4,16 @@
 
 ## 当前批次
 
+2026-11-10 接续：可信入口[PR137](https://github.com/WeOpen/WeGit/pull/137)已合入main5c46c63，PR/main的144项工具及必需策略通过，其他产品检查依真实范围未执行。九个原生批次可选择并对候选源码预检；旧路径触发的非必需场景run42826081045已取消，未记通过。固定M1的[恢复诊断42826412388](https://github.com/WeOpen/WeGit/actions/runs/42826412388)已启动，用于定位原性能失败，不替代正式验收。
+
+阅读性能已补齐七类真实查询、精确结果身份、失败阶段耗时及runtime.log；最终Release编译与普通/大型各2小规模控制通过，7项阅读证据/18项批次工具通过。故意错误夹具实际退出1并保留部分耗时。正式1万/10万提交、各1万引用/10万路径、30串行样本与原预算保持，当前formalPassed=false。
+
+2026-11-07 接续：M1候选028b627的[CI42243209630](https://github.com/WeOpen/WeGit/actions/runs/42243209630)已实际失败在性能阶段。三套Git各300测试/49套件、隔离签名与行为通过，应用/UI编译和包未执行。原普通/大型各30样本独立重算，大型预览1381.63ms、Reset2209.83ms、恢复预览1816.11ms、恢复1591.78ms；Reset有2/30超过原2000ms，预算保持。原制品/CRC/SHA和Core148、签名106、行为329、性能119项输入等价证据保留，下一步先收集托管命令时序再决定产品修补。
+
+M4固定903407e / v2.0.0 build6的三个实际本机开发DMG已重新核对原manifest和字节SHA：Universal下载28.56MiB/安装59.01MiB，Apple Silicon17.07/30.98MiB，Intel18.47/34.13MiB；均满足原30/60MiB预算。原生/测试源编译、独立更新器/迁移控制仍为开发证据，完整托管、全页面/支持矩阵、新功能正式性能和生产信任门禁继续开放。原生工作流已补齐四个缺失的批次选择并通过46项相关工具检查，正常审入可信main后才可执行新选择。以下带旧日期/run的记录保留历史状态。
+
+本轮补齐工具层诊断与新阅读性能入口：M1检查器记录有界的每样本命令时序，8组独立控制及编译通过；比较/统一查询正式夹具固定1万/10万提交、各1万引用/10万路径、30串行样本和原首批/后页/取消/RSS门槛。当前仅小规模2×2非XCTest控制、Release编译及独立SHA核验通过，正式规模性能尚未执行。可信原生入口新增实际候选源码preflight，main原基线方法存在检查继续保留，候选缺失/重复/错误类在编译及执行前阻断；独立main工具夹具122项通过，工具候选正常集成后才作为可执行入口。
+
 M4后续已接独立WeGitUpdater、持久handoff/真实退出/新PID readiness/当前v2数据回退，以及独立v2 suite/SwiftData迁移、明确旧格式恢复/继续入口。production公钥/feed按用户要求在最终门禁提醒，当前空配置。新helper计入CI输入/必需控制/三包；Root已接M1有界checkout候选，原托管Reset2394.34ms失败仍待重验。私有更新30组、CLI7组+2例、迁移13组及完整AppState注入为开发证据；本机只编译XCTest源。原始失败/差异/字节与IDs核对在HANDOFF和.build目录留存，完整托管、真实三包/生产信任、URI及M5仍未全部验收。
 
 最新[CI42180305762](https://github.com/WeOpen/WeGit/actions/runs/42180305762)固定0d8bd7c：同一Core输入重新核验时runner image由20261104.0337.1变为20261026.0314.1，大型30样本Reset p952394.34ms再次超过原2000ms；预览1706.89ms、恢复预览1964.04ms、恢复1922.08ms，应用/包阶段未执行。旧成功与新的真实失败分开保留，不强制复用不同镜像性能，恢复性能仍开放。
@@ -85,12 +95,12 @@ M1 固定229facf的[CI41829276861](https://github.com/WeOpen/WeGit/actions/runs/
 | 12a | [V20-12](https://github.com/WeOpen/WeGit/issues/127) | Submodule 添加、移除与来源变更，预览父仓库 gitlink/配置、子仓库路径/对象及需下载内容；保留已配置模块的打开/初始化/更新能力 | 实现完成 / 待批次验收 | M4原生接线、隔离控制与workspace-delivery测试源；详见HANDOFF |
 | 12b | [V20-12](https://github.com/WeOpen/WeGit/issues/127) | 移除前检查脏内容、ignored 文件、子仓库独立提交、锁定/嵌套状态并提供保留方案；不默认递归覆盖或清理子仓库 | 实现完成 / 待批次验收 | M4原生接线、隔离控制与workspace-delivery测试源；详见HANDOFF |
 | 12c | [V20-12](https://github.com/WeOpen/WeGit/issues/127) | LFS track/untrack 规则编辑，预览 `.gitattributes` 的匹配路径、顺序和有效来源，保留其他属性/注释/行尾；固定对象获取复用 v1.2，不因打开 Diff 自动下载 | 实现完成 / 待批次验收 | M4原生接线、隔离控制与workspace-delivery测试源；详见HANDOFF |
-| 13a | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 在 M0 固定发布源、独立签名/内置验证公钥、版本通道、密钥轮换和安装者协议；SHA-256 核对字节，独立签名验证来源 | 基础已实现 / 交付待完成 | M4签名/下载/回退或三变体工具基础；生产信任、installer、迁移/真实三包及托管待验 |
-| 13b | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 检查更新、展示版本说明、下载/进度/取消、同版本防重复、完整校验后退出安装；稳定通道排除 draft/RC，候选通道需明确选择 | 基础已实现 / 交付待完成 | M4签名/下载/回退或三变体工具基础；生产信任、installer、迁移/真实三包及托管待验 |
-| 13c | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 安装前核对现有包、目标目录、运行窗口/任务及持久化状态，准备旧包与数据备份；失败/中断/磁盘不足时能恢复旧包，并核对重开后的真实版本 | 基础已实现 / 交付待完成 | M4签名/下载/回退或三变体工具基础；生产信任、installer、迁移/真实三包及托管待验 |
-| 13d | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 测试 v1.2→v2.0 的设置、最近/收藏、主题、各 Worktree 草稿与页面迁移；v2.0→旧版回退通过明确备份恢复，不让旧版直接读取不兼容的新格式 | 基础已实现 / 交付待完成 | M4签名/下载/回退或三变体工具基础；生产信任、installer、迁移/真实三包及托管待验 |
-| 13e | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | v1.2 没有本版更新器，首次 v2.0 安装使用官网下载/DMG路径；应用内升级从 v2.0 开始提供 | 基础已实现 / 交付待完成 | M4签名/下载/回退或三变体工具基础；生产信任、installer、迁移/真实三包及托管待验 |
-| 13f | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 同版本/源码/build 提供 Universal、Apple Silicon 与 Intel 三种 DMG；所有内嵌 Mach-O 的架构与 minos 按对应包核对，分别输出摘要、来源与安装大小 | 基础已实现 / 交付待完成 | M4签名/下载/回退或三变体工具基础；生产信任、installer、迁移/真实三包及托管待验 |
+| 13a | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 在 M0 固定发布源、独立签名/内置验证公钥、版本通道、密钥轮换和安装者协议；SHA-256 核对字节，独立签名验证来源 | 接口已实现 / 生产配置待交付门禁 | M4验签/信任配置及独立helper已接；生产公钥/feed依用户约定最终提醒 |
+| 13b | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 检查更新、展示版本说明、下载/进度/取消、同版本防重复、完整校验后退出安装；稳定通道排除 draft/RC，候选通道需明确选择 | 实现完成 / 待完整交付验收 | 下载/验签/持久handoff/真实退出已接；私有控制通过，正式更新矩阵待验 |
+| 13c | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 安装前核对现有包、目标目录、运行窗口/任务及持久化状态，准备旧包与数据备份；失败/中断/磁盘不足时能恢复旧包，并核对重开后的真实版本 | 实现完成 / 待完整交付验收 | 独立helper、持久journal、新PID readiness及当前v2回退已接；30组更新/7组CLI与2例布局为开发控制 |
+| 13d | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 测试 v1.2→v2.0 的设置、最近/收藏、主题、各 Worktree 草稿与页面迁移；v2.0→旧版回退通过明确备份恢复，不让旧版直接读取不兼容的新格式 | 实现完成 / 待完整交付验收 | 独立v2 suite/SwiftData迁移和旧格式恢复已接；14组薄控制及14组完整App控制，正式Release矩阵待验 |
+| 13e | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | v1.2 没有本版更新器，首次 v2.0 安装使用官网下载/DMG路径；应用内升级从 v2.0 开始提供 | 实现完成 / 待完整交付验收 | 官网/DMG首次安装入口保留；真实安装和升级另验 |
+| 13f | [V20-13](https://github.com/WeOpen/WeGit/issues/128) | 同版本/源码/build 提供 Universal、Apple Silicon 与 Intel 三种 DMG；所有内嵌 Mach-O 的架构与 minos 按对应包核对，分别输出摘要、来源与安装大小 | 三种开发包通过 / 待正式候选验收 | 固定903407e/build6的三DMG逐SHA/架构/minos/helper/严格签名和原30/60MiB预算通过；托管/正式交付独立待验 |
 | 14a | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 客户端保存多个自定义主题，支持新增、复制、重命名、编辑、删除、导入/导出和切换 | 实现完成/待批次验收 | M2开发证据 |
 | 14b | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 旧 `customTheme` 迁移为主题库的一项，保留原17角色颜色、控件外观与当前选择 | 实现完成/待批次验收 | M2开发证据 |
 | 14c | [V20-14](https://github.com/WeOpen/WeGit/issues/129) | 注册受控 `wegit://theme/import` 入口，从用户点击网页动作直接唤起客户端 | 实施中/联动验收待完成 | M2开发证据 |

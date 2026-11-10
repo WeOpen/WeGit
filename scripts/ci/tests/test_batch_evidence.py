@@ -11,7 +11,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from batch_evidence import (COMMON, canonical_run, digest, eligible, inputs, run_suite, source_matches,
+from batch_evidence import (COMMON, READING_PERFORMANCE_INPUTS, canonical_run, digest, eligible, inputs, run_suite, source_matches,
                             suite_job_succeeded, suite_job_outcome, failed_execution_matches,
                             reader_execution_contract, reader_compatibility)
 from ui_probe import batch_methods, verify_batch_summary
@@ -71,6 +71,68 @@ class EvidenceTests(unittest.TestCase):
         self.write("scripts/ci/run-batch-suite.sh", "changed validation contract\n")
         for suite in before:
             self.assertNotEqual(before[suite], inputs(self.root, suite))
+
+    def test_reading_feature_requires_all_fixtures_and_python_changes_invalidate_reuse(self):
+        # A source without Query retains the old input contract, even when it
+        # already has the M2 comparison service.
+        self.write("WeGitCore/GitCore/CommitComparisonService.swift", "comparison\n")
+        self.assertNotIn("scripts/verify-reading-performance.py", inputs(self.root, "performance"))
+        self.write("WeGitCore/GitCore/RepositoryQueryService.swift", "query\n")
+        with self.assertRaisesRegex(ValueError, "Validation input missing"):
+            inputs(self.root, "performance")
+        for name in READING_PERFORMANCE_INPUTS:
+            self.write(name, "original reader input\n")
+        before = inputs(self.root, "performance")
+        self.assertTrue(set(READING_PERFORMANCE_INPUTS) <= before.keys())
+        receipt, run, _ = self.receipt()
+        receipt.update(suite="performance", inputFiles=before, inputDigest=digest(before))
+        self.assertTrue(eligible(receipt, before, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+        for name in ["scripts/create-reading-performance-fixtures.py", "scripts/verify-reading-performance.py",
+                     "scripts/create-benchmark-fixtures.py"]:
+            self.write(name, "changed reader fixture or verifier\n")
+            changed = inputs(self.root, "performance")
+            self.assertNotEqual(before, changed, name)
+            self.assertFalse(eligible(receipt, changed, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+            self.write(name, "original reader input\n")
+        (self.root / "scripts/verify-reading-performance.py").unlink()
+        with self.assertRaisesRegex(ValueError, "scripts/verify-reading-performance.py"):
+            inputs(self.root, "performance")
+
+    def test_query_performance_gate_executes_required_checker_and_refuses_missing_script(self):
+        root = Path(__file__).resolve().parents[3]
+        runner = root / "scripts/ci/native-behavior.sh"
+        self.write("WeGitCore/GitCore/CommitComparisonService.swift", "comparison\n")
+        result = subprocess.run(["/bin/bash", str(runner), "performance"], cwd=self.root,
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Comparison/query performance not covered", result.stdout)
+        self.write("WeGitCore/GitCore/RepositoryQueryService.swift", "query\n")
+        missing = subprocess.run(["/bin/bash", str(runner), "performance"], cwd=self.root,
+                                 capture_output=True, text=True)
+        self.assertNotEqual(missing.returncode, 0)
+        checker = self.root / "scripts/verify-reading-performance.sh"
+        self.write(str(checker.relative_to(self.root)), "#!/bin/bash\nset -eu\nprintf 'reading-checker-ran\\n'\n")
+        checker.chmod(0o700)
+        result = subprocess.run(["/bin/bash", str(runner), "performance"], cwd=self.root,
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(result.stdout.count("reading-checker-ran"), 1)
+        self.assertNotIn("Comparison/query performance not covered", result.stdout)
+
+    def test_native_evidence_always_retains_bounded_reading_results_and_failure_logs(self):
+        import yaml
+        from check_policy import Loader
+        root = Path(__file__).resolve().parents[3]
+        workflow = yaml.load((root / ".github/workflows/verify.yml").read_text(), Loader=Loader)
+        steps = workflow["jobs"]["native"]["steps"]
+        retained = next(step for step in steps if step.get("name") == "Retain native evidence and preview")
+        self.assertEqual(retained["if"], "always()")
+        paths = set(retained["with"]["path"].splitlines())
+        expected = {".build/reading-performance-*/" + name for name in ["result.json", "fixtures.json",
+                    "input-receipt.json", "source-before.json", "independent-verification.json", "build.log",
+                    "checker-build.log", "fixture.log", "runtime.log", "verification.log", "fixture-root.txt"]}
+        self.assertTrue(expected <= paths)
+        self.assertFalse(any("**" in path for path in paths if "reading-performance" in path))
 
     def receipt(self):
         files = inputs(self.root, "core")
@@ -221,6 +283,31 @@ class EvidenceTests(unittest.TestCase):
 
 
 class TrustedBatchTests(unittest.TestCase):
+    def test_workflow_exposes_exact_trusted_registry_and_copies_it_before_candidate_checkout(self):
+        import yaml
+        from check_policy import Loader
+        root = Path(__file__).resolve().parents[3]
+        workflow = yaml.load((root / ".github/workflows/native-ui.yml").read_text(), Loader=Loader)
+        registry = json.loads((root / "scripts/ci/ui_batches.json").read_text())
+        choices = workflow["on"]["workflow_dispatch"]["inputs"]["batch"]["options"]
+        self.assertEqual(len(choices), len(set(choices)))
+        self.assertEqual(set(choices), {"none", *registry["batches"]})
+        job = workflow["jobs"]["ui"]
+        self.assertEqual(job["if"], "github.ref == 'refs/heads/main'")
+        steps = job["steps"]
+        source = next(index for index, step in enumerate(steps) if step.get("id") == "source")
+        checkouts = [index for index, step in enumerate(steps)
+                     if step.get("uses", "").startswith("actions/checkout@")]
+        self.assertEqual(len(checkouts), 2)
+        self.assertLess(checkouts[0], source)
+        self.assertLess(source, checkouts[1])
+        self.assertEqual(steps[checkouts[0]]["with"]["ref"], "${{ github.sha }}")
+        self.assertEqual(steps[checkouts[1]]["with"]["ref"], "${{ steps.source.outputs.sha }}")
+        self.assertIn('cp scripts/ci/ui_batches.json "$RUNNER_TEMP/wegit-trusted-ui-batches.json"',
+                      steps[source]["run"])
+        execution = next(step["run"] for step in steps if step.get("name") == "Run bounded native scope")
+        self.assertIn('--registry "$RUNNER_TEMP/wegit-trusted-ui-batches.json"', execution)
+
     def test_batch_runs_one_smoke_then_one_complete_set_without_rebuilding(self):
         import ui_probe
         root = Path(__file__).resolve().parents[3]
@@ -239,11 +326,13 @@ class TrustedBatchTests(unittest.TestCase):
         self.assertIn("test-without-building", selected)
         self.assertNotIn("build-for-testing", selected)
 
-    def test_every_registered_method_exists_and_is_unique_in_real_native_sources(self):
+    def test_every_baseline_method_exists_and_is_unique_in_main_native_sources(self):
         root = Path(__file__).resolve().parents[3]
         registry = root / "scripts/ci/ui_batches.json"
         sources = list((root / "WeGitUITests").glob("*.swift"))
-        for name in json.loads(registry.read_text())["batches"]:
+        # New candidate-only batches are checked against the actual candidate
+        # checkout by the trusted probe before build and again before execution.
+        for name in ("baseline-controls", "baseline-recovery", "baseline-repository"):
             methods = batch_methods(registry, name)
             for target in methods:
                 suite, method = target.split("/")

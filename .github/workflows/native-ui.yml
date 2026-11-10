@@ -24,7 +24,7 @@ on:
       batch:
         description: Trusted main registry entry; one build, one smoke, then its complete method set
         type: choice
-        options: [none, baseline-controls, baseline-recovery, baseline-repository, recovery-reset, theme-library]
+        options: [none, baseline-controls, baseline-recovery, baseline-repository, raster-encoding, recovery-reset, repository-tools, commit-tasks, theme-library, workspace-delivery]
         default: none
 permissions:
   contents: read
@@ -67,6 +67,13 @@ jobs:
         with:
           ref: ${{ steps.source.outputs.sha }}
           persist-credentials: false
+      - name: Check complete trusted batch against candidate source before building
+        if: inputs.scope == 'batch'
+        env:
+          UI_BATCH: ${{ inputs.batch }}
+        run: |
+          python3 "$RUNNER_TEMP/wegit-trusted-ui-probe.py" --mode batch-preflight \
+            --batch "$UI_BATCH" --registry "$RUNNER_TEMP/wegit-trusted-ui-batches.json"
       - name: Check toolchain and real interactive session
         run: |
           mkdir -p .build/ci/ui
