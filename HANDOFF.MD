@@ -10,6 +10,12 @@
 - 完整App及UI测试源build-for-testing、Core全部测试源只编译通过；185工具/策略/actionlint通过，268应用输入SHA相同。中文深色/英文浅色真实NSHosting预览使用3条真实Core记录（明确abort/准备/unknown），核对选择/禁用/计划确认/取消保留，未从UI执行删除；fixture source与预览均正常退出，证据`.build/v2-m5-retention`。首次私有预览误用默认Date decoder崩溃，修为iso8601后实际呈现；原日志不删除。新增28键本地化集中核对，不把片段UI称作全部明暗/双语或生产验收。
 - 尚未完成：原helper --recover的交互接线、原无证据历史残留人工处理、更新/迁移正式Release预算、1/2/4窗口和图片性能、M5全页面/支持矩阵。生产key/feed仍按用户要求最后门禁提醒；正式安装与v2发布未进行。
 
+## 2026-11-11 M4 第四轮工作区结果
+
+- UI42855165361固定c414906：smoke实际1/1、完整workspace-delivery实际5/7通过、2失败、0跳过。历史跨进程重开、共享草稿模板、Submodule、快捷键、无配置更新窗均通过；完整266App/36UI来源匹配，146750996bytes/2286CRC原ZIP及AX在`.build/v2-m5-flow/hosted-42855165361`。
+- 余2项实际操作已到末尾：LFS sheet存在明确Completed: LFS rules saved.和Close按钮，但Group AX无value，旧value=success等待失败；改核消息按钮完整成功label及Close enabled，后续tracked/untracked原字节/有效属性/HEAD/index/config/hook断言不变。搜索活动命令已打开Git 活动，测试错等命令名活动记录；按实际目的标题核对。仅2UI测试源，build-for-testing通过，未本机XCTest。
+- CI42855164847已越过完整行为检查并进入正式后端性能，保持在跑候选不push新head取消采样；最终通过范围与结果仍待原artifact核验。末尾2UI修补先本地提交，远端统一补验时继续复用同源已通过范围。
+
 ## 2026-11-11 M4 第三轮证据与历史选择持久化修补
 
 - 固定e9ae775/CI42848714148实际复用了42839694951的Core211/签名148输入与同工具链成功回执，没有重跑407×3及9×2。行为执行1327.087秒，迁移portable入口已实际通过（11.447秒），685主题和42图标通过；最后独立native菜单checker漏快捷键桥接定义而编译失败，性能/应用验收/包未执行。原219892bytes/46CRC ZIP与回执留`.build/v2-m5-flow/hosted-42848714148`。

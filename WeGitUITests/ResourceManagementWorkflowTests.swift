@@ -314,11 +314,14 @@ final class ResourceManagementWorkflowTests: XCTestCase {
     }
     @MainActor private func executeLFS(_ app: XCUIApplication) {
         sheet(app).buttons["lfs-rule-execute"].firstMatch.click()
-        let result = sheet(app).descendants(matching: .any).matching(identifier: "operation-feedback")
-            .firstMatch
+        let result = sheet(app).buttons["operation-feedback-message"]
         let complete = XCTNSPredicateExpectation(
-            predicate: NSPredicate(format: "exists == true AND value == %@", "success"), object: result)
+            predicate: NSPredicate(format: "exists == true AND label == %@", "Completed: LFS rules saved."),
+            object: result)
         XCTAssertEqual(XCTWaiter.wait(for: [complete], timeout: 20), .completed, app.debugDescription)
+        let close = sheet(app).buttons["lfs-rule-cancel"]
+        XCTAssertEqual(close.label, "Close")
+        XCTAssertTrue(close.isEnabled)
     }
     @MainActor private func cancelSheet(_ app: XCUIApplication, identifier: String) {
         let current = sheet(app)

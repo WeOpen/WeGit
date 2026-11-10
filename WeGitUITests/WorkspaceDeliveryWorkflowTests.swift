@@ -88,7 +88,8 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
         openSearch(app, scope: "命令", query: "活动记录")
         app.buttons["打开结果"].click()
         XCTAssertTrue(
-            app.windows["main"].sheets.firstMatch.staticTexts["活动记录"].firstMatch.waitForExistence(timeout: 5))
+            app.windows["main"].sheets.firstMatch.staticTexts["Git 活动"].firstMatch.waitForExistence(
+                timeout: 5))
         XCTAssertEqual(try fixture.git(["rev-parse", "HEAD"]), head)
         XCTAssertEqual(try Data(contentsOf: fixture.root.appending(path: ".git/index")), index)
         retain(app, "Unified search navigated existing objects without Git writes")
