@@ -10,6 +10,13 @@
 - 完整App及UI测试源build-for-testing、Core全部测试源只编译通过；185工具/策略/actionlint通过，268应用输入SHA相同。中文深色/英文浅色真实NSHosting预览使用3条真实Core记录（明确abort/准备/unknown），核对选择/禁用/计划确认/取消保留，未从UI执行删除；fixture source与预览均正常退出，证据`.build/v2-m5-retention`。首次私有预览误用默认Date decoder崩溃，修为iso8601后实际呈现；原日志不删除。新增28键本地化集中核对，不把片段UI称作全部明暗/双语或生产验收。
 - 尚未完成：原helper --recover的交互接线、原无证据历史残留人工处理、更新/迁移正式Release预算、1/2/4窗口和图片性能、M5全页面/支持矩阵。生产key/feed仍按用户要求最后门禁提醒；正式安装与v2发布未进行。
 
+## 2026-11-10 M4 第二轮回归结果与可复用范围
+
+- 固定cfbbf9e的CI42839694951：三套Git各407测试/70套件通过，Apple470.501/最低241.746/Homebrew268.871秒；隔离OpenPGP各9通过且私有服务清理确认。Core211/签名148/行为413项输入逐blob相同。行为先通过15偏好迁移、30持久更新、15stage、20主题队列，再因verify-application-migration.py调用runner没有的rg抛FileNotFoundError；迁移尚未开始，性能/应用/包未执行。原ZIP/CRC/SHA/log在`.build/v2-m5-flow/hosted-42839694951`。
+- 迁移源码枚举改用Python标准库，拒绝missing/空Core/symlink；当前137项路径+SHA与原rg完全一致，2项工具控制通过。不能为工具枚举依赖给整个runner添加无关组件；也不能吞错误/空映射冒充来源。当前修补不改变Core211和签名148输入；真实suite_job_succeeded与eligible确认上一轮失败later仍可复用已成功项，但实际runner image/工具链必须一致。
+- 第二轮UI42839695901：smoke1/1；完整workspace-delivery7项、3通过/4失败/0跳过。Submodule/快捷键/无配置更新已真实通过；LFS初始读取、History详情OID断言、跨窗模板再次打开及储藏消息等待仍失败。266App/36UI输入匹配，137427198bytes/2300CRC/SHAf0550151…原证据保留`.build/v2-m5-flow/hosted-42839695901`。储藏已准确选择原完整OID且Diff为stash bytes，消息AX被截断导致冗余文本等待失败，后续按原完整对象身份核对。
+- 末尾3UI源修补：LFS按真实已提交clean夹具等待准确repo/main/Working tree clean，不伪造更改；History点准确OID行内StaticText并验证row.selected；跨窗模板用唯一原生Window菜单系统项将被遮挡secondary置前，再等sheet消失/明确claim/两窗enabled状态；储藏直接核完整ref|OID选中行及原详情全OID。原数据断言和timeout保持。build-for-testing与187工具通过，本机无XCTest；正常固定下一head后集中补验，不把来源相同的Core/签名再人为失效。
+
 ## 2026-11-10 M4 固定候选首轮真实失败与修补
 
 - 完整候选c8a3563/PR138首次集中送验：CI42832267661的site/185工具通过，Apple Git Core实际407测试/70套件、407.822秒、6问题；最低Git/Homebrew/签名/行为/性能/应用和包后续未执行。211项输入与候选逐blob一致；native ZIP28164bytes/4CRC、receipts10629bytes/1CRC及原日志保留`.build/v2-m5-flow/hosted-42832267661`，失败不改绿。

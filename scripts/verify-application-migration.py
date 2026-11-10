@@ -30,7 +30,17 @@ def run(command, log, *, environment=None):
 
 
 def core_inputs():
-    names = subprocess.run(["rg", "--files", "WeGitCore"], cwd=ROOT, check=True, text=True, capture_output=True).stdout.splitlines()
+    directory = ROOT / "WeGitCore"
+    if not directory.is_dir() or directory.is_symlink():
+        raise RuntimeError("Core source directory is missing or redirected")
+    names = []
+    for path in directory.rglob("*"):
+        if path.is_symlink():
+            raise RuntimeError("Core source inputs must not use symbolic links")
+        if path.is_file():
+            names.append(str(path.relative_to(ROOT)))
+    if not any(name.endswith(".swift") for name in names):
+        raise RuntimeError("Core source inputs are empty")
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in sorted(names + ["Package.swift"])}
 
 
