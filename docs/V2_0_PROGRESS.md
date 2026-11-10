@@ -4,6 +4,8 @@
 
 ## 当前批次
 
+2026-11-11：第三轮CI42848714148复用已过Core/签名，迁移portable修补已真正通过；行为最后因独立native菜单checker漏快捷键桥接源而编译失败，已补真实依赖且32控制通过。UI42848712718仍3/7，草稿/快捷键/更新窗通过；历史重开暴露真实selection持续保存缺口，现已同步保存并11项私有重开控制通过；两资源/储藏测试改按实际AX就绪/完整对象+diff核对。App/UI源及187工具通过，实际托管下一轮仍待，不把本机控制改记通过。
+
 M4修补cfbbf9e的[CI42839694951](https://github.com/WeOpen/WeGit/actions/runs/42839694951)：三套Git各407/70与OpenPGP各9通过；业务检查通过15偏好/30更新/15stage/20队列后，迁移入口因runner缺rg失败，迁移及后续未执行。已改标准库枚举并验证137项输入等价；Core/签名同工具链可复用。[UI42839695901](https://github.com/WeOpen/WeGit/actions/runs/42839695901)为smoke1/1、专项3/7（Submodule/快捷键/更新窗口）通过，剩余4项保留失败并按实际AX定位，不把编译或开发预览改记通过。
 
 M4完整候选[PR138](https://github.com/WeOpen/WeGit/pull/138)固定c8a3563的首轮[CI42832267661](https://github.com/WeOpen/WeGit/actions/runs/42832267661)：site/185工具通过，Apple Core407测试/70套件中6问题，其他后端范围未执行。[UI42832410175](https://github.com/WeOpen/WeGit/actions/runs/42832410175)为smoke1/1通过、workspace-delivery0/7通过。原ZIP/计数/源逐blob证据保留。修补显式私有配置夹具、am状态预期、下载公开错误类型，以及主窗稳定AX标识和四种经真实AX确认的selector/等待；本机只编译及隔离原生观察，实际补验仍待固定修补批次。

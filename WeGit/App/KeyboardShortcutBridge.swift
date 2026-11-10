@@ -1,6 +1,10 @@
 import AppKit
 import WeGitCore
 
+extension Notification.Name {
+    static let applicationShortcutsChanged = Notification.Name("WeGit.ApplicationShortcutsChanged")
+}
+
 extension KeyboardShortcutBinding {
     init(event: NSEvent) {
         var modifiers = KeyboardShortcutModifiers()

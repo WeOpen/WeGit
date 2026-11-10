@@ -3,10 +3,6 @@ import Observation
 import SwiftUI
 import WeGitCore
 
-extension Notification.Name {
-    static let applicationShortcutsChanged = Notification.Name("WeGit.ApplicationShortcutsChanged")
-}
-
 /// One store and one update operation belong to the application, across all workspaces.
 @Observable @MainActor final class ApplicationDeliveryServices {
     let shortcuts: KeyboardShortcutPersistence?

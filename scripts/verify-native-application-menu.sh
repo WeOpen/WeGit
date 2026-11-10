@@ -9,6 +9,7 @@ library_path="$(swift build --show-bin-path)"
 xcrun swiftc -sdk "$sdk_path" -target arm64-apple-macosx27.0 \
   -I "$library_path" "$library_path/WeGitCore.o" -framework SwiftUI \
   WeGit/DesignSystem/AppPresentation.swift WeGit/App/NativeApplicationMenu.swift \
+  WeGit/App/KeyboardShortcutBridge.swift \
   scripts/NativeApplicationMenuChecks.swift \
   -o "$check_run/checks"
 ditto "$library_path/WeGit_WeGitCore.bundle" "$check_run/WeGit_WeGitCore.bundle"

@@ -80,12 +80,11 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
         openSearch(app, scope: "储藏", query: "Chosen stash")
         app.buttons["打开结果"].click()
         waitSelectedStash(app, reference: "stash@{1}", objectID: chosenStash)
-        let stash = app.staticTexts["stash-selected-object"]
-        waitLabel(stash, chosenStash)
+        waitStashDiff(app, contents: "stash bytes")
         openSearch(app, scope: "储藏", query: "Other stash")
         app.buttons["打开结果"].click()
         waitSelectedStash(app, reference: "stash@{0}", objectID: otherStash)
-        waitLabel(stash, otherStash)
+        waitStashDiff(app, contents: "other stash bytes")
         openSearch(app, scope: "命令", query: "活动记录")
         app.buttons["打开结果"].click()
         XCTAssertTrue(
@@ -220,5 +219,11 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
                         predicate: NSPredicate(format: "selected == true"), object: rows.element)
                 ],
                 timeout: 10), .completed)
+    }
+
+    @MainActor private func waitStashDiff(_ app: XCUIApplication, contents: String) {
+        let addedLine = app.textViews.matching(
+            NSPredicate(format: "identifier BEGINSWITH %@ AND value == %@", "diff-code:", contents))
+        XCTAssertTrue(addedLine.firstMatch.waitForExistence(timeout: 10))
     }
 }

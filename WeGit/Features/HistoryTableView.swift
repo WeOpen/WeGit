@@ -14,11 +14,7 @@ struct HistoryTableView: View {
                 return Set(app.workspace.selectedCommit.map { [$0.id] } ?? [])
             },
             set: { ids in
-                app.cancelPendingHistoryRestore()
-                history.selectedIDs = ids
-                if app.workspace.selectedCommit.map({ ids.contains($0.id) }) != true {
-                    app.workspace.selectedCommit = history.commits.first { ids.contains($0.id) }
-                }
+                app.applyHistorySelection(ids, for: session)
             })
     }
 
