@@ -33,7 +33,11 @@ final class WorkspaceWindowCoordinator: NSObject {
             closeDelegates[app.windowID] = proxy
             window.delegate = proxy
         }
-        window.setAccessibilityIdentifier("workspace-window-" + app.windowID.uuidString)
+        // Preserve the primary scene's stable automation/accessibility identity;
+        // additional windows use their persistent session ID.
+        window.setAccessibilityIdentifier(
+            app.windowID == app.runtime.primaryWindowID
+                ? "main" : "workspace-window-" + app.windowID.uuidString)
         if window.isKeyWindow { activate(app) }
     }
 

@@ -132,7 +132,7 @@ struct SequencerAndGraphTests {
         try f.write("file", "conflicting local\n")
         _ = try await f.commit("Local")
         _ = try await f.engine.run(["am"], in: f.root, input: patch, accepted: [128])
-        #expect(try await f.service.status().sequencer == .unknown)
+        #expect(try await f.service.status().sequencer == .mailApply)
         await #expect(throws: ModelFailure.self) {
             try await f.service.sequencer(continueOperation: true, expected: .rebase)
         }

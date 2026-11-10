@@ -90,6 +90,7 @@ extension Notification.Name {
             }
         }.workbenchControlFamily().workbenchAppearance(preferences)
         let window = NSWindow(contentViewController: NSHostingController(rootView: content))
+        window.setAccessibilityIdentifier("update-window")
         window.styleMask = [.titled, .closable]
         window.title = L10n.text("软件更新")
         window.isReleasedWhenClosed = false

@@ -33,7 +33,10 @@ struct GitConfigurationTests {
         let linked = f.root.appending(path: "linked")
         _ = try await f.engine.run(["worktree", "add", "--detach", linked.path, head], in: f.root)
         let location = try await RepositoryService.discover(linked, engine: f.engine)
-        let settings = GitConfigurationService(engine: f.engine, location: location)
+        let settings = GitConfigurationService(
+            engine: TestGit.engine(
+                environment: f.engine.environment, globalConfiguration: try TestGitConfiguration()),
+            location: location)
         let shared = try Data(contentsOf: f.service.location.commonDirectory.appending(path: "config"))
         let index = try Data(contentsOf: location.gitDirectory.appending(path: "index"))
         let before = try await settings.read(.commitSigning)
@@ -75,7 +78,9 @@ struct GitConfigurationTests {
         _ = try await f.engine.run(["config", "--local", "commit.gpgsign", "true"], in: f.root)
         let runner = DisableWorktreeConfigDuringEdit(engine: f.engine, root: f.root)
         let settings = GitConfigurationService(
-            engine: TestGit.engine(runner: runner, environment: f.engine.environment),
+            engine: TestGit.engine(
+                runner: runner, environment: f.engine.environment,
+                globalConfiguration: try TestGitConfiguration()),
             location: f.service.location)
         let snapshot = try await settings.read(.commitSigning)
         await #expect(throws: ConfigurationWriteOutcomeUnknown.self) {
