@@ -6,10 +6,27 @@ extension NativeApplicationMenu {
     convenience init(app: AppState) {
         self.init(
             perform: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 guard let app else { return }
                 switch command {
+                case .updates: app.runtime.services.showUpdates(preferences: app.preferences)
+                case .newWindow: app.runtime.windowCoordinator?.newWindow()
+                case .openInNewWindow:
+                    if let url = app.session?.location.root {
+                        app.runtime.windowCoordinator?.newWindow(repository: url)
+                    }
+                case .reopenWindow: app.runtime.windowCoordinator?.reopenClosedWindow()
                 case .openRepository: app.openPanel()
                 case .clone: app.presentClone()
+                case .compareReferences:
+                    if let session = app.session, session.status.head != nil {
+                        app.referenceComparisonRequest = ReferenceComparisonRequest(session: session)
+                    }
+                case .initializeRepository: app.presentInitialization()
+                case .importPatch: app.openPatchImport()
+                case .importMailPatches: app.openMailPatchImport()
+                case .exportWorkingPatch: app.exportWorkspacePatch(layer: .unstaged)
+                case .exportStagedPatch: app.exportWorkspacePatch(layer: .staged)
                 case .switchRepository: app.repositoryPickerPresented = true
                 case .sidebar: app.sidebarRequestID = UUID()
                 case .inspector: app.workspace.inspector.toggle()
@@ -22,6 +39,10 @@ extension NativeApplicationMenu {
                 case .commitAndPush: app.presentSync(.commitAndPush)
                 case .pull: app.presentSync(.pull)
                 case .push: app.presentSync(.push)
+                case .historyDepth:
+                    if let session = app.session, session.canSync {
+                        app.historyDepthRequest = HistoryDepthRequest(session: session)
+                    }
                 case .closeRepository: app.closeRepository()
                 case .activity: app.activityPresented = true
                 case .terminal: app.openTerminal()
@@ -42,8 +63,15 @@ extension NativeApplicationMenu {
                 }
             },
             enabled: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 guard let app else { return false }
+                if app.runtime.updateHandoffInProgress || app.isMigrationBlocked {
+                    return command == .updates
+                }
                 switch command {
+                case .openInNewWindow: return app.session != nil
+                case .reopenWindow:
+                    return app.runtime.persistence?.windows.contains(where: { !$0.open }) == true
                 case .sidebar, .inspector, .changes, .history, .branches, .stashes, .tags, .refresh,
                     .terminal,
                     .copyPath,
@@ -56,6 +84,11 @@ extension NativeApplicationMenu {
                 case .commit: return app.session?.canCommit == true
                 case .commitAndPush: return app.session?.canCommitAndPush == true
                 case .pull, .push: return app.session?.canSync == true
+                case .historyDepth: return app.session?.canSync == true
+                case .compareReferences: return app.session?.status.head != nil
+                case .importPatch, .importMailPatches:
+                    return app.session?.canWrite == true && app.session?.isBusy == false
+                case .exportWorkingPatch, .exportStagedPatch: return app.session != nil
                 case .closeRepository:
                     return app.session != nil && app.session?.isBusy != true
                         && !app.preferences.configurationWriteInProgress
@@ -68,6 +101,7 @@ extension NativeApplicationMenu {
                 }
             },
             selected: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 guard let app else { return false }
                 switch command {
                 case .changes: return app.workspace.route == .changes
@@ -79,6 +113,7 @@ extension NativeApplicationMenu {
                 }
             },
             title: { [weak app] command in
+                let app = app?.runtime.activeState ?? app
                 switch command {
                 case .sidebar:
                     return L10n.menuTitle(app?.sidebarVisible == true ? "Hide Sidebar" : "Show Sidebar")
@@ -89,7 +124,9 @@ extension NativeApplicationMenu {
                 }
             },
             appearance: { [weak app] in
-                AppPresentation.appearance(for: app?.preferences.resolvedAppearance ?? "system")
-            })
+                AppPresentation.appearance(
+                    for: (app?.runtime.activeState ?? app)?.preferences.resolvedAppearance ?? "system")
+            },
+            shortcut: { [weak app] command in app?.runtime.services.shortcutOverride(for: command) })
     }
 }

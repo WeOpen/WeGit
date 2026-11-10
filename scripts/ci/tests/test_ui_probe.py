@@ -368,6 +368,7 @@ class NativeCandidateSourceTests(unittest.TestCase):
     def test_forks_closed_wrong_base_and_mutable_source_are_refused(self):
         import copy
         for mutate in [lambda p: p.update(state="closed"), lambda p: p["base"].update(ref="other"),
+                       lambda p: p["base"].update(repo={"full_name": "external/WeGit"}),
                        lambda p: p["head"].update(repo={"full_name": "external/WeGit"}),
                        lambda p: p["head"].update(sha="main")]:
             candidate = copy.deepcopy(self.candidate())

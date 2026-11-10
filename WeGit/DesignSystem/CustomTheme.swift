@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 import WeGitCore
 
@@ -124,6 +125,17 @@ struct CustomTheme: Codable, Equatable, Sendable {
         return try encoder.encode(validated())
     }
 
+    func normalizedData() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        return try encoder.encode(validated())
+    }
+
+    var contentDigest: String {
+        guard let data = try? normalizedData() else { return "" }
+        return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    }
+
     enum ValidationError: LocalizedError {
         case version, name, roles, size, format
         case color(ThemeColorRole)
@@ -136,6 +148,110 @@ struct CustomTheme: Codable, Equatable, Sendable {
             case .size: L10n.text("主题文件不能超过 64 KB。")
             case .format: L10n.text("无法读取主题，请选择有效的 WeGit 主题 JSON 文件。")
             case .color(let role): L10n.text("\(role.title) 需要使用 #RRGGBB 格式。")
+            }
+        }
+    }
+}
+
+struct CustomThemeEntry: Codable, Equatable, Identifiable, Sendable {
+    let id: UUID
+    var theme: CustomTheme
+    let createdAt: Date
+    init(id: UUID = UUID(), theme: CustomTheme, createdAt: Date = Date()) {
+        self.id = id
+        self.theme = theme
+        self.createdAt = createdAt
+    }
+}
+
+struct CustomThemeLibrary: Codable, Equatable, Sendable {
+    static let key = "customThemes.v1"
+    static let maximumEntries = 100
+    static let maximumBytes = 1024 * 1024
+    var version = 1
+    var activeThemeID: UUID?
+    var entries: [CustomThemeEntry] = []
+    // Selection and palette ID are committed in one preference value.
+    var selectedAppearance: String?
+    var activeTheme: CustomTheme? { entries.first { $0.id == activeThemeID }?.theme }
+
+    func validated() throws -> Self {
+        guard version == 1, entries.count <= Self.maximumEntries,
+            Set(entries.map(\.id)).count == entries.count,
+            activeThemeID == nil || entries.contains(where: { $0.id == activeThemeID }),
+            selectedAppearance == nil || ["system", "light", "dark", "custom"].contains(selectedAppearance!)
+        else { throw Failure.invalid }
+        var result = self
+        for index in result.entries.indices {
+            result.entries[index].theme = try result.entries[index].theme.validated()
+        }
+        return result
+    }
+    func encoded() throws -> Data {
+        let data = try JSONEncoder().encode(validated())
+        guard data.count <= Self.maximumBytes else { throw Failure.full }
+        return data
+    }
+    static func decode(_ data: Data) throws -> Self {
+        guard data.count <= maximumBytes else { throw Failure.invalid }
+        return try JSONDecoder().decode(Self.self, from: data).validated()
+    }
+    enum Failure: Error, LocalizedError {
+        case invalid, full, changed, previewInUse
+        var errorDescription: String? {
+            switch self {
+            case .invalid: L10n.text("主题库无法读取，原数据已保留，请先恢复主题库备份。")
+            case .full: L10n.text("主题库已达到 100 项或空间上限，请先导出或删除主题。")
+            case .changed: L10n.text("此主题已在其他窗口修改或删除，请重新打开。")
+            case .previewInUse: L10n.text("另一个窗口正在预览主题，请先结束该预览。")
+            }
+        }
+    }
+}
+
+struct ThemeImportPayload: Identifiable, Sendable {
+    let id: String
+    let theme: CustomTheme
+    static let maximumPayloadBytes = 8 * 1024
+    static let maximumURIBytes = 16 * 1024
+
+    static func parse(_ url: URL) throws -> Self {
+        guard url.absoluteString.utf8.count <= maximumURIBytes,
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            components.scheme == "wegit", components.host == "theme", components.path == "/import",
+            components.user == nil, components.password == nil, components.port == nil,
+            components.fragment == nil, let items = components.queryItems, items.count == 3,
+            Set(items.map(\.name)) == ["v", "data", "sha256"]
+        else { throw Failure.invalid }
+        let query = Dictionary(uniqueKeysWithValues: items.map { ($0.name, $0.value ?? "") })
+        guard query["v"] == "1", let encoded = query["data"], let checksum = query["sha256"],
+            !encoded.isEmpty, encoded.utf8.count <= 10924,
+            encoded.allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }),
+            checksum.count == 64,
+            checksum.allSatisfy({ $0.isASCII && ("0"..."9").contains($0) || ("a"..."f").contains($0) })
+        else { throw Failure.invalid }
+        var base64 = encoded.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+        base64 += String(repeating: "=", count: (4 - base64.count % 4) % 4)
+        guard let data = Data(base64Encoded: base64), data.count <= maximumPayloadBytes,
+            data.base64EncodedString().replacingOccurrences(of: "+", with: "-").replacingOccurrences(
+                of: "/", with: "_"
+            ).replacingOccurrences(of: "=", with: "") == encoded,
+            SHA256.hash(data: data).map({ String(format: "%02x", $0) }).joined() == checksum
+        else { throw Failure.checksum }
+        let value = try JSONSerialization.jsonObject(with: data)
+        guard let object = value as? [String: Any],
+            Set(object.keys) == ["version", "name", "controls", "colors"]
+        else { throw Failure.invalid }
+        let theme = try CustomTheme.decode(data)
+        return ThemeImportPayload(id: theme.contentDigest, theme: theme)
+    }
+
+    enum Failure: Error, LocalizedError {
+        case invalid, checksum
+        var errorDescription: String? {
+            switch self {
+            case .invalid: L10n.text("主题链接格式或大小无效，请改用 JSON 文件导入。")
+            case .checksum: L10n.text("主题链接的内容摘要不匹配，请重新发送或下载 JSON。")
             }
         }
     }

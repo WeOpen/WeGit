@@ -19,6 +19,13 @@ enum PreferenceMigration {
         migrate(defaults: .standard, target: identifier, legacy: legacy)
     }
 
+    static func version2Domain(for identifier: String) -> String? {
+        switch identifier {
+        case "com.willxue.wegit", "com.willxue.wegit.development": identifier + ".v2"
+        default: nil
+        }
+    }
+
     /// Existing destination values win. The marker also prevents deleted settings
     /// from being copied back from an old installation on a later launch.
     @discardableResult

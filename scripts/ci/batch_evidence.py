@@ -6,6 +6,7 @@ An equivalent reviewed merge can reference its PR evidence without inventing a
 second test count. Failed/expired/unverifiable evidence falls back to execution.
 """
 import argparse
+import ast
 from datetime import datetime, timezone
 import hashlib
 import io
@@ -23,6 +24,23 @@ COMMON = ("Package.swift", "scripts/ci/batch_evidence.py", "scripts/ci/run-batch
           "scripts/ci/isolate-git.sh", "scripts/ci/check-toolchain.sh", ".github/workflows/verify.yml")
 SHA = re.compile(r"[0-9a-f]{40}")
 MAX_ARCHIVE = 8 * 1024 * 1024
+READING_PERFORMANCE_INPUTS = (
+    "scripts/ReadingPerformance.swift", "scripts/verify-reading-performance.sh",
+    "scripts/create-reading-performance-fixtures.py", "scripts/verify-reading-performance.py",
+    "scripts/create-benchmark-fixtures.py",
+)
+SUITE_STEPS = {
+    "core": "Core regression on Apple, minimum and Homebrew Git",
+    "signing": "Isolated Apple and Homebrew OpenPGP signing",
+    "behavior": "Native feature behavior",
+    "performance": "Backend performance budgets",
+    "application": "Compile application and native UI regressions",
+}
+READER_ONLY_FUNCTIONS = {
+    "canonical_run", "eligible", "restore", "suite_job_succeeded",
+    "reader_execution_contract", "reader_compatibility", "source_matches", "ensure_commit",
+    "suite_job_outcome", "failed_execution_matches",
+}
 
 
 def digest(value):
@@ -32,7 +50,7 @@ def digest(value):
 def inputs(root, suite):
     if suite not in SUITES:
         raise ValueError("Unknown validation suite")
-    directories = ["WeGitCore", "WeGitAskPass"]
+    directories = ["WeGitCore", "WeGitAskPass", "WeGitUpdater"]
     if suite == "core":
         directories += ["WeGitTests", "Benchmarks"]
     if suite in {"behavior", "application", "package"}:
@@ -51,6 +69,10 @@ def inputs(root, suite):
         paths.update(str(path.relative_to(root)) for pattern in ("*Performance.swift", "verify-*-performance.sh")
                      for path in (root / "scripts").glob(pattern))
         paths.add("scripts/ci/native-behavior.sh")
+        # Older revisions lack the unified query service. Once it is present,
+        # every combined reading fixture and verifier is mandatory and bound.
+        if (root / "WeGitCore/GitCore/RepositoryQueryService.swift").is_file():
+            paths.update(READING_PERFORMANCE_INPUTS)
     else:
         paths.update(str(path.relative_to(root)) for path in (root / "scripts").glob("*")
                      if path.suffix in {".sh", ".swift", ".py"})
@@ -85,13 +107,99 @@ def api(repo, suffix, binary=False):
     return result.stdout if binary else json.loads(result.stdout)
 
 
-def canonical_run(run, workflow_id, repo):
+def canonical_run(run, workflow_id, repo, allow_partial=False):
     return (run.get("workflow_id") == workflow_id and run.get("status") == "completed"
-            and run.get("conclusion") == "success" and SHA.fullmatch(run.get("head_sha", ""))
+            and (run.get("conclusion") == "success" or allow_partial and run.get("conclusion") == "failure")
+            and SHA.fullmatch(run.get("head_sha", ""))
             and (run.get("repository") or {}).get("full_name", repo).casefold() == repo.casefold()
             and (run.get("event") in {"push", "workflow_dispatch"} and run.get("head_branch") == "main"
                  or run.get("event") == "pull_request"))
 
+
+def suite_job_outcome(receipt, jobs):
+    step_name = SUITE_STEPS.get(receipt.get("suite"))
+    origin = receipt.get("execution", {})
+    if (step_name is None or receipt.get("mode") != "executed"
+            or str(origin.get("runId")) != str(receipt.get("runId"))
+            or origin.get("sourceCommit") != receipt.get("sourceCommit")):
+        return None
+    for job in jobs:
+        if job.get("name") != "Native macOS":
+            continue
+        for step in job.get("steps", []):
+            if step.get("name") == step_name and step.get("status") == "completed":
+                outcome = step.get("conclusion")
+                return outcome if outcome in {"success", "failure"} else None
+    return None
+
+
+def suite_job_succeeded(receipt, jobs):
+    return suite_job_outcome(receipt, jobs) == "success"
+
+
+def failed_execution_matches(receipt, expected_files, expected_tools, run, workflow_id, repo, reader_proof=None):
+    original = receipt.get("inputFiles", {})
+    origin = receipt.get("execution", {})
+    name = "scripts/ci/batch_evidence.py"
+    equivalent = (isinstance(reader_proof, dict) and reader_proof.get("kind") == "read-only-evidence-reader"
+                  and original.keys() == expected_files.keys()
+                  and [key for key in original if original[key] != expected_files[key]] == [name]
+                  and reader_proof.get("sourceSHA256") == original.get(name)
+                  and reader_proof.get("currentSHA256") == expected_files.get(name))
+    return bool(canonical_run(run, workflow_id, repo, allow_partial=True)
+                and receipt.get("format") == 1 and receipt.get("status") == "failure"
+                and receipt.get("mode") == "executed" and origin.get("kind") == "executed"
+                and isinstance(origin.get("exitCode"), int) and origin["exitCode"] != 0
+                and (original == expected_files or equivalent) and receipt.get("inputDigest") == digest(original)
+                and receipt.get("toolchain") == expected_tools
+                and receipt.get("repository", "").casefold() == repo.casefold()
+                and str(receipt.get("runId")) == str(run.get("id"))
+                and str(origin.get("runId")) == str(run.get("id"))
+                and origin.get("sourceCommit") == receipt.get("sourceCommit"))
+
+
+def reader_execution_contract(source):
+    """Keep every execution statement; only evidence-reading definitions differ."""
+    module = ast.parse(source)
+    body = []
+    for node in module.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name in READER_ONLY_FUNCTIONS:
+            continue
+        if isinstance(node, ast.Import) and len(node.names) == 1 and node.names[0].name == "ast" and node.names[0].asname is None:
+            continue
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            if node.targets[0].id in {"SUITE_STEPS", "READER_ONLY_FUNCTIONS"}:
+                ast.literal_eval(node.value)
+                continue
+        body.append(node)
+    normalized = ast.dump(ast.Module(body=body, type_ignores=[]), include_attributes=False)
+    return hashlib.sha256(normalized.encode()).hexdigest()
+
+
+def reader_compatibility(root, receipt, expected_files):
+    original = receipt.get("inputFiles", {})
+    name = "scripts/ci/batch_evidence.py"
+    if original.keys() != expected_files.keys():
+        return None
+    if [key for key in original if original[key] != expected_files[key]] != [name]:
+        return None
+    source = receipt.get("sourceCommit", "")
+    if not SHA.fullmatch(source):
+        return None
+    old = subprocess.run(["git", "-C", str(root), "show", source + ":" + name],
+                         capture_output=True, timeout=15)
+    new = (root / name).read_bytes()
+    if old.returncode or hashlib.sha256(old.stdout).hexdigest() != original[name]:
+        return None
+    try:
+        before = reader_execution_contract(old.stdout.decode())
+        after = reader_execution_contract(new.decode())
+    except (SyntaxError, ValueError, UnicodeError):
+        return None
+    if before != after:
+        return None
+    return {"kind": "read-only-evidence-reader", "path": name, "sourceSHA256": original[name],
+            "currentSHA256": expected_files[name], "executionContractSHA256": before}
 
 def ensure_commit(root, repo, sha):
     if not SHA.fullmatch(sha or ""):
@@ -108,7 +216,12 @@ def source_matches(root, repo, receipt, run):
     ensure_commit(root, repo, source)
     if source != run["head_sha"]:
         # pull_request checkout commonly uses GitHub's synthetic merge commit.
-        parents = command_output(["git", "-C", str(root), "show", "-s", "--format=%P", source]).split()
+        # Revision walking hides parents at a shallow boundary. Read the
+        # immutable commit header itself when proving a PR merge's provenance.
+        commit = subprocess.run(["git", "-C", str(root), "cat-file", "-p", source],
+                                capture_output=True, check=True, timeout=15).stdout
+        header = commit.split(b"\n\n", 1)[0]
+        parents = [line[7:].decode("ascii") for line in header.splitlines() if line.startswith(b"parent ")]
         if run.get("event") != "pull_request" or len(parents) != 2 or parents[1] != run["head_sha"]:
             return False
     files = receipt.get("inputFiles")
@@ -125,11 +238,23 @@ def source_matches(root, repo, receipt, run):
     return True
 
 
-def eligible(receipt, expected_files, expected_tools, run, workflow_id, repo):
+def eligible(receipt, expected_files, expected_tools, run, workflow_id, repo,
+             phase_verified=False, reader_proof=None):
     origin = receipt.get("execution", {})
-    return bool(canonical_run(run, workflow_id, repo)
+    original = receipt.get("inputFiles", {})
+    reader_name = "scripts/ci/batch_evidence.py"
+    equivalent = (isinstance(reader_proof, dict)
+                  and reader_proof.get("kind") == "read-only-evidence-reader"
+                  and reader_proof.get("path") == reader_name
+                  and original.keys() == expected_files.keys()
+                  and [key for key in original if original[key] != expected_files[key]] == [reader_name]
+                  and reader_proof.get("sourceSHA256") == original.get(reader_name)
+                  and reader_proof.get("currentSHA256") == expected_files.get(reader_name)
+                  and re.fullmatch(r"[0-9a-f]{64}", reader_proof.get("executionContractSHA256", "")))
+    return bool(canonical_run(run, workflow_id, repo, allow_partial=phase_verified)
                 and receipt.get("format") == 1 and receipt.get("status") == "success"
-                and receipt.get("inputFiles") == expected_files and receipt.get("inputDigest") == digest(expected_files)
+                and (receipt.get("inputFiles") == expected_files or equivalent)
+                and receipt.get("inputDigest") == digest(receipt.get("inputFiles", {}))
                 and receipt.get("toolchain") == expected_tools
                 and receipt.get("repository", "").casefold() == repo.casefold()
                 and str(receipt.get("runId")) == str(run.get("id"))
@@ -142,14 +267,16 @@ def restore(root, repo, output):
         raise ValueError("Invalid evidence repository")
     tools = toolchain()
     workflow_id = api(repo, "actions/workflows/verify.yml")["id"]
-    runs = api(repo, "actions/workflows/verify.yml/runs?status=success&per_page=20")["workflow_runs"]
+    runs = api(repo, "actions/workflows/verify.yml/runs?status=completed&per_page=20")["workflow_runs"]
     found = {}
+    blocked = {}
+    runs.sort(key=lambda item: item.get("updated_at", item.get("created_at", "")), reverse=True)
     start = time.monotonic()
     expected = {suite: inputs(root, suite) for suite in SUITES if suite != "package"}
     for run in runs:
         if time.monotonic() - start > 90:
             break
-        if not canonical_run(run, workflow_id, repo) or str(run["id"]) == os.environ.get("GITHUB_RUN_ID"):
+        if not canonical_run(run, workflow_id, repo, allow_partial=True) or str(run["id"]) == os.environ.get("GITHUB_RUN_ID"):
             continue
         # Accept PR evidence only after the same-repository source was reviewed
         # into main, or while validating a later head of that same owned PR.
@@ -165,8 +292,9 @@ def restore(root, repo, output):
             if not accepted:
                 continue
         jobs = api(repo, f"actions/runs/{run['id']}/jobs?filter=latest&per_page=100")["jobs"]
+        required_jobs = ("Repository validation", "Change scope") if run.get("conclusion") == "failure" else ("Native macOS", "Repository policy")
         if not all(any(job.get("name") == name and job.get("conclusion") == "success" for job in jobs)
-                   for name in ("Native macOS", "Repository policy")):
+                   for name in required_jobs):
             continue
         artifacts = api(repo, f"actions/runs/{run['id']}/artifacts?per_page=100")["artifacts"]
         for artifact in artifacts:
@@ -178,17 +306,44 @@ def restore(root, repo, output):
             with zipfile.ZipFile(io.BytesIO(archive)) as zip_file:
                 for item in zip_file.infolist():
                     suite = Path(item.filename).stem
-                    if suite in found or suite not in expected or item.file_size > 2 * 1024 * 1024:
+                    if suite in found or suite in blocked or suite not in expected or item.file_size > 2 * 1024 * 1024:
                         continue
                     receipt = json.loads(zip_file.read(item))
-                    if (receipt.get("suite") == suite and eligible(receipt, expected[suite], tools, run, workflow_id, repo)
-                            and source_matches(root, repo, receipt, run)):
-                        found[suite] = {"receipt": receipt, "runId": run["id"], "artifactId": artifact["id"],
-                                        "artifactSHA256": hashlib.sha256(archive).hexdigest()}
+                    if receipt.get("suite") != suite or not source_matches(root, repo, receipt, run):
+                        continue
+                    attempt = str(receipt.get("runAttempt", ""))
+                    if not attempt.isdigit() or int(attempt) < 1:
+                        continue
+                    attempt_jobs = jobs if attempt == str(run.get("run_attempt")) else api(
+                        repo, f"actions/runs/{run['id']}/attempts/{attempt}/jobs?per_page=100")["jobs"]
+                    phase = suite_job_succeeded(receipt, attempt_jobs)
+                    proof = reader_compatibility(root, receipt, expected[suite])
+                    if (suite_job_outcome(receipt, attempt_jobs) == "failure"
+                            and failed_execution_matches(receipt, expected[suite], tools, run, workflow_id, repo, proof)):
+                        blocked[suite] = {"runId": run["id"], "runAttempt": attempt, "status": "failure",
+                                          "sourceCommit": receipt["sourceCommit"], "inputDigest": receipt["inputDigest"]}
+                        continue
+                    if not eligible(receipt, expected[suite], tools, run, workflow_id, repo,
+                                    phase_verified=phase, reader_proof=proof):
+                        continue
+                    if run.get("conclusion") == "failure" and not phase:
+                        continue
+                    # This candidate certifies equivalent current inputs, not a
+                    # new execution. Preserve the original signed-off bytes and
+                    # counts in originalReceipt and in the downloaded archive.
+                    certified = dict(receipt)
+                    if proof:
+                        certified.update(inputFiles=expected[suite], inputDigest=digest(expected[suite]),
+                                         inputEquivalence=proof)
+                    found[suite] = {"receipt": certified, "originalReceipt": receipt,
+                                    "readerCompatibility": proof, "runId": run["id"],
+                                    "runConclusion": run["conclusion"], "runAttempt": attempt,
+                                    "artifactId": artifact["id"], "artifactSHA256": hashlib.sha256(archive).hexdigest()}
         if len(found) == len(expected):
             break
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps({"format": 1, "toolchain": tools, "suites": found}, indent=2) + "\n")
+    output.write_text(json.dumps({"format": 1, "toolchain": tools, "suites": found,
+                                  "blockedByNewerFailure": blocked}, indent=2) + "\n")
     print("Verified reusable suite inputs: " + (", ".join(sorted(found)) or "none"))
 
 

@@ -50,32 +50,23 @@ struct GitSettingsView: View {
                 Picker(L10n.text("写入作用域"), selection: $scope) {
                     Text(L10n.text("全局")).tag(GitSettingScope.global)
                     if app.session != nil { Text(L10n.text("当前仓库")).tag(GitSettingScope.local) }
-                }.disabled(app.anyOperationRunning).accessibilityIdentifier("git-setting-scope")
-                Text(
-                    scope == .global
-                        ? L10n.text("全局设置可被其他仓库继承；本地值仍可覆盖它。")
-                        : L10n.text("只编辑当前仓库：\(app.session?.location.name ?? L10n.text("未打开仓库"))")
-                )
-                .font(.caption).foregroundStyle(colors.secondaryText)
-                if loading { ProgressView(L10n.text("读取配置及来源…")).controlSize(.small) }
-                ForEach(settings, id: \.key) { setting in
-                    HStack(spacing: 12) {
-                        Text(setting.key.title)
-                        Spacer(minLength: 12)
-                        Text(setting.effective?.value ?? L10n.text("未配置"))
-                            .foregroundStyle(colors.secondaryText)
-                            .lineLimit(2).truncationMode(.middle)
-                            .multilineTextAlignment(.trailing)
-                            .textSelection(.enabled)
-                            .accessibilityValue(setting.effective?.value ?? L10n.text("未配置"))
-                            .help(setting.effective?.value ?? L10n.text("未配置"))
-                        Button(L10n.text("编辑…")) {
-                            edit = GitSettingEditRequest(snapshot: setting, scope: scope, service: service)
-                        }
-                        .disabled(loading || app.anyOperationRunning)
-                        .accessibilityIdentifier("edit-setting:" + setting.key.rawValue)
+                    if settings.contains(where: \.worktreeConfigEnabled) {
+                        Text(L10n.text("当前工作区")).tag(GitSettingScope.worktree)
                     }
-                }
+                }.disabled(app.anyOperationRunning).accessibilityIdentifier("git-setting-scope")
+                if loading { ProgressView(L10n.text("读取配置及来源…")).controlSize(.small) }
+                settingRows(
+                    settings.filter {
+                        !$0.key.isSigning && $0.key != .commitTemplate && $0.key != .excludesFile
+                    })
+            }
+            Section(L10n.text("签名")) {
+                settingRows(settings.filter { $0.key.isSigning })
+            }
+            Section(L10n.text("消息与忽略")) {
+                settingRows(settings.filter { $0.key == .commitTemplate || $0.key == .excludesFile })
+            }
+            Section {
                 DisclosureGroup(L10n.text("配置来源")) {
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(settings, id: \.key) { setting in
@@ -85,6 +76,11 @@ struct GitSettingsView: View {
                                     Text("\(record.scope) · \(record.origin)")
                                         .textSelection(.enabled)
                                         .accessibilityValue("\(record.scope) · \(record.origin)")
+                                    if let key = record.sourceKey,
+                                        key.lowercased() != setting.key.rawValue.lowercased()
+                                    {
+                                        Text(key).monospaced().textSelection(.enabled)
+                                    }
                                 }
                                 Text(
                                     L10n.text(
@@ -129,6 +125,27 @@ struct GitSettingsView: View {
         }
     }
 
+    @ViewBuilder private func settingRows(_ rows: [GitSettingSnapshot]) -> some View {
+        ForEach(rows, id: \.key) { setting in
+            HStack(spacing: 12) {
+                Text(setting.key.title)
+                Spacer(minLength: 12)
+                Text(setting.effective?.value ?? L10n.text("未配置"))
+                    .foregroundStyle(colors.secondaryText)
+                    .lineLimit(2).truncationMode(.middle)
+                    .multilineTextAlignment(.trailing)
+                    .textSelection(.enabled)
+                    .accessibilityValue(setting.effective?.value ?? L10n.text("未配置"))
+                    .help(setting.effective?.value ?? L10n.text("未配置"))
+                Button(L10n.text("编辑…")) {
+                    edit = GitSettingEditRequest(snapshot: setting, scope: scope, service: service)
+                }
+                .disabled(loading || app.anyOperationRunning)
+                .accessibilityIdentifier("edit-setting:" + setting.key.rawValue)
+            }
+        }
+    }
+
     private func load() async {
         let request = UUID()
         loadID = request
@@ -141,6 +158,7 @@ struct GitSettingsView: View {
             try Task.checkCancellation()
             guard loadID == request, app.session?.id == repository else { return }
             settings = values
+            if scope == .worktree, !values.contains(where: \.worktreeConfigEnabled) { scope = .local }
             loading = false
         } catch {
             if !Task.isCancelled, loadID == request, app.session?.id == repository {
@@ -194,22 +212,26 @@ private struct GitSettingEditor: View {
             SheetTitle(title: L10n.text("编辑\(snapshot.key.title)"), symbol: "slider.horizontal.3")
             Text(
                 L10n.text(
-                    "写入：\(request.scope.title)\(request.scope == .local ? " · " + (request.service.location?.name ?? "") : "")"
+                    "写入：\(request.scope.title)\(request.scope != .global ? " · " + (request.service.location?.name ?? "") : "")"
                 )
             ).font(.headline)
             Text(snapshot.key.rawValue).font(.caption.monospaced()).foregroundStyle(colors.secondaryText)
             if snapshot.key.choices.isEmpty {
-                TextField(snapshot.key.title, text: $value).textFieldStyle(.roundedBorder)
-                    .disabled(isSaving)
-                    .accessibilityIdentifier("git-setting-value")
+                HStack {
+                    TextField(snapshot.key.title, text: $value).textFieldStyle(.roundedBorder)
+                        .disabled(isSaving)
+                        .accessibilityIdentifier("git-setting-value")
+                    if snapshot.key.isFileSetting {
+                        Button(L10n.text("选择文件…")) { chooseFile() }
+                            .disabled(isSaving).accessibilityIdentifier("git-setting-file")
+                    }
+                }
             } else {
                 Picker(L10n.text("配置值"), selection: $value) {
                     ForEach(snapshot.key.choices, id: \.self) { choice in
                         Text(choiceTitle(choice)).tag(choice)
                     }
-                }.disabled(isSaving)
-                Text(L10n.text("此设置不会改变已经打开的同步确认；下一次 Pull 会重新读取有效配置。"))
-                    .font(.caption).foregroundStyle(colors.secondaryText)
+                }.disabled(isSaving).accessibilityIdentifier("git-setting-value")
             }
             if let effective = snapshot.effective {
                 Text(L10n.text("当前有效值：\(effective.value)\n来源：\(effective.scope) · \(effective.origin)"))
@@ -252,6 +274,10 @@ private struct GitSettingEditor: View {
     }
 
     private func choiceTitle(_ choice: String) -> String {
+        if snapshot.key == .commitSigning || snapshot.key == .tagSigning {
+            return choice == "true" ? L10n.text("启用") : L10n.text("关闭")
+        }
+        if snapshot.key == .signingFormat { return choice == "ssh" ? "SSH" : "OpenPGP" }
         if snapshot.key == .pullRebase {
             switch choice {
             case "true": return L10n.text("变基（true）")
@@ -264,6 +290,14 @@ private struct GitSettingEditor: View {
         case "false": return L10n.text("创建合并提交（false）")
         default: return L10n.text("允许快进（true）")
         }
+    }
+
+    private func chooseFile() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        if panel.runModal() == .OK, let file = panel.url { value = file.path }
     }
 
     private func save(_ value: String?) {

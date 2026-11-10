@@ -10,10 +10,19 @@ struct ThemeEditor: View {
     @State private var draft: CustomTheme
     @State private var livePreview = false
     @State private var error: String?
+    @State private var themeID: UUID?
+    @State private var original: CustomTheme
+    @State private var previewOwner = UUID()
 
-    init(preferences: AppPreferences) {
+    init(preferences: AppPreferences, themeID: UUID? = nil, createNew: Bool = false) {
         self.preferences = preferences
-        _draft = State(initialValue: preferences.customTheme)
+        let id = createNew ? nil : themeID ?? preferences.activeCustomThemeID
+        let theme =
+            id.flatMap { selected in preferences.customThemes.first { $0.id == selected }?.theme }
+            ?? preferences.customTheme
+        _themeID = State(initialValue: id)
+        _draft = State(initialValue: theme)
+        _original = State(initialValue: theme)
     }
 
     private var validationError: String? {
@@ -42,8 +51,6 @@ struct ThemeEditor: View {
                                 Text(L10n.text("浅色")).tag(ThemeControlAppearance.light)
                                 Text(L10n.text("深色")).tag(ThemeControlAppearance.dark)
                             }.accessibilityIdentifier("theme-controls")
-                            Text(L10n.text("控件外观决定系统控件与运行中图标的明暗，具体配色在下方设置。"))
-                                .font(.caption).foregroundStyle(colors.secondaryText)
                         }
                         colorSection(L10n.text("表面"), roles: [.canvas, .chrome, .sidebar, .surface, .border])
                         colorSection(L10n.text("文字与强调"), roles: [.accent, .text, .secondaryText])
@@ -56,8 +63,6 @@ struct ThemeEditor: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         ThemePreview(theme: draft)
-                        Text(L10n.text("自定义配色独立保存，内置浅色与深色保持不变。"))
-                            .font(.caption).foregroundStyle(colors.secondaryText)
                         if let validationError {
                             Label(validationError, systemImage: "exclamationmark.triangle")
                                 .font(.caption).foregroundStyle(colors.negative)
@@ -88,21 +93,31 @@ struct ThemeEditor: View {
                 Button(L10n.text("恢复初始配色")) { draft = .starter }
                     .accessibilityIdentifier("theme-reset")
                 Spacer()
+                Button(L10n.text("保存")) { save(activate: false) }.disabled(validationError != nil)
+                    .accessibilityIdentifier("theme-save")
                 Button(L10n.text("取消")) { dismiss() }.keyboardShortcut(.cancelAction)
                     .accessibilityIdentifier("theme-cancel")
                 Button(L10n.text("应用主题")) {
-                    do {
-                        try preferences.applyCustomTheme(draft)
-                        dismiss()
-                    } catch { self.error = error.localizedDescription }
+                    save(activate: true)
                 }.workbenchPrimaryAction().tint(colors.primaryAction)
                     .disabled(validationError != nil).keyboardShortcut(.defaultAction)
                     .accessibilityIdentifier("theme-apply")
             }.padding(16).background(colors.chrome)
         }.frame(width: 860, height: 680)
-            .onChange(of: draft) { _, value in if livePreview { preferences.previewCustomTheme(value) } }
-            .onChange(of: livePreview) { _, value in preferences.previewCustomTheme(value ? draft : nil) }
-            .onDisappear { preferences.previewCustomTheme(nil) }
+            .onChange(of: draft) { _, value in
+                if livePreview {
+                    _ = preferences.previewCustomTheme(value, owner: previewOwner, sourceID: themeID)
+                }
+            }
+            .onChange(of: livePreview) { _, value in
+                if !preferences.previewCustomTheme(
+                    value ? draft : nil, owner: previewOwner, sourceID: themeID)
+                {
+                    livePreview = false
+                    error = CustomThemeLibrary.Failure.previewInUse.localizedDescription
+                }
+            }
+            .onDisappear { _ = preferences.previewCustomTheme(nil, owner: previewOwner) }
             .alert(
                 L10n.text("主题操作未完成"),
                 isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })
@@ -111,6 +126,15 @@ struct ThemeEditor: View {
             } message: {
                 Text(error ?? "")
             }
+    }
+
+    private func save(activate: Bool) {
+        do {
+            _ = try preferences.saveCustomTheme(
+                draft, id: themeID, expected: themeID == nil ? nil : original, activate: activate,
+                owner: previewOwner)
+            dismiss()
+        } catch { self.error = error.localizedDescription }
     }
 
     private func colorSection(_ title: String, roles: [ThemeColorRole]) -> some View {
@@ -156,11 +180,11 @@ struct ThemeEditor: View {
         panel.allowsMultipleSelection = false
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
-            let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
-            if (attributes[.size] as? NSNumber)?.intValue ?? 0 > CustomTheme.maximumFileSize {
-                throw CustomTheme.ValidationError.size
-            }
-            draft = try CustomTheme.decode(Data(contentsOf: url))
+            let handle = try FileHandle(forReadingFrom: url)
+            defer { try? handle.close() }
+            draft = try CustomTheme.decode(handle.read(upToCount: CustomTheme.maximumFileSize + 1) ?? Data())
+            original = draft
+            themeID = nil
         } catch { self.error = error.localizedDescription }
     }
 
@@ -176,7 +200,7 @@ struct ThemeEditor: View {
     }
 }
 
-private struct ThemePreview: View {
+struct ThemePreview: View {
     let theme: CustomTheme
     private var colors: AppColors { AppColors(custom: theme, dark: theme.controls == .dark) }
 
@@ -222,5 +246,210 @@ private struct ThemePreview: View {
                 RoundedRectangle(cornerRadius: 12).strokeBorder(colors.border)
             }.environment(\.themeColors, colors)
             .accessibilityIdentifier("theme-preview")
+    }
+}
+
+private struct ThemeLibraryEditorRequest: Identifiable {
+    let id = UUID()
+    let themeID: UUID?
+    let createNew: Bool
+}
+
+struct ThemeLibraryView: View {
+    @Environment(\.themeColors) private var colors
+    @Environment(\.dismiss) private var dismiss
+    @Bindable var preferences: AppPreferences
+    @State private var editor: ThemeLibraryEditorRequest?
+    @State private var error: String?
+    @State private var pendingDelete: CustomThemeEntry?
+    @State private var deleted: CustomThemeEntry?
+    @State private var rebuilding = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            SheetTitle(title: L10n.text("主题库"), symbol: "paintpalette")
+            if preferences.themeLibraryLoadFailed {
+                HStack {
+                    Text(CustomThemeLibrary.Failure.invalid.localizedDescription).foregroundStyle(
+                        colors.negative)
+                    Button(L10n.text("恢复旧主题…")) { rebuilding = true }
+                }
+            }
+            HStack {
+                Button(L10n.text("新增主题")) {
+                    editor = ThemeLibraryEditorRequest(themeID: nil, createNew: true)
+                }
+                .accessibilityIdentifier("theme-library-add")
+                Button(L10n.text("导入 JSON…")) { importFile() }.accessibilityIdentifier("theme-library-import")
+                Spacer()
+                Text(String(preferences.customThemes.count)).monospacedDigit().foregroundStyle(
+                    colors.secondaryText)
+            }
+            if preferences.customThemes.isEmpty {
+                Text(L10n.text("还没有保存的自定义主题")).foregroundStyle(colors.secondaryText)
+            }
+            ScrollView {
+                LazyVStack(spacing: 8) {
+                    ForEach(preferences.customThemes) { entry in
+                        HStack(spacing: 14) {
+                            HStack(spacing: 3) {
+                                ForEach([ThemeColorRole.canvas, .surface, .accent, .positive, .keyword]) {
+                                    role in
+                                    RoundedRectangle(cornerRadius: 3).fill(
+                                        AppColors(custom: entry.theme, dark: entry.theme.controls == .dark)
+                                            .color(role)
+                                    )
+                                    .frame(width: 14, height: 30)
+                                }
+                            }.accessibilityHidden(true)
+                            Text(entry.theme.name).font(.headline).lineLimit(2).frame(
+                                maxWidth: .infinity, alignment: .leading)
+                            if preferences.activeCustomThemeID == entry.id
+                                && preferences.appearance == "custom"
+                            {
+                                Image(systemName: "checkmark.circle.fill").foregroundStyle(colors.positive)
+                                    .accessibilityLabel(L10n.text("当前主题"))
+                            } else {
+                                Button(L10n.text("使用主题")) {
+                                    attempt { try preferences.activateCustomTheme(entry.id) }
+                                }
+                                .accessibilityIdentifier("theme-activate:" + entry.id.uuidString)
+                            }
+                            Button(L10n.text("编辑…")) {
+                                editor = ThemeLibraryEditorRequest(themeID: entry.id, createNew: false)
+                            }
+                            .accessibilityIdentifier("theme-edit:" + entry.id.uuidString)
+                            Menu {
+                                Button(L10n.text("复制主题")) {
+                                    attempt { _ = try preferences.duplicateCustomTheme(entry.id) }
+                                }
+                                Button(L10n.text("导出 JSON…")) { export(entry) }
+                                Divider()
+                                Button(L10n.text("删除主题…"), role: .destructive) { pendingDelete = entry }
+                            } label: {
+                                Image(systemName: "ellipsis")
+                            }
+                            .accessibilityLabel(L10n.text("主题操作"))
+                        }.padding(12).background(colors.surface, in: .rect(cornerRadius: 8))
+                            .accessibilityElement(children: .contain).accessibilityIdentifier(
+                                "theme-entry:" + entry.id.uuidString)
+                    }
+                }
+            }
+            if let deleted {
+                HStack {
+                    Text(L10n.text("已删除 \(deleted.theme.name)"))
+                    Button(L10n.text("撤销")) {
+                        attempt {
+                            try preferences.restoreDeletedCustomTheme(deleted)
+                            self.deleted = nil
+                        }
+                    }
+                }.foregroundStyle(colors.secondaryText)
+            }
+            if let error { Text(error).foregroundStyle(colors.negative).textSelection(.enabled) }
+            HStack {
+                Spacer()
+                Button(L10n.text("关闭")) { dismiss() }.keyboardShortcut(.cancelAction)
+            }
+        }.padding(24).frame(width: 700, height: 520).workbenchControlFamily()
+            .alert(L10n.text("从旧主题恢复主题库？"), isPresented: $rebuilding) {
+                Button(L10n.text("恢复")) { attempt { try preferences.rebuildThemeLibraryFromLegacy() } }
+                Button(L10n.text("取消"), role: .cancel) {}
+            } message: {
+                Text(L10n.text("原损坏数据会单独备份，当前外观将跟随系统。"))
+            }
+            .sheet(item: $editor) { request in
+                ThemeEditor(preferences: preferences, themeID: request.themeID, createNew: request.createNew)
+                    .id(request.id).workbenchSheet(preferences)
+            }
+            .confirmationDialog(
+                L10n.text("删除这个主题？"),
+                isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
+                titleVisibility: .visible
+            ) {
+                Button(L10n.text("删除主题"), role: .destructive) {
+                    guard let entry = pendingDelete else { return }
+                    attempt {
+                        try preferences.deleteCustomTheme(entry.id)
+                        deleted = entry
+                        pendingDelete = nil
+                    }
+                }
+                Button(L10n.text("取消"), role: .cancel) { pendingDelete = nil }
+            } message: {
+                if let entry = pendingDelete, preferences.activeCustomThemeID == entry.id {
+                    Text(L10n.text("当前主题删除后将跟随系统外观。"))
+                }
+            }
+    }
+    private func attempt(_ action: () throws -> Void) {
+        do {
+            try action()
+            error = nil
+        } catch { self.error = error.localizedDescription }
+    }
+    private func importFile() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.json]
+        panel.canChooseDirectories = false
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        attempt {
+            let handle = try FileHandle(forReadingFrom: url)
+            defer { try? handle.close() }
+            let theme = try CustomTheme.decode(
+                handle.read(upToCount: CustomTheme.maximumFileSize + 1) ?? Data())
+            _ = try preferences.importCustomTheme(theme)
+        }
+    }
+    private func export(_ entry: CustomThemeEntry) {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.json]
+        panel.nameFieldStringValue = "WeGit-theme.json"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        attempt { try entry.theme.encoded().write(to: url, options: .atomic) }
+    }
+}
+
+struct ThemeImportSheet: View {
+    @Environment(\.themeColors) private var colors
+    @Environment(\.dismiss) private var dismiss
+    let preferences: AppPreferences
+    let payload: ThemeImportPayload
+    @State private var importedID: UUID?
+    @State private var error: String?
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            SheetTitle(title: L10n.text("导入主题"), symbol: "paintpalette")
+            ThemePreview(theme: payload.theme)
+            if let importedID {
+                Text(
+                    preferences.activeCustomThemeID == importedID && preferences.appearance == "custom"
+                        ? L10n.text("主题已启用") : L10n.text("主题已保存到主题库")
+                )
+                .accessibilityIdentifier("theme-uri-result")
+            }
+            if let error { Text(error).foregroundStyle(colors.negative) }
+            HStack {
+                Spacer()
+                Button(importedID == nil ? L10n.text("取消") : L10n.text("关闭")) { dismiss() }.keyboardShortcut(
+                    .cancelAction)
+                if let importedID {
+                    Button(L10n.text("启用主题")) {
+                        do {
+                            try preferences.activateCustomTheme(importedID)
+                            dismiss()
+                        } catch { self.error = error.localizedDescription }
+                    }.workbenchPrimaryAction().accessibilityIdentifier("theme-uri-activate")
+                } else {
+                    Button(L10n.text("保存到主题库")) {
+                        do { importedID = try preferences.importCustomTheme(payload.theme) } catch {
+                            self.error = error.localizedDescription
+                        }
+                    }.workbenchPrimaryAction().keyboardShortcut(.defaultAction).accessibilityIdentifier(
+                        "theme-uri-save")
+                }
+            }
+        }.padding(24).frame(width: 480).workbenchControlFamily()
     }
 }

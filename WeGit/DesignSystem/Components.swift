@@ -224,11 +224,33 @@ struct DetailHeader: View {
 struct WorkbenchMessageField: View {
     @Environment(\.themeColors) private var colors
     @Binding var message: String
+    var enabled = true
+    var commitShortcut: String? = "⌘↩"
+    var revision: UInt64 = 0
+    var edit: ((String, UInt64) -> UInt64?)?
+    var onFocus: (() -> Void)?
+    @State private var displayedRevision: UInt64 = 0
+    @State private var editorID = UUID()
     @FocusState private var focused: Bool
     @Environment(\.colorSchemeContrast) private var contrast
 
     var body: some View {
-        TextField(L10n.text("提交消息；⌥↩ 换行"), text: $message, axis: .vertical)
+        let binding = Binding<String>(
+            get: { message },
+            set: { value in
+                if let edit {
+                    if let accepted = edit(value, displayedRevision) {
+                        displayedRevision = accepted
+                    } else {
+                        displayedRevision = revision
+                        editorID = UUID()
+                    }
+                } else {
+                    message = value
+                }
+            })
+        TextField(L10n.text("提交消息；⌥↩ 换行"), text: binding, axis: .vertical)
+            .id(editorID).disabled(!enabled)
             .lineLimit(2...5).textFieldStyle(.plain).focused($focused)
             .font(.system(size: 13)).padding(10)
             .background(colors.surface, in: .rect(cornerRadius: AppStyle.controlRadius))
@@ -240,7 +262,14 @@ struct WorkbenchMessageField: View {
                     ).allowsHitTesting(false)
             }
             .accessibilityLabel(L10n.text("提交消息")).accessibilityIdentifier("commit-message")
-            .help(L10n.text("⌥↩ 换行添加详细描述，⌘↩ 提交已暂存内容"))
+            .help(
+                L10n.text("⌥↩ 换行添加详细描述")
+                    + (commitShortcut.map { " · " + $0 + " " + L10n.text("提交已暂存内容") } ?? "")
+            )
+            .onAppear { displayedRevision = revision }
+            .onChange(of: revision) { _, value in displayedRevision = value }
+            .onChange(of: focused) { _, value in if value { onFocus?() } }
+            .onChange(of: enabled) { _, value in if !value { focused = false } }
     }
 }
 

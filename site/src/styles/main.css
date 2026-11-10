@@ -13,6 +13,26 @@
   --heading:"Noto Serif CJK SC","Songti SC","STSong",Georgia,serif;
   --body:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif
 }
+.download-options {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-block:16px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:20px
+}
+.download-options select {
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 12px;
+  background:var(--surface);
+  color:var(--ink);
+  font:inherit;
+  max-width:100%
+}
+.final-cta .download-options { justify-content:center }
 :root[data-site-mode="dark"] {
   color-scheme:dark;
   --paper:#151719;
@@ -1236,7 +1256,7 @@ h2 {
   .hero .lead {
     font-size:14px
   }
-  .hero .button-row {
+  .hero .button-row,.hero .download-options {
     justify-content:center
   }
   .hero-eyebrow {

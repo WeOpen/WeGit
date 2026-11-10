@@ -11,6 +11,8 @@ struct SettingsView: View {
     @State private var notice: String?
     @State private var selectedTab: Int
     @State private var themeEditorPresented = false
+    @State private var themeLibraryPresented = false
+    @State private var shortcutsPresented = false
 
     init(app: AppState) {
         self.app = app
@@ -34,16 +36,21 @@ struct SettingsView: View {
                     GlassTab(value: 5, title: L10n.text("高级"), symbol: "slider.horizontal.3"),
                 ], height: 40, identifier: "settings-tabs")
             Group {
-                switch selectedTab {
-                case 1: GitSettingsView(app: app)
-                case 2: appearance
-                case 3: diff
-                case 4: commit
-                case 5: advanced
-                default: general
+                if app.isMigrationBlocked {
+                    migrationRecovery
+                } else {
+                    switch selectedTab {
+                    case 1: GitSettingsView(app: app)
+                    case 2: appearance
+                    case 3: diff
+                    case 4: commit
+                    case 5: advanced
+                    default: general
+                    }
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }.frame(width: 700, height: 560).padding(12)
+            .disabled(app.runtime.updateHandoffInProgress)
             .background(colors.canvas)
             .onChange(of: selectedTab) { _, value in
                 app.defaults.set(value, forKey: "settingsTab")
@@ -53,6 +60,23 @@ struct SettingsView: View {
                 ThemeEditor(preferences: preferences)
                     .workbenchControlFamily().workbenchAppearance(preferences)
             }
+            .sheet(isPresented: $themeLibraryPresented) {
+                ThemeLibraryView(preferences: preferences).workbenchSheet(preferences)
+            }
+            .sheet(isPresented: $shortcutsPresented) {
+                if let store = app.runtime.services.shortcuts {
+                    VStack(alignment: .leading, spacing: 12) {
+                        SheetTitle(title: L10n.text("快捷键"), symbol: "keyboard")
+                        KeyboardShortcutSettingsView(
+                            store: store, didChange: app.runtime.services.shortcutsChanged)
+                        HStack {
+                            Spacer()
+                            Button(L10n.text("关闭")) { shortcutsPresented = false }.keyboardShortcut(
+                                .cancelAction)
+                        }
+                    }.padding(22).frame(width: 620, height: 510).workbenchSheet(preferences)
+                }
+            }
             .alert(
                 L10n.text("设置操作未完成"),
                 isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })
@@ -61,6 +85,23 @@ struct SettingsView: View {
             } message: {
                 Text(error ?? "")
             }
+    }
+
+    private var migrationRecovery: some View {
+        ThemedForm {
+            Section(L10n.text("数据与兼容")) {
+                if let error = app.error { Text(verbatim: error).textSelection(.enabled) }
+                if app.migrationState != nil {
+                    Button(L10n.text("查看原始数据备份"), action: app.showOriginalDataBackup)
+                        .accessibilityIdentifier("settings-data-backup")
+                    if app.migrationState?.phase == .rolledBack {
+                        Button(L10n.text("继续使用 v2 数据"), action: app.resumeVersion2Data)
+                            .accessibilityIdentifier("settings-data-resume")
+                    }
+                }
+                Button(L10n.text("退出 WeGit")) { NSApp.terminate(nil) }
+            }
+        }
     }
 
     private var general: some View {
@@ -104,6 +145,11 @@ struct SettingsView: View {
                 Text(L10n.text("丢弃改动、修改提交、删除未合并分支和 Force Push With Lease 始终需要明确确认。"))
                     .font(.callout)
             }
+            Section(L10n.text("软件更新")) {
+                Button(L10n.text("检查更新…")) {
+                    app.runtime.services.showUpdates(preferences: preferences)
+                }.accessibilityIdentifier("settings-updates")
+            }
         }
     }
 
@@ -131,11 +177,16 @@ struct SettingsView: View {
             Section(L10n.text("自定义配色")) {
                 LabeledContent(L10n.text("已保存主题")) {
                     HStack(spacing: 10) {
-                        Text(preferences.customTheme.name).lineLimit(1).truncationMode(.middle)
+                        Text(
+                            preferences.activeCustomThemeID == nil
+                                ? L10n.text("未选择自定义主题") : preferences.customTheme.name
+                        ).lineLimit(1).truncationMode(.middle)
                         Button(L10n.text("编辑…")) { themeEditorPresented = true }
                             .accessibilityLabel(L10n.text("编辑自定义主题…"))
                             .accessibilityIdentifier("settings-custom-theme")
                             .help(L10n.text("自定义配色独立保存，内置浅色与深色保持不变。"))
+                        Button(L10n.text("主题库…")) { themeLibraryPresented = true }.accessibilityIdentifier(
+                            "settings-theme-library")
                     }
                 }
                 if preferences.customThemeLoadFailed {
@@ -214,36 +265,41 @@ struct SettingsView: View {
                         !saved.isEmpty, saved != session.message
                     {
                         Button(L10n.text("恢复已保存的草稿…")) {
+                            let revision = session.draftRevision
                             if app.confirm(
                                 title: L10n.text("恢复已保存的草稿？"), message: L10n.text("将替换当前草稿文本：\n\n\(saved)"),
                                 action: L10n.text("恢复草稿"), destructive: false)
                             {
-                                session.message = saved
+                                _ = session.replaceDraft(saved, owner: app.windowID, revision: revision)
                             }
-                        }.disabled(session.isBusy)
+                        }.disabled(session.isBusy || !session.canEditDraft(owner: app.windowID))
                     }
                     Button(L10n.text("清除此仓库的草稿…")) {
+                        let revision = session.draftRevision
                         if app.confirm(
                             title: L10n.text("清除提交草稿？"),
                             message: L10n.text("只清除 \(session.location.name) 的草稿文本，不修改 Git 文件或提交。"),
                             action: L10n.text("清除草稿"))
                         {
-                            session.message = ""
+                            guard session.replaceDraft("", owner: app.windowID, revision: revision) else {
+                                return
+                            }
                             app.defaults.removeObject(forKey: "draft-v2:" + session.location.persistenceID)
                             app.defaults.removeObject(forKey: "draft:" + session.location.id)
                             session.legacyDraft = nil
                         }
-                    }.disabled(session.isBusy)
+                    }.disabled(session.isBusy || !session.canEditDraft(owner: app.windowID))
                     if let legacy = session.legacyDraft {
                         Button(L10n.text("恢复此路径的旧版草稿…")) {
+                            let revision = session.draftRevision
                             if app.confirm(
                                 title: L10n.text("恢复旧版草稿？"),
                                 message: L10n.text("旧版草稿只记录路径，无法确认是否属于当前仓库。恢复将替换当前草稿，请先核对：\n\n\(legacy)"),
                                 action: L10n.text("恢复草稿"), destructive: false)
                             {
-                                session.message = legacy
+                                _ = session.replaceDraft(legacy, owner: app.windowID, revision: revision)
                             }
-                        }.disabled(session.isBusy)
+                        }.disabled(session.isBusy || !session.canEditDraft(owner: app.windowID))
                     }
                 }
             }
@@ -257,6 +313,21 @@ struct SettingsView: View {
 
     private var advanced: some View {
         ThemedForm {
+            Section(L10n.text("数据与兼容")) {
+                Button(L10n.text("查看原始数据备份"), action: app.showOriginalDataBackup)
+                    .disabled(app.migrationState == nil).accessibilityIdentifier("settings-data-backup")
+                Button(L10n.text("恢复旧格式数据…"), action: app.restoreOriginalData)
+                    .disabled(app.migrationState?.canUseVersion2 != true || app.anyOperationRunning)
+                    .accessibilityIdentifier("settings-data-restore")
+            }
+            Section(L10n.text("快捷键")) {
+                Button(L10n.text("修改快捷键…")) { shortcutsPresented = true }
+                    .disabled(app.runtime.services.shortcuts == nil)
+                    .accessibilityIdentifier("settings-shortcuts")
+                if let error = app.runtime.services.shortcutError {
+                    Text(verbatim: error).foregroundStyle(colors.negative).textSelection(.enabled)
+                }
+            }
             Section(L10n.text("活动记录")) {
                 Picker(L10n.text("最多保留"), selection: $preferences.activityLimit) {
                     ForEach([100, 500, 1000], id: \.self) { Text(L10n.text("\($0) 条")).tag($0) }

@@ -136,14 +136,12 @@ struct MenuBarPanel: View {
             .onAppear { app.menuBarPresented = true }
             .task(id: app.session?.id) {
                 guard let session = app.session else { return }
-                session.activate()
                 if !session.isBusy && !app.preferences.configurationWriteInProgress {
                     await session.refresh()
                 }
             }
             .onDisappear {
                 app.menuBarPresented = false
-                if !app.mainWorkspaceMounted && !app.mainWindowRequested { app.session?.deactivate() }
             }
     }
 

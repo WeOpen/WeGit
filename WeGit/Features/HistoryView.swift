@@ -15,13 +15,16 @@ struct HistoryView: View {
     init(app: AppState, session: RepositorySession) {
         self.app = app
         self.session = session
-        history = session.historyState
+        history = app.historyState(for: session)
     }
     var body: some View {
         HSplitView {
             VStack(spacing: 0) {
                 PanelHeader(title: L10n.text("提交历史"), symbol: "clock.arrow.circlepath") {
                     Spacer()
+                    Button("Reflog", systemImage: "clock.arrow.circlepath") {
+                        app.recoveryBrowserRequest = RecoveryBrowserRequest(session: session)
+                    }.accessibilityIdentifier("history-recovery")
                     Button(L10n.text("文件历史…"), systemImage: "doc.text.magnifyingglass") {
                         app.fileHistoryRequest = FileHistoryRequest(session: session, path: "")
                     }.accessibilityIdentifier("history-file-history")
@@ -169,7 +172,11 @@ struct HistoryView: View {
             }.frame(minWidth: 420, maxWidth: .infinity, maxHeight: .infinity)
                 .accessibilityElement(children: .contain).accessibilityLabel(L10n.text("提交详情"))
         }.background(colors.canvas)
-            .task(id: "\(session.id):\(session.historyGeneration)") { await session.loadHistory() }
+            .task(id: "\(session.id):\(session.historyGeneration)") {
+                await history.synchronize()
+                guard !Task.isCancelled else { return }
+                await app.restoreSelectedCommit(for: session)
+            }
             .onChange(of: history.scope) { _, _ in reload() }
             .onChange(of: history.query) { _, _ in reload(delayed: true) }
             .onChange(of: history.searchField) { _, _ in reload(delayed: true) }
@@ -196,23 +203,29 @@ struct HistoryView: View {
 
     private func commitActions(_ commit: GitCommit) -> some View {
         Menu(L10n.text("操作")) {
+            Button("Reset…") { app.resetRequest = ResetRequest(session: session, target: commit.id) }
+                .disabled(!session.canWrite)
+            Divider()
             Button(L10n.text("Cherry-pick…")) {
-                app.singleCommitRequest = SingleCommitRequest(
-                    session: session, operation: .cherryPick, target: commit.id)
-            }.disabled(commit.parents.count > 1)
+                presentCommitOperation(.cherryPick, commit: commit)
+            }.disabled(!session.canWrite)
             Button(L10n.text("Revert…")) {
-                app.singleCommitRequest = SingleCommitRequest(
-                    session: session, operation: .revert, target: commit.id)
-            }.disabled(commit.parents.count > 1)
+                presentCommitOperation(.revert, commit: commit)
+            }.disabled(!session.canWrite)
+            Button(L10n.text("导出提交邮件补丁…"), systemImage: "envelope") {
+                app.exportCommitMailPatches(
+                    Array(selectedCommits(fallback: commit).reversed()), session: session)
+            }.disabled(selectedCommits(fallback: commit).contains { $0.parents.count > 1 })
+                .accessibilityIdentifier("history-export-mail-patches")
             Divider()
             Button(L10n.text("从此提交创建标签…")) {
                 app.tagCreationRequest = TagCreationRequest(
                     session: session, target: commit.id)
-            }
+            }.disabled(!session.canWrite)
             Button(L10n.text("从此提交新建分支…")) {
                 branchStart = commit.id
                 createBranch = true
-            }
+            }.disabled(!session.canWrite)
             Button(L10n.text("检出此提交…")) {
                 let head = session.status.head
                 if app.confirm(
@@ -227,11 +240,30 @@ struct HistoryView: View {
                         try await $0.checkoutCommit(commit.id, expectedHead: head)
                     }
                 }
-            }
-        }.fixedSize().disabled(!session.canWrite)
+            }.disabled(!session.canWrite)
+        }.fixedSize()
             .tint(colors.accentText)
             .accessibilityIdentifier("history-operations")
             .accessibilityLabel(L10n.text("所选提交的操作"))
+    }
+
+    private func presentCommitOperation(_ operation: SingleCommitOperation, commit: GitCommit) {
+        var selected = selectedCommits(fallback: commit)
+        if selected.count > 1 || selected[0].parents.count > 1 {
+            if operation == .cherryPick { selected.reverse() }
+            app.commitQueueRequest = CommitQueueRequest(
+                session: session, operation: operation, commits: selected)
+        } else {
+            app.singleCommitRequest = SingleCommitRequest(
+                session: session, operation: operation, target: commit.id)
+        }
+    }
+
+    private func selectedCommits(fallback: GitCommit) -> [GitCommit] {
+        let selected = history.commits.filter {
+            history.selectedIDs.contains($0.id)
+        }
+        return selected.isEmpty ? [fallback] : selected
     }
 
     private var scopePicker: some View {
@@ -363,6 +395,11 @@ struct BranchesView: View {
                                         .accessibilityIdentifier("branch-merge:" + branch.id)
                                 }
                                 Menu {
+                                    Button(L10n.text("将当前分支重置到这里…")) {
+                                        app.resetRequest = ResetRequest(
+                                            session: session, target: branch.oid, sourceRef: branch.id)
+                                    }.disabled(!session.canWrite || branch.symbolicTarget != nil)
+                                    Divider()
                                     if !branch.current && branch.symbolicTarget == nil {
                                         Button(L10n.text("变基到此分支…")) { presentRebase(target: branch) }
                                             .disabled(!session.canRebase)

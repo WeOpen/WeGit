@@ -14,13 +14,20 @@ extension RepositoryService {
         _ name: String, start: String? = nil, switchTo: Bool = true, expectedHead: String?
     ) async throws {
         try await withSharedOperation {
-            try await verifyHead(expectedHead)
-            try await validateBranchName(name)
-            if let start { try await verifyCommit(start) }
-            try await verifyHead(expectedHead)
-            let arguments = switchTo ? ["switch", "-c", name] : ["branch", name]
-            _ = try await engine.run(arguments + [start].compactMap { $0 }, in: location.root)
+            try await createBranchUnderPermit(
+                name, start: start, switchTo: switchTo, expectedHead: expectedHead)
         }
+    }
+
+    func createBranchUnderPermit(
+        _ name: String, start: String? = nil, switchTo: Bool = true, expectedHead: String?
+    ) async throws {
+        try await verifyHead(expectedHead)
+        try await validateBranchName(name)
+        if let start { try await verifyCommit(start) }
+        try await verifyHead(expectedHead)
+        let arguments = switchTo ? ["switch", "-c", name] : ["branch", name]
+        _ = try await engine.run(arguments + [start].compactMap { $0 }, in: location.root)
     }
 
     func validateBranchName(_ name: String) async throws {
@@ -65,15 +72,19 @@ extension RepositoryService {
 
     public func switchBranch(_ branch: GitBranch, expectedHead: String?) async throws {
         try await withSharedOperation {
-            try await verifyHead(expectedHead)
-            guard !branch.remote else {
-                throw ModelFailure.unsupported(L10n.text("请先创建本地跟踪分支；当前版本不会自动猜测名称。"))
-            }
-            let fresh = try await freshBranch(branch, localOnly: true)
-            try ensureNotInOtherWorktree(fresh)
-            try await verifyHead(expectedHead)
-            _ = try await engine.run(["switch", "--no-guess", fresh.name], in: location.root)
+            try await switchBranchUnderPermit(branch, expectedHead: expectedHead)
         }
+    }
+
+    func switchBranchUnderPermit(_ branch: GitBranch, expectedHead: String?) async throws {
+        try await verifyHead(expectedHead)
+        guard !branch.remote else {
+            throw ModelFailure.unsupported(L10n.text("请先创建本地跟踪分支；当前版本不会自动猜测名称。"))
+        }
+        let fresh = try await freshBranch(branch, localOnly: true)
+        try ensureNotInOtherWorktree(fresh)
+        try await verifyHead(expectedHead)
+        _ = try await engine.run(["switch", "--no-guess", fresh.name], in: location.root)
     }
 
     public func merge(_ branch: GitBranch, expectedHead: String?) async throws {

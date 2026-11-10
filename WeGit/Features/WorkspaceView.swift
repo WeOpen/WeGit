@@ -24,6 +24,33 @@ struct WorkspaceView: View {
                                 let leadingInset = max(
                                     0, column.frame(in: .global).minX - geometry.frame(in: .global).minX)
                                 VStack(spacing: 0) {
+                                    if let record = session.status.commitQueue {
+                                        HStack {
+                                            Label(
+                                                record.operation.title
+                                                    + " · \(record.next)/\(record.items.count)",
+                                                systemImage: "list.number")
+                                            Spacer()
+                                            Button(L10n.text("查看提交队列…")) {
+                                                app.commitQueueRequest = CommitQueueRequest(
+                                                    session: session, operation: record.operation,
+                                                    commits: [], record: record)
+                                            }.accessibilityIdentifier("commit-queue-recovery")
+                                        }.padding(10).background(colors.chrome)
+                                    }
+                                    if let record = session.status.mailPatch {
+                                        HStack {
+                                            Label(
+                                                L10n.text("提交补丁")
+                                                    + " · \(record.next)/\(record.entries.count)",
+                                                systemImage: "envelope")
+                                            Spacer()
+                                            Button(L10n.text("查看提交补丁序列…")) {
+                                                app.mailPatchRequest = MailPatchRequest(
+                                                    session: session, sources: [], record: record)
+                                            }.accessibilityIdentifier("mail-patch-recovery")
+                                        }.padding(10).background(colors.chrome)
+                                    }
                                     statusBanner(session).padding(.leading, leadingInset)
                                     switch app.workspace.route {
                                     case .changes:
@@ -84,6 +111,7 @@ struct WorkspaceView: View {
         // Reserve both work panes and the widest optional columns without adding
         // another minimum inside the detail area's safe-inset compensation.
         .frame(minWidth: app.workspace.inspector ? 1292 : 980, minHeight: 640)
+        .disabled(app.runtime.updateHandoffInProgress || app.isMigrationBlocked)
         .animation(nil, value: app.appearance)
         .accessibilityElement(children: .contain)
         .accessibilityLabel(L10n.text("WeGit 工作区"))
@@ -91,6 +119,7 @@ struct WorkspaceView: View {
             WindowStateBridge(
                 app: app, sidebarVisible: columnVisibility != .detailOnly,
                 toggleSidebar: {
+                    guard !app.runtime.updateHandoffInProgress, !app.isMigrationBlocked else { return }
                     columnVisibility = columnVisibility == .detailOnly ? .all : .detailOnly
                 }
             ).frame(width: 0, height: 0).accessibilityHidden(true)
@@ -105,7 +134,9 @@ struct WorkspaceView: View {
                     )
                 }
                 .workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-repository")
-                .help(L10n.text("\(app.session?.location.root.path ?? L10n.text("打开仓库"))\n切换仓库 ⌘K"))
+                .help(
+                    (app.session?.location.root.path ?? L10n.text("打开仓库")) + "\n"
+                        + app.shortcutHelp(L10n.text("切换仓库"), for: .switchRepository))
             }.sharedBackgroundVisibility(.hidden)
             if let session = app.session {
                 ToolbarItem(placement: .primaryAction) { branchMenu(session) }
@@ -149,10 +180,12 @@ struct WorkspaceView: View {
                                     isActive: session.isRefreshing && !reduceMotion
                                         && app.preferences.interfaceMotion)
                         }
-                    }.workbenchIconButton(toolbar: true).help(L10n.text("刷新 ⌘R")).accessibilityLabel(
+                    }.workbenchIconButton(toolbar: true).help(
+                        app.shortcutHelp(L10n.text("刷新"), for: .refresh)
+                    ).accessibilityLabel(
                         L10n.text("刷新"))
                     Button(L10n.text("搜索仓库"), systemImage: "magnifyingglass", action: app.presentSearch).help(
-                        L10n.text("搜索当前仓库 ⌘⇧F")
+                        app.shortcutHelp(L10n.text("搜索当前仓库…"), for: .search)
                     ).workbenchIconButton(toolbar: true).accessibilityIdentifier("toolbar-search")
                     Button(L10n.text("检查器"), systemImage: "sidebar.right") {
                         app.workspace.inspector.toggle()
@@ -163,6 +196,16 @@ struct WorkspaceView: View {
                     .help(app.workspace.inspector ? L10n.text("隐藏检查器") : L10n.text("显示检查器"))
                     .accessibilityIdentifier("toolbar-inspector")
                     Menu {
+                        Button(L10n.text("保存任务并切换…"), systemImage: "archivebox") {
+                            app.taskSwitchRequest = TaskSwitchRequest(session: session)
+                        }.disabled(
+                            session.isBusy || session.status.files.isEmpty
+                                || session.status.commitQueue?.phase.pending == true
+                        )
+                        .accessibilityIdentifier("task-save-and-switch")
+                        Button(L10n.text("导入提交补丁…"), systemImage: "envelope") { app.openMailPatchImport() }
+                            .disabled(session.isBusy).accessibilityIdentifier("mail-patch-import")
+                        Divider()
                         if app.preferences.showMenuBar {
                             Button(L10n.text("菜单栏快捷面板"), systemImage: "menubar.rectangle") {
                                 app.menuBarRequestID = UUID()
@@ -193,48 +236,127 @@ struct WorkspaceView: View {
                 }.sharedBackgroundVisibility(.hidden)
             }
         }
-        .sheet(isPresented: $app.clonePresented) { CloneView(app: app).workbenchSheet(app.preferences) }
-        .sheet(isPresented: $app.remoteManagementPresented) {
+        .sheet(isPresented: $app.clonePresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            CloneView(app: app).workbenchSheet(app.preferences)
+        }
+        .sheet(isPresented: $app.initializationPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            RepositoryInitializationView(app: app).workbenchSheet(app.preferences)
+        }
+        .sheet(isPresented: $app.remoteManagementPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
             if let session = app.session {
                 RemoteManagementSheet(app: app, session: session).id(session.id).workbenchSheet(
                     app.preferences)
             }
         }
-        .sheet(isPresented: $app.branchPresented) { NewBranchView(app: app).workbenchSheet(app.preferences) }
-        .sheet(item: $app.tagCreationRequest) {
+        .sheet(isPresented: $app.branchPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            NewBranchView(app: app).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.tagCreationRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             TagCreationSheet(app: app, request: $0).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.singleCommitRequest) {
+        .sheet(item: $app.singleCommitRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             SingleCommitSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.selectedLinesRequest) {
+        .sheet(item: $app.commitQueueRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            CommitQueueSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.taskSwitchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            TaskSwitchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.stashBranchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            StashBranchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.signatureRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            SignatureSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.commitMessageRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            CommitMessageSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.resetRequest, onDismiss: { app.workspaceSheetDidDismiss(app.resetDidDismiss) }) {
+            ResetSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.recoveryBrowserRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            RecoveryBrowser(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.selectedLinesRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             SelectedLinesSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.conflictEditorRequest) {
+        .sheet(
+            item: $app.fileModificationRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.fileModificationDidDismiss) }
+        ) {
+            FileModificationSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.ignoreRuleRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            IgnoreRuleSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(
+            item: $app.patchImportRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.patchImportDidDismiss) }
+        ) {
+            PatchImportSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.mailPatchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            MailPatchSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.conflictEditorRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             ConflictEditorSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.blameRequest) {
+        .sheet(item: $app.blameRequest, onDismiss: { app.workspaceSheetDidDismiss(app.fileReaderDidDismiss) })
+        {
             BlameSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.fileHistoryRequest) {
+        .sheet(
+            item: $app.fileHistoryRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.fileReaderDidDismiss) }
+        ) {
             FileHistorySheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.branchSwitchRequest) {
+        .sheet(item: $app.branchSwitchRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
             BranchSwitcherView(app: app, request: $0).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.worktreeManagementRequest, onDismiss: app.restoreWorktreeManagementFocus) {
+        .sheet(
+            item: $app.worktreeManagementRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.restoreWorktreeManagementFocus) }
+        ) {
             WorktreeManagementSheet(app: app, request: $0).id($0.id).workbenchSheet(app.preferences)
         }
-        .sheet(isPresented: $app.activityPresented) { ActivityView(app: app).workbenchSheet(app.preferences) }
-        .sheet(isPresented: $app.repositoryPickerPresented, onDismiss: app.repositoryPickerDidDismiss) {
+        .sheet(isPresented: $app.activityPresented, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            ActivityView(app: app).workbenchSheet(app.preferences)
+        }
+        .sheet(
+            isPresented: $app.repositoryPickerPresented,
+            onDismiss: { app.workspaceSheetDidDismiss(app.repositoryPickerDidDismiss) }
+        ) {
             RepositoryPicker(app: app).workbenchSheet(app.preferences)
         }
-        .sheet(isPresented: $app.palettePresented, onDismiss: app.paletteDidDismiss) {
+        .sheet(
+            isPresented: $app.palettePresented,
+            onDismiss: { app.workspaceSheetDidDismiss(app.paletteDidDismiss) }
+        ) {
             CommandPalette(app: app).workbenchSheet(app.preferences)
         }
-        .sheet(item: $app.syncRequest) { SyncSheet(app: app, request: $0).workbenchSheet(app.preferences) }
-        .sheet(item: $app.searchRequest) {
+        .sheet(item: $app.syncRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            SyncSheet(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(
+            item: $app.referenceComparisonRequest,
+            onDismiss: { app.workspaceSheetDidDismiss(app.fileReaderDidDismiss) }
+        ) {
+            ReferenceComparisonSheet(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.historyDepthRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            HistoryDepthSheet(session: $0.session).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.searchRequest, onDismiss: { app.workspaceSheetDidDismiss(app.searchDidDismiss) }) {
             RepositorySearchView(app: app, request: $0).workbenchSheet(app.preferences)
+        }
+        .sheet(item: $app.themeImportRequest, onDismiss: { app.workspaceSheetDidDismiss() }) {
+            ThemeImportSheet(preferences: app.preferences, payload: $0).id($0.id).workbenchSheet(
+                app.preferences)
+        }
+        .onChange(of: app.canPresentThemeImport) { _, available in
+            if available { app.workspaceSheetDidDismiss() }
         }
         .onChange(of: app.settingsRequestID) { _, _ in openSettings() }
         .onChange(of: app.sidebarRequestID) { _, _ in
@@ -244,12 +366,15 @@ struct WorkspaceView: View {
         .onAppear {
             app.mainWorkspaceMounted = true
             app.mainWindowRequested = false
-            app.session?.activate()
+            app.session?.activate(owner: app.windowID)
         }
         .onDisappear {
             app.mainWorkspaceMounted = false
+            app.drainThemeImports()
             app.saveCurrentWorkspace()
-            if !app.menuBarPresented && !app.mainWindowRequested { app.session?.deactivate() }
+            if !app.menuBarPresented && !app.mainWindowRequested {
+                app.session?.deactivate(owner: app.windowID)
+            }
         }
         .alert(
             L10n.text("操作未完成"),
@@ -328,7 +453,9 @@ struct WorkspaceView: View {
             }
         }.listStyle(.sidebar).tint(colors.accent).scrollContentBackground(.hidden).background(colors.sidebar)
             .safeAreaInset(edge: .bottom, spacing: 0) {
-                SidebarBrandCard(openPanel: app.openPanel)
+                SidebarBrandCard(
+                    openPanel: app.openPanel,
+                    openHelp: app.shortcutHelp(L10n.text("打开仓库"), for: .openRepository))
             }
     }
 
@@ -389,7 +516,12 @@ struct WorkspaceView: View {
                 }
             }.font(.callout).modifier(BannerSurface(tint: colors.negative))
         }
-        if session.status.sequencer != .none {
+        if let unavailable = session.status.mailPatchUnavailable {
+            Text(unavailable).font(.caption).foregroundStyle(colors.modified).padding(10)
+        }
+        if session.status.sequencer != .none,
+            !(session.status.sequencer == .mailApply && session.status.mailPatch != nil)
+        {
             HStack {
                 let rebase = session.status.rebaseRecovery
                 Label(
@@ -460,8 +592,13 @@ struct WorkspaceView: View {
                     )
                     .accessibilityIdentifier("sequencer-continue")
                 } else {
-                    Text(session.status.rebaseRecoveryUnavailable ?? L10n.text("请在 Terminal 完成当前操作"))
-                        .foregroundStyle(colors.secondaryText)
+                    Text(
+                        session.status.rebaseRecoveryUnavailable
+                            ?? (session.status.sequencer == .mailApply
+                                ? L10n.text("此邮件序列由其他工具开始，请在原工具中处理。")
+                                : L10n.text("请在 Terminal 完成当前操作"))
+                    )
+                    .foregroundStyle(colors.secondaryText)
                 }
             }.font(.callout).modifier(BannerSurface(tint: colors.modified))
         }
@@ -533,6 +670,7 @@ struct WorkspaceView: View {
 private struct SidebarBrandCard: View {
     @Environment(\.themeColors) private var colors
     let openPanel: @MainActor () -> Void
+    let openHelp: String
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.colorSchemeContrast) private var contrast
 
@@ -561,7 +699,7 @@ private struct SidebarBrandCard: View {
                 Image(systemName: "plus").frame(width: 26, height: 26)
             }.accessibilityLabel(L10n.text("打开仓库"))
                 .workbenchIconButton().controlSize(.regular)
-                .accessibilityIdentifier("sidebar-add-repository").help(L10n.text("打开仓库 ⌘O"))
+                .accessibilityIdentifier("sidebar-add-repository").help(openHelp)
         }.padding(12).frame(maxWidth: .infinity)
     }
 }
@@ -585,6 +723,10 @@ struct WelcomeView: View {
                     .controlSize(.large).accessibilityIdentifier("open-repository")
                 Button(L10n.text("克隆仓库…"), systemImage: "arrow.down.to.line", action: app.presentClone)
                     .workbenchControlFamily().controlSize(.large)
+                Button(
+                    L10n.text("新建仓库…"), systemImage: "folder.badge.plus", action: app.presentInitialization
+                )
+                .workbenchControlFamily().controlSize(.large).accessibilityIdentifier("initialize-repository")
             }
             if app.isOpening { ProgressView(L10n.text("正在打开仓库…")) }
             if !app.recents.isEmpty {
@@ -593,7 +735,10 @@ struct WelcomeView: View {
                         Label(L10n.text("最近打开"), systemImage: "clock").font(.caption.weight(.medium))
                             .foregroundStyle(colors.secondaryText)
                         Spacer()
-                        Text(L10n.text("⌘O 打开")).font(.caption).foregroundStyle(colors.secondaryText)
+                        if let shortcut = app.shortcutDisplay(for: .openRepository) {
+                            Text(L10n.text("\(shortcut) 打开")).font(.caption).foregroundStyle(
+                                colors.secondaryText)
+                        }
                     }
                     ForEach(app.recents.prefix(5)) { record in
                         Button {

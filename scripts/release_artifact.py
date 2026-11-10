@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify a Universal DMG, retaining exact bundle and size evidence."""
+"""Build and verify an architecture-specific DMG, retaining exact bundle and size evidence."""
 import argparse
 from datetime import datetime, timezone
 import hashlib
@@ -13,7 +13,7 @@ import tempfile
 
 from build_provenance import verify_bundle
 
-ARCHITECTURES = ["arm64", "x86_64"]
+VARIANTS = {"universal": ["arm64", "x86_64"], "applesilicon": ["arm64"], "intel": ["x86_64"]}
 MINIMUM_SYSTEM = "26.0"
 BUDGETS = {"imageBytes": 30 * 1024 * 1024, "bundleBytes": 60 * 1024 * 1024}
 MACHO_MAGIC = {b"\xfe\xed\xfa\xce", b"\xce\xfa\xed\xfe", b"\xfe\xed\xfa\xcf", b"\xcf\xfa\xed\xfe",
@@ -37,13 +37,20 @@ def sha256(path):
     return digest.hexdigest()
 
 
-def inspect_bundle(root, app):
+def inspect_bundle(root, app, variant="universal"):
+    expected_architectures = VARIANTS[variant]
     verify_bundle(root, app)
     command(["/usr/bin/codesign", "--verify", "--deep", "--strict", str(app)])
     info = plistlib.loads((app / "Contents/Info.plist").read_bytes())
+    if os.environ.get("WEGIT_RELEASE_TAG"):
+        require(info.get("WeGitReleaseVersion") == os.environ["WEGIT_RELEASE_TAG"].removeprefix("v"),
+                "Installed release version must retain the full reviewed tag version")
+    installed_variant = info.get("WeGitDistributionVariant")
+    require(installed_variant == variant or (installed_variant is None and variant == "universal"),
+            "Info.plist distribution variant must match the packaged CPU variant")
     require(info.get("LSMinimumSystemVersion") == MINIMUM_SYSTEM, "Expected macOS 26 minimum system version")
     receipt = json.loads((app / "Contents/Resources/build-source.json").read_text())
-    require(sorted(receipt.get("architectures", [])) == ARCHITECTURES, "Build receipt must contain both CPU architectures")
+    require(sorted(receipt.get("architectures", [])) == expected_architectures, "Build receipt must match the selected CPU variant")
     binaries = {}
     bundle_bytes = 0
     for path in sorted(app.rglob("*")):
@@ -55,7 +62,7 @@ def inspect_bundle(root, app):
         if magic not in MACHO_MAGIC:
             continue
         architectures = sorted(command(["/usr/bin/lipo", "-archs", str(path)]).split())
-        require(architectures == ARCHITECTURES, "Non-Universal executable in bundle: " + str(path.relative_to(app)))
+        require(architectures == expected_architectures, "Wrong executable architecture in bundle: " + str(path.relative_to(app)))
         minimums = {}
         for architecture in architectures:
             build = command(["/usr/bin/xcrun", "vtool", "-show-build", "-arch", architecture, str(path)])
@@ -64,10 +71,14 @@ def inspect_bundle(root, app):
             require(tuple(map(int, version[1].split("."))) <= (26, 0, 0), "Executable requires macOS newer than 26: " + str(path.relative_to(app)))
             minimums[architecture] = version[1]
         binaries[str(path.relative_to(app))] = {"sha256": sha256(path), "architectures": architectures, "minimumSystemVersions": minimums}
-    require({"Contents/MacOS/WeGit", "Contents/Helpers/WeGitAskPass"}.issubset(binaries), "App or AskPass executable missing")
+    required_binaries = {"Contents/MacOS/WeGit", "Contents/Helpers/WeGitAskPass"}
+    if any(name.startswith("WeGitUpdater/") for name in receipt.get("sourceFiles", {})):
+        required_binaries.add("Contents/Helpers/WeGitUpdater")
+    require(required_binaries.issubset(binaries), "App or declared helper executable missing")
     require(bundle_bytes <= BUDGETS["bundleBytes"], "Application exceeds the 60 MiB release bundle budget")
     return {
-        "architectures": ARCHITECTURES, "minimumSystemVersion": MINIMUM_SYSTEM,
+        "variant": variant, "distributionVariantSource": "info-plist" if installed_variant is not None else "legacy-universal",
+        "architectures": expected_architectures, "minimumSystemVersion": MINIMUM_SYSTEM,
         "bundleBytes": bundle_bytes, "binaries": binaries,
         "buildReceiptSHA256": sha256(app / "Contents/Resources/build-source.json"),
         "startupIconSHA256": sha256(app / "Contents/Resources/AppIcon.icns"),
@@ -83,14 +94,14 @@ def check_udif(path):
 
 def source_files(root):
     paths = [root / "Package.swift", root / "project.yml", root / "LICENSE"]
-    for name in ("WeGitCore", "WeGit", "WeGitAskPass", "WeGitTests", "WeGitUITests", "WeGitPerformanceTests", "Benchmarks", "scripts"):
+    for name in ("WeGitCore", "WeGit", "WeGitAskPass", "WeGitUpdater", "WeGitTests", "WeGitUITests", "WeGitPerformanceTests", "Benchmarks", "scripts"):
         paths.extend(path for path in (root / name).rglob("*") if path.is_file() and path.suffix in
                      (".swift", ".c", ".h", ".sh", ".py", ".entitlements", ".strings", ".stringsdict"))
     return {str(path.relative_to(root)): sha256(path) for path in sorted(paths)}
 
 
-def create_image(root, app, output, archive, mode):
-    original = inspect_bundle(root, app)
+def create_image(root, app, output, archive, mode, variant="universal"):
+    original = inspect_bundle(root, app, variant)
     stage = output / "dmg-root"
     stage.mkdir()
     command(["/usr/bin/ditto", str(app), str(stage / "WeGit.app")])
@@ -119,7 +130,7 @@ def create_image(root, app, output, archive, mode):
                     "DMG must contain only WeGit.app and an Applications shortcut")
             require((mount / "Applications").is_symlink() and os.readlink(mount / "Applications") == "/Applications",
                     "DMG Applications shortcut is invalid")
-            mounted = inspect_bundle(root, mount / "WeGit.app")
+            mounted = inspect_bundle(root, mount / "WeGit.app", variant)
             require(mounted == original, "Mounted application does not match the packaged application")
         finally:
             if attached:
@@ -130,7 +141,7 @@ def create_image(root, app, output, archive, mode):
     (output / (archive.name + ".sha256")).write_text(digest + "  " + archive.name + "\n")
     report = {
         "createdAt": datetime.now(timezone.utc).isoformat(), "version": info["CFBundleShortVersionString"],
-        "bundleIdentifier": info["CFBundleIdentifier"], "mode": mode,
+        "bundleIdentifier": info["CFBundleIdentifier"], "buildVersion": info["CFBundleVersion"], "mode": mode,
         "notarized": mode == "notarize", "signing": "ad-hoc" if mode in ("preview", "adhoc") else "developer-id",
         "releaseTag": os.environ.get("WEGIT_RELEASE_TAG"), "gitCommit": command(["git", "-C", str(root), "rev-parse", "--verify", "HEAD"]).strip(),
         "workspaceDirty": bool(command(["git", "-C", str(root), "status", "--porcelain"])),
@@ -138,8 +149,10 @@ def create_image(root, app, output, archive, mode):
         "imageBytes": image_bytes, "budgets": BUDGETS, **original, "sourceFiles": source_files(root),
         "diskImageVerification": {"hdiutilVerified": True, "readOnlyMountVerified": True, "applicationsShortcutVerified": True},
     }
-    (output / "manifest.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
-    print(f"Universal DMG verified: {image_bytes:,} bytes download; {original['bundleBytes']:,} bytes installed.")
+    manifest_bytes = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+    (output / "manifest.json").write_text(manifest_bytes)
+    (output / (archive.stem + ".manifest.json")).write_text(manifest_bytes)
+    print(f"{variant} DMG verified: {image_bytes:,} bytes download; {original['bundleBytes']:,} bytes installed.")
 
 
 def main():
@@ -147,8 +160,9 @@ def main():
     for name in ("source-root", "app", "output", "archive"):
         parser.add_argument("--" + name, type=Path, required=True)
     parser.add_argument("--mode", choices=("preview", "adhoc", "sign", "notarize"), required=True)
+    parser.add_argument("--variant", choices=tuple(VARIANTS), default="universal")
     args = parser.parse_args()
-    create_image(args.source_root.resolve(), args.app.resolve(), args.output.resolve(), args.archive.resolve(), args.mode)
+    create_image(args.source_root.resolve(), args.app.resolve(), args.output.resolve(), args.archive.resolve(), args.mode, args.variant)
 
 
 if __name__ == "__main__":

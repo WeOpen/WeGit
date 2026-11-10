@@ -1,5 +1,54 @@
 # WeGit 开发交接
 
+## 2026-11-11 M4 第四轮工作区结果
+
+- UI42855165361固定c414906：smoke实际1/1、完整workspace-delivery实际5/7通过、2失败、0跳过。历史跨进程重开、共享草稿模板、Submodule、快捷键、无配置更新窗均通过；完整266App/36UI来源匹配，146750996bytes/2286CRC原ZIP及AX在`.build/v2-m5-flow/hosted-42855165361`。
+- 余2项实际操作已到末尾：LFS sheet存在明确Completed: LFS rules saved.和Close按钮，但Group AX无value，旧value=success等待失败；改核消息按钮完整成功label及Close enabled，后续tracked/untracked原字节/有效属性/HEAD/index/config/hook断言不变。搜索活动命令已打开Git 活动，测试错等命令名活动记录；按实际目的标题核对。仅2UI测试源，build-for-testing通过，未本机XCTest。
+- CI42855164847已越过完整行为检查并进入正式后端性能，保持在跑候选不push新head取消采样；最终通过范围与结果仍待原artifact核验。末尾2UI修补先本地提交，远端统一补验时继续复用同源已通过范围。
+
+## 2026-11-11 M4 第三轮证据与历史选择持久化修补
+
+- 固定e9ae775/CI42848714148实际复用了42839694951的Core211/签名148输入与同工具链成功回执，没有重跑407×3及9×2。行为执行1327.087秒，迁移portable入口已实际通过（11.447秒），685主题和42图标通过；最后独立native菜单checker漏快捷键桥接定义而编译失败，性能/应用验收/包未执行。原219892bytes/46CRC ZIP与回执留`.build/v2-m5-flow/hosted-42848714148`。
+- NativeApplicationMenu已依赖applicationShortcutsChanged/nativeModifiers，独立编译入口必须包括真实KeyboardShortcutBridge；notification从DeliveryServices移到该桥接文件，语义不变、不用测试stub。本机32/32原生菜单控制通过，编译日志在`.build/v2-m5-flow/native-menu-fix.log`。
+- 第三轮UI42848712718 smoke1/1，专项3/7（共享草稿与模板、快捷键、更新窗）通过，资源两例被新增branch.label断言卡住、储藏详情label字段等待失败、历史重开丢选择。135495832bytes/2234CRC原ZIP/266App+36UI匹配e9ae775，实际AX/源证据保留。branch内容断言是上一轮多余新增，改保留准确repo/current-branch存在+真实clean/list；储藏保留完整ref|OID唯一选中行并核对准确diff-code TextView原文，不依赖截断/不同AX字段的详情文本。
+- 历史选择实际不在workspace.savedView，之前只在正常退出/关闭时补存；强制停止后route保留但selection丢失。新增applyHistorySelection由Table明确输入边界同步保存，no-op不取消pending，旧session拒绝。11/11真实AppState私有控制通过`.build/history-reading-checks-RNpLqT`：A即时保存/新实例重开A、pendingA被B覆盖、明确clear再次重开空、原HEAD/index/work与草稿保持；268输入/104对象摘要前后一致。只保留五类证据到`.build/ci/history-reading-checks-*`，不上传私有仓库/偏好/二进制。
+- App/UI源build-for-testing与187工具通过，无本机XCTest。Core211/签名148输入仍与已成功回执完全相同；下一轮仅按同工具链复用规则补受影响范围，原失败保持。更新留存后续PR139独立草稿，不混入本轮稳定补验。
+
+## 2026-11-10 M4 第二轮回归结果与可复用范围
+
+- 固定cfbbf9e的CI42839694951：三套Git各407测试/70套件通过，Apple470.501/最低241.746/Homebrew268.871秒；隔离OpenPGP各9通过且私有服务清理确认。Core211/签名148/行为413项输入逐blob相同。行为先通过15偏好迁移、30持久更新、15stage、20主题队列，再因verify-application-migration.py调用runner没有的rg抛FileNotFoundError；迁移尚未开始，性能/应用/包未执行。原ZIP/CRC/SHA/log在`.build/v2-m5-flow/hosted-42839694951`。
+- 迁移源码枚举改用Python标准库，拒绝missing/空Core/symlink；当前137项路径+SHA与原rg完全一致，2项工具控制通过。不能为工具枚举依赖给整个runner添加无关组件；也不能吞错误/空映射冒充来源。当前修补不改变Core211和签名148输入；真实suite_job_succeeded与eligible确认上一轮失败later仍可复用已成功项，但实际runner image/工具链必须一致。
+- 第二轮UI42839695901：smoke1/1；完整workspace-delivery7项、3通过/4失败/0跳过。Submodule/快捷键/无配置更新已真实通过；LFS初始读取、History详情OID断言、跨窗模板再次打开及储藏消息等待仍失败。266App/36UI输入匹配，137427198bytes/2300CRC/SHAf0550151…原证据保留`.build/v2-m5-flow/hosted-42839695901`。储藏已准确选择原完整OID且Diff为stash bytes，消息AX被截断导致冗余文本等待失败，后续按原完整对象身份核对。
+- 末尾3UI源修补：LFS按真实已提交clean夹具等待准确repo/main/Working tree clean，不伪造更改；History点准确OID行内StaticText并验证row.selected；跨窗模板用唯一原生Window菜单系统项将被遮挡secondary置前，再等sheet消失/明确claim/两窗enabled状态；储藏直接核完整ref|OID选中行及原详情全OID。原数据断言和timeout保持。build-for-testing与187工具通过，本机无XCTest；正常固定下一head后集中补验，不把来源相同的Core/签名再人为失效。
+
+## 2026-11-10 M4 固定候选首轮真实失败与修补
+
+- 完整候选c8a3563/PR138首次集中送验：CI42832267661的site/185工具通过，Apple Git Core实际407测试/70套件、407.822秒、6问题；最低Git/Homebrew/签名/行为/性能/应用和包后续未执行。211项输入与候选逐blob一致；native ZIP28164bytes/4CRC、receipts10629bytes/1CRC及原日志保留`.build/v2-m5-flow/hosted-42832267661`，失败不改绿。
+- 四项新配置/模板测试用普通Fixture engine访问了全局配置读取，既有隔离runner正确拒绝；显式给这些service提供TestGitConfiguration，保留全局作用域禁止裸访问。Git am新状态已为mailApply，旧“不是rebase”测试同步期待mailApply，仍拒绝generic rebase继续；未删保护断言。UpdateDownload.validate把内部SnapshotFile的ModelFailure.changed映射为公开UpdateFailure.changed，取消继续原样传播，原损坏下载测试不放宽错误类型。
+- UI42832410175固定同候选，smoke真实1/1、0失败/跳过；workspace-delivery实际7项、0通过/7失败/0跳过。266App源/36UI源匹配候选，可信registry匹配main5c46c63；132737577bytes/2320CRC/SHAe15a9fe6…原ZIP与xcresult/截图/AX/视频在`.build/v2-m5-flow/hosted-42832410175`保留。
+- AX真实主窗口被coordinator改成workspace-window UUID，旧main只剩内部split group，导致资源入口定位失效。主窗口恢复稳定main标识，次窗口保持持久UUID；更新窗增加update-window标识。多窗口测试固定主窗和唯一新窗UUID，避免firstMatch活查询在新窗口置前后反绑；History按history-list内含准确OID的descendant选所属唯一row；快捷键用既有命令搜索过滤懒加载行；搜索范围menu限定popup后代；更新窗显式等待关闭/重开后仍count1。
+- 本机Core与全部测试源只编译通过；App/UI build-for-testing通过，266输入SHA一致，严格格式通过。隔离原生重开实见主窗main与更新窗update-window，旧草稿仍完整并正常退出；未运行本机XCTest，不推定7项已通过。修补集中为同一后续head送验，独立更新留存开发在另一工作树继续，避免改动在跑候选。
+
+## 2026-11-10 M4 面板排队与更新暂存闭环
+
+- 继续M4实际产品树，M2主题/官网已包含ec1ef53祖先，不能重复搬运。62子任务均有实现记录，页面矩阵/URI外部冷热唤起/三包下载生产联动和完整交付仍开放。原生可信入口要求候选PR base=main，旧stacked PR134/135不能直接作为新批次候选；不放宽可信来源限制。
+- 新增操作sheet未进入旧主题导入阻挡条件，会在补丁/比较/提交队列等预览期间抢占presentation。本轮把全部workspace sheet与reader→恢复/签名等后续意图统一列入占用条件，onDismiss先执行原后续动作再异步取主题。队列移到共享runtime，跨窗口按内容去重、全局最多8待处理、一次仅一处显示；目标关闭后交给仍挂载窗口，全部窗口关闭收到有效URL会通过coordinator唤回。迁移阻挡/更新冻结/错误警告期间保持等待，不提前写主题库。
+- ThemeImportQueueChecks实际链接本次AppState/104对象及Core，20/20私有真实Git/AppState控制通过，覆盖12个原遗漏sheet、后续动作、去重/目标关闭/单展示/FIFO/冻结；HEAD/index/CRLF无末尾换行字节、中文Emoji草稿修订与主题库不变。268项输入前后核对，证据`.build/theme-import-queue-checks-NIntad`，不是外部URI或XCTest验收。
+- 更新数据库StoreSnapshot以前永远保留，成功10次也会耗尽stage上限。本轮只在ProductionUpdateInstaller.prepare持久成功后授权清理本次快照，固定目录/文件版本/白名单/SHA并用fd逐叶删除、rmdir空目录；哈希/校验在可取消utility任务，await后重验根身份。原DB路径不参与删除，失败/变化/未知保留。15/15真实私有SQLite控制通过，含连续12次成功、仅preflight不清、同字节换inode、额外文件/目录替换和取消；证据`.build/update-stage-pr8kfdy8`。
+- 迁移/更新/新队列控制的CI归档补齐实际输入回执与失败日志，用真实glob正反夹具确认不会上传数据库/plist/token/私钥/源码副本/二进制。185项工具、actionlint/策略/严格Swift与差异检查通过；完整App及UI测试源build-for-testing通过，266应用输入与最终源SHA一致，本机未执行XCTest。首次构建中agent仍在完善utility取消，因此以app-build-final.log与ui-source-build.log为最终编译证据。
+- 隔离新Bundle ID/UITests域原生预览实际核对双窗口草稿只读→明确接管、搜索精确文件→文件历史→签名面板、关闭次窗口回主窗口，中文Emoji草稿保持；原HEAD/index/工作字节复核未变，预览正常退出。截图/AX在当前聊天，JSON在`.build/v2-m5-flow/preview`。没有尝试历史自动审查拒绝的外部URI唤起，不把局部原生观察等同全部页面矩阵。
+- ThemeChecks保留1/10/100项各30 load/activate，新增8KiB payload/16KiB URI及各超限1byte的30次真实解析（<50ms）、30私有旧customTheme迁移（<100ms）；逐样本保存原数组，失败不丢数据。标准Release helper只编译，4URI+4迁移选择小控制通过；正式240组样本未本机执行，applicationStartupMeasured=false，不能冒充整app启动额外100ms通过。
+- 后续明确缺口：ProductionUpdateInstaller.prepare在ticket落盘前创建.WeGit-update目录，准备中断会留下无ticket目录使retainedCapacity阻断，成功ticket也缺管理入口。下一批需有界preparation记录、只读状态列表、明确导出/身份清单和journal绑定的清理/既有helper恢复，保持20项/1GiB，未知不删、prepared不重放、恢复义务未完成不清。图片/1-2-4窗口/更新迁移正式Release性能及全页面矩阵仍需补齐，生产公钥/feed按约定最后提醒。
+
+## 2026-11-10 可信入口集成与七类阅读性能收尾
+
+- 当前会话接续 `01a1bd60-9960-7961-a04d-c381f6638b53`，继续M4产品树；主检出的PR133和用户PBX未移动。独立工具PR137已正常合入main `5c46c6348934e51691bd87f98bffff61769c1a74`，PR CI42826080946与main CI42826338680真实通过；144项工具通过，分流仅policy，Core/GPG/后端性能/前端编译/包均未执行。main整棵tree等于已验证工具候选07ea0dc。
+- 老scene-controls.yml按ui_probe.py路径无条件启动场景XCTest，忽略当前工具批次分流；本次非必需run42826081045已明确取消并保留cancelled，不作通过。未删必需检查或扩大本机测试。正式新原生批次现在可从可信main选择，48条候选方法预检通过不等于XCTest通过。
+- 新恢复诊断先保存可信main检查器，再固定PR132/028b627，对97个Core/AskPass源资源blob以固定无依赖Package隔离编译；本机仅实际编译通过，原HEAD/index未变。托管诊断42826412388实际成功，普通/大型各30样本通过原预算；大型p95预览1017.79ms、Reset1492.51ms、恢复预览1119.77ms、恢复1341.04ms、取消1.15ms，RSS24,313,856bytes。原ZIP2,217,108bytes/18CRC/SHA698c4921…和97源码blob/检查器/原数组独立核验通过；永久记录见docs/acceptance/2026-11-10/recovery-diagnostic。相同产品源本次未复现原超标，不将原失败改绿，也不因未复现推断根因。并发命令按区间并集计算墙钟，不能直接相加或把进程外耗时认定为某个I/O函数。新诊断只做定位，不生成canonical验收。
+- 阅读检查器补齐提交/路径/分支/Tag/Stash/Worktree/命令七类真实查询；夹具使用标准双父Stash，最多200提交/200引用的精确OID对照及路径编号核对，不加载10万项oracle污染RSS。只有前缀/非空断言不能声称身份通过；首批/后页数量、去重、取消及替换查询保持原预算，所有新夹具/验证器进入性能输入回执，缺入口即失败。
+- 最终独立Release编译及普通/大型各2小样本控制在`.build/reading-performance-mmybpx`通过，7项阅读证据工具与18项批次工具通过，当前M4完整184项工具/actionlint/策略通过；formalPassed=false，未执行正式规模或XCTest。故意更改changedPaths的真实失败控制在`.build/reading-performance-failure-control-dq6_vpyl`退出1，保留iteration1/比较首批/75.674ms的partialMeasurements，无完整样本且不报绿。实际runtime.log和源/夹具/二进制/资源/工具链SHA全部归档接线。
+- 本轮工具收尾提交7d02564并将可信main正常合入M4；只发生HANDOFF历史追加冲突，双方记录已保留。合入后146项阅读输入及制品摘要再次逐项核对通过，产品/测试/工程输入仍与903407e相同，不重跑未变的编译/性能。15条本地文档链接及新增诊断JSON的原secret策略通过，用户主PBX仍为1343632f188d600b0111634b939732f3ae618021e9192e4c43a73e3fe52c66f9。下一步按稳定批次继续正式后端/原生/阅读性能与M5，生产公钥/feed仍按既有约定留到最终门禁提醒。
+
 ## 2026-11-10 v2 可信批次与恢复性能诊断入口
 
 - 接续聊天 `01a1bd60-9960-7961-a04d-c381f6638b53`。产品主体在 `v2-m1-validation-fix/WeGit` 的 M4 分支 `903407e`，主检出仍为主题/官网 PR133 并保留用户 PBX 差异；不能按主检出旧进度重新实施 M2～M4。本工具批次在独立 `v2-validation-entry/WeGit`，只集成可信入口和诊断，不挪动产品候选。
@@ -7,6 +56,225 @@
 - 独立恢复诊断从可信 main 固定 Python/Swift 检查器，再解析开放同仓库 PR 与明确 SHA，重复核对 head。逐 blob 提取 Core/AskPass，使用固定无依赖 Package 和私有编译缓存；候选 manifest 不执行。首次需传 PR132 与 `028b627a6950afe370e1eb14f018818087b25738`，旧 main 没有恢复 API，不能用空候选代替。
 - 普通/大型各30样本及原2000ms/500ms/内存预算保持，记录最多6阶段/256命令时序。并发命令墙钟必须取区间并集；相加会重复计算并产生负的进程外耗时。阶段重叠/事件截断/缺命令/非有限值/规模变化拒绝。失败阶段与源/编译/实际进程组清理记录保留，诊断永不生成 canonical 验收回执。
 - 本机144项CI工具、固定actionlint、策略、5项secret策略及220提交历史扫描通过。固定M1的97个源/资源blob使用原入口命令编译Release Core/AskPass与检查器，分别退出0；前后源码与原HEAD/index不变，完整私有回执在`.build/recovery-entry-compile-w8adzggw/compile-receipt.json`。独立审查另实核22项恢复与10项批次工具。没有本机XCTest或正式性能采样。M1现有托管失败仍为CI42243209630、大型Reset p95 2209.83ms超原2000ms；新入口须正常合入main后才能采样，诊断结果也不替代必需验收。
+
+## 2026-11-07 当前会话接续与最新 M1 托管失败
+
+- 接续原聊天01a1aaef-38ce-7f60-b6b5-7461c7aba8c2，实际开发仍在managed的v2-m1-validation-fix/WeGit、codex/v2-m4-workspaces-and-delivery，固定903407e。主检出仍为主题/网站分支，用户PBX差异独立保留；原聊天已中断，没有遗留构建、下载、预览或Git操作进程。M2/M3/M4主体已经实现，不能用主检出旧进度重新认定为待实施。
+- 最新M1为028b627 / CI42243209630 / 实际合成源f892a9a。原native ZIP176478bytes/SHA176aa0ed7970d5f038e919b6ecc923ed3be27f1902f9ab623563f095f973f2b3、receipts ZIP36299bytes/SHAe2ac957cd5684961616e1baa8649bbcd71f893aea5309ce2871a83429acfc4aa与CRC、回执/逐Git blob核对保留.build/v2-m1-reset-profile/hosted-42243209630。三套Git各300测试/49套件实际通过，326.357/158.861/163.159秒；Core148/签名106/行为329/性能119项输入与候选一致。签名、行为通过，性能失败，应用/UI编译和包未执行。
+- 普通/大型各30原样本独立重算，大型p95预览1381.63ms、Reset2209.83ms、恢复预览1816.11ms、恢复1591.78ms；仅Reset iteration2=2209.834875ms、20=3081.866083ms超过原2000ms，其余最高1637.893583ms。incompleteSamples重复大型原30数组，不新增计数。现有托管数据缺内部阶段，不能据本机两样本或总耗时推定fsync、checkout或后验就是瓶颈；先给检查器补命令时序，whole-call预算/正确性断言保持。
+- 固定903407e的Universal/Apple Silicon/Intel三种实际本机开发DMG已重新核对源码、原manifest、原字节SHA和原30MiB下载/60MiB安装预算。下载/安装分别29948526/61875551、17895064/32482536、19369948/35788882bytes，workspaceDirty=false。完整包回执在.build/v2-m4-delivery/three-package-results.json；旧pending-ci摘要原样保留，另存batch-results-reviewed-2026-11-07.json记录真实失败。开发包不能替代M1托管失败、正式生产安装或M5验收。
+- 原生ui_batches.json有条目不代表workflow_dispatch可以选择。真实新增回归先指出raster-encoding、repository-tools、commit-tasks、workspace-delivery四项遗漏，再补齐workflow选项及一致性/可信main先复制/拒绝外仓候选检查；46项相关工具、策略和actionlint通过。修补尚未正常进入可信main，不能提前调度或声称新的托管批次已部署。生产公钥/feed按用户原约定最终门禁提醒，不新建heartbeat、不生成生产信任根、不绕过历史URI自动审查边界。
+- 性能检查器新增每样本独立、256命令/6阶段上限的ProcessRunning委托，记录白名单命令类别/状态与单调起止时间；fixture/cleanup排除，失败阶段另存processTrace。原30样本、完整调用预算、字节与取消断言不变，Core/生产API无变化。编译及8组非XCTest控制通过；复用旧Release对象的来源明确未与当前全Core等价，不能把checker编译提升成当前产品验收。
+- 比较/统一查询正式入口固定普通1万/大型10万提交、各1万引用/10万索引路径、100/1000变更路径和30串行样本，测首批/后页/取消/替换查询/RSS，独立重算原2000/1000/500ms与256/512MiB门槛。首次准备与缓存条件、真实进程组退出和源/对象/资源/夹具SHA另存；当前只完成250/400提交、各32引用/512路径的2×2小控制，formalPassed=false。证据在.build/reading-performance-control-uh5flxdr；正式规模尚未执行。
+- 新实质性工具陷阱：Bash运行中修改同一shell入口会让它继续按旧读取位置执行，造成ReadingPerformance.swift路径错位；原失败在.build/reading-performance-W0UlD4，冻结脚本后独立Release编译通过在reading-performance-UZqV9l。使用GIT_INDEX_FILE的私有index环境时，git rev-parse --git-path index返回私有index，不能拿该SHA与真实用户index比较；已用无此变量的环境核对，真实HEAD/index/主PBX未变化，不回写或恢复错误的index。
+
+## 2026-11-06 M1 checkout 候选与 M4 安装、迁移接线
+
+- 当前开发源码版本已改v2.0.0/build6；尚无tag、Release、生产安装或自动更新信任配置。Root App/UI/helper build-for-testing和Core/全测试源编译成功（本机无XCTest），1910字符串/8复数、79相关工具与末尾严格Swift格式通过；三变体真实包将在固定开发源码后统一验，源/资源回执逐SHA另存。
+- 用户明确生产更新公钥/feed尚无配置，要求在最终交付门禁时提醒；本轮不生成生产私钥/公钥、不配置生产feed，不反复询问。App与独立WeGitUpdater共用编译公钥配置，空配置停止自动更新。此提醒是最终任务门禁，不创建跟踪本任务结束的自动化。
+- M1最新实际托管失败仍是42180305762/0d8bd7的Reset p952394.34ms>原2000ms。本轮git archive固定0d8私有源码测全Reset阶段，首次大型2样本891.59/889.24ms中Git checkout约368/384ms、后验约236/241ms，持久化85/89ms、meta约6.5ms；不能靠删除meta验证解决394ms缺口。候选仅substantial Hard（>=128文件/16MiB且多CPU）每命令最多4 checkout worker，任何明确checkout.workers仍由Git处理，不写Git配置、不删SHA/fsync/HEAD/索引/序列/路径围栏。补丁已接本M4源码；最终无hook普通/大型各2开发样本、大型665.69/670.93ms，5条私有控制通过，实际4worker取消16.98ms整组退出并保留unknown备份。缓存/同机负载未控制，不推定托管30样本或固定百分比改善。
+- 新WeGitUpdater是独立可执行目标并嵌入Helpers；生产安装不在仍运行的app内替换。持久ticket/journal含source PID+启动/执行身份、目录/包/原与当前prefs/当前v2 DB/helper+资源指纹和token；source只真实kernel zero退出允许swap，ESRCH不算正常成功。rename先fsync意图，恢复实际旧/新fingerprint，不凭phase猜；启动后实际新PID+完整版本/变体+迁移/窗口/prefs ready才确认，崩溃后未能注册新PID留blocked，不kill、不重放prepared。
+- Source abort需独立授权intent与helper的退出等待竞速，apply前复查。App超时不能因同flock争锁失败后解冻，否则以后普通Quit可能触发未授权install。App只在helper abort ack或精确helper Process退出后解除冻结；Delegate只接受固定generation/pref/store基线未变的已授权退出。重开ready独立签名验证，不争helper持有的lease。Pipeline之前固定A快照，不能prepare后把晚来的B设成新基准而备份仍是A。
+- 普通v2更新失败恢复current-v2 prefs和DB，original-v1只给明确旧格式降级；返回数据描述符只使用Configuration.standard的固定production.v2/production-v2 store路径，不能采信handoff自带任意写入URL。current-store fingerprint核对DB/WAL身份、birth/size/m/ctime/SHA及SHM metadata，freeze/capture/prepare/ready/exit再核对，late SQLite或prefs写入阻断安装。来源scope production强制核验在任何mutation前。所有ticket/备份/helper/resource/DMG/DB计入空间预算，20ticket/1GiB上限未知输入阻断且不删除。
+- 新App init先ApplicationDataMigration，接独立com.willxue.wegit.v2 suite与AppSupport/WeGit/v2/Repositories.store；development域/目录独立，但历史shared legacy DB的真实来源单独记，不按包名猜行归属。原DB/WAL/SHM只捕获原始字节，不直接SQLite打开原或sealed archive；一致备份在私有copy上sqlite3_backup，source前后身份/字节/CAS不变。坏主题/页/草稿/marker/损坏archive阻断迁移，使用不持久的失败偏好且关闭仓库写入口，不能回落standard污染原域。
+- 原格式恢复与继续v2为明确动作，恢复后保留v2目录并要求退出/重开或安装旧版；Settings新增数据备份/恢复入口。系统AppKit frame autosave仍有standard域机制，不宣称原全NSUserDefaults文件字节绝不改变；业务旧值保持，frame改v2名称并在当前suite另存frame；读取旧frame迁入不覆盖旧键。Swift importer是setFrame(from:)。
+- SwiftData PersistentIdentifier跨container的managedObjectID backing coordinator指针不能比较；本机失败原记录保留。真实SQL UUID/PK/业务路径/名称/date bits/pinned均一致，按排序编码的持久ID/URI核对才是跨存储成功标准。实际migrationOverride完整AppState注入还核对recents/theme/两Worktree草稿与路由落在v2数据。14组正式薄控制、14组完整App控制及末轮首次16.85ms/30 warm p950.695ms为Debug私有诊断，不替代正式Release迁移/启动矩阵。
+- Helper的pipe协议CRLF按Data尾10/13处理，不能String.removeLast把Swift CRLF一个Character当两个；真实7组argv/pipe/zero/signal/sourceabort控制及2个独立copied helper CLI布局通过，取消约101ms，源程序仍活；空production key/--trust注入都退出1，所有私有子进程停止。资源置Installer/Resources/WeGit_WeGitCore.bundle，exe置Installer/Helpers，L10n既有Helpers fallback可用，不修改生成Bundle.module。token只在私有0600文件/管道，不放argv/env或日志。
+- 转交的ticket归Core installer持久ownership；App transient app清理先candidate map→preflight→unchanged才授权，不在preflight后吸收新输入。原始StoreSnapshot捕获独立保留，不因app预览清理数据库未知输入；仅验证相等的Replacement/Mount可删除，未seal/变更/未知保留，stage目录数有界10。正常阶段备份和因失败保留的输入需未来明确导出/清理，不改记自动清理已完成。
+- WeGitReleaseVersion保留RC全版本，CFBundleShortVersionString仍base版本；否则已安装RC会被当stable并拒绝下一RC。打包显式tag传实际raw版本，无tag用Xcode MARKETING_VERSION，Bash3.2避免set-u空array展开。新helper必须进入source provenance、变体Mach-O/signature/minos和CI输入/分流；仅新增目录而漏输入会错误复用旧证据。目标只定向加入17对象及新App引用，现有372 IDs/主检出用户PBX保留，未用xcodegen覆盖项目。
+- CI behavior将新迁移/持久更新检查登记为feature存在即mandatory，正式checker私有源码/二进制/前后hash绑定；native/checker编译仍不是XCTest。Core/应用lint包括WeGitUpdater，package在稳定批次分别构建/验Universal/Apple Silicon/Intel，共用一套同源码后端证据，不逐子任务请求GitHub。当前仍未发布/执行生产安装或生成信任根，M5全页面/支持矩阵/完整托管与原性能门禁继续待验。
+- 失败/补验留存：新worktree工具未返回注册结果，registry无checkout，M1改用固定git archive私有snapshot；错误cwd开始上层M4编译仅产物且未采用，Release测试module解析失败改正常Debug源编译；按绝对parts排除.build会错误清空嵌套snapshot源集合，校正为3145明确路径，不使用空映射当源码证据。工具测试包导入要相应PYTHONPATH/discovery，原missing test_release失败保留，79项末尾工具真实通过。各源临时compile失败与字节/IDs重验分别保留.build/v2-m4-delivery和各agent目录。
+
+## 2026-11-06 M4 工作区、资源与交付基础集成
+
+- 继续使用 managed 的 v2-m1-validation-fix/WeGit、codex/v2-m4-workspaces-and-delivery；主检出主题/网站分支和用户 PBX 未移动。快捷键、七类统一查询、Submodule/LFS 与更新状态已接原生入口，本轮只做开发编译/隔离控制，尚未请求新的托管批次或发布。M1 最新 CI42180305762 的大型 Reset p95 2394.34ms / 原预算2000ms仍为失败。
+- 快捷键存储只写 v2.keyboard-shortcuts；清除与缺省不同，冲突/macOS编辑保留组合拒绝，原生自有菜单即时取有效绑定。菜单、命令列表、Toolbar/Sidebar/Composer 的提示共用绑定，清除后不再显示旧快捷键。命令面板的路由 ID 沿用 WorkspaceRoute 的中文 raw value，不能按英文名称映射；复制路径的真实 ID 是 copy-path。
+- 统一查询复用固定提交 tips/路径/引用快照，首批和下一页各最多100，默认不读所有文件正文或未跟踪内容。结果在搜索 sheet onDismiss 后导航；路径打开准确文件历史，Tag/储藏按引用与对象绑定，Worktree 打开独立窗口，命令执行前重验可用状态。标签目标必须独立验证，不能因前200个 substring 匹配中没有目标就虚报消失；异步结果消费只能清除同一目标。
+- 所有草稿入口（输入、模板、历史、撤销、设置恢复/清除、Amend）统一 owner/revision，只有明确接管改变归属。异步 Amend 由 Session 单独持 lease/固定 HEAD，填充前后核对修订号，避免同工作树两个窗口重复填充。旧JSON即使能解码，超1MiB文本/非法revision也必须拒绝覆盖。保存/关闭/退出传回真实Bool并flush；原NSWindowDelegate通过代理保留与转发，代理和hosting须活到willClose通知完成；初始化期间关闭保留原路由，恢复提交读取晚到时不覆盖用户新选择。
+- 菜单栏面板必须有自己的固定订阅 owner，切换 Session 先释放旧订阅，关闭时无条件释放自己的订阅。不能用 legacyOwner 激活后仅在主窗口已关时释放，否则最后窗口关掉仍遗留 watcher。关闭最后一个次窗口后 delegate.state 要回到仍挂载的窗口或 primary；退出同时以主应用状态兜底，不能因weak state归零跳过背景任务/持久化检查。
+- Submodule 的添加/来源变更/移除都有预览和分阶段回执；移除只取消父登记/gitlink，保留子文件和Git数据。子origin同步默认关闭，明确开启才核对本仓库的单一URL、备份/摘要及独立写入阶段，不fetch。父/子common/private许可按固定顺序取得；下载落地逐父层openat/O_NOFOLLOW并固定目录身份，不把URL尾斜杠当成身份变化。literal option-like路径、带多个点的subsection、CRLF及无末尾换行均保留；按Data行区间处理，Swift CRLF是一个Character。自有child config.lock在前置校验后取得，并在锁复查前释放。
+- LFS规则用Git核对匹配及实际来源，保留其他属性/注释/行尾；工作文件缺失时Git可回退索引，不能当成没有有效来源。未安装Git LFS仍可保存规则，不安装工具/Hook，不在Diff读取时下载。gitlink暂存不应掩盖 .gitmodules/.gitattributes 仍未暂存的状态。RecoveryStore拒绝非manifest/嵌套的下载回执，资源操作使用独立有界命名空间。
+- 更新基础校验Ed25519来源、SHA字节、通道/版本/密钥范围/过期、变体/固定来源和大小/超时；共享UpdateState不会因单个窗口关闭而取消下载。安装控制覆盖包签名、目标/目录身份、窗口保存代次、空间、旧包/原数据备份、替换与明确回退。生产公钥/签名feed和独立生产installer/崩溃后重开协议仍未配置，自动检查/安装保持真实不可用，提供官网入口；不能把14条独立控制改写成生产更新验收。
+- 更新安装陷阱：NSObject.hash会与辅助方法重名；Diff快照清理不能拥有安装备份；Foundation归一可重引入/var符号链接，相同目录URL也可仅因尾斜杠不相等，比较canonical path加固定文件系统身份。原/修复失败日志分别保留；最早原日志被覆盖的观察只作为明确的观察记录，不冒充留存原始日志。临时安装控制只使用自有ad-hoc包和私有偏好，没有生产私钥。
+- 三分发工具接入实际Info变体和发布准备：v2+必须同tag/source/build/源文件集合的三包；v1仍兼容4/5资产的旧/新单Universal报告。三包准备11资产，发布仍只draft且上传前后重验。release.yml按tag主版本选择v2三包循环/旧版单包；三包共用一个源码CI结果，各自验架构、签名、大小和DMG。原30MiB下载/60MiB安装预算不变；未构建本批次真实三包或执行发布。
+- 隔离开发证据：Submodule/LFS 16/16控制、13 Core+2 UI测试方法源；更新14/14控制，30份2349bytes tiny manifest p95约0.65ms仅诊断；快捷键/查询5组控制；窗口/面板/精确Tag共14组控制及4项完整性测试源。新增workspace-delivery注册7项托管流程（窗口2、快捷键/搜索/更新配置3、资源2），本机不执行XCTest。60项批次/范围/回执工具和32项发布/变体工具通过，actionlint1.7.12通过。最终编译/界面记录在.build/v2-m4，实际托管/原生性能/支持矩阵/URI/生产更新及M5仍待。
+- 独立NSWorkspace.OpenConfiguration预览固定bundle/PID/私有UITests域，去掉wegit注册，未再请求用户置前或操作真实应用。实际观察：中文/Emoji草稿经更新窗口关闭和进程重开保留，精确路径搜索接到FileHistory。CUA typeText中文曾只插入空格；改用工具自带paste（保留系统剪贴板）取得完整文本，记录实际含前置空格的值。快捷键selectable List合并行内AX按钮，children:contain单独未解决，改为ScrollView/LazyVStack普通配置行；搜索Picker隐藏重复标签修正字段挤压。末尾已重新编译且实际复验：独立按钮AX出现，系统Cmd-C拒绝、Cmd-Option-G保存并真正打开搜索，Toolbar/查询提示同步，清除/恢复后默认显示正确；Picker字段不再截断。最后正常退出私有PID91676，原HEAD/索引/工作文件SHA保持。完整多窗口键盘/VoiceOver/中英主题矩阵仍待。
+- 最终本机Core与全部测试源编译4.13秒；App/UI源build-for-testing成功，无产品Swift警告，1892字符串/8复数及严格格式通过。Debug应用回执的全部源/资源逐SHA一致，UI源另存SHA；Release打包验证入口拒绝Debug是预期边界，Debug源码相等核对不走该入口。最终窗口/面板/Tag控制14/14，226项当前源码/对象等价；原失败和补验保留。所有证据仍是开发状态，不把编译或局部UI改记为托管/版本通过。
+- M1只读补核：两镜像Core147/performance119项输入一致，Reset源码13698bytes同原候选；最新大型Reset7/30超2000ms，median1701.30ms（旧1206.35ms）。其他恢复阶段同步变慢，托管没有内部分段，incompleteSamples是原30数组重复，不能当新增样本。下一批先测validate/persist/protect/validate-before-Git/reset/post-diff各单调时钟边界；已有6～8ms元数据批验证仅支持小幅去重，不足以覆盖394.34ms缺口，不删SHA/fsync/围栏。
+
+## 2026-11-06 最新真实性能失败与窗口工具边界
+
+- 最新CI42180305762固定0d8bd7c8e809de430b1d0e7ebdcfdf92a705211c仍失败在后端性能，后续应用/包未执行；不能用42168490552的旧成功覆盖。原native176330bytes/SHA76a512c2264cf335b9920a4a5c057c1d84dc899bc0081ff2f8a2a2761c0768af/32CRC与receipts36252bytes/SHA7258f90861562685b6bc3af317aa5a945ec00c12fab41edd15c21bc0734acb46/4CRC完整核对并保留.build/v2-m1/final-profile/hosted-42180305762。普通/大型各30原数组独立重算，大型预览1706.89ms、Reset2394.34ms、恢复预览1964.04ms、恢复1922.08ms，原2000ms不变，Reset失败。
+- 两轮Core输入完全相同，工具链差异仅image：42168490552为20261104.0337.1，42180305762为20261026.0314.1；OS/架构/Xcode/Swift/Git/GPG相同。这解释了必须重新核验的镜像条件，不能删除image绑定或强行复用旧性能。新的32,520,813bytes应用/18,084,300bytes DMG及符号UUID检查仅为本机包证据，后续集中定位实际Reset阶段波动，保持预算和所有SHA/fsync/身份检查。
+- 用户已再次将WindowFlow历史窗口置前，Cua的下一次键盘操作仍落到SecondWorktree。不要再次要求同一个置前动作或继续猜产品菜单故障；需要先核对独立窗口控制/实例身份并由托管XCTest验收键盘。当前Cua第二片段已completion_summary Checked isolated window flows，已观察共享草稿/明确接管/关闭保留/相同UUID与历史重开/不同工作区两窗口，键盘尚未验收。请求置前已结束。
+- 发现CLI预览与Cua裸启可能有多个应用实例/重启及测试环境差异，最新观察自有PID46664路径精确为.build/v2-m4/WeGitV2M4Review.app/Contents/MacOS/WeGit（无CLI参数、Info含私有LSEnvironment），不要把这类混合实例操作当作正常单实例用户键盘结果。后续只用原授权NSWorkspace.OpenConfiguration传递环境/参数并固定实例，检查私有测试域；AppState的draftInitialized与真实NSApp.keyWindow读取已在工作区修补，源编译通过，尚需用正确单实例复验。
+
+## 2026-11-06 M1 原后端预算通过与包体积修补
+
+- 固定56f863a的CI42168490552实际三种Git各299测试/48套件通过（259.896/159.458/202.530秒），隔离签名与功能、原性能、应用/UI测试源编译均成功；package在60MiB安装预算失败，整轮仍失败。原413440bytes native ZIP/50CRC/SHA33db2719…和69019bytes receipts/6CRC/SHA472ebe56…均保留于.build/v2-m1/final-profile/hosted-42168490552。原普通/大型各30样本独立重算，大型p95预览1225.69ms、Reset1591.04ms、恢复预览991.97ms、恢复1070.53ms，取消1.01ms/RSS24,379,392bytes；原2000ms不变，这仍不替代原生实际XCTest或完整版本验收。
+- 本机原始Universal Release实际64,910,877bytes，主程序46,010,704bytes、AskPass12,501,472bytes；不是资源预算应放宽。只对Release/ReleasePerformance启用系统DEPLOYMENT_POSTPROCESSING、STRIP_INSTALLED_PRODUCT、non-global符号剥离及COPY_PHASE_STRIP，Debug保留原配置。新包32,520,813bytes，实际DMG18,084,300bytes/SHAa86a4d5c2c00365d22ce2f226aa28c9f5880a8412b8dcc253df9621d4e781bc5；两个架构/26.0 minos、源回执、严格签名、只读挂载及Applications链接均核对，所有原预算保留。
+- 主程序与AskPass的arm64/x86_64 dSYM UUID均与剥离后程序相同，保留独立符号化资料。未变Core147项、签名106项和性能119项输入与56f863a逐Git blob相同；该修补仅配置和包输入，受影响阶段集中重验，不额外重跑未变后端。开发DMG显式workspaceDirty，源码证明和原始数据在.build/v2-m1/final-profile；不把本机包测试改写成托管通过。
+- M4工作区开发已独立保存到stash，确切OID在.build/v2-m4/wip-stash-sha.txt，完整patch/清单保留。恢复时回codex/v2-m4-workspaces-and-delivery并按该OIDapply，不能用drop或覆盖主检出。主PBX当前SHA1343632f188d600b0111634b939732f3ae618021e9192e4c43a73e3fe52c66f9保持。当前M4私有预览仍可运行，用户的WindowFlow历史窗口置前请求待答；不要动真实WeGit进程或用户域。原始URI自动审查拒绝边界继续保留，heartbeat未恢复。
+## 2026-11-06 M4 窗口开发与 M1 包预算接续
+
+- M1固定56f863aa586362b8262cd731bd876ae71e264c54的CI42168490552，Core/签名/功能/原性能/应用与UI源编译阶段成功，整体在package失败：实际Universal应用超过原60MiB预算，不能扩大预算或报版本通过。原native ZIP413440bytes/SHA33db2719272c533ad6df9a7d616d5f134dbee54daf6ea0d101dd452e8c8fb702/50CRC、receipts69019bytes/SHA472ebe56eb8ceec968165a2d2a322c68868ee30b29ff5d6686ff8e5fb6f80264/6CRC已核对，均在.build/v2-m1/final-profile/hosted-42168490552。原30数组独立重算：大型p95预览1225.69ms、Reset1591.04ms、恢复预览991.97ms、恢复1070.53ms、取消1.01ms/RSS24,379,392bytes，2000ms预算不变。后续只补包输入，未变后端回执复用。
+- M2本地已接到56f863a，新的f51576dcba0dda15ae847418e6c57bfb6ffce40e；M3新的a64c133060a7bb3df4ab11f53e9614fab953f423。旧6096236/cee02a4以refs/wegit/development/m2-before-56f863a及m3-before-56f863a保留。两分支原子推送首次网络低速失败，远端尚待核对/更新，不能称已同步。本地M4分支codex/v2-m4-workspaces-and-delivery在c3c73be合并已提交的主题/网站ec1ef53，未取主检出用户PBX的4+4差异。冲突保护preservingConflictStages与固定formatFrom参数均保留，source record.retainedIndexTree选择正确保护树；本机仅源编译。
+- M4工作区窗口骨架、同工作区会话/写任务/单监视器、共享草稿修订/归属、每窗口历史与路由已接入，尚未完成批次。WindowSessionPersistence保持原偏好域和旧draft-v2原值；保存到新v2命名空间。新增四项Core测试源已编译、App/UI build-for-testing通过，本机无XCTest。多窗口CLI/托管/性能及快捷键/统一搜索、Submodule/LFS、更新/迁移/三包仍需继续，不能把整个V20-11或M4标完成。
+- 私有Cua实际核对共享中文/Emoji草稿、第二窗口只读/明确接管、关闭后另一窗口保留新草稿、独立历史路由和相同UUID重开；首次重开失败保留原状态，已修正首次成为Key时在restore前保存空路径的覆盖。更多窗口关闭/监视/编辑中提交及实际前台菜单路由仍待；键盘输入仍落在SecondWorktree，已向用户异步请求将WindowFlow–main历史窗口置前。此前ConflictAbort已置前的回复已用于M3，不重复请求那个窗口。
+- 新坑：SwiftUI/Observation初始化阶段也可能经过message setter；草稿载入时需draftInitialized围栏，避免在修订号载入前尝试保存旧revision产生假错误。NSWindow cascade需要top-left而非frame.origin。Swift guard中的trailing closure与??组合需先计算局部值。Testing的#require里调用throws函数，表达式内也要显式try。模块内部GitObjectID不能从App引用。状态缓存不能只依赖didBecomeKey通知，菜单取NSApp.keyWindow对应状态。两处同名“启用”英文语义不同，主题动作使用“使用主题”保留Git的Enabled。
+- 独立预览WeGitV2M4Review.app位于.build/v2-m4，bundleID com.willxue.wegit.v2m4review，去掉wegit URL注册，未抢实际协议。第一次普通Popen子进程随exec生命周期结束；Cua自动重启没有测试环境，已立即退出，未做Git写入。后续必须start_new_session=True或原授权NSWorkspace配置环境，Info LSEnvironment保留私有测试域，不让Cua裸启默认偏好。当前自有预览PID47113，私有偏好域com.willxue.wegit.UITests.V2M4Review.00a1e2e9-0cba-4b71-a388-38cbc5ab8958，夹具/HEAD/原索引和工作SHA见.build/v2-m4/window-fixtures.json。CUA首次片段已completion_summary Detected window restore issue；当前第二片段有待用户置前，结束观察后再仅completion_summary。
+
+## 2026-11-06 M1 有界核对与恢复预览候选
+
+- 最新实际托管失败仍为固定bcf8666的CI42043325839：三种Git各294测试/48套件、签名及功能通过；大型30样本p95预览1606.41ms、Reset2385.34ms、恢复预览2130.95ms、恢复2104.56ms，原2000ms预算未改变。应用/UI编译与包未执行；主检出.build/v2-m1/failed-native-8的原ZIP/CRC/SHA及独立重算继续保留。
+- Reset后的工作文件核对先固定实际索引及全部普通路径版本，大型且参数有界时最多两组Git diff，末尾再核对所有文件、索引、HEAD/分支及序列状态。已有且不同inode的普通叶子恢复最多四批；新目录、链接、别名及相关路径仍串行，身份、内容SHA和逐文件/父目录fsync不删。
+- 恢复预览把上下文、拆分索引查询、冲突查询、原索引读取和备份捕获重叠，当前内容捕获仍先取得拆分索引的准确剩余预算。冲突结果优先阻断并取消临时读取；全部子任务结束后统一重验文件/共享索引/原索引及Git上下文。已保存树的40/64位OID只提供隔离Git目录的对象格式，write-tree仍实际重算原始备份索引并比较完整OID；没有替换成信任元数据。快照目录也在整个捕获结束后统一核对。
+- 本机Release模块及五项新增Core测试源编译通过，严格格式通过，未执行XCTest。新独立非XCTest控制6条、旧控制2条及SHA-1/SHA-256×完整/拆分索引4种GC后恢复均实际通过；覆盖原字节/权限/索引、分组后编辑、预览期间并发暂存、新目录和替换临时存储拒绝。普通/大型各2个串行Release开发样本满足原门槛；大型最大预览507.82ms、Reset959.95ms、恢复预览463.73ms、恢复712.93ms、取消0.75ms、RSS26,574,848bytes。这不是30样本、UI或版本验收，文件系统缓存未控制。
+- .build/v2-m1/final-profile保留原/新阶段数据、12条控制、4个开发样本、96项模块/资源输入与测试源/静态链接对象SHA。CommonCrypto流式SHA和每批独立快照目录两次源码实验没有稳定端到端提升，均已撤回；原JSON、日志和patch保留，不能用内存微基准宣称产品提升。M1的RecoveryCaptureResults为文件私有类型，跨文件结果使用独立RecoveryInstallResults；空返回字典需明确Sendable元素类型。ModelFailure不符合Equatable，Testing的throws值宏不能直接传.changed，使用throws类型检查。单独链接Release CLI必须把资源bundle复制到程序旁，且SwiftPM当前输出为.build/out，先查询实际bin路径。
+- 实际修补工作树为/Users/willxue/.codex/worktrees/v2-m1-validation-fix/WeGit，候选从远端PR132的真实bcf8666继续，不以本地旧0915404覆盖远端。后续M2固定6096236/草稿PR134、M3固定cee02a4/草稿PR135；稳定候选只统一送一次受影响托管批次，等待时继续M4/M5并保持父批次栈。主检出主题/网站PR133和用户PBX差异独立，PBX当前SHA1343632f188d600b0111634b939732f3ae618021e9192e4c43a73e3fe52c66f9未变；用户已置前的M3邮件原生复验已结束，不重复请求。heartbeat未恢复。
+## 2026-11-06 M3 批次源编译与末尾界面复验
+
+- M3已统一注册commit-tasks的6项明确方法，覆盖队列/主线父提交、任务切换/Stash分支、消息模板/历史/SSH签名/工作区设置/Hook失败，以及邮件继续/中止。原生App与UI测试源build-for-testing成功；邮件11项Core测试源编译成功。本机没有执行XCTest，实际托管仍按稳定批次安排。60项UI调度/范围/回执工具通过；原严格格式54文件后新增原生菜单两源，末尾按56文件复核。1745字符串/8复数覆盖通过，2361输入后新增同语义File入口另做末尾覆盖核对。
+- 邮件结束后的内部原始输入按摘要、私有目录身份与原文件版本核对后清理；改变或未知缓存保留，不递归删除不属于清单的文件。关闭元数据沿用20项/7天边界，未知输入不自动淘汰。新的7条私有控制allPassed，包含缓存清理/变化后保留；旧失败保留mail-extended-*-failed-1。
+- 末尾英文深色原生Review已实核图标按钮回到内容层尺寸、正文左对齐、mail-patch-message/progress可访问名称、明确Reverted/Not executed和中止结果，关闭回工作树后原中文草稿仍准确。原生File菜单新增importMailPatches，与文件补丁分开，维持既有动作/验证。截图在当前聊天，原JSON在.build/v2-m3。
+- 多份同Bundle ID的改名预览仍会被Cua识别为多个应用，完整路径能消除绑定歧义但旧菜单可能继续报offscreen；独立v2m3review身份与明确File入口已实际走通，不能据此把工具时序当产品菜单缺陷。用户已手动置前。任务拥有的旧闲置预览按启动PID/完整路径/test标记和无Git序列核对后关闭，未动用户应用或系统设置。
+- 主检出PBX SHA1343632f…再次核对不变；managed检出的旧M2 RepositoryTools测试引用恢复原ID，避免xcodegen重写造成无关ID差异。后续编译用skip generation或直接xcodebuild，新增源只定向加入。M1原性能失败仍保留，M3草稿以M2为父，M4～M5继续。
+
+## 2026-11-06 M3 邮件补丁、冲突编辑与恢复开发验证
+
+- 接续仍使用 managed 的 v2-m1-validation-fix/WeGit、codex/v2-m3-commit-and-task，基线6096236；主目录主题/网站批次和原PBX差异独立保留，当前主PBX SHA1343632f…已存.build/v2-m3/continuation-backup.json。M3尚未提交或逐子任务送GitHub，M4～M5仍需继续。
+- Git am 使用独立mailApply状态，不能交给rebase继续。原起点、全部原始邮件摘要、当前native目录/消息及索引/配置必须核对；重开先核对，丢失起始回执不自动重复整批。完成同时核对实际提交顺序、作者和消息，不以Git退出0单独报成功；结果不完整保留待核对记录。外部am没有本应用所有权时不接管。三方编辑直接绑定索引中的BASE/OURS/补丁合成THEIRS，不要求邮件来源提交已存在本地。
+- 中止/跳过前保留原始索引、共享索引依赖和工作文件；未合并阶段的对象使用独立conflictIndexTree保护树，不能当作普通索引树验证，也不能只保存索引文件后让GC删掉阶段blob。第一轮误用stashIndexFiles，该接口明确拒绝未合并条目，正常/继续通过而跳过失败；已改用有界cached路径读取，失败原JSON/log保留mail-extended-*-failed-1，不覆盖为成功。
+- 新导出只接收固定普通/根提交OID，输出有界format-patch原始邮件；Merge输入必须拒绝，不能让format-patch静默导出祖先。预览可展开正文、调整顺序，原始邮件字节和捕获身份随顺序一致保留。正文UTF-8/无NUL/64KiB、总邮件32MiB/100项、JSON2MiB边界在写入前检查；配置、原文件、索引和过滤器在Git开始前重新核对。
+- 私有非XCTest控制6条真实通过：导出/普通导入、缺来源提交对象的三方编辑后继续、丢失回执后核对并跳过、中止后GC再恢复准确工作字节及原始三阶段索引、替换native邮件拒绝、根提交到Unborn导入。原JSON在.build/v2-m3/mail-export-control-result.json，失败仍保留。新增10项邮件Core测试源已编译，本机未执行XCTest，不能写成托管或版本通过。
+- 原生v2taskspreview/独立UITests域与临时仓库实际核对了取消不写、顺序调整/恢复、正文展开、邮件冲突编辑保存不改索引/HEAD、明确标记解决后继续、作者/日期/消息/工作字节准确；所选两项导出2549bytes/SHAf9149d8c…逐字节等于Git原始输出。中止确认取消保持HEAD/索引/文件/记录，确认后回原起点且原工作树干净，阶段索引及冲突工作字节备份准确。原JSON为native-mail-*，三方GC恢复控制与原生流程分别记录。
+- Cua getApp绑定可能仍为后台窗口，AX菜单存在不代表已前台显示；新构建后需核对实际焦点并激活窗口，不能为此改产品。ctrl为可用点击修饰键，Control被工具拒绝。渲染发现排序图标继承普通按钮88pt最小宽度、正文居中及进度AX缺名称；最新源已改图标样式/左对齐/明确可访问名称，中止后未执行项不再显示待处理；这些末尾界面修补及M3托管流程测试仍需集中编译/实际复验。
+- M1较新CI42043325839的三套294/48、签名/功能通过，而大型Reset/恢复仍超原2000ms，应用/UI编译及包未执行；此失败保持开放。新增冲突索引保护改变共享恢复契约，稳定批次扩大相应回归，不为每项M3工作重复完整重验。
+
+## 2026-11-06 M3 配置、签名与消息入口开发验证
+
+- 当前接续仍复用 managed 的 v2-m1-validation-fix/WeGit，分支 codex/v2-m3-commit-and-task，基于 M2 6096236 / M1 bcf8666。M2 草稿PR134已以lease更新到6096236，主检出主题/网站PR133和用户PBX差异未移动。M3当前未提交，尚未逐子任务送GitHub；多提交/任务切换/邮件补丁以及M4～M5仍需继续。
+- 已加入8个固定签名/文件配置键、有效来源与工作区覆盖；工作区实际写config.worktree的私有副本，并持Git锁、文件身份/原始字节及受控rename后的稳定节点核对，避免--worktree在extensions.worktreeConfig关闭时静默落到共享config。共享许可外层已经存在，不得在内部再次取得同一许可。GitProgramPath只解析单一工具路径，不执行配置中的命令文本；文件选择器的含空格绝对路径应先按真实文件解析。
+- gpg.program与gpg.openpgp.program在Git2.46 gpg-interface.c的775～786行映射同一OpenPGP程序；按实际配置顺序合并读取来源，私有仓库编辑将固定旧键写在末尾，不额外编辑别名键。验证器在私有包装程序中关闭自动公钥获取/导入/信任库自动检查，PGP密码学有效与身份信任分别记录；当前本机无PATH中的GPG，实际PGP行为仍依托托管/隔离工具验证。来源：https://github.com/git/git/blob/v2.46.0/gpg-interface.c#L775。
+- 原生/UI测试源与新增Core测试源编译通过，本机未执行XCTest。41个新增双语键已补齐；私有v2taskspreview、UITests独立域和临时SSH密钥/仓库实际核对：模板取消不改草稿、替换可撤销；SSH提交/Tag通过、无签名明确；工作区关闭提交签名后共享配置仍true；私有提交原消息含中文/Emoji逐字节一致，历史读取保留新草稿，工作文件字节保持。JSON在.build/v2-m3/native-metadata-result.json和native-state.json，不是完整托管或版本验收。
+- 渲染发现消息历史的选中行黑字/白色列表表面，及签名状态AX被父容器合并；源码已改selectionText/内容表面/明确可访问容器。清空历史增加会话内原字节撤销，不覆盖清空后已有的新历史；这些最新修补尚须新构建和实际复验。配置下拉菜单的临时AX索引跨调用会失效，菜单打开后按Down/Return可选择，不为工具时序改产品。
+
+## 2026-11-06 M1 第八轮真实性能失败
+
+- 固定bcf8666 / 合成550f25c的CI42043325839：三套Git各294测试/48套件实际通过，303.664/195.762/206.524秒；隔离签名、功能通过。普通/大型各30原数组独立重算。大型p95预览1606.41ms、Reset2385.34ms、恢复预览2130.95ms、恢复2104.56ms；取消1.575ms、RSS23,805,952bytes。预览改善但三项写入/恢复仍超2000ms，不改预算或报绿；应用/UI编译及包未执行。
+- 原175,750bytes/32CRC/SHA d0bf7610…native ZIP和36,239bytes/4CRC/SHA3fc8e744…回执、independent-summary.json已保留主检出.build/v2-m1/failed-native-8。新测试源实际包含两项新增保护，不能继续引用292的旧计数。后续基于写入/恢复阶段定位，避免每项M3工作重复完整重验。
+
+## 2026-11-05 M1 阶段并发修补与独立控制
+
+- 最新实际失败仍为固定0915404的CI41909998480：三套Git各292/48、隔离签名和功能通过，大型30样本的预览2011.77ms、Reset2271.36ms、恢复预览2043.28ms超2000ms；应用/UI编译及包未执行。原失败与原预算保留，不用旧同输入通过覆盖。
+- 硬Reset先固定全部已索引文件版本，再将固定目标已知的受影响文件捕获与Git status重叠；额外脏路径使用剩余单项预算及独立storageOffset，组合排序但不复用存储名。恢复索引先读取/核对原始备份，再与文件捕获重叠验证索引树。摘要读取仍最多2批，逐文件fsync的持久化最多4批；Git写入仍等完整备份、保护引用与写前重新校验。
+- 并发的index/worktree比较必须绑定同一原始索引版本，并显式GIT_OPTIONAL_LOCKS=0，避免自身刷新stat缓存。否则外部进程在两次比较之间暂存相同工作内容时，两次Git比较都可能显得干净。末尾重新核对索引、HEAD/分支和序列状态；未知结果保留needsVerification。配置后的GitEngine应冻结为let再进入多个async let，避免Swift的并发可变捕获编译错误。
+- 独立非XCTest控制已实际核对：目标与额外脏文件的两组备份有独立名称，准确恢复CRLF/无末尾换行文件及原始索引；比较间隙的并发暂存被拦截且保留未知结果。新增2项Core测试源只编译。Debug测试源、Release诊断模块与严格格式通过。
+- .build/v2-m1/profiled-diagnostic保留99项前后不变输入证明、编译/运行日志及JSON。普通/大型各2个开发样本满足原门槛，大型最大预览749.85ms、Reset1210.96ms、恢复预览1450.98ms、恢复1090.78ms、取消0.85ms、RSS24,461,312bytes；此为未提交阶段的少量开发诊断，不是30样本或版本验收。并行检出两次为297.25/1329.47ms，结果不稳定，未引入产品checkout.workers改动。
+- M2仓库工具已按当前M1前置固定b812293并推送草稿PR134；主题/网站PR133与主检出用户PBX差异仍独立。本修补固定候选只统一送验一次，等待时继续M3，不逐子任务重验。
+
+## 2026-11-05 当前聊天接续与 M2 编译核验
+
+- 接续原聊天 01a1a58e-b596-7b50-bcab-1cecfea91a2e。read_thread 因单轮过长无法返回，先用 wait_threads 的即时快照确认原轮已失败/空闲，再读取明确对应的本地记录；主检出的 HANDOFF 比实际开发进度旧，不能据此重新实现已完成流程。实际开发继续复用 managed 的 v2-m1-validation-fix/WeGit、codex/v2-m2-repository-tools；主检出 PR133 与用户 PBX 差异保持独立。
+- 已核对最后一次 build-for-testing 的真实成功日志 SHA256 6acd572deeefeb7f0f9a66c9f02ad546c5f74e99c2cf3a0f373ebda0e8f38c79：215 项应用输入与当前源逐项一致，35 项 UI 测试输入均未在编译后变化。54 个变更 Swift 文件严格格式、1610 字符串/8 复数及 14 项证据调度工具检查通过。本机未执行 XCTest，原生开发 JSON 不提升为托管验收。
+- 接续前 62 个修改/新增文件已按原字节备份于 .build/v2-m2/continuation-2026-11-05/wip，并保存文件摘要和 compile-proof.json。M2 稳定批次以 M1 当前 0915404 为前置；最新 M1 性能失败仍开放，接续不触发逐子任务重验。
+
+## 2026-11-05 M2 图片刷新循环、忽略写入与补丁往返
+
+- 图片控件无法切换并非只由 Cua 引起：用户已将预览置前，仍无法切换；相同 AppKit/SwiftUI 视口和样式的独立对照可正常操作。临时探针显示 diff generation 约每 0.35 秒递增，4 秒内有 11 个 transparent.png FSEvent，flags 0x410000 为 file/ItemCloned。APFS fclonefileat 读取快照会给源文件产生克隆事件，触发刷新后再次克隆。RasterComparisonService 现在用 RecoveryFileIO.captureAll(cloneSource: false) 的既有有界流读取，保留字节/摘要/版本/父目录检查；破坏性备份默认仍用克隆。修补后相同探针 4 秒 0 事件，单次空闲检查 0.0% CPU（旧44.2%），不是正式性能矩阵。临时 trace 均已移除。
+- CGPattern 的纯棋盘回调须为全局 nonisolated C 函数，不能依赖主 actor 或直接传类静态方法。视口 draw 必须 save/clip(bounds)/restore，避免高倍平移覆盖元数据。最新原生预览实核 977% 和上下越界平移，尺寸信息仍可读；滑杆模式与 AX value 0.25 生效，媒体文件/索引/HEAD 摘要不变。独立两种控制诊断已关闭；关闭后继续向已退出 App 请求 AX 会重新启动该 App，检查退出应只读进程而不再次绑定。
+- git check-ignore 不接受全局 --literal-pathspecs；预览用 literalPathspecs:false，stdin 路径显式加 ./ 并验证/移除返回前缀，避免 :(glob) 等文件名被解释为 pathspec。空候选不运行 check-ignore。临时 --template= bare 仓库必须显式建自己的 info；不操作用户 Git 配置。
+- 本地 exclude 的受控写入/rename 会改变 ctime/mtime，不能在自己写入后仍要求完整 RepositoryNodeIdentity 相等。写前继续核对完整快照；受控写入后以 device/inode/type/birth 固定节点，再独立核对准确字节/模式和写入完成的 lock 快照。置换后验证原文件，只在新文件仍属于本次且未变时回滚，未知输入保留。旧未知结果的两个原输入在 .build/v2-m2/diagnostics/local-ignore-unknown 保留，夹具人工复原不作为产品恢复证据。
+- 最新 native 本地 .git/info/exclude 和仓库 .gitignore 两作用域均实际保存/撤销成功，逐字节恢复原注释文件或原来的缺失状态、无遗留 lock，保留.txt/HEAD/无索引状态正确。Ctrl+点击可打开文件行上下文菜单；右键 AX 点击曾无效果。原生菜单 Escape 曾未关闭，使用其公开 Cancel 动作后再读当前索引。
+- 普通补丁实际导出234字节，SHA c82b6e80…，等于 Git 原始 --binary/--full-index 输出并保留 CRLF/无末尾换行。私有 Shallow 中取消不写；应用到工作文件后字节等于 History 源，索引/HEAD/其他文件不变；通过恢复入口又逐字节还原目标原文件，备份记录 AA5EC96D-297D-44BD-8DD8-6B613269A719 标为已恢复。原始开发 JSON 在 .build/v2-m2/native-tools-{ignore,patch,raster}*；本机没有执行 XCTest，不作为托管或版本验收。
+- 当前 M2 仍为未提交批次，主检出主题/网站 PR133 和用户 PBX 差异独立保留。M1 最新41909998480的292/48三套Core/签名/行为通过，但大型2000ms性能仍失败，应用/UI编译/包未执行；较新失败不能被旧通过覆盖。后续依据已有阶段诊断继续优化，并继续 M3～M5。
+
+## 2026-11-05 M2 原生操作接续与 M1 第七轮证据
+
+- 当前仍为 managed 的 codex/v2-m2-repository-tools，M2 未提交开发批次；主检出的主题/网站 PR133 与用户 PBX 差异独立保留。新建、指定分支/浅克隆、补深、比较、行级丢弃/历史恢复、忽略、图片/编码和普通补丁源码均已接入；批次尚未送验，不逐子任务排 GitHub。M3～M5 仍需继续。
+- 独立 v2toolspreview、UITests 私有偏好与临时仓库已实际核对：行级丢弃取消不写；单行丢弃保留未选 CC、HEAD 和原索引，备份逐字节恢复 CRLF/无末尾换行；历史恢复的工作字节等于固定原 blob。中文/Emoji 草稿保持。已有文件新建为未跟踪、仅 main/深度1克隆、显式补深及完整历史获取均核对原文件/索引/HEAD不变。原始开发 JSON 在 .build/v2-m2，不能作为托管 XCTest 或版本验收。
+- 忽略预览的临时 bare 仓库使用 --template=，不会自动创建 info；直接写 info/exclude 使所有预览报文件不存在。现在只在新建的私有预览目录建立 info，真实缺失的 .git/info 仍由固定元数据写入器处理；新增 Unborn/无 info 的两个作用域保存/撤销测试源，只编译。
+- PNG 实际预览使旧专用进程 SIGTRAP，原报告 .build/v2-m2/diagnostics/WeGit-2026-11-05-074715.ips（SHA3ed49462…）指向 CA::CG::Queue 上的 CGPattern 主线程断言。纯绘制改为全局 nonisolated C 回调；类静态方法不能直接转换成该 C 指针。新 PNG 已实际渲染，补了 NSView 可访问元素、控件/尺寸 ID 和透明图/滑杆/编码只读 UI 测试源；最新 build-for-testing 编译通过，本机未执行 XCTest。余下格式/交互与新 AX 尚需实际继续。
+- 比较菜单需隐藏系统重复箭头；密集文件动作使用有语义图标与可访问名称，并按宽度换行，不能让恢复/导出挤成无名称箭头。克隆分支补可见字段名，移除重复凭据说明。Cua 的前往文件夹窗口应先读取 PathTextField，再 setValue 后核对；仅 paste 可能留下旧路径，不得直接确认旧选择。
+- M1 固定0915404的 CI41909998480 已实际核对：三套 Git 各292/48通过，303.169/176.134/194.757秒；签名与功能通过。普通/大型各30原数组独立重算；大型预览2011.77ms、Reset2271.36ms、恢复预览2043.28ms超2000ms，恢复1846.95ms/取消1.77ms/RSS23,789,568bytes通过。应用/UI编译和包未执行。原175,589bytes/32CRC/SHA2e16617a…native ZIP、36,231bytes/4CRC回执及372 Git blob/4日志SHA证明保留于主检出 .build/v2-m1/failed-native-7；失败不改记通过，下一步依据实际阶段开销定位。
+- Ego Lite 已核对当前主题 JSON/17色/URI负载与SHA；外部应用唤起仍遵守原自动安全拒绝并待手动验证，不改默认 URL 处理器或换工具规避。
+
+## 2026-11-05 M1 性能新失败与批次来源读取修正
+
+- CI41891234568固定ac9613b：后端输入与f9f5250相同，仅证据读取器变化；实际仍重跑，三套291/48、签名与功能通过，但大型30样本Reset p95 2041.25ms、恢复预览2124.02ms超出2000ms。应用/UI编译和包未执行。原175,580bytes/32CRC/SHA80c7353d…ZIP及36,241bytes/4CRC回执在主检出.build/v2-m1/failed-native-6保留；较新真实失败不得用旧同输入通过遮盖。
+- 证据抓取使用depth=1后，revision walk不提供合成提交父对象；现在读取commit原始header，不依赖可变PR头或显示父对象。浅提交夹具使用commit-tree显式双父，来源校验与较新失败阻断测试通过；真实GitHub只读诊断已复用Core/签名/功能，明确阻断旧性能回执。118项工具检查通过。
+- 备份持久化与备份捕获改为最多2个有界批次，临时目录描述符单次固定且开始/结束验证；逐文件类型、模式、摘要、落盘及源版本检查保留。新增并行捕获坏备份不写仓库的测试源，只编译。本机普通/大型各2样本开发诊断通过，大型最大预览728.73ms、Reset837.31ms、恢复预览410.45ms、恢复701.67ms；不是30样本或版本证据，原门槛不变，共享I/O修改集中回归。
+
+## 2026-11-05 M1 实际后端通过与原生前置格式修补
+
+- 固定f9f5250的CI41854802990第三次已实际执行：Apple/最低/Homebrew Git各291测试、48套件通过，344.193/176.665/171.044秒；隔离OpenPGP各9项与功能通过。普通/大型各30样本按原门槛独立重算；大型p95预览1673.02ms、Reset1949.90ms、恢复预览1572.09ms、恢复1469.72ms，取消1.37ms/RSS23,691,264bytes。2000ms预算不变，余量有限，不能推定全应用或最终版本性能。
+- 后续application入口2.772秒失败在Swift格式检查，RecoverySheet三处多闭包调用未满足OnlyOneTrailingClosureArgument；应用/UI测试源编译和包均未执行，不是XCTest失败。原232,125bytes/39CRC/SHA500d4cbf…native ZIP、52,638bytes/5CRC回执ZIP和372唯一Git输入/5日志SHA核对在主检出.build/v2-m1/failed-native-5保留。仅将三个operation闭包显式写入参数，不改恢复行为。
+- 原批次复用只找整轮success，导致后端已通过而后续视图格式失败时重复长流程。现在固定canonical workflow/同仓库PR、实际成功阶段和执行来源，失败/跳过阶段仍拒绝；原回执/执行计数不重写。仅证据读取器变动时，从源Git blob核对所有执行声明AST一致，再保留原输入与当前输入的独立等价证明；其他入口/源码/工具链变化仍实际执行。116项工具检查通过，本机未执行XCTest。
+- M2仓库工具继续在managed检出独立开发，主主题/网站PR133与用户PBX差异不混入本修补。新的真实原生操作仍等待用户解锁Mac，网页外部URI继续遵守原自动安全拒绝。
+
+## 2026-11-05 M2 仓库工具接续与环境状态
+
+- 当前 managed 检出沿用 codex/v2-m2-repository-tools，基于固定恢复候选 f9f5250；主检出的主题/官网草稿 PR133 和用户 PBX 差异均独立保留。新建/高级克隆、显式补深、任意比较、行级丢弃及历史文件恢复仍是开发批次，后续还需忽略/图片/普通补丁和稳定批次验收。
+- 文件恢复从提交详情、任意比较和文件历史进入，来源 OID/路径固定，可选工作文件/索引/两者；行级丢弃只修改工作文件。确认/结果宿主在工作台，阅读 Sheet 先 dismiss 再接续，避免同时呈现多个 Sheet。新增7项原始字节/索引/恢复/符号链接/陈旧预览测试源已编译；Core与原生应用源码编译通过，本机未执行 XCTest，尚无这轮原生操作通过证据。
+- 未跟踪文件的 FileDiff.hunks 为空，选择 ID 来自原文预览的行位置；不能从 hunks 生成测试选择。生成受控差异后仍按原位置核对所选变更、原字节与文件版本。
+- M1 CI41854802990第二次 Native作业被取消、0步骤，GitHub annotation 明确为多次未取得 hosted runner；不是源码测试失败。仅重试该作业与依赖，第三次作业126724410995已取得runner并运行，实际测试/性能/包结果待核对。
+- Ego Lite 当前实际主题页、编辑后 JSON、17颜色字段、链接负载与SHA一致；新结果在主检出.build/v2-m2/ego-followup。外部URI仍遵守原安全拒绝，不换浏览器规避。Mac再次锁定，Cua要求手动解锁；已询问用户，源码继续。新原生预览使用v2toolspreview独立Bundle ID、UITests私有偏好域和临时仓库，未更改URL默认处理器或用户Git配置。
+
+## 2026-11-04 M1 第四轮结果与完整索引保护
+
+- 固定229facf的CI41829276861：三套Git各282/48通过（390.475/126.195/176.620秒），隔离签名与功能通过；普通30样本通过，大型30样本仍超预算：预览2276.24ms、Reset3425.64ms、恢复预览2746.72ms、恢复2166.23ms，取消1.15ms/RSS22,396,928bytes通过。应用/UI编译、包未执行。173,608bytes/32CRC原ZIP与SHA7e4d3795…保留主检出.build/v2-m1/failed-native-4，不记通过。
+- 重复status会再次读取同尺寸脏文件；硬Reset改为status前固定全部已索引普通路径版本（最多100000），预览/写入前逐版本重验，包括原来干净而不在备份清单中的文件。HEAD/实际分支/序列标记、原索引字节、目标ref及符号链接父路径检查保留；恢复源与当前文件独立并行读取，捕获/最终摘要各最多2批，共用单项字节预算，安装仍顺序执行。取消/未跟踪阻挡保护未删除。
+- 原提交引用不能保护新暂存blob。记录新增可选indexTree与sharedIndex：隔离Git目录读取原索引/拆分依赖，预览树只写临时对象库，写入前的保护树/松散对象落盘后以私有ref保留。两类私有ref原子创建/清理并CAS检查，失配不删除另一类保护；恢复仅校验所选层，不因未选工作备份损坏阻断索引恢复。索引/链接原权限分别恢复，包含新目录/索引安装后的fsync。
+- 独立私有仓库诊断实核SHA-1/SHA-256×完整/拆分索引四种组合，gc --prune=now后原暂存对象、工作字节、原索引字节/600权限恢复；不是XCTest。新增原干净文件变更、序列插入、GC、拆分依赖、分层损坏、并行预算、链接权限及成对ref清理保护测试源，本机只编译。普通/大型各2样本最后开发诊断约129/770ms预览、214/915ms Reset、116/721ms恢复预览、185/820ms恢复；原30样本/2000ms预算不变，下一固定候选集中送验。
+## 2026-11-04 M2 多主题与官网联动开发验证
+
+- M2保留于codex/v2-m2-themes-and-downloads；多主题库/旧值迁移/受控URI、版本清单缓存与架构选择已实现。Native源码及UI测试源只编译，独立预览Bundle ID与UITests偏好域完成文件导入、新增、同名复制、编辑实时预览取消、重命名、删除撤销、启用和导出。17颜色/controls/name往返一致，保存不自动启用，ID不按名称覆盖，撤销恢复原ID；截图/JSON在本聊天视觉目录及.build/v2-m2。不是XCTest或完整版本验收。
+- Mac锁定已由用户手动解除。Cua浏览器实际点击wegit://theme/import被自动安全审查拒绝，拒绝明确禁止通过其他浏览器/原始协议/间接执行规避；未在Ego重试该受限导航。用户追加Ego后，旧TaskSpace7不存在，按同一目标名恢复为9；只验证正常主题页和JSON退路。外部应用冷/热唤起仍待手动验收，不改记通过。
+- 仅验证用URL默认处理器从com.willxue.wegit.development临时指向v2preview，原值先存.build/v2-m2/url-handler-state.json，文件退路验证后已CAS确认并恢复。Cua原生首次输入需Raise窗口再读取焦点；临时菜单AX项可能跨调用消失，同一调用内菜单Down/Return可工作，不为工具时序改产品。
+- 本地Wrangler持有旧构建资源清单时，HTML能200而入口JS500，交互不会启动；仅重启此任务预览，不改产品语义。Worker检查现在实际读取页面引用脚本、校验200/类型及同构建原字节，22项通过。全局缓存存普通JSON数据，不存Response/流；归一fallback移除旧Content-Encoding/Length/Range，ETag绑定返回原字节，增加回归。
+- Node37/Python13通过，原预算public2,726,105bytes/CSS62,223/client gzip144,963/Worker gzip260,825通过，Wrangler dry-run与本地Worker通过。三包完整本地目录夹具在浏览器验证arm64/x86_64推荐、两处选择联动及手动Intel不被迟到ARM提示覆盖；不是三种真实DMG或生产刷新验收。兼容性文案去掉固定RC，由版本状态显示候选，最低OS可取结构化资产值；发布侧完整metadata仍与M4联动。
+
+
+## 2026-11-04 M1 大型恢复性能定位与快照优化
+
+- 固定df73872的CI41818471026：Apple/最低/Homebrew Git分别277测试/48套件通过，374.543/185.268/182.813秒；Apple/Homebrew隔离OpenPGP各9通过，功能作业通过。大型恢复性能失败，应用/UI编译和包未执行；原native ZIP/CRC/SHA与JSON保留主检出.build/v2-m1/failed-native-3。普通100文件/16,751,600bytes通过；大型1000文件/268,179,000bytes的p95预览2509.23ms、Reset5152.44ms、恢复预览2753.78ms、恢复5163.27ms，不能提高2000ms预算或将旧性能项标绿。
+- 第一轮COW/批量调度的本机独立2样本诊断仍失败：大型预览约1527ms、Reset2434ms、恢复2700ms。此为未提交工作区开发诊断，不是30样本托管验收；结果单独标记uncommittedDevelopmentDiagnostic。失败保留，不重复完整XCTest或包流程。
+- 工作文件捕获/校验/安装改为单次有取消标记的批量I/O；常规文件以fclonefileat固定描述符写时复制，EXDEV/ENOTSUP/EINVAL仍走64KiB流；符号链接只读链接文本。临时预览不承担持久化，RecoveryStore在Git写入前逐备份文件fsync并同步目录，权限修改后也同步；新增/删除父目录保持落盘。
+- 不可变SnapshotFile的已验证SHA绑定原inode/大小/mtime/ctime。COW复制前后核对原stamp才复用摘要；没有摘要时实际计算，流复制实际重新计算。备份读取与恢复后内容仍重新摘要，不能把任意持久化文件或变化后的快照当作缓存。只读源用只读描述符哈希并fchmod，避免O_RDWR使444文件失败。新增快照独立性、流复制取消和变化后摘要失效测试源，本机仅编译，实际执行交给稳定托管批次。
+- 只读批次用RepositoryReadFence固定根描述符并在开始/结束验证全部重定向身份；各文件仍核对父目录、叶子及打开描述符，结果必须通过批次末尾校验。实际写入仍逐项核对身份。Reset索引验证直接diff-index --cached比较全部对象/模式，显式含gitlink/intent-to-add，不再为验证额外write-tree写对象。新增根替换和Reset后外部索引篡改保护源测试；本机共新增5项只编译。
+- 最后独立2样本开发诊断的普通/大型均满足原门槛；大型最大预览1384.19ms、Reset1739.01ms、恢复预览1587.59ms、恢复1328.40ms、取消0.66ms、RSS24,150,016bytes。原始JSON位于managed检出.build/v2-m1/io-diagnostic/result-final.json，显式未提交开发诊断；不能当作30样本p95、完整托管或版本通过。共享Reader/Snapshot变化需集中回归，稳定修补候选准备送验。
+
+
+## 2026-11-04 M1 第二轮真实结果与构建前置修正
+
+- CI41814318775（固定5fecbba）三套Git各277/48通过，分别242.900/184.779/185.102秒；OpenPGP Apple/Homebrew各9项通过。功能作业失败在DiffReadCancellationChecks读取Debug WeGit模块/对象之前，性能/应用UI编译/包未执行；86,435bytes/15CRC原native ZIP及SHA1639697c…保留.build/v2-m1，失败不改记通过。
+- M0拆分core/application时漏掉旧verify.sh先Debug build的依赖。behavior入口现在先build.sh Debug，保证AppState检查使用同源模块/对象/receipt；回执不是构建artifact，不能靠缓存可能有文件替代前置。新增真实临时脚本依赖调度测试。共享执行入口变化按规则扩大回归，不删除原检查或报绿。
+- 修补使用managed检出v2-m1-validation-fix（从最新5fecbba，包含当前16模块/62子任务计划），主目录M2源码和用户PBX差异均未移动。M2继续独立开发，仍不逐项验收。
+
+## 2026-11-04 M1 托管首轮失败与夹具修正
+
+- 固定e01994b的CI41812363924真实失败于Apple Git Core：277测试/48套件、326.427秒、1问题；最低Git/Homebrew/签名/功能/性能/应用编译/包未执行，不计通过。原native ZIP/CRC/SHA及core.log/source回执保留.build/v2-m1。
+- RecoveryTests的ignoredObstacles夹具先git rm暂存删除，再调用会对所有status路径git add的Fixture.commit，已不存在路径导致fatal pathspec。这是准备阶段错误，尚未进入Reset。改为service.commit直接提交已暂存删除，保护断言保持；本机仅测试源编译。稳定修补后统一重验Core及未执行范围，不重开各子任务。
+- M2的AppPreferences/CustomTheme未提交改动已在.build/v2-m2/wip.patch独立备份，修补提交只纳入M1测试/进度文档，用户PBX 4+4差异继续独立。API运输逐blob/tree/commit保留原author/committer时区后与本地SHA完全相等，再以旧head lease移动分支；不重写为不同提交。
+
+## 2026-11-04 M1 开发验证与稳定批次准备
+
+- PR132草稿head623d7c8的CI41803616136已实核：Native/前端/Core编译/site无runner、0步骤；Repository policy明确因awaits batch validation失败。轻量PR/仓库工具通过，112项工具保持。此为调度验收，不能说后端/版本通过；稳定head之后只ready一次。
+- 本机无XCTest。独立Bundle ID的原生预览用自己的UITests偏好域、内存最近列表和私有临时仓库；Cua取消/Hard Reset/两层恢复实际逐字节核对HEAD、索引、CRLF/无末尾换行工作文件及恢复引用。截图/AX在本聊天，原始JSON/摘要在.build/v2-m1。未借真实仓库、凭据或系统保护验收。
+- 菜单AX条目会在两次工具调用之间消失；读取打开菜单后用原生Down/Return可进入Reset，不为工具瞬时索引改产品语义。渲染发现重复Picker标签/选中行黑字/成功后无下一步，已改为隐藏重复标签、使用selectionText、保留结果并在dismiss回调接续恢复入口。
+- 大备份所有文件共用一次临时快照目录，避免每文件目录/回收线程；64KiB复制仍逐文件fsync/摘要核对，不以缓存替代原字节。先校验各项大小再求总计，损坏记录不能整数溢出。导出创建新私有目录，原已存在导出不覆写。
+- Gitlink不能按普通文件或完全跳过路径保护：已配置子模块只允许真实目录叶子且父路径不跟随symlink，no-recurse保持子仓库HEAD/脏文件；新gitlink路径的未跟踪文件及gitlink/普通文件替换在Hard前拒绝。对应隔离Core测试已加入，实际执行待托管批次。
+- 新Reflog分页固定日志文件版本，外部追加使旧下一页失效；branch Reset固定目标OID并重验来源ref，不能把更新过的分支名称当作原确认。01d逐页全矩阵、完整VoiceOver、Intel/macOS26实机与最终性能/交付仍独立待验。
+- 原推送75001ms连接失败，任务单次HTTP/1.1/有界low-speed选项后6.9秒成功；未改全局Git、代理或认证。用户原PBX的4+4差异仍单独未暂存。
+
+## 2026-11-04 v2.0 M1 恢复基础实施中
+
+- M0 PR131正常合入mainfc9afa7，CI41797958554的policy/工具真实通过，Native/前端/Core编译/site均0步骤无runner。M1接续同一主计划，草稿中间提交不作为验收；代码/测试源继续实现，不逐项送重验。
+- Reset分开Soft/Mixed/Hard；原工作文件按64KiB流复制、独立摘要与模式，索引原字节另存，备份完整且重新核对HEAD/分支/索引/文件后才执行。256MiB上限包括索引，规模夹具预留索引空间，不在失败后放宽。
+- 恢复记录先落盘再复制，复制中断仍可识别为prepared，Git尚未执行；异常/丢回执保存needsVerification且不自动重复。私有refs/wegit/recovery保留原提交，清理同范围引用时CAS核对原OID；普通历史只采用已有heads/remotes/tags，私有引用不泄露成导航标签。
+- Reflog的commit日期不是操作日期；用date=unix的gD读取条目时间。同秒同对象可重复，UI标识另包含分页位置，写入仍只绑定OID，不能拿显示序号写仓库。Hard Reset显式no-recurse-submodules，忽略/未跟踪阻挡、目录/符号链接父路径在写入前保护。
+- 新UI/测试文件只定向增加PBX引用；用户原InteractiveRebase ID差异保持在工作文件，暂存用去除此原差异的独立blob，不混入开发PR。原始d08f03…摘要文件及user-pbx.patch在.build/v2-m0/original保留。
+- 本机目前仅Core/测试源和原生build-for-testing编译、双语覆盖；未执行XCTest或宣称实际行为/页面/性能通过。新恢复行为与30串行普通/大型Release性能夹具由稳定批次托管执行。
 
 ## 2026-11-04 v2.0 M0 批次校验工程实施
 

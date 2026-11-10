@@ -1,17 +1,55 @@
 import Darwin
 import Foundation
 
+public struct CloneOptions: Sendable, Equatable {
+    public let branch: String?
+    public let singleBranch: Bool
+    public let depth: Int?
+    public let recurseSubmodules: Bool
+    public init(
+        branch: String? = nil, singleBranch: Bool = false, depth: Int? = nil, recurseSubmodules: Bool = false
+    ) {
+        self.branch = branch
+        self.singleBranch = singleBranch
+        self.depth = depth
+        self.recurseSubmodules = recurseSubmodules
+    }
+    func validated() throws {
+        guard depth == nil || (1...Int(Int32.max)).contains(depth!) else { throw ModelFailure.invalidPath }
+        if let branch {
+            guard !branch.isEmpty, !branch.hasPrefix("-"), !branch.contains("\0"), !branch.contains("@{")
+            else { throw ModelFailure.invalidPath }
+        }
+    }
+    var arguments: [String] {
+        var result: [String] = []
+        if let branch { result += ["--branch", branch] }
+        if singleBranch {
+            result.append("--single-branch")
+        } else if depth != nil {
+            result.append("--no-single-branch")
+        }
+        if let depth { result += ["--depth", String(depth)] }
+        if depth != nil { result.append("--no-local") }
+        result.append(recurseSubmodules ? "--recurse-submodules" : "--no-recurse-submodules")
+        return result
+    }
+}
+
 public struct CloneRequest: Sendable {
     public let address: String
     public let parent: URL
     public let folderName: String
-    public init(address: String, parent: URL, folderName: String) {
+    public let options: CloneOptions
+    public init(address: String, parent: URL, folderName: String, options: CloneOptions = CloneOptions()) {
         self.address = address.trimmingCharacters(in: .whitespacesAndNewlines)
         self.parent = parent
         self.folderName = folderName
+        self.options = options
     }
 
     public func validatedDestination() throws -> URL {
+        try options.validated()
         guard !address.isEmpty, !address.hasPrefix("-"), !address.contains("\0"),
             !folderName.isEmpty, folderName != ".", folderName != "..",
             !folderName.contains("/"), !folderName.contains("\0")
@@ -160,39 +198,84 @@ public actor CloneCoordinator {
         onProgress: @escaping @Sendable (CloneProgress) -> Void = { _ in }
     ) async throws -> RepositoryLocation {
         guard !running else { throw ModelFailure.unsupported(L10n.text("已有克隆操作正在进行，请等待或取消该操作。")) }
-        try Task.checkCancellation()
-        let destination = try request.validatedDestination()
-        // mkdir is atomic: an already existing empty directory, file or symlink is never taken over.
-        guard mkdir(destination.path, 0o700) == 0 else {
-            throw ModelFailure.unsupported(L10n.text("目标已存在或无法创建。请选择另一个文件夹名称。"))
-        }
-        let identity = try FileStamp.read(destination)
         running = true
         defer { running = false }
+        try Task.checkCancellation()
+        let destination = try request.validatedDestination()
+        let parent = destination.deletingLastPathComponent()
+        let parentIdentity = try RepositoryNodeIdentity.read(parent, directory: true)
+        let parentFD = Darwin.open(parent.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard parentFD >= 0 else { throw ModelFailure.changed }
+        defer { Darwin.close(parentFD) }
+        var parentInfo = stat()
+        guard fstat(parentFD, &parentInfo) == 0, parentInfo.st_dev == parentIdentity.device,
+            parentInfo.st_ino == parentIdentity.inode,
+            parentInfo.st_birthtimespec.tv_sec == parentIdentity.bornSeconds,
+            parentInfo.st_birthtimespec.tv_nsec == parentIdentity.bornNanoseconds
+        else { throw ModelFailure.changed }
+        var entry = stat()
+        guard fstatat(parentFD, request.folderName, &entry, AT_SYMLINK_NOFOLLOW) != 0, errno == ENOENT else {
+            throw ModelFailure.unsupported(L10n.text("目标已存在或无法创建。请选择另一个文件夹名称。"))
+        }
+        if let branch = request.options.branch {
+            let checked = try await engine.run(["check-ref-format", "--branch", branch], in: parent).text
+                .removingLastNewline
+            guard checked == branch else { throw ModelFailure.invalidPath }
+        }
+        // Clone into an operation-owned sibling. Publish by exclusive rename;
+        // a destination that arrives during download never receives Git writes.
+        let name = ".WeGit-clone-" + UUID().uuidString
+        guard mkdirat(parentFD, name, 0o700) == 0 else { throw ModelFailure.changed }
+        let staging = parent.appending(path: name, directoryHint: .isDirectory)
+        let identity = try FileStamp.read(staging)
+        let stagingFD = openat(parentFD, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+        guard stagingFD >= 0 else { throw ModelFailure.changed }
+        defer { Darwin.close(stagingFD) }
+        var published = false
         onProgress(CloneProgress(stage: .connecting))
         let sink = CloneProgressSink(onProgress)
         do {
             _ = try await engine.run(
-                ["clone", "--progress", "--", request.address, destination.path],
+                ["clone", "--progress"] + request.options.arguments + ["--", request.address, staging.path],
                 timeout: 600, onStderr: { sink.consume($0) }, activityRepository: destination)
             try Task.checkCancellation()
             onProgress(CloneProgress(stage: .validating))
-            let result = try await RepositoryService.discover(destination, engine: engine)
+            guard try FileStamp.read(staging).sameObject(as: identity),
+                try RepositoryNodeIdentity.read(parent, directory: true) == parentIdentity
+            else { throw ModelFailure.changed }
+            _ = try await RepositoryService.discover(staging, engine: engine)
             try Task.checkCancellation()
+            guard renameatx_np(parentFD, name, parentFD, request.folderName, UInt32(RENAME_EXCL)) == 0,
+                fsync(parentFD) == 0
+            else { throw ModelFailure.changed }
+            published = true
+            let result = try await RepositoryService.discover(destination, engine: engine)
+            guard try FileStamp.read(destination).sameObject(as: identity),
+                try RepositoryNodeIdentity.read(parent, directory: true) == parentIdentity
+            else { throw ModelFailure.changed }
             return result
         } catch {
             // Only record ownership after the process has stopped. Never auto-delete a failed clone.
-            let snapshot = try? DirectorySnapshot.capture(destination)
-            let owned = (try? FileStamp.read(destination))?.sameObject(as: identity) == true
+            if !published, (try? FileStamp.read(staging))?.sameObject(as: identity) == true,
+                (try? RepositoryNodeIdentity.read(parent, directory: true)) == parentIdentity,
+                renameatx_np(parentFD, name, parentFD, request.folderName, UInt32(RENAME_EXCL)) == 0
+            {
+                published = true
+                _ = fsync(parentFD)
+            }
+            let retained = WorktreePreservationDirectory.path(
+                for: stagingFD, fallback: published ? destination : staging)
+            let snapshot = try? DirectorySnapshot.capture(retained)
+            let owned = (try? FileStamp.read(retained))?.sameObject(as: identity) == true
             let token =
                 owned
-                ? snapshot.map { CloneCleanupToken(id: UUID(), directory: destination, snapshot: $0) } : nil
+                ? snapshot.map { CloneCleanupToken(id: UUID(), directory: retained, snapshot: $0) } : nil
             if let token { pendingCleanup[token.id] = token }
             throw CloneFailure(
                 message: error is CancellationError
                     ? L10n.text("操作已取消。未完成的目录会保留供检查。") : error.localizedDescription,
                 details: (error as? GitFailure)?.details ?? "",
-                retainedDirectory: owned ? destination : nil, cleanup: token)
+                retainedDirectory: owned ? retained : nil, cleanup: token)
         }
     }
 
@@ -224,6 +307,8 @@ private struct FileStamp: Equatable, Sendable {
     let modifiedNanos: Int
     let changedSeconds: Int
     let changedNanos: Int
+    let bornSeconds: Int
+    let bornNanos: Int
 
     static func read(_ url: URL) throws -> FileStamp {
         var info = stat()
@@ -231,11 +316,13 @@ private struct FileStamp: Equatable, Sendable {
         return FileStamp(
             device: info.st_dev, inode: info.st_ino, mode: info.st_mode, size: info.st_size,
             modifiedSeconds: info.st_mtimespec.tv_sec, modifiedNanos: info.st_mtimespec.tv_nsec,
-            changedSeconds: info.st_ctimespec.tv_sec, changedNanos: info.st_ctimespec.tv_nsec)
+            changedSeconds: info.st_ctimespec.tv_sec, changedNanos: info.st_ctimespec.tv_nsec,
+            bornSeconds: info.st_birthtimespec.tv_sec, bornNanos: info.st_birthtimespec.tv_nsec)
     }
     func sameObject(as other: FileStamp) -> Bool {
         device == other.device && inode == other.inode
             && (mode & UInt16(S_IFMT)) == (other.mode & UInt16(S_IFMT))
+            && bornSeconds == other.bornSeconds && bornNanos == other.bornNanos
     }
 }
 

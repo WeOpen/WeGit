@@ -3,11 +3,39 @@ import WeGitCore
 
 @MainActor
 final class ApplicationDelegate: NSObject, NSApplicationDelegate {
-    weak var state: AppState?
+    weak var state: AppState? {
+        didSet {
+            guard let state else { return }
+            let urls = pendingThemeURLs
+            pendingThemeURLs = []
+            for url in urls { state.receiveThemeURL(url) }
+        }
+    }
+    private var pendingThemeURLs: [URL] = []
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls.prefix(8) {
+            if let state {
+                state.receiveThemeURL(url)
+            } else if pendingThemeURLs.count < 8 {
+                pendingThemeURLs.append(url)
+            }
+        }
+    }
     var menuBarController: MenuBarController?
     var applicationMenu: NativeApplicationMenu?
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        let state = state ?? menuBarController?.app
+        if let state, state.runtime.updateHandoffInProgress {
+            guard state.runtime.services.updateBridge?.permitsNormalExit() == true else {
+                return .terminateCancel
+            }
+            state.runtime.updateTerminationApproved = true
+            return .terminateNow
+        }
         guard let state, state.anyOperationRunning else {
+            if let coordinator = state?.runtime.windowCoordinator, !coordinator.saveAllWindows() {
+                return .terminateCancel
+            }
             return .terminateNow
         }
         let alert = NSAlert()
@@ -23,7 +51,10 @@ final class ApplicationDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     func applicationWillTerminate(_ notification: Notification) {
-        state?.saveCurrentWorkspace()
+        let state = state ?? menuBarController?.app
+        if state?.runtime.updateTerminationApproved != true {
+            _ = state?.runtime.windowCoordinator?.saveAllWindows()
+        }
         state?.authentication.cancelAll()
     }
 }

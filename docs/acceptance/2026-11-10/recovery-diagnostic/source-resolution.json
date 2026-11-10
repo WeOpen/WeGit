@@ -1,0 +1,17 @@
+{
+  "candidatePR": "132",
+  "diagnosticOnly": true,
+  "format": 1,
+  "repository": "WeOpen/WeGit",
+  "requiredValidation": false,
+  "sourceCommit": "028b627a6950afe370e1eb14f018818087b25738",
+  "trustedFilesSHA256": {
+    "RecoveryPerformance.swift": "b5fd35bfad70e74ae858d17e2b3972ac067af65ca057c6a2344bcdcd3c50582b",
+    "recovery_diagnostic.py": "2ba0bfe589aff7227011932ae97ee65df1072ffad7578fecd3cc5e311e8a14de",
+    "ui_source.py": "6e95a6f33475b25de69465fb16a1702362ef5acfdd300b4964ca383ddbc04fcf"
+  },
+  "trustedMainSHA": "5c46c6348934e51691bd87f98bffff61769c1a74",
+  "uiSmokeExecuted": false,
+  "workflowSHA256": "62908652394377f05ae9ac3681bca0aed98013ce872a5944c2e488cc63c3bf07",
+  "xctestExecuted": false
+}

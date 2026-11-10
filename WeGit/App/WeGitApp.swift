@@ -18,15 +18,24 @@ struct WeGitApp: App {
                     await ViewPerformanceJournal.waitForProfiler()
                     guard !Task.isCancelled else { return }
                     await app.restore()
+                    app.runtime.windowCoordinator?.restoreOpenWindows()
+                    let arguments = ProcessInfo.processInfo.arguments
+                    if let index = arguments.firstIndex(of: "--update-handoff"), index + 1 < arguments.count {
+                        do {
+                            guard let bridge = app.runtime.services.updateBridge else {
+                                throw UpdateFailure.configurationMissing
+                            }
+                            try await bridge.reportStartupReadiness(
+                                ticketURL: URL(fileURLWithPath: arguments[index + 1]))
+                        } catch {
+                            app.error = error.localizedDescription
+                        }
+                    }
                 }
                 .onReceive(
                     NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
                 ) { _ in
-                    if let session = app.session, !session.isBusy,
-                        !app.preferences.configurationWriteInProgress
-                    {
-                        Task { await session.refresh() }
-                    }
+                    if !app.preferences.configurationWriteInProgress { app.runtime.refreshActiveSessions() }
                 }
         }
         .defaultSize(width: 1360, height: 880)
@@ -34,7 +43,8 @@ struct WeGitApp: App {
         .windowResizability(.contentMinSize)
         .commandsRemoved()
         Settings {
-            SettingsView(app: app).workbenchControlFamily().workbenchAppearance(app.preferences)
+            SettingsView(app: app.runtime.activeState ?? app).workbenchControlFamily().workbenchAppearance(
+                app.preferences)
         }.commandsRemoved()
 
     }

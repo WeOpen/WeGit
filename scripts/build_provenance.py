@@ -15,7 +15,7 @@ def source_files(root: Path) -> dict[str, str]:
         "Package.swift", "project.yml", "LICENSE", "WeGit.xcodeproj/project.pbxproj",
         "scripts/build_provenance.py", "scripts/install-bundle-icon.sh",
     )]
-    for directory in ("WeGitCore", "WeGit", "WeGitAskPass"):
+    for directory in ("WeGitCore", "WeGit", "WeGitAskPass", "WeGitUpdater"):
         paths.extend(path for path in (root / directory).rglob("*")
                      if path.is_file() and path.name != ".DS_Store")
     return {str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest()
@@ -29,6 +29,7 @@ def write_receipt(root: Path, output: Path) -> None:
         "configuration": os.environ.get("CONFIGURATION"),
         "bundleIdentifier": os.environ.get("PRODUCT_BUNDLE_IDENTIFIER"),
         "version": os.environ.get("MARKETING_VERSION"),
+        "releaseVersion": os.environ.get("WEGIT_RELEASE_VERSION") or os.environ.get("MARKETING_VERSION"),
         "buildVersion": os.environ.get("CURRENT_PROJECT_VERSION"),
         "architectures": os.environ.get("ARCHS", "").split(),
         "minimumSystemVersion": os.environ.get("MACOSX_DEPLOYMENT_TARGET"),

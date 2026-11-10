@@ -53,6 +53,8 @@ final class WindowStateProbe: NSView {
         guard let window, let app else { return }
         if app.sidebarVisible != sidebarVisible { app.sidebarVisible = sidebarVisible }
         if configuredWindow !== window {
+            app.nativeWindow = window
+            app.runtime.windowCoordinator?.register(window, app: app)
             NotificationCenter.default.removeObserver(
                 self, name: NSWindow.didResizeNotification, object: configuredWindow)
             configuredWindow = window
@@ -64,7 +66,22 @@ final class WindowStateProbe: NSView {
             NotificationCenter.default.addObserver(
                 self, selector: #selector(toolbarWillAddItem), name: NSToolbar.willAddItemNotification,
                 object: nil)
-            if app.savesWindowState { _ = window.setFrameUsingName(app.nativeWindowStateName) }
+            if app.savesWindowState {
+                if let saved = app.defaults.string(forKey: app.nativeFrameStorageKey) {
+                    let frame = NSRectFromString(saved)
+                    if [frame.origin.x, frame.origin.y, frame.width, frame.height].allSatisfy(\.isFinite),
+                        frame.width >= 980, frame.height >= 620
+                    {
+                        window.setFrame(window.constrainFrameRect(frame, to: window.screen), display: false)
+                    }
+                } else if app.migrationState != nil, app.windowID == app.runtime.primaryWindowID,
+                    let legacy = app.migrationState?.legacyPrimaryFrame
+                {
+                    window.setFrame(from: legacy)
+                } else {
+                    _ = window.setFrameUsingName(app.nativeWindowStateName)
+                }
+            }
         }
         updateMeasuredWidth()
         _ = window.setFrameAutosaveName(app.savesWindowState ? app.nativeWindowStateName : "")

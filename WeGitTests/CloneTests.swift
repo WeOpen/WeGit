@@ -40,6 +40,37 @@ private struct FixtureTrash: FileTrashing {
 }
 
 struct CloneTests {
+    @Test func shallowCloneHonorsBranchScopeForLocalPathsAndCanPreserveAllBranches() async throws {
+        let f = try await Fixture.create()
+        defer { f.remove() }
+        try f.write("file", "first\n")
+        _ = try await f.commit("First")
+        try f.write("file", "second\n")
+        let head = try await f.commit("Second")
+        _ = try await f.engine.run(["branch", "other", head], in: f.root)
+        let coordinator = CloneCoordinator(engine: f.engine)
+        let single = try await coordinator.clone(
+            CloneRequest(
+                address: f.root.path, parent: f.root, folderName: "single",
+                options: CloneOptions(branch: "other", singleBranch: true, depth: 1)))
+        #expect(
+            try await f.engine.run(["rev-parse", "--is-shallow-repository"], in: single.root).text
+                .removingLastNewline == "true")
+        #expect(try await RepositoryService(location: single, engine: f.engine).status().branch == "other")
+        let refs = try await f.engine.run(
+            ["for-each-ref", "--format=%(refname)", "refs/remotes/origin"], in: single.root
+        ).text
+        #expect(refs.contains("refs/remotes/origin/other") && !refs.contains("refs/remotes/origin/main"))
+        let all = try await coordinator.clone(
+            CloneRequest(
+                address: f.root.path, parent: f.root, folderName: "all",
+                options: CloneOptions(depth: 1)))
+        let allRefs = try await f.engine.run(
+            ["for-each-ref", "--format=%(refname)", "refs/remotes/origin"], in: all.root
+        ).text
+        #expect(allRefs.contains("refs/remotes/origin/other") && allRefs.contains("refs/remotes/origin/main"))
+    }
+
     @Test func progressHandlesFragmentedCarriageReturnsAndIgnoresSecrets() {
         var parser = CloneProgressParser()
         #expect(parser.consume(Data("remote: Count".utf8)).isEmpty)

@@ -3,13 +3,16 @@ import Observation
 import WeGitCore
 
 enum ApplicationMenuCommand: String {
-    case about, settings, hide, hideOthers, showAll, quit
-    case openRepository, clone, switchRepository, close, closeAll
+    case compareReferences
+    case importPatch, importMailPatches, exportWorkingPatch, exportStagedPatch
+    case about, settings, updates, hide, hideOthers, showAll, quit
+    case openRepository, clone, initializeRepository, switchRepository, close, closeAll
+    case newWindow, openInNewWindow, reopenWindow
     case undo, redo, cut, copy, paste, pasteMatchingStyle, delete, selectAll, emojiSymbols
     case sidebar, inspector, fullScreen, minimize, minimizeAll, zoom, zoomAll, showMainWindow,
         bringAllToFront, help
     case switchBranch, refresh, newBranch, stageAll, unstageAll, commit, commitAndPush
-    case pull, push, closeRepository, activity, terminal, xcode, copyPath, search, palette
+    case pull, push, historyDepth, closeRepository, activity, terminal, xcode, copyPath, search, palette
     case changes, history, branches, stashes, tags, quickAccess
     #if DEBUG
         case recoverTrashFixture
@@ -52,6 +55,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
     private let preferredAppearance: @MainActor () -> NSAppearance
     private let targetForAction: @MainActor (Selector, NSMenuItem) -> AnyObject?
     private let sendAction: @MainActor (Selector, AnyObject, NSMenuItem) -> Bool
+    private let shortcutOverride: @MainActor (ApplicationMenuCommand) -> KeyboardShortcutOverride?
     private var mainMenuObservation: NSKeyValueObservation?
     private var scheduled = false
     private var started = false
@@ -66,6 +70,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         selected: @escaping @MainActor (ApplicationMenuCommand) -> Bool = { _ in false },
         title: @escaping @MainActor (ApplicationMenuCommand) -> String? = { _ in nil },
         appearance: @escaping @MainActor () -> NSAppearance = { NSApp.effectiveAppearance },
+        shortcut: @escaping @MainActor (ApplicationMenuCommand) -> KeyboardShortcutOverride? = { _ in nil },
         target: @escaping @MainActor (Selector, NSMenuItem) -> AnyObject? = {
             NSApp.target(forAction: $0, to: nil, from: $1) as AnyObject?
         },
@@ -78,6 +83,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         appCommandSelected = selected
         dynamicTitle = title
         preferredAppearance = appearance
+        shortcutOverride = shortcut
         targetForAction = target
         sendAction = send
         super.init()
@@ -109,7 +115,11 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
                 self, selector: #selector(menuChanged), name: name, object: nil)
         }
         observeLanguage()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(shortcutsChanged), name: .applicationShortcutsChanged, object: nil)
     }
+
+    @objc private func shortcutsChanged(_ notification: Notification) { refreshLabels() }
 
     private func observeLanguage() {
         withObservationTracking {
@@ -187,6 +197,13 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
     func refreshLabels() {
         for (item, title) in labels {
             item.title = title()
+            if let raw = item.representedObject as? String,
+                let command = ApplicationMenuCommand(rawValue: raw),
+                let override = shortcutOverride(command)
+            {
+                item.keyEquivalent = override.binding?.key ?? ""
+                item.keyEquivalentModifierMask = override.binding?.nativeModifiers ?? []
+            }
             if let submenu = item.submenu { submenu.title = item.title }
         }
         updateSettingsWindowTitle()
@@ -235,6 +252,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
     private func build() {
         let application = menu("app", { "WeGit" })
         add(.about, to: application) { L10n.menuTitle("About WeGit") }
+        add(.updates, to: application) { L10n.text("检查更新…") }
         application.addItem(.separator())
         add(.settings, to: application, key: ",") { L10n.menuTitle("Settings…") }
         application.addItem(.separator())
@@ -252,9 +270,19 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         add(.quit, to: application, key: "q") { L10n.menuTitle("Quit WeGit") }
 
         let file = menu("file", { L10n.menuTitle("File") })
+        add(.newWindow, to: file, key: "n") { L10n.text("新建窗口") }
+        add(.openInNewWindow, to: file) { L10n.text("在新窗口中打开") }
+        add(.reopenWindow, to: file, key: "t", modifiers: [.command, .shift]) { L10n.text("重新打开关闭的窗口") }
+        file.addItem(.separator())
         add(.openRepository, to: file, key: "o") { L10n.text("打开仓库…") }
+        add(.initializeRepository, to: file) { L10n.text("新建仓库…") }
         add(.clone, to: file, key: "o", modifiers: [.command, .shift]) { L10n.text("克隆仓库…") }
         add(.switchRepository, to: file, key: "k") { L10n.text("切换仓库…") }
+        file.addItem(.separator())
+        add(.importPatch, to: file) { L10n.text("导入文件补丁…") }
+        add(.importMailPatches, to: file) { L10n.text("导入提交补丁…") }
+        add(.exportWorkingPatch, to: file) { L10n.text("导出未暂存补丁…") }
+        add(.exportStagedPatch, to: file) { L10n.text("导出暂存补丁…") }
         file.addItem(.separator())
         add(.close, to: file, key: "w") { L10n.menuTitle("Close") }
         add(.closeAll, to: file, key: "w", modifiers: [.command, .option]) { L10n.menuTitle("Close All") }
@@ -297,6 +325,8 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
         repository.addItem(.separator())
         add(.pull, to: repository, key: "l", modifiers: [.command, .shift]) { L10n.text("拉取…") }
         add(.push, to: repository, key: "u", modifiers: [.command, .shift]) { L10n.text("推送…") }
+        add(.historyDepth, to: repository) { L10n.text("历史深度…") }
+        add(.compareReferences, to: repository) { L10n.text("比较对象…") }
         add(.closeRepository, to: repository) { L10n.text("关闭仓库") }
         add(.activity, to: repository) { L10n.text("活动记录") }
         add(.terminal, to: repository) { L10n.text("在 Terminal 中打开") }
@@ -486,7 +516,7 @@ final class NativeApplicationMenu: NSObject, NSMenuDelegate, NSMenuItemValidatio
             }
         case .help: NSWorkspace.shared.open(URL(string: "https://github.com/WeOpen/WeGit#readme")!)
         default:
-            if ![.copyPath, .refresh, .quickAccess].contains(command) { showMainWindow() }
+            if ![.copyPath, .refresh, .quickAccess, .updates].contains(command) { showMainWindow() }
             performAppCommand(command)
         }
     }

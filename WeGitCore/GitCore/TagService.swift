@@ -16,6 +16,18 @@ extension RepositoryService {
         return TagList(entries: Array(matches.prefix(limit)), hasMore: matches.count > limit)
     }
 
+    /// Navigation validates the exact reference independently of the visible list page.
+    @concurrent public func readTag(_ tag: GitTag) async throws -> GitTag {
+        try await validateTagName(tag.name)
+        guard
+            let current = try await readTags(pattern: tag.reference).first(where: {
+                $0.reference == tag.reference && $0.objectID == tag.objectID
+            })
+        else { throw ModelFailure.changed }
+        try Task.checkCancellation()
+        return current
+    }
+
     private func readTags(pattern: String) async throws -> [GitTag] {
         try location.validateIdentity()
         let raw = try await engine.run(
@@ -38,7 +50,7 @@ extension RepositoryService {
             var target = type == "commit" ? object : peeledType == "commit" ? peeled : nil
             if type == "tag", peeledType == "tag" {
                 let resolved = try await engine.run(
-                    ["rev-parse", "--verify", "--end-of-options", ref + "^{commit}"],
+                    ["rev-parse", "--verify", "--end-of-options", object + "^{commit}"],
                     in: location.root, accepted: [0, 128])
                 if resolved.exitCode == 0 { target = resolved.text.removingLastNewline }
             }

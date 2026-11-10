@@ -14,6 +14,7 @@ final class HistoryState {
     var scope = HistoryScope.all
     var query = ""
     var searchField = HistorySearchField.message
+    var selectedIDs: Set<String> = []
     private(set) var anchor: HistoryAnchor?
     private(set) var commits: [GitCommit] = []
     private(set) var tableRows: [HistoryTableRow] = []
@@ -82,6 +83,7 @@ final class HistoryState {
         let searchField = searchField
         anchor = nil
         commits = []
+        selectedIDs = []
         tableRows = []
         graphWidth = 2
         references = [:]

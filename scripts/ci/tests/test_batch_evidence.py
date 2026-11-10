@@ -11,11 +11,30 @@ from contextlib import redirect_stdout
 from io import StringIO
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from batch_evidence import COMMON, canonical_run, digest, eligible, inputs, run_suite, source_matches
+from batch_evidence import (COMMON, READING_PERFORMANCE_INPUTS, canonical_run, digest, eligible, inputs, run_suite, source_matches,
+                            suite_job_succeeded, suite_job_outcome, failed_execution_matches,
+                            reader_execution_contract, reader_compatibility)
 from ui_probe import batch_methods, verify_batch_summary
 
 
 class EvidenceTests(unittest.TestCase):
+    def test_behavior_builds_app_objects_before_running_dependent_checks(self):
+        root = Path(__file__).resolve().parents[3]
+        with tempfile.TemporaryDirectory(prefix="wegit-suite-order-") as folder:
+            fixture = Path(folder)
+            (fixture / "scripts/ci").mkdir(parents=True)
+            scripts = {
+                "scripts/build.sh": "#!/bin/bash\nset -eu\ntest \"$1\" = Debug\ntouch app-objects\n",
+                "scripts/verify-preference-migration.sh": "#!/bin/bash\nset -eu\ntest -f app-objects\n",
+                "scripts/ci/native-behavior.sh": "#!/bin/bash\nset -eu\ntest -f app-objects\ntest \"$1\" = behavior\n",
+            }
+            for name, value in scripts.items():
+                path = fixture / name
+                path.write_text(value); path.chmod(0o700)
+            result = subprocess.run(["/bin/bash", str(root / "scripts/ci/run-batch-suite.sh"), "behavior"],
+                                    cwd=fixture, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def setUp(self):
         self.fixture = tempfile.TemporaryDirectory(prefix="wegit-evidence-")
         self.addCleanup(self.fixture.cleanup)
@@ -53,15 +72,197 @@ class EvidenceTests(unittest.TestCase):
         for suite in before:
             self.assertNotEqual(before[suite], inputs(self.root, suite))
 
+    def test_reading_feature_requires_all_fixtures_and_python_changes_invalidate_reuse(self):
+        # A source without Query retains the old input contract, even when it
+        # already has the M2 comparison service.
+        self.write("WeGitCore/GitCore/CommitComparisonService.swift", "comparison\n")
+        self.assertNotIn("scripts/verify-reading-performance.py", inputs(self.root, "performance"))
+        self.write("WeGitCore/GitCore/RepositoryQueryService.swift", "query\n")
+        with self.assertRaisesRegex(ValueError, "Validation input missing"):
+            inputs(self.root, "performance")
+        for name in READING_PERFORMANCE_INPUTS:
+            self.write(name, "original reader input\n")
+        before = inputs(self.root, "performance")
+        self.assertTrue(set(READING_PERFORMANCE_INPUTS) <= before.keys())
+        receipt, run, _ = self.receipt()
+        receipt.update(suite="performance", inputFiles=before, inputDigest=digest(before))
+        self.assertTrue(eligible(receipt, before, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+        for name in ["scripts/create-reading-performance-fixtures.py", "scripts/verify-reading-performance.py",
+                     "scripts/create-benchmark-fixtures.py"]:
+            self.write(name, "changed reader fixture or verifier\n")
+            changed = inputs(self.root, "performance")
+            self.assertNotEqual(before, changed, name)
+            self.assertFalse(eligible(receipt, changed, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+            self.write(name, "original reader input\n")
+        (self.root / "scripts/verify-reading-performance.py").unlink()
+        with self.assertRaisesRegex(ValueError, "scripts/verify-reading-performance.py"):
+            inputs(self.root, "performance")
+
+    def test_query_performance_gate_executes_required_checker_and_refuses_missing_script(self):
+        root = Path(__file__).resolve().parents[3]
+        runner = root / "scripts/ci/native-behavior.sh"
+        self.write("WeGitCore/GitCore/CommitComparisonService.swift", "comparison\n")
+        result = subprocess.run(["/bin/bash", str(runner), "performance"], cwd=self.root,
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Comparison/query performance not covered", result.stdout)
+        self.write("WeGitCore/GitCore/RepositoryQueryService.swift", "query\n")
+        missing = subprocess.run(["/bin/bash", str(runner), "performance"], cwd=self.root,
+                                 capture_output=True, text=True)
+        self.assertNotEqual(missing.returncode, 0)
+        checker = self.root / "scripts/verify-reading-performance.sh"
+        self.write(str(checker.relative_to(self.root)), "#!/bin/bash\nset -eu\nprintf 'reading-checker-ran\\n'\n")
+        checker.chmod(0o700)
+        result = subprocess.run(["/bin/bash", str(runner), "performance"], cwd=self.root,
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(result.stdout.count("reading-checker-ran"), 1)
+        self.assertNotIn("Comparison/query performance not covered", result.stdout)
+
+    def test_native_evidence_always_retains_bounded_reading_results_and_failure_logs(self):
+        import yaml
+        from check_policy import Loader
+        root = Path(__file__).resolve().parents[3]
+        workflow = yaml.load((root / ".github/workflows/verify.yml").read_text(), Loader=Loader)
+        steps = workflow["jobs"]["native"]["steps"]
+        retained = next(step for step in steps if step.get("name") == "Retain native evidence and preview")
+        self.assertEqual(retained["if"], "always()")
+        paths = set(retained["with"]["path"].splitlines())
+        expected = {".build/reading-performance-*/" + name for name in ["result.json", "fixtures.json",
+                    "input-receipt.json", "source-before.json", "independent-verification.json", "build.log",
+                    "checker-build.log", "fixture.log", "runtime.log", "verification.log", "fixture-root.txt"]}
+        self.assertTrue(expected <= paths)
+        self.assertFalse(any("**" in path for path in paths if "reading-performance" in path))
+
+    def test_native_artifacts_keep_migration_and_update_proof_without_private_fixtures(self):
+        import yaml
+        from check_policy import Loader
+        root = Path(__file__).resolve().parents[3]
+        workflow = yaml.load((root / ".github/workflows/verify.yml").read_text(), Loader=Loader)
+        retained = next(step for step in workflow["jobs"]["native"]["steps"]
+                        if step.get("name") == "Retain native evidence and preview")
+        self.assertEqual(retained["if"], "always()")
+        # Match the actual layouts emitted by verify-application-migration.py
+        # and verify-production-update.sh, including runs that failed before
+        # creating a result or final receipt.
+        expected = {
+            ".build/application-migration-success/" + name for name in
+            ["inputs.json", "receipt.json", "core-library-receipt.json", "core-build.log",
+             "source-build.log", "run.log", "fixtures/WeGitMigrationControl-123456/result.json"]
+        } | {
+            ".build/production-update-checks-success/" + name for name in
+            ["inputs-before.json", "inputs.json", "result.json", "core-build.log", "compile.log", "run.log"]
+        } | {
+            ".build/update-stage-success/" + name for name in
+            ["inputs-before.json", "inputs.json", "result.json", "core-build.log", "compile.log", "run.log"]
+        } | {
+            ".build/theme-import-queue-checks-success/" + name for name in
+            ["input-receipt.json", "compiled-inputs.json", "result.json", "compile.log", "runtime.log"]
+        } | {
+            ".build/application-migration-failed/core-build.log",
+            ".build/application-migration-failed/source-build.log",
+            ".build/application-migration-failed/run.log",
+            ".build/production-update-checks-failed/inputs-before.json",
+            ".build/production-update-checks-failed/compile.log",
+            ".build/production-update-checks-failed/run.log",
+            ".build/update-stage-failed/compile.log",
+            ".build/theme-import-queue-checks-failed/runtime.log",
+        }
+        private = {
+            ".build/application-migration-success/fixtures/WeGitMigrationControl-123456/legacy/Repositories.store",
+            ".build/application-migration-success/fixtures/WeGitMigrationControl-123456/v2/preferences.plist",
+            ".build/application-migration-success/fixtures/unrelated/result.json",
+            ".build/application-migration-success/source/CurrentMigrationModels.swift",
+            ".build/application-migration-success/checks",
+            ".build/production-update-checks-success/private-key.pem",
+            ".build/production-update-checks-success/token",
+            ".build/production-update-checks-success/fixtures/ticket.json",
+            ".build/production-update-checks-success/checks",
+            ".build/update-stage-success/ActualUpdateStageControl.swift",
+            ".build/update-stage-success/fixtures/Repositories.store",
+            ".build/theme-import-queue-checks-success/tmp/Repositories.store",
+        }
+        for name in expected | private:
+            self.write(name, "isolated artifact fixture\n")
+        selected = set()
+        for pattern in retained["with"]["path"].splitlines():
+            for path in self.root.glob(pattern):
+                files = path.rglob("*") if path.is_dir() else [path]
+                selected.update(str(item.relative_to(self.root)) for item in files if item.is_file())
+        self.assertEqual(expected - selected, set(), "Actual result/input/failure evidence would be lost")
+        self.assertEqual(private & selected, set(), "Private fixtures or binaries must not be uploaded")
+
     def receipt(self):
         files = inputs(self.root, "core")
         run = {"id": 11, "workflow_id": 17, "head_sha": "a" * 40, "head_branch": "main",
                "event": "push", "status": "completed", "conclusion": "success"}
         receipt = {"format": 1, "status": "success", "suite": "core", "repository": "WeOpen/WeGit", "runId": "11",
+                   "runAttempt": "1", "mode": "executed",
                    "sourceCommit": "a" * 40, "inputFiles": files, "inputDigest": digest(files), "toolchain": {"xcode": "fixed"},
                    "execution": {"kind": "executed", "exitCode": 0, "runId": "11", "sourceCommit": "a" * 40,
                                  "logSHA256": "b" * 64}}
         return receipt, run, files
+
+    def test_failed_later_phase_reuses_only_an_actually_completed_successful_suite(self):
+        receipt, run, files = self.receipt()
+        run["conclusion"] = "failure"
+        jobs = [{"name": "Native macOS", "conclusion": "failure", "steps": [
+            {"name": "Core regression on Apple, minimum and Homebrew Git", "status": "completed", "conclusion": "success"},
+            {"name": "Compile application and native UI regressions", "status": "completed", "conclusion": "failure"}]}]
+        self.assertFalse(eligible(receipt, files, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+        verified = suite_job_succeeded(receipt, jobs)
+        self.assertTrue(verified)
+        self.assertTrue(eligible(receipt, files, receipt["toolchain"], run, 17, "WeOpen/WeGit", phase_verified=verified))
+        for conclusion in ("failure", "skipped", "cancelled", None):
+            modified = copy.deepcopy(jobs)
+            modified[0]["steps"][0]["conclusion"] = conclusion
+            self.assertFalse(suite_job_succeeded(receipt, modified))
+        application = copy.deepcopy(receipt)
+        application["suite"] = "application"
+        self.assertFalse(suite_job_succeeded(application, jobs))
+        reused = copy.deepcopy(receipt)
+        reused["mode"] = "reused"
+        self.assertFalse(suite_job_succeeded(reused, jobs))
+        for field in ("runId", "sourceCommit"):
+            modified = copy.deepcopy(receipt)
+            modified["execution"][field] = "different"
+            self.assertFalse(suite_job_succeeded(modified, jobs))
+
+    def test_reader_only_change_preserves_every_execution_statement(self):
+        before = "import json\nCOMMON=('entry',)\ndef run_suite():\n return 1\ndef restore():\n return False\n"
+        reader = before.replace("return False", "return True")
+        self.assertEqual(reader_execution_contract(before), reader_execution_contract(reader))
+        self.assertNotEqual(reader_execution_contract(before),
+                            reader_execution_contract(reader.replace("return 1", "return 2")))
+        self.assertNotEqual(reader_execution_contract(before),
+                            reader_execution_contract(reader + "\nrun_suite=lambda: 2\n"))
+        self.assertNotEqual(reader_execution_contract(before),
+                            reader_execution_contract(reader.replace("('entry',)", "('different',)")))
+
+    def test_reader_compatibility_is_recomputed_from_the_source_git_blob(self):
+        def git(*args):
+            return subprocess.check_output(["git", "-C", str(self.root), *args], env=self.env,
+                                           stderr=subprocess.DEVNULL, text=True).strip()
+        name = "scripts/ci/batch_evidence.py"
+        before = "import json\nCOMMON=('entry',)\ndef run_suite():\n return 1\ndef restore():\n return False\n"
+        self.write(name, before)
+        git("init", "--initial-branch=main"); git("add", "--all")
+        git("-c", "commit.gpgsign=false", "commit", "-m", "fixture")
+        receipt, run, files = self.receipt()
+        receipt["sourceCommit"] = run["head_sha"] = git("rev-parse", "HEAD")
+        self.write(name, before.replace("return False", "return True"))
+        expected = inputs(self.root, "core")
+        proof = reader_compatibility(self.root, receipt, expected)
+        self.assertIsNotNone(proof)
+        self.assertTrue(source_matches(self.root, "WeOpen/WeGit", receipt, run))
+        self.assertTrue(eligible(receipt, expected, receipt["toolchain"], run, 17, "WeOpen/WeGit", reader_proof=proof))
+        forged = proof | {"currentSHA256": "0" * 64}
+        self.assertFalse(eligible(receipt, expected, receipt["toolchain"], run, 17, "WeOpen/WeGit", reader_proof=forged))
+        self.write("WeGitCore/Core.swift", "changed backend\n")
+        self.assertIsNone(reader_compatibility(self.root, receipt, inputs(self.root, "core")))
+        self.write("WeGitCore/Core.swift", "original\n")
+        self.write(name, before.replace("return 1", "return 2"))
+        self.assertIsNone(reader_compatibility(self.root, receipt, inputs(self.root, "core")))
 
     def test_missing_failed_wrong_workflow_and_changed_inputs_never_count_as_reuse(self):
         receipt, run, files = self.receipt()
@@ -93,6 +294,45 @@ class EvidenceTests(unittest.TestCase):
         receipt["inputDigest"] = digest(receipt["inputFiles"])
         self.assertFalse(source_matches(self.root, "WeOpen/WeGit", receipt, run))
 
+    def test_shallow_merge_provenance_reads_raw_commit_parents(self):
+        def git(*args):
+            return subprocess.check_output(["git", "-C", str(self.root), *args], env=self.env,
+                                           stderr=subprocess.DEVNULL, text=True).strip()
+        git("init", "--initial-branch=main"); git("add", "--all")
+        git("-c", "commit.gpgsign=false", "commit", "-m", "base")
+        base = git("rev-parse", "HEAD")
+        git("checkout", "-b", "head")
+        self.write("WeGitCore/Core.swift", "new backend\n")
+        git("add", "--all"); git("-c", "commit.gpgsign=false", "commit", "-m", "head")
+        head = git("rev-parse", "HEAD")
+        tree = git("rev-parse", "HEAD^{tree}")
+        source = subprocess.check_output(
+            ["git", "-C", str(self.root), "commit-tree", tree, "-p", base, "-p", head],
+            input="fixture merge\n", env=self.env, text=True, stderr=subprocess.DEVNULL).strip()
+        raw = git("cat-file", "-p", source)
+        self.assertEqual(len([row for row in raw.splitlines() if row.startswith("parent ")]), 2)
+        receipt, run, _ = self.receipt()
+        receipt["sourceCommit"] = source
+        run.update(head_sha=head, event="pull_request")
+        self.write(".git/shallow", source + "\n")
+        self.assertEqual(git("show", "-s", "--format=%P", source), "")
+        self.assertTrue(source_matches(self.root, "WeOpen/WeGit", receipt, run))
+
+    def test_newer_matching_failed_execution_cannot_be_replaced_by_an_older_pass(self):
+        receipt, run, files = self.receipt()
+        receipt.update(status="failure")
+        receipt["execution"]["exitCode"] = 1
+        run["conclusion"] = "failure"
+        jobs = [{"name": "Native macOS", "steps": [
+            {"name": "Core regression on Apple, minimum and Homebrew Git",
+             "status": "completed", "conclusion": "failure"}]}]
+        self.assertEqual(suite_job_outcome(receipt, jobs), "failure")
+        self.assertTrue(failed_execution_matches(receipt, files, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+        changed = copy.deepcopy(files)
+        changed["WeGitCore/Core.swift"] = "different"
+        self.assertFalse(failed_execution_matches(receipt, changed, receipt["toolchain"], run, 17, "WeOpen/WeGit"))
+        self.assertFalse(eligible(receipt, files, receipt["toolchain"], run, 17, "WeOpen/WeGit", phase_verified=True))
+
     def test_local_tool_checks_cannot_execute_native_suites(self):
         with patch.dict(os.environ, {"GITHUB_ACTIONS": "false"}), patch("batch_evidence.subprocess.run") as execute:
             with self.assertRaisesRegex(ValueError, "only on GitHub-hosted"):
@@ -101,6 +341,31 @@ class EvidenceTests(unittest.TestCase):
 
 
 class TrustedBatchTests(unittest.TestCase):
+    def test_workflow_exposes_exact_trusted_registry_and_copies_it_before_candidate_checkout(self):
+        import yaml
+        from check_policy import Loader
+        root = Path(__file__).resolve().parents[3]
+        workflow = yaml.load((root / ".github/workflows/native-ui.yml").read_text(), Loader=Loader)
+        registry = json.loads((root / "scripts/ci/ui_batches.json").read_text())
+        choices = workflow["on"]["workflow_dispatch"]["inputs"]["batch"]["options"]
+        self.assertEqual(len(choices), len(set(choices)))
+        self.assertEqual(set(choices), {"none", *registry["batches"]})
+        job = workflow["jobs"]["ui"]
+        self.assertEqual(job["if"], "github.ref == 'refs/heads/main'")
+        steps = job["steps"]
+        source = next(index for index, step in enumerate(steps) if step.get("id") == "source")
+        checkouts = [index for index, step in enumerate(steps)
+                     if step.get("uses", "").startswith("actions/checkout@")]
+        self.assertEqual(len(checkouts), 2)
+        self.assertLess(checkouts[0], source)
+        self.assertLess(source, checkouts[1])
+        self.assertEqual(steps[checkouts[0]]["with"]["ref"], "${{ github.sha }}")
+        self.assertEqual(steps[checkouts[1]]["with"]["ref"], "${{ steps.source.outputs.sha }}")
+        self.assertIn('cp scripts/ci/ui_batches.json "$RUNNER_TEMP/wegit-trusted-ui-batches.json"',
+                      steps[source]["run"])
+        execution = next(step["run"] for step in steps if step.get("name") == "Run bounded native scope")
+        self.assertIn('--registry "$RUNNER_TEMP/wegit-trusted-ui-batches.json"', execution)
+
     def test_batch_runs_one_smoke_then_one_complete_set_without_rebuilding(self):
         import ui_probe
         root = Path(__file__).resolve().parents[3]

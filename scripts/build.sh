@@ -7,8 +7,9 @@ case "$configuration" in Debug|Release) ;; *) echo "Usage: scripts/build.sh [Deb
 architecture="${2:-$(uname -m)}"
 if [[ "$configuration" == Release && $# -lt 2 ]]; then architecture=universal; fi
 case "$architecture" in
-  arm64|x86_64) architectures="$architecture"; destination="platform=macOS,arch=$architecture" ;;
-  universal) architectures="arm64 x86_64"; destination='generic/platform=macOS' ;;
+  arm64) architectures=arm64; distribution_variant=applesilicon; destination="platform=macOS,arch=$architecture" ;;
+  x86_64) architectures=x86_64; distribution_variant=intel; destination="platform=macOS,arch=$architecture" ;;
+  universal) architectures="arm64 x86_64"; distribution_variant=universal; destination='generic/platform=macOS' ;;
   *) echo "Architecture must be arm64, x86_64 or universal." >&2; exit 2 ;;
 esac
 if [[ "$architecture" != universal && "$architecture" != "$(uname -m)" ]]; then
@@ -20,5 +21,5 @@ inject_base_entitlements=YES
 if [[ "$configuration" == Release ]]; then inject_base_entitlements=NO; fi
 xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration "$configuration" \
   -destination "$destination" -derivedDataPath "$derived_data" \
-  ARCHS="$architectures" ONLY_ACTIVE_ARCH=NO \
+  ARCHS="$architectures" ONLY_ACTIVE_ARCH=NO WEGIT_DISTRIBUTION_VARIANT="$distribution_variant" \
   CODE_SIGN_INJECT_BASE_ENTITLEMENTS="$inject_base_entitlements" build

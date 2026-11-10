@@ -14,6 +14,9 @@ BACKEND_FILES = {
     "WeGit/App/WorktreeManagementState.swift", "WeGit/App/AuthenticationController.swift",
     "WeGit/App/AppPreferences.swift", "WeGit/App/PreferenceMigration.swift",
     "WeGit/Features/CloneViewModel.swift",
+    "WeGit/App/CommitMessageHistory.swift", "WeGit/App/PatchActions.swift",
+    "WeGit/App/UpdateState.swift", "WeGit/App/UpdateApplicationBridge.swift",
+    "WeGit/App/ApplicationMigrationState.swift", "WeGit/App/ApplicationDeliveryServices.swift",
 }
 CORE_FRONTEND_FILES = {
     "WeGitCore/Domain/Localization.swift", "WeGitCore/Domain/CodeTextPresentation.swift",
@@ -52,7 +55,7 @@ def validation_requested(event, event_name, scope):
 
 def backend_path(path):
     return (path in BACKEND_FILES
-            or path.startswith("WeGitAskPass/") and path.endswith((".swift", ".c", ".h"))
+            or path.startswith(("WeGitAskPass/", "WeGitUpdater/")) and path.endswith((".swift", ".c", ".h"))
             or path.startswith("WeGitCore/") and path.endswith(".swift") and path not in CORE_FRONTEND_FILES)
 
 

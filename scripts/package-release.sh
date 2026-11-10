@@ -3,9 +3,26 @@ set -euo pipefail
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
 release_mode="${1:---preview}"
+if [[ $# -gt 0 ]]; then shift; fi
+release_variant=universal
+release_version_argument='WEGIT_RELEASE_VERSION=$(MARKETING_VERSION)'
+if [[ -n "${WEGIT_RELEASE_TAG:-}" ]]; then
+  [[ "$WEGIT_RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-(rc|beta)\.[0-9]+)?$ ]] || { echo "Invalid release tag" >&2; exit 2; }
+  release_version_argument="WEGIT_RELEASE_VERSION=${WEGIT_RELEASE_TAG#v}"
+fi
+if [[ $# -gt 0 ]]; then
+  [[ $# == 2 && "$1" == --variant ]] || { echo "Expected --variant universal|applesilicon|intel" >&2; exit 2; }
+  release_variant="$2"
+fi
+case "$release_variant" in
+  universal) release_archs="arm64 x86_64" ;;
+  applesilicon) release_archs=arm64 ;;
+  intel) release_archs=x86_64 ;;
+  *) echo "Unknown release variant" >&2; exit 2 ;;
+esac
 case "$release_mode" in
   --preview|--adhoc|--sign|--notarize) ;;
-  *) echo "Usage: scripts/package-release.sh [--preview|--adhoc|--sign|--notarize]" >&2; exit 2 ;;
+  *) echo "Usage: scripts/package-release.sh [--preview|--adhoc|--sign|--notarize] [--variant universal|applesilicon|intel]" >&2; exit 2 ;;
 esac
 mkdir -p .build/releases
 release_run="$(mktemp -d "$project_root/.build/releases/package-XXXXXX")"
@@ -28,7 +45,7 @@ if [[ "$release_mode" == "--sign" || "$release_mode" == "--notarize" ]]; then
   if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
   xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Release \
     -destination 'generic/platform=macOS' -derivedDataPath "$release_run/build" \
-    ARCHS='arm64 x86_64' ONLY_ACTIVE_ARCH=NO \
+    ARCHS="$release_archs" ONLY_ACTIVE_ARCH=NO WEGIT_DISTRIBUTION_VARIANT="$release_variant" "$release_version_argument" \
     CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$WEGIT_SIGNING_IDENTITY" \
     DEVELOPMENT_TEAM="$WEGIT_TEAM_ID" PRODUCT_BUNDLE_IDENTIFIER="$release_bundle_id" \
     ENABLE_HARDENED_RUNTIME=YES CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp build
@@ -39,7 +56,7 @@ if [[ "$release_mode" == "--adhoc" ]]; then
   if [[ "${WEGIT_SKIP_PROJECT_GENERATION:-0}" != 1 ]] && command -v xcodegen >/dev/null 2>&1; then xcodegen generate; fi
   xcodebuild -project WeGit.xcodeproj -scheme WeGit -configuration Release \
     -destination 'generic/platform=macOS' -derivedDataPath "$release_run/build" \
-    ARCHS='arm64 x86_64' ONLY_ACTIVE_ARCH=NO \
+    ARCHS="$release_archs" ONLY_ACTIVE_ARCH=NO WEGIT_DISTRIBUTION_VARIANT="$release_variant" "$release_version_argument" \
     CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- DEVELOPMENT_TEAM= \
     PRODUCT_BUNDLE_IDENTIFIER=com.willxue.wegit \
     CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp=none build
@@ -60,12 +77,12 @@ fi
 codesign --verify --deep --strict "$release_app"
 release_version="$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' "$release_app/Contents/Info.plist")"
 [[ "$release_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Expected a three-part release version" >&2; exit 1; }
-release_suffix=macos-universal-development
+release_suffix=macos-${release_variant}-development
 if [[ "$release_mode" == "--sign" || "$release_mode" == "--notarize" ]]; then
   codesign -d --verbose=4 "$release_app" 2> "$release_run/signature.txt"
   /usr/bin/grep -q 'Authority=Developer ID Application:' "$release_run/signature.txt"
   /usr/bin/grep -q 'flags=.*runtime' "$release_run/signature.txt"
-  release_suffix=macos-universal-signed
+  release_suffix=macos-${release_variant}-signed
 fi
 
 if [[ "$release_mode" == "--notarize" ]]; then
@@ -81,14 +98,14 @@ PY
   xcrun stapler staple "$release_app"
   xcrun stapler validate "$release_app"
   spctl --assess --type execute --verbose "$release_app"
-  release_suffix=macos-universal-notarized
+  release_suffix=macos-${release_variant}-notarized
 fi
 
 archive_version="$release_version"
 if [[ "$release_mode" == "--adhoc" ]]; then
   codesign -d --verbose=4 "$release_app" 2> "$release_run/signature.txt"
   /usr/bin/grep -q 'Signature=adhoc' "$release_run/signature.txt"
-  release_suffix=macos-universal-adhoc
+  release_suffix=macos-${release_variant}-adhoc
   archive_version="$(python3 - "$release_version" "${WEGIT_RELEASE_TAG:-}" <<'PYTAG'
 import re, sys
 version, tag = sys.argv[1:]
@@ -100,6 +117,6 @@ PYTAG
 fi
 release_archive="$release_run/WeGit-${archive_version}-${release_suffix}.dmg"
 python3 scripts/release_artifact.py --source-root "$project_root" --app "$release_app" \
-  --output "$release_run" --archive "$release_archive" --mode "${release_mode#--}"
+  --output "$release_run" --archive "$release_archive" --mode "${release_mode#--}" --variant "$release_variant"
 echo "Package: $release_archive"
 echo "Manifest: $release_run/manifest.json"

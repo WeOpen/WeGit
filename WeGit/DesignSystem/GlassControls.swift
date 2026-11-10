@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-/// Native button styles keep default actions, roles, focus and pressed feedback intact.
+/// Content uses stable native controls. Only an explicit toolbar owns a glass surface.
 private struct GlassControlFamily: ViewModifier {
     @Environment(\.themeColors) private var colors
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
@@ -75,12 +75,9 @@ private struct NeutralGlassButton: PrimitiveButtonStyle {
                         .padding(.horizontal, 12).frame(height: AppStyle.toolbarControlHeight)
                         .contentShape(Capsule())
                 }.buttonStyle(ToolbarGlassButtonStyle(solid: solid))
-            } else if solid {
-                Button(role: configuration.role, action: configuration.trigger) { label }
-                    .buttonStyle(.bordered)
             } else {
                 Button(role: configuration.role, action: configuration.trigger) { label }
-                    .buttonStyle(.glass)
+                    .buttonStyle(.bordered)
             }
         }.buttonBorderShape(.capsule).tint(nil)
     }
@@ -107,15 +104,8 @@ private struct PrimaryGlassButton: PrimitiveButtonStyle {
         let label = configuration.label
             .frame(minWidth: metrics.labelMinimumWidth, minHeight: metrics.labelHeight)
             .foregroundStyle(enabled ? colors.selectionText : colors.secondaryText)
-        return Group {
-            if solid {
-                Button(role: configuration.role, action: configuration.trigger) { label }
-                    .buttonStyle(.borderedProminent)
-            } else {
-                Button(role: configuration.role, action: configuration.trigger) { label }
-                    .buttonStyle(.glassProminent)
-            }
-        }.buttonBorderShape(.capsule).tint(colors.primaryAction)
+        return Button(role: configuration.role, action: configuration.trigger) { label }
+            .buttonStyle(.borderedProminent).buttonBorderShape(.capsule).tint(colors.primaryAction)
     }
 }
 
@@ -136,12 +126,9 @@ private struct GlassIconButton: PrimitiveButtonStyle {
                         .frame(width: AppStyle.toolbarControlHeight, height: AppStyle.toolbarControlHeight)
                         .contentShape(Circle())
                 }.buttonStyle(ToolbarGlassButtonStyle(solid: solid))
-            } else if solid {
-                Button(role: configuration.role, action: configuration.trigger) { label }
-                    .buttonStyle(.bordered)
             } else {
                 Button(role: configuration.role, action: configuration.trigger) { label }
-                    .buttonStyle(.glass)
+                    .buttonStyle(.bordered)
             }
         }.buttonBorderShape(.circle).tint(nil)
     }
@@ -169,7 +156,7 @@ private struct GlassMenuSurface: ViewModifier {
         .menuStyle(.borderlessButton)
         .modifier(ToolbarLabelFont(enabled: toolbar))
         .tint(nil)
-        .modifier(GlassCapsuleSurface(solid: reduceTransparency || contrast == .increased))
+        .modifier(GlassCapsuleSurface(solid: !toolbar || reduceTransparency || contrast == .increased))
     }
 }
 
@@ -293,6 +280,7 @@ struct WorkbenchGlassTabs<Value: Hashable>: View {
     let tabs: [GlassTab<Value>]
     var height: CGFloat = AppStyle.controlHeight
     var identifier: String?
+    var floating = false
     @Environment(\.isEnabled) private var enabled
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
@@ -302,7 +290,7 @@ struct WorkbenchGlassTabs<Value: Hashable>: View {
     @State private var lensSelection: Value? = nil
     @State private var immediateLensRevision = 0
 
-    private var motionEnabled: Bool { enabled && preferences.interfaceMotion && !reduceMotion }
+    private var motionEnabled: Bool { floating && enabled && preferences.interfaceMotion && !reduceMotion }
     private var lensNeedsSync: Bool { lensSelection.map { $0 != selection } ?? false }
     private var presentedSelection: Value {
         if let lensSelection, lensSelection == selection { return lensSelection }
@@ -358,7 +346,7 @@ struct WorkbenchGlassTabs<Value: Hashable>: View {
         }
         .frame(height: height)
         .background {
-            if reduceTransparency || contrast == .increased {
+            if !floating || reduceTransparency || contrast == .increased {
                 Capsule().fill(colors.surface)
             } else {
                 Capsule().fill(.ultraThinMaterial)
@@ -409,7 +397,7 @@ struct WorkbenchGlassTabs<Value: Hashable>: View {
     }
 
     @ViewBuilder private var tabLens: some View {
-        if reduceTransparency || contrast == .increased {
+        if !floating || reduceTransparency || contrast == .increased {
             Capsule().fill(colors.text.opacity(0.08))
                 .overlay { Capsule().strokeBorder(colors.controlBorder, lineWidth: 1) }
         } else {

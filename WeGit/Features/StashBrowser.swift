@@ -45,9 +45,13 @@ struct StashBrowser<Detail: View>: View {
             @escaping @Sendable (RepositoryService) async throws -> OperationFeedbackOutcome
         ) -> Void
     let showChanges: () -> Void
+    var createBranch: (@MainActor (GitStash, StashList) -> Void)? = nil
+    var searchTarget: GitStash? = nil
+    var searchTargetConsumed: @MainActor (GitStash) -> Void = { _ in }
     @ViewBuilder let detail: (StashContents, StashPart) -> Detail
     @State private var list: StashList?
     @State private var selection: String?
+    @State private var searchSelection: GitStash?
     @State private var contents: StashContents?
     @State private var part: StashPart = .working
     @State private var loading = false
@@ -135,7 +139,7 @@ struct StashBrowser<Detail: View>: View {
             recordDetail.frame(minWidth: 420, maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(colors.canvas)
-        .task(id: "\(refreshID):\(reload):\(limit)") { await readList() }
+        .task(id: "\(refreshID):\(reload):\(limit):\(searchTarget?.id ?? "")") { await readList() }
         .task(id: "\(selected?.id ?? "none"):\(refreshID):\(contentsRetry)") { await readContents() }
         .sheet(item: $saveRequest) { request in
             StashSaveSheet(status: request.status, enabled: canWrite) { message, includeUntracked in
@@ -177,10 +181,15 @@ struct StashBrowser<Detail: View>: View {
                     Text(entry.message).font(.headline).textSelection(.enabled)
                     Text((entry.branch ?? L10n.text("来源分支未知")) + " · " + entry.objectID.prefix(12))
                         .font(.caption).foregroundStyle(colors.secondaryText)
+                        .accessibilityIdentifier("stash-selected-object").accessibilityLabel(entry.objectID)
                     HStack {
                         Toggle(L10n.text("恢复原暂存状态"), isOn: $restoreIndex)
                             .accessibilityIdentifier("stash-restore-index")
                         Spacer()
+                        if let createBranch, let list {
+                            Button(L10n.text("从储藏新建分支…")) { createBranch(entry, list) }
+                                .disabled(!canRestore).accessibilityIdentifier("stash-create-branch")
+                        }
                         Button(L10n.text("应用")) { requestAction(.apply) }
                             .disabled(!canRestore).help(restoreReason).accessibilityIdentifier("stash-apply")
                         Button(L10n.text("取出…")) { requestAction(.pop) }
@@ -230,14 +239,32 @@ struct StashBrowser<Detail: View>: View {
     }
 
     private func readList() async {
+        let requestedTarget = searchTarget
         loading = true
         listError = nil
         defer { if !Task.isCancelled { loading = false } }
         do {
-            let result = try await service.stashes(limit: limit)
+            var requestedLimit = limit
+            if let target = requestedTarget ?? searchSelection, target.selector.hasPrefix("stash@{"),
+                target.selector.hasSuffix("}"),
+                let offset = Int(target.selector.dropFirst(7).dropLast()), (0..<10_000).contains(offset)
+            {
+                requestedLimit = max(limit, offset + 1)
+            }
+            let result = try await service.stashes(limit: requestedLimit)
             guard !Task.isCancelled else { return }
             list = result
-            if !result.entries.contains(where: { $0.id == selection }) {
+            if let target = requestedTarget {
+                guard result.entries.contains(where: { $0.id == target.id }) else {
+                    selection = nil
+                    listError = L10n.text("搜索结果已变化，请重新搜索。")
+                    searchTargetConsumed(target)
+                    return
+                }
+                selection = target.id
+                searchSelection = target
+                searchTargetConsumed(target)
+            } else if !result.entries.contains(where: { $0.id == selection }) {
                 selection = result.entries.first?.id
             }
         } catch {
