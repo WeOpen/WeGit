@@ -10,6 +10,14 @@
 - 完整App及UI测试源build-for-testing、Core全部测试源只编译通过；185工具/策略/actionlint通过，268应用输入SHA相同。中文深色/英文浅色真实NSHosting预览使用3条真实Core记录（明确abort/准备/unknown），核对选择/禁用/计划确认/取消保留，未从UI执行删除；fixture source与预览均正常退出，证据`.build/v2-m5-retention`。首次私有预览误用默认Date decoder崩溃，修为iso8601后实际呈现；原日志不删除。新增28键本地化集中核对，不把片段UI称作全部明暗/双语或生产验收。
 - 尚未完成：原helper --recover的交互接线、原无证据历史残留人工处理、更新/迁移正式Release预算、1/2/4窗口和图片性能、M5全页面/支持矩阵。生产key/feed仍按用户要求最后门禁提醒；正式安装与v2发布未进行。
 
+## 2026-11-10 M4 固定候选首轮真实失败与修补
+
+- 完整候选c8a3563/PR138首次集中送验：CI42832267661的site/185工具通过，Apple Git Core实际407测试/70套件、407.822秒、6问题；最低Git/Homebrew/签名/行为/性能/应用和包后续未执行。211项输入与候选逐blob一致；native ZIP28164bytes/4CRC、receipts10629bytes/1CRC及原日志保留`.build/v2-m5-flow/hosted-42832267661`，失败不改绿。
+- 四项新配置/模板测试用普通Fixture engine访问了全局配置读取，既有隔离runner正确拒绝；显式给这些service提供TestGitConfiguration，保留全局作用域禁止裸访问。Git am新状态已为mailApply，旧“不是rebase”测试同步期待mailApply，仍拒绝generic rebase继续；未删保护断言。UpdateDownload.validate把内部SnapshotFile的ModelFailure.changed映射为公开UpdateFailure.changed，取消继续原样传播，原损坏下载测试不放宽错误类型。
+- UI42832410175固定同候选，smoke真实1/1、0失败/跳过；workspace-delivery实际7项、0通过/7失败/0跳过。266App源/36UI源匹配候选，可信registry匹配main5c46c63；132737577bytes/2320CRC/SHAe15a9fe6…原ZIP与xcresult/截图/AX/视频在`.build/v2-m5-flow/hosted-42832410175`保留。
+- AX真实主窗口被coordinator改成workspace-window UUID，旧main只剩内部split group，导致资源入口定位失效。主窗口恢复稳定main标识，次窗口保持持久UUID；更新窗增加update-window标识。多窗口测试固定主窗和唯一新窗UUID，避免firstMatch活查询在新窗口置前后反绑；History按history-list内含准确OID的descendant选所属唯一row；快捷键用既有命令搜索过滤懒加载行；搜索范围menu限定popup后代；更新窗显式等待关闭/重开后仍count1。
+- 本机Core与全部测试源只编译通过；App/UI build-for-testing通过，266输入SHA一致，严格格式通过。隔离原生重开实见主窗main与更新窗update-window，旧草稿仍完整并正常退出；未运行本机XCTest，不推定7项已通过。修补集中为同一后续head送验，独立更新留存开发在另一工作树继续，避免改动在跑候选。
+
 ## 2026-11-10 M4 面板排队与更新暂存闭环
 
 - 继续M4实际产品树，M2主题/官网已包含ec1ef53祖先，不能重复搬运。62子任务均有实现记录，页面矩阵/URI外部冷热唤起/三包下载生产联动和完整交付仍开放。原生可信入口要求候选PR base=main，旧stacked PR134/135不能直接作为新批次候选；不放宽可信来源限制。

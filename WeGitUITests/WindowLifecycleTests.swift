@@ -7,14 +7,20 @@ final class WindowLifecycleTests: XCTestCase {
         defer { fixture.remove() }
         let app = launchWindowFixture(fixture)
         defer { app.terminate() }
-        let first = app.windows.firstMatch
+        let first = app.windows["main"]
+        XCTAssertTrue(first.waitForExistence(timeout: 10))
         let firstDraft = first.textFields["commit-message"]
         XCTAssertTrue(firstDraft.waitForExistence(timeout: 10))
         replace(firstDraft, "first owned draft")
         app.menuBars.menuBarItems["native-menu-file"].click()
         app.menuItems["native-command-openInNewWindow"].click()
-        let second = app.windows.matching(NSPredicate(format: "identifier != %@", first.identifier))
-            .firstMatch
+        let secondaryWindows = app.windows.matching(
+            NSPredicate(format: "identifier BEGINSWITH %@", "workspace-window-"))
+        let candidate = secondaryWindows.firstMatch
+        XCTAssertTrue(candidate.waitForExistence(timeout: 15))
+        XCTAssertEqual(secondaryWindows.count, 1)
+        let secondaryID = candidate.identifier
+        let second = app.windows[secondaryID]
         let secondDraft = second.textFields["commit-message"]
         XCTAssertTrue(secondDraft.waitForExistence(timeout: 15))
         XCTAssertEqual(secondDraft.value as? String, "first owned draft")
@@ -77,10 +83,12 @@ final class WindowLifecycleTests: XCTestCase {
         replace(draft, "draft survives selected commit restoration")
         app.menuBars.menuBarItems["native-menu-workspace"].click()
         app.menuItems["native-command-history"].click()
-        let row = app.outlineRows.matching(
+        let rows = app.outlines["history-list"].outlineRows.containing(
             NSPredicate(format: "value CONTAINS %@", "提交 " + original.prefix(12))
-        ).firstMatch
+        )
+        let row = rows.firstMatch
         XCTAssertTrue(row.waitForExistence(timeout: 15))
+        XCTAssertEqual(rows.count, 1)
         row.click()
         XCTAssertTrue(app.staticTexts[original].firstMatch.waitForExistence(timeout: 10))
         app.terminate()

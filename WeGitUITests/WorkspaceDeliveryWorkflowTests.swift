@@ -112,13 +112,17 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
         draft.typeText("更新前草稿 🧪")
         app.menuBars.menuBarItems["native-menu-app"].click()
         app.menuItems["native-command-updates"].click()
-        XCTAssertTrue(app.staticTexts["更新验证公钥尚未配置，请使用官网下载。"].waitForExistence(timeout: 5))
-        XCTAssertFalse(app.buttons["update-check"].isEnabled)
-        app.buttons["update-close"].click()
+        let updates = app.windows["update-window"]
+        XCTAssertTrue(updates.waitForExistence(timeout: 5))
+        XCTAssertTrue(updates.staticTexts["更新验证公钥尚未配置，请使用官网下载。"].waitForExistence(timeout: 5))
+        XCTAssertFalse(updates.buttons["update-check"].isEnabled)
+        updates.buttons["update-close"].click()
+        XCTAssertTrue(updates.waitForNonExistence(timeout: 5))
         app.menuBars.menuBarItems["native-menu-app"].click()
         app.menuItems["native-command-updates"].click()
-        XCTAssertEqual(app.windows.matching(NSPredicate(format: "label == %@", "软件更新")).count, 1)
-        app.buttons["update-close"].click()
+        XCTAssertTrue(updates.waitForExistence(timeout: 5))
+        XCTAssertEqual(app.windows.matching(identifier: "update-window").count, 1)
+        updates.buttons["update-close"].click()
         XCTAssertEqual(draft.value as? String, "更新前草稿 🧪")
         XCTAssertEqual(try fixture.git(["rev-parse", "HEAD"]), head)
         XCTAssertEqual(try Data(contentsOf: fixture.root.appending(path: ".git/index")), index)
@@ -161,6 +165,10 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
         let button = app.buttons["settings-shortcuts"]
         XCTAssertTrue(button.waitForExistence(timeout: 5))
         button.click()
+        let search = settings.sheets.firstMatch.textFields["shortcut-command-search"]
+        XCTAssertTrue(search.waitForExistence(timeout: 5))
+        search.click()
+        search.typeText("搜索")
     }
 
     @MainActor private func closeShortcutSettings(_ app: XCUIApplication) {
@@ -174,8 +182,9 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
         app.menuItems["native-command-search"].click()
         let field = app.textFields["repository-search-query"]
         XCTAssertTrue(field.waitForExistence(timeout: 5))
-        app.popUpButtons["repository-search-scope"].click()
-        app.menuItems[scope].click()
+        let picker = app.popUpButtons["repository-search-scope"]
+        picker.click()
+        picker.menuItems[scope].click()
         field.click()
         field.typeText(query)
         let open = app.buttons["打开结果"]

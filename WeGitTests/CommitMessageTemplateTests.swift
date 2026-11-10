@@ -15,8 +15,12 @@ struct CommitMessageTemplateTests {
         try bytes.write(to: path)
         _ = try await f.engine.run(["config", "--local", "commit.template", path.path], in: f.root)
         let value = try #require(
-            await GitConfigurationService(engine: f.engine, location: f.service.location)
-                .readCommitMessageTemplate())
+            await GitConfigurationService(
+                engine: TestGit.engine(
+                    environment: f.engine.environment, globalConfiguration: try TestGitConfiguration()),
+                location: f.service.location
+            )
+            .readCommitMessageTemplate())
         #expect(value.bytes == bytes && value.text == String(data: bytes, encoding: .utf8))
         #expect(value.source.scope == "local" && value.sha256 == RecoveryFileIO.hash(bytes))
         #expect(try await f.service.head() == head)
@@ -31,7 +35,10 @@ struct CommitMessageTemplateTests {
         let bytes = Data([0xff, 0xfe, 0x00, 0x61])
         try bytes.write(to: path)
         _ = try await f.engine.run(["config", "--local", "commit.template", path.path], in: f.root)
-        let service = GitConfigurationService(engine: f.engine, location: f.service.location)
+        let service = GitConfigurationService(
+            engine: TestGit.engine(
+                environment: f.engine.environment, globalConfiguration: try TestGitConfiguration()),
+            location: f.service.location)
         let value = try #require(await service.readCommitMessageTemplate())
         #expect(value.bytes == bytes && value.text == nil)
         let oversized = Data(repeating: 65, count: 64 * 1024 + 1)

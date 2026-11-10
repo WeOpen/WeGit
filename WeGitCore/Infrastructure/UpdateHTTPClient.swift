@@ -16,26 +16,30 @@ public struct UpdateDownload: Sendable {
     }
 
     public func validate() async throws {
-        try await SnapshotIO.run { cancellation in
-            try file.directory.validate()
-            let descriptor = try file.open()
-            defer { Darwin.close(descriptor) }
-            var hash = SHA256()
-            var buffer = [UInt8](repeating: 0, count: 64 * 1024)
-            var total: Int64 = 0
-            while true {
-                try cancellation.check()
-                let count = Darwin.read(descriptor, &buffer, buffer.count)
-                guard count >= 0 else { throw UpdateFailure.changed }
-                if count == 0 { break }
-                total += Int64(count)
-                guard total <= byteCount else { throw UpdateFailure.changed }
-                hash.update(data: Data(buffer.prefix(count)))
+        do {
+            try await SnapshotIO.run { cancellation in
+                try file.directory.validate()
+                let descriptor = try file.open()
+                defer { Darwin.close(descriptor) }
+                var hash = SHA256()
+                var buffer = [UInt8](repeating: 0, count: 64 * 1024)
+                var total: Int64 = 0
+                while true {
+                    try cancellation.check()
+                    let count = Darwin.read(descriptor, &buffer, buffer.count)
+                    guard count >= 0 else { throw UpdateFailure.changed }
+                    if count == 0 { break }
+                    total += Int64(count)
+                    guard total <= byteCount else { throw UpdateFailure.changed }
+                    hash.update(data: Data(buffer.prefix(count)))
+                }
+                try file.validate(descriptor)
+                guard total == byteCount,
+                    hash.finalize().map({ String(format: "%02x", $0) }).joined() == sha256
+                else { throw UpdateFailure.changed }
             }
-            try file.validate(descriptor)
-            guard total == byteCount,
-                hash.finalize().map({ String(format: "%02x", $0) }).joined() == sha256
-            else { throw UpdateFailure.changed }
+        } catch ModelFailure.changed {
+            throw UpdateFailure.changed
         }
     }
 }
