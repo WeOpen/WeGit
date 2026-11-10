@@ -44,9 +44,27 @@ final class WindowLifecycleTests: XCTestCase {
                     XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == false"), object: use)
                 ], timeout: 5),
             .completed)
+        // The primary window was deliberately brought forward to edit the
+        // shared draft. Raise the exact secondary window before clicking its
+        // otherwise obscured sheet instead of sending coordinates through it.
+        app.menuBars.menuBarItems["native-menu-window"].click()
+        let secondaryMenu = app.menuItems.matching(identifier: "makeKeyAndOrderFront:").matching(
+            NSPredicate(format: "title == %@", fixture.root.lastPathComponent + " (main)"))
+        XCTAssertEqual(secondaryMenu.count, 1)
+        secondaryMenu.element.click()
         second.sheets.firstMatch.buttons["取消"].click()
+        XCTAssertTrue(use.waitForNonExistence(timeout: 5))
         XCTAssertEqual(firstDraft.value as? String, "first typed after template opened")
         second.buttons["commit-draft-claim"].click()
+        XCTAssertEqual(
+            XCTWaiter.wait(
+                for: [
+                    XCTNSPredicateExpectation(
+                        predicate: NSPredicate(format: "enabled == true"), object: secondDraft)
+                ],
+                timeout: 5), .completed)
+        XCTAssertFalse(firstDraft.isEnabled)
+        XCTAssertTrue(secondSources.isEnabled)
         secondSources.click()
         app.menuItems["使用模板…"].click()
         let freshUse = second.sheets.firstMatch.buttons["message-source-use"]
@@ -89,7 +107,16 @@ final class WindowLifecycleTests: XCTestCase {
         let row = rows.firstMatch
         XCTAssertTrue(row.waitForExistence(timeout: 15))
         XCTAssertEqual(rows.count, 1)
-        row.click()
+        let message = row.staticTexts.matching(
+            NSPredicate(format: "value CONTAINS %@", "提交 " + original.prefix(12)))
+        XCTAssertEqual(message.count, 1)
+        message.element.click()
+        XCTAssertEqual(
+            XCTWaiter.wait(
+                for: [
+                    XCTNSPredicateExpectation(predicate: NSPredicate(format: "selected == true"), object: row)
+                ],
+                timeout: 5), .completed)
         XCTAssertTrue(app.staticTexts[original].firstMatch.waitForExistence(timeout: 10))
         app.terminate()
         app.launchArguments += ["--uitesting-keep-preferences"]

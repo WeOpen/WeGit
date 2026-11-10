@@ -175,7 +175,7 @@ final class ResourceManagementWorkflowTests: XCTestCase {
         let beforeIndex = try index(fixture.root)
         let beforeHead = try fixture.git(["rev-parse", "HEAD"])
         let beforeConfig = try Data(contentsOf: fixture.root.appending(path: ".git/config"))
-        let app = launch(fixture.root, language: "en")
+        let app = launch(fixture.root, language: "en", expectedClean: true)
         defer { app.terminate() }
         resources(app, title: "Repository resources")
         openLFS(app)
@@ -233,7 +233,9 @@ final class ResourceManagementWorkflowTests: XCTestCase {
     private func index(_ root: URL) throws -> Data {
         try Data(contentsOf: root.appending(path: ".git/index"))
     }
-    @MainActor private func launch(_ root: URL, language: String = "zh-Hans") -> XCUIApplication {
+    @MainActor private func launch(
+        _ root: URL, language: String = "zh-Hans", expectedClean: Bool = false
+    ) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments = ["-language", language, "--uitesting"]
         app.launchEnvironment["WEGIT_UI_TEST_REPOSITORY"] = root.path
@@ -241,7 +243,19 @@ final class ResourceManagementWorkflowTests: XCTestCase {
         app.launchEnvironment["GIT_CONFIG_SYSTEM"] = "/dev/null"
         app.launchWeGit()
         XCTAssertTrue(app.windows["main"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.outlines["changes-list"].waitForExistence(timeout: 15))
+        let repository = app.buttons["toolbar-repository"]
+        XCTAssertTrue(repository.waitForExistence(timeout: 10))
+        XCTAssertEqual(repository.label, root.lastPathComponent)
+        let branch = app.descendants(matching: .any).matching(identifier: "current-branch").firstMatch
+        XCTAssertTrue(branch.waitForExistence(timeout: 10))
+        XCTAssertTrue(branch.label.contains("main"))
+        if expectedClean {
+            XCTAssertTrue(
+                app.staticTexts[language == "en" ? "Working tree clean" : "工作区干净"].waitForExistence(
+                    timeout: 15))
+        } else {
+            XCTAssertTrue(app.outlines["changes-list"].waitForExistence(timeout: 15))
+        }
         return app
     }
     @MainActor private func sheet(_ app: XCUIApplication) -> XCUIElement {

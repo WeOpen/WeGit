@@ -79,15 +79,12 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
         waitLabel(tag, "refs/tags/chosen-other")
         openSearch(app, scope: "储藏", query: "Chosen stash")
         app.buttons["打开结果"].click()
-        XCTAssertTrue(
-            app.staticTexts["Chosen stash"].firstMatch.waitForExistence(timeout: 10)
-                || app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Chosen stash"))
-                    .firstMatch.waitForExistence(timeout: 10)
-        )
+        waitSelectedStash(app, reference: "stash@{1}", objectID: chosenStash)
         let stash = app.staticTexts["stash-selected-object"]
         waitLabel(stash, chosenStash)
         openSearch(app, scope: "储藏", query: "Other stash")
         app.buttons["打开结果"].click()
+        waitSelectedStash(app, reference: "stash@{0}", objectID: otherStash)
         waitLabel(stash, otherStash)
         openSearch(app, scope: "命令", query: "活动记录")
         app.buttons["打开结果"].click()
@@ -209,5 +206,19 @@ final class WorkspaceDeliveryWorkflowTests: XCTestCase {
                     XCTNSPredicateExpectation(
                         predicate: NSPredicate(format: "label == %@", label), object: element)
                 ], timeout: 10), .completed)
+    }
+
+    @MainActor private func waitSelectedStash(_ app: XCUIApplication, reference: String, objectID: String) {
+        let rows = app.outlines["stash-list"].outlineRows.containing(
+            .staticText, identifier: "stash-record:" + reference + "|" + objectID)
+        XCTAssertTrue(rows.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(rows.count, 1)
+        XCTAssertEqual(
+            XCTWaiter.wait(
+                for: [
+                    XCTNSPredicateExpectation(
+                        predicate: NSPredicate(format: "selected == true"), object: rows.element)
+                ],
+                timeout: 10), .completed)
     }
 }
